@@ -13,6 +13,6 @@ import java.time.Instant
  * An event is not typed by its aggregate, so it can live in a module of its own, apart from the model. Whatever a
  * receiver needs, the identifier of the aggregate included, the event carries in fields of its own.
  */
-public interface Event : Identifiable<EventId> {
+public interface Event<out I : EventId> : Identifiable<I> {
     public val occurredAt: Instant
 }

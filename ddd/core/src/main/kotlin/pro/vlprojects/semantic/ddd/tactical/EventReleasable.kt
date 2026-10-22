@@ -12,5 +12,5 @@ public interface EventReleasable {
      * Hands the recorded events out, in the order recorded, and forgets them in one step, so that none is forgotten
      * before it is handed out.
      */
-    public fun releaseEvents(): Collection<Event>
+    public fun releaseEvents(): Collection<Event<*>>
 }
