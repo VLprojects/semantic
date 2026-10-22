@@ -14,7 +14,7 @@ Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd`:
 
 | Package | What is there |
 | --- | --- |
-| `tactical` | The building blocks, side by side: `Identifier`, `Id<T>`, `Identifiable`, `Entity`, `AggregateRoot`, `EventReleasable`, `Versioned`, `ValueObject`, `Event` with its `EventId` and `@EventType`, `BusinessRule` with `rule` and `checkRule` |
+| `tactical` | The building blocks, side by side: `Identifier`, `Id<T>`, `Identifiable`, `Entity`, `AggregateRoot`, `Versioned`, `ValueObject`, `Event` with its `EventId` and `@EventType`, `BusinessRule` with `rule` and `checkRule` |
 | `architecture.error` | What a layer of the application raises, not a pattern of the model: `DomainException` and the refusals a service extends, `NotFoundException`, `ConflictException`, `BusinessRuleException` |
 
 The strategic patterns, bounded contexts and the like, will get a `strategic`
@@ -28,10 +28,12 @@ Kotlin `id` (KT-6653).
 
 An event carries its id and the time it happened, set once when it is raised;
 the identifier of its aggregate is taken from the aggregate when it is
-published. An event is typed by its aggregate, `Event<Cart>`, and
-the aggregate releases its own events only. `Entity` and `AggregateRoot` take
-themselves as the first type parameter, `AggregateRoot<Cart, CartId>`, so that
-a contract can speak of the concrete type. The event type is a stable name set
+published. An event is typed by its aggregate, `Event<Cart>`. How an aggregate
+records its events and hands them out is left to it and to the adapter that
+saves it, as Spring Data does with `@DomainEvents`. `Entity` and
+`AggregateRoot` take themselves as the first type parameter,
+`AggregateRoot<Cart, CartId>`, so that a contract can speak of the concrete
+type. The event type is a stable name set
 by `@EventType`, not a class name, so renaming a class does not break the
 receivers.
 

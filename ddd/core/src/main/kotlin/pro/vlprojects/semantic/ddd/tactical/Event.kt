@@ -10,7 +10,7 @@ import java.time.Instant
  * own rather than getting new ones. Its type is not a property: it is the same for every instance and is set by
  * [EventType].
  *
- * The aggregate type is known to the compiler only: an aggregate releases its own events and no other, and nothing
+ * The aggregate type is known to the compiler only: an aggregate raises its own events and no other, and nothing
  * of the aggregate travels with the event. Whatever a receiver needs, the identifier of the aggregate included, the
  * event carries in fields of its own.
  *

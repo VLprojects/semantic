@@ -14,7 +14,7 @@ public class pro/vlprojects/semantic/ddd/architecture/error/NotFoundException : 
 	public fun <init> (Ljava/lang/String;)V
 }
 
-public abstract interface class pro/vlprojects/semantic/ddd/tactical/AggregateRoot : pro/vlprojects/semantic/ddd/tactical/Entity, pro/vlprojects/semantic/ddd/tactical/EventReleasable, pro/vlprojects/semantic/ddd/tactical/Versioned {
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/AggregateRoot : pro/vlprojects/semantic/ddd/tactical/Entity, pro/vlprojects/semantic/ddd/tactical/Versioned {
 }
 
 public final class pro/vlprojects/semantic/ddd/tactical/BusinessRule {
@@ -30,10 +30,6 @@ public abstract interface class pro/vlprojects/semantic/ddd/tactical/Event {
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/EventId : pro/vlprojects/semantic/ddd/tactical/Identifier {
-}
-
-public abstract interface class pro/vlprojects/semantic/ddd/tactical/EventReleasable {
-	public abstract fun releaseEvents ()Ljava/util/Collection;
 }
 
 public abstract interface annotation class pro/vlprojects/semantic/ddd/tactical/EventType : java/lang/annotation/Annotation {
