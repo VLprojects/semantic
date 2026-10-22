@@ -14,6 +14,9 @@ public class pro/vlprojects/semantic/ddd/architecture/error/NotFoundException : 
 	public fun <init> (Ljava/lang/String;)V
 }
 
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/AggregateRevision : pro/vlprojects/semantic/ddd/tactical/Identifiable, pro/vlprojects/semantic/ddd/tactical/Versioned {
+}
+
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/AggregateRoot : pro/vlprojects/semantic/ddd/tactical/Entity, pro/vlprojects/semantic/ddd/tactical/Versioned {
 }
 
@@ -25,7 +28,7 @@ public abstract interface class pro/vlprojects/semantic/ddd/tactical/Entity : pr
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/Event {
-	public abstract fun getAggregateId ()Lpro/vlprojects/semantic/ddd/tactical/Identifier;
+	public abstract fun getAggregate ()Lpro/vlprojects/semantic/ddd/tactical/AggregateRevision;
 	public abstract fun getEventId ()Lpro/vlprojects/semantic/ddd/tactical/EventId;
 	public abstract fun getOccurredAt ()Ljava/time/Instant;
 }

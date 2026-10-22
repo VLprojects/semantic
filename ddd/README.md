@@ -14,7 +14,7 @@ Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd`:
 
 | Package | What is there |
 | --- | --- |
-| `tactical` | The building blocks, side by side: `Identifier`, `Identifiable`, `Entity`, `AggregateRoot`, `Versioned`, `ValueObject`, `Event` with its `EventId` and `@EventType`, `BusinessRule` with `rule` and `checkRule` |
+| `tactical` | The building blocks, side by side: `Identifier`, `Identifiable`, `Entity`, `AggregateRoot`, `Versioned`, `AggregateRevision`, `ValueObject`, `Event` with its `EventId` and `@EventType`, `BusinessRule` with `rule` and `checkRule` |
 | `architecture.error` | What a layer of the application raises, not a pattern of the model: `DomainException` and the refusals a service extends, `NotFoundException`, `ConflictException`, `BusinessRuleException` |
 
 The strategic patterns, bounded contexts and the like, will get a `strategic`
@@ -26,8 +26,9 @@ The property of `Identifiable` is `identifier`, not `id`: a JPA entity also
 implements `Persistable` of Spring Data, and its `getId()` would clash with a
 Kotlin `id` (KT-6653).
 
-An event carries its id, the identifier of its aggregate and the time it
-happened, all set once when it is raised. An event is typed by its aggregate
+An event carries its id, the revision of its aggregate, `AggregateRevision`
+with the identifier and the version, and the time it happened, all set once
+when it is raised. An event is typed by its aggregate
 and the identifier of it, `Event<Cart, CartId>`, so an event cannot name an
 aggregate of another type. How an aggregate records its events and hands them
 out is left to it and to the adapter that saves it, as Spring Data does with
