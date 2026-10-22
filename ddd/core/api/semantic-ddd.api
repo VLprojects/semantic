@@ -1,0 +1,64 @@
+public class pro/vlprojects/semantic/ddd/architecture/error/BusinessRuleException : pro/vlprojects/semantic/ddd/architecture/error/DomainException {
+	public fun <init> (Ljava/lang/String;)V
+}
+
+public class pro/vlprojects/semantic/ddd/architecture/error/ConflictException : pro/vlprojects/semantic/ddd/architecture/error/DomainException {
+	public fun <init> (Ljava/lang/String;)V
+}
+
+public abstract class pro/vlprojects/semantic/ddd/architecture/error/DomainException : java/lang/RuntimeException {
+	public fun <init> (Ljava/lang/String;)V
+}
+
+public class pro/vlprojects/semantic/ddd/architecture/error/NotFoundException : pro/vlprojects/semantic/ddd/architecture/error/DomainException {
+	public fun <init> (Ljava/lang/String;)V
+}
+
+public final class pro/vlprojects/semantic/ddd/dsl/BusinessRulesKt {
+	public static final fun check (Ljava/lang/Iterable;Ljava/lang/Object;)V
+	public static final fun checkRule (ZLkotlin/jvm/functions/Function0;)V
+	public static final fun rule (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lpro/vlprojects/semantic/ddd/tactical/BusinessRule;
+}
+
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/AggregateRevision : pro/vlprojects/semantic/ddd/tactical/Identifiable, pro/vlprojects/semantic/ddd/tactical/Versioned {
+	public abstract fun getName ()Ljava/lang/String;
+}
+
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/AggregateRoot : pro/vlprojects/semantic/ddd/tactical/Entity, pro/vlprojects/semantic/ddd/tactical/Versioned {
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/BusinessRule {
+	public final fun check (Ljava/lang/Object;)V
+}
+
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/Entity : pro/vlprojects/semantic/ddd/tactical/Identifiable {
+}
+
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/Event {
+	public abstract fun getAggregate ()Lpro/vlprojects/semantic/ddd/tactical/AggregateRevision;
+	public abstract fun getHeader ()Lpro/vlprojects/semantic/ddd/tactical/EventHeader;
+}
+
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/EventHeader {
+	public abstract fun getEventId ()Lpro/vlprojects/semantic/ddd/tactical/EventId;
+	public abstract fun getName ()Ljava/lang/String;
+	public abstract fun getOccurredAt ()Ljava/time/Instant;
+}
+
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/EventId : pro/vlprojects/semantic/ddd/tactical/Identifier {
+}
+
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/Identifiable {
+	public abstract fun getIdentifier ()Lpro/vlprojects/semantic/ddd/tactical/Identifier;
+}
+
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/Identifier {
+}
+
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/ValueObject {
+}
+
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/Versioned {
+	public abstract fun getVersion ()J
+}
+
