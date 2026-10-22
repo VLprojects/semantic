@@ -15,6 +15,7 @@ public class pro/vlprojects/semantic/ddd/architecture/error/NotFoundException : 
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/AggregateRevision : pro/vlprojects/semantic/ddd/tactical/Identifiable, pro/vlprojects/semantic/ddd/tactical/Versioned {
+	public abstract fun getName ()Ljava/lang/String;
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/AggregateRoot : pro/vlprojects/semantic/ddd/tactical/Entity, pro/vlprojects/semantic/ddd/tactical/Versioned {

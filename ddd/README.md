@@ -29,9 +29,9 @@ Kotlin `id` (KT-6653).
 An event is a header, the revision of its aggregate and fields of its own. The
 header, `EventHeader`, holds the id of the event, its name and the time it
 happened; the revision, `AggregateRevision`, holds the
-identifier and the version of the aggregate. Both are set once when the event
-is raised. The name is stable, not a class name, so renaming a class does not
-break the receivers. An event is typed by its aggregate and the identifier of
+name, the identifier and the version of the aggregate. Both are set once when the event
+is raised. Both names are stable, not class names, so renaming a class does
+not break the receivers. An event is typed by its aggregate and the identifier of
 it, `Event<Cart, CartId>`, so an event cannot name an aggregate of another
 type. How an aggregate records its events and hands them out is left to it and
 to the adapter that saves it, as Spring Data does with `@DomainEvents`.
