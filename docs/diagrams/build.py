@@ -8,17 +8,21 @@ one family:
 - Plates, not frames: a group is a flat fill with no outline.
 - Colour means the same thing everywhere. Blue is data on the move, green is
   done or allowed, amber is waiting, red is a failure, grey is structure. On
-  the dark canvas coloured plates are bright with dark text. In the module map
-  green is Spring, blue is plain JVM, grey is another family.
+  the dark canvas coloured plates are bright with dark text. In the module maps
+  blue is plain JVM, green is Spring, grey is a module that is not there yet.
+- No legends. Every part is labelled where it stands: a row by its level in
+  the gutter, a family by its status next to its name.
 - Every line is solid; a lighter colour, never a dash, marks what is inactive.
-  The one dash is in the family map: a dashed outline is a module that is only
-  planned, a filled block is one in development.
-- One grid of 4 px. Space inside a group is smaller than space between groups.
+  The exception is the family map: a family in development is filled, one
+  planned for v1 is dashed, one for later is dotted.
+- One grid of 4 px. Space inside a group is smaller than space between groups:
+  12 inside a block, 16 between blocks, 24 between plates.
 - Two text sizes: the name in bold, the explanation in grey. Below the name
   where there is room; in a compact row, on the same line, aligned right.
 - Every part is named in plain lowercase words, types included. Only what one would type is monospaced: calls,
   annotations, artifacts, config keys. Product names keep their capitals.
-- All diagrams share one scale and are embedded at their native width. Each
+- All diagrams share one scale and are embedded at their native width, except
+  the family map at the top of the root README, which spans the page. Each
   sits on its own rounded surface, the colour of a GitHub code block.
 - The README embeds each one twice, with #gh-light-mode-only and
   #gh-dark-mode-only: GitHub hides one by its own theme setting, while a
@@ -55,7 +59,7 @@ PALETTE = {
 	},
 }
 
-NAME, NOTE, CODE = 14, 12.5, 13
+NAME, NOTE, CODE = 14, 12, 13
 PAD = 12  # surface around the drawing, on top of its own 16 px margin
 REC, PITCH = 6, 8  # record square and its pitch
 BAR_W, BAR_H, BAR_PITCH = 6, 28, 10  # batch bar
@@ -98,10 +102,11 @@ class Art:
 	def bar(self, x, y, color="blue", h=BAR_H):
 		self.rect(x, y, BAR_W, h, color, r=1.5)
 
-	def outline(self, x, y, w, h, color="line", r=6, dash="4 4"):
+	def outline(self, x, y, w, h, color="line", r=6, dash="6 4"):
+		width = 2 if dash.startswith("0") else 1.5  # a dot reads lighter than a dash of the same width
 		self.add(
 			f'<rect x="{x + 0.75:.1f}" y="{y + 0.75:.1f}" width="{w - 1.5:.1f}" height="{h - 1.5:.1f}" rx="{r}" '
-			f'fill="none" stroke="{self.p[color]}" stroke-width="1.5" stroke-dasharray="{dash}"/>'
+			f'fill="none" stroke="{self.p[color]}" stroke-width="{width}" stroke-dasharray="{dash}" stroke-linecap="round"/>'
 		)
 
 	def path(self, d, color="line", width=1.5):
@@ -142,106 +147,88 @@ def ink(hue):
 
 
 
-# ---------------------------------------------------------------------- 0
+# ---------------------------------------------------------------------- family plates
+# A family is a plate: filled while in development, a dashed outline while planned for v1, a dotted one
+# for later. Its name and status head the plate; the gutter on the left names the level of each row.
+# Spacing climbs 12 < 16 < 24: text inside a block, blocks inside a plate, plates on the page
+X0, CW = 16, 688  # plate edge and width
+INSET, GUT, GAP, BLOCK = 16, 76, 16, 72  # plate padding, gutter, gap between blocks, block height
+BX, BW = X0 + GUT, CW - GUT - INSET  # where the blocks of a row start, and how wide a row is
+DASH, DOT = "6 4", "0.1 4"
+
+
+def plate_height(rows):
+	return 44 + len(rows) * (BLOCK + GAP)
+
+
+def family(a, y, name, status, rows, dash=None):
+	"""Draws a family at y and returns where the next one starts."""
+	h = plate_height(rows)
+	if dash:
+		a.outline(X0, y, CW, h, r=12, dash=dash)
+	else:
+		a.rect(X0, y, CW, h, "plate", r=12)
+	a.name(X0 + INSET, y + 28, name, mono=True)
+	a.t(X0 + INSET + 7.8 * len(name) + 12, y + 28, status, color="soft")
+	for r, (level, specs, *cols) in enumerate(rows):
+		ry = y + 44 + r * (BLOCK + GAP)
+		if level:
+			a.t(X0 + INSET, ry + 37, level, color="soft")  # on the baseline of the names in its row
+		n = cols[0] if cols else len(specs)
+		w = (BW - (n - 1) * GAP) / n
+		for c, (hue, prefix, title, note) in enumerate(specs):
+			block(a, BX + c * (w + GAP), ry, w, hue, prefix, title, note)
+	return y + h + 24
+
+
+def block(a, x, y, w, hue, prefix, title, note):
+	# a module names its artifact in two tight lines, the common prefix in grey and the part that tells
+	# it apart in bold, and explains it a step lower; 12 to every edge, counted from the cap height and the
+	# baseline. A grey block is a module that does not exist yet or belongs to another family
+	a.rect(x, y, w, BLOCK, (hue + "-plate") if hue else "card", r=6)
+	soft = (hue + "-soft") if hue else "soft"
+	a.t(x + 12, y + 21, prefix, color=soft, mono=True)
+	a.name(x + 12, y + 37, title, mono=True, color=ink(hue) if hue else "ink")
+	a.t(x + 12, y + 60, note, color=soft)
+
+
+DDD_SPRING = ("Spring", [("green", "semantic-ddd-", "spring-data", "repositories"),
+	("green", "semantic-ddd-", "spring-boot", "auto-configuration"),
+	("green", "semantic-ddd-", "spring-boot-starter", "dependencies only")])
+
+
 def families(pal):
-	# the whole library on one page: the family in development on top, filled and coloured; the planned
-	# ones below it, drawn as dashed outlines on the bare surface. Blocks name artifacts as in the
-	# module map: the common prefix in grey, the part that tells them apart in bold
-	a = Art(720, 400, pal)
-	gap, h = 8, 80
-	a.t(16, 20, "group", color="soft")
-	a.name(60, 20, "pro.vlprojects.semantic", mono=True)
-	a.t(704, 20, "blue: plain JVM, green: Spring, dashed: planned", color="soft", anchor="end")
-
-	def head(x, y, w, family, status, live):
-		a.name(x + 16, y + 23, family, mono=True)
-		pw = 7.2 * len(status) + 20
-		px = x + w - 12 - pw
-		if live:
-			a.rect(px, y + 9, pw, 20, "blue", r=10)
-			a.t(px + pw / 2, y + 23, status, color="on-blue", anchor="middle", size=12, weight="600")
-		else:
-			a.outline(px, y + 9, pw, 20, r=10, dash="3 3")
-			a.t(px + pw / 2, y + 23, status, color="soft", anchor="middle", size=12)
-
-	def block(x, y, w, hue, prefix, title, note):
-		if hue:
-			a.rect(x, y, w, h, hue + "-plate", r=6)
-			soft, ink_ = hue + "-soft", ink(hue)
-		else:
-			a.outline(x, y, w, h)
-			soft, ink_ = "mute", "soft"
-		a.t(x + 12, y + 22, prefix, color=soft, mono=True, size=12)
-		a.name(x + 12, y + 41, title, mono=True, color=ink_)
-		a.t(x + 12, y + 64, note, color=soft)
-
-	# ddd: in development
-	x0, y0, cw = 16, 36, 688
-	a.rect(x0, y0, cw, 36 + 2 * h + gap + 12, "plate", r=12)
-	head(x0, y0, cw, "ddd", "in development, v1", True)
-	rows = [
-		[("blue", "semantic-", "ddd", "building blocks, no framework"),
-			("blue", "semantic-ddd-", "jpa", "JPA mapping, no Spring")],
-		[("green", "semantic-ddd-", "spring-data", "repositories"),
-			("green", "semantic-ddd-", "spring-boot", "auto-configuration"),
-			("green", "semantic-ddd-", "spring-boot-starter", "dependencies only")],
-	]
-	for r, row in enumerate(rows):
-		w = (cw - 24 - (len(row) - 1) * gap) / len(row)
-		for c, spec in enumerate(row):
-			block(x0 + 12 + c * (w + gap), y0 + 36 + r * (h + gap), w, *spec)
-
-	# vo and cqrs: planned
-	y1 = y0 + 36 + 2 * h + gap + 12 + 12
-	ph = 36 + h + 12
-	bw, cqw = 112, 160
-	vw = 12 + 4 * bw + 3 * gap + 12
-	a.outline(x0, y1, vw, ph, r=12)
-	head(x0, y1, vw, "vo", "planned, v1", False)
-	for c, (prefix, title, note) in enumerate([
-		("semantic-", "vo", "validation"), ("semantic-vo-", "net", "email, URL"),
-		("semantic-vo-", "range", "ranges"), ("semantic-vo-", "time", "periods"),
-	]):
-		block(x0 + 12 + c * (bw + gap), y1 + 36, bw, None, prefix, title, note)
-	qx = x0 + vw + gap
-	a.outline(qx, y1, cw - vw - gap, ph, r=12)
-	head(qx, y1, cw - vw - gap, "cqrs", "after v1", False)
-	block(qx + 12, y1 + 36, cw - vw - gap - 24, None, "semantic-", "cqrs", "commands, queries")
-	a.h = y1 + ph + 16
+	# the whole library on one page, a family per plate, the one in development on top
+	a = Art(720, 0, pal)
+	y = family(a, 16, "ddd", "in development, v1", [
+		("JVM", [("blue", "semantic-", "ddd", "building blocks, no framework"),
+			("blue", "semantic-ddd-", "jpa", "JPA mapping, no Spring")]),
+		DDD_SPRING,
+	])
+	y = family(a, y, "vo", "planned, v1", [
+		("base", [(None, "semantic-", "vo", "the validation every value object shares")]),
+		("groups", [(None, "semantic-vo-", "net", "email, URL, IP"),
+			(None, "semantic-vo-", "range", "bounded ranges"),
+			(None, "semantic-vo-", "time", "dates, periods")]),
+	], DASH)
+	y = family(a, y, "cqrs", "after v1", [
+		(None, [(None, "semantic-", "cqrs", "commands, queries, buses")], 3),
+	], DOT)
+	a.h = y - 24 + 16
 	return a
 
 
-# ---------------------------------------------------------------------- 1
 def modules(pal):
-	# the group is one container with two rows of blocks: plain JVM on top, Spring below; read left to
-	# right, top to bottom, each module builds on the one before it. A block names its artifact in two
-	# lines, the common prefix in grey and the part that tells them apart in bold
-	a = Art(720, 264, pal)
-	cx, cy, cw = 16, 16, 688
-	gap, h = 8, 88
-	w = (cw - 24 - 2 * gap) / 3
-	rows = [
-		[(None, "semantic-", "vo", "value objects"),
-			("blue", "semantic-", "ddd", "building blocks, no framework"),
-			("blue", "semantic-ddd-", "jpa", "JPA mapping, no Spring")],
-		[("green", "semantic-ddd-", "spring-data", "repositories"),
-			("green", "semantic-ddd-", "spring-boot", "auto-configuration"),
-			("green", "semantic-ddd-", "spring-boot-starter", "dependencies only")],
-	]
-	y0 = cy + 36
-	a.rect(cx, cy, cw, y0 + len(rows) * (h + gap) - gap + 12 - cy, "plate", r=12)  # outer radius = inner radius + padding
-	a.t(cx + 16, cy + 23, "group", color="soft")
-	a.name(cx + 60, cy + 23, "pro.vlprojects.semantic", mono=True)
-	a.t(cx + cw - 16, cy + 23, "blue: plain JVM, green: Spring", color="soft", anchor="end")
-	for r, row in enumerate(rows):
-		y = y0 + r * (h + gap)
-		for c, (hue, prefix, title, note) in enumerate(row):
-			x = cx + 12 + c * (w + gap)
-			a.rect(x, y, w, h, (hue + "-plate") if hue else "card", r=6)
-			soft = (hue + "-soft") if hue else "soft"
-			a.t(x + 14, y + 24, prefix, color=soft, mono=True, size=12)
-			a.name(x + 14, y + 44, title, mono=True, color=ink(hue) if hue else "ink")
-			a.t(x + 14, y + 72, note, color=soft)
+	# the ddd family alone, with the vo module it builds on: read left to right, top to bottom, each
+	# module builds on the one before it
+	a = Art(720, 0, pal)
+	y = family(a, 16, "ddd", "in development, v1", [
+		("JVM", [(None, "semantic-", "vo", "value objects, the vo family"),
+			("blue", "semantic-", "ddd", "building blocks"),
+			("blue", "semantic-ddd-", "jpa", "JPA mapping, no Spring")]),
+		DDD_SPRING,
+	])
+	a.h = y - 24 + 16
 	return a
 
 
