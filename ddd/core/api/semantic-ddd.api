@@ -14,7 +14,7 @@ public class pro/vlprojects/semantic/ddd/architecture/error/NotFoundException : 
 	public fun <init> (Ljava/lang/String;)V
 }
 
-public final class pro/vlprojects/semantic/ddd/dsl/BusinessRuleDslKt {
+public final class pro/vlprojects/semantic/ddd/dsl/BusinessRulesKt {
 	public static final fun check (Ljava/lang/Iterable;Ljava/lang/Object;)V
 	public static final fun checkRule (ZLkotlin/jvm/functions/Function0;)V
 	public static final fun rule (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lpro/vlprojects/semantic/ddd/tactical/BusinessRule;
