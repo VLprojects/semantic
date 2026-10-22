@@ -18,8 +18,6 @@ import java.time.Instant
  * sealed interface CartEvent : Event<Cart>
  * ```
  */
-public interface Event<A : AggregateRoot<A, *>> {
-    public val eventId: EventId
-
+public interface Event<A : AggregateRoot<A, *>> : Identifiable<EventId> {
     public val occurredAt: Instant
 }

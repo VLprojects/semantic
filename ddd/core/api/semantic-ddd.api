@@ -24,8 +24,7 @@ public final class pro/vlprojects/semantic/ddd/tactical/BusinessRule {
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/Entity : pro/vlprojects/semantic/ddd/tactical/Identifiable {
 }
 
-public abstract interface class pro/vlprojects/semantic/ddd/tactical/Event {
-	public abstract fun getEventId ()Lpro/vlprojects/semantic/ddd/tactical/EventId;
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/Event : pro/vlprojects/semantic/ddd/tactical/Identifiable {
 	public abstract fun getOccurredAt ()Ljava/time/Instant;
 }
 
