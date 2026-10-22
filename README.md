@@ -12,8 +12,8 @@ Each family has a core with no dependencies and adapters for the frameworks you
 use. Take only what you need: a service that wants an `Email` does not get
 aggregates with it.
 
-![Families and their modules: ddd in development, vo and cqrs planned](docs/assets/families-light.svg#gh-light-mode-only)
-![Families and their modules: ddd in development, vo and cqrs planned](docs/assets/families-dark.svg#gh-dark-mode-only)
+<img src="docs/assets/families-light.svg#gh-light-mode-only" width="100%" alt="Families and their modules: ddd in development, vo and cqrs planned">
+<img src="docs/assets/families-dark.svg#gh-dark-mode-only" width="100%" alt="Families and their modules: ddd in development, vo and cqrs planned">
 
 | Family | What it is | Status |
 | --- | --- | --- |

@@ -18,7 +18,8 @@ one family:
   where there is room; in a compact row, on the same line, aligned right.
 - Every part is named in plain lowercase words, types included. Only what one would type is monospaced: calls,
   annotations, artifacts, config keys. Product names keep their capitals.
-- All diagrams share one scale and are embedded at their native width. Each
+- All diagrams share one scale and are embedded at their native width, except
+  the family map at the top of the root README, which spans the page. Each
   sits on its own rounded surface, the colour of a GitHub code block.
 - The README embeds each one twice, with #gh-light-mode-only and
   #gh-dark-mode-only: GitHub hides one by its own theme setting, while a
