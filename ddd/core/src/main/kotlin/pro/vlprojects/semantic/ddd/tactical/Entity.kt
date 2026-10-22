@@ -1,7 +1,4 @@
-package pro.vlprojects.semantic.ddd.tactical.model
-
-import pro.vlprojects.semantic.ddd.tactical.id.Identifiable
-import pro.vlprojects.semantic.ddd.tactical.id.Identifier
+package pro.vlprojects.semantic.ddd.tactical
 
 /**
  * An object with an identity that outlives the changes of its state.

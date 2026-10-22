@@ -1,4 +1,4 @@
-package pro.vlprojects.semantic.ddd.tactical.event
+package pro.vlprojects.semantic.ddd.tactical
 
 /**
  * Stable name of a [Event] type, by which receivers tell events apart:

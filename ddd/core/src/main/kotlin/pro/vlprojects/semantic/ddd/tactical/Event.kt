@@ -1,4 +1,4 @@
-package pro.vlprojects.semantic.ddd.tactical.event
+package pro.vlprojects.semantic.ddd.tactical
 
 import java.time.Instant
 import java.util.UUID

@@ -1,4 +1,4 @@
-package pro.vlprojects.semantic.ddd.tactical.id
+package pro.vlprojects.semantic.ddd.tactical
 
 /**
  * Identifier of a single value, usually a value class:

@@ -10,19 +10,15 @@ modules are empty so far.
 
 ## The core
 
-Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd`. The building
-blocks live in `tactical`. What a layer of the application raises, not a
-pattern of the model, lives in `architecture`. The strategic patterns, bounded
-contexts and the like, will get a `strategic` package of their own.
+Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd`:
 
 | Package | What is there |
 | --- | --- |
-| `tactical.id` | `Identifier`, the identity of an entity; `Id<T>`, an identifier of one value; `Identifiable`, anything with an identifier |
-| `tactical.model` | `Entity`, `AggregateRoot` that records domain events and releases them with `releaseEvents` |
-| `tactical.vo` | `ValueObject`, until the vo family takes it over |
-| `tactical.event` | `Event` with its `eventId` and `occurredAt`, and `@EventType`, its stable name |
-| `tactical.rule` | `BusinessRule`, `rule`, `checkRule` |
-| `architecture.error` | `DomainException` and the refusals a service extends: `NotFoundException`, `ConflictException`, `BusinessRuleException` |
+| `tactical` | The building blocks, side by side: `Identifier`, `Id<T>`, `Identifiable`, `Entity`, `AggregateRoot`, `ValueObject`, `Event` and `@EventType`, `BusinessRule` with `rule` and `checkRule` |
+| `architecture.error` | What a layer of the application raises, not a pattern of the model: `DomainException` and the refusals a service extends, `NotFoundException`, `ConflictException`, `BusinessRuleException` |
+
+The strategic patterns, bounded contexts and the like, will get a `strategic`
+package of their own.
 
 So far the core holds the contracts; base classes come later.
 

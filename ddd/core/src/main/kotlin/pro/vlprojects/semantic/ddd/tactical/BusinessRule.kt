@@ -1,4 +1,4 @@
-package pro.vlprojects.semantic.ddd.tactical.rule
+package pro.vlprojects.semantic.ddd.tactical
 
 import pro.vlprojects.semantic.ddd.architecture.error.BusinessRuleException
 

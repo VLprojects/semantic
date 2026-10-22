@@ -1,7 +1,4 @@
-package pro.vlprojects.semantic.ddd.tactical.model
-
-import pro.vlprojects.semantic.ddd.tactical.event.Event
-import pro.vlprojects.semantic.ddd.tactical.id.Identifier
+package pro.vlprojects.semantic.ddd.tactical
 
 /**
  * The only way into an aggregate and the boundary of its transaction. Changes leave the aggregate as domain events,
