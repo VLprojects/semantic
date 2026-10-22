@@ -1,20 +1,22 @@
-public class pro/vlprojects/semantic/ddd/tactical/error/BusinessRuleException : pro/vlprojects/semantic/ddd/tactical/error/DomainException {
+public class pro/vlprojects/semantic/ddd/architecture/error/BusinessRuleException : pro/vlprojects/semantic/ddd/architecture/error/DomainException {
 	public fun <init> (Ljava/lang/String;)V
 }
 
-public class pro/vlprojects/semantic/ddd/tactical/error/ConflictException : pro/vlprojects/semantic/ddd/tactical/error/DomainException {
+public class pro/vlprojects/semantic/ddd/architecture/error/ConflictException : pro/vlprojects/semantic/ddd/architecture/error/DomainException {
 	public fun <init> (Ljava/lang/String;)V
 }
 
-public abstract class pro/vlprojects/semantic/ddd/tactical/error/DomainException : java/lang/RuntimeException {
+public abstract class pro/vlprojects/semantic/ddd/architecture/error/DomainException : java/lang/RuntimeException {
 	public fun <init> (Ljava/lang/String;)V
 }
 
-public class pro/vlprojects/semantic/ddd/tactical/error/NotFoundException : pro/vlprojects/semantic/ddd/tactical/error/DomainException {
+public class pro/vlprojects/semantic/ddd/architecture/error/NotFoundException : pro/vlprojects/semantic/ddd/architecture/error/DomainException {
 	public fun <init> (Ljava/lang/String;)V
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/event/Event {
+	public abstract fun getEventId ()Ljava/util/UUID;
+	public abstract fun getOccurredAt ()Ljava/time/Instant;
 }
 
 public abstract interface annotation class pro/vlprojects/semantic/ddd/tactical/event/EventType : java/lang/annotation/Annotation {

@@ -10,18 +10,19 @@ modules are empty so far.
 
 ## The core
 
-Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd.tactical`. The
-strategic patterns, bounded contexts and the like, will get a `strategic`
-package of their own.
+Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd`. The building
+blocks live in `tactical`. What a layer of the application raises, not a
+pattern of the model, lives in `architecture`. The strategic patterns, bounded
+contexts and the like, will get a `strategic` package of their own.
 
 | Package | What is there |
 | --- | --- |
-| `id` | `Identifier`, the identity of an entity; `Id<T>`, an identifier of one value; `Identifiable`, anything with an identifier |
-| `model` | `Entity`, `AggregateRoot` that records domain events and releases them with `releaseEvents` |
-| `vo` | `ValueObject`, until the vo family takes it over |
-| `event` | `Event`, a marker of the domain data, and `@EventType`, its stable name |
-| `rule` | `BusinessRule`, `rule`, `checkRule` |
-| `error` | `DomainException` and the refusals a service extends: `NotFoundException`, `ConflictException`, `BusinessRuleException` |
+| `tactical.id` | `Identifier`, the identity of an entity; `Id<T>`, an identifier of one value; `Identifiable`, anything with an identifier |
+| `tactical.model` | `Entity`, `AggregateRoot` that records domain events and releases them with `releaseEvents` |
+| `tactical.vo` | `ValueObject`, until the vo family takes it over |
+| `tactical.event` | `Event` with its `eventId` and `occurredAt`, and `@EventType`, its stable name |
+| `tactical.rule` | `BusinessRule`, `rule`, `checkRule` |
+| `architecture.error` | `DomainException` and the refusals a service extends: `NotFoundException`, `ConflictException`, `BusinessRuleException` |
 
 So far the core holds the contracts; base classes come later.
 
@@ -29,8 +30,9 @@ The property of `Identifiable` is `identifier`, not `id`: a JPA entity also
 implements `Persistable` of Spring Data, and its `getId()` would clash with a
 Kotlin `id` (KT-6653).
 
-An event carries the domain data only; its id, time and aggregate are stamped
-on an envelope when it is published. Neither the event nor the aggregate is
+An event carries its id and the time it happened, set once when it is raised;
+the identifier of its aggregate is taken from the aggregate when it is
+published. Neither the event nor the aggregate is
 typed by the other: only the aggregate records its events, so no other gets in.
 The event type is a stable name set by `@EventType`, not a class name, so
 renaming a class does not break the receivers.
