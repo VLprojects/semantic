@@ -1,39 +1,17 @@
-public class pro/vlprojects/semantic/ddd/error/BusinessRuleException : pro/vlprojects/semantic/ddd/error/DomainException {
+public final class pro/vlprojects/semantic/ddd/error/BusinessRuleException : pro/vlprojects/semantic/ddd/error/DomainException {
 	public fun <init> (Ljava/lang/String;)V
 }
 
-public class pro/vlprojects/semantic/ddd/error/ConflictException : pro/vlprojects/semantic/ddd/error/DomainException {
+public final class pro/vlprojects/semantic/ddd/error/ConflictException : pro/vlprojects/semantic/ddd/error/DomainException {
 	public fun <init> (Ljava/lang/String;)V
 }
 
 public abstract class pro/vlprojects/semantic/ddd/error/DomainException : java/lang/RuntimeException {
-	public fun <init> (Lpro/vlprojects/semantic/ddd/error/ErrorKind;Ljava/lang/String;Ljava/lang/Throwable;)V
-	public synthetic fun <init> (Lpro/vlprojects/semantic/ddd/error/ErrorKind;Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun getKind ()Lpro/vlprojects/semantic/ddd/error/ErrorKind;
+	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 }
 
-public final class pro/vlprojects/semantic/ddd/error/ErrorKind : java/lang/Enum {
-	public static final field BusinessRule Lpro/vlprojects/semantic/ddd/error/ErrorKind;
-	public static final field Conflict Lpro/vlprojects/semantic/ddd/error/ErrorKind;
-	public static final field NotFound Lpro/vlprojects/semantic/ddd/error/ErrorKind;
-	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lpro/vlprojects/semantic/ddd/error/ErrorKind;
-	public static fun values ()[Lpro/vlprojects/semantic/ddd/error/ErrorKind;
-}
-
-public class pro/vlprojects/semantic/ddd/error/NotFoundException : pro/vlprojects/semantic/ddd/error/DomainException {
+public final class pro/vlprojects/semantic/ddd/error/NotFoundException : pro/vlprojects/semantic/ddd/error/DomainException {
 	public fun <init> (Ljava/lang/String;)V
-}
-
-public abstract class pro/vlprojects/semantic/ddd/event/BaseDomainEvent : pro/vlprojects/semantic/ddd/event/DomainEvent {
-	public fun <init> ()V
-	public fun <init> (Ljava/util/UUID;Ljava/time/Instant;)V
-	public synthetic fun <init> (Ljava/util/UUID;Ljava/time/Instant;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun equals (Ljava/lang/Object;)Z
-	public final fun getEventId ()Ljava/util/UUID;
-	public final fun getOccurredAt ()Ljava/time/Instant;
-	public final fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/event/DomainEvent {
@@ -53,15 +31,6 @@ public abstract interface class pro/vlprojects/semantic/ddd/identity/Identifier 
 public abstract interface class pro/vlprojects/semantic/ddd/model/AggregateRoot : pro/vlprojects/semantic/ddd/model/Entity {
 	public abstract fun peekEvents ()Ljava/util/List;
 	public abstract fun pullEvents ()Ljava/util/List;
-}
-
-public abstract class pro/vlprojects/semantic/ddd/model/BaseAggregateRoot : pro/vlprojects/semantic/ddd/model/AggregateRoot {
-	public fun <init> ()V
-	protected final fun change (Lpro/vlprojects/semantic/ddd/model/BaseAggregateRoot;Lkotlin/jvm/functions/Function1;)Lpro/vlprojects/semantic/ddd/model/BaseAggregateRoot;
-	protected fun getInvariants ()Ljava/util/List;
-	public final fun peekEvents ()Ljava/util/List;
-	public final fun pullEvents ()Ljava/util/List;
-	protected final fun record (Lpro/vlprojects/semantic/ddd/event/DomainEvent;)V
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/model/Entity {

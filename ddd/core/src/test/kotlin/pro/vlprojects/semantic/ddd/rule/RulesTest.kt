@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import pro.vlprojects.semantic.ddd.error.BusinessRuleException
-import pro.vlprojects.semantic.ddd.error.ErrorKind
 
 class RulesTest {
     private val positive = rule<Int>({ this > 0 }) { "$this is not positive" }
@@ -21,7 +20,6 @@ class RulesTest {
         val failure = assertThrows<BusinessRuleException> { positive.check(-1) }
 
         assertEquals("-1 is not positive", failure.message)
-        assertEquals(ErrorKind.BusinessRule, failure.kind)
     }
 
     @Test
