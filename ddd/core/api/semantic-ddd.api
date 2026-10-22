@@ -15,10 +15,10 @@ public class pro/vlprojects/semantic/ddd/error/NotFoundException : pro/vlproject
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/event/DomainEvent {
-	public abstract fun getAggregate ()Lpro/vlprojects/semantic/ddd/id/Identifier;
-	public abstract fun getEventId ()Ljava/util/UUID;
-	public abstract fun getEventType ()Ljava/lang/String;
-	public abstract fun getOccurredAt ()Ljava/time/Instant;
+}
+
+public abstract interface annotation class pro/vlprojects/semantic/ddd/event/EventType : java/lang/annotation/Annotation {
+	public abstract fun value ()Ljava/lang/String;
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/id/Id : pro/vlprojects/semantic/ddd/id/Identifier {
@@ -33,8 +33,8 @@ public abstract interface class pro/vlprojects/semantic/ddd/id/Identifier {
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/model/AggregateRoot : pro/vlprojects/semantic/ddd/model/Entity {
-	public abstract fun peekEvents ()Ljava/util/List;
-	public abstract fun pullEvents ()Ljava/util/List;
+	public abstract fun getRecordedEvents ()Ljava/util/Collection;
+	public abstract fun releaseEvents ()Ljava/util/Collection;
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/model/Entity : pro/vlprojects/semantic/ddd/id/Identifiable {

@@ -1,24 +1,14 @@
 package pro.vlprojects.semantic.ddd.event
 
-import pro.vlprojects.semantic.ddd.id.Identifier
-import java.time.Instant
-import java.util.UUID
-
 /**
- * Something that happened to an aggregate, told to whoever cares, in this bounded context or another.
+ * Something that happened in the domain, told to whoever cares, in this bounded context or another.
  *
- * An event refers to its aggregate by identifier, not by the aggregate itself. A receiver in another context cannot even
- * name the root type, and the event travels as JSON, while the aggregate is lazy collections and a state that has
- * moved on by the time the event arrives. Whatever else the receiver needs, the event carries in fields of its own.
+ * An event is the domain data only. Its id, type, time and the identifier of its aggregate are metadata: an adapter
+ * stamps them on an envelope when it publishes the event, so a domain class does not carry them and a deserialized
+ * event does not lose them.
+ *
+ * Which aggregate an event belongs to is told by the aggregate, not by the event: see
+ * [pro.vlprojects.semantic.ddd.model.AggregateRoot]. Whatever a receiver needs, the identifier of the aggregate
+ * included, the event carries in fields of its own.
  */
-public interface DomainEvent<out I : Identifier> {
-    /** Unique per event, so that a receiver can drop a second delivery of the same one. */
-    public val eventId: UUID
-
-    /** Stable name of the event type. Not the class name: renaming a class must not break the receivers. */
-    public val eventType: String
-
-    public val occurredAt: Instant
-
-    public val aggregate: I
-}
+public interface DomainEvent
