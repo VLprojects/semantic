@@ -1,7 +1,6 @@
 package pro.vlprojects.semantic.ddd.tactical
 
 import java.time.Instant
-import java.util.UUID
 
 /**
  * Something that happened in the domain, told to whoever cares, in this bounded context or another.
@@ -14,9 +13,6 @@ import java.util.UUID
  * An event is not typed by its aggregate, so it can live in a module of its own, apart from the model. Whatever a
  * receiver needs, the identifier of the aggregate included, the event carries in fields of its own.
  */
-public interface Event {
-    /** Unique per event, so that a receiver can drop a second delivery of the same one. */
-    public val eventId: UUID
-
+public interface Event : Identifiable<EventId> {
     public val occurredAt: Instant
 }
