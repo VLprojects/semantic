@@ -31,8 +31,9 @@ the identifier of its aggregate is taken from the aggregate when it is
 published. An event is typed by its aggregate, `Event<Cart, CartEventId>`, and
 the aggregate releases its own events only. `Entity` and `AggregateRoot` take
 themselves as the first type parameter, `AggregateRoot<Cart, CartId>`, so that
-a contract can speak of the concrete type. The event type is a stable name set by `@EventType`, not a class name, so
-renaming a class does not break the receivers.
+a contract can speak of the concrete type. The event type is a stable name set
+by `@EventType`, not a class name, so renaming a class does not break the
+receivers.
 
 ## Modules
 
