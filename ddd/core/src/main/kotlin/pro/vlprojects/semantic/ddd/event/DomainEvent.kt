@@ -1,6 +1,6 @@
 package pro.vlprojects.semantic.ddd.event
 
-import pro.vlprojects.semantic.ddd.identity.Identifier
+import pro.vlprojects.semantic.ddd.id.Identifier
 import java.time.Instant
 import java.util.UUID
 

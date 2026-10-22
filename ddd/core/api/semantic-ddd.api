@@ -15,17 +15,17 @@ public class pro/vlprojects/semantic/ddd/error/NotFoundException : pro/vlproject
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/event/DomainEvent {
-	public abstract fun getAggregate ()Lpro/vlprojects/semantic/ddd/identity/Identifier;
+	public abstract fun getAggregate ()Lpro/vlprojects/semantic/ddd/id/Identifier;
 	public abstract fun getEventId ()Ljava/util/UUID;
 	public abstract fun getEventType ()Ljava/lang/String;
 	public abstract fun getOccurredAt ()Ljava/time/Instant;
 }
 
-public abstract interface class pro/vlprojects/semantic/ddd/identity/Id : pro/vlprojects/semantic/ddd/identity/Identifier {
+public abstract interface class pro/vlprojects/semantic/ddd/id/Id : pro/vlprojects/semantic/ddd/id/Identifier {
 	public abstract fun getValue ()Ljava/lang/Object;
 }
 
-public abstract interface class pro/vlprojects/semantic/ddd/identity/Identifier {
+public abstract interface class pro/vlprojects/semantic/ddd/id/Identifier {
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/model/AggregateRoot : pro/vlprojects/semantic/ddd/model/Entity {
@@ -34,7 +34,7 @@ public abstract interface class pro/vlprojects/semantic/ddd/model/AggregateRoot 
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/model/Entity {
-	public abstract fun getIdentifier ()Lpro/vlprojects/semantic/ddd/identity/Identifier;
+	public abstract fun getIdentifier ()Lpro/vlprojects/semantic/ddd/id/Identifier;
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/model/ValueObject {

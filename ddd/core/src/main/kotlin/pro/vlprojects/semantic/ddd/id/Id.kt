@@ -1,4 +1,4 @@
-package pro.vlprojects.semantic.ddd.identity
+package pro.vlprojects.semantic.ddd.id
 
 /**
  * Identifier of a single value, usually a value class:

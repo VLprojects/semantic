@@ -1,6 +1,6 @@
 package pro.vlprojects.semantic.ddd.model
 
-import pro.vlprojects.semantic.ddd.identity.Identifier
+import pro.vlprojects.semantic.ddd.id.Identifier
 
 /**
  * An object with an identity that outlives the changes of its state.

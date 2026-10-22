@@ -1,7 +1,7 @@
 package pro.vlprojects.semantic.ddd.model
 
 import pro.vlprojects.semantic.ddd.event.DomainEvent
-import pro.vlprojects.semantic.ddd.identity.Identifier
+import pro.vlprojects.semantic.ddd.id.Identifier
 
 /**
  * The only way into an aggregate and the boundary of its transaction. Changes leave the aggregate as domain events,

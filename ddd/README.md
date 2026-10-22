@@ -14,7 +14,7 @@ Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd`:
 
 | Package | What is there |
 | --- | --- |
-| `identity` | `Identifier`, the identity of an entity, and `Id<T>`, an identifier of one value |
+| `id` | `Identifier`, the identity of an entity, and `Id<T>`, an identifier of one value |
 | `model` | `Entity`, `AggregateRoot` that hands its events out with `peekEvents` and `pullEvents`, `ValueObject` |
 | `event` | `DomainEvent`: an id, a stable type, a time and the identifier of its aggregate |
 | `rule` | `BusinessRule`, `rule`, `checkRule` |
