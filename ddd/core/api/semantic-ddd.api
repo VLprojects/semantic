@@ -36,7 +36,6 @@ public abstract interface class pro/vlprojects/semantic/ddd/tactical/EventHeader
 	public abstract fun getEventId ()Lpro/vlprojects/semantic/ddd/tactical/EventId;
 	public abstract fun getName ()Ljava/lang/String;
 	public abstract fun getOccurredAt ()Ljava/time/Instant;
-	public abstract fun getVersion ()I
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/EventId : pro/vlprojects/semantic/ddd/tactical/Identifier {

@@ -17,8 +17,5 @@ public interface EventHeader {
      */
     public val name: String
 
-    /** The version of the shape of the event, moved forward when its fields change, so that old ones can be read. */
-    public val version: Int
-
     public val occurredAt: Instant
 }

@@ -27,8 +27,8 @@ implements `Persistable` of Spring Data, and its `getId()` would clash with a
 Kotlin `id` (KT-6653).
 
 An event is a header, the revision of its aggregate and fields of its own. The
-header, `EventHeader`, holds the id of the event, its name, the version of its
-shape and the time it happened; the revision, `AggregateRevision`, holds the
+header, `EventHeader`, holds the id of the event, its name and the time it
+happened; the revision, `AggregateRevision`, holds the
 identifier and the version of the aggregate. Both are set once when the event
 is raised. The name is stable, not a class name, so renaming a class does not
 break the receivers. An event is typed by its aggregate and the identifier of
