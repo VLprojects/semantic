@@ -15,6 +15,7 @@ public class BusinessRule<in T> internal constructor(
 ) {
     /** Throws [BusinessRuleException] with the message of the rule if [target] breaks it. */
     public fun check(target: T) {
-        if (!target.satisfied()) throw BusinessRuleException(target.message())
+        if (target.satisfied()) return
+        throw BusinessRuleException(target.message())
     }
 }
