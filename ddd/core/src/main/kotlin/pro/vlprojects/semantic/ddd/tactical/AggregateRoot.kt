@@ -6,4 +6,4 @@ package pro.vlprojects.semantic.ddd.tactical
  */
 public interface AggregateRoot<out I : Identifier> :
     Entity<I>,
-    EventRecorder
+    EventRecordable
