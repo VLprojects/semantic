@@ -14,6 +14,12 @@ public class pro/vlprojects/semantic/ddd/architecture/error/NotFoundException : 
 	public fun <init> (Ljava/lang/String;)V
 }
 
+public final class pro/vlprojects/semantic/ddd/dsl/RulesKt {
+	public static final fun check (Ljava/lang/Iterable;Ljava/lang/Object;)V
+	public static final fun checkRule (ZLkotlin/jvm/functions/Function0;)V
+	public static final fun rule (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lpro/vlprojects/semantic/ddd/tactical/BusinessRule;
+}
+
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/AggregateRevision : pro/vlprojects/semantic/ddd/tactical/Identifiable, pro/vlprojects/semantic/ddd/tactical/Versioned {
 	public abstract fun getName ()Ljava/lang/String;
 }
@@ -47,12 +53,6 @@ public abstract interface class pro/vlprojects/semantic/ddd/tactical/Identifiabl
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/Identifier {
-}
-
-public final class pro/vlprojects/semantic/ddd/tactical/RulesKt {
-	public static final fun check (Ljava/lang/Iterable;Ljava/lang/Object;)V
-	public static final fun checkRule (ZLkotlin/jvm/functions/Function0;)V
-	public static final fun rule (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lpro/vlprojects/semantic/ddd/tactical/BusinessRule;
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/ValueObject {

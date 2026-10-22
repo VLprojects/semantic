@@ -14,7 +14,8 @@ Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd`:
 
 | Package | What is there |
 | --- | --- |
-| `tactical` | The building blocks, side by side: `Identifier`, `Identifiable`, `Entity`, `AggregateRoot`, `Versioned`, `AggregateRevision`, `ValueObject`, `Event` with its `EventHeader` and `EventId`, `BusinessRule` with `rule` and `checkRule` |
+| `tactical` | The building blocks, side by side: `Identifier`, `Identifiable`, `Entity`, `AggregateRoot`, `Versioned`, `AggregateRevision`, `ValueObject`, `Event` with its `EventHeader` and `EventId`, `BusinessRule` |
+| `dsl` | The ways to write the blocks down: `rule` builds a `BusinessRule`, `check` runs a list of them, `checkRule` checks a one-off condition |
 | `architecture.error` | What a layer of the application raises, not a pattern of the model: `DomainException` and the refusals a service extends, `NotFoundException`, `ConflictException`, `BusinessRuleException` |
 
 The strategic patterns, bounded contexts and the like, will get a `strategic`

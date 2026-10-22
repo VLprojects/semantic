@@ -1,4 +1,4 @@
-package pro.vlprojects.semantic.ddd.tactical
+package pro.vlprojects.semantic.ddd.dsl
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

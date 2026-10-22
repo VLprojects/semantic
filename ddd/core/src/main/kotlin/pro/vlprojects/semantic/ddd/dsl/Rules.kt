@@ -1,6 +1,7 @@
-package pro.vlprojects.semantic.ddd.tactical
+package pro.vlprojects.semantic.ddd.dsl
 
 import pro.vlprojects.semantic.ddd.architecture.error.BusinessRuleException
+import pro.vlprojects.semantic.ddd.tactical.BusinessRule
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
