@@ -11,4 +11,5 @@ package pro.vlprojects.semantic.ddd.tactical
  * class Cart(override val identifier: CartId) : AggregateRoot<Cart, CartId>
  * ```
  */
-public interface AggregateRoot<A : AggregateRoot<A, I>, out I : Identifier> : Entity<A, I>, EventReleasable, Versioned
+public interface AggregateRoot<A : AggregateRoot<A, I>, out I : Identifier> :
+    Entity<A, I>, EventReleasable<A>, Versioned

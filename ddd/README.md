@@ -28,9 +28,10 @@ Kotlin `id` (KT-6653).
 
 An event carries its id and the time it happened, set once when it is raised;
 the identifier of its aggregate is taken from the aggregate when it is
-published. Neither the event nor the aggregate is
-typed by the other: only the aggregate records its events, so no other gets in.
-The event type is a stable name set by `@EventType`, not a class name, so
+published. An event is typed by its aggregate, `Event<Cart, CartEventId>`, and
+the aggregate releases its own events only. `Entity` and `AggregateRoot` take
+themselves as the first type parameter, `AggregateRoot<Cart, CartId>`, so that
+a contract can speak of the concrete type. The event type is a stable name set by `@EventType`, not a class name, so
 renaming a class does not break the receivers.
 
 ## Modules
