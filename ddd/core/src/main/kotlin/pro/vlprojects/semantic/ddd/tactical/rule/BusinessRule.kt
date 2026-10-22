@@ -1,6 +1,6 @@
-package pro.vlprojects.semantic.ddd.rule
+package pro.vlprojects.semantic.ddd.tactical.rule
 
-import pro.vlprojects.semantic.ddd.error.BusinessRuleException
+import pro.vlprojects.semantic.ddd.tactical.error.BusinessRuleException
 
 /**
  * A statement about the domain that must hold, written once and checked against many targets: an aggregate declares

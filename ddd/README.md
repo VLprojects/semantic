@@ -10,14 +10,16 @@ modules are empty so far.
 
 ## The core
 
-Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd`:
+Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd.tactical`. The
+strategic patterns, bounded contexts and the like, will get a `strategic`
+package of their own.
 
 | Package | What is there |
 | --- | --- |
 | `id` | `Identifier`, the identity of an entity; `Id<T>`, an identifier of one value; `Identifiable`, anything with an identifier |
 | `model` | `Entity`, `AggregateRoot` that records domain events and releases them with `releaseEvents` |
 | `vo` | `ValueObject`, until the vo family takes it over |
-| `event` | `DomainEvent`, a marker of the domain data, and `@EventType`, its stable name |
+| `event` | `Event`, a marker of the domain data, and `@EventType`, its stable name |
 | `rule` | `BusinessRule`, `rule`, `checkRule` |
 | `error` | `DomainException` and the refusals a service extends: `NotFoundException`, `ConflictException`, `BusinessRuleException` |
 

@@ -1,4 +1,4 @@
-package pro.vlprojects.semantic.ddd.error
+package pro.vlprojects.semantic.ddd.tactical.error
 
 /**
  * A refusal of the domain: a rule does not hold, the subject does not exist, or one like it already does.

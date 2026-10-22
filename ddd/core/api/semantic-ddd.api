@@ -1,55 +1,55 @@
-public class pro/vlprojects/semantic/ddd/error/BusinessRuleException : pro/vlprojects/semantic/ddd/error/DomainException {
+public class pro/vlprojects/semantic/ddd/tactical/error/BusinessRuleException : pro/vlprojects/semantic/ddd/tactical/error/DomainException {
 	public fun <init> (Ljava/lang/String;)V
 }
 
-public class pro/vlprojects/semantic/ddd/error/ConflictException : pro/vlprojects/semantic/ddd/error/DomainException {
+public class pro/vlprojects/semantic/ddd/tactical/error/ConflictException : pro/vlprojects/semantic/ddd/tactical/error/DomainException {
 	public fun <init> (Ljava/lang/String;)V
 }
 
-public abstract class pro/vlprojects/semantic/ddd/error/DomainException : java/lang/RuntimeException {
+public abstract class pro/vlprojects/semantic/ddd/tactical/error/DomainException : java/lang/RuntimeException {
 	public fun <init> (Ljava/lang/String;)V
 }
 
-public class pro/vlprojects/semantic/ddd/error/NotFoundException : pro/vlprojects/semantic/ddd/error/DomainException {
+public class pro/vlprojects/semantic/ddd/tactical/error/NotFoundException : pro/vlprojects/semantic/ddd/tactical/error/DomainException {
 	public fun <init> (Ljava/lang/String;)V
 }
 
-public abstract interface class pro/vlprojects/semantic/ddd/event/DomainEvent {
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/event/Event {
 }
 
-public abstract interface annotation class pro/vlprojects/semantic/ddd/event/EventType : java/lang/annotation/Annotation {
+public abstract interface annotation class pro/vlprojects/semantic/ddd/tactical/event/EventType : java/lang/annotation/Annotation {
 	public abstract fun value ()Ljava/lang/String;
 }
 
-public abstract interface class pro/vlprojects/semantic/ddd/id/Id : pro/vlprojects/semantic/ddd/id/Identifier {
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/id/Id : pro/vlprojects/semantic/ddd/tactical/id/Identifier {
 	public abstract fun getValue ()Ljava/lang/Object;
 }
 
-public abstract interface class pro/vlprojects/semantic/ddd/id/Identifiable {
-	public abstract fun getIdentifier ()Lpro/vlprojects/semantic/ddd/id/Identifier;
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/id/Identifiable {
+	public abstract fun getIdentifier ()Lpro/vlprojects/semantic/ddd/tactical/id/Identifier;
 }
 
-public abstract interface class pro/vlprojects/semantic/ddd/id/Identifier {
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/id/Identifier {
 }
 
-public abstract interface class pro/vlprojects/semantic/ddd/model/AggregateRoot : pro/vlprojects/semantic/ddd/model/Entity {
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/model/AggregateRoot : pro/vlprojects/semantic/ddd/tactical/model/Entity {
 	public abstract fun getRecordedEvents ()Ljava/util/Collection;
 	public abstract fun releaseEvents ()Ljava/util/Collection;
 }
 
-public abstract interface class pro/vlprojects/semantic/ddd/model/Entity : pro/vlprojects/semantic/ddd/id/Identifiable {
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/model/Entity : pro/vlprojects/semantic/ddd/tactical/id/Identifiable {
 }
 
-public final class pro/vlprojects/semantic/ddd/rule/BusinessRule {
+public final class pro/vlprojects/semantic/ddd/tactical/rule/BusinessRule {
 	public final fun check (Ljava/lang/Object;)V
 }
 
-public final class pro/vlprojects/semantic/ddd/rule/RulesKt {
+public final class pro/vlprojects/semantic/ddd/tactical/rule/RulesKt {
 	public static final fun check (Ljava/lang/Iterable;Ljava/lang/Object;)V
 	public static final fun checkRule (ZLkotlin/jvm/functions/Function0;)V
-	public static final fun rule (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lpro/vlprojects/semantic/ddd/rule/BusinessRule;
+	public static final fun rule (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lpro/vlprojects/semantic/ddd/tactical/rule/BusinessRule;
 }
 
-public abstract interface class pro/vlprojects/semantic/ddd/vo/ValueObject {
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/vo/ValueObject {
 }
 

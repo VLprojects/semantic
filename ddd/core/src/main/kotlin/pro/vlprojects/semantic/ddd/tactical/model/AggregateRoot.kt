@@ -1,7 +1,7 @@
-package pro.vlprojects.semantic.ddd.model
+package pro.vlprojects.semantic.ddd.tactical.model
 
-import pro.vlprojects.semantic.ddd.event.DomainEvent
-import pro.vlprojects.semantic.ddd.id.Identifier
+import pro.vlprojects.semantic.ddd.tactical.event.Event
+import pro.vlprojects.semantic.ddd.tactical.id.Identifier
 
 /**
  * The only way into an aggregate and the boundary of its transaction. Changes leave the aggregate as domain events,
@@ -12,11 +12,11 @@ import pro.vlprojects.semantic.ddd.id.Identifier
  */
 public interface AggregateRoot<out I : Identifier> : Entity<I> {
     /** Events recorded and not yet released, in the order recorded. Reading them leaves them in place. */
-    public val recordedEvents: Collection<DomainEvent>
+    public val recordedEvents: Collection<Event>
 
     /**
      * Hands the recorded events out, in the order recorded, and forgets them in one step, so that none is forgotten
      * before it is handed out.
      */
-    public fun releaseEvents(): Collection<DomainEvent>
+    public fun releaseEvents(): Collection<Event>
 }

@@ -1,4 +1,4 @@
-package pro.vlprojects.semantic.ddd.id
+package pro.vlprojects.semantic.ddd.tactical.id
 
 /**
  * Anything with an identifier: an entity, and also what is not one, such as a read model or a projection.

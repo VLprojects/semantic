@@ -1,7 +1,7 @@
-package pro.vlprojects.semantic.ddd.event
+package pro.vlprojects.semantic.ddd.tactical.event
 
 /**
- * Stable name of a [DomainEvent] type, by which receivers tell events apart:
+ * Stable name of a [Event] type, by which receivers tell events apart:
  *
  * ```kotlin
  * @EventType("cart.item-added")

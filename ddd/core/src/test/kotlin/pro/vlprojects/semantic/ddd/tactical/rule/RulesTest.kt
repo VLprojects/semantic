@@ -1,10 +1,10 @@
-package pro.vlprojects.semantic.ddd.rule
+package pro.vlprojects.semantic.ddd.tactical.rule
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
-import pro.vlprojects.semantic.ddd.error.BusinessRuleException
+import pro.vlprojects.semantic.ddd.tactical.error.BusinessRuleException
 
 class RulesTest {
     private val positive = rule<Int>({ this > 0 }) { "$this is not positive" }
