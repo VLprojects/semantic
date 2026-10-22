@@ -1,4 +1,4 @@
-package pro.vlprojects.semantic.ddd.model
+package pro.vlprojects.semantic.ddd.vo
 
 /**
  * Marker of a value object: no identity, compared by content, immutable. Equality comes from a data class or a value

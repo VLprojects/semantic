@@ -14,15 +14,16 @@ Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd`:
 
 | Package | What is there |
 | --- | --- |
-| `id` | `Identifier`, the identity of an entity, and `Id<T>`, an identifier of one value |
-| `model` | `Entity`, `AggregateRoot` that hands its events out with `peekEvents` and `pullEvents`, `ValueObject` |
+| `id` | `Identifier`, the identity of an entity; `Id<T>`, an identifier of one value; `Identifiable`, anything with an identifier |
+| `model` | `Entity`, `AggregateRoot` that hands its events out with `peekEvents` and `pullEvents` |
+| `vo` | `ValueObject`, until the vo family takes it over |
 | `event` | `DomainEvent`: an id, a stable type, a time and the identifier of its aggregate |
 | `rule` | `BusinessRule`, `rule`, `checkRule` |
 | `error` | `DomainException` and the refusals a service extends: `NotFoundException`, `ConflictException`, `BusinessRuleException` |
 
 So far the core holds the contracts; base classes come later.
 
-The entity property is `identifier`, not `id`: a JPA entity also implements
+The property of `Identifiable` is `identifier`, not `id`: a JPA entity also implements
 `Persistable` of Spring Data, and its `getId()` would clash with a Kotlin `id`
 (KT-6653). The event type is a stable name, not a class name, so renaming a
 class does not break the receivers.

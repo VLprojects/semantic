@@ -25,6 +25,10 @@ public abstract interface class pro/vlprojects/semantic/ddd/id/Id : pro/vlprojec
 	public abstract fun getValue ()Ljava/lang/Object;
 }
 
+public abstract interface class pro/vlprojects/semantic/ddd/id/Identifiable {
+	public abstract fun getIdentifier ()Lpro/vlprojects/semantic/ddd/id/Identifier;
+}
+
 public abstract interface class pro/vlprojects/semantic/ddd/id/Identifier {
 }
 
@@ -33,11 +37,7 @@ public abstract interface class pro/vlprojects/semantic/ddd/model/AggregateRoot 
 	public abstract fun pullEvents ()Ljava/util/List;
 }
 
-public abstract interface class pro/vlprojects/semantic/ddd/model/Entity {
-	public abstract fun getIdentifier ()Lpro/vlprojects/semantic/ddd/id/Identifier;
-}
-
-public abstract interface class pro/vlprojects/semantic/ddd/model/ValueObject {
+public abstract interface class pro/vlprojects/semantic/ddd/model/Entity : pro/vlprojects/semantic/ddd/id/Identifiable {
 }
 
 public final class pro/vlprojects/semantic/ddd/rule/BusinessRule {
@@ -48,5 +48,8 @@ public final class pro/vlprojects/semantic/ddd/rule/RulesKt {
 	public static final fun check (Ljava/lang/Iterable;Ljava/lang/Object;)V
 	public static final fun checkRule (ZLkotlin/jvm/functions/Function0;)V
 	public static final fun rule (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lpro/vlprojects/semantic/ddd/rule/BusinessRule;
+}
+
+public abstract interface class pro/vlprojects/semantic/ddd/vo/ValueObject {
 }
 
