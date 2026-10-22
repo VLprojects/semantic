@@ -25,6 +25,7 @@ public abstract interface class pro/vlprojects/semantic/ddd/tactical/Entity : pr
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/Event {
+	public abstract fun getAggregateId ()Lpro/vlprojects/semantic/ddd/tactical/Identifier;
 	public abstract fun getEventId ()Lpro/vlprojects/semantic/ddd/tactical/EventId;
 	public abstract fun getOccurredAt ()Ljava/time/Instant;
 }

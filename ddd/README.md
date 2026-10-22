@@ -26,16 +26,15 @@ The property of `Identifiable` is `identifier`, not `id`: a JPA entity also
 implements `Persistable` of Spring Data, and its `getId()` would clash with a
 Kotlin `id` (KT-6653).
 
-An event carries its id and the time it happened, set once when it is raised;
-the identifier of its aggregate is taken from the aggregate when it is
-published. An event is typed by its aggregate, `Event<Cart>`. How an aggregate
-records its events and hands them out is left to it and to the adapter that
-saves it, as Spring Data does with `@DomainEvents`. `Entity` and
-`AggregateRoot` take themselves as the first type parameter,
-`AggregateRoot<Cart, CartId>`, so that a contract can speak of the concrete
-type. The event type is a stable name set
-by `@EventType`, not a class name, so renaming a class does not break the
-receivers.
+An event carries its id, the identifier of its aggregate and the time it
+happened, all set once when it is raised. An event is typed by its aggregate
+and the identifier of it, `Event<Cart, CartId>`, so an event cannot name an
+aggregate of another type. How an aggregate records its events and hands them
+out is left to it and to the adapter that saves it, as Spring Data does with
+`@DomainEvents`. `Entity` and `AggregateRoot` take themselves as the first type
+parameter, `AggregateRoot<Cart, CartId>`, so that a contract can speak of the
+concrete type. The event type is a stable name set by `@EventType`, not a class
+name, so renaming a class does not break the receivers.
 
 ## Modules
 
