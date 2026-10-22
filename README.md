@@ -12,6 +12,9 @@ Each family has a core with no dependencies and adapters for the frameworks you
 use. Take only what you need: a service that wants an `Email` does not get
 aggregates with it.
 
+![Families and their modules: ddd in development, vo and cqrs planned](docs/assets/families-light.svg#gh-light-mode-only)
+![Families and their modules: ddd in development, vo and cqrs planned](docs/assets/families-dark.svg#gh-dark-mode-only)
+
 | Family | What it is | Status |
 | --- | --- | --- |
 | `vo` | rich value objects: `semantic-vo` with the validation every value object shares, then `net`, `range`, `time` and more | planned for v1 |
