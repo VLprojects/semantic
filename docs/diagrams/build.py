@@ -59,7 +59,7 @@ PALETTE = {
 	},
 }
 
-NAME, NOTE, CODE = 14, 12.5, 13
+NAME, NOTE, CODE = 14, 12, 13
 PAD = 12  # surface around the drawing, on top of its own 16 px margin
 REC, PITCH = 6, 8  # record square and its pitch
 BAR_W, BAR_H, BAR_PITCH = 6, 28, 10  # batch bar
@@ -152,7 +152,7 @@ def ink(hue):
 # for later. Its name and status head the plate; the gutter on the left names the level of each row.
 # Spacing climbs 12 < 16 < 24: text inside a block, blocks inside a plate, plates on the page
 X0, CW = 16, 688  # plate edge and width
-INSET, GUT, GAP, BLOCK = 16, 76, 16, 80  # plate padding, gutter, gap between blocks, block height
+INSET, GUT, GAP, BLOCK = 16, 76, 16, 72  # plate padding, gutter, gap between blocks, block height
 BX, BW = X0 + GUT, CW - GUT - INSET  # where the blocks of a row start, and how wide a row is
 DASH, DOT = "6 4", "0.1 4"
 
@@ -170,24 +170,26 @@ def family(a, y, name, status, rows, dash=None):
 		a.rect(X0, y, CW, h, "plate", r=12)
 	a.name(X0 + INSET, y + 28, name, mono=True)
 	a.t(X0 + INSET + 7.8 * len(name) + 12, y + 28, status, color="soft")
-	for r, (level, specs) in enumerate(rows):
+	for r, (level, specs, *cols) in enumerate(rows):
 		ry = y + 44 + r * (BLOCK + GAP)
 		if level:
-			a.t(X0 + INSET, ry + 45, level, color="soft")
-		w = (BW - (len(specs) - 1) * GAP) / len(specs)
+			a.t(X0 + INSET, ry + 37, level, color="soft")  # on the baseline of the names in its row
+		n = cols[0] if cols else len(specs)
+		w = (BW - (n - 1) * GAP) / n
 		for c, (hue, prefix, title, note) in enumerate(specs):
 			block(a, BX + c * (w + GAP), ry, w, hue, prefix, title, note)
 	return y + h + 24
 
 
 def block(a, x, y, w, hue, prefix, title, note):
-	# a module names its artifact in two lines, the common prefix in grey and the part that tells it
-	# apart in bold; a grey block is a module that does not exist yet or belongs to another family
+	# a module names its artifact in two tight lines, the common prefix in grey and the part that tells
+	# it apart in bold, and explains it a step lower; 12 to every edge, counted from the cap height and the
+	# baseline. A grey block is a module that does not exist yet or belongs to another family
 	a.rect(x, y, w, BLOCK, (hue + "-plate") if hue else "card", r=6)
 	soft = (hue + "-soft") if hue else "soft"
-	a.t(x + 12, y + 24, prefix, color=soft, mono=True, size=12)
-	a.name(x + 12, y + 44, title, mono=True, color=ink(hue) if hue else "ink")
-	a.t(x + 12, y + 66, note, color=soft)
+	a.t(x + 12, y + 21, prefix, color=soft, mono=True)
+	a.name(x + 12, y + 37, title, mono=True, color=ink(hue) if hue else "ink")
+	a.t(x + 12, y + 60, note, color=soft)
 
 
 DDD_SPRING = ("Spring", [("green", "semantic-ddd-", "spring-data", "repositories"),
@@ -210,7 +212,7 @@ def families(pal):
 			(None, "semantic-vo-", "time", "dates, periods")]),
 	], DASH)
 	y = family(a, y, "cqrs", "after v1", [
-		(None, [(None, "semantic-", "cqrs", "commands, queries, handlers, buses")]),
+		(None, [(None, "semantic-", "cqrs", "commands, queries, buses")], 3),
 	], DOT)
 	a.h = y - 24 + 16
 	return a
