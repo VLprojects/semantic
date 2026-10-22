@@ -1,9 +1,12 @@
 # semantic
 
-Types that say what the code means. A family of small Kotlin libraries for the
-domain layer of JVM services: the building blocks of domain-driven design, and
-value objects for the things every domain has, such as an email, a range or a
-quarter.
+A Swiss army knife for Kotlin: rich value objects, DDD building blocks and small
+abstractions that make domain code say what it means.
+
+Not a framework, but a set of small, independent tools. Each one fixes
+something you would otherwise write again in every project: an `Email` that is
+always valid, a range that knows its bounds, an aggregate root that does not
+lose its events.
 
 Each family has a core with no dependencies and adapters for the frameworks you
 use. Take only what you need: a service that wants an `Email` does not get
@@ -11,8 +14,8 @@ aggregates with it.
 
 | Family | What it is | Status |
 | --- | --- | --- |
+| `vo` | rich value objects: `semantic-vo` with the validation every value object shares, then `net`, `range`, `time` and more | planned for v1 |
 | [`ddd`](ddd/README.md) | identifiers, entities, aggregate roots with events and invariants, business rules, domain errors; JPA, Spring Data and Spring Boot adapters | design, v1 |
-| `vo` | value objects: `semantic-vo` with the validation every value object shares, then `net`, `range`, `time` and more | planned for v1 |
 | `cqrs` | commands, queries, handlers and buses | after v1 |
 
 Artifacts are named `semantic-<family>[-<adapter>]` and live in the group
