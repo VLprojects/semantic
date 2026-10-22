@@ -15,7 +15,7 @@ Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd`:
 | Package | What is there |
 | --- | --- |
 | `id` | `Identifier`, the identity of an entity; `Id<T>`, an identifier of one value; `Identifiable`, anything with an identifier |
-| `model` | `Entity`, `AggregateRoot<I, E>` that records events of type `E` and releases them with `releaseEvents` |
+| `model` | `Entity`, `AggregateRoot` that records domain events and releases them with `releaseEvents` |
 | `vo` | `ValueObject`, until the vo family takes it over |
 | `event` | `DomainEvent`, a marker of the domain data, and `@EventType`, its stable name |
 | `rule` | `BusinessRule`, `rule`, `checkRule` |
@@ -23,15 +23,15 @@ Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd`:
 
 So far the core holds the contracts; base classes come later.
 
-The property of `Identifiable` is `identifier`, not `id`: a JPA entity also implements
-`Persistable` of Spring Data, and its `getId()` would clash with a Kotlin `id`
-(KT-6653).
+The property of `Identifiable` is `identifier`, not `id`: a JPA entity also
+implements `Persistable` of Spring Data, and its `getId()` would clash with a
+Kotlin `id` (KT-6653).
 
 An event carries the domain data only; its id, time and aggregate are stamped
-on an envelope when it is published. The aggregate, not the event, says which
-events belong to it: `AggregateRoot<CartId, CartEvent>`. The event type is a
-stable name set by `@EventType`, not a class name, so renaming a class does not
-break the receivers.
+on an envelope when it is published. Neither the event nor the aggregate is
+typed by the other: only the aggregate records its events, so no other gets in.
+The event type is a stable name set by `@EventType`, not a class name, so
+renaming a class does not break the receivers.
 
 ## Modules
 

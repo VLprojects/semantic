@@ -7,8 +7,7 @@ package pro.vlprojects.semantic.ddd.event
  * stamps them on an envelope when it publishes the event, so a domain class does not carry them and a deserialized
  * event does not lose them.
  *
- * Which aggregate an event belongs to is told by the aggregate, not by the event: see
- * [pro.vlprojects.semantic.ddd.model.AggregateRoot]. Whatever a receiver needs, the identifier of the aggregate
- * included, the event carries in fields of its own.
+ * An event is not typed by its aggregate, so it can live in a module of its own, apart from the model. Whatever a
+ * receiver needs, the identifier of the aggregate included, the event carries in fields of its own.
  */
 public interface DomainEvent
