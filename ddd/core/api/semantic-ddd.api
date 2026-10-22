@@ -14,7 +14,7 @@ public class pro/vlprojects/semantic/ddd/architecture/error/NotFoundException : 
 	public fun <init> (Ljava/lang/String;)V
 }
 
-public abstract interface class pro/vlprojects/semantic/ddd/tactical/AggregateRoot : pro/vlprojects/semantic/ddd/tactical/Entity, pro/vlprojects/semantic/ddd/tactical/EventRecordable, pro/vlprojects/semantic/ddd/tactical/Versioned {
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/AggregateRoot : pro/vlprojects/semantic/ddd/tactical/Entity, pro/vlprojects/semantic/ddd/tactical/EventReleasable, pro/vlprojects/semantic/ddd/tactical/Versioned {
 }
 
 public final class pro/vlprojects/semantic/ddd/tactical/BusinessRule {
@@ -28,22 +28,10 @@ public abstract interface class pro/vlprojects/semantic/ddd/tactical/Event : pro
 	public abstract fun getOccurredAt ()Ljava/time/Instant;
 }
 
-public final class pro/vlprojects/semantic/ddd/tactical/EventId : pro/vlprojects/semantic/ddd/tactical/Id {
-	public static final synthetic fun box-impl (Ljava/util/UUID;)Lpro/vlprojects/semantic/ddd/tactical/EventId;
-	public static fun constructor-impl (Ljava/util/UUID;)Ljava/util/UUID;
-	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (Ljava/util/UUID;Ljava/lang/Object;)Z
-	public static final fun equals-impl0 (Ljava/util/UUID;Ljava/util/UUID;)Z
-	public synthetic fun getValue ()Ljava/lang/Object;
-	public fun getValue ()Ljava/util/UUID;
-	public fun hashCode ()I
-	public static fun hashCode-impl (Ljava/util/UUID;)I
-	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (Ljava/util/UUID;)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()Ljava/util/UUID;
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/EventId : pro/vlprojects/semantic/ddd/tactical/Identifier {
 }
 
-public abstract interface class pro/vlprojects/semantic/ddd/tactical/EventRecordable {
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/EventReleasable {
 	public abstract fun releaseEvents ()Ljava/util/Collection;
 }
 
