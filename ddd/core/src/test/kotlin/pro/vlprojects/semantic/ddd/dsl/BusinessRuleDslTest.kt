@@ -6,7 +6,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import pro.vlprojects.semantic.ddd.architecture.error.BusinessRuleException
 
-class RulesTest {
+class BusinessRuleDslTest {
     private val positive = rule<Int>({ this > 0 }) { "$this is not positive" }
     private val even = rule<Int>({ this % 2 == 0 }) { "$this is not even" }
 
