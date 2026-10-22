@@ -1,0 +1,25 @@
+# Libraries are pinned to the versions of the Spring Boot BOM the project is built against, so a service on
+# that Boot gets no second copy of anything.
+[versions]
+kotlin = "2.4.20"
+kotlinter = "5.7.0"
+spring-boot = "4.1.1"
+spring-data = "4.1.1"
+jakarta-persistence = "3.2.0"
+hibernate = "7.4.5.Final"
+junit = "6.0.3"
+
+[libraries]
+# Gradle plugins, for the convention plugins in gradle/build-logic
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-noarg = { module = "org.jetbrains.kotlin:kotlin-noarg", version.ref = "kotlin" }
+kotlinter-gradle = { module = "org.jmailen.gradle:kotlinter-gradle", version.ref = "kotlinter" }
+
+jakarta-persistence-api = { module = "jakarta.persistence:jakarta.persistence-api", version.ref = "jakarta-persistence" }
+hibernate-core = { module = "org.hibernate.orm:hibernate-core", version.ref = "hibernate" }
+spring-data-commons = { module = "org.springframework.data:spring-data-commons", version.ref = "spring-data" }
+spring-boot-autoconfigure = { module = "org.springframework.boot:spring-boot-autoconfigure", version.ref = "spring-boot" }
+
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
