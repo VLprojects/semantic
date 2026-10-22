@@ -6,7 +6,7 @@ package pro.vlprojects.semantic.ddd.tactical
  *
  * ```kotlin
  * @JvmInline
- * value class UuidEventId(override val value: UUID) : EventId, Id<UUID>
+ * value class UuidEventId(val value: UUID) : EventId
  * ```
  */
 public interface EventId : Identifier

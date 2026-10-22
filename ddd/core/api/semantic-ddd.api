@@ -37,10 +37,6 @@ public abstract interface annotation class pro/vlprojects/semantic/ddd/tactical/
 	public abstract fun value ()Ljava/lang/String;
 }
 
-public abstract interface class pro/vlprojects/semantic/ddd/tactical/Id : pro/vlprojects/semantic/ddd/tactical/Identifier {
-	public abstract fun getValue ()Ljava/lang/Object;
-}
-
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/Identifiable {
 	public abstract fun getIdentifier ()Lpro/vlprojects/semantic/ddd/tactical/Identifier;
 }
