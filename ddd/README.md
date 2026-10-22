@@ -15,13 +15,16 @@ Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd`:
 | Package | What is there |
 | --- | --- |
 | `tactical` | The building blocks, side by side: `Identifier`, `Identifiable`, `Entity`, `AggregateRoot`, `Versioned`, `AggregateRevision`, `ValueObject`, `Event` with its `EventHeader` and `EventId`, `BusinessRule` |
+| `tactical.base` | Base classes to extend, free of any framework: `AbstractEntity` and `AbstractIdentifier` equal by identifier and value, `AbstractAggregateRoot` that records events and keeps invariants, `AbstractEvent` equal by id, and `SimpleEventHeader`, `SimpleAggregateRevision`, `UuidEventId` to fill an event with |
 | `dsl` | The ways to write the blocks down: `rule` builds a `BusinessRule`, `check` runs a list of them, `checkRule` checks a one-off condition |
 | `architecture.error` | What a layer of the application raises, not a pattern of the model: `DomainException` and the refusals a service extends, `NotFoundException`, `ConflictException`, `BusinessRuleException` |
 
 The strategic patterns, bounded contexts and the like, will get a `strategic`
 package of their own.
 
-So far the core holds the contracts; base classes come later.
+The contracts are interfaces; `tactical.base` gives classes to extend. What
+needs a framework, the mapping of the identifier and the version, proxies and
+handing the events out on save, is left to the JPA and Spring Data modules.
 
 The property of `Identifiable` is `identifier`, not `id`: a JPA entity also
 implements `Persistable` of Spring Data, and its `getId()` would clash with a

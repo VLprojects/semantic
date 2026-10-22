@@ -1,0 +1,43 @@
+package pro.vlprojects.semantic.ddd.unit.tactical.base
+
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
+import pro.vlprojects.semantic.ddd.architecture.error.BusinessRuleException
+import pro.vlprojects.semantic.ddd.tactical.base.SimpleAggregateRevision
+
+class AbstractAggregateRootTests {
+    @Test
+    fun `a change records its events in order`() {
+        val cart = Cart(CartId(1)).add("apple").add("pear")
+
+        assertEquals(listOf("apple", "pear"), cart.events().map { (it as ItemAdded).sku })
+    }
+
+    @Test
+    fun `an event names the revision and the time of the clock`() {
+        val event = Cart(CartId(1), version = 3).add("apple").events().single()
+
+        assertEquals(SimpleAggregateRevision("cart", CartId(1), 3), event.aggregate)
+        assertEquals("cart.item-added", event.header.name)
+        assertEquals(Cart.NOW, event.header.occurredAt)
+    }
+
+    @Test
+    fun `a change that breaks an invariant throws`() {
+        val cart = Cart(CartId(1)).add("apple").add("pear")
+
+        val failure = assertThrows<BusinessRuleException> { cart.add("plum") }
+
+        assertEquals("Cart CartId(value=1) holds more than 2 items", failure.message)
+    }
+
+    @Test
+    fun `saved events are forgotten`() {
+        val cart = Cart(CartId(1)).add("apple")
+
+        cart.saved()
+
+        assertEquals(emptyList<Any>(), cart.events())
+    }
+}

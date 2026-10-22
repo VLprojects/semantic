@@ -62,3 +62,79 @@ public abstract interface class pro/vlprojects/semantic/ddd/tactical/Versioned {
 	public abstract fun getVersion ()J
 }
 
+public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractAggregateRoot : pro/vlprojects/semantic/ddd/tactical/base/AbstractEntity, pro/vlprojects/semantic/ddd/tactical/AggregateRoot {
+	public fun <init> ()V
+	protected final fun change (Lkotlin/jvm/functions/Function1;)Lpro/vlprojects/semantic/ddd/tactical/base/AbstractAggregateRoot;
+	protected final fun clearEvents ()V
+	protected abstract fun getAggregateName ()Ljava/lang/String;
+	protected fun getClock ()Ljava/time/Clock;
+	protected fun getInvariants ()Ljava/lang/Iterable;
+	protected final fun header (Ljava/lang/String;)Lpro/vlprojects/semantic/ddd/tactical/EventHeader;
+	protected final fun record (Lpro/vlprojects/semantic/ddd/tactical/Event;)V
+	protected final fun recordedEvents ()Ljava/util/List;
+	protected final fun revision ()Lpro/vlprojects/semantic/ddd/tactical/AggregateRevision;
+}
+
+public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractEntity : pro/vlprojects/semantic/ddd/tactical/Entity {
+	public fun <init> ()V
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractEvent : pro/vlprojects/semantic/ddd/tactical/Event {
+	public fun <init> (Lpro/vlprojects/semantic/ddd/tactical/EventHeader;Lpro/vlprojects/semantic/ddd/tactical/AggregateRevision;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAggregate ()Lpro/vlprojects/semantic/ddd/tactical/AggregateRevision;
+	public final fun getHeader ()Lpro/vlprojects/semantic/ddd/tactical/EventHeader;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractIdentifier : pro/vlprojects/semantic/ddd/tactical/Identifier {
+	public fun <init> (Ljava/lang/Object;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getValue ()Ljava/lang/Object;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/base/SimpleAggregateRevision : pro/vlprojects/semantic/ddd/tactical/AggregateRevision {
+	public fun <init> (Ljava/lang/String;Lpro/vlprojects/semantic/ddd/tactical/Identifier;J)V
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getIdentifier ()Lpro/vlprojects/semantic/ddd/tactical/Identifier;
+	public fun getName ()Ljava/lang/String;
+	public fun getVersion ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/base/SimpleEventHeader : pro/vlprojects/semantic/ddd/tactical/EventHeader {
+	public fun <init> (Lpro/vlprojects/semantic/ddd/tactical/EventId;Ljava/lang/String;Ljava/time/Instant;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()Lpro/vlprojects/semantic/ddd/tactical/EventId;
+	public fun getName ()Ljava/lang/String;
+	public fun getOccurredAt ()Ljava/time/Instant;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/base/UuidEventId : pro/vlprojects/semantic/ddd/tactical/EventId {
+	public static final field Companion Lpro/vlprojects/semantic/ddd/tactical/base/UuidEventId$Companion;
+	public static final synthetic fun box-impl (Ljava/util/UUID;)Lpro/vlprojects/semantic/ddd/tactical/base/UuidEventId;
+	public static fun constructor-impl (Ljava/util/UUID;)Ljava/util/UUID;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Ljava/util/UUID;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Ljava/util/UUID;Ljava/util/UUID;)Z
+	public final fun getValue ()Ljava/util/UUID;
+	public fun hashCode ()I
+	public static fun hashCode-impl (Ljava/util/UUID;)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (Ljava/util/UUID;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()Ljava/util/UUID;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/base/UuidEventId$Companion {
+	public final fun random-lf3h0Tg ()Ljava/util/UUID;
+}
+
