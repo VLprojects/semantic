@@ -37,5 +37,6 @@ public inline fun checkRule(condition: Boolean, message: () -> String) {
         returns() implies condition
         callsInPlace(message, InvocationKind.AT_MOST_ONCE)
     }
-    if (!condition) throw BusinessRuleException(message())
+    if (condition) return
+    throw BusinessRuleException(message())
 }
