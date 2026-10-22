@@ -15,9 +15,11 @@ import java.time.Instant
  * event carries in fields of its own.
  *
  * ```kotlin
- * sealed interface CartEvent : Event<Cart, CartEventId>
+ * sealed interface CartEvent : Event<Cart>
  * ```
  */
-public interface Event<A : AggregateRoot<A, *>, out I : EventId> : Identifiable<I> {
+public interface Event<A : AggregateRoot<A, *>> {
+    public val eventId: EventId
+
     public val occurredAt: Instant
 }
