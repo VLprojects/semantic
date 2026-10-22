@@ -18,7 +18,7 @@ Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd`:
 | `model` | `Entity`, `AggregateRoot` that hands its events out with `peekEvents` and `pullEvents`, `ValueObject` |
 | `event` | `DomainEvent`: an id, a stable type, a time and the identifier of its aggregate |
 | `rule` | `BusinessRule`, `rule`, `checkRule` |
-| `error` | `DomainException`, a closed set: `NotFoundException`, `ConflictException`, `BusinessRuleException` |
+| `error` | `DomainException` and the refusals a service extends: `NotFoundException`, `ConflictException`, `BusinessRuleException` |
 
 So far the core holds the contracts; base classes come later.
 

@@ -1,16 +1,16 @@
-public final class pro/vlprojects/semantic/ddd/error/BusinessRuleException : pro/vlprojects/semantic/ddd/error/DomainException {
+public class pro/vlprojects/semantic/ddd/error/BusinessRuleException : pro/vlprojects/semantic/ddd/error/DomainException {
 	public fun <init> (Ljava/lang/String;)V
 }
 
-public final class pro/vlprojects/semantic/ddd/error/ConflictException : pro/vlprojects/semantic/ddd/error/DomainException {
+public class pro/vlprojects/semantic/ddd/error/ConflictException : pro/vlprojects/semantic/ddd/error/DomainException {
 	public fun <init> (Ljava/lang/String;)V
 }
 
 public abstract class pro/vlprojects/semantic/ddd/error/DomainException : java/lang/RuntimeException {
-	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;)V
 }
 
-public final class pro/vlprojects/semantic/ddd/error/NotFoundException : pro/vlprojects/semantic/ddd/error/DomainException {
+public class pro/vlprojects/semantic/ddd/error/NotFoundException : pro/vlprojects/semantic/ddd/error/DomainException {
 	public fun <init> (Ljava/lang/String;)V
 }
 

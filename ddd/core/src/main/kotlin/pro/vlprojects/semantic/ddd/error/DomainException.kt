@@ -7,16 +7,16 @@ package pro.vlprojects.semantic.ddd.error
  * a checked refusal would leave half of a change in the database. Nor is there a reason for it to be checked: the
  * domain cannot handle its own refusal, it only carries it to the edge of the application.
  *
- * The set is closed: each subclass is an answer an adapter knows how to give. A new kind of refusal is a decision made
- * here, not a word a service happened to miss.
+ * Open: a service subclasses the refusals below for the cases it tells apart, and an adapter answers by the nearest
+ * of them.
  */
-public sealed class DomainException(message: String) : RuntimeException(message)
+public abstract class DomainException(message: String) : RuntimeException(message)
 
 /** What the request refers to does not exist. */
-public class NotFoundException(message: String) : DomainException(message)
+public open class NotFoundException(message: String) : DomainException(message)
 
 /** One like it already exists, and there cannot be a second. */
-public class ConflictException(message: String) : DomainException(message)
+public open class ConflictException(message: String) : DomainException(message)
 
 /** A business rule does not hold: what is asked can be done, but not in this state. */
-public class BusinessRuleException(message: String) : DomainException(message)
+public open class BusinessRuleException(message: String) : DomainException(message)
