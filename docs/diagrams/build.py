@@ -11,6 +11,8 @@ one family:
   the dark canvas coloured plates are bright with dark text. In the module map
   green is Spring, blue is plain JVM, grey is another family.
 - Every line is solid; a lighter colour, never a dash, marks what is inactive.
+  The one dash is in the family map: a dashed outline is a module that is only
+  planned, a filled block is one in development.
 - One grid of 4 px. Space inside a group is smaller than space between groups.
 - Two text sizes: the name in bold, the explanation in grey. Below the name
   where there is room; in a compact row, on the same line, aligned right.
@@ -96,6 +98,12 @@ class Art:
 	def bar(self, x, y, color="blue", h=BAR_H):
 		self.rect(x, y, BAR_W, h, color, r=1.5)
 
+	def outline(self, x, y, w, h, color="line", r=6, dash="4 4"):
+		self.add(
+			f'<rect x="{x + 0.75:.1f}" y="{y + 0.75:.1f}" width="{w - 1.5:.1f}" height="{h - 1.5:.1f}" rx="{r}" '
+			f'fill="none" stroke="{self.p[color]}" stroke-width="1.5" stroke-dasharray="{dash}"/>'
+		)
+
 	def path(self, d, color="line", width=1.5):
 		self.add(
 			f'<path d="{d}" stroke="{self.p[color]}" stroke-width="{width}" fill="none" '
@@ -134,6 +142,75 @@ def ink(hue):
 
 
 
+# ---------------------------------------------------------------------- 0
+def families(pal):
+	# the whole library on one page: the family in development on top, filled and coloured; the planned
+	# ones below it, drawn as dashed outlines on the bare surface. Blocks name artifacts as in the
+	# module map: the common prefix in grey, the part that tells them apart in bold
+	a = Art(720, 400, pal)
+	gap, h = 8, 80
+	a.t(16, 20, "group", color="soft")
+	a.name(60, 20, "pro.vlprojects.semantic", mono=True)
+	a.t(704, 20, "blue: plain JVM, green: Spring, dashed: planned", color="soft", anchor="end")
+
+	def head(x, y, w, family, status, live):
+		a.name(x + 16, y + 23, family, mono=True)
+		pw = 7.2 * len(status) + 20
+		px = x + w - 12 - pw
+		if live:
+			a.rect(px, y + 9, pw, 20, "blue", r=10)
+			a.t(px + pw / 2, y + 23, status, color="on-blue", anchor="middle", size=12, weight="600")
+		else:
+			a.outline(px, y + 9, pw, 20, r=10, dash="3 3")
+			a.t(px + pw / 2, y + 23, status, color="soft", anchor="middle", size=12)
+
+	def block(x, y, w, hue, prefix, title, note):
+		if hue:
+			a.rect(x, y, w, h, hue + "-plate", r=6)
+			soft, ink_ = hue + "-soft", ink(hue)
+		else:
+			a.outline(x, y, w, h)
+			soft, ink_ = "mute", "soft"
+		a.t(x + 12, y + 22, prefix, color=soft, mono=True, size=12)
+		a.name(x + 12, y + 41, title, mono=True, color=ink_)
+		a.t(x + 12, y + 64, note, color=soft)
+
+	# ddd: in development
+	x0, y0, cw = 16, 36, 688
+	a.rect(x0, y0, cw, 36 + 2 * h + gap + 12, "plate", r=12)
+	head(x0, y0, cw, "ddd", "in development, v1", True)
+	rows = [
+		[("blue", "semantic-", "ddd", "building blocks, no framework"),
+			("blue", "semantic-ddd-", "jpa", "JPA mapping, no Spring")],
+		[("green", "semantic-ddd-", "spring-data", "repositories"),
+			("green", "semantic-ddd-", "spring-boot", "auto-configuration"),
+			("green", "semantic-ddd-", "spring-boot-starter", "dependencies only")],
+	]
+	for r, row in enumerate(rows):
+		w = (cw - 24 - (len(row) - 1) * gap) / len(row)
+		for c, spec in enumerate(row):
+			block(x0 + 12 + c * (w + gap), y0 + 36 + r * (h + gap), w, *spec)
+
+	# vo and cqrs: planned
+	y1 = y0 + 36 + 2 * h + gap + 12 + 12
+	ph = 36 + h + 12
+	bw, cqw = 112, 160
+	vw = 12 + 4 * bw + 3 * gap + 12
+	a.outline(x0, y1, vw, ph, r=12)
+	head(x0, y1, vw, "vo", "planned, v1", False)
+	for c, (prefix, title, note) in enumerate([
+		("semantic-", "vo", "validation"), ("semantic-vo-", "net", "email, URL"),
+		("semantic-vo-", "range", "ranges"), ("semantic-vo-", "time", "periods"),
+	]):
+		block(x0 + 12 + c * (bw + gap), y1 + 36, bw, None, prefix, title, note)
+	qx = x0 + vw + gap
+	a.outline(qx, y1, cw - vw - gap, ph, r=12)
+	head(qx, y1, cw - vw - gap, "cqrs", "after v1", False)
+	block(qx + 12, y1 + 36, cw - vw - gap - 24, None, "semantic-", "cqrs", "commands, queries")
+	a.h = y1 + ph + 16
+	return a
+
+
 # ---------------------------------------------------------------------- 1
 def modules(pal):
 	# the group is one container with two rows of blocks: plain JVM on top, Spring below; read left to
@@ -168,7 +245,7 @@ def modules(pal):
 	return a
 
 
-DIAGRAMS = {"modules": modules}
+DIAGRAMS = {"families": families, "modules": modules}
 
 if __name__ == "__main__":
 	OUT.mkdir(parents=True, exist_ok=True)
