@@ -5,7 +5,51 @@ identifiers, entities, aggregate roots, domain events, business rules and domain
 errors. The core is plain Kotlin; JPA, Spring Data and Spring Boot live in
 modules of their own.
 
-The API is not designed yet. This page fixes the modules and what goes where.
+The core is in place; the JPA, Spring Data and Spring Boot modules are empty so
+far.
+
+## The core
+
+Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd`:
+
+| Package | What is there |
+| --- | --- |
+| `identity` | `Identifier`, the identity of an entity, and `Id<T>`, an identifier of one value |
+| `model` | `Entity`, `AggregateRoot`, `BaseAggregateRoot` that records events and checks invariants, `ValueObject` |
+| `event` | `DomainEvent` and `BaseDomainEvent` with an id and a time of its own |
+| `rule` | `BusinessRule`, `rule`, `checkRule` |
+| `error` | `DomainException` with an `ErrorKind`; `NotFoundException`, `ConflictException`, `BusinessRuleException` |
+
+An aggregate changes its state inside `change`. Its events and its invariants
+go together: when a rule breaks, the change throws `BusinessRuleException` and
+the events it recorded are dropped.
+
+```kotlin
+@JvmInline
+value class CartId(override val value: UUID) : Id<UUID>
+
+class ItemAdded(override val aggregate: CartId, val item: String) : BaseDomainEvent<CartId>() {
+    override val eventType: String get() = "cart.item-added"
+}
+
+class Cart(override val identifier: CartId) : BaseAggregateRoot<CartId, ItemAdded>() {
+    private val items = mutableListOf<String>()
+
+    override val invariants: List<BusinessRule<Nothing>> = listOf(
+        rule<Cart>({ items.size <= 20 }) { "Cart $identifier holds more than 20 items" },
+    )
+
+    fun add(item: String) = change {
+        items += item
+        record(ItemAdded(identifier, item))
+    }
+}
+```
+
+The entity property is `identifier`, not `id`: a JPA entity also implements
+`Persistable` of Spring Data, and its `getId()` would clash with a Kotlin `id`
+(KT-6653). The event type is a stable name, not a class name, so renaming a
+class does not break the receivers.
 
 ## Modules
 
