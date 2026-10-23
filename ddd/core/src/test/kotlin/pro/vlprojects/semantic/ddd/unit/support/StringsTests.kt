@@ -34,7 +34,12 @@ class StringsTests {
     }
 
     @Test
+    fun `the kept start and end can be set`() {
+        assertEquals("0190a3…6ec41d", "0190a3f2-7b1e-7c3a-9f4e-5d2b8a6ec41d".abbreviated(head = 6, tail = 6))
+    }
+
+    @Test
     fun `a short value is kept whole`() {
-        assertEquals("42", 42.abbreviated())
+        assertEquals("42", "42".abbreviated())
     }
 }
