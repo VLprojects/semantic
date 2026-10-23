@@ -4,7 +4,7 @@ import pro.vlprojects.semantic.ddd.tactical.EventHeader
 import pro.vlprojects.semantic.ddd.tactical.EventId
 import java.time.Instant
 
-public class SimpleEventHeader(
+public class BaseEventHeader(
     override val eventId: EventId,
     override val name: String,
     override val occurredAt: Instant,
@@ -12,7 +12,7 @@ public class SimpleEventHeader(
 
     override fun equals(other: Any?): Boolean = when {
         this === other -> true
-        other !is SimpleEventHeader -> false
+        other !is BaseEventHeader -> false
         else -> eventId == other.eventId && name == other.name && occurredAt == other.occurredAt
     }
 

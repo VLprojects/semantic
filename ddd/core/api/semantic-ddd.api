@@ -108,6 +108,16 @@ public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractIdentifi
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class pro/vlprojects/semantic/ddd/tactical/base/BaseEventHeader : pro/vlprojects/semantic/ddd/tactical/EventHeader {
+	public fun <init> (Lpro/vlprojects/semantic/ddd/tactical/EventId;Ljava/lang/String;Ljava/time/Instant;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()Lpro/vlprojects/semantic/ddd/tactical/EventId;
+	public fun getName ()Ljava/lang/String;
+	public fun getOccurredAt ()Ljava/time/Instant;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
 public final class pro/vlprojects/semantic/ddd/tactical/base/BaseRevision : pro/vlprojects/semantic/ddd/tactical/AggregateRevision {
 	public static final field Companion Lpro/vlprojects/semantic/ddd/tactical/base/BaseRevision$Companion;
 	public fun <init> (Ljava/lang/String;Lpro/vlprojects/semantic/ddd/tactical/Identifier;J)V
@@ -121,16 +131,6 @@ public final class pro/vlprojects/semantic/ddd/tactical/base/BaseRevision : pro/
 
 public final class pro/vlprojects/semantic/ddd/tactical/base/BaseRevision$Companion {
 	public final fun of (Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;)Lpro/vlprojects/semantic/ddd/tactical/base/BaseRevision;
-}
-
-public final class pro/vlprojects/semantic/ddd/tactical/base/SimpleEventHeader : pro/vlprojects/semantic/ddd/tactical/EventHeader {
-	public fun <init> (Lpro/vlprojects/semantic/ddd/tactical/EventId;Ljava/lang/String;Ljava/time/Instant;)V
-	public fun equals (Ljava/lang/Object;)Z
-	public fun getEventId ()Lpro/vlprojects/semantic/ddd/tactical/EventId;
-	public fun getName ()Ljava/lang/String;
-	public fun getOccurredAt ()Ljava/time/Instant;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class pro/vlprojects/semantic/ddd/tactical/base/UuidEventId : pro/vlprojects/semantic/ddd/tactical/EventId {
