@@ -1,5 +1,6 @@
 package pro.vlprojects.semantic.ddd.tactical.base
 
+import pro.vlprojects.semantic.ddd.support.abbreviated
 import pro.vlprojects.semantic.ddd.tactical.AggregateRevision
 import pro.vlprojects.semantic.ddd.tactical.AggregateRoot
 import pro.vlprojects.semantic.ddd.tactical.Event
@@ -19,5 +20,5 @@ public abstract class AbstractEvent<A : AggregateRoot<A, I>, out I : Identifier>
 
     override fun hashCode(): Int = header.eventId.hashCode()
 
-    override fun toString(): String = "${header.name} [event][id: ${header.eventId}]"
+    override fun toString(): String = "${header.name} [event][id: ${header.eventId.abbreviated()}]"
 }

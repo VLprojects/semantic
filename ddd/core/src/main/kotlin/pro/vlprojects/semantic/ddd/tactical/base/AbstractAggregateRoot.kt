@@ -1,5 +1,6 @@
 package pro.vlprojects.semantic.ddd.tactical.base
 
+import pro.vlprojects.semantic.ddd.support.abbreviated
 import pro.vlprojects.semantic.ddd.tactical.AggregateRoot
 import pro.vlprojects.semantic.ddd.tactical.Event
 import pro.vlprojects.semantic.ddd.tactical.Identifier
@@ -20,5 +21,5 @@ public abstract class AbstractAggregateRoot<A : AggregateRoot<A, I>, I : Identif
         events.clear()
     }
 
-    override fun toString(): String = "${this::class.simpleName} [aggregate-root][id: $identifier]"
+    override fun toString(): String = "${this::class.simpleName} [aggregate-root][id: ${identifier.abbreviated()}]"
 }

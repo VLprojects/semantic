@@ -1,6 +1,7 @@
 package pro.vlprojects.semantic.ddd.tactical.base
 
 import pro.vlprojects.semantic.ddd.dsl.check
+import pro.vlprojects.semantic.ddd.support.abbreviated
 import pro.vlprojects.semantic.ddd.tactical.BusinessRule
 import pro.vlprojects.semantic.ddd.tactical.Entity
 import pro.vlprojects.semantic.ddd.tactical.Identifier
@@ -27,5 +28,5 @@ public abstract class AbstractEntity<E : Entity<E, I>, I : Identifier> : Entity<
 
     override fun hashCode(): Int = identifier.hashCode()
 
-    override fun toString(): String = "${this::class.simpleName} [entity][id: $identifier]"
+    override fun toString(): String = "${this::class.simpleName} [entity][id: ${identifier.abbreviated()}]"
 }
