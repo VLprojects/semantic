@@ -8,6 +8,6 @@ public class BusinessRule<in T> internal constructor(
 ) {
     public fun check(target: T) {
         if (target.satisfied()) return
-        throw BusinessRuleException(target.message())
+        throw target.message().let(::BusinessRuleException)
     }
 }

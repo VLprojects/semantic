@@ -10,6 +10,6 @@ public value class UuidEventId(
     override fun toString(): String = value.toString()
 
     public companion object {
-        public fun random(): UuidEventId = UuidEventId(UUID.randomUUID())
+        public fun random(): UuidEventId = UUID.randomUUID().let(::UuidEventId)
     }
 }

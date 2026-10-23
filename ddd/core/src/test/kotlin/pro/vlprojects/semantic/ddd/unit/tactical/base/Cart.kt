@@ -34,7 +34,9 @@ class Cart(
     fun add(sku: String): Cart =
         change {
             items += sku
-            register(ItemAdded(SimpleEventHeader(UuidEventId.random(), "cart.item-added", NOW), revision, sku))
+            SimpleEventHeader(UuidEventId.random(), "cart.item-added", NOW)
+                .let { ItemAdded(it, revision, sku) }
+                .let(::register)
         }
 
     fun released(): List<Event<Cart, CartId>> = getEvents()

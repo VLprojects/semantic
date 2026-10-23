@@ -20,5 +20,5 @@ public inline fun checkRule(condition: Boolean, message: () -> String) {
         callsInPlace(message, InvocationKind.AT_MOST_ONCE)
     }
     if (condition) return
-    throw BusinessRuleException(message())
+    throw message().let(::BusinessRuleException)
 }

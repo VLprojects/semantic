@@ -14,10 +14,11 @@ public abstract class AbstractAggregateRoot<A : AggregateRoot<A, I>, I : Identif
 
     // Receivers route by it: override with the old name when the class is renamed.
     protected open val aggregateName: String
-        get() {
-            val name = checkNotNull(classOf(this).simpleName) { "An aggregate without a class name must name itself" }
-            return name.toKebabCase()
-        }
+        get() =
+            classOf(this)
+                .simpleName
+                ?.toKebabCase()
+                ?: error("An aggregate without a class name must name itself")
 
     public val revision: AggregateRevision<I>
         get() = SimpleAggregateRevision(aggregateName, identifier, version)
