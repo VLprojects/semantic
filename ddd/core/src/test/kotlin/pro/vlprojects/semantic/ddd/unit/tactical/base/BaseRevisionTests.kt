@@ -19,7 +19,7 @@ class BaseRevisionTests {
     @Test
     fun `a revision shows its name, identifier and version`() {
         assertEquals(
-            "AggregateRevision [name: cart, id: 1, version: 3]",
+            "[name: cart, id: 1, version: 3]",
             BaseRevision.of(Cart(CartId(1), version = 3)).toString(),
         )
     }
