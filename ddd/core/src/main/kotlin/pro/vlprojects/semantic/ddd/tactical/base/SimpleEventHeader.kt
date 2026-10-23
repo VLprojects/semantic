@@ -4,7 +4,6 @@ import pro.vlprojects.semantic.ddd.tactical.EventHeader
 import pro.vlprojects.semantic.ddd.tactical.EventId
 import java.time.Instant
 
-/** An [EventHeader] that holds what it is given. */
 public class SimpleEventHeader(
     override val eventId: EventId,
     override val name: String,

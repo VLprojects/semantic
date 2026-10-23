@@ -3,7 +3,6 @@ package pro.vlprojects.semantic.ddd.tactical.base
 import pro.vlprojects.semantic.ddd.tactical.AggregateRevision
 import pro.vlprojects.semantic.ddd.tactical.Identifier
 
-/** An [AggregateRevision] that holds what it is given. */
 public class SimpleAggregateRevision<out I : Identifier>(
     override val name: String,
     override val identifier: I,

@@ -1,9 +1,5 @@
 package pro.vlprojects.semantic.ddd.support
 
-/**
- * The string in kebab case: `ShoppingCart` is `shopping-cart`. A word starts at a capital after a lower case letter or
- * a digit, and at the last capital of an acronym before a lower case letter: `HTTPRequest` is `http-request`.
- */
 internal fun String.toKebabCase(): String =
     buildString {
         this@toKebabCase.forEachIndexed { index, char ->
