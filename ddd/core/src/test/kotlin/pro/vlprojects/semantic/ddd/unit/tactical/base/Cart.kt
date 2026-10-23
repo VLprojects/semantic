@@ -3,10 +3,12 @@ package pro.vlprojects.semantic.ddd.unit.tactical.base
 import pro.vlprojects.semantic.ddd.dsl.rule
 import pro.vlprojects.semantic.ddd.tactical.AggregateRevision
 import pro.vlprojects.semantic.ddd.tactical.EventHeader
+import pro.vlprojects.semantic.ddd.tactical.EventId
 import pro.vlprojects.semantic.ddd.tactical.Identifier
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractAggregateRoot
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractEntity
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractEvent
+import pro.vlprojects.semantic.ddd.tactical.base.UuidEventId
 import java.time.Instant
 
 @JvmInline
@@ -25,8 +27,12 @@ class ItemAdded(
 
     companion object Factory {
 
-        fun of(cart: Cart, sku: String, occurredAt: Instant = Instant.now()) =
-            AbstractEvent.of(cart, occurredAt) { header, revision -> ItemAdded(header, revision, sku) }
+        fun of(
+            cart: Cart,
+            sku: String,
+            eventId: EventId = UuidEventId.random(),
+            occurredAt: Instant = Instant.now(),
+        ) = AbstractEvent.of(cart, eventId, occurredAt) { header, revision -> ItemAdded(header, revision, sku) }
     }
 }
 
@@ -46,7 +52,7 @@ class Cart(
 
     fun add(sku: String) = change {
         items += sku
-        register(ItemAdded.of(this, sku, NOW))
+        register(ItemAdded.of(this, sku, occurredAt = NOW))
     }
 
     fun released() = events

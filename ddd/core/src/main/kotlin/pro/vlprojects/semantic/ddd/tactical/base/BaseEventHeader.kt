@@ -24,8 +24,12 @@ public class BaseEventHeader(
 
     public companion object Factory {
 
-        public fun of(name: String, occurredAt: Instant = Instant.now()): BaseEventHeader = BaseEventHeader(
-            eventId = UuidEventId.random(),
+        public fun of(
+            name: String,
+            eventId: EventId = UuidEventId.random(),
+            occurredAt: Instant = Instant.now(),
+        ): BaseEventHeader = BaseEventHeader(
+            eventId = eventId,
             name = name,
             occurredAt = occurredAt,
         )

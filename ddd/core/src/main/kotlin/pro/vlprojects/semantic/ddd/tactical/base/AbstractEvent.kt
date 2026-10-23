@@ -5,6 +5,7 @@ import pro.vlprojects.semantic.ddd.tactical.AggregateRevision
 import pro.vlprojects.semantic.ddd.tactical.AggregateRoot
 import pro.vlprojects.semantic.ddd.tactical.Event
 import pro.vlprojects.semantic.ddd.tactical.EventHeader
+import pro.vlprojects.semantic.ddd.tactical.EventId
 import pro.vlprojects.semantic.ddd.tactical.Identifier
 import pro.vlprojects.semantic.ddd.tactical.typeName
 import java.time.Instant
@@ -29,10 +30,11 @@ public abstract class AbstractEvent<A : AggregateRoot<A, I>, out I : Identifier>
 
         public inline fun <reified E : AbstractEvent<A, I>, A : AggregateRoot<A, I>, I : Identifier> of(
             aggregate: A,
+            eventId: EventId = UuidEventId.random(),
             occurredAt: Instant = Instant.now(),
             create: (EventHeader, AggregateRevision<I>) -> E,
         ): E = BaseEventHeader
-            .of(E::class.typeName, occurredAt)
+            .of(E::class.typeName, eventId, occurredAt)
             .let { create(it, BaseRevision.of(aggregate)) }
     }
 }

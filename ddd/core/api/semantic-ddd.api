@@ -125,8 +125,8 @@ public final class pro/vlprojects/semantic/ddd/tactical/base/BaseEventHeader : p
 }
 
 public final class pro/vlprojects/semantic/ddd/tactical/base/BaseEventHeader$Factory {
-	public final fun of (Ljava/lang/String;Ljava/time/Instant;)Lpro/vlprojects/semantic/ddd/tactical/base/BaseEventHeader;
-	public static synthetic fun of$default (Lpro/vlprojects/semantic/ddd/tactical/base/BaseEventHeader$Factory;Ljava/lang/String;Ljava/time/Instant;ILjava/lang/Object;)Lpro/vlprojects/semantic/ddd/tactical/base/BaseEventHeader;
+	public final fun of (Ljava/lang/String;Lpro/vlprojects/semantic/ddd/tactical/EventId;Ljava/time/Instant;)Lpro/vlprojects/semantic/ddd/tactical/base/BaseEventHeader;
+	public static synthetic fun of$default (Lpro/vlprojects/semantic/ddd/tactical/base/BaseEventHeader$Factory;Ljava/lang/String;Lpro/vlprojects/semantic/ddd/tactical/EventId;Ljava/time/Instant;ILjava/lang/Object;)Lpro/vlprojects/semantic/ddd/tactical/base/BaseEventHeader;
 }
 
 public final class pro/vlprojects/semantic/ddd/tactical/base/BaseRevision : pro/vlprojects/semantic/ddd/tactical/AggregateRevision {
