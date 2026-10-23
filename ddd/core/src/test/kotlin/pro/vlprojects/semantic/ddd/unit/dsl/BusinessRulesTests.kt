@@ -10,6 +10,7 @@ import pro.vlprojects.semantic.ddd.dsl.checkRule
 import pro.vlprojects.semantic.ddd.dsl.rule
 
 class BusinessRulesTests {
+
     private val positive = rule<Int>({ this > 0 }) { "$this is not positive" }
     private val even = rule<Int>({ this % 2 == 0 }) { "$this is not even" }
 

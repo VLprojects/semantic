@@ -14,25 +14,29 @@ Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd`:
 
 | Package | What is there |
 | --- | --- |
-| `tactical` | The building blocks, side by side: `Identifier`, `Identifiable`, `Entity`, `AggregateRoot`, `Versioned`, `AggregateRevision`, `ValueObject`, `Event` with its `EventHeader` and `EventId`, `BusinessRule` |
+| `tactical` | The building blocks, side by side: `DomainObject` they all extend, with `typeName`, the class name in kebab case, on an object and on its class; `Identifier`, `Identifiable`, `Entity`, `AggregateRoot`, `Versioned`, `AggregateRevision`, `ValueObject`, `Event` with its `EventMeta`, built by `EventMeta.of<ItemAdded>()` with a new `EventId` on a `UUID`, the current time and the class name in kebab case by default, `BusinessRule` |
+| `tactical.base` | Base classes to extend, free of any framework: `AbstractEntity` and `AbstractId` equal by identifier and value, `AbstractAggregateRoot` that registers events, `AbstractEvent` equal by id, and `BaseRevision`, built by `BaseRevision.of(aggregate)` with the class name in kebab case, to fill an event with |
 | `dsl` | The ways to write the blocks down: `rule` builds a `BusinessRule`, `check` runs a list of them, `checkRule` checks a one-off condition |
 | `architecture.error` | What a layer of the application raises, not a pattern of the model: `DomainException` and the refusals a service extends, `NotFoundException`, `ConflictException`, `BusinessRuleException` |
 
 The strategic patterns, bounded contexts and the like, will get a `strategic`
 package of their own.
 
-So far the core holds the contracts; base classes come later.
+The contracts are interfaces; `tactical.base` gives classes to extend. What
+needs a framework, the mapping of the identifier and the version, proxies and
+handing the events out on save, is left to the JPA and Spring Data modules.
 
 The property of `Identifiable` is `identifier`, not `id`: a JPA entity also
 implements `Persistable` of Spring Data, and its `getId()` would clash with a
 Kotlin `id` (KT-6653).
 
-An event is a header, the revision of its aggregate and fields of its own. The
-header, `EventHeader`, holds the id of the event, its name and the time it
+An event carries its meta, the revision of its aggregate and fields of its own. The
+meta, `EventMeta`, holds the id of the event, its name and the time it
 happened; the revision, `AggregateRevision`, holds the
 name, the identifier and the version of the aggregate. Both are set once when the event
-is raised. Both names are stable, not class names, so renaming a class does
-not break the receivers. An event is typed by its aggregate and the identifier of
+is raised. The name of an event and of an aggregate is its `typeName`, the class in kebab case, `ItemAdded` is
+`item-added` and `ShoppingCart` is `shopping-cart`, so renaming a class
+renames it for the receivers. An event is typed by its aggregate and the identifier of
 it, `Event<Cart, CartId>`, so an event cannot name an aggregate of another
 type. How an aggregate records its events and hands them out is left to it and
 to the adapter that saves it, as Spring Data does with `@DomainEvents`.

@@ -1,12 +1,12 @@
 package pro.vlprojects.semantic.ddd.tactical
 
-/**
- * Identifier of an [Event], unique across all events, so that a receiver can drop a second delivery of the same one.
- * One implementation usually serves the whole application:
- *
- * ```kotlin
- * @JvmInline
- * value class UuidEventId(val value: UUID) : EventId
- * ```
- */
-public interface EventId : Identifier
+import pro.vlprojects.semantic.ddd.tactical.base.AbstractId
+import java.util.UUID
+
+public class EventId(value: UUID) : AbstractId<UUID>(value) {
+
+    public companion object Factory {
+
+        public fun new(): EventId = UUID.randomUUID().let(::EventId)
+    }
+}
