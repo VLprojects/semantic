@@ -18,11 +18,11 @@ aggregates with it.
 | Family | What it is | Status |
 | --- | --- | --- |
 | `vo` | rich value objects: `semantic-vo` with the validation every value object shares, then `net`, `range`, `time` and more | planned for v1 |
-| [`ddd`](ddd/README.md) | identifiers, entities, aggregate roots with events and invariants, business rules, domain errors; JPA, Spring Data and Spring Boot adapters | design, v1 |
+| [`ddd`](ddd/README.md) | identifiers, entities, aggregate roots with events and invariants, business rules, domain errors; Spring Data adapters for JPA and MongoDB, Spring Boot | design, v1 |
 | `cqrs` | commands, queries, handlers and buses | after v1 |
 
 Artifacts are named `semantic-<family>[-<adapter>]` and live in the group
 `pro.vlprojects.semantic`. Packages follow the same path:
-`pro.vlprojects.semantic.ddd.jpa`.
+`pro.vlprojects.semantic.ddd.spring.data.jpa`.
 
 Built for Java 25, Kotlin 2.4 and Spring Boot 4.1. Licensed under Apache 2.0.
