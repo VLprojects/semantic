@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import pro.vlprojects.semantic.ddd.architecture.error.BusinessRuleException
-import pro.vlprojects.semantic.ddd.tactical.base.SimpleAggregateRevision
+import pro.vlprojects.semantic.ddd.tactical.base.Revision
 
 class AbstractAggregateRootTests {
     @Test
@@ -18,7 +18,7 @@ class AbstractAggregateRootTests {
     fun `an event names the revision it happened at`() {
         val event = Cart(CartId(1), version = 3).add("apple").released().single()
 
-        assertEquals(SimpleAggregateRevision("cart", CartId(1), 3), event.aggregate)
+        assertEquals(Revision("cart", CartId(1), 3), event.aggregate)
         assertEquals("cart.item-added", event.header.name)
         assertEquals(Cart.NOW, event.header.occurredAt)
     }

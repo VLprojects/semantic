@@ -17,7 +17,7 @@ public abstract class AbstractAggregateRoot<A : AggregateRoot<A, I>, I : Identif
         get() = NAMES.get(javaClass)
 
     public val revision: AggregateRevision<I>
-        get() = SimpleAggregateRevision(aggregateName, identifier, version)
+        get() = Revision(aggregateName, identifier, version)
 
     protected fun getEvents(): List<Event<A, I>> = events.toList()
 
