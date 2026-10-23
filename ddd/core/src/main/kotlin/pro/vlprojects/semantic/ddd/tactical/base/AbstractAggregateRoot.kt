@@ -1,5 +1,6 @@
 package pro.vlprojects.semantic.ddd.tactical.base
 
+import pro.vlprojects.semantic.ddd.support.toKebabCase
 import pro.vlprojects.semantic.ddd.tactical.AggregateRevision
 import pro.vlprojects.semantic.ddd.tactical.AggregateRoot
 import pro.vlprojects.semantic.ddd.tactical.Event
@@ -37,7 +38,7 @@ public abstract class AbstractAggregateRoot<A : AggregateRoot<A, I>, I : Identif
     protected open val aggregateName: String
         get() {
             val name = checkNotNull(classOf(this).simpleName) { "An aggregate without a class name must name itself" }
-            return name.replace(WORD_BOUNDARY, "$1$3-$2$4").lowercase()
+            return name.toKebabCase()
         }
 
     /** The revision the aggregate is at: its name, identifier and version, as a new event names it. */
@@ -52,9 +53,4 @@ public abstract class AbstractAggregateRoot<A : AggregateRoot<A, I>, I : Identif
 
     /** Forgets the registered events once they are handed out. */
     protected fun clearEvents(): AbstractAggregateRoot<A, I> = apply { events.clear() }
-
-    private companion object {
-        /** Where a word starts in `CamelCase`, including after an acronym: `HTTPRequest` is `http-request`. */
-        val WORD_BOUNDARY = Regex("([a-z0-9])([A-Z])|([A-Z])([A-Z][a-z])")
-    }
 }
