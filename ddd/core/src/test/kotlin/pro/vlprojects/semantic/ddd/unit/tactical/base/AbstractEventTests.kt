@@ -3,14 +3,14 @@ package pro.vlprojects.semantic.ddd.unit.tactical.base
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Test
-import pro.vlprojects.semantic.ddd.tactical.base.Revision
+import pro.vlprojects.semantic.ddd.tactical.base.BaseRevision
 import pro.vlprojects.semantic.ddd.tactical.base.SimpleEventHeader
 import pro.vlprojects.semantic.ddd.tactical.base.UuidEventId
 import java.util.UUID
 
 class AbstractEventTests {
 
-    private val revision = Revision("cart", CartId(1), 0)
+    private val revision = BaseRevision("cart", CartId(1), 0)
 
     @Test
     fun `events with one id are equal`() {

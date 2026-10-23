@@ -5,7 +5,7 @@ import pro.vlprojects.semantic.ddd.tactical.AggregateRoot
 import pro.vlprojects.semantic.ddd.tactical.Identifier
 import pro.vlprojects.semantic.ddd.tactical.typeName
 
-public class Revision<out I : Identifier>(
+public class BaseRevision<out I : Identifier>(
     override val name: String,
     override val identifier: I,
     override val version: Long,
@@ -13,7 +13,7 @@ public class Revision<out I : Identifier>(
 
     override fun equals(other: Any?): Boolean = when {
         this === other -> true
-        other !is Revision<*> -> false
+        other !is BaseRevision<*> -> false
         else -> name == other.name && identifier == other.identifier && version == other.version
     }
 
@@ -23,7 +23,7 @@ public class Revision<out I : Identifier>(
 
     public companion object {
 
-        public fun <I : Identifier> of(aggregate: AggregateRoot<*, I>): Revision<I> = Revision(
+        public fun <I : Identifier> of(aggregate: AggregateRoot<*, I>): BaseRevision<I> = BaseRevision(
             name = aggregate.typeName,
             identifier = aggregate.identifier,
             version = aggregate.version,

@@ -108,8 +108,8 @@ public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractIdentifi
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class pro/vlprojects/semantic/ddd/tactical/base/Revision : pro/vlprojects/semantic/ddd/tactical/AggregateRevision {
-	public static final field Companion Lpro/vlprojects/semantic/ddd/tactical/base/Revision$Companion;
+public final class pro/vlprojects/semantic/ddd/tactical/base/BaseRevision : pro/vlprojects/semantic/ddd/tactical/AggregateRevision {
+	public static final field Companion Lpro/vlprojects/semantic/ddd/tactical/base/BaseRevision$Companion;
 	public fun <init> (Ljava/lang/String;Lpro/vlprojects/semantic/ddd/tactical/Identifier;J)V
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getIdentifier ()Lpro/vlprojects/semantic/ddd/tactical/Identifier;
@@ -119,8 +119,8 @@ public final class pro/vlprojects/semantic/ddd/tactical/base/Revision : pro/vlpr
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class pro/vlprojects/semantic/ddd/tactical/base/Revision$Companion {
-	public final fun of (Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;)Lpro/vlprojects/semantic/ddd/tactical/base/Revision;
+public final class pro/vlprojects/semantic/ddd/tactical/base/BaseRevision$Companion {
+	public final fun of (Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;)Lpro/vlprojects/semantic/ddd/tactical/base/BaseRevision;
 }
 
 public final class pro/vlprojects/semantic/ddd/tactical/base/SimpleEventHeader : pro/vlprojects/semantic/ddd/tactical/EventHeader {
