@@ -21,7 +21,8 @@ public class BaseRevision<out I : Identifier>(
 
     override fun hashCode(): Int = Objects.hash(name, identifier, version)
 
-    override fun toString(): String = "AggregateRevision [name: $name, id: ${identifier.toString().abbreviated()}, version: $version]"
+    override fun toString(): String =
+        "AggregateRevision [name: $name, id: ${identifier.toString().abbreviated()}, version: $version]"
 
     public companion object Factory {
 
