@@ -19,5 +19,5 @@ public abstract class AbstractEvent<A : AggregateRoot<A, I>, out I : Identifier>
 
     override fun hashCode(): Int = header.eventId.hashCode()
 
-    override fun toString(): String = "${header.name}[${header.eventId}] event"
+    override fun toString(): String = "${header.name} event[id: ${header.eventId}]"
 }
