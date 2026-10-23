@@ -123,7 +123,7 @@ public final class pro/vlprojects/semantic/ddd/tactical/base/BaseEventId : pro/v
 }
 
 public final class pro/vlprojects/semantic/ddd/tactical/base/BaseEventId$Factory {
-	public final fun random ()Lpro/vlprojects/semantic/ddd/tactical/base/BaseEventId;
+	public final fun new ()Lpro/vlprojects/semantic/ddd/tactical/base/BaseEventId;
 }
 
 public final class pro/vlprojects/semantic/ddd/tactical/base/BaseRevision : pro/vlprojects/semantic/ddd/tactical/AggregateRevision {

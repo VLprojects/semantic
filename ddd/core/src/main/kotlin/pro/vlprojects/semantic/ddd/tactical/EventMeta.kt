@@ -3,7 +3,6 @@ package pro.vlprojects.semantic.ddd.tactical
 import pro.vlprojects.semantic.ddd.support.abbreviated
 import pro.vlprojects.semantic.ddd.tactical.base.BaseEventId
 import java.time.Instant
-import java.util.Objects
 
 public class EventMeta(
     public val eventId: EventId,
@@ -14,10 +13,10 @@ public class EventMeta(
     override fun equals(other: Any?): Boolean = when {
         this === other -> true
         other !is EventMeta -> false
-        else -> eventId == other.eventId && eventName == other.eventName && eventOccurredAt == other.eventOccurredAt
+        else -> eventId == other.eventId
     }
 
-    override fun hashCode(): Int = Objects.hash(eventId, eventName, eventOccurredAt)
+    override fun hashCode(): Int = eventId.hashCode()
 
     override fun toString(): String =
         "[eventId: ${eventId.toString().abbreviated()}, eventName: $eventName, eventOccurredAt: $eventOccurredAt]"
@@ -25,7 +24,7 @@ public class EventMeta(
     public companion object Factory {
 
         public inline fun <reified E : Event<*, *>> of(
-            eventId: EventId = BaseEventId.random(),
+            eventId: EventId = BaseEventId.new(),
             eventOccurredAt: Instant = Instant.now(),
         ): EventMeta = EventMeta(
             eventId = eventId,
