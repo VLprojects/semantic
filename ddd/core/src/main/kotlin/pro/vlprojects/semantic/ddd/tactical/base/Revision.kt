@@ -21,7 +21,9 @@ public class Revision<out I : Identifier>(
     override fun toString(): String = "$name[$identifier v$version]"
 
     public companion object {
+
         private val NAMES = object : ClassValue<String>() {
+
             override fun computeValue(type: Class<*>) = type.simpleName
                 .ifEmpty { error("An aggregate without a class name has no name") }
                 .toKebabCase()

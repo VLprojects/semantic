@@ -47,6 +47,7 @@ class Cart(
     fun saved() = clearEvents()
 
     companion object {
+
         val NOW = Instant.parse("2026-10-23T10:00:00Z")
         val INVARIANTS = listOf(rule<Cart>({ items.size <= 2 }) { "Cart $identifier holds more than 2 items" })
     }

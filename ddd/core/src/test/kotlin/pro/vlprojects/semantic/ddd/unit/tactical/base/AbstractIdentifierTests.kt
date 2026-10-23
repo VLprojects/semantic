@@ -8,6 +8,7 @@ import pro.vlprojects.semantic.ddd.tactical.base.AbstractIdentifier
 import java.util.UUID
 
 class AbstractIdentifierTests {
+
     private class OrderId(
         value: UUID,
     ) : AbstractIdentifier<UUID>(value)

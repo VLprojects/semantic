@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test
 import pro.vlprojects.semantic.ddd.support.toKebabCase
 
 class StringsTests {
+
     @Test
     fun `words of camel case are joined with dashes`() {
         assertEquals("shopping-cart", "ShoppingCart".toKebabCase())

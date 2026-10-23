@@ -7,6 +7,7 @@ import pro.vlprojects.semantic.ddd.architecture.error.BusinessRuleException
 import pro.vlprojects.semantic.ddd.tactical.base.Revision
 
 class AbstractAggregateRootTests {
+
     @Test
     fun `a change registers its events in order`() {
         val cart = Cart(CartId(1)).add("apple").add("pear")

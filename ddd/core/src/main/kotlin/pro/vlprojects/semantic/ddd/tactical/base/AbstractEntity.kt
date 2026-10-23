@@ -6,6 +6,7 @@ import pro.vlprojects.semantic.ddd.tactical.Entity
 import pro.vlprojects.semantic.ddd.tactical.Identifier
 
 public abstract class AbstractEntity<E : Entity<E, I>, I : Identifier> : Entity<E, I> {
+
     final override lateinit var identifier: I
         protected set
 

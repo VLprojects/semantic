@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Test
 
 class AbstractEntityTests {
+
     @Test
     fun `entities with one identifier are equal whatever their state`() {
         val first = Cart(CartId(1)).add("apple")

@@ -8,6 +8,7 @@ import pro.vlprojects.semantic.ddd.tactical.base.SimpleEventHeader
 import pro.vlprojects.semantic.ddd.tactical.base.UuidEventId
 
 class AbstractEventTests {
+
     private val revision = Revision("cart", CartId(1), 0)
 
     @Test
