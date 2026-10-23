@@ -27,5 +27,5 @@ public abstract class AbstractEntity<E : Entity<E, I>, I : Identifier> : Entity<
 
     override fun hashCode(): Int = identifier.hashCode()
 
-    override fun toString(): String = "[entity] ${this::class.simpleName}[id: $identifier]"
+    override fun toString(): String = "${this::class.simpleName}[$identifier] entity"
 }

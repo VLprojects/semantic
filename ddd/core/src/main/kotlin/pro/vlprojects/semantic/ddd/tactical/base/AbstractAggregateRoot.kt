@@ -20,5 +20,5 @@ public abstract class AbstractAggregateRoot<A : AggregateRoot<A, I>, I : Identif
         events.clear()
     }
 
-    override fun toString(): String = "[aggregate-root] ${this::class.simpleName}[id: $identifier, version: $version]"
+    override fun toString(): String = "${this::class.simpleName}[$identifier v$version] aggregate-root"
 }

@@ -15,7 +15,10 @@ import java.time.Instant
 @JvmInline
 value class CartId(
     val value: Long,
-) : Identifier
+) : Identifier {
+
+    override fun toString() = value.toString()
+}
 
 class ItemAdded(
     header: EventHeader,

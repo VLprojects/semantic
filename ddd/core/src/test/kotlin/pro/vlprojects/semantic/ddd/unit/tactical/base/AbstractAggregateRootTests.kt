@@ -30,7 +30,7 @@ class AbstractAggregateRootTests {
 
         val failure = assertThrows<BusinessRuleException> { cart.add("plum") }
 
-        assertEquals("Cart CartId(value=1) holds more than 2 items", failure.message)
+        assertEquals("Cart 1 holds more than 2 items", failure.message)
     }
 
     @Test

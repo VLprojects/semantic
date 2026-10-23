@@ -23,14 +23,10 @@ public class Revision<out I : Identifier>(
 
     public companion object {
 
-        private val NAMES = object : ClassValue<String>() {
-
-            override fun computeValue(type: Class<*>) = type.simpleName
-                .ifEmpty { error("An aggregate without a class name has no name") }
-                .toKebabCase()
-        }
-
-        public fun <I : Identifier> of(aggregate: AggregateRoot<*, I>): Revision<I> =
-            Revision(NAMES.get(aggregate.javaClass), aggregate.identifier, aggregate.version)
+        public fun <I : Identifier> of(aggregate: AggregateRoot<*, I>): Revision<I> = Revision(
+            name = aggregate::class.simpleName?.toKebabCase() ?: error("An aggregate without a class name has no name"),
+            identifier = aggregate.identifier,
+            version = aggregate.version,
+        )
     }
 }
