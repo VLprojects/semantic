@@ -1,9 +1,11 @@
 package pro.vlprojects.semantic.ddd.tactical.base
 
+import pro.vlprojects.semantic.ddd.support.abbreviated
 import pro.vlprojects.semantic.ddd.tactical.AggregateRevision
 import pro.vlprojects.semantic.ddd.tactical.AggregateRoot
 import pro.vlprojects.semantic.ddd.tactical.Identifier
 import pro.vlprojects.semantic.ddd.tactical.typeName
+import java.util.Objects
 
 public class BaseRevision<out I : Identifier>(
     override val name: String,
@@ -17,11 +19,11 @@ public class BaseRevision<out I : Identifier>(
         else -> name == other.name && identifier == other.identifier && version == other.version
     }
 
-    override fun hashCode(): Int = identifier.hashCode() * 31 + version.hashCode()
+    override fun hashCode(): Int = Objects.hash(name, identifier, version)
 
-    override fun toString(): String = "$name[$identifier v$version]"
+    override fun toString(): String = "$name [revision][id: ${identifier.toString().abbreviated()}, version: $version]"
 
-    public companion object {
+    public companion object Factory {
 
         public fun <I : Identifier> of(aggregate: AggregateRoot<*, I>): BaseRevision<I> = BaseRevision(
             name = aggregate.typeName,

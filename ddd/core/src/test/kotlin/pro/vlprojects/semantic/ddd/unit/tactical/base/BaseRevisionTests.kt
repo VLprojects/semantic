@@ -15,4 +15,9 @@ class BaseRevisionTests {
     fun `an aggregate is named after its class in kebab case`() {
         assertEquals("wish-list", BaseRevision.of(WishList(CartId(1))).name)
     }
+
+    @Test
+    fun `a revision shows its name, kind, identifier and version`() {
+        assertEquals("cart [revision][id: 1, version: 3]", BaseRevision.of(Cart(CartId(1), version = 3)).toString())
+    }
 }

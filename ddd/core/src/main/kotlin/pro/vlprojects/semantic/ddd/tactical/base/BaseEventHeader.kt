@@ -1,8 +1,10 @@
 package pro.vlprojects.semantic.ddd.tactical.base
 
+import pro.vlprojects.semantic.ddd.support.abbreviated
 import pro.vlprojects.semantic.ddd.tactical.EventHeader
 import pro.vlprojects.semantic.ddd.tactical.EventId
 import java.time.Instant
+import java.util.Objects
 
 public class BaseEventHeader(
     override val eventId: EventId,
@@ -16,7 +18,8 @@ public class BaseEventHeader(
         else -> eventId == other.eventId && name == other.name && occurredAt == other.occurredAt
     }
 
-    override fun hashCode(): Int = eventId.hashCode()
+    override fun hashCode(): Int = Objects.hash(eventId, name, occurredAt)
 
-    override fun toString(): String = "$name[$eventId at $occurredAt]"
+    override fun toString(): String =
+        "$name [event-header][id: ${eventId.toString().abbreviated()}, occurred-at: $occurredAt]"
 }
