@@ -6,6 +6,8 @@ import pro.vlprojects.semantic.ddd.tactical.Entity
 import pro.vlprojects.semantic.ddd.tactical.Identifier
 
 public abstract class AbstractEntity<E : Entity<E, I>, I : Identifier> : Entity<E, I> {
+    abstract override val identifier: I
+
     protected open val invariants: Iterable<BusinessRule<E>>
         get() = emptyList()
 

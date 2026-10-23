@@ -8,6 +8,8 @@ public abstract class AbstractAggregateRoot<A : AggregateRoot<A, I>, I : Identif
     AbstractEntity<A, I>(),
     AggregateRoot<A, I> {
 
+    abstract override val version: Long
+
     protected val events: List<Event<A, I>>
         field = mutableListOf()
 
