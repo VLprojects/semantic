@@ -32,6 +32,6 @@ class AbstractEventTests {
         val id = UuidEventId(UUID.fromString("00000000-0000-0000-0000-000000000001"))
         val event = ItemAdded(SimpleEventHeader(id, "cart.item-added", Cart.NOW), revision, "apple")
 
-        assertEquals("cart.item-added event[id: 00000000-0000-0000-0000-000000000001]", event.toString())
+        assertEquals("cart.item-added [event][id: 00000000-0000-0000-0000-000000000001]", event.toString())
     }
 }

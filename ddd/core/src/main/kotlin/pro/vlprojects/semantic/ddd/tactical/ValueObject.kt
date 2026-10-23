@@ -1,3 +1,3 @@
 package pro.vlprojects.semantic.ddd.tactical
 
-public interface ValueObject
+public interface ValueObject : DomainObject

@@ -22,11 +22,11 @@ class AbstractEntityTests {
 
     @Test
     fun `an entity shows its class, kind and identifier`() {
-        assertEquals("Line entity[id: 1]", Line(CartId(1)).toString())
+        assertEquals("Line [entity][id: 1]", Line(CartId(1)).toString())
     }
 
     @Test
     fun `an aggregate root shows its class, kind and identifier`() {
-        assertEquals("Cart aggregate-root[id: 1]", Cart(CartId(1)).toString())
+        assertEquals("Cart [aggregate-root][id: 1]", Cart(CartId(1)).toString())
     }
 }

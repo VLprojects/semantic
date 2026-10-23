@@ -31,10 +31,17 @@ public final class pro/vlprojects/semantic/ddd/tactical/BusinessRule {
 	public final fun check (Ljava/lang/Object;)V
 }
 
-public abstract interface class pro/vlprojects/semantic/ddd/tactical/Entity : pro/vlprojects/semantic/ddd/tactical/Identifiable {
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/DomainObject {
 }
 
-public abstract interface class pro/vlprojects/semantic/ddd/tactical/Event {
+public final class pro/vlprojects/semantic/ddd/tactical/DomainObjectKt {
+	public static final fun getTypeName (Lpro/vlprojects/semantic/ddd/tactical/DomainObject;)Ljava/lang/String;
+}
+
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/Entity : pro/vlprojects/semantic/ddd/tactical/DomainObject, pro/vlprojects/semantic/ddd/tactical/Identifiable {
+}
+
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/Event : pro/vlprojects/semantic/ddd/tactical/DomainObject {
 	public abstract fun getAggregate ()Lpro/vlprojects/semantic/ddd/tactical/AggregateRevision;
 	public abstract fun getHeader ()Lpro/vlprojects/semantic/ddd/tactical/EventHeader;
 }
@@ -52,10 +59,10 @@ public abstract interface class pro/vlprojects/semantic/ddd/tactical/Identifiabl
 	public abstract fun getIdentifier ()Lpro/vlprojects/semantic/ddd/tactical/Identifier;
 }
 
-public abstract interface class pro/vlprojects/semantic/ddd/tactical/Identifier {
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/Identifier : pro/vlprojects/semantic/ddd/tactical/DomainObject {
 }
 
-public abstract interface class pro/vlprojects/semantic/ddd/tactical/ValueObject {
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/ValueObject : pro/vlprojects/semantic/ddd/tactical/DomainObject {
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/Versioned {

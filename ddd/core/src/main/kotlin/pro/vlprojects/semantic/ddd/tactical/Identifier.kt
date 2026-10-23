@@ -1,3 +1,3 @@
 package pro.vlprojects.semantic.ddd.tactical
 
-public interface Identifier
+public interface Identifier : DomainObject

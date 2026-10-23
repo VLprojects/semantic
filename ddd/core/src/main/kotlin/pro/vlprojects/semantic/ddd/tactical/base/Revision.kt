@@ -1,9 +1,9 @@
 package pro.vlprojects.semantic.ddd.tactical.base
 
-import pro.vlprojects.semantic.ddd.support.toKebabCase
 import pro.vlprojects.semantic.ddd.tactical.AggregateRevision
 import pro.vlprojects.semantic.ddd.tactical.AggregateRoot
 import pro.vlprojects.semantic.ddd.tactical.Identifier
+import pro.vlprojects.semantic.ddd.tactical.typeName
 
 public class Revision<out I : Identifier>(
     override val name: String,
@@ -24,7 +24,7 @@ public class Revision<out I : Identifier>(
     public companion object {
 
         public fun <I : Identifier> of(aggregate: AggregateRoot<*, I>): Revision<I> = Revision(
-            name = aggregate::class.simpleName?.toKebabCase() ?: error("An aggregate without a class name has no name"),
+            name = aggregate.typeName,
             identifier = aggregate.identifier,
             version = aggregate.version,
         )
