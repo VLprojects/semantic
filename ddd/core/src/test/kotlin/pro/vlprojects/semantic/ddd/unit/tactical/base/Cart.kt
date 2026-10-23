@@ -36,7 +36,7 @@ class Cart(
             .let { register(it) }
     }
 
-    fun released() = getEvents()
+    fun released() = events
 
     fun saved() = clearEvents()
 

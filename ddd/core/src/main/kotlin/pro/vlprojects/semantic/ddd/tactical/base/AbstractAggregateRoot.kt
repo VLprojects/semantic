@@ -10,7 +10,8 @@ public abstract class AbstractAggregateRoot<A : AggregateRoot<A, I>, I : Identif
     AbstractEntity<A, I>(),
     AggregateRoot<A, I> {
 
-    private val events = mutableListOf<Event<A, I>>()
+    protected val events: List<Event<A, I>>
+        field = mutableListOf()
 
     // Receivers route by it: override with the old name when the class is renamed.
     protected open val aggregateName: String
@@ -18,8 +19,6 @@ public abstract class AbstractAggregateRoot<A : AggregateRoot<A, I>, I : Identif
 
     public val revision: AggregateRevision<I>
         get() = Revision(aggregateName, identifier, version)
-
-    protected fun getEvents(): List<Event<A, I>> = events.toList()
 
     protected fun A.register(event: Event<A, I>): A = apply { events.add(event) }
 
