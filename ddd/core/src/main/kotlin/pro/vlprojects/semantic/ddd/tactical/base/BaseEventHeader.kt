@@ -21,5 +21,5 @@ public class BaseEventHeader(
     override fun hashCode(): Int = Objects.hash(eventId, name, occurredAt)
 
     override fun toString(): String =
-        "$name [event-header][id: ${eventId.toString().abbreviated()}, occurred-at: $occurredAt]"
+        "EventHeader [id: ${eventId.toString().abbreviated()}, name: $name, occurredAt: $occurredAt]"
 }
