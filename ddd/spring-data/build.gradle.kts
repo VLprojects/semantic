@@ -3,6 +3,6 @@ plugins {
 }
 
 dependencies {
-    api(project(":semantic-ddd-jpa"))
+    api(project(":semantic-ddd"))
     api(libs.spring.data.commons)
 }

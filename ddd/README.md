@@ -2,10 +2,10 @@
 
 Tactical building blocks of domain-driven design for Kotlin and Java: typed
 identifiers, entities, aggregate roots, domain events, business rules and domain
-errors. The core is plain Kotlin; JPA, Spring Data and Spring Boot live in
-modules of their own.
+errors. The core is plain Kotlin; Spring Data with its stores, JPA and
+MongoDB, and Spring Boot live in modules of their own.
 
-The contracts of the core are in place; the JPA, Spring Data and Spring Boot
+The contracts of the core are in place; the Spring Data and Spring Boot
 modules are empty so far.
 
 ## The core
@@ -23,11 +23,12 @@ The strategic patterns, bounded contexts and the like, will get a `strategic`
 package of their own.
 
 The contracts are interfaces; `tactical.base` gives classes to extend. What
-needs a framework, the mapping of the identifier and the version, proxies and
-handing the events out on save, is left to the JPA and Spring Data modules.
+needs a framework, handing the events out on save, telling a new aggregate from
+a saved one, the mapping of the identifier and the version and the proxies, is
+left to the Spring Data modules.
 
-The property of `Identifiable` is `identifier`, not `id`: a JPA entity also
-implements `Persistable` of Spring Data, and its `getId()` would clash with a
+The property of `Identifiable` is `identifier`, not `id`: an aggregate saved by
+Spring Data also implements `Persistable`, and its `getId()` would clash with a
 Kotlin `id` (KT-6653).
 
 An event carries its meta, the revision of its aggregate and fields of its own. The
@@ -49,18 +50,23 @@ type.
 ![Modules, and which of them a service takes](../docs/assets/modules-light.svg#gh-light-mode-only)
 ![Modules, and which of them a service takes](../docs/assets/modules-dark.svg#gh-dark-mode-only)
 
-Five artifacts, group `pro.vlprojects.semantic`:
+Six artifacts, group `pro.vlprojects.semantic`:
 
 | Artifact | For | Depends on |
 | --- | --- | --- |
 | `semantic-ddd` | any JVM code: the building blocks | `semantic-vo` |
-| `semantic-ddd-jpa` | entities mapped with JPA, with or without Spring | core, `jakarta.persistence-api` |
-| `semantic-ddd-spring-data` | Spring Data repositories | the JPA module, `spring-data-commons` |
+| `semantic-ddd-spring-data` | what every Spring Data store shares: `Persistable`, events handed out on save | core, `spring-data-commons` |
+| `semantic-ddd-spring-data-jpa` | aggregates mapped with JPA | the Spring Data module, `jakarta.persistence-api` |
+| `semantic-ddd-spring-data-mongodb` | aggregates stored in MongoDB | the Spring Data module, `spring-data-mongodb` |
 | `semantic-ddd-spring-boot` | auto-configuration | the Spring Data module, Spring Boot |
-| `semantic-ddd-spring-boot-starter` | the usual way in: dependencies only | the four above |
+| `semantic-ddd-spring-boot-starter` | the usual way in: dependencies only | core, the Spring Data and Spring Boot modules |
+
+A service takes the starter and the module of its store, JPA or MongoDB: the
+starter does not pick a store for it. JPA without Spring Data is not supported.
 
 The naming follows the Spring Boot reference: a module of your own is
-`<name>-spring-boot`, the starter is `<name>-spring-boot-starter`.
+`<name>-spring-boot`, the starter is `<name>-spring-boot-starter`. A store
+module is named as in Spring Data, `spring-data-jpa` and `spring-data-mongodb`.
 Configuration keys live under `semantic.ddd`.
 
 Directories drop the prefix the path already gives:
@@ -68,15 +74,20 @@ Directories drop the prefix the path already gives:
 ```
 ddd/
 ├── core/                  semantic-ddd
-├── jpa/                   semantic-ddd-jpa
 ├── spring-data/           semantic-ddd-spring-data
+├── spring-data-jpa/       semantic-ddd-spring-data-jpa
+├── spring-data-mongodb/   semantic-ddd-spring-data-mongodb
 ├── spring-boot/           semantic-ddd-spring-boot
 └── spring-boot-starter/   semantic-ddd-spring-boot-starter
 ```
 
 Packages follow the artifacts: `pro.vlprojects.semantic.ddd`,
-`pro.vlprojects.semantic.ddd.jpa`, `pro.vlprojects.semantic.ddd.spring.data`,
-`pro.vlprojects.semantic.ddd.spring.boot`.
+`pro.vlprojects.semantic.ddd.spring.data`,
+`pro.vlprojects.semantic.ddd.spring.data.jpa`,
+`pro.vlprojects.semantic.ddd.spring.data.mongodb`,
+`pro.vlprojects.semantic.ddd.spring.boot`. A package belongs to one artifact
+only. The base classes of a store carry its name, `JpaAggregateRoot` and
+`MongoAggregateRoot`, so they do not clash with those of the core.
 
 ---
 
