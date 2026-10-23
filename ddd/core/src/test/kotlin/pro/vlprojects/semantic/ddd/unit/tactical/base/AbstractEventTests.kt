@@ -3,7 +3,6 @@ package pro.vlprojects.semantic.ddd.unit.tactical.base
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Test
-import pro.vlprojects.semantic.ddd.tactical.base.AbstractEvent
 import pro.vlprojects.semantic.ddd.tactical.base.BaseEventHeader
 import pro.vlprojects.semantic.ddd.tactical.base.BaseRevision
 import pro.vlprojects.semantic.ddd.tactical.base.UuidEventId
@@ -30,9 +29,7 @@ class AbstractEventTests {
 
     @Test
     fun `an event raised by an aggregate gets a header named after its class and the revision`() {
-        val event = AbstractEvent.of(Cart(CartId(1), version = 3), Cart.NOW) { header, revision ->
-            ItemAdded(header, revision, "apple")
-        }
+        val event = ItemAdded.of(Cart(CartId(1), version = 3), "apple", Cart.NOW)
 
         assertEquals("item-added", event.header.name)
         assertEquals(Cart.NOW, event.header.occurredAt)

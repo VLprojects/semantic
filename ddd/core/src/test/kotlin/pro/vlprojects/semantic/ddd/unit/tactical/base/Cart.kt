@@ -21,7 +21,14 @@ class ItemAdded(
     header: EventHeader,
     aggregateRevision: AggregateRevision<CartId>,
     val sku: String,
-) : AbstractEvent<Cart, CartId>(header, aggregateRevision)
+) : AbstractEvent<Cart, CartId>(header, aggregateRevision) {
+
+    companion object Factory {
+
+        fun of(cart: Cart, sku: String, occurredAt: Instant = Instant.now()) =
+            AbstractEvent.of(cart, occurredAt) { header, revision -> ItemAdded(header, revision, sku) }
+    }
+}
 
 class Cart(
     identifier: CartId,
@@ -39,9 +46,7 @@ class Cart(
 
     fun add(sku: String) = change {
         items += sku
-        AbstractEvent
-            .of(this, NOW) { header, revision -> ItemAdded(header, revision, sku) }
-            .let { register(it) }
+        register(ItemAdded.of(this, sku, NOW))
     }
 
     fun released() = events
