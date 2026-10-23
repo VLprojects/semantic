@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Test
 import pro.vlprojects.semantic.ddd.tactical.EventMeta
-import pro.vlprojects.semantic.ddd.tactical.UuidEventId
+import pro.vlprojects.semantic.ddd.tactical.base.BaseEventId
 import pro.vlprojects.semantic.ddd.tactical.base.BaseRevision
 import java.util.UUID
 
@@ -13,7 +13,7 @@ class AbstractEventTests {
     private val cart = Cart(CartId(1))
     private val meta = UUID
         .fromString("00000000-0000-0000-0000-000000000001")
-        .let(::UuidEventId)
+        .let(::BaseEventId)
         .let { EventMeta.of<ItemAdded>(it, Cart.NOW) }
 
     @Test

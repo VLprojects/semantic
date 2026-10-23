@@ -6,13 +6,13 @@ import pro.vlprojects.semantic.ddd.tactical.EventMeta
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractAggregateRoot
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractEntity
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractEvent
-import pro.vlprojects.semantic.ddd.tactical.base.AbstractIdentifier
+import pro.vlprojects.semantic.ddd.tactical.base.AbstractId
 import pro.vlprojects.semantic.ddd.tactical.base.BaseRevision
 import java.time.Instant
 
 class CartId(
     value: Long,
-) : AbstractIdentifier<Long>(value)
+) : AbstractId<Long>(value)
 
 class ItemAdded(
     meta: EventMeta,

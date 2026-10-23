@@ -71,19 +71,6 @@ public abstract interface class pro/vlprojects/semantic/ddd/tactical/Identifiabl
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/Identifier : pro/vlprojects/semantic/ddd/tactical/DomainObject {
 }
 
-public final class pro/vlprojects/semantic/ddd/tactical/UuidEventId : pro/vlprojects/semantic/ddd/tactical/EventId {
-	public static final field Factory Lpro/vlprojects/semantic/ddd/tactical/UuidEventId$Factory;
-	public fun <init> (Ljava/util/UUID;)V
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getValue ()Ljava/util/UUID;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class pro/vlprojects/semantic/ddd/tactical/UuidEventId$Factory {
-	public final fun random ()Lpro/vlprojects/semantic/ddd/tactical/UuidEventId;
-}
-
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/ValueObject : pro/vlprojects/semantic/ddd/tactical/DomainObject {
 }
 
@@ -122,12 +109,21 @@ public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractEvent : 
 	public fun toString ()Ljava/lang/String;
 }
 
-public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractIdentifier : pro/vlprojects/semantic/ddd/tactical/Identifier {
+public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractId : pro/vlprojects/semantic/ddd/tactical/Identifier {
 	public fun <init> (Ljava/lang/Object;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getValue ()Ljava/lang/Object;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/base/BaseEventId : pro/vlprojects/semantic/ddd/tactical/base/AbstractId, pro/vlprojects/semantic/ddd/tactical/EventId {
+	public static final field Factory Lpro/vlprojects/semantic/ddd/tactical/base/BaseEventId$Factory;
+	public fun <init> (Ljava/util/UUID;)V
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/base/BaseEventId$Factory {
+	public final fun random ()Lpro/vlprojects/semantic/ddd/tactical/base/BaseEventId;
 }
 
 public final class pro/vlprojects/semantic/ddd/tactical/base/BaseRevision : pro/vlprojects/semantic/ddd/tactical/AggregateRevision {

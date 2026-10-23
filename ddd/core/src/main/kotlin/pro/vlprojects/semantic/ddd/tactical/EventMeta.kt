@@ -1,6 +1,7 @@
 package pro.vlprojects.semantic.ddd.tactical
 
 import pro.vlprojects.semantic.ddd.support.abbreviated
+import pro.vlprojects.semantic.ddd.tactical.base.BaseEventId
 import java.time.Instant
 import java.util.Objects
 
@@ -24,7 +25,7 @@ public class EventMeta(
     public companion object Factory {
 
         public inline fun <reified E : Event<*, *>> of(
-            eventId: EventId = UuidEventId.random(),
+            eventId: EventId = BaseEventId.random(),
             eventOccurredAt: Instant = Instant.now(),
         ): EventMeta = EventMeta(
             eventId = eventId,

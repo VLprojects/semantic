@@ -3,7 +3,7 @@ package pro.vlprojects.semantic.ddd.tactical.base
 import pro.vlprojects.semantic.ddd.tactical.Identifier
 
 // For a JPA embedded id, which cannot be a value class.
-public abstract class AbstractIdentifier<out T : Any>(
+public abstract class AbstractId<out T : Any>(
     public val value: T,
 ) : Identifier {
 
@@ -11,7 +11,7 @@ public abstract class AbstractIdentifier<out T : Any>(
         this === other -> true
         other == null -> false
         this::class != other::class -> false
-        else -> value == (other as AbstractIdentifier<*>).value
+        else -> value == (other as AbstractId<*>).value
     }
 
     override fun hashCode(): Int = value.hashCode()

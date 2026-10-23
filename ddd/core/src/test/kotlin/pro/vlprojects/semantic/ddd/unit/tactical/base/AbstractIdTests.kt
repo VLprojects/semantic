@@ -4,18 +4,18 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Test
 import pro.vlprojects.semantic.ddd.tactical.Identifier
-import pro.vlprojects.semantic.ddd.tactical.base.AbstractIdentifier
+import pro.vlprojects.semantic.ddd.tactical.base.AbstractId
 import java.util.UUID
 
-class AbstractIdentifierTests {
+class AbstractIdTests {
 
     private class OrderId(
         value: UUID,
-    ) : AbstractIdentifier<UUID>(value)
+    ) : AbstractId<UUID>(value)
 
     private class CustomerId(
         value: UUID,
-    ) : AbstractIdentifier<UUID>(value)
+    ) : AbstractId<UUID>(value)
 
     private val uuid = UUID.fromString("0192f0c4-0000-7000-8000-000000000001")
 
