@@ -8,6 +8,8 @@ import pro.vlprojects.semantic.ddd.tactical.EventHeader
 import pro.vlprojects.semantic.ddd.tactical.Identifier
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractAggregateRoot
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractEvent
+import pro.vlprojects.semantic.ddd.tactical.base.SimpleEventHeader
+import pro.vlprojects.semantic.ddd.tactical.base.UuidEventId
 import java.time.Instant
 
 @JvmInline
@@ -34,10 +36,10 @@ class Cart(
     fun add(sku: String): Cart =
         change {
             items += sku
-            record(ItemAdded(header("cart.item-added", NOW), revision(), sku))
+            registerEvent(ItemAdded(SimpleEventHeader(UuidEventId.random(), "cart.item-added", NOW), revision, sku))
         }
 
-    fun events(): List<Event<Cart, CartId>> = recordedEvents()
+    fun released(): List<Event<Cart, CartId>> = events
 
     fun saved() = clearEvents()
 

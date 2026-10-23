@@ -8,15 +8,15 @@ import pro.vlprojects.semantic.ddd.tactical.base.SimpleAggregateRevision
 
 class AbstractAggregateRootTests {
     @Test
-    fun `a change records its events in order`() {
+    fun `a change registers its events in order`() {
         val cart = Cart(CartId(1)).add("apple").add("pear")
 
-        assertEquals(listOf("apple", "pear"), cart.events().map { (it as ItemAdded).sku })
+        assertEquals(listOf("apple", "pear"), cart.released().map { (it as ItemAdded).sku })
     }
 
     @Test
     fun `an event names the revision it happened at`() {
-        val event = Cart(CartId(1), version = 3).add("apple").events().single()
+        val event = Cart(CartId(1), version = 3).add("apple").released().single()
 
         assertEquals(SimpleAggregateRevision("cart", CartId(1), 3), event.aggregate)
         assertEquals("cart.item-added", event.header.name)
@@ -38,6 +38,6 @@ class AbstractAggregateRootTests {
 
         cart.saved()
 
-        assertEquals(emptyList<Any>(), cart.events())
+        assertEquals(emptyList<Any>(), cart.released())
     }
 }

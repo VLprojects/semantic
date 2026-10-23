@@ -23,17 +23,17 @@ import pro.vlprojects.semantic.ddd.tactical.Identifier
  * }
  * ```
  */
-public abstract class AbstractEntity<E : AbstractEntity<E, I>, I : Identifier> : Entity<E, I> {
+public abstract class AbstractEntity<E : Entity<E, I>, I : Identifier> : Entity<E, I> {
     /** The rules the entity keeps after every [change]; none by default. */
     protected open val invariants: Iterable<BusinessRule<E>>
         get() = emptyList()
 
     /** Runs [block] on the entity, then checks the [invariants], so that a change cannot break them. */
-    protected fun E.change(block: E.() -> Unit): E {
-        block()
-        invariants.check(this)
-        return this
-    }
+    protected fun E.change(block: E.() -> Unit): E =
+        apply {
+            block()
+            invariants.check(this)
+        }
 
     override fun equals(other: Any?): Boolean =
         when {
