@@ -23,9 +23,14 @@ class ItemAdded(
 ) : AbstractEvent<Cart, CartId>(header, aggregate)
 
 class Cart(
-    override val identifier: CartId,
-    override val version: Long = 0,
+    identifier: CartId,
+    version: Long = 0,
 ) : AbstractAggregateRoot<Cart, CartId>() {
+    init {
+        this.identifier = identifier
+        this.version = version
+    }
+
     val items = mutableListOf<String>()
 
     override val invariants get() = INVARIANTS
@@ -48,6 +53,9 @@ class Cart(
 }
 
 class WishList(
-    override val identifier: CartId,
-    override val version: Long = 0,
-) : AbstractAggregateRoot<WishList, CartId>()
+    identifier: CartId,
+) : AbstractAggregateRoot<WishList, CartId>() {
+    init {
+        this.identifier = identifier
+    }
+}
