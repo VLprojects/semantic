@@ -7,29 +7,29 @@ import java.util.Objects
 public class EventMeta(
     public val eventId: EventId,
     public val eventName: String,
-    public val occurredAt: Instant,
+    public val eventOccurredAt: Instant,
 ) {
 
     override fun equals(other: Any?): Boolean = when {
         this === other -> true
         other !is EventMeta -> false
-        else -> eventId == other.eventId && eventName == other.eventName && occurredAt == other.occurredAt
+        else -> eventId == other.eventId && eventName == other.eventName && eventOccurredAt == other.eventOccurredAt
     }
 
-    override fun hashCode(): Int = Objects.hash(eventId, eventName, occurredAt)
+    override fun hashCode(): Int = Objects.hash(eventId, eventName, eventOccurredAt)
 
     override fun toString(): String =
-        "[eventId: ${eventId.toString().abbreviated()}, eventName: $eventName, occurredAt: $occurredAt]"
+        "[eventId: ${eventId.toString().abbreviated()}, eventName: $eventName, eventOccurredAt: $eventOccurredAt]"
 
     public companion object Factory {
 
         public inline fun <reified E : Event<*, *>> of(
             eventId: EventId = UuidEventId.random(),
-            occurredAt: Instant = Instant.now(),
+            eventOccurredAt: Instant = Instant.now(),
         ): EventMeta = EventMeta(
             eventId = eventId,
             eventName = E::class.typeName,
-            occurredAt = occurredAt,
+            eventOccurredAt = eventOccurredAt,
         )
     }
 }

@@ -20,7 +20,7 @@ class AbstractAggregateRootTests {
         val event = Cart(CartId(1), version = 3).add("apple").released().single()
 
         assertEquals(BaseRevision("cart", CartId(1), 3), event.aggregateRevision)
-        assertEquals(Cart.NOW, event.meta.occurredAt)
+        assertEquals(Cart.NOW, event.meta.eventOccurredAt)
     }
 
     @Test

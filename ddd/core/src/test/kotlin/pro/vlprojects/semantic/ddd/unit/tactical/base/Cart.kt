@@ -3,20 +3,16 @@ package pro.vlprojects.semantic.ddd.unit.tactical.base
 import pro.vlprojects.semantic.ddd.dsl.rule
 import pro.vlprojects.semantic.ddd.tactical.AggregateRevision
 import pro.vlprojects.semantic.ddd.tactical.EventMeta
-import pro.vlprojects.semantic.ddd.tactical.Identifier
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractAggregateRoot
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractEntity
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractEvent
+import pro.vlprojects.semantic.ddd.tactical.base.AbstractIdentifier
 import pro.vlprojects.semantic.ddd.tactical.base.BaseRevision
 import java.time.Instant
 
-@JvmInline
-value class CartId(
-    val value: Long,
-) : Identifier {
-
-    override fun toString() = value.toString()
-}
+class CartId(
+    value: Long,
+) : AbstractIdentifier<Long>(value)
 
 class ItemAdded(
     meta: EventMeta,
@@ -47,7 +43,7 @@ class Cart(
 
     fun add(sku: String) = change {
         items += sku
-        register(ItemAdded.of(this, sku, EventMeta.of<ItemAdded>(occurredAt = NOW)))
+        register(ItemAdded.of(this, sku, EventMeta.of<ItemAdded>(eventOccurredAt = NOW)))
     }
 
     fun released() = events
