@@ -14,8 +14,7 @@ public abstract class AbstractAggregateRoot<A : AggregateRoot<A, I>, I : Identif
 
     // Receivers route by it: override with the old name when the class is renamed.
     protected open val aggregateName: String
-        get() = this::class.simpleName?.toKebabCase()
-            ?: error("An aggregate without a class name must name itself")
+        get() = NAMES.get(javaClass)
 
     public val revision: AggregateRevision<I>
         get() = SimpleAggregateRevision(aggregateName, identifier, version)
@@ -25,4 +24,12 @@ public abstract class AbstractAggregateRoot<A : AggregateRoot<A, I>, I : Identif
     protected fun register(event: Event<A, I>): AbstractAggregateRoot<A, I> = apply { events.add(event) }
 
     protected fun clearEvents(): AbstractAggregateRoot<A, I> = apply { events.clear() }
+
+    private companion object {
+        val NAMES = object : ClassValue<String>() {
+            override fun computeValue(type: Class<*>) = type.simpleName
+                .ifEmpty { error("An aggregate without a class name must name itself") }
+                .toKebabCase()
+        }
+    }
 }
