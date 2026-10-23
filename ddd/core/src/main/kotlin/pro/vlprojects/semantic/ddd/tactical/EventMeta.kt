@@ -4,7 +4,7 @@ import pro.vlprojects.semantic.ddd.support.abbreviated
 import java.time.Instant
 
 public class EventMeta(
-    public val eventId: EventId,
+    public val eventId: Identifier,
     public val eventName: String,
     public val eventOccurredAt: Instant,
 ) {
@@ -23,7 +23,7 @@ public class EventMeta(
     public companion object Factory {
 
         public inline fun <reified E : Event<*, *>> of(
-            eventId: EventId = EventId.new(),
+            eventId: Identifier = EventId.new(),
             eventOccurredAt: Instant = Instant.now(),
         ): EventMeta = EventMeta(
             eventId = eventId,

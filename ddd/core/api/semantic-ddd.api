@@ -58,9 +58,9 @@ public final class pro/vlprojects/semantic/ddd/tactical/EventId$Factory {
 
 public final class pro/vlprojects/semantic/ddd/tactical/EventMeta {
 	public static final field Factory Lpro/vlprojects/semantic/ddd/tactical/EventMeta$Factory;
-	public fun <init> (Lpro/vlprojects/semantic/ddd/tactical/EventId;Ljava/lang/String;Ljava/time/Instant;)V
+	public fun <init> (Lpro/vlprojects/semantic/ddd/tactical/Identifier;Ljava/lang/String;Ljava/time/Instant;)V
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getEventId ()Lpro/vlprojects/semantic/ddd/tactical/EventId;
+	public final fun getEventId ()Lpro/vlprojects/semantic/ddd/tactical/Identifier;
 	public final fun getEventName ()Ljava/lang/String;
 	public final fun getEventOccurredAt ()Ljava/time/Instant;
 	public fun hashCode ()I
