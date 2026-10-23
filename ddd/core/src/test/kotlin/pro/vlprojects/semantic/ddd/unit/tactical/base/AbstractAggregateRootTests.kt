@@ -15,7 +15,7 @@ class AbstractAggregateRootTests {
     }
 
     @Test
-    fun `an event names the revision and the time of the clock`() {
+    fun `an event names the revision it happened at`() {
         val event = Cart(CartId(1), version = 3).add("apple").events().single()
 
         assertEquals(SimpleAggregateRevision("cart", CartId(1), 3), event.aggregate)

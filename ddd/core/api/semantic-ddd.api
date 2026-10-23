@@ -64,12 +64,10 @@ public abstract interface class pro/vlprojects/semantic/ddd/tactical/Versioned {
 
 public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractAggregateRoot : pro/vlprojects/semantic/ddd/tactical/base/AbstractEntity, pro/vlprojects/semantic/ddd/tactical/AggregateRoot {
 	public fun <init> ()V
-	protected final fun change (Lkotlin/jvm/functions/Function1;)Lpro/vlprojects/semantic/ddd/tactical/base/AbstractAggregateRoot;
 	protected final fun clearEvents ()V
 	protected abstract fun getAggregateName ()Ljava/lang/String;
-	protected fun getClock ()Ljava/time/Clock;
-	protected fun getInvariants ()Ljava/lang/Iterable;
-	protected final fun header (Ljava/lang/String;)Lpro/vlprojects/semantic/ddd/tactical/EventHeader;
+	protected final fun header (Ljava/lang/String;Ljava/time/Instant;)Lpro/vlprojects/semantic/ddd/tactical/EventHeader;
+	public static synthetic fun header$default (Lpro/vlprojects/semantic/ddd/tactical/base/AbstractAggregateRoot;Ljava/lang/String;Ljava/time/Instant;ILjava/lang/Object;)Lpro/vlprojects/semantic/ddd/tactical/EventHeader;
 	protected final fun record (Lpro/vlprojects/semantic/ddd/tactical/Event;)V
 	protected final fun recordedEvents ()Ljava/util/List;
 	protected final fun revision ()Lpro/vlprojects/semantic/ddd/tactical/AggregateRevision;
@@ -77,7 +75,9 @@ public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractAggregat
 
 public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractEntity : pro/vlprojects/semantic/ddd/tactical/Entity {
 	public fun <init> ()V
+	protected final fun change (Lpro/vlprojects/semantic/ddd/tactical/base/AbstractEntity;Lkotlin/jvm/functions/Function1;)Lpro/vlprojects/semantic/ddd/tactical/base/AbstractEntity;
 	public fun equals (Ljava/lang/Object;)Z
+	protected fun getInvariants ()Ljava/lang/Iterable;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }

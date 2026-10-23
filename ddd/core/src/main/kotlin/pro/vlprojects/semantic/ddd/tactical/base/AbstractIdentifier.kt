@@ -15,11 +15,12 @@ import pro.vlprojects.semantic.ddd.tactical.Identifier
 public abstract class AbstractIdentifier<out T : Any>(
     public val value: T,
 ) : Identifier {
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other == null || javaClass != other.javaClass) return false
-        return value == (other as AbstractIdentifier<*>).value
-    }
+    override fun equals(other: Any?): Boolean =
+        when {
+            this === other -> true
+            other == null || this::class != other::class -> false
+            else -> value == (other as AbstractIdentifier<*>).value
+        }
 
     override fun hashCode(): Int = value.hashCode()
 

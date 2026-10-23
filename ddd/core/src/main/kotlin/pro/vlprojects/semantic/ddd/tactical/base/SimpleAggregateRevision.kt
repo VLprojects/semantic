@@ -9,11 +9,12 @@ public class SimpleAggregateRevision<out I : Identifier>(
     override val identifier: I,
     override val version: Long,
 ) : AggregateRevision<I> {
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is SimpleAggregateRevision<*>) return false
-        return name == other.name && identifier == other.identifier && version == other.version
-    }
+    override fun equals(other: Any?): Boolean =
+        when {
+            this === other -> true
+            other !is SimpleAggregateRevision<*> -> false
+            else -> name == other.name && identifier == other.identifier && version == other.version
+        }
 
     override fun hashCode(): Int = identifier.hashCode() * 31 + version.hashCode()
 

@@ -21,6 +21,6 @@ class AbstractEntityTests {
 
     @Test
     fun `an entity shows its class and identifier`() {
-        assertEquals("Cart[CartId(value=1)]", Cart(CartId(1)).toString())
+        assertEquals("Cart[id: CartId(value=1)]", Cart(CartId(1)).toString())
     }
 }

@@ -8,9 +8,7 @@ import pro.vlprojects.semantic.ddd.tactical.EventHeader
 import pro.vlprojects.semantic.ddd.tactical.Identifier
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractAggregateRoot
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractEvent
-import java.time.Clock
 import java.time.Instant
-import java.time.ZoneOffset
 
 @JvmInline
 value class CartId(
@@ -33,12 +31,10 @@ class Cart(
 
     override val invariants: List<BusinessRule<Cart>> get() = INVARIANTS
 
-    override val clock: Clock get() = CLOCK
-
     fun add(sku: String): Cart =
         change {
             items += sku
-            record(ItemAdded(header("cart.item-added"), revision(), sku))
+            record(ItemAdded(header("cart.item-added", NOW), revision(), sku))
         }
 
     fun events(): List<Event<Cart, CartId>> = recordedEvents()
@@ -47,7 +43,6 @@ class Cart(
 
     companion object {
         val NOW: Instant = Instant.parse("2026-10-23T10:00:00Z")
-        val CLOCK: Clock = Clock.fixed(NOW, ZoneOffset.UTC)
         val INVARIANTS = listOf(rule<Cart>({ items.size <= 2 }) { "Cart $identifier holds more than 2 items" })
     }
 }
