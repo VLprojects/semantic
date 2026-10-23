@@ -47,7 +47,13 @@ public abstract interface class pro/vlprojects/semantic/ddd/tactical/Event : pro
 	public abstract fun getMeta ()Lpro/vlprojects/semantic/ddd/tactical/EventMeta;
 }
 
-public abstract interface class pro/vlprojects/semantic/ddd/tactical/EventId : pro/vlprojects/semantic/ddd/tactical/Identifier {
+public final class pro/vlprojects/semantic/ddd/tactical/EventId : pro/vlprojects/semantic/ddd/tactical/base/AbstractId {
+	public static final field Factory Lpro/vlprojects/semantic/ddd/tactical/EventId$Factory;
+	public fun <init> (Ljava/util/UUID;)V
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/EventId$Factory {
+	public final fun new ()Lpro/vlprojects/semantic/ddd/tactical/EventId;
 }
 
 public final class pro/vlprojects/semantic/ddd/tactical/EventMeta {
@@ -115,15 +121,6 @@ public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractId : pro
 	public final fun getValue ()Ljava/lang/Object;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
-}
-
-public final class pro/vlprojects/semantic/ddd/tactical/base/BaseEventId : pro/vlprojects/semantic/ddd/tactical/base/AbstractId, pro/vlprojects/semantic/ddd/tactical/EventId {
-	public static final field Factory Lpro/vlprojects/semantic/ddd/tactical/base/BaseEventId$Factory;
-	public fun <init> (Ljava/util/UUID;)V
-}
-
-public final class pro/vlprojects/semantic/ddd/tactical/base/BaseEventId$Factory {
-	public final fun new ()Lpro/vlprojects/semantic/ddd/tactical/base/BaseEventId;
 }
 
 public final class pro/vlprojects/semantic/ddd/tactical/base/BaseRevision : pro/vlprojects/semantic/ddd/tactical/AggregateRevision {
