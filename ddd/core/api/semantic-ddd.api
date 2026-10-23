@@ -69,6 +69,7 @@ public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractAggregat
 	public final fun getVersion ()J
 	protected final fun register (Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;Lpro/vlprojects/semantic/ddd/tactical/Event;)Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;
 	protected final fun setVersion (J)V
+	public fun toString ()Ljava/lang/String;
 }
 
 public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractEntity : pro/vlprojects/semantic/ddd/tactical/Entity {
@@ -77,7 +78,7 @@ public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractEntity :
 	protected final fun change (Lpro/vlprojects/semantic/ddd/tactical/Entity;Lkotlin/jvm/functions/Function1;)Lpro/vlprojects/semantic/ddd/tactical/Entity;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getIdentifier ()Lpro/vlprojects/semantic/ddd/tactical/Identifier;
-	protected fun getInvariants ()Ljava/lang/Iterable;
+	protected fun getInvariants ()Ljava/util/List;
 	public fun hashCode ()I
 	protected final fun setIdentifier (Lpro/vlprojects/semantic/ddd/tactical/Identifier;)V
 	public fun toString ()Ljava/lang/String;

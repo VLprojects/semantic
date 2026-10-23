@@ -10,7 +10,7 @@ public abstract class AbstractEntity<E : Entity<E, I>, I : Identifier> : Entity<
     final override lateinit var identifier: I
         protected set
 
-    protected open val invariants: Iterable<BusinessRule<E>>
+    protected open val invariants: List<BusinessRule<E>>
         get() = emptyList()
 
     protected fun E.change(mutation: E.() -> Unit): E = apply {
@@ -27,5 +27,5 @@ public abstract class AbstractEntity<E : Entity<E, I>, I : Identifier> : Entity<
 
     override fun hashCode(): Int = identifier.hashCode()
 
-    override fun toString(): String = "${this::class.simpleName}[id: $identifier]"
+    override fun toString(): String = "[entity] ${this::class.simpleName}[id: $identifier]"
 }

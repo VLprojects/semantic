@@ -5,6 +5,7 @@ import pro.vlprojects.semantic.ddd.tactical.AggregateRevision
 import pro.vlprojects.semantic.ddd.tactical.EventHeader
 import pro.vlprojects.semantic.ddd.tactical.Identifier
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractAggregateRoot
+import pro.vlprojects.semantic.ddd.tactical.base.AbstractEntity
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractEvent
 import pro.vlprojects.semantic.ddd.tactical.base.Revision
 import pro.vlprojects.semantic.ddd.tactical.base.SimpleEventHeader
@@ -26,6 +27,7 @@ class Cart(
     identifier: CartId,
     version: Long = 0,
 ) : AbstractAggregateRoot<Cart, CartId>() {
+
     init {
         this.identifier = identifier
         this.version = version
@@ -53,9 +55,19 @@ class Cart(
     }
 }
 
+class Line(
+    identifier: CartId,
+) : AbstractEntity<Line, CartId>() {
+
+    init {
+        this.identifier = identifier
+    }
+}
+
 class WishList(
     identifier: CartId,
 ) : AbstractAggregateRoot<WishList, CartId>() {
+
     init {
         this.identifier = identifier
     }

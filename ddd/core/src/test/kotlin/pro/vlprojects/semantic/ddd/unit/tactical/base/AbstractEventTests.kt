@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test
 import pro.vlprojects.semantic.ddd.tactical.base.Revision
 import pro.vlprojects.semantic.ddd.tactical.base.SimpleEventHeader
 import pro.vlprojects.semantic.ddd.tactical.base.UuidEventId
+import java.util.UUID
 
 class AbstractEventTests {
 
@@ -24,5 +25,13 @@ class AbstractEventTests {
         val second = SimpleEventHeader(UuidEventId.random(), "cart.item-added", Cart.NOW)
 
         assertNotEquals(ItemAdded(first, revision, "apple"), ItemAdded(second, revision, "apple"))
+    }
+
+    @Test
+    fun `an event shows its kind, name and id`() {
+        val id = UuidEventId(UUID.fromString("00000000-0000-0000-0000-000000000001"))
+        val event = ItemAdded(SimpleEventHeader(id, "cart.item-added", Cart.NOW), revision, "apple")
+
+        assertEquals("[event] cart.item-added[00000000-0000-0000-0000-000000000001]", event.toString())
     }
 }

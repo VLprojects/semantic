@@ -10,6 +10,7 @@ public class Revision<out I : Identifier>(
     override val identifier: I,
     override val version: Long,
 ) : AggregateRevision<I> {
+
     override fun equals(other: Any?): Boolean = when {
         this === other -> true
         other !is Revision<*> -> false

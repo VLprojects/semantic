@@ -9,6 +9,7 @@ public class SimpleEventHeader(
     override val name: String,
     override val occurredAt: Instant,
 ) : EventHeader {
+
     override fun equals(other: Any?): Boolean = when {
         this === other -> true
         other !is SimpleEventHeader -> false

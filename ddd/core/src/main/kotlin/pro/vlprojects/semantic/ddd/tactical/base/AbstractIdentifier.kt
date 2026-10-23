@@ -6,6 +6,7 @@ import pro.vlprojects.semantic.ddd.tactical.Identifier
 public abstract class AbstractIdentifier<out T : Any>(
     public val value: T,
 ) : Identifier {
+
     override fun equals(other: Any?): Boolean = when {
         this === other -> true
         other == null -> false

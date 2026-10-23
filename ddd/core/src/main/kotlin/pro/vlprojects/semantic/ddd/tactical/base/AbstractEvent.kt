@@ -10,6 +10,7 @@ public abstract class AbstractEvent<A : AggregateRoot<A, I>, out I : Identifier>
     final override val header: EventHeader,
     final override val aggregate: AggregateRevision<I>,
 ) : Event<A, I> {
+
     override fun equals(other: Any?): Boolean = when {
         this === other -> true
         other !is Event<*, *> -> false
@@ -18,5 +19,5 @@ public abstract class AbstractEvent<A : AggregateRoot<A, I>, out I : Identifier>
 
     override fun hashCode(): Int = header.eventId.hashCode()
 
-    override fun toString(): String = "${header.name}[${header.eventId}]"
+    override fun toString(): String = "[event] ${header.name}[${header.eventId}]"
 }

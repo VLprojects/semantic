@@ -7,6 +7,7 @@ import java.util.UUID
 public value class UuidEventId(
     public val value: UUID,
 ) : EventId {
+
     override fun toString(): String = value.toString()
 
     public companion object {
