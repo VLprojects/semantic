@@ -23,7 +23,9 @@ public abstract class AbstractAggregateRoot<A : AggregateRoot<A, I>, I : Identif
 
     protected fun A.register(event: Event<A, I>): A = apply { events.add(event) }
 
-    protected fun A.clearEvents(): A = apply { events.clear() }
+    protected fun clearEvents() {
+        events.clear()
+    }
 
     private companion object {
         val NAMES = object : ClassValue<String>() {
