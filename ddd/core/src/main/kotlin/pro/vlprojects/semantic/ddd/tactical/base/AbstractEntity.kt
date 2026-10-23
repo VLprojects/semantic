@@ -13,8 +13,8 @@ public abstract class AbstractEntity<E : Entity<E, I>, I : Identifier> : Entity<
     protected open val invariants: Iterable<BusinessRule<E>>
         get() = emptyList()
 
-    protected fun E.change(block: E.() -> Unit): E = apply {
-        block()
+    protected fun E.change(mutation: E.() -> Unit): E = apply {
+        mutation()
         invariants.check(this)
     }
 
