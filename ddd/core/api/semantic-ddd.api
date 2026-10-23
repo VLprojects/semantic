@@ -72,7 +72,6 @@ public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractAggregat
 public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractEntity : pro/vlprojects/semantic/ddd/tactical/Entity {
 	public fun <init> ()V
 	protected final fun change (Lpro/vlprojects/semantic/ddd/tactical/Entity;Lkotlin/jvm/functions/Function1;)Lpro/vlprojects/semantic/ddd/tactical/Entity;
-	protected fun classOf (Ljava/lang/Object;)Lkotlin/reflect/KClass;
 	public fun equals (Ljava/lang/Object;)Z
 	protected fun getInvariants ()Ljava/lang/Iterable;
 	public fun hashCode ()I
