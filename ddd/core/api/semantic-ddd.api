@@ -65,9 +65,7 @@ public abstract interface class pro/vlprojects/semantic/ddd/tactical/Versioned {
 public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractAggregateRoot : pro/vlprojects/semantic/ddd/tactical/base/AbstractEntity, pro/vlprojects/semantic/ddd/tactical/AggregateRoot {
 	public fun <init> ()V
 	protected final fun clearEvents ()V
-	protected fun getAggregateName ()Ljava/lang/String;
 	protected final fun getEvents ()Ljava/util/List;
-	public final fun getRevision ()Lpro/vlprojects/semantic/ddd/tactical/AggregateRevision;
 	protected final fun register (Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;Lpro/vlprojects/semantic/ddd/tactical/Event;)Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;
 }
 
@@ -99,6 +97,7 @@ public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractIdentifi
 }
 
 public final class pro/vlprojects/semantic/ddd/tactical/base/Revision : pro/vlprojects/semantic/ddd/tactical/AggregateRevision {
+	public static final field Companion Lpro/vlprojects/semantic/ddd/tactical/base/Revision$Companion;
 	public fun <init> (Ljava/lang/String;Lpro/vlprojects/semantic/ddd/tactical/Identifier;J)V
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getIdentifier ()Lpro/vlprojects/semantic/ddd/tactical/Identifier;
@@ -106,6 +105,10 @@ public final class pro/vlprojects/semantic/ddd/tactical/base/Revision : pro/vlpr
 	public fun getVersion ()J
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/base/Revision$Companion {
+	public final fun of (Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;)Lpro/vlprojects/semantic/ddd/tactical/base/Revision;
 }
 
 public final class pro/vlprojects/semantic/ddd/tactical/base/SimpleEventHeader : pro/vlprojects/semantic/ddd/tactical/EventHeader {

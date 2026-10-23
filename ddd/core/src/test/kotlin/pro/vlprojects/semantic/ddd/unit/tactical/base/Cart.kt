@@ -6,6 +6,7 @@ import pro.vlprojects.semantic.ddd.tactical.EventHeader
 import pro.vlprojects.semantic.ddd.tactical.Identifier
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractAggregateRoot
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractEvent
+import pro.vlprojects.semantic.ddd.tactical.base.Revision
 import pro.vlprojects.semantic.ddd.tactical.base.SimpleEventHeader
 import pro.vlprojects.semantic.ddd.tactical.base.UuidEventId
 import java.time.Instant
@@ -32,7 +33,7 @@ class Cart(
     fun add(sku: String) = change {
         items += sku
         SimpleEventHeader(UuidEventId.random(), "cart.item-added", NOW)
-            .let { ItemAdded(it, revision, sku) }
+            .let { ItemAdded(it, Revision.of(this), sku) }
             .let { register(it) }
     }
 
@@ -49,15 +50,4 @@ class Cart(
 class WishList(
     override val identifier: CartId,
     override val version: Long = 0,
-) : AbstractAggregateRoot<WishList, CartId>() {
-    val name get() = aggregateName
-}
-
-class RenamedCart(
-    override val identifier: CartId,
-    override val version: Long = 0,
-) : AbstractAggregateRoot<RenamedCart, CartId>() {
-    override val aggregateName get() = "cart"
-
-    val name get() = aggregateName
-}
+) : AbstractAggregateRoot<WishList, CartId>()
