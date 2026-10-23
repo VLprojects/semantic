@@ -2,8 +2,6 @@ package pro.vlprojects.semantic.ddd.unit.tactical.base
 
 import pro.vlprojects.semantic.ddd.dsl.rule
 import pro.vlprojects.semantic.ddd.tactical.AggregateRevision
-import pro.vlprojects.semantic.ddd.tactical.BusinessRule
-import pro.vlprojects.semantic.ddd.tactical.Event
 import pro.vlprojects.semantic.ddd.tactical.EventHeader
 import pro.vlprojects.semantic.ddd.tactical.Identifier
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractAggregateRoot
@@ -29,9 +27,9 @@ class Cart(
 ) : AbstractAggregateRoot<Cart, CartId>() {
     val items = mutableListOf<String>()
 
-    override val invariants: List<BusinessRule<Cart>> get() = INVARIANTS
+    override val invariants get() = INVARIANTS
 
-    fun add(sku: String): Cart =
+    fun add(sku: String) =
         change {
             items += sku
             SimpleEventHeader(UuidEventId.random(), "cart.item-added", NOW)
@@ -39,12 +37,12 @@ class Cart(
                 .let(::register)
         }
 
-    fun released(): List<Event<Cart, CartId>> = getEvents()
+    fun released() = getEvents()
 
     fun saved() = clearEvents()
 
     companion object {
-        val NOW: Instant = Instant.parse("2026-10-23T10:00:00Z")
+        val NOW = Instant.parse("2026-10-23T10:00:00Z")
         val INVARIANTS = listOf(rule<Cart>({ items.size <= 2 }) { "Cart $identifier holds more than 2 items" })
     }
 }
@@ -53,14 +51,14 @@ class WishList(
     override val identifier: CartId,
     override val version: Long = 0,
 ) : AbstractAggregateRoot<WishList, CartId>() {
-    val name: String get() = aggregateName
+    val name get() = aggregateName
 }
 
 class RenamedCart(
     override val identifier: CartId,
     override val version: Long = 0,
 ) : AbstractAggregateRoot<RenamedCart, CartId>() {
-    override val aggregateName: String get() = "cart"
+    override val aggregateName get() = "cart"
 
-    val name: String get() = aggregateName
+    val name get() = aggregateName
 }

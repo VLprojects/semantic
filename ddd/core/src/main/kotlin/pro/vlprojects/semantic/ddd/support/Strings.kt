@@ -1,6 +1,6 @@
 package pro.vlprojects.semantic.ddd.support
 
-internal fun String.toKebabCase(): String =
+internal fun String.toKebabCase() =
     buildString {
         this@toKebabCase.forEachIndexed { index, char ->
             if (index > 0 && char.isUpperCase() && startsWord(index)) append('-')
