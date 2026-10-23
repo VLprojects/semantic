@@ -34,10 +34,10 @@ class Cart(
     fun add(sku: String): Cart =
         change {
             items += sku
-            registerEvent(ItemAdded(SimpleEventHeader(UuidEventId.random(), "cart.item-added", NOW), revision, sku))
+            register(ItemAdded(SimpleEventHeader(UuidEventId.random(), "cart.item-added", NOW), revision, sku))
         }
 
-    fun released(): List<Event<Cart, CartId>> = events
+    fun released(): List<Event<Cart, CartId>> = getEvents()
 
     fun saved() = clearEvents()
 

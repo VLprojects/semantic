@@ -9,7 +9,7 @@ import pro.vlprojects.semantic.ddd.tactical.Identifier
  * An [AggregateRoot] that registers its events and, as an [AbstractEntity], keeps its invariants.
  *
  * A [change] registers the events of what it did. The events stay inside; a persistence module hands them out when
- * the aggregate is saved, through [events] and [clearEvents].
+ * the aggregate is saved, through [getEvents] and [clearEvents].
  *
  * The version is left to the subclass, as storage moves it forward: the JPA module maps it.
  *
@@ -17,7 +17,7 @@ import pro.vlprojects.semantic.ddd.tactical.Identifier
  * class Cart(override val identifier: CartId, override val version: Long = 0) : AbstractAggregateRoot<Cart, CartId>() {
  *     fun add(sku: Sku): Cart = change {
  *         lines += Line(sku)
- *         registerEvent(ItemAdded(SimpleEventHeader(UuidEventId.random(), "cart.item-added", now()), revision, sku))
+ *         register(ItemAdded(SimpleEventHeader(UuidEventId.random(), "cart.item-added", now()), revision, sku))
  *     }
  * }
  * ```
@@ -26,7 +26,7 @@ public abstract class AbstractAggregateRoot<A : AggregateRoot<A, I>, I : Identif
     AbstractEntity<A, I>(),
     AggregateRoot<A, I> {
 
-    private val registered = mutableListOf<Event<A, I>>()
+    private val events = mutableListOf<Event<A, I>>()
 
     /**
      * The kind of the aggregate in its events: the class name in kebab case, `shopping-cart` for `ShoppingCart`.
@@ -40,19 +40,18 @@ public abstract class AbstractAggregateRoot<A : AggregateRoot<A, I>, I : Identif
             return name.replace(WORD_BOUNDARY, "$1$3-$2$4").lowercase()
         }
 
-    /** The revision the aggregate is at, for a new event. */
-    protected val revision: AggregateRevision<I>
+    /** The revision the aggregate is at: its name, identifier and version, as a new event names it. */
+    public val revision: AggregateRevision<I>
         get() = SimpleAggregateRevision(aggregateName, identifier, version)
 
     /** The events registered since the last [clearEvents], in the order registered. */
-    protected val events: List<Event<A, I>>
-        get() = registered.toList()
+    protected fun getEvents(): List<Event<A, I>> = events.toList()
 
     /** Registers [event] to be handed out once the aggregate is saved. */
-    protected fun registerEvent(event: Event<A, I>): AbstractAggregateRoot<A, I> = apply { registered.add(event) }
+    protected fun register(event: Event<A, I>): AbstractAggregateRoot<A, I> = apply { events.add(event) }
 
     /** Forgets the registered events once they are handed out. */
-    protected fun clearEvents(): AbstractAggregateRoot<A, I> = apply { registered.clear() }
+    protected fun clearEvents(): AbstractAggregateRoot<A, I> = apply { events.clear() }
 
     private companion object {
         /** Where a word starts in `CamelCase`, including after an acronym: `HTTPRequest` is `http-request`. */

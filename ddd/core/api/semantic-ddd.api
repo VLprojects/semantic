@@ -67,8 +67,8 @@ public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractAggregat
 	protected final fun clearEvents ()Lpro/vlprojects/semantic/ddd/tactical/base/AbstractAggregateRoot;
 	protected fun getAggregateName ()Ljava/lang/String;
 	protected final fun getEvents ()Ljava/util/List;
-	protected final fun getRevision ()Lpro/vlprojects/semantic/ddd/tactical/AggregateRevision;
-	protected final fun registerEvent (Lpro/vlprojects/semantic/ddd/tactical/Event;)Lpro/vlprojects/semantic/ddd/tactical/base/AbstractAggregateRoot;
+	public final fun getRevision ()Lpro/vlprojects/semantic/ddd/tactical/AggregateRevision;
+	protected final fun register (Lpro/vlprojects/semantic/ddd/tactical/Event;)Lpro/vlprojects/semantic/ddd/tactical/base/AbstractAggregateRoot;
 }
 
 public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractEntity : pro/vlprojects/semantic/ddd/tactical/Entity {
