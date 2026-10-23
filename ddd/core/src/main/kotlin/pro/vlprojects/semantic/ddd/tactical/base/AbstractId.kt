@@ -2,7 +2,6 @@ package pro.vlprojects.semantic.ddd.tactical.base
 
 import pro.vlprojects.semantic.ddd.tactical.Identifier
 
-// For a JPA embedded id, which cannot be a value class.
 public abstract class AbstractId<out T : Any>(
     public val value: T,
 ) : Identifier {
