@@ -10,23 +10,21 @@ public abstract class AbstractEntity<E : Entity<E, I>, I : Identifier> : Entity<
     protected open val invariants: Iterable<BusinessRule<E>>
         get() = emptyList()
 
-    protected fun E.change(block: E.() -> Unit): E =
-        apply {
-            block()
-            invariants.check(this)
-        }
+    protected fun E.change(block: E.() -> Unit): E = apply {
+        block()
+        invariants.check(this)
+    }
 
     // The JPA module overrides it to unwrap Hibernate proxies.
     protected open fun classOf(entity: Any): KClass<*> = entity::class
 
-    override fun equals(other: Any?): Boolean =
-        when {
-            this === other -> true
-            other == null || classOf(this) != classOf(other) -> false
-            else -> identifier == (other as Entity<*, *>).identifier
-        }
+    override fun equals(other: Any?): Boolean = when {
+        this === other -> true
+        other == null || this::class != classOf(other) -> false
+        else -> identifier == (other as Entity<*, *>).identifier
+    }
 
     override fun hashCode(): Int = identifier.hashCode()
 
-    override fun toString(): String = "${classOf(this).simpleName}[id: $identifier]"
+    override fun toString(): String = "${this::class.simpleName}[id: $identifier]"
 }

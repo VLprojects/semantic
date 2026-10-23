@@ -10,12 +10,11 @@ public abstract class AbstractEvent<A : AggregateRoot<A, I>, out I : Identifier>
     final override val header: EventHeader,
     final override val aggregate: AggregateRevision<I>,
 ) : Event<A, I> {
-    override fun equals(other: Any?): Boolean =
-        when {
-            this === other -> true
-            other !is Event<*, *> -> false
-            else -> header.eventId == other.header.eventId
-        }
+    override fun equals(other: Any?): Boolean = when {
+        this === other -> true
+        other !is Event<*, *> -> false
+        else -> header.eventId == other.header.eventId
+    }
 
     override fun hashCode(): Int = header.eventId.hashCode()
 

@@ -1,12 +1,11 @@
 package pro.vlprojects.semantic.ddd.support
 
-internal fun String.toKebabCase() =
-    buildString {
-        this@toKebabCase.forEachIndexed { index, char ->
-            if (index > 0 && char.isUpperCase() && startsWord(index)) append('-')
-            append(char.lowercaseChar())
-        }
+internal fun String.toKebabCase() = buildString {
+    this@toKebabCase.forEachIndexed { index, char ->
+        if (index > 0 && char.isUpperCase() && startsWord(index)) append('-')
+        append(char.lowercaseChar())
     }
+}
 
 private fun String.startsWord(index: Int): Boolean {
     val previous = this[index - 1]

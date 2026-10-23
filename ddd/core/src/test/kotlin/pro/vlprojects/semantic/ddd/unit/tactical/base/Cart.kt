@@ -29,13 +29,12 @@ class Cart(
 
     override val invariants get() = INVARIANTS
 
-    fun add(sku: String) =
-        change {
-            items += sku
-            SimpleEventHeader(UuidEventId.random(), "cart.item-added", NOW)
-                .let { ItemAdded(it, revision, sku) }
-                .let(::register)
-        }
+    fun add(sku: String) = change {
+        items += sku
+        SimpleEventHeader(UuidEventId.random(), "cart.item-added", NOW)
+            .let { ItemAdded(it, revision, sku) }
+            .let(::register)
+    }
 
     fun released() = getEvents()
 

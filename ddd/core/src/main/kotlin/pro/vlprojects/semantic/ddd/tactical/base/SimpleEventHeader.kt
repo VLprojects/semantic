@@ -9,12 +9,11 @@ public class SimpleEventHeader(
     override val name: String,
     override val occurredAt: Instant,
 ) : EventHeader {
-    override fun equals(other: Any?): Boolean =
-        when {
-            this === other -> true
-            other !is SimpleEventHeader -> false
-            else -> eventId == other.eventId && name == other.name && occurredAt == other.occurredAt
-        }
+    override fun equals(other: Any?): Boolean = when {
+        this === other -> true
+        other !is SimpleEventHeader -> false
+        else -> eventId == other.eventId && name == other.name && occurredAt == other.occurredAt
+    }
 
     override fun hashCode(): Int = eventId.hashCode()
 
