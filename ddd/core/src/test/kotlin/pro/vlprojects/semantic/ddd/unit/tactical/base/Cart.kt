@@ -2,13 +2,13 @@ package pro.vlprojects.semantic.ddd.unit.tactical.base
 
 import pro.vlprojects.semantic.ddd.dsl.rule
 import pro.vlprojects.semantic.ddd.tactical.AggregateRevision
-import pro.vlprojects.semantic.ddd.tactical.EventHeader
-import pro.vlprojects.semantic.ddd.tactical.EventId
+import pro.vlprojects.semantic.ddd.tactical.EventMeta
 import pro.vlprojects.semantic.ddd.tactical.Identifier
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractAggregateRoot
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractEntity
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractEvent
-import pro.vlprojects.semantic.ddd.tactical.base.UuidEventId
+import pro.vlprojects.semantic.ddd.tactical.base.BaseEventMeta
+import pro.vlprojects.semantic.ddd.tactical.base.BaseRevision
 import java.time.Instant
 
 @JvmInline
@@ -20,19 +20,15 @@ value class CartId(
 }
 
 class ItemAdded(
-    header: EventHeader,
+    meta: EventMeta,
     aggregateRevision: AggregateRevision<CartId>,
     val sku: String,
-) : AbstractEvent<Cart, CartId>(header, aggregateRevision) {
+) : AbstractEvent<Cart, CartId>(meta, aggregateRevision) {
 
     companion object Factory {
 
-        fun of(
-            cart: Cart,
-            sku: String,
-            eventId: EventId = UuidEventId.random(),
-            occurredAt: Instant = Instant.now(),
-        ) = AbstractEvent.of(cart, eventId, occurredAt) { header, revision -> ItemAdded(header, revision, sku) }
+        fun of(cart: Cart, sku: String, meta: EventMeta = BaseEventMeta()) =
+            ItemAdded(meta, BaseRevision.of(cart), sku)
     }
 }
 
@@ -52,7 +48,7 @@ class Cart(
 
     fun add(sku: String) = change {
         items += sku
-        register(ItemAdded.of(this, sku, occurredAt = NOW))
+        register(ItemAdded.of(this, sku, BaseEventMeta(occurredAt = NOW)))
     }
 
     fun released() = events
