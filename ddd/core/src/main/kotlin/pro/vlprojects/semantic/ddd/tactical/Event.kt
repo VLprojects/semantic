@@ -4,5 +4,5 @@ public interface Event<A : AggregateRoot<A, I>, out I : Identifier> : DomainObje
 
     public val header: EventHeader
 
-    public val aggregate: AggregateRevision<I>
+    public val aggregateRevision: AggregateRevision<I>
 }

@@ -7,9 +7,6 @@ import pro.vlprojects.semantic.ddd.tactical.Identifier
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractAggregateRoot
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractEntity
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractEvent
-import pro.vlprojects.semantic.ddd.tactical.base.BaseEventHeader
-import pro.vlprojects.semantic.ddd.tactical.base.BaseRevision
-import pro.vlprojects.semantic.ddd.tactical.base.UuidEventId
 import java.time.Instant
 
 @JvmInline
@@ -20,11 +17,19 @@ value class CartId(
     override fun toString() = value.toString()
 }
 
-class ItemAdded(
-    header: EventHeader,
-    aggregate: AggregateRevision<CartId>,
-    val sku: String,
-) : AbstractEvent<Cart, CartId>(header, aggregate)
+class ItemAdded : AbstractEvent<Cart, CartId> {
+
+    val sku: String
+
+    constructor(cart: Cart, sku: String) : super("cart.item-added", cart, Cart.NOW) {
+        this.sku = sku
+    }
+
+    constructor(header: EventHeader, aggregateRevision: AggregateRevision<CartId>, sku: String) :
+        super(header, aggregateRevision) {
+        this.sku = sku
+    }
+}
 
 class Cart(
     identifier: CartId,
@@ -42,9 +47,7 @@ class Cart(
 
     fun add(sku: String) = change {
         items += sku
-        BaseEventHeader(UuidEventId.random(), "cart.item-added", NOW)
-            .let { ItemAdded(it, BaseRevision.of(this), sku) }
-            .let { register(it) }
+        register(ItemAdded(this, sku))
     }
 
     fun released() = events
