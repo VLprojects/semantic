@@ -4,5 +4,5 @@ public interface Event<A : AggregateRoot<A, I>, out I : Identifier> : DomainObje
 
     public val meta: EventMeta
 
-    public val aggregateRevision: AggregateRevision<I>
+    public val aggregateRevision: Revision<I>
 }

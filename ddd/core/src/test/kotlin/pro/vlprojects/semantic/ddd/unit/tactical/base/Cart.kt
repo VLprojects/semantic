@@ -1,13 +1,12 @@
 package pro.vlprojects.semantic.ddd.unit.tactical.base
 
 import pro.vlprojects.semantic.ddd.dsl.rule
-import pro.vlprojects.semantic.ddd.tactical.AggregateRevision
 import pro.vlprojects.semantic.ddd.tactical.EventMeta
+import pro.vlprojects.semantic.ddd.tactical.Revision
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractAggregateRoot
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractEntity
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractEvent
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractId
-import pro.vlprojects.semantic.ddd.tactical.base.BaseRevision
 import java.time.Instant
 
 class CartId(
@@ -16,14 +15,14 @@ class CartId(
 
 class ItemAdded(
     meta: EventMeta,
-    aggregateRevision: AggregateRevision<CartId>,
+    aggregateRevision: Revision<CartId>,
     val sku: String,
 ) : AbstractEvent<Cart, CartId>(meta, aggregateRevision) {
 
     companion object Factory {
 
         fun of(cart: Cart, sku: String, meta: EventMeta = EventMeta.of<ItemAdded>()) =
-            ItemAdded(meta, BaseRevision.of(cart), sku)
+            ItemAdded(meta, cart.revision, sku)
     }
 }
 

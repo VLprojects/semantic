@@ -14,8 +14,8 @@ Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd`:
 
 | Package | What is there |
 | --- | --- |
-| `tactical` | The building blocks, side by side: `DomainObject` they all extend, with `typeName`, the class name in kebab case, on an object and on its class; `Identifier`, `Identifiable`, `Entity`, `AggregateRoot`, `Versioned`, `AggregateRevision`, `ValueObject`, `Event` with its `EventMeta`, built by `EventMeta.of<ItemAdded>()` with a new `EventId` on a `UUID`, the current time and the class name in kebab case by default, `BusinessRule` |
-| `tactical.base` | Base classes to extend, free of any framework: `AbstractEntity` and `AbstractId` equal by identifier and value, `AbstractAggregateRoot` that registers events, `AbstractEvent` equal by id, and `BaseRevision`, built by `BaseRevision.of(aggregate)` with the class name in kebab case, to fill an event with |
+| `tactical` | The building blocks, side by side: `DomainObject` they all extend, with `typeName`, the class name in kebab case, on an object and on its class; `Identifier`, `Identifiable`, `Entity`, `AggregateRoot` with the `Revision` it gives, `Versioned`, `ValueObject`, `Event` with its `EventMeta`, built by `EventMeta.of<ItemAdded>()` with a new `EventId`, the current time and the class name in kebab case by default, `BusinessRule` |
+| `tactical.base` | Base classes to extend, free of any framework: `AbstractEntity` and `AbstractId` equal by identifier and value, `AbstractAggregateRoot` that registers events and gives a `BaseRevision` of itself, `AbstractEvent` equal by id, and `EventId` on a `UUID`, the default id of an event |
 | `dsl` | The ways to write the blocks down: `rule` builds a `BusinessRule`, `check` runs a list of them, `checkRule` checks a one-off condition |
 | `architecture.error` | What a layer of the application raises, not a pattern of the model: `DomainException` and the refusals a service extends, `NotFoundException`, `ConflictException`, `BusinessRuleException` |
 
@@ -32,7 +32,7 @@ Kotlin `id` (KT-6653).
 
 An event carries its meta, the revision of its aggregate and fields of its own. The
 meta, `EventMeta`, holds the id of the event, its name and the time it
-happened; the revision, `AggregateRevision`, holds the
+happened; the revision, `Revision`, taken by `aggregate.revision`, holds the
 name, the identifier and the version of the aggregate. Both are set once when the event
 is raised. The name of an event and of an aggregate is its `typeName`, the class in kebab case, `ItemAdded` is
 `item-added` and `ShoppingCart` is `shopping-cart`, so renaming a class

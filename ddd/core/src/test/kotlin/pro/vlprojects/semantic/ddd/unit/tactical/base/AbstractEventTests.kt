@@ -3,9 +3,9 @@ package pro.vlprojects.semantic.ddd.unit.tactical.base
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Test
-import pro.vlprojects.semantic.ddd.tactical.EventId
 import pro.vlprojects.semantic.ddd.tactical.EventMeta
 import pro.vlprojects.semantic.ddd.tactical.base.BaseRevision
+import pro.vlprojects.semantic.ddd.tactical.base.EventId
 import java.util.UUID
 
 class AbstractEventTests {

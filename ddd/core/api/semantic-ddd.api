@@ -20,11 +20,8 @@ public final class pro/vlprojects/semantic/ddd/dsl/BusinessRulesKt {
 	public static final fun rule (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lpro/vlprojects/semantic/ddd/tactical/BusinessRule;
 }
 
-public abstract interface class pro/vlprojects/semantic/ddd/tactical/AggregateRevision : pro/vlprojects/semantic/ddd/tactical/Identifiable, pro/vlprojects/semantic/ddd/tactical/Versioned {
-	public abstract fun getName ()Ljava/lang/String;
-}
-
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/AggregateRoot : pro/vlprojects/semantic/ddd/tactical/Entity, pro/vlprojects/semantic/ddd/tactical/Versioned {
+	public abstract fun getRevision ()Lpro/vlprojects/semantic/ddd/tactical/Revision;
 }
 
 public final class pro/vlprojects/semantic/ddd/tactical/BusinessRule {
@@ -43,17 +40,8 @@ public abstract interface class pro/vlprojects/semantic/ddd/tactical/Entity : pr
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/Event : pro/vlprojects/semantic/ddd/tactical/DomainObject {
-	public abstract fun getAggregateRevision ()Lpro/vlprojects/semantic/ddd/tactical/AggregateRevision;
+	public abstract fun getAggregateRevision ()Lpro/vlprojects/semantic/ddd/tactical/Revision;
 	public abstract fun getMeta ()Lpro/vlprojects/semantic/ddd/tactical/EventMeta;
-}
-
-public final class pro/vlprojects/semantic/ddd/tactical/EventId : pro/vlprojects/semantic/ddd/tactical/base/AbstractId {
-	public static final field Factory Lpro/vlprojects/semantic/ddd/tactical/EventId$Factory;
-	public fun <init> (Ljava/util/UUID;)V
-}
-
-public final class pro/vlprojects/semantic/ddd/tactical/EventId$Factory {
-	public final fun new ()Lpro/vlprojects/semantic/ddd/tactical/EventId;
 }
 
 public final class pro/vlprojects/semantic/ddd/tactical/EventMeta {
@@ -77,6 +65,10 @@ public abstract interface class pro/vlprojects/semantic/ddd/tactical/Identifiabl
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/Identifier : pro/vlprojects/semantic/ddd/tactical/DomainObject {
 }
 
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/Revision : pro/vlprojects/semantic/ddd/tactical/Identifiable, pro/vlprojects/semantic/ddd/tactical/Versioned {
+	public abstract fun getName ()Ljava/lang/String;
+}
+
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/ValueObject : pro/vlprojects/semantic/ddd/tactical/DomainObject {
 }
 
@@ -88,6 +80,7 @@ public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractAggregat
 	public fun <init> ()V
 	protected final fun clearEvents ()V
 	protected final fun getEvents ()Ljava/util/List;
+	public final fun getRevision ()Lpro/vlprojects/semantic/ddd/tactical/Revision;
 	public final fun getVersion ()J
 	protected final fun register (Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;Lpro/vlprojects/semantic/ddd/tactical/Event;)Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;
 	protected final fun setVersion (J)V
@@ -107,9 +100,9 @@ public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractEntity :
 }
 
 public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractEvent : pro/vlprojects/semantic/ddd/tactical/Event {
-	public fun <init> (Lpro/vlprojects/semantic/ddd/tactical/EventMeta;Lpro/vlprojects/semantic/ddd/tactical/AggregateRevision;)V
+	public fun <init> (Lpro/vlprojects/semantic/ddd/tactical/EventMeta;Lpro/vlprojects/semantic/ddd/tactical/Revision;)V
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getAggregateRevision ()Lpro/vlprojects/semantic/ddd/tactical/AggregateRevision;
+	public final fun getAggregateRevision ()Lpro/vlprojects/semantic/ddd/tactical/Revision;
 	public final fun getMeta ()Lpro/vlprojects/semantic/ddd/tactical/EventMeta;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
@@ -123,7 +116,7 @@ public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractId : pro
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class pro/vlprojects/semantic/ddd/tactical/base/BaseRevision : pro/vlprojects/semantic/ddd/tactical/AggregateRevision {
+public final class pro/vlprojects/semantic/ddd/tactical/base/BaseRevision : pro/vlprojects/semantic/ddd/tactical/Revision {
 	public static final field Factory Lpro/vlprojects/semantic/ddd/tactical/base/BaseRevision$Factory;
 	public fun <init> (Ljava/lang/String;Lpro/vlprojects/semantic/ddd/tactical/Identifier;J)V
 	public fun equals (Ljava/lang/Object;)Z
@@ -136,5 +129,14 @@ public final class pro/vlprojects/semantic/ddd/tactical/base/BaseRevision : pro/
 
 public final class pro/vlprojects/semantic/ddd/tactical/base/BaseRevision$Factory {
 	public final fun of (Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;)Lpro/vlprojects/semantic/ddd/tactical/base/BaseRevision;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/base/EventId : pro/vlprojects/semantic/ddd/tactical/base/AbstractId {
+	public static final field Factory Lpro/vlprojects/semantic/ddd/tactical/base/EventId$Factory;
+	public fun <init> (Ljava/util/UUID;)V
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/base/EventId$Factory {
+	public final fun new ()Lpro/vlprojects/semantic/ddd/tactical/base/EventId;
 }
 

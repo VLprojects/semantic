@@ -7,20 +7,17 @@ import pro.vlprojects.semantic.ddd.tactical.base.BaseRevision
 class BaseRevisionTests {
 
     @Test
-    fun `a revision takes the identifier and the version of the aggregate`() {
-        assertEquals(BaseRevision("cart", CartId(1), 3), BaseRevision.of(Cart(CartId(1), version = 3)))
+    fun `an aggregate gives a revision of its identifier and version`() {
+        assertEquals(BaseRevision("cart", CartId(1), 3), Cart(CartId(1), version = 3).revision)
     }
 
     @Test
-    fun `an aggregate is named after its class in kebab case`() {
-        assertEquals("wish-list", BaseRevision.of(WishList(CartId(1))).name)
+    fun `a revision names the aggregate after its class in kebab case`() {
+        assertEquals("wish-list", WishList(CartId(1)).revision.name)
     }
 
     @Test
     fun `a revision shows its name, identifier and version`() {
-        assertEquals(
-            "[name: cart, id: 1, version: 3]",
-            BaseRevision.of(Cart(CartId(1), version = 3)).toString(),
-        )
+        assertEquals("[name: cart, id: 1, version: 3]", Cart(CartId(1), version = 3).revision.toString())
     }
 }

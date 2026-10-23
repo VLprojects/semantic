@@ -1,6 +1,6 @@
 package pro.vlprojects.semantic.ddd.tactical
 
-public interface AggregateRevision<out I : Identifier> :
+public interface Revision<out I : Identifier> :
     Identifiable<I>,
     Versioned {
 
