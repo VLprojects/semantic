@@ -7,7 +7,6 @@ import pro.vlprojects.semantic.ddd.tactical.Identifier
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractAggregateRoot
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractEntity
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractEvent
-import pro.vlprojects.semantic.ddd.tactical.base.BaseEventMeta
 import pro.vlprojects.semantic.ddd.tactical.base.BaseRevision
 import java.time.Instant
 
@@ -27,7 +26,7 @@ class ItemAdded(
 
     companion object Factory {
 
-        fun of(cart: Cart, sku: String, meta: EventMeta = BaseEventMeta()) =
+        fun of(cart: Cart, sku: String, meta: EventMeta = EventMeta.of<ItemAdded>()) =
             ItemAdded(meta, BaseRevision.of(cart), sku)
     }
 }
@@ -48,7 +47,7 @@ class Cart(
 
     fun add(sku: String) = change {
         items += sku
-        register(ItemAdded.of(this, sku, BaseEventMeta(occurredAt = NOW)))
+        register(ItemAdded.of(this, sku, EventMeta.of<ItemAdded>(occurredAt = NOW)))
     }
 
     fun released() = events

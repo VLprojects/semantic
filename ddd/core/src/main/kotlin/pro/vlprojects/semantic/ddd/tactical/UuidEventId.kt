@@ -1,6 +1,5 @@
-package pro.vlprojects.semantic.ddd.tactical.base
+package pro.vlprojects.semantic.ddd.tactical
 
-import pro.vlprojects.semantic.ddd.tactical.EventId
 import java.util.UUID
 
 @JvmInline

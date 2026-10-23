@@ -3,10 +3,9 @@ package pro.vlprojects.semantic.ddd.unit.tactical.base
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Test
-import pro.vlprojects.semantic.ddd.tactical.base.BaseEventMeta
+import pro.vlprojects.semantic.ddd.tactical.EventMeta
+import pro.vlprojects.semantic.ddd.tactical.UuidEventId
 import pro.vlprojects.semantic.ddd.tactical.base.BaseRevision
-import pro.vlprojects.semantic.ddd.tactical.base.UuidEventId
-import pro.vlprojects.semantic.ddd.tactical.typeName
 import java.util.UUID
 
 class AbstractEventTests {
@@ -15,7 +14,7 @@ class AbstractEventTests {
     private val meta = UUID
         .fromString("00000000-0000-0000-0000-000000000001")
         .let(::UuidEventId)
-        .let { BaseEventMeta(it, Cart.NOW) }
+        .let { EventMeta.of<ItemAdded>(it, Cart.NOW) }
 
     @Test
     fun `events with one id are equal`() {
@@ -36,8 +35,8 @@ class AbstractEventTests {
     }
 
     @Test
-    fun `an event is named after its class`() {
-        assertEquals("item-added", ItemAdded.of(cart, "apple").typeName)
+    fun `an event meta is named after the class of the event`() {
+        assertEquals("item-added", ItemAdded.of(cart, "apple").meta.eventName)
     }
 
     @Test
