@@ -1,6 +1,5 @@
-package pro.vlprojects.semantic.ddd.tactical
+package pro.vlprojects.semantic.ddd.tactical.base
 
-import pro.vlprojects.semantic.ddd.tactical.base.AbstractId
 import java.util.UUID
 
 public class EventId(value: UUID) : AbstractId<UUID>(value) {
