@@ -65,7 +65,7 @@ public abstract interface class pro/vlprojects/semantic/ddd/tactical/Versioned {
 public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractAggregateRoot : pro/vlprojects/semantic/ddd/tactical/base/AbstractEntity, pro/vlprojects/semantic/ddd/tactical/AggregateRoot {
 	public fun <init> ()V
 	protected final fun clearEvents ()Lpro/vlprojects/semantic/ddd/tactical/base/AbstractAggregateRoot;
-	protected abstract fun getAggregateName ()Ljava/lang/String;
+	protected fun getAggregateName ()Ljava/lang/String;
 	protected final fun getEvents ()Ljava/util/List;
 	protected final fun getRevision ()Lpro/vlprojects/semantic/ddd/tactical/AggregateRevision;
 	protected final fun registerEvent (Lpro/vlprojects/semantic/ddd/tactical/Event;)Lpro/vlprojects/semantic/ddd/tactical/base/AbstractAggregateRoot;
@@ -74,6 +74,7 @@ public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractAggregat
 public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractEntity : pro/vlprojects/semantic/ddd/tactical/Entity {
 	public fun <init> ()V
 	protected final fun change (Lpro/vlprojects/semantic/ddd/tactical/Entity;Lkotlin/jvm/functions/Function1;)Lpro/vlprojects/semantic/ddd/tactical/Entity;
+	protected fun classOf (Ljava/lang/Object;)Lkotlin/reflect/KClass;
 	public fun equals (Ljava/lang/Object;)Z
 	protected fun getInvariants ()Ljava/lang/Iterable;
 	public fun hashCode ()I

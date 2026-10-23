@@ -24,6 +24,16 @@ class AbstractAggregateRootTests {
     }
 
     @Test
+    fun `an aggregate is named after its class in kebab case`() {
+        assertEquals("wish-list", WishList(CartId(1)).name)
+    }
+
+    @Test
+    fun `a renamed aggregate keeps the name it overrides`() {
+        assertEquals("cart", RenamedCart(CartId(1)).name)
+    }
+
+    @Test
     fun `a change that breaks an invariant throws`() {
         val cart = Cart(CartId(1)).add("apple").add("pear")
 

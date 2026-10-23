@@ -29,8 +29,6 @@ class Cart(
 ) : AbstractAggregateRoot<Cart, CartId>() {
     val items = mutableListOf<String>()
 
-    override val aggregateName: String get() = "cart"
-
     override val invariants: List<BusinessRule<Cart>> get() = INVARIANTS
 
     fun add(sku: String): Cart =
@@ -47,4 +45,20 @@ class Cart(
         val NOW: Instant = Instant.parse("2026-10-23T10:00:00Z")
         val INVARIANTS = listOf(rule<Cart>({ items.size <= 2 }) { "Cart $identifier holds more than 2 items" })
     }
+}
+
+class WishList(
+    override val identifier: CartId,
+    override val version: Long = 0,
+) : AbstractAggregateRoot<WishList, CartId>() {
+    val name: String get() = aggregateName
+}
+
+class RenamedCart(
+    override val identifier: CartId,
+    override val version: Long = 0,
+) : AbstractAggregateRoot<RenamedCart, CartId>() {
+    override val aggregateName: String get() = "cart"
+
+    val name: String get() = aggregateName
 }
