@@ -29,27 +29,27 @@ class StringsTests {
     }
 
     @Test
-    fun `a long value keeps its start and end`() {
-        assertEquals("0190…c41d", "0190a3f2-7b1e-7c3a-9f4e-5d2b8a6ec41d".abbreviated())
+    fun `a long value keeps half of the minimum length, split between its start and end`() {
+        assertEquals("019…1d", "0190a3f2-7b1e-7c3a-9f4e-5d2b8a6ec41d".abbreviated())
     }
 
     @Test
-    fun `the kept start and end can be set`() {
-        assertEquals("0190a3…6ec41d", "0190a3f2-7b1e-7c3a-9f4e-5d2b8a6ec41d".abbreviated(head = 6, tail = 6))
+    fun `a longer minimum keeps more`() {
+        assertEquals("0190a…ec41d", "0190a3f2-7b1e-7c3a-9f4e-5d2b8a6ec41d".abbreviated(minLength = 20))
+    }
+
+    @Test
+    fun `the kept share can be set`() {
+        assertEquals("0190…c41d", "0190a3f2-7b1e-7c3a-9f4e-5d2b8a6ec41d".abbreviated(keep = 0.8))
     }
 
     @Test
     fun `a value shorter than the minimum is kept whole`() {
-        assertEquals("9223372036854775807", Long.MAX_VALUE.toString().abbreviated())
-    }
-
-    @Test
-    fun `the minimum length can be set`() {
-        assertEquals("1234…3456", "1234567890123456".abbreviated(minLength = 10))
+        assertEquals("123456789", "123456789".abbreviated())
     }
 
     @Test
     fun `a value that would not get shorter is kept whole`() {
-        assertEquals("123456789", "123456789".abbreviated(minLength = 1))
+        assertEquals("1234567890", "1234567890".abbreviated(keep = 0.9))
     }
 }

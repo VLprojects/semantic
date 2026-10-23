@@ -1,5 +1,7 @@
 package pro.vlprojects.semantic.ddd.support
 
+import kotlin.math.roundToInt
+
 internal fun String.toKebabCase() = buildString {
     this@toKebabCase.forEachIndexed { index, char ->
         if (index > 0 && char.isUpperCase() && startsWord(index)) append('-')
@@ -16,8 +18,10 @@ private fun String.startsWord(index: Int): Boolean {
     }
 }
 
-internal fun String.abbreviated(head: Int = 4, tail: Int = 4, minLength: Int = 20) = when {
-    length < minLength -> this
-    length <= head + tail + 1 -> this
-    else -> "${take(head)}…${takeLast(tail)}"
+internal fun String.abbreviated(minLength: Int = 10, keep: Double = 0.5) = (minLength * keep).roundToInt().let { kept ->
+    when {
+        length < minLength -> this
+        kept + 1 >= length -> this
+        else -> "${take(kept - kept / 2)}…${takeLast(kept / 2)}"
+    }
 }
