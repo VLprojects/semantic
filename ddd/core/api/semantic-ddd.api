@@ -32,6 +32,7 @@ public final class pro/vlprojects/semantic/ddd/tactical/BusinessRule {
 }
 
 public final class pro/vlprojects/semantic/ddd/tactical/DomainExtensionsKt {
+	public static final fun getTypeName (Lkotlin/reflect/KClass;)Ljava/lang/String;
 	public static final fun getTypeName (Lpro/vlprojects/semantic/ddd/tactical/DomainObject;)Ljava/lang/String;
 }
 
@@ -92,14 +93,16 @@ public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractEntity :
 }
 
 public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractEvent : pro/vlprojects/semantic/ddd/tactical/Event {
-	protected fun <init> (Ljava/lang/String;Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;Ljava/time/Instant;)V
-	public synthetic fun <init> (Ljava/lang/String;Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;Ljava/time/Instant;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public static final field Factory Lpro/vlprojects/semantic/ddd/tactical/base/AbstractEvent$Factory;
 	public fun <init> (Lpro/vlprojects/semantic/ddd/tactical/EventHeader;Lpro/vlprojects/semantic/ddd/tactical/AggregateRevision;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAggregateRevision ()Lpro/vlprojects/semantic/ddd/tactical/AggregateRevision;
 	public final fun getHeader ()Lpro/vlprojects/semantic/ddd/tactical/EventHeader;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/base/AbstractEvent$Factory {
 }
 
 public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractIdentifier : pro/vlprojects/semantic/ddd/tactical/Identifier {

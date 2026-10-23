@@ -17,19 +17,11 @@ value class CartId(
     override fun toString() = value.toString()
 }
 
-class ItemAdded : AbstractEvent<Cart, CartId> {
-
-    val sku: String
-
-    constructor(cart: Cart, sku: String) : super("cart.item-added", cart, Cart.NOW) {
-        this.sku = sku
-    }
-
-    constructor(header: EventHeader, aggregateRevision: AggregateRevision<CartId>, sku: String) :
-        super(header, aggregateRevision) {
-        this.sku = sku
-    }
-}
+class ItemAdded(
+    header: EventHeader,
+    aggregateRevision: AggregateRevision<CartId>,
+    val sku: String,
+) : AbstractEvent<Cart, CartId>(header, aggregateRevision)
 
 class Cart(
     identifier: CartId,
@@ -47,7 +39,9 @@ class Cart(
 
     fun add(sku: String) = change {
         items += sku
-        register(ItemAdded(this, sku))
+        AbstractEvent
+            .of(this, NOW) { header, revision -> ItemAdded(header, revision, sku) }
+            .let { register(it) }
     }
 
     fun released() = events

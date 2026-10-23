@@ -1,6 +1,12 @@
 package pro.vlprojects.semantic.ddd.tactical
 
 import pro.vlprojects.semantic.ddd.support.toKebabCase
+import kotlin.reflect.KClass
 
 public val DomainObject.typeName: String
-    get() = this::class.simpleName?.toKebabCase() ?: error("A domain object without a class name has no type name")
+    get() = this::class.typeName
+
+@PublishedApi
+internal val KClass<out DomainObject>.typeName: String
+    get() = simpleName?.toKebabCase()
+        ?: error("A domain object without a class name has no type name")
