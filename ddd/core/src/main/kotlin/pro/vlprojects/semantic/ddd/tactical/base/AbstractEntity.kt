@@ -20,7 +20,8 @@ public abstract class AbstractEntity<E : Entity<E, I>, I : Identifier> : Entity<
 
     override fun equals(other: Any?): Boolean = when {
         this === other -> true
-        other == null || this::class != other::class -> false
+        other == null -> false
+        this::class != other::class -> false
         else -> identifier == (other as Entity<*, *>).identifier
     }
 

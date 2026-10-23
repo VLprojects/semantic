@@ -8,7 +8,8 @@ public abstract class AbstractIdentifier<out T : Any>(
 ) : Identifier {
     override fun equals(other: Any?): Boolean = when {
         this === other -> true
-        other == null || this::class != other::class -> false
+        other == null -> false
+        this::class != other::class -> false
         else -> value == (other as AbstractIdentifier<*>).value
     }
 

@@ -9,6 +9,9 @@ internal fun String.toKebabCase() = buildString {
 
 private fun String.startsWord(index: Int): Boolean {
     val previous = this[index - 1]
-    if (previous.isLowerCase() || previous.isDigit()) return true
-    return previous.isUpperCase() && index + 1 < length && this[index + 1].isLowerCase()
+    return when {
+        previous.isLowerCase() -> true
+        previous.isDigit() -> true
+        else -> previous.isUpperCase() && getOrNull(index + 1)?.isLowerCase() == true
+    }
 }
