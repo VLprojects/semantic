@@ -21,7 +21,7 @@ public abstract class AbstractAggregateRoot<A : AggregateRoot<A, I>, I : Identif
 
     protected fun getEvents(): List<Event<A, I>> = events.toList()
 
-    protected fun register(event: Event<A, I>): AbstractAggregateRoot<A, I> = apply { events.add(event) }
+    protected fun A.register(event: Event<A, I>): A = apply { events.add(event) }
 
     protected fun clearEvents(): AbstractAggregateRoot<A, I> = apply { events.clear() }
 
