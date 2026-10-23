@@ -16,7 +16,8 @@ private fun String.startsWord(index: Int): Boolean {
     }
 }
 
-internal fun String.abbreviated(head: Int = 4, tail: Int = 4) = when {
-    length > head + tail + 1 -> "${take(head)}…${takeLast(tail)}"
-    else -> this
+internal fun String.abbreviated(head: Int = 4, tail: Int = 4, minLength: Int = 20) = when {
+    length < minLength -> this
+    length <= head + tail + 1 -> this
+    else -> "${take(head)}…${takeLast(tail)}"
 }

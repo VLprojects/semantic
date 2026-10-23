@@ -39,7 +39,17 @@ class StringsTests {
     }
 
     @Test
-    fun `a short value is kept whole`() {
-        assertEquals("42", "42".abbreviated())
+    fun `a value shorter than the minimum is kept whole`() {
+        assertEquals("9223372036854775807", Long.MAX_VALUE.toString().abbreviated())
+    }
+
+    @Test
+    fun `the minimum length can be set`() {
+        assertEquals("1234…3456", "1234567890123456".abbreviated(minLength = 10))
+    }
+
+    @Test
+    fun `a value that would not get shorter is kept whole`() {
+        assertEquals("123456789", "123456789".abbreviated(minLength = 1))
     }
 }
