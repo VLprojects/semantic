@@ -64,7 +64,7 @@ public abstract interface class pro/vlprojects/semantic/ddd/tactical/Versioned {
 
 public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractAggregateRoot : pro/vlprojects/semantic/ddd/tactical/base/AbstractEntity, pro/vlprojects/semantic/ddd/tactical/AggregateRoot {
 	public fun <init> ()V
-	protected final fun clearEvents ()Lpro/vlprojects/semantic/ddd/tactical/base/AbstractAggregateRoot;
+	protected final fun clearEvents (Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;)Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;
 	protected fun getAggregateName ()Ljava/lang/String;
 	protected final fun getEvents ()Ljava/util/List;
 	public final fun getRevision ()Lpro/vlprojects/semantic/ddd/tactical/AggregateRevision;
