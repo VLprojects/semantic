@@ -4,6 +4,8 @@ import pro.vlprojects.semantic.ddd.support.abbreviated
 import pro.vlprojects.semantic.ddd.tactical.AggregateRoot
 import pro.vlprojects.semantic.ddd.tactical.Event
 import pro.vlprojects.semantic.ddd.tactical.Identifier
+import pro.vlprojects.semantic.ddd.tactical.Revision
+import pro.vlprojects.semantic.ddd.tactical.typeName
 
 public abstract class AbstractAggregateRoot<A : AggregateRoot<A, I>, I : Identifier> :
     AbstractEntity<A, I>(),
@@ -11,6 +13,9 @@ public abstract class AbstractAggregateRoot<A : AggregateRoot<A, I>, I : Identif
 
     final override var version: Long = 0
         protected set
+
+    final override val revision: Revision<I>
+        get() = BaseRevision(typeName, identifier, version)
 
     protected val events: List<Event<A, I>>
         field = mutableListOf()

@@ -3,8 +3,8 @@ package pro.vlprojects.semantic.ddd.unit.tactical.base
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Test
-import pro.vlprojects.semantic.ddd.tactical.AggregateRevision
 import pro.vlprojects.semantic.ddd.tactical.EventMeta
+import pro.vlprojects.semantic.ddd.tactical.base.BaseRevision
 import pro.vlprojects.semantic.ddd.tactical.base.EventId
 import java.util.UUID
 
@@ -31,7 +31,7 @@ class AbstractEventTests {
         val event = ItemAdded.of(Cart(CartId(1), version = 3), "apple", meta)
 
         assertEquals(meta, event.meta)
-        assertEquals(AggregateRevision("cart", CartId(1), 3), event.aggregateRevision)
+        assertEquals(BaseRevision("cart", CartId(1), 3), event.aggregateRevision)
     }
 
     @Test
