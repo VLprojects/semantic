@@ -31,11 +31,11 @@ public final class pro/vlprojects/semantic/ddd/tactical/BusinessRule {
 	public final fun check (Ljava/lang/Object;)V
 }
 
-public abstract interface class pro/vlprojects/semantic/ddd/tactical/DomainObject {
+public final class pro/vlprojects/semantic/ddd/tactical/DomainExtensionsKt {
+	public static final fun getTypeName (Lpro/vlprojects/semantic/ddd/tactical/DomainObject;)Ljava/lang/String;
 }
 
-public final class pro/vlprojects/semantic/ddd/tactical/DomainObjectKt {
-	public static final fun getTypeName (Lpro/vlprojects/semantic/ddd/tactical/DomainObject;)Ljava/lang/String;
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/DomainObject {
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/Entity : pro/vlprojects/semantic/ddd/tactical/DomainObject, pro/vlprojects/semantic/ddd/tactical/Identifiable {
