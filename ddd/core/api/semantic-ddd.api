@@ -146,3 +146,43 @@ public final class pro/vlprojects/semantic/ddd/tactical/base/EventId$Factory {
 	public final fun new ()Lpro/vlprojects/semantic/ddd/tactical/base/EventId;
 }
 
+public final class pro/vlprojects/semantic/ddd/tactical/specification/AllOf : pro/vlprojects/semantic/ddd/tactical/Specification {
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSpecifications ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/specification/Always : pro/vlprojects/semantic/ddd/tactical/Specification {
+	public static final field INSTANCE Lpro/vlprojects/semantic/ddd/tactical/specification/Always;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/specification/AnyOf : pro/vlprojects/semantic/ddd/tactical/Specification {
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSpecifications ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/specification/Never : pro/vlprojects/semantic/ddd/tactical/Specification {
+	public static final field INSTANCE Lpro/vlprojects/semantic/ddd/tactical/specification/Never;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/specification/Not : pro/vlprojects/semantic/ddd/tactical/Specification {
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSpecification ()Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public fun hashCode ()I
+	public fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
