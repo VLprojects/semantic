@@ -16,13 +16,15 @@ public abstract class AbstractAggregateRoot<A : AggregateRoot<A, I>, I : Identif
     final override val revision: Revision<I>
         get() = BaseRevision.of(this)
 
-    protected val events: List<Event<A, I>>
-        field = mutableListOf()
+    private val registered = mutableListOf<Event<A, I>>()
 
-    protected fun A.register(event: Event<A, I>): A = apply { events.add(event) }
+    protected open val events: List<Event<A, I>>
+        get() = registered
 
-    protected fun clearEvents() {
-        events.clear()
+    protected fun A.register(event: Event<A, I>): A = apply { registered.add(event) }
+
+    protected open fun clearEvents() {
+        registered.clear()
     }
 
     override fun toString(): String =
