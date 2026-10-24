@@ -192,18 +192,21 @@ def block(a, x, y, w, hue, prefix, title, note):
 	a.t(x + 12, y + 60, note, color=soft)
 
 
-DDD_SPRING = ("Spring", [("green", "semantic-ddd-", "spring-data", "repositories"),
-	("green", "semantic-ddd-", "spring-boot", "auto-configuration"),
-	("green", "semantic-ddd-", "spring-boot-starter", "dependencies only")])
+DDD_SPRING = [
+	("Spring", [("green", "semantic-ddd-", "spring-data", "what every store shares"),
+		("green", "semantic-ddd-", "spring-data-jpa", "JPA entities"),
+		("green", "semantic-ddd-", "spring-data-mongodb", "MongoDB documents")]),
+	(None, [("green", "semantic-ddd-", "spring-boot", "auto-configuration"),
+		("green", "semantic-ddd-", "spring-boot-starter", "dependencies only")], 3),
+]
 
 
 def families(pal):
 	# the whole library on one page, a family per plate, the ones in development on top
 	a = Art(720, 0, pal)
 	y = family(a, 16, "ddd", "in development, v1", [
-		("JVM", [("blue", "semantic-", "ddd", "building blocks, no framework"),
-			("blue", "semantic-ddd-", "jpa", "JPA mapping, no Spring")]),
-		DDD_SPRING,
+		("JVM", [("blue", "semantic-", "ddd", "building blocks, no framework")], 3),
+		*DDD_SPRING,
 	])
 	y = family(a, y, "cqrs", "in development", [
 		("JVM", [("blue", "semantic-", "cqrs", "commands, queries, buses")], 3),
@@ -224,9 +227,8 @@ def modules(pal):
 	a = Art(720, 0, pal)
 	y = family(a, 16, "ddd", "in development, v1", [
 		("JVM", [(None, "semantic-", "vo", "value objects, the vo family"),
-			("blue", "semantic-", "ddd", "building blocks"),
-			("blue", "semantic-ddd-", "jpa", "JPA mapping, no Spring")]),
-		DDD_SPRING,
+			("blue", "semantic-", "ddd", "building blocks")], 3),
+		*DDD_SPRING,
 	])
 	a.h = y - 24 + 16
 	return a

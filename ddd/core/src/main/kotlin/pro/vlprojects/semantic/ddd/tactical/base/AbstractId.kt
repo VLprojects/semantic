@@ -1,0 +1,19 @@
+package pro.vlprojects.semantic.ddd.tactical.base
+
+import pro.vlprojects.semantic.ddd.tactical.Identifier
+
+public abstract class AbstractId<out T : Any>(
+    public val value: T,
+) : Identifier {
+
+    override fun equals(other: Any?): Boolean = when {
+        this === other -> true
+        other == null -> false
+        this::class != other::class -> false
+        else -> value == (other as AbstractId<*>).value
+    }
+
+    override fun hashCode(): Int = value.hashCode()
+
+    override fun toString(): String = value.toString()
+}
