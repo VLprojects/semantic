@@ -31,6 +31,12 @@ The property of `Identifiable` is `identifier`, not `id`: an aggregate saved by
 Spring Data also implements `Persistable`, and its `getId()` would clash with a
 Kotlin `id` (KT-6653).
 
+An `Identifier` is a `ValueObject`, and the only block that is `Serializable`:
+JPA asks it of the class of a key, `@EmbeddedId` and `@IdClass`, and a
+distributed cache or a session stored outside the process serializes the key.
+Entities, value objects and events are not: nothing in the core sends them
+through Java serialization, and a service that needs it marks its own class.
+
 An event carries its meta, the revision of its aggregate and fields of its own. The
 meta, `EventMeta`, holds the id of the event, its name and the time it
 happened; the revision, `Revision`, taken by `aggregate.revision`, holds the
