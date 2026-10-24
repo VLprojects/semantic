@@ -1,8 +1,8 @@
 # semantic-ddd
 
 Tactical building blocks of domain-driven design for Kotlin and Java: typed
-identifiers, entities, aggregate roots, domain events, business rules and domain
-errors. The core is plain Kotlin; Spring Data with its stores, JPA and
+identifiers, entities, aggregate roots, domain events, business rules,
+specifications and domain errors. The core is plain Kotlin; Spring Data with its stores, JPA and
 MongoDB, and Spring Boot live in modules of their own.
 
 The contracts of the core are in place, and so is the base class of the
@@ -14,7 +14,7 @@ Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd`:
 
 | Package | What is there |
 | --- | --- |
-| `tactical` | The building blocks, side by side: `DomainObject` they all extend, with `typeName`, the class name in kebab case, on an object and on its class; `Identifier`, `Identifiable`, `Entity`, `AggregateRoot` with the `Revision` it gives, `Versioned`, `ValueObject`, `Event` with its `EventMeta`, built by `EventMeta.of<ItemAdded>()` with a new `EventId`, the current time and the class name in kebab case by default, `BusinessRule` |
+| `tactical` | The building blocks, side by side: `DomainObject` they all extend, with `typeName`, the class name in kebab case, on an object and on its class; `Identifier`, `Identifiable`, `Entity`, `AggregateRoot` with the `Revision` it gives, `Versioned`, `ValueObject`, `Event` with its `EventMeta`, built by `EventMeta.of<ItemAdded>()` with a new `EventId`, the current time and the class name in kebab case by default, `BusinessRule`, `Specification` |
 | `tactical.base` | Base classes to extend, free of any framework: `AbstractEntity` and `AbstractId` equal by identifier and value, `AbstractAggregateRoot` that registers events and gives a `BaseRevision` of itself, `AbstractEvent` equal by id, and `EventId` on a `UUID`, the default id of an event |
 | `dsl` | The ways to write the blocks down: `rule` builds a `BusinessRule`, `check` runs a list of them, `checkRule` checks a one-off condition |
 | `architecture.error` | What a layer of the application raises, not a pattern of the model: `DomainException` and the refusals a service extends, `NotFoundException`, `ConflictException`, `BusinessRuleException` |
@@ -44,6 +44,14 @@ to the adapter that saves it, as Spring Data does with `@DomainEvents`.
 `Entity` and `AggregateRoot` take themselves as the first type parameter,
 `AggregateRoot<Cart, CartId>`, so that a contract can speak of the concrete
 type.
+
+## Specifications
+
+A specification is a rule of the domain that a candidate satisfies or not:
+an aggregate, an entity, a value object, a collection. It is a
+`(T) -> Boolean`, so it goes wherever a predicate does, `orders.filter(IsOpen)`,
+and `rule(IsOpen) { "Closed" }` makes a business rule of it. A specification is
+a value object, equal by value.
 
 ## Spring Data
 

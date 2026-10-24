@@ -69,6 +69,12 @@ public abstract interface class pro/vlprojects/semantic/ddd/tactical/Revision : 
 	public abstract fun getName ()Ljava/lang/String;
 }
 
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/Specification : kotlin/jvm/functions/Function1, pro/vlprojects/semantic/ddd/tactical/ValueObject {
+	public fun invoke (Ljava/lang/Object;)Ljava/lang/Boolean;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public abstract fun isSatisfiedBy (Ljava/lang/Object;)Z
+}
+
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/ValueObject : pro/vlprojects/semantic/ddd/tactical/DomainObject {
 }
 
