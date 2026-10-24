@@ -66,6 +66,12 @@ by its parts, in any order, so a test can compare the rule a service built.
 `Always` and `Never` are the neutral elements, the rule with no condition and
 the rule nothing satisfies.
 
+`and`, `or` and `not` build the tree: `IsOpen and !Paid` is an `AllOf` of
+`IsOpen` and a `Not` of `Paid`. The tree comes out simplified: a nested `AllOf`
+is flattened, `Always` drops out of a conjunction and `Never` absorbs it, `!!a`
+is `a`. Like any infix call in Kotlin, `and` and `or` bind equally, left to
+right: `a or b and c` is `(a or b) and c`, so a mix of them needs parentheses.
+
 ## Spring Data
 
 `semantic-ddd-spring-data` gives `SpringDataAggregateRoot`, the base an
