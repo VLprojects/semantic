@@ -35,13 +35,31 @@ class JpaOrders(private val repository: OrderRepository) : Orders
 class OrderController(private val placeOrder: PlaceOrderService)
 ```
 
+## Contracts
+
+Package `pro.vlprojects.semantic.architecture.contract` of `semantic-architecture`:
+
+| Type | What it is |
+| --- | --- |
+| `@Contracted` | a class other code depends on by its shape: an event, a DTO, a message of an API |
+| `ContractScope` | who depends on it: `INTERNAL` for the modules of the same application, `EXTERNAL` for other systems |
+
+The annotation holds what the class name cannot: a `name` that stays when the
+class is renamed, a `version` that grows with each breaking change, and the
+`scope` of the contract.
+
+```kotlin
+@Contracted(name = "order.placed", scope = ContractScope.EXTERNAL, version = 2)
+class OrderPlaced(...)
+```
+
 ## Modules
 
 One artifact so far, group `pro.vlprojects.semantic`:
 
 | Artifact | For | Depends on |
 | --- | --- | --- |
-| `semantic-architecture` | any JVM code: the layers of a service | nothing |
+| `semantic-architecture` | any JVM code: the layers of a service and its contracts | nothing |
 
 ```
 architecture/
