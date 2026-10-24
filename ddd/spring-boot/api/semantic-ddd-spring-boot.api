@@ -1,5 +1,0 @@
-public final class pro/vlprojects/semantic/ddd/spring/boot/EventPublisherAutoConfiguration {
-	public fun <init> ()V
-	public final fun eventPublisher (Lorg/springframework/context/ApplicationEventPublisher;)Lpro/vlprojects/semantic/ddd/architecture/event/EventPublisher;
-}
-

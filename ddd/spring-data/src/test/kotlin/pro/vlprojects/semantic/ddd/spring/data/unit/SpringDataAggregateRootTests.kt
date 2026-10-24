@@ -40,15 +40,6 @@ class SpringDataAggregateRootTests {
         assertEquals(emptyList<Any>(), cart.call<DomainEvents>())
     }
 
-    @Test
-    fun `pulled events are not handed out again`() {
-        val cart = Cart(CartId(1)).add("apple")
-
-        cart.pullEvents()
-
-        assertEquals(emptyList<Any>(), cart.call<DomainEvents>())
-    }
-
     // The same lookup EventPublishingRepositoryProxyPostProcessor makes before and after a save.
     private inline fun <reified T : Annotation> Any.call() = AnnotationDetectionMethodCallback(T::class.java)
         .also { ReflectionUtils.doWithMethods(javaClass, it) }

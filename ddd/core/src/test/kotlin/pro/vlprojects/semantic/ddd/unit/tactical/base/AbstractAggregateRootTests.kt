@@ -40,12 +40,4 @@ class AbstractAggregateRootTests {
 
         assertEquals(emptyList<Any>(), cart.released())
     }
-
-    @Test
-    fun `pulled events are handed out once`() {
-        val cart = Cart(CartId(1)).add("apple").add("pear")
-
-        assertEquals(listOf("apple", "pear"), cart.pullEvents().map { (it as ItemAdded).sku })
-        assertEquals(emptyList<Any>(), cart.pullEvents())
-    }
 }
