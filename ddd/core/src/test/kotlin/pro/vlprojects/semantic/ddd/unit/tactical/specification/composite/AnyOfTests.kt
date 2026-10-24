@@ -1,12 +1,12 @@
-package pro.vlprojects.semantic.ddd.unit.tactical.specification
+package pro.vlprojects.semantic.ddd.unit.tactical.specification.composite
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import pro.vlprojects.semantic.ddd.tactical.specification.AllOf
-import pro.vlprojects.semantic.ddd.tactical.specification.AnyOf
+import pro.vlprojects.semantic.ddd.tactical.specification.composite.AllOf
+import pro.vlprojects.semantic.ddd.tactical.specification.composite.AnyOf
 
 class AnyOfTests {
 

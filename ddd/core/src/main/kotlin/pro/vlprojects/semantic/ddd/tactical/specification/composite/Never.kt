@@ -1,4 +1,4 @@
-package pro.vlprojects.semantic.ddd.tactical.specification
+package pro.vlprojects.semantic.ddd.tactical.specification.composite
 
 import pro.vlprojects.semantic.ddd.tactical.Specification
 

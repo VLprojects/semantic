@@ -1,11 +1,11 @@
-package pro.vlprojects.semantic.ddd.unit.tactical.specification
+package pro.vlprojects.semantic.ddd.unit.tactical.specification.composite
 
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import pro.vlprojects.semantic.ddd.tactical.Specification
-import pro.vlprojects.semantic.ddd.tactical.specification.Always
-import pro.vlprojects.semantic.ddd.tactical.specification.Never
+import pro.vlprojects.semantic.ddd.tactical.specification.composite.Always
+import pro.vlprojects.semantic.ddd.tactical.specification.composite.Never
 
 class NeutralTests {
 
