@@ -1,7 +1,7 @@
 package pro.vlprojects.semantic.ddd.tactical
 
 public interface Specification<in T> :
-    ValueObject,
+    DomainObject,
     (T) -> Boolean {
 
     public fun isSatisfiedBy(candidate: T): Boolean

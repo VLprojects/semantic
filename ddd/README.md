@@ -51,7 +51,7 @@ A specification is a rule of the domain that a candidate satisfies or not:
 an aggregate, an entity, a value object, a collection. It is a
 `(T) -> Boolean`, so it goes wherever a predicate does, `orders.filter(IsOpen)`,
 and `rule(IsOpen) { "Closed" }` makes a business rule of it. A specification is
-a value object, equal by value.
+a domain object, not a value object: it holds a rule, not data of the model.
 
 ## Spring Data
 
