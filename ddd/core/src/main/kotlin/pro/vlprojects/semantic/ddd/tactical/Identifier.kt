@@ -1,3 +1,5 @@
 package pro.vlprojects.semantic.ddd.tactical
 
-public interface Identifier : DomainObject
+import java.io.Serializable
+
+public interface Identifier : ValueObject, Serializable
