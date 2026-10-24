@@ -43,13 +43,28 @@ Package `pro.vlprojects.semantic.architecture.contract` of `semantic-architectur
 | --- | --- |
 | `@Contracted` | a class other code depends on by its shape: an event, a DTO, a message of an API |
 | `ContractScope` | who depends on it: `INTERNAL` for the modules of the same application, `EXTERNAL` for other systems |
+| `ContractCompatibility` | which changes keep the `version`, `BACKWARD` by default |
 
-The annotation holds what the class name cannot: a `name` that stays when the
-class is renamed, a `version` that grows with each breaking change, and the
-`scope` of the contract.
+The annotation holds what the class name cannot: a `namespace` and a `name`
+that stay when the class is renamed, the `scope` of the contract, a `version`
+that grows with each breaking change and the `compatibility` that tells a
+breaking change from a safe one.
+
+| Compatibility | Guarantees | Allows without a new version |
+| --- | --- | --- |
+| `BACKWARD` | a new consumer reads old data | removing fields, adding optional ones |
+| `FORWARD` | an old consumer reads new data | adding fields, removing optional ones |
+| `FULL` | both | adding and removing optional fields |
+| `NONE` | nothing | any change |
 
 ```kotlin
-@Contracted(name = "order.placed", scope = ContractScope.EXTERNAL, version = 2)
+@Contracted(
+    namespace = "orders",
+    name = "placed",
+    scope = ContractScope.EXTERNAL,
+    version = 2,
+    compatibility = ContractCompatibility.FORWARD,
+)
 class OrderPlaced(...)
 ```
 
