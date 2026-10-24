@@ -198,12 +198,15 @@ DDD_SPRING = ("Spring", [("green", "semantic-ddd-", "spring-data", "repositories
 
 
 def families(pal):
-	# the whole library on one page, a family per plate, the one in development on top
+	# the whole library on one page, a family per plate, the ones in development on top
 	a = Art(720, 0, pal)
 	y = family(a, 16, "ddd", "in development, v1", [
 		("JVM", [("blue", "semantic-", "ddd", "building blocks, no framework"),
 			("blue", "semantic-ddd-", "jpa", "JPA mapping, no Spring")]),
 		DDD_SPRING,
+	])
+	y = family(a, y, "cqrs", "in development", [
+		("JVM", [("blue", "semantic-", "cqrs", "commands, queries, buses")], 3),
 	])
 	y = family(a, y, "vo", "planned, v1", [
 		("base", [(None, "semantic-", "vo", "the validation every value object shares")]),
@@ -211,9 +214,6 @@ def families(pal):
 			(None, "semantic-vo-", "range", "bounded ranges"),
 			(None, "semantic-vo-", "time", "dates, periods")]),
 	], DASH)
-	y = family(a, y, "cqrs", "after v1", [
-		(None, [(None, "semantic-", "cqrs", "commands, queries, buses")], 3),
-	], DOT)
 	a.h = y - 24 + 16
 	return a
 
