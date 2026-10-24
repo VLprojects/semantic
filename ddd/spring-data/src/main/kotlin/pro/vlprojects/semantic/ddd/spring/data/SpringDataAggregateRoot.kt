@@ -14,8 +14,9 @@ public abstract class SpringDataAggregateRoot<A : AggregateRoot<A, I>, I : Ident
 
     final override fun getId(): I = identifier
 
-    @DomainEvents
-    protected fun domainEvents(): Collection<Event<A, I>> = events.toList()
+    @get:DomainEvents
+    protected val domainEvents: Collection<Event<A, I>>
+        get() = events.toList()
 
     @AfterDomainEventPublication
     final override fun clearEvents() {
