@@ -4,5 +4,5 @@ public enum class ContractCompatibility {
     BACKWARD,
     FORWARD,
     FULL,
-    NONE,
+    BREAKING,
 }

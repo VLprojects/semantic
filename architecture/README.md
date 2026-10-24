@@ -55,7 +55,7 @@ breaking change from a safe one.
 | `BACKWARD` | a new consumer reads old data | removing fields, adding optional ones |
 | `FORWARD` | an old consumer reads new data | adding fields, removing optional ones |
 | `FULL` | both | adding and removing optional fields |
-| `NONE` | nothing | any change |
+| `BREAKING` | nothing: a draft contract that may break its consumers | any change |
 
 ```kotlin
 @Contracted(

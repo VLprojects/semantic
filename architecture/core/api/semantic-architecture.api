@@ -1,8 +1,8 @@
 public final class pro/vlprojects/semantic/architecture/contract/ContractCompatibility : java/lang/Enum {
 	public static final field BACKWARD Lpro/vlprojects/semantic/architecture/contract/ContractCompatibility;
+	public static final field BREAKING Lpro/vlprojects/semantic/architecture/contract/ContractCompatibility;
 	public static final field FORWARD Lpro/vlprojects/semantic/architecture/contract/ContractCompatibility;
 	public static final field FULL Lpro/vlprojects/semantic/architecture/contract/ContractCompatibility;
-	public static final field NONE Lpro/vlprojects/semantic/architecture/contract/ContractCompatibility;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lpro/vlprojects/semantic/architecture/contract/ContractCompatibility;
 	public static fun values ()[Lpro/vlprojects/semantic/architecture/contract/ContractCompatibility;
