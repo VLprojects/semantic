@@ -5,8 +5,8 @@ identifiers, entities, aggregate roots, domain events, business rules and domain
 errors. The core is plain Kotlin; Spring Data with its stores, JPA and
 MongoDB, and Spring Boot live in modules of their own.
 
-The contracts of the core are in place; the Spring Data and Spring Boot
-modules are empty so far.
+The contracts of the core are in place, and so is the base class of the
+Spring Data module; the store and Spring Boot modules are empty so far.
 
 ## The core
 
@@ -44,6 +44,21 @@ to the adapter that saves it, as Spring Data does with `@DomainEvents`.
 `Entity` and `AggregateRoot` take themselves as the first type parameter,
 `AggregateRoot<Cart, CartId>`, so that a contract can speak of the concrete
 type.
+
+## Spring Data
+
+`semantic-ddd-spring-data` gives `SpringDataAggregateRoot`, the base an
+aggregate saved by a Spring Data repository extends, under
+`pro.vlprojects.semantic.ddd.spring.data`. It is an `AbstractAggregateRoot` of
+the core and a `Persistable`: `getId()` is the identifier, the registered events
+are handed out with `@DomainEvents` when the repository saves the aggregate and
+forgotten with `@AfterDomainEventPublication` once they are published. Events
+are published by `save()` only: an aggregate changed and not saved publishes
+nothing.
+
+`isNew()` is left to the store, since each tells a new aggregate from a saved
+one in its own way: the JPA base by the callbacks of the entity, the MongoDB base
+by the version.
 
 ## Modules
 
