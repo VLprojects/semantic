@@ -146,3 +146,43 @@ public final class pro/vlprojects/semantic/ddd/tactical/base/EventId$Factory {
 	public final fun new ()Lpro/vlprojects/semantic/ddd/tactical/base/EventId;
 }
 
+public final class pro/vlprojects/semantic/ddd/tactical/specification/composite/AllOf : pro/vlprojects/semantic/ddd/tactical/Specification {
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSpecifications ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/specification/composite/Always : pro/vlprojects/semantic/ddd/tactical/Specification {
+	public static final field INSTANCE Lpro/vlprojects/semantic/ddd/tactical/specification/composite/Always;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/specification/composite/AnyOf : pro/vlprojects/semantic/ddd/tactical/Specification {
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSpecifications ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/specification/composite/Never : pro/vlprojects/semantic/ddd/tactical/Specification {
+	public static final field INSTANCE Lpro/vlprojects/semantic/ddd/tactical/specification/composite/Never;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/specification/composite/Not : pro/vlprojects/semantic/ddd/tactical/Specification {
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSpecification ()Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public fun hashCode ()I
+	public fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
