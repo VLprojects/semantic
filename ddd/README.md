@@ -1,8 +1,9 @@
 # semantic-ddd
 
 Building blocks of domain-driven design for Kotlin and Java: typed
-identifiers, entities, aggregate roots, domain events, business rules and domain
-errors, and the bounded contexts that hold them. The core is plain Kotlin; Spring Data with its stores, JPA and
+identifiers, entities, aggregate roots, domain events, business rules,
+specifications and domain errors, and the bounded contexts that hold them. The
+core is plain Kotlin; Spring Data with its stores, JPA and
 MongoDB, and Spring Boot live in modules of their own.
 
 The contracts of the core are in place, and so is the base class of the
@@ -14,7 +15,7 @@ Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd`:
 
 | Package | What is there |
 | --- | --- |
-| `tactical` | The building blocks, side by side: `DomainObject` they all extend, with `typeName`, the class name in kebab case, on an object and on its class; `Identifier`, `Identifiable`, `Entity`, `AggregateRoot` with the `Revision` it gives, `Versioned`, `ValueObject`, `Event` with its `EventMeta`, built by `EventMeta.of<ItemAdded>()` with a new `EventId`, the current time and the class name in kebab case by default, `BusinessRule` |
+| `tactical` | The building blocks, side by side: `DomainObject` they all extend, with `typeName`, the class name in kebab case, on an object and on its class; `Identifier`, `Identifiable`, `Entity`, `AggregateRoot` with the `Revision` it gives, `Versioned`, `ValueObject`, `Event` with its `EventMeta`, built by `EventMeta.of<ItemAdded>()` with a new `EventId`, the current time and the class name in kebab case by default, `BusinessRule`, `Specification` |
 | `tactical.base` | Base classes to extend, free of any framework: `AbstractEntity` and `AbstractId` equal by identifier and value, `AbstractAggregateRoot` that registers events and gives a `BaseRevision` of itself, `AbstractEvent` equal by id, and `EventId` on a `UUID`, the default id of an event |
 | `strategic` | The boundaries of the model: `BoundedContext`, declared by an object in the root package of the context and named after it in kebab case |
 | `dsl` | The ways to write the blocks down: `rule` builds a `BusinessRule`, `check` runs a list of them, `checkRule` checks a one-off condition |
@@ -38,6 +39,12 @@ The property of `Identifiable` is `identifier`, not `id`: an aggregate saved by
 Spring Data also implements `Persistable`, and its `getId()` would clash with a
 Kotlin `id` (KT-6653).
 
+An `Identifier` is a `ValueObject`, and the only block that is `Serializable`:
+JPA asks it of the class of a key, `@EmbeddedId` and `@IdClass`, and a
+distributed cache or a session stored outside the process serializes the key.
+Entities, value objects and events are not: nothing in the core sends them
+through Java serialization, and a service that needs it marks its own class.
+
 An event carries its meta, the revision of its aggregate and fields of its own. The
 meta, `EventMeta`, holds the id of the event, its name and the time it
 happened; the revision, `Revision`, taken by `aggregate.revision`, holds the
@@ -51,6 +58,14 @@ to the adapter that saves it, as Spring Data does with `@DomainEvents`.
 `Entity` and `AggregateRoot` take themselves as the first type parameter,
 `AggregateRoot<Cart, CartId>`, so that a contract can speak of the concrete
 type.
+
+## Specifications
+
+A specification is a rule of the domain that a candidate satisfies or not:
+an aggregate, an entity, a value object, a collection. It is a
+`(T) -> Boolean`, so it goes wherever a predicate does, `orders.filter(IsOpen)`,
+and `rule(IsOpen) { "Closed" }` makes a business rule of it. A specification is
+a domain object, not a value object: it holds a rule, not data of the model.
 
 ## Spring Data
 

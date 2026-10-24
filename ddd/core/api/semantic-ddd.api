@@ -71,11 +71,17 @@ public abstract interface class pro/vlprojects/semantic/ddd/tactical/Identifiabl
 	public abstract fun getIdentifier ()Lpro/vlprojects/semantic/ddd/tactical/Identifier;
 }
 
-public abstract interface class pro/vlprojects/semantic/ddd/tactical/Identifier : pro/vlprojects/semantic/ddd/tactical/DomainObject {
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/Identifier : java/io/Serializable, pro/vlprojects/semantic/ddd/tactical/ValueObject {
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/Revision : pro/vlprojects/semantic/ddd/tactical/Identifiable, pro/vlprojects/semantic/ddd/tactical/Versioned {
 	public abstract fun getName ()Ljava/lang/String;
+}
+
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/Specification : kotlin/jvm/functions/Function1, pro/vlprojects/semantic/ddd/tactical/DomainObject {
+	public fun invoke (Ljava/lang/Object;)Ljava/lang/Boolean;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public abstract fun isSatisfiedBy (Ljava/lang/Object;)Z
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/ValueObject : pro/vlprojects/semantic/ddd/tactical/DomainObject {
