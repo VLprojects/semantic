@@ -1,8 +1,8 @@
 # semantic-ddd
 
-Tactical building blocks of domain-driven design for Kotlin and Java: typed
+Building blocks of domain-driven design for Kotlin and Java: typed
 identifiers, entities, aggregate roots, domain events, business rules and domain
-errors. The core is plain Kotlin; Spring Data with its stores, JPA and
+errors, and the bounded contexts that hold them. The core is plain Kotlin; Spring Data with its stores, JPA and
 MongoDB, and Spring Boot live in modules of their own.
 
 The contracts of the core are in place, and so is the base class of the
@@ -16,11 +16,18 @@ Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd`:
 | --- | --- |
 | `tactical` | The building blocks, side by side: `DomainObject` they all extend, with `typeName`, the class name in kebab case, on an object and on its class; `Identifier`, `Identifiable`, `Entity`, `AggregateRoot` with the `Revision` it gives, `Versioned`, `ValueObject`, `Event` with its `EventMeta`, built by `EventMeta.of<ItemAdded>()` with a new `EventId`, the current time and the class name in kebab case by default, `BusinessRule` |
 | `tactical.base` | Base classes to extend, free of any framework: `AbstractEntity` and `AbstractId` equal by identifier and value, `AbstractAggregateRoot` that registers events and gives a `BaseRevision` of itself, `AbstractEvent` equal by id, and `EventId` on a `UUID`, the default id of an event |
+| `strategic` | The boundaries of the model: `BoundedContext`, declared by an object in the root package of the context and named after it in kebab case |
 | `dsl` | The ways to write the blocks down: `rule` builds a `BusinessRule`, `check` runs a list of them, `checkRule` checks a one-off condition |
 | `architecture.error` | What a layer of the application raises, not a pattern of the model: `DomainException` and the refusals a service extends, `NotFoundException`, `ConflictException`, `BusinessRuleException` |
 
-The strategic patterns, bounded contexts and the like, will get a `strategic`
-package of their own.
+A bounded context is an object, `object Billing : BoundedContext`, put in the
+root package of the context: the package of the object and every package under
+it belong to the context, so its classes need no mark of their own.
+`Invoice::class in Billing` tells whether a class belongs to it. Being an
+object, a context is referred to by its type, `Billing::class`, and the other
+strategic patterns will name the contexts they relate in this way, so a typo
+does not compile. The rest of them, subdomains, the relations of a context map
+and the like, come one by one.
 
 The contracts are interfaces; `tactical.base` gives classes to extend. What
 needs a framework, handing the events out on save, telling a new aggregate from
