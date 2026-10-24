@@ -36,7 +36,7 @@ class EventPublisherAutoConfigurationTests {
         refresh()
     }
 
-    @Configuration
+    @Configuration(proxyBeanMethods = false)
     class OwnPublisher {
 
         @Bean
