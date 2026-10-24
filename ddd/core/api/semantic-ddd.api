@@ -14,6 +14,10 @@ public class pro/vlprojects/semantic/ddd/architecture/error/NotFoundException : 
 	public fun <init> (Ljava/lang/String;)V
 }
 
+public abstract interface class pro/vlprojects/semantic/ddd/architecture/event/EventPublisher {
+	public abstract fun publish (Lpro/vlprojects/semantic/ddd/tactical/Event;)V
+}
+
 public final class pro/vlprojects/semantic/ddd/dsl/BusinessRulesKt {
 	public static final fun check (Ljava/lang/Iterable;Ljava/lang/Object;)V
 	public static final fun checkRule (ZLkotlin/jvm/functions/Function0;)V
@@ -82,6 +86,7 @@ public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractAggregat
 	protected final fun getEvents ()Ljava/util/List;
 	public final fun getRevision ()Lpro/vlprojects/semantic/ddd/tactical/Revision;
 	public final fun getVersion ()J
+	public final fun pullEvents ()Ljava/util/List;
 	protected final fun register (Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;Lpro/vlprojects/semantic/ddd/tactical/Event;)Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;
 	protected final fun setVersion (J)V
 	public fun toString ()Ljava/lang/String;

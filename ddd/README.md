@@ -5,8 +5,9 @@ identifiers, entities, aggregate roots, domain events, business rules and domain
 errors. The core is plain Kotlin; Spring Data with its stores, JPA and
 MongoDB, and Spring Boot live in modules of their own.
 
-The contracts of the core are in place, and so is the base class of the
-Spring Data module; the store and Spring Boot modules are empty so far.
+The contracts of the core are in place, so are the base class of the
+Spring Data module and the publisher of events in Spring Boot; the store
+modules are empty so far.
 
 ## The core
 
@@ -15,9 +16,10 @@ Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd`:
 | Package | What is there |
 | --- | --- |
 | `tactical` | The building blocks, side by side: `DomainObject` they all extend, with `typeName`, the class name in kebab case, on an object and on its class; `Identifier`, `Identifiable`, `Entity`, `AggregateRoot` with the `Revision` it gives, `Versioned`, `ValueObject`, `Event` with its `EventMeta`, built by `EventMeta.of<ItemAdded>()` with a new `EventId`, the current time and the class name in kebab case by default, `BusinessRule` |
-| `tactical.base` | Base classes to extend, free of any framework: `AbstractEntity` and `AbstractId` equal by identifier and value, `AbstractAggregateRoot` that registers events and gives a `BaseRevision` of itself, `AbstractEvent` equal by id, and `EventId` on a `UUID`, the default id of an event |
+| `tactical.base` | Base classes to extend, free of any framework: `AbstractEntity` and `AbstractId` equal by identifier and value, `AbstractAggregateRoot` that registers events, hands them out once with `pullEvents()` and gives a `BaseRevision` of itself, `AbstractEvent` equal by id, and `EventId` on a `UUID`, the default id of an event |
 | `dsl` | The ways to write the blocks down: `rule` builds a `BusinessRule`, `check` runs a list of them, `checkRule` checks a one-off condition |
 | `architecture.error` | What a layer of the application raises, not a pattern of the model: `DomainException` and the refusals a service extends, `NotFoundException`, `ConflictException`, `BusinessRuleException` |
+| `architecture.event` | `EventPublisher`, the port the application hands pulled events to |
 
 The strategic patterns, bounded contexts and the like, will get a `strategic`
 package of their own.
@@ -41,6 +43,11 @@ renames it for the receivers. An event is typed by its aggregate and the identif
 it, `Event<Cart, CartId>`, so an event cannot name an aggregate of another
 type. How an aggregate records its events and hands them out is left to it and
 to the adapter that saves it, as Spring Data does with `@DomainEvents`.
+
+Without Spring, the application saves the aggregate and hands what
+`pullEvents()` returns to an `EventPublisher` of its own, in the same unit of
+work: `cart.pullEvents().forEach(publisher::publish)`. `pullEvents()` clears the
+events, so they are handed out once. The domain itself publishes nothing.
 `Entity` and `AggregateRoot` take themselves as the first type parameter,
 `AggregateRoot<Cart, CartId>`, so that a contract can speak of the concrete
 type.
@@ -54,11 +61,22 @@ the core and a `Persistable`: `getId()` is the identifier, the registered events
 are handed out with `@DomainEvents` when the repository saves the aggregate and
 forgotten with `@AfterDomainEventPublication` once they are published. Events
 are published by `save()` only: an aggregate changed and not saved publishes
-nothing.
+nothing, unless the application pulls its events and hands them to the
+`EventPublisher` itself.
 
 `isNew()` is left to the store, since each tells a new aggregate from a saved
 one in its own way: the JPA base by the callbacks of the entity, the MongoDB base
 by the version.
+
+## Spring Boot
+
+`semantic-ddd-spring-boot` registers an `EventPublisher` on the
+`ApplicationEventPublisher` of the context, unless the service declares one of
+its own. Events handed to it and events Spring Data publishes on `save()` take
+one path: the same `@EventListener`, `@TransactionalEventListener` and Spring
+Modulith listeners receive them, and the Modulith event publication registry, the
+outbox, records both. The delivery, in the transaction, after the commit or
+through the outbox to a broker, is chosen by the listener, not by the publisher.
 
 ## Modules
 
