@@ -2,7 +2,9 @@
 """Generates docs/assets/*.svg: one light and one dark file per diagram.
 
 The drawings follow the rules of the batcher diagrams, so the libraries read as
-one family:
+one family. A new diagram is drawn with the parts below, family() and block(),
+and passes the checklist of the Gorbunov and Birman bureau before it is shown;
+spacing is measured on the render, not read off the code:
 
 - Show the thing, not a box with its name; draw everything to one scale.
 - Plates, not frames: a group is a flat fill with no outline.
@@ -16,8 +18,14 @@ one family:
   The exception is the family map: a family in development is filled, one
   planned for v1 is dashed, one for later is dotted.
 - One grid of 4 px. Space inside a group is smaller than space between groups:
-  12 inside a block, 16 between blocks, 24 between plates.
-- Two text sizes: the name in bold, the explanation in grey. Below the name
+  12 inside a block, 16 between blocks and rows of one level, 24 between
+  levels, 32 between plates.
+- A block is a module: a tag with its directory, its whole artifact name in
+  bold 8 below, and what it is for in grey, apart from them and 12 above the
+  bottom, as the tag is 12 below the top. Never a prefix over a tail. A block
+  alone in its row spans the row.
+- A family name outranks the artifacts in it: 16 against 13.
+- Two text sizes for content: the name in bold, the explanation in grey. Below the name
   where there is room; in a compact row, on the same line, aligned right.
   A tag is a third, smaller one: a directory or a status on a tint of its own
   text colour, with no outline.
