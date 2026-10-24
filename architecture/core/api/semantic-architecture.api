@@ -1,3 +1,29 @@
+public final class pro/vlprojects/semantic/architecture/contract/ContractCompatibility : java/lang/Enum {
+	public static final field BACKWARD Lpro/vlprojects/semantic/architecture/contract/ContractCompatibility;
+	public static final field BREAKING Lpro/vlprojects/semantic/architecture/contract/ContractCompatibility;
+	public static final field FORWARD Lpro/vlprojects/semantic/architecture/contract/ContractCompatibility;
+	public static final field FULL Lpro/vlprojects/semantic/architecture/contract/ContractCompatibility;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lpro/vlprojects/semantic/architecture/contract/ContractCompatibility;
+	public static fun values ()[Lpro/vlprojects/semantic/architecture/contract/ContractCompatibility;
+}
+
+public final class pro/vlprojects/semantic/architecture/contract/ContractScope : java/lang/Enum {
+	public static final field EXTERNAL Lpro/vlprojects/semantic/architecture/contract/ContractScope;
+	public static final field INTERNAL Lpro/vlprojects/semantic/architecture/contract/ContractScope;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lpro/vlprojects/semantic/architecture/contract/ContractScope;
+	public static fun values ()[Lpro/vlprojects/semantic/architecture/contract/ContractScope;
+}
+
+public abstract interface annotation class pro/vlprojects/semantic/architecture/contract/Contracted : java/lang/annotation/Annotation {
+	public abstract fun compatibility ()Lpro/vlprojects/semantic/architecture/contract/ContractCompatibility;
+	public abstract fun name ()Ljava/lang/String;
+	public abstract fun namespace ()Ljava/lang/String;
+	public abstract fun scope ()Lpro/vlprojects/semantic/architecture/contract/ContractScope;
+	public abstract fun version ()I
+}
+
 public abstract interface annotation class pro/vlprojects/semantic/architecture/layer/ApplicationLayer : java/lang/annotation/Annotation {
 }
 
