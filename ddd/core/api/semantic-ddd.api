@@ -20,6 +20,43 @@ public final class pro/vlprojects/semantic/ddd/dsl/BusinessRulesKt {
 	public static final fun rule (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lpro/vlprojects/semantic/ddd/tactical/BusinessRule;
 }
 
+public final class pro/vlprojects/semantic/ddd/dsl/ConditionScope {
+	public final fun any (Lkotlin/reflect/KProperty1;Lkotlin/jvm/functions/Function1;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public final fun any (Lpro/vlprojects/semantic/ddd/tactical/specification/PropertyPath;Lkotlin/jvm/functions/Function1;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public final fun atLeast (Lkotlin/reflect/KProperty1;Ljava/lang/Comparable;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public final fun atLeast (Lpro/vlprojects/semantic/ddd/tactical/specification/PropertyPath;Ljava/lang/Comparable;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public final fun atMost (Lkotlin/reflect/KProperty1;Ljava/lang/Comparable;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public final fun atMost (Lpro/vlprojects/semantic/ddd/tactical/specification/PropertyPath;Ljava/lang/Comparable;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public final fun div (Lkotlin/reflect/KProperty1;Lkotlin/reflect/KProperty1;)Lpro/vlprojects/semantic/ddd/tactical/specification/PropertyPath;
+	public final fun div (Lpro/vlprojects/semantic/ddd/tactical/specification/PropertyPath;Lkotlin/reflect/KProperty1;)Lpro/vlprojects/semantic/ddd/tactical/specification/PropertyPath;
+	public final fun eq (Lkotlin/reflect/KProperty1;Ljava/lang/Object;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public final fun eq (Lpro/vlprojects/semantic/ddd/tactical/specification/PropertyPath;Ljava/lang/Object;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public final fun greaterThan (Lkotlin/reflect/KProperty1;Ljava/lang/Comparable;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public final fun greaterThan (Lpro/vlprojects/semantic/ddd/tactical/specification/PropertyPath;Ljava/lang/Comparable;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public final fun isIn (Lkotlin/reflect/KProperty1;Ljava/lang/Iterable;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public final fun isIn (Lpro/vlprojects/semantic/ddd/tactical/specification/PropertyPath;Ljava/lang/Iterable;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public final fun isNotNull (Lkotlin/reflect/KProperty1;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public final fun isNotNull (Lpro/vlprojects/semantic/ddd/tactical/specification/PropertyPath;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public final fun isNull (Lkotlin/reflect/KProperty1;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public final fun isNull (Lpro/vlprojects/semantic/ddd/tactical/specification/PropertyPath;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public final fun lessThan (Lkotlin/reflect/KProperty1;Ljava/lang/Comparable;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public final fun lessThan (Lpro/vlprojects/semantic/ddd/tactical/specification/PropertyPath;Ljava/lang/Comparable;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public final fun notEq (Lkotlin/reflect/KProperty1;Ljava/lang/Object;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public final fun notEq (Lpro/vlprojects/semantic/ddd/tactical/specification/PropertyPath;Ljava/lang/Object;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public final fun notIn (Lkotlin/reflect/KProperty1;Ljava/lang/Iterable;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public final fun notIn (Lpro/vlprojects/semantic/ddd/tactical/specification/PropertyPath;Ljava/lang/Iterable;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+}
+
+public final class pro/vlprojects/semantic/ddd/dsl/SpecificationsKt {
+	public static final fun allOf (Ljava/lang/Iterable;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public static final fun allOf ([Lpro/vlprojects/semantic/ddd/tactical/Specification;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public static final fun and (Lpro/vlprojects/semantic/ddd/tactical/Specification;Lpro/vlprojects/semantic/ddd/tactical/Specification;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public static final fun anyOf (Ljava/lang/Iterable;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public static final fun anyOf ([Lpro/vlprojects/semantic/ddd/tactical/Specification;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public static final fun not (Lpro/vlprojects/semantic/ddd/tactical/Specification;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public static final fun remainderUnsatisfiedBy (Lpro/vlprojects/semantic/ddd/tactical/Specification;Ljava/lang/Object;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+}
+
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/AggregateRoot : pro/vlprojects/semantic/ddd/tactical/Entity, pro/vlprojects/semantic/ddd/tactical/Versioned {
 	public abstract fun getRevision ()Lpro/vlprojects/semantic/ddd/tactical/Revision;
 }
@@ -67,6 +104,12 @@ public abstract interface class pro/vlprojects/semantic/ddd/tactical/Identifier 
 
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/Revision : pro/vlprojects/semantic/ddd/tactical/Identifiable, pro/vlprojects/semantic/ddd/tactical/Versioned {
 	public abstract fun getName ()Ljava/lang/String;
+}
+
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/Specification : kotlin/jvm/functions/Function1, pro/vlprojects/semantic/ddd/tactical/ValueObject {
+	public fun invoke (Ljava/lang/Object;)Ljava/lang/Boolean;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public abstract fun isSatisfiedBy (Ljava/lang/Object;)Z
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/ValueObject : pro/vlprojects/semantic/ddd/tactical/DomainObject {
@@ -138,5 +181,189 @@ public final class pro/vlprojects/semantic/ddd/tactical/base/EventId : pro/vlpro
 
 public final class pro/vlprojects/semantic/ddd/tactical/base/EventId$Factory {
 	public final fun new ()Lpro/vlprojects/semantic/ddd/tactical/base/EventId;
+}
+
+public abstract class pro/vlprojects/semantic/ddd/tactical/base/NamedSpecification : pro/vlprojects/semantic/ddd/tactical/Specification {
+	public fun <init> (Lkotlin/jvm/functions/Function1;)V
+	public final fun equals (Ljava/lang/Object;)Z
+	public final fun getDefinition ()Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public final fun hashCode ()I
+	public final fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/specification/AllOf : pro/vlprojects/semantic/ddd/tactical/Specification {
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSpecifications ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/specification/Always : pro/vlprojects/semantic/ddd/tactical/Specification {
+	public static final field INSTANCE Lpro/vlprojects/semantic/ddd/tactical/specification/Always;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/specification/AnyMatch : pro/vlprojects/semantic/ddd/tactical/specification/Constraint {
+	public fun <init> (Lpro/vlprojects/semantic/ddd/tactical/Specification;)V
+	public final fun component1 ()Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public final fun copy (Lpro/vlprojects/semantic/ddd/tactical/Specification;)Lpro/vlprojects/semantic/ddd/tactical/specification/AnyMatch;
+	public static synthetic fun copy$default (Lpro/vlprojects/semantic/ddd/tactical/specification/AnyMatch;Lpro/vlprojects/semantic/ddd/tactical/Specification;ILjava/lang/Object;)Lpro/vlprojects/semantic/ddd/tactical/specification/AnyMatch;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getElement ()Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public fun hashCode ()I
+	public fun isSatisfiedBy (Ljava/lang/Iterable;)Z
+	public synthetic fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/specification/AnyOf : pro/vlprojects/semantic/ddd/tactical/Specification {
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSpecifications ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/specification/AtLeast : pro/vlprojects/semantic/ddd/tactical/specification/Constraint {
+	public fun <init> (Ljava/lang/Comparable;)V
+	public final fun component1 ()Ljava/lang/Comparable;
+	public final fun copy (Ljava/lang/Comparable;)Lpro/vlprojects/semantic/ddd/tactical/specification/AtLeast;
+	public static synthetic fun copy$default (Lpro/vlprojects/semantic/ddd/tactical/specification/AtLeast;Ljava/lang/Comparable;ILjava/lang/Object;)Lpro/vlprojects/semantic/ddd/tactical/specification/AtLeast;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBound ()Ljava/lang/Comparable;
+	public fun hashCode ()I
+	public fun isSatisfiedBy (Ljava/lang/Comparable;)Z
+	public synthetic fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/specification/AtMost : pro/vlprojects/semantic/ddd/tactical/specification/Constraint {
+	public fun <init> (Ljava/lang/Comparable;)V
+	public final fun component1 ()Ljava/lang/Comparable;
+	public final fun copy (Ljava/lang/Comparable;)Lpro/vlprojects/semantic/ddd/tactical/specification/AtMost;
+	public static synthetic fun copy$default (Lpro/vlprojects/semantic/ddd/tactical/specification/AtMost;Ljava/lang/Comparable;ILjava/lang/Object;)Lpro/vlprojects/semantic/ddd/tactical/specification/AtMost;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBound ()Ljava/lang/Comparable;
+	public fun hashCode ()I
+	public fun isSatisfiedBy (Ljava/lang/Comparable;)Z
+	public synthetic fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/specification/Condition : pro/vlprojects/semantic/ddd/tactical/Specification {
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getConstraint ()Lpro/vlprojects/semantic/ddd/tactical/specification/Constraint;
+	public final fun getPath ()Lpro/vlprojects/semantic/ddd/tactical/specification/PropertyPath;
+	public fun hashCode ()I
+	public fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/specification/Constraint {
+	public abstract fun isSatisfiedBy (Ljava/lang/Object;)Z
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/specification/EqualTo : pro/vlprojects/semantic/ddd/tactical/specification/Constraint {
+	public fun <init> (Ljava/lang/Object;)V
+	public final fun component1 ()Ljava/lang/Object;
+	public final fun copy (Ljava/lang/Object;)Lpro/vlprojects/semantic/ddd/tactical/specification/EqualTo;
+	public static synthetic fun copy$default (Lpro/vlprojects/semantic/ddd/tactical/specification/EqualTo;Ljava/lang/Object;ILjava/lang/Object;)Lpro/vlprojects/semantic/ddd/tactical/specification/EqualTo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getValue ()Ljava/lang/Object;
+	public fun hashCode ()I
+	public fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/specification/GreaterThan : pro/vlprojects/semantic/ddd/tactical/specification/Constraint {
+	public fun <init> (Ljava/lang/Comparable;)V
+	public final fun component1 ()Ljava/lang/Comparable;
+	public final fun copy (Ljava/lang/Comparable;)Lpro/vlprojects/semantic/ddd/tactical/specification/GreaterThan;
+	public static synthetic fun copy$default (Lpro/vlprojects/semantic/ddd/tactical/specification/GreaterThan;Ljava/lang/Comparable;ILjava/lang/Object;)Lpro/vlprojects/semantic/ddd/tactical/specification/GreaterThan;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBound ()Ljava/lang/Comparable;
+	public fun hashCode ()I
+	public fun isSatisfiedBy (Ljava/lang/Comparable;)Z
+	public synthetic fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/specification/In : pro/vlprojects/semantic/ddd/tactical/specification/Constraint {
+	public fun <init> (Ljava/util/Set;)V
+	public final fun component1 ()Ljava/util/Set;
+	public final fun copy (Ljava/util/Set;)Lpro/vlprojects/semantic/ddd/tactical/specification/In;
+	public static synthetic fun copy$default (Lpro/vlprojects/semantic/ddd/tactical/specification/In;Ljava/util/Set;ILjava/lang/Object;)Lpro/vlprojects/semantic/ddd/tactical/specification/In;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getValues ()Ljava/util/Set;
+	public fun hashCode ()I
+	public fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/specification/LessThan : pro/vlprojects/semantic/ddd/tactical/specification/Constraint {
+	public fun <init> (Ljava/lang/Comparable;)V
+	public final fun component1 ()Ljava/lang/Comparable;
+	public final fun copy (Ljava/lang/Comparable;)Lpro/vlprojects/semantic/ddd/tactical/specification/LessThan;
+	public static synthetic fun copy$default (Lpro/vlprojects/semantic/ddd/tactical/specification/LessThan;Ljava/lang/Comparable;ILjava/lang/Object;)Lpro/vlprojects/semantic/ddd/tactical/specification/LessThan;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBound ()Ljava/lang/Comparable;
+	public fun hashCode ()I
+	public fun isSatisfiedBy (Ljava/lang/Comparable;)Z
+	public synthetic fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/specification/Never : pro/vlprojects/semantic/ddd/tactical/Specification {
+	public static final field INSTANCE Lpro/vlprojects/semantic/ddd/tactical/specification/Never;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/specification/Not : pro/vlprojects/semantic/ddd/tactical/Specification {
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSpecification ()Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public fun hashCode ()I
+	public fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/specification/NotEqualTo : pro/vlprojects/semantic/ddd/tactical/specification/Constraint {
+	public fun <init> (Ljava/lang/Object;)V
+	public final fun component1 ()Ljava/lang/Object;
+	public final fun copy (Ljava/lang/Object;)Lpro/vlprojects/semantic/ddd/tactical/specification/NotEqualTo;
+	public static synthetic fun copy$default (Lpro/vlprojects/semantic/ddd/tactical/specification/NotEqualTo;Ljava/lang/Object;ILjava/lang/Object;)Lpro/vlprojects/semantic/ddd/tactical/specification/NotEqualTo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getValue ()Ljava/lang/Object;
+	public fun hashCode ()I
+	public fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/specification/NotIn : pro/vlprojects/semantic/ddd/tactical/specification/Constraint {
+	public fun <init> (Ljava/util/Set;)V
+	public final fun component1 ()Ljava/util/Set;
+	public final fun copy (Ljava/util/Set;)Lpro/vlprojects/semantic/ddd/tactical/specification/NotIn;
+	public static synthetic fun copy$default (Lpro/vlprojects/semantic/ddd/tactical/specification/NotIn;Ljava/util/Set;ILjava/lang/Object;)Lpro/vlprojects/semantic/ddd/tactical/specification/NotIn;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getValues ()Ljava/util/Set;
+	public fun hashCode ()I
+	public fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/specification/PropertyPath {
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getNames ()Ljava/util/List;
+	public final fun getProperties ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+	public final fun valueOf (Ljava/lang/Object;)Ljava/lang/Object;
 }
 

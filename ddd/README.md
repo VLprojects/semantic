@@ -1,8 +1,8 @@
 # semantic-ddd
 
 Tactical building blocks of domain-driven design for Kotlin and Java: typed
-identifiers, entities, aggregate roots, domain events, business rules and domain
-errors. The core is plain Kotlin; Spring Data with its stores, JPA and
+identifiers, entities, aggregate roots, domain events, business rules,
+specifications and domain errors. The core is plain Kotlin; Spring Data with its stores, JPA and
 MongoDB, and Spring Boot live in modules of their own.
 
 The contracts of the core are in place, and so is the base class of the
@@ -14,9 +14,10 @@ Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd`:
 
 | Package | What is there |
 | --- | --- |
-| `tactical` | The building blocks, side by side: `DomainObject` they all extend, with `typeName`, the class name in kebab case, on an object and on its class; `Identifier`, `Identifiable`, `Entity`, `AggregateRoot` with the `Revision` it gives, `Versioned`, `ValueObject`, `Event` with its `EventMeta`, built by `EventMeta.of<ItemAdded>()` with a new `EventId`, the current time and the class name in kebab case by default, `BusinessRule` |
-| `tactical.base` | Base classes to extend, free of any framework: `AbstractEntity` and `AbstractId` equal by identifier and value, `AbstractAggregateRoot` that registers events and gives a `BaseRevision` of itself, `AbstractEvent` equal by id, and `EventId` on a `UUID`, the default id of an event |
-| `dsl` | The ways to write the blocks down: `rule` builds a `BusinessRule`, `check` runs a list of them, `checkRule` checks a one-off condition |
+| `tactical` | The building blocks, side by side: `DomainObject` they all extend, with `typeName`, the class name in kebab case, on an object and on its class; `Identifier`, `Identifiable`, `Entity`, `AggregateRoot` with the `Revision` it gives, `Versioned`, `ValueObject`, `Event` with its `EventMeta`, built by `EventMeta.of<ItemAdded>()` with a new `EventId`, the current time and the class name in kebab case by default, `BusinessRule`, `Specification` |
+| `tactical.specification` | What a specification is built of: the nodes `AllOf`, `AnyOf`, `Not`, the neutral `Always` and `Never`, and `Condition`, a `PropertyPath` with a `Constraint` such as `EqualTo`, `AtLeast` or `AnyMatch` |
+| `tactical.base` | Base classes to extend, free of any framework: `AbstractEntity` and `AbstractId` equal by identifier and value, `AbstractAggregateRoot` that registers events and gives a `BaseRevision` of itself, `AbstractEvent` equal by id, `EventId` on a `UUID`, the default id of an event, and `NamedSpecification`, a rule of the domain with a name |
+| `dsl` | The ways to write the blocks down: `rule` builds a `BusinessRule`, `check` runs a list of them, `checkRule` checks a one-off condition; `and`, `not`, `allOf`, `anyOf` combine specifications and `remainderUnsatisfiedBy` tells what a candidate fails; `ConditionScope` holds the conditions on properties |
 | `architecture.error` | What a layer of the application raises, not a pattern of the model: `DomainException` and the refusals a service extends, `NotFoundException`, `ConflictException`, `BusinessRuleException` |
 
 The strategic patterns, bounded contexts and the like, will get a `strategic`
@@ -44,6 +45,35 @@ to the adapter that saves it, as Spring Data does with `@DomainEvents`.
 `Entity` and `AggregateRoot` take themselves as the first type parameter,
 `AggregateRoot<Cart, CartId>`, so that a contract can speak of the concrete
 type.
+
+## Specifications
+
+A specification is a rule of the domain kept as a tree of data, not as a
+lambda, so that one tree checks an object in memory and can be turned into a
+query by an adapter, with nothing written by hand:
+
+```kotlin
+data object IsOpen : NamedSpecification<Order>({ Order::status eq OPEN })
+data class OfCustomer(val name: String) : NamedSpecification<Order>({ Order::customer / Customer::name eq name })
+data class ContainsSku(val sku: String) : NamedSpecification<Order>({ Order::lines.any { OrderLine::sku eq sku } })
+
+val wanted = IsOpen and !ContainsSku("a")
+orders.filter(wanted)
+wanted.remainderUnsatisfiedBy(order)
+rule(wanted) { "Not wanted" }.check(order)
+```
+
+The conditions on properties exist only inside a `NamedSpecification`, so each
+rule gets a name from the language of the domain. A specification is a
+`(T) -> Boolean`, so it goes wherever a predicate does, and it is equal by
+value: the nodes as multisets, a named one by its class and definition. The
+nodes are normalized, nested `AllOf` are flattened and `!!a` is `a`. There is
+no infix `or`, since it would bind as tightly as `and`; `anyOf(a, b)` is the
+disjunction. A null is treated as in Kotlin: `notEq` on null holds and a
+comparison with null does not.
+
+A specification with logic of its own implements the interface: it is checked
+in memory, but an adapter cannot turn it into a query.
 
 ## Spring Data
 
