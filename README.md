@@ -12,14 +12,14 @@ Each family has a core with no dependencies and adapters for the frameworks you
 use. Take only what you need: a service that wants an `Email` does not get
 aggregates with it.
 
-<img src="docs/assets/families-light.svg#gh-light-mode-only" width="100%" alt="Families and their modules: ddd in development, vo and cqrs planned">
-<img src="docs/assets/families-dark.svg#gh-dark-mode-only" width="100%" alt="Families and their modules: ddd in development, vo and cqrs planned">
+<img src="docs/assets/families-light.svg#gh-light-mode-only" width="100%" alt="Families and their modules: ddd and cqrs in development, vo planned">
+<img src="docs/assets/families-dark.svg#gh-dark-mode-only" width="100%" alt="Families and their modules: ddd and cqrs in development, vo planned">
 
 | Family | What it is | Status |
 | --- | --- | --- |
 | `vo` | rich value objects: `semantic-vo` with the validation every value object shares, then `net`, `range`, `time` and more | planned for v1 |
 | [`ddd`](ddd/README.md) | identifiers, entities, aggregate roots with events and invariants, business rules, domain errors; Spring Data adapters for JPA and MongoDB, Spring Boot | design, v1 |
-| `cqrs` | commands, queries, handlers and buses | after v1 |
+| [`cqrs`](cqrs/README.md) | commands, queries, their handlers and buses; no dependency on `ddd` | design |
 
 Artifacts are named `semantic-<family>[-<adapter>]` and live in the group
 `pro.vlprojects.semantic`. Packages follow the same path:
