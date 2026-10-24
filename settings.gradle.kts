@@ -33,3 +33,5 @@ module("semantic-ddd-spring-data-jpa", "ddd/spring-data-jpa")
 module("semantic-ddd-spring-data-mongodb", "ddd/spring-data-mongodb")
 module("semantic-ddd-spring-boot", "ddd/spring-boot")
 module("semantic-ddd-spring-boot-starter", "ddd/spring-boot-starter")
+
+module("semantic-cqrs", "cqrs/core")

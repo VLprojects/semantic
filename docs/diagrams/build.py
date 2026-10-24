@@ -224,11 +224,14 @@ DDD_SPRING = [
 
 
 def families(pal):
-	# the whole library on one page, a family per plate, the one in development on top
+	# the whole library on one page, a family per plate, the ones in development on top
 	a = Art(720, 0, pal)
 	y = family(a, 16, "ddd", "in development, v1", [
 		("JVM", [("blue", "ddd/core", "semantic-ddd", "building blocks, no framework")]),
 		*DDD_SPRING,
+	])
+	y = family(a, y, "cqrs", "in development", [
+		("JVM", [("blue", "cqrs/core", "semantic-cqrs", "commands, queries, buses")]),
 	])
 	y = family(a, y, "vo", "planned, v1", [
 		("base", [(None, "vo/core", "semantic-vo", "the validation every value object shares")]),
@@ -236,9 +239,6 @@ def families(pal):
 			(None, "vo/range", "semantic-vo-range", "bounded ranges")]),
 		(None, [(None, "vo/time", "semantic-vo-time", "dates, periods")]),
 	], DASH)
-	y = family(a, y, "cqrs", "after v1", [
-		(None, [(None, "cqrs/core", "semantic-cqrs", "commands, queries, buses")]),
-	], DOT)
 	a.h = y - PLATES + 16
 	return a
 
