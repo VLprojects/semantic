@@ -1,0 +1,8 @@
+public abstract class pro/vlprojects/semantic/ddd/spring/data/SpringDataAggregateRoot : pro/vlprojects/semantic/ddd/tactical/base/AbstractAggregateRoot, org/springframework/data/domain/Persistable {
+	public fun <init> ()V
+	protected final fun clearDomainEvents ()V
+	protected final fun domainEvents ()Ljava/util/Collection;
+	public synthetic fun getId ()Ljava/lang/Object;
+	public final fun getId ()Lpro/vlprojects/semantic/ddd/tactical/Identifier;
+}
+
