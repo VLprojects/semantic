@@ -58,6 +58,10 @@ public final class pro/vlprojects/semantic/ddd/tactical/EventMeta {
 public final class pro/vlprojects/semantic/ddd/tactical/EventMeta$Factory {
 }
 
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/EventPublisher {
+	public abstract fun publish (Lpro/vlprojects/semantic/ddd/tactical/Event;)V
+}
+
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/Identifiable {
 	public abstract fun getIdentifier ()Lpro/vlprojects/semantic/ddd/tactical/Identifier;
 }

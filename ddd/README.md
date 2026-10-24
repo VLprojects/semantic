@@ -14,7 +14,7 @@ Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd`:
 
 | Package | What is there |
 | --- | --- |
-| `tactical` | The building blocks, side by side: `DomainObject` they all extend, with `typeName`, the class name in kebab case, on an object and on its class; `Identifier`, `Identifiable`, `Entity`, `AggregateRoot` with the `Revision` it gives, `Versioned`, `ValueObject`, `Event` with its `EventMeta`, built by `EventMeta.of<ItemAdded>()` with a new `EventId`, the current time and the class name in kebab case by default, `BusinessRule`, `Specification` |
+| `tactical` | The building blocks, side by side: `DomainObject` they all extend, with `typeName`, the class name in kebab case, on an object and on its class; `Identifier`, `Identifiable`, `Entity`, `AggregateRoot` with the `Revision` it gives, `Versioned`, `ValueObject`, `Event` with its `EventMeta`, built by `EventMeta.of<ItemAdded>()` with a new `EventId`, the current time and the class name in kebab case by default, `EventPublisher` that events are handed to, `BusinessRule`, `Specification` |
 | `tactical.specification.composite` | The parts a specification is composed of: `AllOf`, `AnyOf` and `Not` hold other specifications, `Always` and `Never` hold for every candidate and for none |
 | `tactical.base` | Base classes to extend, free of any framework: `AbstractEntity` and `AbstractId` equal by identifier and value, `AbstractAggregateRoot` that registers events and gives a `BaseRevision` of itself, `AbstractEvent` equal by id, and `EventId` on a `UUID`, the default id of an event |
 | `dsl` | The ways to write the blocks down: `rule` builds a `BusinessRule`, `check` runs a list of them, `checkRule` checks a one-off condition |
@@ -47,7 +47,8 @@ is raised. The name of an event and of an aggregate is its `typeName`, the class
 renames it for the receivers. An event is typed by its aggregate and the identifier of
 it, `Event<Cart, CartId>`, so an event cannot name an aggregate of another
 type. How an aggregate records its events and hands them out is left to it and
-to the adapter that saves it, as Spring Data does with `@DomainEvents`.
+to the adapter that saves it, as Spring Data does with `@DomainEvents`. The
+adapter hands them to an `EventPublisher`; the domain itself publishes nothing.
 `Entity` and `AggregateRoot` take themselves as the first type parameter,
 `AggregateRoot<Cart, CartId>`, so that a contract can speak of the concrete
 type.
