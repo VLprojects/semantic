@@ -33,7 +33,7 @@ SequentialVersion.parseOrNull("v3")   // null
 
 The parser of a version is its companion: `SequentialVersion.Factory` in Java.
 A sequential version is written as a canonical number, with no sign and no
-leading zeros, and starts at `SequentialVersion.INITIAL`, zero.
+leading zeros, and starts at `SequentialVersion.initial`, zero.
 
 Semantic and calendar versions come next.
 

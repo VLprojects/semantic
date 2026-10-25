@@ -20,18 +20,20 @@ public class SequentialVersion private constructor(
 
     public companion object Factory : VersionParser<SequentialVersion> {
 
-        private val CANONICAL = Regex("0|[1-9][0-9]*")
-
-        @JvmField
-        public val INITIAL: SequentialVersion = SequentialVersion(0)
+        public val initial: SequentialVersion = SequentialVersion(0)
 
         public fun of(value: Long): SequentialVersion = value
             .also { require(it >= 0) { "A sequential version is not negative: $it" } }
             .let(::SequentialVersion)
 
         override fun parseOrNull(text: String): SequentialVersion? = text
-            .takeIf(CANONICAL::matches)
+            .takeIf { it.isDigits }
+            ?.takeUnless { it.hasLeadingZero }
             ?.toLongOrNull()
             ?.let(::SequentialVersion)
+
+        private val String.isDigits get() = all { it in '0'..'9' }
+
+        private val String.hasLeadingZero get() = length > 1 && startsWith('0')
     }
 }

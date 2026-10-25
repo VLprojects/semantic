@@ -7,7 +7,6 @@ public abstract interface class pro/vlprojects/semantic/types/version/OrderedVer
 
 public final class pro/vlprojects/semantic/types/version/SequentialVersion : pro/vlprojects/semantic/types/version/IncrementableVersion {
 	public static final field Factory Lpro/vlprojects/semantic/types/version/SequentialVersion$Factory;
-	public static final field INITIAL Lpro/vlprojects/semantic/types/version/SequentialVersion;
 	public synthetic fun compareTo (Ljava/lang/Object;)I
 	public fun compareTo (Lpro/vlprojects/semantic/types/version/SequentialVersion;)I
 	public fun equals (Ljava/lang/Object;)Z
@@ -19,6 +18,7 @@ public final class pro/vlprojects/semantic/types/version/SequentialVersion : pro
 }
 
 public final class pro/vlprojects/semantic/types/version/SequentialVersion$Factory : pro/vlprojects/semantic/types/version/VersionParser {
+	public final fun getInitial ()Lpro/vlprojects/semantic/types/version/SequentialVersion;
 	public final fun of (J)Lpro/vlprojects/semantic/types/version/SequentialVersion;
 	public fun parseOrNull (Ljava/lang/String;)Lpro/vlprojects/semantic/types/version/SequentialVersion;
 	public synthetic fun parseOrNull (Ljava/lang/String;)Lpro/vlprojects/semantic/types/version/Version;

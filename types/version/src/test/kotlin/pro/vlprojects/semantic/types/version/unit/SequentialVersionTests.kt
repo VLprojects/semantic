@@ -13,7 +13,7 @@ class SequentialVersionTests {
 
     @Test
     fun `the initial version is zero`() {
-        assertEquals(SequentialVersion.of(0), SequentialVersion.INITIAL)
+        assertEquals(SequentialVersion.of(0), SequentialVersion.initial)
     }
 
     @Test
@@ -47,7 +47,7 @@ class SequentialVersionTests {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["", "-1", "+1", "01", " 1", "1.0", "v1", "9223372036854775808"])
+    @ValueSource(strings = ["", "-1", "+1", "01", " 1", "1.0", "v1", "١", "9223372036854775808"])
     fun `only a canonical number is a version`(text: String) {
         assertNull(SequentialVersion.parseOrNull(text))
     }
