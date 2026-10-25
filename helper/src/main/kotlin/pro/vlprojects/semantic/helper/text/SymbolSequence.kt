@@ -1,26 +1,24 @@
-package pro.vlprojects.semantic.helper.format
+package pro.vlprojects.semantic.helper.text
 
-import pro.vlprojects.semantic.helper.text.calculateSymbolBoundaryArray
-
-internal class SymbolSequence(private val text: CharSequence) {
+public class SymbolSequence(private val text: CharSequence) {
 
     private val boundaries = text.calculateSymbolBoundaryArray()
 
-    val length = boundaries.lastIndex
+    public val length: Int = boundaries.lastIndex
 
-    val indices = 0 until length
+    public val indices: IntRange = 0 until length
 
-    fun extract(range: IntRange) = text.substring(boundaries[range.first], boundaries[range.last + 1])
+    public fun extract(range: IntRange): String = text.substring(boundaries[range.first], boundaries[range.last + 1])
 
-    fun isLetterOrDigitAt(index: Int) = index
+    public fun isLetterOrDigitAt(index: Int): Boolean = index
         .let(::readFirstCodePointAt)
         .let(Character::isLetterOrDigit)
 
-    fun isLowercaseAt(index: Int) = index
+    public fun isLowercaseAt(index: Int): Boolean = index
         .let(::readFirstCodePointAt)
         .let(Character::isLowerCase)
 
-    fun isCapitalAt(index: Int) = index
+    public fun isCapitalAt(index: Int): Boolean = index
         .let(::readFirstCodePointAt)
         .let(::isCapital)
 

@@ -1,4 +1,4 @@
-package pro.vlprojects.semantic.helper.format
+package pro.vlprojects.semantic.helper.text
 
 public fun WordSequence.asIterable(): Iterable<Word> = Iterable(this::iterator)
 
