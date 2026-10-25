@@ -51,6 +51,7 @@ public final class pro/vlprojects/semantic/helper/number/ShortHelperKt {
 }
 
 public final class pro/vlprojects/semantic/helper/text/CharSequenceHelperKt {
+	public static final fun toSymbolSequence (Ljava/lang/CharSequence;)Lpro/vlprojects/semantic/helper/text/SymbolSequence;
 	public static final fun toWordSequence (Ljava/lang/CharSequence;)Lpro/vlprojects/semantic/helper/text/WordSequence;
 }
 
@@ -59,13 +60,17 @@ public final class pro/vlprojects/semantic/helper/text/StringHelperKt {
 }
 
 public final class pro/vlprojects/semantic/helper/text/SymbolSequence {
-	public fun <init> (Ljava/lang/CharSequence;)V
+	public static final field Factory Lpro/vlprojects/semantic/helper/text/SymbolSequence$Factory;
 	public final fun extract (Lkotlin/ranges/IntRange;)Ljava/lang/String;
 	public final fun getIndices ()Lkotlin/ranges/IntRange;
 	public final fun getLength ()I
 	public final fun isCapitalAt (I)Z
 	public final fun isLetterOrDigitAt (I)Z
 	public final fun isLowercaseAt (I)Z
+}
+
+public final class pro/vlprojects/semantic/helper/text/SymbolSequence$Factory {
+	public final fun of (Ljava/lang/CharSequence;)Lpro/vlprojects/semantic/helper/text/SymbolSequence;
 }
 
 public final class pro/vlprojects/semantic/helper/text/Word : java/lang/CharSequence {
