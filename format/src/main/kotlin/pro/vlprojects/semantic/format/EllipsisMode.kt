@@ -1,4 +1,4 @@
-package pro.vlprojects.semantic.helper.format
+package pro.vlprojects.semantic.format
 
 import pro.vlprojects.semantic.helper.text.takeLastSymbols
 import pro.vlprojects.semantic.helper.text.takeSymbols
