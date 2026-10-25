@@ -1,42 +1,52 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 744 364" width="744" height="364" role="img">
-  <rect width="744" height="364" rx="12" fill="#151B23"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 744 660" width="744" height="660" role="img">
+  <rect width="744" height="660" rx="12" fill="#151B23"/>
   <g transform="translate(12,12)">
-    <rect x="16.0" y="16.0" width="688.0" height="308.0" rx="12" fill="#1D242D"/>
-    <text x="32.0" y="44.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">ddd</text>
-    <text x="67.4" y="44.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">in development, v1</text>
-    <text x="32.0" y="97.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">JVM</text>
-    <rect x="92.0" y="60.0" width="188.0" height="72.0" rx="6" fill="#29313C"/>
-    <text x="104.0" y="81.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">semantic-</text>
-    <text x="104.0" y="97.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">vo</text>
-    <text x="104.0" y="120.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">value objects, the vo family</text>
-    <rect x="296.0" y="60.0" width="188.0" height="72.0" rx="6" fill="#29313C"/>
-    <text x="308.0" y="81.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">semantic-</text>
-    <text x="308.0" y="97.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">format</text>
-    <text x="308.0" y="120.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">names, the format family</text>
-    <rect x="500.0" y="60.0" width="188.0" height="72.0" rx="6" fill="#6E9BFF"/>
-    <text x="512.0" y="81.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#1B3A80" text-anchor="start">semantic-</text>
-    <text x="512.0" y="97.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#06173D" text-anchor="start">ddd</text>
-    <text x="512.0" y="120.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1B3A80" text-anchor="start">building blocks</text>
-    <text x="32.0" y="185.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">Spring</text>
-    <rect x="92.0" y="148.0" width="188.0" height="72.0" rx="6" fill="#5BF08A"/>
-    <text x="104.0" y="169.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">semantic-ddd-</text>
-    <text x="104.0" y="185.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#03240E" text-anchor="start">spring-data</text>
-    <text x="104.0" y="208.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">what every store shares</text>
-    <rect x="296.0" y="148.0" width="188.0" height="72.0" rx="6" fill="#5BF08A"/>
-    <text x="308.0" y="169.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">semantic-ddd-</text>
-    <text x="308.0" y="185.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#03240E" text-anchor="start">spring-data-jpa</text>
-    <text x="308.0" y="208.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">JPA entities</text>
-    <rect x="500.0" y="148.0" width="188.0" height="72.0" rx="6" fill="#5BF08A"/>
-    <text x="512.0" y="169.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">semantic-ddd-</text>
-    <text x="512.0" y="185.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#03240E" text-anchor="start">spring-data-mongodb</text>
-    <text x="512.0" y="208.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">MongoDB documents</text>
-    <rect x="92.0" y="236.0" width="188.0" height="72.0" rx="6" fill="#5BF08A"/>
-    <text x="104.0" y="257.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">semantic-ddd-</text>
-    <text x="104.0" y="273.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#03240E" text-anchor="start">spring-boot</text>
-    <text x="104.0" y="296.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">auto-configuration</text>
-    <rect x="296.0" y="236.0" width="188.0" height="72.0" rx="6" fill="#5BF08A"/>
-    <text x="308.0" y="257.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">semantic-ddd-</text>
-    <text x="308.0" y="273.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#03240E" text-anchor="start">spring-boot-starter</text>
-    <text x="308.0" y="296.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">dependencies only</text>
+    <rect x="16.0" y="16.0" width="688.0" height="604.0" rx="12" fill="#1D242D"/>
+    <text x="32.0" y="46.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="16" font-weight="600" fill="#E6EDF3" text-anchor="start">ddd</text>
+    <rect x="72.8" y="31.0" width="115.0" height="18" rx="4" fill="#9198A1" fill-opacity="0.2"/>
+    <text x="80.8" y="43.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#9198A1" text-anchor="start">in development, v1</text>
+    <text x="32.0" y="112.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">JVM</text>
+    <rect x="116.0" y="64.0" width="278.0" height="92.0" rx="6" fill="#29313C"/>
+    <rect x="128.0" y="76.0" width="62.2" height="18" rx="4" fill="#9198A1" fill-opacity="0.2"/>
+    <text x="136.0" y="88.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#9198A1" text-anchor="start">vo/core</text>
+    <text x="128.0" y="112.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">semantic-vo</text>
+    <text x="128.0" y="144.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">value objects, the vo family</text>
+    <rect x="410.0" y="64.0" width="278.0" height="92.0" rx="6" fill="#29313C"/>
+    <rect x="422.0" y="76.0" width="55.6" height="18" rx="4" fill="#9198A1" fill-opacity="0.2"/>
+    <text x="430.0" y="88.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#9198A1" text-anchor="start">format</text>
+    <text x="422.0" y="112.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">semantic-format</text>
+    <text x="422.0" y="144.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">names, the format family</text>
+    <rect x="116.0" y="172.0" width="572.0" height="92.0" rx="6" fill="#6E9BFF"/>
+    <rect x="128.0" y="184.0" width="68.8" height="18" rx="4" fill="#1B3A80" fill-opacity="0.2"/>
+    <text x="136.0" y="196.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1B3A80" text-anchor="start">ddd/core</text>
+    <text x="128.0" y="220.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#06173D" text-anchor="start">semantic-ddd</text>
+    <text x="128.0" y="252.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1B3A80" text-anchor="start">building blocks, no framework</text>
+    <text x="32.0" y="336.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">Spring Data</text>
+    <rect x="116.0" y="288.0" width="572.0" height="92.0" rx="6" fill="#5BF08A"/>
+    <rect x="128.0" y="300.0" width="115.0" height="18" rx="4" fill="#0D5A26" fill-opacity="0.2"/>
+    <text x="136.0" y="312.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#0D5A26" text-anchor="start">ddd/spring-data</text>
+    <text x="128.0" y="336.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#03240E" text-anchor="start">semantic-ddd-spring-data</text>
+    <text x="128.0" y="368.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">what every store shares</text>
+    <rect x="116.0" y="396.0" width="278.0" height="92.0" rx="6" fill="#5BF08A"/>
+    <rect x="128.0" y="408.0" width="141.4" height="18" rx="4" fill="#0D5A26" fill-opacity="0.2"/>
+    <text x="136.0" y="420.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#0D5A26" text-anchor="start">ddd/spring-data-jpa</text>
+    <text x="128.0" y="444.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#03240E" text-anchor="start">semantic-ddd-spring-data-jpa</text>
+    <text x="128.0" y="476.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">aggregates as JPA entities</text>
+    <rect x="410.0" y="396.0" width="278.0" height="92.0" rx="6" fill="#5BF08A"/>
+    <rect x="422.0" y="408.0" width="167.8" height="18" rx="4" fill="#0D5A26" fill-opacity="0.2"/>
+    <text x="430.0" y="420.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#0D5A26" text-anchor="start">ddd/spring-data-mongodb</text>
+    <text x="422.0" y="444.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#03240E" text-anchor="start">semantic-ddd-spring-data-mongodb</text>
+    <text x="422.0" y="476.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">aggregates as MongoDB documents</text>
+    <text x="32.0" y="560.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">Spring Boot</text>
+    <rect x="116.0" y="512.0" width="278.0" height="92.0" rx="6" fill="#5BF08A"/>
+    <rect x="128.0" y="524.0" width="115.0" height="18" rx="4" fill="#0D5A26" fill-opacity="0.2"/>
+    <text x="136.0" y="536.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#0D5A26" text-anchor="start">ddd/spring-boot</text>
+    <text x="128.0" y="560.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#03240E" text-anchor="start">semantic-ddd-spring-boot</text>
+    <text x="128.0" y="592.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">auto-configuration</text>
+    <rect x="410.0" y="512.0" width="278.0" height="92.0" rx="6" fill="#5BF08A"/>
+    <rect x="422.0" y="524.0" width="167.8" height="18" rx="4" fill="#0D5A26" fill-opacity="0.2"/>
+    <text x="430.0" y="536.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#0D5A26" text-anchor="start">ddd/spring-boot-starter</text>
+    <text x="422.0" y="560.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#03240E" text-anchor="start">semantic-ddd-spring-boot-starter</text>
+    <text x="422.0" y="592.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">the way in: add it and one store</text>
   </g>
 </svg>
