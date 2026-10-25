@@ -17,8 +17,9 @@ aggregates with it.
 
 | Family | What it is | Status |
 | --- | --- | --- |
-| [`helper`](helper/README.md) | extensions of the standard types, in groups: `text` so far, symbols and words | in development, v1 |
+| [`helper`](helper/README.md) | extensions of the standard types, in groups: `text` and `number` so far | in development, v1 |
 | [`format`](format/README.md) | how a value is written down: cases, abbreviation | in development, v1 |
+| [`math`](math/README.md) | the structures values share: relations on a set such as orders, later algebras | design, v1 |
 | [`types`](types/README.md) | rich value objects, one module for each kind: `semantic-types-version` first, then `net`, `range`, `time` and more | design, v1 |
 | [`ddd`](ddd/README.md) | identifiers, entities, aggregate roots with events and invariants, business rules, domain errors; Spring Data adapters for JPA and MongoDB, Spring Boot | design, v1 |
 | [`cqrs`](cqrs/README.md) | commands, queries, their handlers and buses; no dependency on `ddd` | design |

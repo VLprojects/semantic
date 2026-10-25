@@ -5,9 +5,15 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import pro.vlprojects.semantic.format.EllipsisMode
 import pro.vlprojects.semantic.format.abbreviated
+import pro.vlprojects.semantic.format.capitalizeEachPart
+import pro.vlprojects.semantic.format.capitalizeFirstLetter
 import pro.vlprojects.semantic.format.toCamelCase
+import pro.vlprojects.semantic.format.toConstantCase
 import pro.vlprojects.semantic.format.toKebabCase
+import pro.vlprojects.semantic.format.toPascalCase
+import pro.vlprojects.semantic.format.toSentenceCase
 import pro.vlprojects.semantic.format.toSnakeCase
+import pro.vlprojects.semantic.format.toTrainCase
 
 class StringFormatHelperTests {
 
@@ -27,10 +33,34 @@ class StringFormatHelperTests {
     }
 
     @Test
+    fun `constant case writes the words in capitals with underscores`() {
+        assertEquals("SHOPPING_CART", "ShoppingCart".toConstantCase())
+    }
+
+    @Test
+    fun `pascal case capitalizes every word`() {
+        assertEquals("ShoppingCart", "shopping-cart".toPascalCase())
+    }
+
+    @Test
+    fun `train case capitalizes every word and joins them with dashes`() {
+        assertEquals("Shopping-Cart", "shopping_cart".toTrainCase())
+    }
+
+    @Test
+    fun `sentence case capitalizes the first word and joins them with spaces`() {
+        assertEquals("Shopping cart", "SHOPPING_CART".toSentenceCase())
+    }
+
+    @Test
     fun `a value already in a case stays in it`() {
         assertEquals("shopping-cart", "shopping-cart".toKebabCase())
         assertEquals("shopping_cart", "shopping_cart".toSnakeCase())
         assertEquals("shoppingCart", "shoppingCart".toCamelCase())
+        assertEquals("SHOPPING_CART", "SHOPPING_CART".toConstantCase())
+        assertEquals("ShoppingCart", "ShoppingCart".toPascalCase())
+        assertEquals("Shopping-Cart", "Shopping-Cart".toTrainCase())
+        assertEquals("Shopping cart", "Shopping cart".toSentenceCase())
     }
 
     @Test
@@ -45,6 +75,7 @@ class StringFormatHelperTests {
         assertEquals("http-request", "HTTPRequest".toKebabCase())
         assertEquals("order-id", "OrderID".toKebabCase())
         assertEquals("xmlHttpRequest", "XMLHttpRequest".toCamelCase())
+        assertEquals("XmlHttpRequest", "XMLHttpRequest".toPascalCase())
     }
 
     @Test
@@ -134,6 +165,46 @@ class StringFormatHelperTests {
     @Test
     fun `a minimum length not over the kept length is refused`() {
         assertThrows<IllegalArgumentException> { ID.abbreviated(minLength = 5, keepLength = 5) }
+    }
+
+    @Test
+    fun `each part of a name starts with a capital`() {
+        assertEquals("Jean-Luc", "jean-luc".capitalizeEachPart("-"))
+        assertEquals("Anne Marie", "anne marie".capitalizeEachPart(" "))
+    }
+
+    @Test
+    fun `the rest of a part keeps its case`() {
+        assertEquals("McDonald O'Neil", "mcDonald o'Neil".capitalizeEachPart(" "))
+    }
+
+    @Test
+    fun `a value without the separator is one part`() {
+        assertEquals("Jean", "jean".capitalizeEachPart("-"))
+    }
+
+    @Test
+    fun `empty parts stay empty`() {
+        assertEquals("-Jean--Luc-", "-jean--luc-".capitalizeEachPart("-"))
+    }
+
+    @Test
+    fun `an empty separator is refused`() {
+        assertThrows<IllegalArgumentException> { "jean".capitalizeEachPart("") }
+    }
+
+    @Test
+    fun `the first letter becomes a capital and the rest keeps its case`() {
+        assertEquals("Order id", "order id".capitalizeFirstLetter())
+        assertEquals("McDonald", "mcDonald".capitalizeFirstLetter())
+        assertEquals("Élan", "élan".capitalizeFirstLetter())
+    }
+
+    @Test
+    fun `a value without a lowercase start stays as it is`() {
+        assertEquals("Order", "Order".capitalizeFirstLetter())
+        assertEquals("42 orders", "42 orders".capitalizeFirstLetter())
+        assertEquals("", "".capitalizeFirstLetter())
     }
 
     private companion object {
