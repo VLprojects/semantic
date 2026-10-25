@@ -90,15 +90,16 @@ forgotten with `@AfterDomainEventPublication` once they are published. Events
 are published by `save()` only: an aggregate changed and not saved publishes
 nothing.
 
-`AbstractSpringDataEntity` is the base of an entity: an `Entity` and a
-`Persistable` whose `getId()` is the identifier, with a version. The root
-extends it and adds the revision and the events.
+`AbstractSpringDataEntity` is the base of an entity: it extends
+`AbstractEntity` of the core, with its identifier, version and invariants, and
+is a `Persistable` whose `getId()` is the identifier.
 
-The two bases implement the contracts of the core themselves and repeat what
-`AbstractEntity` and `AbstractAggregateRoot` do, equality by identifier and
-invariants checked on a change. They do not extend those classes, so the
-fields are declared here and not in the core, and how a store maps them is
-decided on the side of Spring Data.
+Each module has a hierarchy of its own, the root extending the entity of the
+same module: `AbstractSpringDataAggregateRoot` extends
+`AbstractSpringDataEntity`, not `AbstractAggregateRoot`, and repeats the
+revision and the events of the core root, since a class has one superclass.
+`identifier` and `version` of the core are open, so the base of a store
+overrides them with its mapping.
 
 `isNew()` is true until `markPersisted()` is called. Neither this flag nor the
 events of a root are stored: the `transient` modifier keeps them out of JPA,
