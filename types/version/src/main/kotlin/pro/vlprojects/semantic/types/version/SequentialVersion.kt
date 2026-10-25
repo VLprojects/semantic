@@ -1,8 +1,12 @@
 package pro.vlprojects.semantic.types.version
 
+import pro.vlprojects.semantic.math.relation.Incrementable
+
 public class SequentialVersion private constructor(
     public val value: Long,
-) : IncrementableVersion<SequentialVersion> {
+) : Version,
+    Comparable<SequentialVersion>,
+    Incrementable<SequentialVersion> {
 
     override fun next(): SequentialVersion = Math.addExact(value, 1L).let(::SequentialVersion)
 

@@ -1,18 +1,11 @@
-public abstract interface class pro/vlprojects/semantic/types/version/IncrementableVersion : pro/vlprojects/semantic/types/version/OrderedVersion {
-	public abstract fun next ()Lpro/vlprojects/semantic/types/version/IncrementableVersion;
-}
-
-public abstract interface class pro/vlprojects/semantic/types/version/OrderedVersion : java/lang/Comparable, pro/vlprojects/semantic/types/version/Version {
-}
-
-public final class pro/vlprojects/semantic/types/version/SequentialVersion : pro/vlprojects/semantic/types/version/IncrementableVersion {
+public final class pro/vlprojects/semantic/types/version/SequentialVersion : java/lang/Comparable, pro/vlprojects/semantic/math/relation/Incrementable, pro/vlprojects/semantic/types/version/Version {
 	public static final field Factory Lpro/vlprojects/semantic/types/version/SequentialVersion$Factory;
 	public synthetic fun compareTo (Ljava/lang/Object;)I
 	public fun compareTo (Lpro/vlprojects/semantic/types/version/SequentialVersion;)I
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getValue ()J
 	public fun hashCode ()I
-	public synthetic fun next ()Lpro/vlprojects/semantic/types/version/IncrementableVersion;
+	public synthetic fun next ()Ljava/lang/Object;
 	public fun next ()Lpro/vlprojects/semantic/types/version/SequentialVersion;
 	public fun toString ()Ljava/lang/String;
 }
