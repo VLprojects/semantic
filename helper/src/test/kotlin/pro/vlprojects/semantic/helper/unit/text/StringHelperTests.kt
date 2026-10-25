@@ -120,4 +120,22 @@ class StringHelperTests {
         assertFalse("order-42".startsWithAny())
         assertFalse("order-42".endsWithAny())
     }
+
+    @Test
+    fun `the prefixes may come as a collection`() {
+        assertTrue("order-42".startsWithAny(listOf("user-", "order-")))
+        assertTrue("order-42".notStartsWithAny(setOf("user-", "cart-")))
+    }
+
+    @Test
+    fun `the suffixes may come as a collection`() {
+        assertTrue("report.pdf".endsWithAny(listOf(".doc", ".pdf")))
+        assertTrue("report.pdf".notEndsWithAny(setOf(".doc", ".txt")))
+    }
+
+    @Test
+    fun `an empty collection matches nothing`() {
+        assertFalse("order-42".startsWithAny(emptyList()))
+        assertFalse("order-42".endsWithAny(emptySet()))
+    }
 }

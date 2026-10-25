@@ -102,12 +102,16 @@ public final class pro/vlprojects/semantic/helper/text/CharHelperKt {
 }
 
 public final class pro/vlprojects/semantic/helper/text/StringHelperKt {
+	public static final fun endsWithAny (Ljava/lang/String;Ljava/lang/Iterable;)Z
 	public static final fun endsWithAny (Ljava/lang/String;[Ljava/lang/String;)Z
 	public static final fun getSymbolCount (Ljava/lang/String;)I
 	public static final fun isAscii (Ljava/lang/String;)Z
 	public static final fun isNotAscii (Ljava/lang/String;)Z
+	public static final fun notEndsWithAny (Ljava/lang/String;Ljava/lang/Iterable;)Z
 	public static final fun notEndsWithAny (Ljava/lang/String;[Ljava/lang/String;)Z
+	public static final fun notStartsWithAny (Ljava/lang/String;Ljava/lang/Iterable;)Z
 	public static final fun notStartsWithAny (Ljava/lang/String;[Ljava/lang/String;)Z
+	public static final fun startsWithAny (Ljava/lang/String;Ljava/lang/Iterable;)Z
 	public static final fun startsWithAny (Ljava/lang/String;[Ljava/lang/String;)Z
 	public static final fun takeLastSymbols (Ljava/lang/String;I)Ljava/lang/String;
 	public static final fun takeSymbols (Ljava/lang/String;I)Ljava/lang/String;
