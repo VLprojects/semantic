@@ -1,5 +1,7 @@
 package pro.vlprojects.semantic.format
 
+import pro.vlprojects.semantic.helper.text.SymbolSequence
+
 public fun CharSequence.toWordSequence(): WordSequence = this
     .let(::SymbolSequence)
     .toWords()

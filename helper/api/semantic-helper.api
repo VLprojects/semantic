@@ -1,5 +1,4 @@
 public final class pro/vlprojects/semantic/helper/text/CharSequenceHelperKt {
-	public static final fun calculateSymbolBoundaryArray (Ljava/lang/CharSequence;)[I
 	public static final fun hasFewerSymbolsThan (Ljava/lang/CharSequence;I)Z
 }
 
@@ -7,5 +6,15 @@ public final class pro/vlprojects/semantic/helper/text/StringHelperKt {
 	public static final fun getSymbolCount (Ljava/lang/String;)I
 	public static final fun takeLastSymbols (Ljava/lang/String;I)Ljava/lang/String;
 	public static final fun takeSymbols (Ljava/lang/String;I)Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/helper/text/SymbolSequence {
+	public fun <init> (Ljava/lang/CharSequence;)V
+	public final fun extract (Lkotlin/ranges/IntRange;)Ljava/lang/String;
+	public final fun getIndices ()Lkotlin/ranges/IntRange;
+	public final fun getLength ()I
+	public final fun isCapitalAt (I)Z
+	public final fun isLetterOrDigitAt (I)Z
+	public final fun isLowercaseAt (I)Z
 }
 

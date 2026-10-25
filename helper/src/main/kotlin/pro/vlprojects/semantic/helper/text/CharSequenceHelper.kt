@@ -11,7 +11,7 @@ internal fun CharSequence.calculateSymbolBoundaries() = this
     }
     .takeWhile { it != BreakIterator.DONE }
 
-public fun CharSequence.calculateSymbolBoundaryArray(): IntArray = this
+internal fun CharSequence.calculateSymbolBoundaryArray() = this
     .toBreakIterator()
     .let { iterator ->
         IntArray(length + 1) { index ->

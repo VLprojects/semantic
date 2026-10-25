@@ -8,7 +8,7 @@ file per type it extends: `StringHelper.kt`, `InstantHelper.kt`.
 
 | Package | Extends | What is there |
 | --- | --- | --- |
-| `text` | `String`, `CharSequence` | the text itself: symbols as a reader sees them |
+| `text` | `String`, `CharSequence` | the text itself: symbols as a reader sees them, `SymbolSequence` to walk them |
 | `time` | `Instant`, `LocalDate`, `Duration` | planned |
 | `number` | `BigDecimal`, `Int`, `Long` | planned |
 | `lang` | `Any`, `KClass` | planned |
@@ -34,5 +34,12 @@ a cut never splits one.
 "Café🇷🇺👍🏽".hasFewerSymbolsThan(7) // true
 ```
 
-`calculateSymbolBoundaryArray()` gives where each symbol starts, and the end of
-the text, for a family that walks the symbols on its own.
+`SymbolSequence` walks a text symbol by symbol, for a family that reads it on
+its own: `format` finds the words of a name with it.
+
+```kotlin
+val symbols = SymbolSequence("Café🇷🇺")
+symbols.length         // 5
+symbols.extract(3..4)  // é🇷🇺
+symbols.isCapitalAt(0) // true
+```
