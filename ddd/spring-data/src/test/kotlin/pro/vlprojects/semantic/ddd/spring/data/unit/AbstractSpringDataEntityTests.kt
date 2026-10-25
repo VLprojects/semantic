@@ -51,6 +51,11 @@ class AbstractSpringDataEntityTests {
     }
 
     @Test
+    fun `entities of different classes differ though their identifiers are equal`() {
+        assertNotEquals(Item(ItemId(1)), Bundle(ItemId(1)))
+    }
+
+    @Test
     fun `an entity shows its class, kind and identifier`() {
         assertEquals("Item [entity][id: 1]", Item(ItemId(1)).toString())
     }

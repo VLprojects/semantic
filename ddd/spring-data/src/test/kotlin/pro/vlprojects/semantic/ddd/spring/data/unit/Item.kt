@@ -18,6 +18,15 @@ open class Item(
     fun loaded() = apply { markPersisted() }
 }
 
+class Bundle(
+    identifier: ItemId,
+) : AbstractSpringDataEntity<Bundle, ItemId>() {
+
+    init {
+        this.identifier = identifier
+    }
+}
+
 // ProxyUtils tells a CGLIB proxy by the $$ in the name of its class.
 @Suppress("ktlint:standard:class-naming")
 class `Item$$Proxy`(
