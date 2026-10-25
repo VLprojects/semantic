@@ -15,47 +15,56 @@ public fun String.masked(
 
     val symbols = this.toSymbolSequence()
 
-    val maskableIndices = symbols
-        .indices
-        .filter(symbols::isLetterOrDigitAt)
-
-    val maskedIndices = when {
-        visibleLength >= maskableIndices.size -> maskableIndices
-        else -> masking.cover(maskableIndices, visibleLength)
-    }
+    val coveredIndices = symbols
+        .findLetterOrDigitIndices()
+        .coverWith(masking, visibleLength)
 
     return when {
-        maskedIndices.isEmpty() -> this
-        maskLength == null -> symbols.maskEach(maskedIndices.toSet(), maskChar)
-        else -> symbols.collapse(maskedIndices, maskChar, maskLength)
+        coveredIndices.isEmpty() -> this
+        maskLength == null -> symbols.replaceEachCoveredSymbol(coveredIndices, maskChar)
+        else -> symbols.replaceCoveredSpan(coveredIndices, maskChar, maskLength)
     }
 }
 
-private fun SymbolSequence.maskEach(maskedIndices: Set<Int>, maskChar: Char) = this
+private fun SymbolSequence.findLetterOrDigitIndices() = this
     .indices
-    .joinToString("") { index ->
-        when (index) {
-            in maskedIndices -> maskChar.toString()
-            else -> this.extract(index..index)
+    .filter(::isLetterOrDigitAt)
+
+private fun List<Int>.coverWith(masking: Masking, visibleLength: Int) = when {
+    this.size <= visibleLength -> this
+    else -> masking.cover(this, visibleLength)
+}
+
+private fun SymbolSequence.replaceEachCoveredSymbol(coveredIndices: List<Int>, maskChar: Char): String {
+
+    val covered = coveredIndices.toSet()
+
+    return this
+        .indices
+        .joinToString("") { index ->
+            when (index) {
+                in covered -> maskChar.toString()
+                else -> this.extract(index..index)
+            }
         }
-    }
+}
 
-private fun SymbolSequence.collapse(maskedIndices: List<Int>, maskChar: Char, maskLength: Int): String {
+private fun SymbolSequence.replaceCoveredSpan(coveredIndices: List<Int>, maskChar: Char, maskLength: Int): String {
 
-    val before = maskedIndices
+    val before = coveredIndices
         .first()
         .let { 0 until it }
-        .let(::extract)
-
-    val after = maskedIndices
-        .last()
-        .inc()
-        .until(this.length)
         .let(::extract)
 
     val mask = maskChar
         .toString()
         .repeat(maskLength)
+
+    val after = coveredIndices
+        .last()
+        .inc()
+        .until(this.length)
+        .let(::extract)
 
     return "$before$mask$after"
 }
