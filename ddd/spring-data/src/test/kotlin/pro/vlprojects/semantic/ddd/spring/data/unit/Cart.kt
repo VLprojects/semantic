@@ -37,8 +37,6 @@ class Cart(
 
     override val invariants get() = INVARIANTS
 
-    override fun isNew() = true
-
     fun add(sku: String) = change {
         items += sku
         register(ItemAdded.of(this, sku))

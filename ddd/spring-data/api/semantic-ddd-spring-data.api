@@ -20,6 +20,8 @@ public abstract class pro/vlprojects/semantic/ddd/spring/data/AbstractSpringData
 	public final fun getIdentifier ()Lpro/vlprojects/semantic/ddd/tactical/Identifier;
 	protected fun getInvariants ()Ljava/util/List;
 	public fun hashCode ()I
+	public final fun isNew ()Z
+	protected final fun markPersisted ()V
 	protected final fun setIdentifier (Lpro/vlprojects/semantic/ddd/tactical/Identifier;)V
 	public fun toString ()Ljava/lang/String;
 }

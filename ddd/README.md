@@ -100,9 +100,14 @@ invariants checked on a change. They do not extend those classes, so the
 fields are declared here and not in the core, and how a store maps them is
 decided on the side of Spring Data.
 
-`isNew()` is left to the store, since each tells a new object from a saved
-one in its own way: the JPA base by the callbacks of the entity, the MongoDB base
-by the version.
+`isNew()` is true until `markPersisted()` is called. The flag is stored by no
+store: the `transient` modifier keeps it out of JPA, `@Transient` of Spring Data
+out of the others. Marking an object persisted on load and after save is left
+to the store modules: JPA through the callbacks of the entity, MongoDB through
+the callbacks of its mapping.
+
+Equality compares the classes through `ProxyUtils.getUserClass`, so an entity
+equals the lazy proxy Hibernate puts in its place.
 
 ## Modules
 

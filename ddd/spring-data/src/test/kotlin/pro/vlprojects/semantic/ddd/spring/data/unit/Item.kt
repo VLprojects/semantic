@@ -7,7 +7,7 @@ class ItemId(
     value: Long,
 ) : AbstractId<Long>(value)
 
-class Item(
+open class Item(
     identifier: ItemId,
 ) : AbstractSpringDataEntity<Item, ItemId>() {
 
@@ -15,5 +15,9 @@ class Item(
         this.identifier = identifier
     }
 
-    override fun isNew() = true
+    fun loaded() = apply { markPersisted() }
 }
+
+class ItemProxy(
+    identifier: ItemId,
+) : Item(identifier)
