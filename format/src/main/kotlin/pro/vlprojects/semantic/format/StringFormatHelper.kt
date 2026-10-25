@@ -35,8 +35,10 @@ public fun String.capitalizeEachPart(separator: String): String {
     require(separator.isNotEmpty()) { "The separator must not be empty" }
     return this
         .split(separator)
-        .joinToString(separator) { it.replaceFirstChar(Char::titlecase) }
+        .joinToString(separator, transform = String::capitalizeFirstLetter)
 }
+
+public fun String.capitalizeFirstLetter(): String = replaceFirstChar(Char::titlecase)
 
 public fun String.abbreviated(
     minLength: Int = 10,

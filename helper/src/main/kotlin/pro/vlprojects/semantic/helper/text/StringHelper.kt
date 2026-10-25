@@ -29,6 +29,10 @@ public fun String.isAscii(): Boolean = all(Char::isAscii)
 
 public fun String.isNotAscii(): Boolean = !isAscii()
 
+public fun String.filterAscii(): String = filter(Char::isAscii)
+
+public fun String.isLowercase(): Boolean = none(Char::isCapital)
+
 public fun String.startsWithAny(vararg prefixes: String): Boolean = prefixes.any(::startsWith)
 
 public fun String.startsWithAny(prefixes: Iterable<String>): Boolean = prefixes.any(::startsWith)
@@ -86,3 +90,9 @@ private fun String.hasCollapsibleBefore(index: Int, isCollapsible: (Char) -> Boo
 private fun String.normalizeWith(form: Normalizer.Form) = Normalizer.normalize(this, form)
 
 private fun Char.isDiacritic() = category == CharCategory.NON_SPACING_MARK
+
+private fun Char.isCapital() = when {
+    isUpperCase() -> true
+    isTitleCase() -> true
+    else -> false
+}

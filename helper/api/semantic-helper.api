@@ -88,8 +88,10 @@ public final class pro/vlprojects/semantic/helper/text/StringHelperKt {
 	public static final fun collapseSpaces (Ljava/lang/String;)Ljava/lang/String;
 	public static final fun endsWithAny (Ljava/lang/String;Ljava/lang/Iterable;)Z
 	public static final fun endsWithAny (Ljava/lang/String;[Ljava/lang/String;)Z
+	public static final fun filterAscii (Ljava/lang/String;)Ljava/lang/String;
 	public static final fun getSymbolCount (Ljava/lang/String;)I
 	public static final fun isAscii (Ljava/lang/String;)Z
+	public static final fun isLowercase (Ljava/lang/String;)Z
 	public static final fun isNotAscii (Ljava/lang/String;)Z
 	public static final fun notEndsWithAny (Ljava/lang/String;Ljava/lang/Iterable;)Z
 	public static final fun notEndsWithAny (Ljava/lang/String;[Ljava/lang/String;)Z
