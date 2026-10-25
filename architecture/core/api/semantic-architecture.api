@@ -15,6 +15,10 @@ public final class pro/vlprojects/semantic/architecture/integration/Scope : java
 	public static fun values ()[Lpro/vlprojects/semantic/architecture/integration/Scope;
 }
 
+public abstract interface annotation class pro/vlprojects/semantic/architecture/integration/Since : java/lang/annotation/Annotation {
+	public abstract fun version ()I
+}
+
 public abstract interface annotation class pro/vlprojects/semantic/architecture/layer/ApplicationLayer : java/lang/annotation/Annotation {
 }
 
