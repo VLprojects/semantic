@@ -78,7 +78,6 @@ public final class pro/vlprojects/semantic/helper/format/WordSequenceHelperKt {
 }
 
 public final class pro/vlprojects/semantic/helper/text/CharHelperKt {
-	public static final fun isAnySpace (C)Z
 	public static final fun isApostrophe (C)Z
 	public static final fun isAscii (C)Z
 	public static final fun isBracket (C)Z
@@ -97,6 +96,7 @@ public final class pro/vlprojects/semantic/helper/text/CharHelperKt {
 	public static final fun isQuote (C)Z
 	public static final fun isSemicolon (C)Z
 	public static final fun isSpace (C)Z
+	public static final fun isSpaceSeparator (C)Z
 	public static final fun isUnderscore (C)Z
 	public static final fun isWildcard (C)Z
 }

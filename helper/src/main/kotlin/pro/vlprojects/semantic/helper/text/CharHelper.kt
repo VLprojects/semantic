@@ -6,7 +6,7 @@ public fun Char.isAscii(): Boolean = code <= LAST_ASCII_CODE
 
 public fun Char.isSpace(): Boolean = this == ' '
 
-public fun Char.isAnySpace(): Boolean = category == CharCategory.SPACE_SEPARATOR
+public fun Char.isSpaceSeparator(): Boolean = category == CharCategory.SPACE_SEPARATOR
 
 public fun Char.isHorizontalTab(): Boolean = this == '\t'
 
@@ -36,16 +36,16 @@ public fun Char.isOpeningParenthesis(): Boolean = this == '('
 
 public fun Char.isClosingParenthesis(): Boolean = this == ')'
 
-public fun Char.isParenthesis(): Boolean = when (this) {
-    '(', ')' -> true
-    else -> false
+public fun Char.isParenthesis(): Boolean = when {
+    isOpeningParenthesis() -> true
+    else -> isClosingParenthesis()
 }
 
 public fun Char.isOpeningBracket(): Boolean = this == '['
 
 public fun Char.isClosingBracket(): Boolean = this == ']'
 
-public fun Char.isBracket(): Boolean = when (this) {
-    '[', ']' -> true
-    else -> false
+public fun Char.isBracket(): Boolean = when {
+    isOpeningBracket() -> true
+    else -> isClosingBracket()
 }

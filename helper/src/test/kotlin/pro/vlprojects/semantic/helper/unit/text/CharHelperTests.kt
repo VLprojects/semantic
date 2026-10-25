@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import pro.vlprojects.semantic.helper.text.isAnySpace
 import pro.vlprojects.semantic.helper.text.isApostrophe
 import pro.vlprojects.semantic.helper.text.isAscii
 import pro.vlprojects.semantic.helper.text.isBracket
@@ -23,6 +22,7 @@ import pro.vlprojects.semantic.helper.text.isParenthesis
 import pro.vlprojects.semantic.helper.text.isQuote
 import pro.vlprojects.semantic.helper.text.isSemicolon
 import pro.vlprojects.semantic.helper.text.isSpace
+import pro.vlprojects.semantic.helper.text.isSpaceSeparator
 import pro.vlprojects.semantic.helper.text.isUnderscore
 import pro.vlprojects.semantic.helper.text.isWildcard
 
@@ -65,13 +65,13 @@ class CharHelperTests {
     }
 
     @Test
-    fun `a space of any width is any space`() {
-        assertTrue(" \u00A0\u2009\u202F\u3000".all(Char::isAnySpace))
+    fun `a space of any width is a space separator`() {
+        assertTrue(" \u00A0\u2009\u202F\u3000".all(Char::isSpaceSeparator))
     }
 
     @Test
-    fun `a tab and a line break are not spaces`() {
-        assertFalse("\t\n\r".any(Char::isAnySpace))
+    fun `a tab and a line break are not space separators`() {
+        assertFalse("\t\n\r".any(Char::isSpaceSeparator))
     }
 
     @Test
