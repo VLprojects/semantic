@@ -1,4 +1,4 @@
-package pro.vlprojects.semantic.helper.text
+package pro.vlprojects.semantic.helper.text.predicate
 
 private const val LAST_ASCII_CODE = 127
 
