@@ -1,11 +1,12 @@
 # semantic-format
 
-How a value is written down: a name in cases, a long value abbreviated. The
-words of a name and the symbols of a text come from `semantic-helper`.
+How a value is written down: a name in cases, a long value abbreviated, a
+secret masked. The words of a name and the symbols of a text come from
+`semantic-helper`.
 
 | Package | Extends | What is there |
 | --- | --- | --- |
-| `format` | `String`, `WordSequence`, later `Duration` and numbers | cases, abbreviation |
+| `format` | `String`, `WordSequence`, later `Duration` and numbers | cases, abbreviation, masking |
 
 ## Cases
 
@@ -44,3 +45,19 @@ id.abbreviated(mode = { value, keep -> "${value.take(keep)}…" })
 ```
 
 A value shorter than `minLength`, 10 by default, stays whole.
+
+## Masking
+
+`masked` hides a value for a log or a screen and keeps its length: the letters
+and digits turn into a mask, the separators stay, so a phone or a card still
+reads as one. The mode says what stays in sight.
+
+```kotlin
+"4242 4242 4242 4242".masked()                                   // **** **** **** 4242
+"4242 4242 4242 4242".masked(MaskMode.Keep(first = 6, last = 4)) // 4242 42** **** 4242
+"+7 (916) 123-45-67".masked(MaskMode.Keep(first = 1, last = 2))  // +7 (***) ***-**-67
+"ivan.petrov@mail.ru".masked(MaskMode.HideEmailName)             // i***.******@mail.ru
+"secret".masked(MaskMode.HideAll, mask = '•')                    // ••••••
+```
+
+A value too short to hide anything is hidden whole.

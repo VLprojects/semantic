@@ -209,7 +209,7 @@ def families(pal):
 		("JVM", [("blue", "semantic-", "helper", "extensions of the standard types")], 3),
 	])
 	y = family(a, y, "format", "in development, v1", [
-		("JVM", [("blue", "semantic-", "format", "cases, abbreviation")], 3),
+		("JVM", [("blue", "semantic-", "format", "cases, abbreviation, masking")], 3),
 	])
 	y = family(a, y, "ddd", "in development, v1", [
 		("JVM", [("blue", "semantic-", "ddd", "building blocks, no framework")], 3),
