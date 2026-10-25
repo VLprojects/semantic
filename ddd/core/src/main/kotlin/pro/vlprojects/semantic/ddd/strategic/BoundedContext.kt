@@ -15,7 +15,4 @@ public val BoundedContext.packageName: String
     get() = this::class.java.packageName
 
 public infix fun KClass<*>.hasBoundedContext(context: BoundedContext): Boolean =
-    when (val typePackage = this.java.packageName) {
-        context.packageName -> true
-        else -> typePackage.startsWith("${context.packageName}.")
-    }
+    "${this.java.packageName}.".startsWith("${context.packageName}.")
