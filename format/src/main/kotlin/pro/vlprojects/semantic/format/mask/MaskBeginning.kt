@@ -2,5 +2,5 @@ package pro.vlprojects.semantic.format.mask
 
 public data object MaskBeginning : MaskMode {
 
-    override fun mask(source: String, keepLength: Int, mask: Mask): String = source.mask(0, keepLength, mask)
+    override fun mask(positions: List<Int>, keepLength: Int): List<Int> = positions.dropLast(keepLength)
 }
