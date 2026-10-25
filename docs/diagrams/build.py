@@ -282,8 +282,12 @@ def cases(pal):
 	# one name split into words and joined back in each case, the call under what it gives
 	a = Art(0, 0, pal)
 	h, gap = 52, 8
-	top = [16 + i * (h + gap) for i in range(3)]
-	cy = 16 + (3 * h + 2 * gap) / 2
+	results = [("shopping-cart-item", "toKebabCase()"), ("shopping_cart_item", "toSnakeCase()"),
+		("SHOPPING_CART_ITEM", "toConstantCase()"), ("shoppingCartItem", "toCamelCase()"),
+		("ShoppingCartItem", "toPascalCase()"), ("Shopping-Cart-Item", "toTrainCase()"),
+		("Shopping cart item", "toSentenceCase()")]
+	top = [16 + i * (h + gap) for i in range(len(results))]
+	cy = 16 + (len(results) * h + (len(results) - 1) * gap) / 2
 	name = "ShoppingCartItem"
 	iw = cells(name) * CELL + 24
 	a.rect(16, cy - h / 2, iw, h, "card", r=6)
@@ -296,8 +300,6 @@ def cases(pal):
 	a.t(x, cy + CHIP / 2 + 18, "toWordSequence()", mono=True)
 	x1, xm = end + 8, end + 24
 	ox = xm + 24
-	results = [("shopping-cart-item", "toKebabCase()"), ("shopping_cart_item", "toSnakeCase()"),
-		("shoppingCartItem", "toCamelCase()")]
 	ow = max(cells(v) for v, _ in results) * CELL + 24
 	for y, (value, call) in zip(top, results):
 		yc = y + h / 2

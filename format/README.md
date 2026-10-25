@@ -11,12 +11,14 @@ words of a name and the symbols of a text come from `semantic-helper`.
 
 A name splits into words, and the words join back in any case.
 
-![A name split into words and joined in kebab, snake and camel case](../docs/assets/format-cases-light.svg#gh-light-mode-only)
-![A name split into words and joined in kebab, snake and camel case](../docs/assets/format-cases-dark.svg#gh-dark-mode-only)
+![A name split into words and joined in each case](../docs/assets/format-cases-light.svg#gh-light-mode-only)
+![A name split into words and joined in each case](../docs/assets/format-cases-dark.svg#gh-dark-mode-only)
 
 ```kotlin
-"ShoppingCartItem".toKebabCase() // shopping-cart-item
-"order_id".toCamelCase()         // orderId
+"ShoppingCartItem".toKebabCase()  // shopping-cart-item
+"order_id".toCamelCase()          // orderId
+"order_id".toConstantCase()       // ORDER_ID
+"orderLine".toSentenceCase()      // Order line
 ```
 
 The cases take a `WordSequence` too, so a name split by rules of its own keeps
