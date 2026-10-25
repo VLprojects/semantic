@@ -1,0 +1,22 @@
+public abstract interface class pro/vlprojects/semantic/cqrs/Command {
+}
+
+public abstract interface class pro/vlprojects/semantic/cqrs/Command$Bus {
+	public abstract fun dispatch (Lpro/vlprojects/semantic/cqrs/Command;)Ljava/lang/Object;
+}
+
+public abstract interface class pro/vlprojects/semantic/cqrs/Command$Handler {
+	public abstract fun handle (Lpro/vlprojects/semantic/cqrs/Command;)Ljava/lang/Object;
+}
+
+public abstract interface class pro/vlprojects/semantic/cqrs/Query {
+}
+
+public abstract interface class pro/vlprojects/semantic/cqrs/Query$Bus {
+	public abstract fun ask (Lpro/vlprojects/semantic/cqrs/Query;)Ljava/lang/Object;
+}
+
+public abstract interface class pro/vlprojects/semantic/cqrs/Query$Handler {
+	public abstract fun handle (Lpro/vlprojects/semantic/cqrs/Query;)Ljava/lang/Object;
+}
+

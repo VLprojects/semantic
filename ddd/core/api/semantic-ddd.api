@@ -62,11 +62,20 @@ public abstract interface class pro/vlprojects/semantic/ddd/tactical/Identifiabl
 	public abstract fun getIdentifier ()Lpro/vlprojects/semantic/ddd/tactical/Identifier;
 }
 
-public abstract interface class pro/vlprojects/semantic/ddd/tactical/Identifier : pro/vlprojects/semantic/ddd/tactical/DomainObject {
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/Identifier : java/io/Serializable, pro/vlprojects/semantic/ddd/tactical/ValueObject {
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/Revision : pro/vlprojects/semantic/ddd/tactical/Identifiable, pro/vlprojects/semantic/ddd/tactical/Versioned {
 	public abstract fun getName ()Ljava/lang/String;
+}
+
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/Specification : kotlin/jvm/functions/Function1, pro/vlprojects/semantic/ddd/tactical/DomainObject {
+	public fun and (Lpro/vlprojects/semantic/ddd/tactical/Specification;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public fun invoke (Ljava/lang/Object;)Ljava/lang/Boolean;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public abstract fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun not ()Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public fun or (Lpro/vlprojects/semantic/ddd/tactical/Specification;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/ValueObject : pro/vlprojects/semantic/ddd/tactical/DomainObject {
@@ -138,5 +147,45 @@ public final class pro/vlprojects/semantic/ddd/tactical/base/EventId : pro/vlpro
 
 public final class pro/vlprojects/semantic/ddd/tactical/base/EventId$Factory {
 	public final fun new ()Lpro/vlprojects/semantic/ddd/tactical/base/EventId;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/specification/composite/AllOf : pro/vlprojects/semantic/ddd/tactical/Specification {
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSpecifications ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/specification/composite/Always : pro/vlprojects/semantic/ddd/tactical/Specification {
+	public static final field INSTANCE Lpro/vlprojects/semantic/ddd/tactical/specification/composite/Always;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/specification/composite/AnyOf : pro/vlprojects/semantic/ddd/tactical/Specification {
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSpecifications ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/specification/composite/Never : pro/vlprojects/semantic/ddd/tactical/Specification {
+	public static final field INSTANCE Lpro/vlprojects/semantic/ddd/tactical/specification/composite/Never;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/specification/composite/Not : pro/vlprojects/semantic/ddd/tactical/Specification {
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSpecification ()Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public fun hashCode ()I
+	public fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun toString ()Ljava/lang/String;
 }
 
