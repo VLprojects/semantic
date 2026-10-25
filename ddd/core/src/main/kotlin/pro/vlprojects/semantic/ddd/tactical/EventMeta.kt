@@ -1,7 +1,7 @@
 package pro.vlprojects.semantic.ddd.tactical
 
-import pro.vlprojects.semantic.ddd.support.abbreviated
 import pro.vlprojects.semantic.ddd.tactical.base.EventId
+import pro.vlprojects.semantic.helper.format.abbreviated
 import java.time.Instant
 
 public class EventMeta(

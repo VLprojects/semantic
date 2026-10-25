@@ -69,7 +69,7 @@ Six artifacts, group `pro.vlprojects.semantic`:
 
 | Artifact | For | Depends on |
 | --- | --- | --- |
-| `semantic-ddd` | any JVM code: the building blocks | `semantic-vo` |
+| `semantic-ddd` | any JVM code: the building blocks | `semantic-vo`, `semantic-helper` |
 | `semantic-ddd-spring-data` | what every Spring Data store shares: `Persistable`, events handed out on save | core, `spring-data-commons` |
 | `semantic-ddd-spring-data-jpa` | aggregates mapped with JPA | the Spring Data module, `jakarta.persistence-api` |
 | `semantic-ddd-spring-data-mongodb` | aggregates stored in MongoDB | the Spring Data module, `spring-data-mongodb` |

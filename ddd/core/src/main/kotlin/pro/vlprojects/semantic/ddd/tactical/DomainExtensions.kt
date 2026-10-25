@@ -1,6 +1,6 @@
 package pro.vlprojects.semantic.ddd.tactical
 
-import pro.vlprojects.semantic.ddd.support.toKebabCase
+import pro.vlprojects.semantic.helper.format.toKebabCase
 import kotlin.reflect.KClass
 
 public val DomainObject.typeName: String
