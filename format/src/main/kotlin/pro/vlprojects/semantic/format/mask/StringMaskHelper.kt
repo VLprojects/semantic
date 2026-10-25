@@ -4,58 +4,58 @@ import pro.vlprojects.semantic.helper.text.SymbolSequence
 import pro.vlprojects.semantic.helper.text.toSymbolSequence
 
 public fun String.masked(
-    keepLength: Int = 4,
-    mode: MaskMode = MaskMiddle,
-    symbol: Char = '*',
-    collapseTo: Int? = null,
+    visibleLength: Int = 4,
+    masking: Masking = InfixMasking,
+    maskChar: Char = '*',
+    maskLength: Int? = null,
 ): String {
 
-    require(keepLength >= 0) { "The kept length must not be negative, got $keepLength" }
-    collapseTo?.let { require(it > 0) { "The collapsed length must be positive, got $it" } }
+    require(visibleLength >= 0) { "The visible length must not be negative, got $visibleLength" }
+    maskLength?.let { require(it > 0) { "The mask length must be positive, got $it" } }
 
     val symbols = this.toSymbolSequence()
 
-    val positions = symbols
+    val maskableIndices = symbols
         .indices
         .filter(symbols::isLetterOrDigitAt)
 
-    val masked = when {
-        keepLength >= positions.size -> positions
-        else -> mode.mask(positions, keepLength)
+    val maskedIndices = when {
+        visibleLength >= maskableIndices.size -> maskableIndices
+        else -> masking.mask(maskableIndices, visibleLength)
     }
 
     return when {
-        masked.isEmpty() -> this
-        collapseTo == null -> symbols.maskEach(masked.toSet(), symbol)
-        else -> symbols.collapse(masked, symbol, collapseTo)
+        maskedIndices.isEmpty() -> this
+        maskLength == null -> symbols.maskEach(maskedIndices.toSet(), maskChar)
+        else -> symbols.collapse(maskedIndices, maskChar, maskLength)
     }
 }
 
-private fun SymbolSequence.maskEach(positions: Set<Int>, symbol: Char) = this
+private fun SymbolSequence.maskEach(maskedIndices: Set<Int>, maskChar: Char) = this
     .indices
     .joinToString("") { index ->
         when (index) {
-            in positions -> symbol.toString()
-            else -> extract(index..index)
+            in maskedIndices -> maskChar.toString()
+            else -> this.extract(index..index)
         }
     }
 
-private fun SymbolSequence.collapse(positions: List<Int>, symbol: Char, length: Int): String {
+private fun SymbolSequence.collapse(maskedIndices: List<Int>, maskChar: Char, maskLength: Int): String {
 
-    val before = positions
+    val before = maskedIndices
         .first()
         .let { 0 until it }
         .let(::extract)
 
-    val after = positions
+    val after = maskedIndices
         .last()
         .inc()
         .until(this.length)
         .let(::extract)
 
-    val mask = symbol
+    val mask = maskChar
         .toString()
-        .repeat(length)
+        .repeat(maskLength)
 
     return "$before$mask$after"
 }

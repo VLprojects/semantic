@@ -60,36 +60,36 @@ public final class pro/vlprojects/semantic/format/WordSequenceFormatHelperKt {
 	public static final fun toTrainCase (Lpro/vlprojects/semantic/helper/text/WordSequence;)Ljava/lang/String;
 }
 
-public final class pro/vlprojects/semantic/format/mask/MaskBeginning : pro/vlprojects/semantic/format/mask/MaskMode {
-	public static final field INSTANCE Lpro/vlprojects/semantic/format/mask/MaskBeginning;
+public final class pro/vlprojects/semantic/format/mask/InfixMasking : pro/vlprojects/semantic/format/mask/Masking {
+	public static final field INSTANCE Lpro/vlprojects/semantic/format/mask/InfixMasking;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun mask (Ljava/util/List;I)Ljava/util/List;
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class pro/vlprojects/semantic/format/mask/MaskEnding : pro/vlprojects/semantic/format/mask/MaskMode {
-	public static final field INSTANCE Lpro/vlprojects/semantic/format/mask/MaskEnding;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun hashCode ()I
-	public fun mask (Ljava/util/List;I)Ljava/util/List;
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class pro/vlprojects/semantic/format/mask/MaskMiddle : pro/vlprojects/semantic/format/mask/MaskMode {
-	public static final field INSTANCE Lpro/vlprojects/semantic/format/mask/MaskMiddle;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun hashCode ()I
-	public fun mask (Ljava/util/List;I)Ljava/util/List;
-	public fun toString ()Ljava/lang/String;
-}
-
-public abstract interface class pro/vlprojects/semantic/format/mask/MaskMode {
+public abstract interface class pro/vlprojects/semantic/format/mask/Masking {
 	public abstract fun mask (Ljava/util/List;I)Ljava/util/List;
 }
 
+public final class pro/vlprojects/semantic/format/mask/PrefixMasking : pro/vlprojects/semantic/format/mask/Masking {
+	public static final field INSTANCE Lpro/vlprojects/semantic/format/mask/PrefixMasking;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun mask (Ljava/util/List;I)Ljava/util/List;
+	public fun toString ()Ljava/lang/String;
+}
+
 public final class pro/vlprojects/semantic/format/mask/StringMaskHelperKt {
-	public static final fun masked (Ljava/lang/String;ILpro/vlprojects/semantic/format/mask/MaskMode;CLjava/lang/Integer;)Ljava/lang/String;
-	public static synthetic fun masked$default (Ljava/lang/String;ILpro/vlprojects/semantic/format/mask/MaskMode;CLjava/lang/Integer;ILjava/lang/Object;)Ljava/lang/String;
+	public static final fun masked (Ljava/lang/String;ILpro/vlprojects/semantic/format/mask/Masking;CLjava/lang/Integer;)Ljava/lang/String;
+	public static synthetic fun masked$default (Ljava/lang/String;ILpro/vlprojects/semantic/format/mask/Masking;CLjava/lang/Integer;ILjava/lang/Object;)Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/format/mask/SuffixMasking : pro/vlprojects/semantic/format/mask/Masking {
+	public static final field INSTANCE Lpro/vlprojects/semantic/format/mask/SuffixMasking;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun mask (Ljava/util/List;I)Ljava/util/List;
+	public fun toString ()Ljava/lang/String;
 }
 
