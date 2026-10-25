@@ -6,6 +6,8 @@ public fun Char.isAscii(): Boolean = code <= LAST_ASCII_CODE
 
 public fun Char.isSpace(): Boolean = this == ' '
 
+public fun Char.isAnySpace(): Boolean = category == CharCategory.SPACE_SEPARATOR
+
 public fun Char.isHorizontalTab(): Boolean = this == '\t'
 
 public fun Char.isNewline(): Boolean = this == '\n'
@@ -30,10 +32,18 @@ public fun Char.isUnderscore(): Boolean = this == '_'
 
 public fun Char.isWildcard(): Boolean = this == '*'
 
+public fun Char.isOpeningParenthesis(): Boolean = this == '('
+
+public fun Char.isClosingParenthesis(): Boolean = this == ')'
+
 public fun Char.isParenthesis(): Boolean = when (this) {
     '(', ')' -> true
     else -> false
 }
+
+public fun Char.isOpeningBracket(): Boolean = this == '['
+
+public fun Char.isClosingBracket(): Boolean = this == ']'
 
 public fun Char.isBracket(): Boolean = when (this) {
     '[', ']' -> true
