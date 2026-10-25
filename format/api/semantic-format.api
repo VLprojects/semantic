@@ -26,10 +26,21 @@ public final class pro/vlprojects/semantic/format/EllipsisMode$HideMiddle : pro/
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class pro/vlprojects/semantic/format/IntFormatHelperKt {
+	public static final fun pluralize (ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public static final fun pluralizeWithCount (ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/format/LongFormatHelperKt {
+	public static final fun pluralize (JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public static final fun pluralizeWithCount (JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+}
+
 public final class pro/vlprojects/semantic/format/StringFormatHelperKt {
 	public static final fun abbreviated (Ljava/lang/String;IILpro/vlprojects/semantic/format/EllipsisMode;)Ljava/lang/String;
 	public static synthetic fun abbreviated$default (Ljava/lang/String;IILpro/vlprojects/semantic/format/EllipsisMode;ILjava/lang/Object;)Ljava/lang/String;
 	public static final fun capitalizeEachPart (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public static final fun capitalizeFirstLetter (Ljava/lang/String;)Ljava/lang/String;
 	public static final fun toCamelCase (Ljava/lang/String;)Ljava/lang/String;
 	public static final fun toConstantCase (Ljava/lang/String;)Ljava/lang/String;
 	public static final fun toKebabCase (Ljava/lang/String;)Ljava/lang/String;

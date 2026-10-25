@@ -2,15 +2,15 @@ package pro.vlprojects.semantic.helper.number
 
 import java.math.BigDecimal
 
-public fun BigDecimal.isPositive(): Boolean = signum() > 0
+public fun BigDecimal.isPositive(): Boolean = this.signum() > 0
 
-public fun BigDecimal.isNegative(): Boolean = signum() < 0
+public fun BigDecimal.isNegative(): Boolean = this.signum() < 0
 
-public fun BigDecimal.isZero(): Boolean = signum() == 0
+public fun BigDecimal.isZero(): Boolean = this.signum() == 0
 
-public fun BigDecimal.isNotZero(): Boolean = signum() != 0
+public fun BigDecimal.isNotZero(): Boolean = this.signum() != 0
 
-public fun BigDecimal.isNonNegative(): Boolean = signum() >= 0
+public fun BigDecimal.isNonNegative(): Boolean = this.signum() >= 0
 
 public fun BigDecimal.toSafeDouble(): Double = this
     .toDouble()
@@ -22,10 +22,10 @@ public fun BigDecimal.toSafeFloat(): Float = this
     .takeIf(Float::isFinite)
     ?: throw ArithmeticException("$this is out of the range of Float")
 
-public fun BigDecimal.toSafeLong(): Long = longValueExact()
+public fun BigDecimal.toSafeLong(): Long = this.longValueExact()
 
-public fun BigDecimal.toSafeInt(): Int = intValueExact()
+public fun BigDecimal.toSafeInt(): Int = this.intValueExact()
 
-public fun BigDecimal.toSafeShort(): Short = shortValueExact()
+public fun BigDecimal.toSafeShort(): Short = this.shortValueExact()
 
-public fun BigDecimal.toSafeByte(): Byte = byteValueExact()
+public fun BigDecimal.toSafeByte(): Byte = this.byteValueExact()

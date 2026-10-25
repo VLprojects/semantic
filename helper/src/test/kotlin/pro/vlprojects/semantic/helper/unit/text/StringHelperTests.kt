@@ -11,7 +11,9 @@ import pro.vlprojects.semantic.helper.text.collapseDots
 import pro.vlprojects.semantic.helper.text.collapseHyphens
 import pro.vlprojects.semantic.helper.text.collapseSpaces
 import pro.vlprojects.semantic.helper.text.endsWithAny
+import pro.vlprojects.semantic.helper.text.filterAscii
 import pro.vlprojects.semantic.helper.text.isAscii
+import pro.vlprojects.semantic.helper.text.isLowercase
 import pro.vlprojects.semantic.helper.text.isNotAscii
 import pro.vlprojects.semantic.helper.text.notEndsWithAny
 import pro.vlprojects.semantic.helper.text.notStartsWithAny
@@ -197,5 +199,25 @@ class StringHelperTests {
     @Test
     fun `a cyrillic short letter loses its breve`() {
         assertEquals("Иеи", "Йёй".removeDiacritics())
+    }
+
+    @Test
+    fun `only the ascii characters are kept`() {
+        assertEquals("Caf crme ", "Café crème 👋".filterAscii())
+        assertEquals("order-42", "order-42".filterAscii())
+    }
+
+    @Test
+    fun `a value without capitals is lowercase`() {
+        assertTrue("order-id 42".isLowercase())
+        assertTrue("заказ".isLowercase())
+        assertTrue("".isLowercase())
+    }
+
+    @Test
+    fun `a value with a capital is not lowercase`() {
+        assertFalse("orderId".isLowercase())
+        assertFalse("Заказ".isLowercase())
+        assertFalse("\u01C5".isLowercase())
     }
 }

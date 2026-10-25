@@ -14,7 +14,7 @@ internal fun CharSequence.calculateSymbolBoundaries() = this
 internal fun CharSequence.calculateSymbolBoundaryArray() = this
     .toBreakIterator()
     .let { iterator ->
-        IntArray(length + 1) { index ->
+        IntArray(this.length + 1) { index ->
             when (index) {
                 0 -> iterator.first()
                 else -> iterator.next()
@@ -23,7 +23,7 @@ internal fun CharSequence.calculateSymbolBoundaryArray() = this
     }
     .let { boundaries ->
         boundaries
-            .indexOf(length)
+            .indexOf(this.length)
             .inc()
             .let(boundaries::copyOf)
     }
@@ -39,7 +39,7 @@ internal fun CharSequence.calculateReversedSymbolBoundaries() = this
 
 internal fun CharSequence.calculateAllSymbolsStartedAt() = this
     .calculateSymbolBoundaries()
-    .takeWhile(indices::contains)
+    .takeWhile(this.indices::contains)
 
 public fun CharSequence.hasFewerSymbolsThan(count: Int): Boolean = this
     .calculateAllSymbolsStartedAt()
@@ -49,7 +49,7 @@ public fun CharSequence.hasFewerSymbolsThan(count: Int): Boolean = this
 private fun CharSequence.toBreakIterator() = BreakIterator
     .getCharacterInstance()
     .also { iterator ->
-        toString().let(iterator::setText)
+        this.toString().let(iterator::setText)
     }
 
 public fun CharSequence.toWordSequence(): WordSequence = this
@@ -58,44 +58,44 @@ public fun CharSequence.toWordSequence(): WordSequence = this
     .let(::ListWordSequence)
 
 internal fun CharSequence.isWord() = when {
-    isEmpty() -> false
-    else -> hasOnlyLetterOrDigitSymbols()
+    this.isEmpty() -> false
+    else -> this.hasOnlyLetterOrDigitSymbols()
 }
 
 private fun CharSequence.hasOnlyLetterOrDigitSymbols() = this
     .let(::SymbolSequence)
     .hasOnlyLetterOrDigitSymbols()
 
-private fun SymbolSequence.hasOnlyLetterOrDigitSymbols() = indices.all(::isLetterOrDigitAt)
+private fun SymbolSequence.hasOnlyLetterOrDigitSymbols() = this.indices.all(::isLetterOrDigitAt)
 
 private fun SymbolSequence.toWords() = this
     .indices
     .asSequence()
     .filter(::isWordBeginningAt)
-    .map { it until findWordEndingPosition(it) }
+    .map { it until this.findWordEndingPosition(it) }
     .map(::extract)
     .map(::Word)
     .toList()
 
-private fun SymbolSequence.findWordEndingPosition(start: Int) = (start + 1 until length)
+private fun SymbolSequence.findWordEndingPosition(start: Int) = (start + 1 until this.length)
     .firstOrNull(::isWordFinishedAt)
-    ?: length
+    ?: this.length
 
 private fun SymbolSequence.isWordBeginningAt(index: Int) = when {
-    !isLetterOrDigitAt(index) -> false
+    !this.isLetterOrDigitAt(index) -> false
     index == 0 -> true
-    !isLetterOrDigitAt(index - 1) -> true
-    else -> isCapitalWordBeginningAt(index)
+    !this.isLetterOrDigitAt(index - 1) -> true
+    else -> this.isCapitalWordBeginningAt(index)
 }
 
 private fun SymbolSequence.isWordFinishedAt(index: Int) = when {
-    !isLetterOrDigitAt(index) -> true
-    else -> isCapitalWordBeginningAt(index)
+    !this.isLetterOrDigitAt(index) -> true
+    else -> this.isCapitalWordBeginningAt(index)
 }
 
 private fun SymbolSequence.isCapitalWordBeginningAt(index: Int) = when {
-    !isCapitalAt(index) -> false
-    !isCapitalAt(index - 1) -> true
-    index + 1 == length -> false
-    else -> isLowercaseAt(index + 1)
+    !this.isCapitalAt(index) -> false
+    !this.isCapitalAt(index - 1) -> true
+    index + 1 == this.length -> false
+    else -> this.isLowercaseAt(index + 1)
 }
