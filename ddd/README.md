@@ -72,6 +72,11 @@ is flattened, `Always` drops out of a conjunction and `Never` absorbs it, `!!a`
 is `a`. Like any infix call in Kotlin, `and` and `or` bind equally, left to
 right: `a or b and c` is `(a or b) and c`, so a mix of them needs parentheses.
 
+`and` and `or` take constant time: a node keeps the two parts it was built of
+and lists the nested ones flat, `specifications`, on first use. A chain of any
+length is built and checked in linear time, and its hash is ready at once, so
+two different rules are told apart without comparing their parts.
+
 `allOf(a, b, c)` and `anyOf(a, b, c)`, or the same on a list, combine any
 number of them. They skip a null, so a rule built of optional filters takes
 the ones that are set, `allOf(IsOpen, sku?.let(::ContainsSku))`. With nothing

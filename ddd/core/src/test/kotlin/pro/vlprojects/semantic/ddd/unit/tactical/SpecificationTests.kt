@@ -120,4 +120,15 @@ class SpecificationTests {
     fun `infix operators bind left to right`() {
         assertEquals((Positive or Even) and Small, Positive or Even and Small)
     }
+
+    @Test
+    fun `a long chain of and or or keeps the stack shallow`() {
+        val positive: Specification<Int> = Positive
+        val conjunction = (1..100_000).fold(positive) { chain, _ -> chain and Even }
+        val disjunction = (1..100_000).fold(positive) { chain, _ -> chain or Even }
+
+        assertTrue(conjunction.isSatisfiedBy(2))
+        assertTrue(disjunction.isSatisfiedBy(-2))
+        assertEquals(100_001, (conjunction as AllOf).specifications.size)
+    }
 }

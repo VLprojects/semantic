@@ -12,7 +12,6 @@ public fun <T> Iterable<Specification<T>?>.allOf(): Specification<T> {
         when (part) {
             null, Always -> Unit
             Never -> return Never
-            is AllOf -> parts.addAll(part.specifications)
             else -> parts.add(part)
         }
     }
@@ -29,7 +28,6 @@ public fun <T> Iterable<Specification<T>?>.anyOf(): Specification<T> {
         when (part) {
             null, Never -> Unit
             Always -> return Always
-            is AnyOf -> parts.addAll(part.specifications)
             else -> parts.add(part)
         }
     }
@@ -46,3 +44,15 @@ internal fun <T> Specification<T>.negate() = when (this) {
     Never -> Always
     else -> Not(this)
 }
+
+internal fun <T> List<Specification<T>>.flatten(nestedPartsOf: (Specification<T>) -> List<Specification<T>>?) =
+    buildList {
+        val pending = ArrayDeque(asReversed())
+        while (pending.isNotEmpty()) {
+            val part = pending.removeLast()
+            when (val nested = nestedPartsOf(part)) {
+                null -> add(part)
+                else -> pending.addAll(nested.asReversed())
+            }
+        }
+    }
