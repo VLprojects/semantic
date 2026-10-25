@@ -12,9 +12,9 @@ public interface Specification<in T> :
 
     override fun invoke(candidate: T): Boolean = isSatisfiedBy(candidate)
 
-    public infix fun and(other: Specification<@UnsafeVariance T>): Specification<T> = listOf(this, other).allOf()
+    public infix fun and(other: Specification<@UnsafeVariance T>): Specification<T> = allOf(this, other)
 
-    public infix fun or(other: Specification<@UnsafeVariance T>): Specification<T> = listOf(this, other).anyOf()
+    public infix fun or(other: Specification<@UnsafeVariance T>): Specification<T> = anyOf(this, other)
 
     public operator fun not(): Specification<T> = negate()
 }

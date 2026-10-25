@@ -173,6 +173,13 @@ public final class pro/vlprojects/semantic/ddd/tactical/specification/composite/
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class pro/vlprojects/semantic/ddd/tactical/specification/composite/CompositionKt {
+	public static final fun allOf (Ljava/lang/Iterable;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public static final fun allOf ([Lpro/vlprojects/semantic/ddd/tactical/Specification;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public static final fun anyOf (Ljava/lang/Iterable;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public static final fun anyOf ([Lpro/vlprojects/semantic/ddd/tactical/Specification;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+}
+
 public final class pro/vlprojects/semantic/ddd/tactical/specification/composite/Never : pro/vlprojects/semantic/ddd/tactical/Specification {
 	public static final field INSTANCE Lpro/vlprojects/semantic/ddd/tactical/specification/composite/Never;
 	public fun equals (Ljava/lang/Object;)Z
