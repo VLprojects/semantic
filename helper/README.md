@@ -59,3 +59,14 @@ symbols.length         // 5
 symbols.extract(3..4)  // é🇷🇺
 symbols.isCapitalAt(0) // true
 ```
+
+## Predicates
+
+A predicate names what a check means, so a condition reads as a sentence.
+
+```kotlin
+name.filterNot(Char::isHyphen)
+pattern.any(Char::isWildcard)
+key.notStartsWithAny("internal.", "debug.")
+"Café".isNotAscii() // true
+```
