@@ -1,0 +1,62 @@
+public abstract interface class pro/vlprojects/semantic/format/EllipsisMode {
+	public abstract fun abbreviate (Ljava/lang/String;I)Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/format/EllipsisMode$HideBeginning : pro/vlprojects/semantic/format/EllipsisMode {
+	public static final field INSTANCE Lpro/vlprojects/semantic/format/EllipsisMode$HideBeginning;
+	public fun abbreviate (Ljava/lang/String;I)Ljava/lang/String;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/format/EllipsisMode$HideEnding : pro/vlprojects/semantic/format/EllipsisMode {
+	public static final field INSTANCE Lpro/vlprojects/semantic/format/EllipsisMode$HideEnding;
+	public fun abbreviate (Ljava/lang/String;I)Ljava/lang/String;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/format/EllipsisMode$HideMiddle : pro/vlprojects/semantic/format/EllipsisMode {
+	public static final field INSTANCE Lpro/vlprojects/semantic/format/EllipsisMode$HideMiddle;
+	public fun abbreviate (Ljava/lang/String;I)Ljava/lang/String;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/format/IntFormatHelperKt {
+	public static final fun pluralize (ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public static final fun pluralizeWithCount (ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/format/LongFormatHelperKt {
+	public static final fun pluralize (JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public static final fun pluralizeWithCount (JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/format/StringFormatHelperKt {
+	public static final fun abbreviated (Ljava/lang/String;IILpro/vlprojects/semantic/format/EllipsisMode;)Ljava/lang/String;
+	public static synthetic fun abbreviated$default (Ljava/lang/String;IILpro/vlprojects/semantic/format/EllipsisMode;ILjava/lang/Object;)Ljava/lang/String;
+	public static final fun capitalizeEachPart (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public static final fun capitalizeFirstLetter (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun toCamelCase (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun toConstantCase (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun toKebabCase (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun toPascalCase (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun toSentenceCase (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun toSnakeCase (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun toTrainCase (Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/format/WordSequenceFormatHelperKt {
+	public static final fun toCamelCase (Lpro/vlprojects/semantic/helper/text/WordSequence;)Ljava/lang/String;
+	public static final fun toConstantCase (Lpro/vlprojects/semantic/helper/text/WordSequence;)Ljava/lang/String;
+	public static final fun toKebabCase (Lpro/vlprojects/semantic/helper/text/WordSequence;)Ljava/lang/String;
+	public static final fun toPascalCase (Lpro/vlprojects/semantic/helper/text/WordSequence;)Ljava/lang/String;
+	public static final fun toSentenceCase (Lpro/vlprojects/semantic/helper/text/WordSequence;)Ljava/lang/String;
+	public static final fun toSnakeCase (Lpro/vlprojects/semantic/helper/text/WordSequence;)Ljava/lang/String;
+	public static final fun toTrainCase (Lpro/vlprojects/semantic/helper/text/WordSequence;)Ljava/lang/String;
+}
+

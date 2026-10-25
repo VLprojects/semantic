@@ -1,10 +1,10 @@
 package pro.vlprojects.semantic.ddd.tactical.base
 
 import pro.vlprojects.semantic.ddd.dsl.check
-import pro.vlprojects.semantic.ddd.support.abbreviated
 import pro.vlprojects.semantic.ddd.tactical.BusinessRule
 import pro.vlprojects.semantic.ddd.tactical.Entity
 import pro.vlprojects.semantic.ddd.tactical.Identifier
+import pro.vlprojects.semantic.format.abbreviated
 
 public abstract class AbstractEntity<E : Entity<E, I>, I : Identifier> : Entity<E, I> {
 

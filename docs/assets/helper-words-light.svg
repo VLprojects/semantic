@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 624 204" width="624" height="204" role="img">
+  <rect width="624" height="204" rx="12" fill="#F6F8FA"/>
+  <g transform="translate(12,12)">
+    <rect x="16.0" y="16.0" width="109.8" height="28.0" rx="6" fill="#E3E8ED"/>
+    <text x="28.0" y="34.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">HTTPRequest</text>
+    <path d="M149.39999999999998,30.0 L175.39999999999998,30.0" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M174.39999999999998,26.0 L181.39999999999998,30.0 L174.39999999999998,34.0 Z" fill="#AFB8C1"/>
+    <rect x="189.4" y="16.0" width="55.2" height="28.0" rx="6" fill="#E3EFFF"/>
+    <text x="201.4" y="34.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">HTTP</text>
+    <rect x="252.6" y="16.0" width="78.6" height="28.0" rx="6" fill="#E3EFFF"/>
+    <text x="264.6" y="34.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">Request</text>
+    <text x="584.0" y="34.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="end">an acronym stays one word</text>
+    <rect x="16.0" y="56.0" width="125.4" height="28.0" rx="6" fill="#E3E8ED"/>
+    <text x="28.0" y="74.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">order_line.id</text>
+    <path d="M149.39999999999998,70.0 L175.39999999999998,70.0" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M174.39999999999998,66.0 L181.39999999999998,70.0 L174.39999999999998,74.0 Z" fill="#AFB8C1"/>
+    <rect x="189.4" y="56.0" width="63.0" height="28.0" rx="6" fill="#E3EFFF"/>
+    <text x="201.4" y="74.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">order</text>
+    <rect x="260.4" y="56.0" width="55.2" height="28.0" rx="6" fill="#E3EFFF"/>
+    <text x="272.4" y="74.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">line</text>
+    <rect x="323.6" y="56.0" width="39.6" height="28.0" rx="6" fill="#E3EFFF"/>
+    <text x="335.6" y="74.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">id</text>
+    <text x="584.0" y="74.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="end">any separator splits</text>
+    <rect x="16.0" y="96.0" width="109.8" height="28.0" rx="6" fill="#E3E8ED"/>
+    <text x="28.0" y="114.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">ЗаказТовара</text>
+    <path d="M149.39999999999998,110.0 L175.39999999999998,110.0" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M174.39999999999998,106.0 L181.39999999999998,110.0 L174.39999999999998,114.0 Z" fill="#AFB8C1"/>
+    <rect x="189.4" y="96.0" width="63.0" height="28.0" rx="6" fill="#E3EFFF"/>
+    <text x="201.4" y="114.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">Заказ</text>
+    <rect x="260.4" y="96.0" width="70.8" height="28.0" rx="6" fill="#E3EFFF"/>
+    <text x="272.4" y="114.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">Товара</text>
+    <text x="584.0" y="114.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="end">any alphabet</text>
+    <rect x="16.0" y="136.0" width="102.0" height="28.0" rx="6" fill="#E3E8ED"/>
+    <text x="28.0" y="154.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">Cart🛒Item</text>
+    <path d="M149.39999999999998,150.0 L175.39999999999998,150.0" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M174.39999999999998,146.0 L181.39999999999998,150.0 L174.39999999999998,154.0 Z" fill="#AFB8C1"/>
+    <rect x="189.4" y="136.0" width="55.2" height="28.0" rx="6" fill="#E3EFFF"/>
+    <text x="201.4" y="154.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">Cart</text>
+    <rect x="252.6" y="136.0" width="55.2" height="28.0" rx="6" fill="#E3EFFF"/>
+    <text x="264.6" y="154.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">Item</text>
+    <text x="584.0" y="154.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="end">an emoji splits too</text>
+  </g>
+</svg>

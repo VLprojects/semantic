@@ -2,7 +2,9 @@
 """Generates docs/assets/*.svg: one light and one dark file per diagram.
 
 The drawings follow the rules of the batcher diagrams, so the libraries read as
-one family:
+one family. A new diagram is drawn with the parts below, family() and block(),
+and passes the checklist of the Gorbunov and Birman bureau before it is shown;
+spacing is measured on the render, not read off the code:
 
 - Show the thing, not a box with its name; draw everything to one scale.
 - Plates, not frames: a group is a flat fill with no outline.
@@ -16,9 +18,17 @@ one family:
   The exception is the family map: a family in development is filled, one
   planned for v1 is dashed, one for later is dotted.
 - One grid of 4 px. Space inside a group is smaller than space between groups:
-  12 inside a block, 16 between blocks, 24 between plates.
-- Two text sizes: the name in bold, the explanation in grey. Below the name
+  12 inside a block, 16 between blocks and rows of one level, 24 between
+  levels, 32 between plates.
+- A block is a module: a tag with its directory, its whole artifact name in
+  bold 8 below, and what it is for in grey, apart from them and 12 above the
+  bottom, as the tag is 12 below the top. Never a prefix over a tail. A block
+  alone in its row spans the row.
+- A family name outranks the artifacts in it: 16 against 13.
+- Two text sizes for content: the name in bold, the explanation in grey. Below the name
   where there is room; in a compact row, on the same line, aligned right.
+  A tag is a third, smaller one: a directory or a status on a tint of its own
+  text colour, with no outline.
 - Every part is named in plain lowercase words, types included. Only what one would type is monospaced: calls,
   annotations, artifacts, config keys. Product names keep their capitals.
 - All diagrams share one scale and are embedded at their native width, except
@@ -30,6 +40,7 @@ one family:
 """
 
 import pathlib
+import unicodedata
 
 OUT = pathlib.Path(__file__).resolve().parent.parent / "assets"
 
@@ -150,91 +161,264 @@ def ink(hue):
 # ---------------------------------------------------------------------- family plates
 # A family is a plate: filled while in development, a dashed outline while planned for v1, a dotted one
 # for later. Its name and status head the plate; the gutter on the left names the level of each row.
-# Spacing climbs 12 < 16 < 24: text inside a block, blocks inside a plate, plates on the page
+# Spacing climbs 12 < 16 < 24 < 32: text inside a block, rows of one level, levels, plates on the page
 X0, CW = 16, 688  # plate edge and width
-INSET, GUT, GAP, BLOCK = 16, 76, 16, 72  # plate padding, gutter, gap between blocks, block height
+INSET, GUT, GAP, LEVEL, BLOCK = 16, 100, 16, 24, 92  # plate padding, gutter, gap between blocks and levels, block height
+PLATES = 32
 BX, BW = X0 + GUT, CW - GUT - INSET  # where the blocks of a row start, and how wide a row is
+COLS = 2  # the longest artifact name fills half a row; a block alone in its row fills all of it
+TITLE = 16  # a family outranks the artifacts in it
+TAG, TAG_H = 11, 18  # text size and height of a tag
 DASH, DOT = "6 4", "0.1 4"
 
 
-def plate_height(rows):
-	return 44 + len(rows) * (BLOCK + GAP)
+def tag(a, x, y, text, color="soft", mono=False):
+	"""A tag whose top left corner is at x, y: the colour of its text at a fifth, no outline."""
+	w = len(text) * (6.6 if mono else 5.5) + 16
+	a.add(f'<rect x="{x:.1f}" y="{y:.1f}" width="{w:.1f}" height="{TAG_H}" rx="4" fill="{a.p[color]}" fill-opacity="0.2"/>')
+	a.t(x + 8, y + 12.5, text, size=TAG, color=color, mono=mono)
+	return w
+
+
+def row_tops(y, rows):
+	"""Where each row starts and where the last one ends: a row that opens a level stands further off."""
+	tops = []
+	for level, *_ in rows:
+		if tops:
+			y += GAP if level is None else LEVEL
+		tops.append(y)
+		y += BLOCK
+	return tops, y
 
 
 def family(a, y, name, status, rows, dash=None):
 	"""Draws a family at y and returns where the next one starts."""
-	h = plate_height(rows)
+	tops, bottom = row_tops(y + 48, rows)
+	h = bottom + INSET - y
 	if dash:
 		a.outline(X0, y, CW, h, r=12, dash=dash)
 	else:
 		a.rect(X0, y, CW, h, "plate", r=12)
-	a.name(X0 + INSET, y + 28, name, mono=True)
-	a.t(X0 + INSET + 7.8 * len(name) + 12, y + 28, status, color="soft")
-	for r, (level, specs, *cols) in enumerate(rows):
-		ry = y + 44 + r * (BLOCK + GAP)
+	a.t(X0 + INSET, y + 30, name, size=TITLE, color="ink", weight="600", mono=True)
+	tag(a, X0 + INSET + 0.6 * TITLE * len(name) + 12, y + 15, status)  # centred on the cap height of the name
+	for ry, (level, specs, *cols) in zip(tops, rows):
 		if level:
-			a.t(X0 + INSET, ry + 37, level, color="soft")  # on the baseline of the names in its row
-		n = cols[0] if cols else len(specs)
+			a.t(X0 + INSET, ry + 48, level, color="soft")  # on the baseline of the artifacts in its row
+		n = cols[0] if cols else min(COLS, len(specs))
 		w = (BW - (n - 1) * GAP) / n
-		for c, (hue, prefix, title, note) in enumerate(specs):
-			block(a, BX + c * (w + GAP), ry, w, hue, prefix, title, note)
-	return y + h + 24
+		for c, (hue, directory, artifact, note) in enumerate(specs):
+			block(a, BX + c * (w + GAP), ry, w, hue, directory, artifact, note)
+	return y + h + PLATES
 
 
-def block(a, x, y, w, hue, prefix, title, note):
-	# a module names its artifact in two tight lines, the common prefix in grey and the part that tells
-	# it apart in bold, and explains it a step lower; 12 to every edge, counted from the cap height and the
-	# baseline. A grey block is a module that does not exist yet or belongs to another family
+def block(a, x, y, w, hue, directory, artifact, note):
+	# three roles, three means: where the module lives is a tag, the artifact a build declares is bold,
+	# what it is for is grey. The tag and the artifact name one thing and sit 8 apart; the note is apart
+	# from them and rests 12 above the bottom, as the tag hangs 12 below the top. A grey block is a module that
+	# does not exist yet or belongs to another family
 	a.rect(x, y, w, BLOCK, (hue + "-plate") if hue else "card", r=6)
 	soft = (hue + "-soft") if hue else "soft"
-	a.t(x + 12, y + 21, prefix, color=soft, mono=True)
-	a.name(x + 12, y + 37, title, mono=True, color=ink(hue) if hue else "ink")
-	a.t(x + 12, y + 60, note, color=soft)
+	tag(a, x + 12, y + 12, directory, color=soft, mono=True)
+	a.name(x + 12, y + 48, artifact, mono=True, color=ink(hue) if hue else "ink")
+	a.t(x + 12, y + BLOCK - 12, note, color=soft)
 
 
 DDD_SPRING = [
-	("Spring", [("green", "semantic-ddd-", "spring-data", "what every store shares"),
-		("green", "semantic-ddd-", "spring-data-jpa", "JPA entities"),
-		("green", "semantic-ddd-", "spring-data-mongodb", "MongoDB documents")]),
-	(None, [("green", "semantic-ddd-", "spring-boot", "auto-configuration"),
-		("green", "semantic-ddd-", "spring-boot-starter", "dependencies only")], 3),
+	("Spring Data", [("green", "ddd/spring-data", "semantic-ddd-spring-data", "what every store shares")]),
+	(None, [("green", "ddd/spring-data-jpa", "semantic-ddd-spring-data-jpa", "aggregates as JPA entities"),
+		("green", "ddd/spring-data-mongodb", "semantic-ddd-spring-data-mongodb", "aggregates as MongoDB documents")]),
+	("Spring Boot", [("green", "ddd/spring-boot", "semantic-ddd-spring-boot", "auto-configuration"),
+		("green", "ddd/spring-boot-starter", "semantic-ddd-spring-boot-starter", "the way in: add it and one store")]),
 ]
 
 
 def families(pal):
 	# the whole library on one page, a family per plate, the ones in development on top
 	a = Art(720, 0, pal)
-	y = family(a, 16, "ddd", "in development, v1", [
-		("JVM", [("blue", "semantic-", "ddd", "building blocks, no framework")], 3),
+	y = family(a, 16, "helper", "in development, v1", [
+		("JVM", [("blue", "helper", "semantic-helper", "extensions of the standard types")]),
+	])
+	y = family(a, y, "format", "in development, v1", [
+		("JVM", [("blue", "format", "semantic-format", "cases, abbreviation")]),
+	])
+	y = family(a, y, "ddd", "in development, v1", [
+		("JVM", [("blue", "ddd/core", "semantic-ddd", "building blocks, no framework")]),
 		*DDD_SPRING,
 	])
 	y = family(a, y, "cqrs", "in development", [
-		("JVM", [("blue", "semantic-", "cqrs", "commands, queries, buses")], 3),
+		("JVM", [("blue", "cqrs/core", "semantic-cqrs", "commands, queries, buses")]),
 	])
 	y = family(a, y, "vo", "planned, v1", [
-		("base", [(None, "semantic-", "vo", "the validation every value object shares")]),
-		("groups", [(None, "semantic-vo-", "net", "email, URL, IP"),
-			(None, "semantic-vo-", "range", "bounded ranges"),
-			(None, "semantic-vo-", "time", "dates, periods")]),
+		("base", [(None, "vo/core", "semantic-vo", "the validation every value object shares")]),
+		("groups", [(None, "vo/net", "semantic-vo-net", "email, URL, IP"),
+			(None, "vo/range", "semantic-vo-range", "bounded ranges")]),
+		(None, [(None, "vo/time", "semantic-vo-time", "dates, periods")]),
 	], DASH)
-	a.h = y - 24 + 16
+	a.h = y - PLATES + 16
 	return a
 
 
 def modules(pal):
-	# the ddd family alone, with the vo module it builds on: read left to right, top to bottom, each
-	# module builds on the one before it
+	# the ddd family alone, with the vo and format modules it builds on: read top to bottom, each level builds on
+	# the one above it
 	a = Art(720, 0, pal)
 	y = family(a, 16, "ddd", "in development, v1", [
-		("JVM", [(None, "semantic-", "vo", "value objects, the vo family"),
-			("blue", "semantic-", "ddd", "building blocks")], 3),
+		("JVM", [(None, "vo/core", "semantic-vo", "value objects, the vo family"),
+			(None, "format", "semantic-format", "names, the format family")]),
+		(None, [("blue", "ddd/core", "semantic-ddd", "building blocks, no framework")]),
 		*DDD_SPRING,
 	])
-	a.h = y - 24 + 16
+	a.h = y - PLATES + 16
 	return a
 
 
-DIAGRAMS = {"families": families, "modules": modules}
+# ---------------------------------------------------------------------- format and helper examples
+# What a function does, shown on a value: what goes in on the left, what comes out on the right. A grey
+# chip is the value as written, a blue one a word on the way, a green one the result
+CHIP, CELL, CELL_NOTE = 28, 7.8, 7.2  # chip height, width of a mono char at 13 and at 12
+
+
+def cells(s):
+	"""Width of s in mono chars: a mark adds nothing, a flag or an emoji takes two."""
+	n = 0
+	for c in s:
+		o = ord(c)
+		if unicodedata.combining(c) or o in (0x200D, 0xFE0F) or 0x1F3FB <= o <= 0x1F3FF:
+			continue
+		n += 1 if 0x1F1E6 <= o <= 0x1F1FF else 2 if o >= 0x1F000 else 1
+	return n
+
+
+def chip(a, x, y, s, hue=None):
+	"""A value in a chip; returns its width."""
+	w = cells(s) * CELL + 24
+	a.rect(x, y, w, CHIP, (hue + "-plate") if hue else "card", r=6)
+	a.t(x + 12, y + 18.5, s, size=CODE, color=ink(hue) if hue else "ink", weight="600", mono=True)
+	return w
+
+
+def chips(a, x, y, words, hue="blue"):
+	"""Words side by side, 8 apart; returns where they end."""
+	for word in words:
+		x += chip(a, x, y, word, hue) + 8
+	return x - 8
+
+
+def head(a, x, y, color="line"):
+	a.add(f'<path d="M{x - 7},{y - 4} L{x},{y} L{x - 7},{y + 4} Z" fill="{a.p[color]}"/>')
+
+
+def cases(pal):
+	# one name split into words and joined back in each case, the call under what it gives
+	a = Art(0, 0, pal)
+	h, gap = 52, 8
+	results = [("shopping-cart-item", "toKebabCase()"), ("shopping_cart_item", "toSnakeCase()"),
+		("SHOPPING_CART_ITEM", "toConstantCase()"), ("shoppingCartItem", "toCamelCase()"),
+		("ShoppingCartItem", "toPascalCase()"), ("Shopping-Cart-Item", "toTrainCase()"),
+		("Shopping cart item", "toSentenceCase()")]
+	top = [16 + i * (h + gap) for i in range(len(results))]
+	cy = 16 + (len(results) * h + (len(results) - 1) * gap) / 2
+	name = "ShoppingCartItem"
+	iw = cells(name) * CELL + 24
+	a.rect(16, cy - h / 2, iw, h, "card", r=6)
+	a.name(16 + 12, cy - h / 2 + 22, name, mono=True)
+	a.t(16 + 12, cy - h / 2 + 40, "as written")
+	x = 16 + iw + 8
+	a.arrow(x, cy, x + 32)
+	x += 40
+	end = chips(a, x, cy - CHIP / 2, ["Shopping", "Cart", "Item"])
+	a.t(x, cy + CHIP / 2 + 18, "toWordSequence()", mono=True)
+	x1, xm = end + 8, end + 24
+	ox = xm + 24
+	ow = max(cells(v) for v, _ in results) * CELL + 24
+	for y, (value, call) in zip(top, results):
+		yc = y + h / 2
+		a.path(f"M{x1},{cy} H{xm} V{yc} H{ox - 8 - 6}")
+		head(a, ox - 8, yc)
+		a.rect(ox, y, ow, h, "green-plate", r=6)
+		a.name(ox + 12, y + 22, value, mono=True, color=ink("green"))
+		a.t(ox + 12, y + 40, call, color="green-soft", mono=True)
+	a.w, a.h = ox + ow + 16, top[-1] + h + 16
+	return a
+
+
+def words(pal):
+	# where a name breaks into words, one rule a row, told on the right
+	a = Art(600, 0, pal)
+	rows = [
+		("HTTPRequest", ["HTTP", "Request"], "an acronym stays one word"),
+		("order_line.id", ["order", "line", "id"], "any separator splits"),
+		("ЗаказТовара", ["Заказ", "Товара"], "any alphabet"),
+		("Cart🛒Item", ["Cart", "Item"], "an emoji splits too"),
+	]
+	x0 = 16 + max(cells(name) for name, _, _ in rows) * CELL + 24 + 8
+	for i, (name, parts, note) in enumerate(rows):
+		y = 16 + i * (CHIP + 12)
+		chip(a, 16, y, name)
+		a.arrow(x0, y + CHIP / 2, x0 + 32)
+		chips(a, x0 + 40, y, parts)
+		a.t(a.w - 16, y + 18.5, note, anchor="end")
+	a.h = 16 + len(rows) * (CHIP + 12) - 12 + 16
+	return a
+
+
+ID = "0190a3f2-7b1e-7c3a-9f4e-5d2b8a6ec41d"
+
+
+def abbreviated(pal):
+	# one identifier cut by each mode: what stays in bold, what the ellipsis hides in grey
+	a = Art(0, 0, pal)
+	rows = [("HideMiddle", 3, 2, "019…1d"), ("HideBeginning", 0, 5, "…ec41d"), ("HideEnding", 5, 0, "0190a…")]
+	gx = 16 + max(len(mode) for mode, *_ in rows) * CELL_NOTE + 16
+	vw = len(ID) * CELL + 24
+	for i, (mode, start, end, result) in enumerate(rows):
+		y = 16 + i * (CHIP + 12)
+		a.t(16, y + 18.5, mode, mono=True)
+		a.rect(gx, y, vw, CHIP, "card", r=6)
+		for c, char in enumerate(ID):
+			kept = c < start or c >= len(ID) - end
+			a.t(gx + 12 + c * CELL, y + 18.5, char, size=CODE, color="ink" if kept else "mute",
+				weight="600" if kept else "400", mono=True)
+		x = gx + vw + 8
+		a.arrow(x, y + CHIP / 2, x + 32)
+		w = chip(a, x + 40, y, result, "green")
+		a.w = max(a.w, x + 40 + w + 16)
+	a.h = 16 + len(rows) * (CHIP + 12) - 12 + 16
+	return a
+
+
+def symbols(pal):
+	# what one reads as a symbol over the chars that store it, and a cut that keeps every symbol whole
+	a = Art(0, 0, pal)
+	parts = [("C", 1), ("a", 1), ("f", 1), ("é", 2), ("🇷🇺", 4), ("👍🏽", 4)]
+	gx = 16 + len("takeSymbols(5)") * CELL_NOTE + 16
+	box, step = 36, 44
+	y2 = 16 + box + 8
+	a.t(16, 16 + box / 2 + 4.5, "symbols")
+	a.t(16, y2 + 7.5, "chars")
+	for i, (glyph, units) in enumerate(parts):
+		bx = gx + i * step
+		a.rect(bx, 16, box, box, "card", r=6)
+		a.t(bx + box / 2, 16 + box / 2 + 6, glyph, size=18, color="ink", anchor="middle")
+		sx = bx + (box - (units * PITCH - (PITCH - REC))) / 2
+		for u in range(units):
+			a.record(sx + u * PITCH, y2)
+	rx = gx + len(parts) * step - 8 + 32
+	for y, call, value in [(16 + box / 2 + 4.5, "symbolCount", "6"), (y2 + 7.5, "length", "13")]:
+		a.t(rx, y, call, mono=True)
+		a.name(rx + 112, y, value, anchor="end", mono=True)
+	y3 = y2 + REC + 24
+	a.t(16, y3 + 18.5, "takeSymbols(5)", mono=True)
+	chip(a, gx, y3, "Café🇷🇺", "green")
+	a.t(rx + 112, y3 + 18.5, "never half a symbol", anchor="end")
+	a.w, a.h = rx + 112 + 16, y3 + CHIP + 16
+	return a
+
+
+DIAGRAMS = {
+	"families": families, "modules": modules,
+	"format-cases": cases, "helper-words": words, "format-abbreviated": abbreviated, "helper-symbols": symbols,
+}
 
 if __name__ == "__main__":
 	OUT.mkdir(parents=True, exist_ok=True)
