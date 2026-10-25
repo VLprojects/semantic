@@ -3,5 +3,5 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":semantic-helper"))
+    implementation(project(":semantic-format"))
 }

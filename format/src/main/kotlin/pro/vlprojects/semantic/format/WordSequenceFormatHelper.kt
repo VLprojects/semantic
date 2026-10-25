@@ -1,4 +1,4 @@
-package pro.vlprojects.semantic.helper.format
+package pro.vlprojects.semantic.format
 
 public fun WordSequence.toKebabCase(): String = this
     .asSequence()

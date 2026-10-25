@@ -1,13 +1,13 @@
-package pro.vlprojects.semantic.helper.unit.format
+package pro.vlprojects.semantic.format.unit
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import pro.vlprojects.semantic.helper.format.EllipsisMode
-import pro.vlprojects.semantic.helper.format.abbreviated
-import pro.vlprojects.semantic.helper.format.toCamelCase
-import pro.vlprojects.semantic.helper.format.toKebabCase
-import pro.vlprojects.semantic.helper.format.toSnakeCase
+import pro.vlprojects.semantic.format.EllipsisMode
+import pro.vlprojects.semantic.format.abbreviated
+import pro.vlprojects.semantic.format.toCamelCase
+import pro.vlprojects.semantic.format.toKebabCase
+import pro.vlprojects.semantic.format.toSnakeCase
 
 class StringFormatHelperTests {
 

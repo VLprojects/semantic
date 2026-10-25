@@ -1,6 +1,4 @@
-package pro.vlprojects.semantic.helper.format
-
-import pro.vlprojects.semantic.helper.text.calculateAllSymbolsStartedAt
+package pro.vlprojects.semantic.format
 
 public fun CharSequence.toWordSequence(): WordSequence = this
     .let(::SymbolSequence)
@@ -13,12 +11,10 @@ internal fun CharSequence.isWord() = when {
 }
 
 private fun CharSequence.hasOnlyLetterOrDigitSymbols() = this
-    .calculateAllSymbolsStartedAt()
-    .all {
-        Character
-            .codePointAt(this, it)
-            .let(Character::isLetterOrDigit)
-    }
+    .let(::SymbolSequence)
+    .hasOnlyLetterOrDigitSymbols()
+
+private fun SymbolSequence.hasOnlyLetterOrDigitSymbols() = indices.all(::isLetterOrDigitAt)
 
 private fun SymbolSequence.toWords() = this
     .indices

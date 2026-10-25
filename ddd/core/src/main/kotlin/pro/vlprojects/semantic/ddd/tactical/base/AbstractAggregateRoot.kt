@@ -4,7 +4,7 @@ import pro.vlprojects.semantic.ddd.tactical.AggregateRoot
 import pro.vlprojects.semantic.ddd.tactical.Event
 import pro.vlprojects.semantic.ddd.tactical.Identifier
 import pro.vlprojects.semantic.ddd.tactical.Revision
-import pro.vlprojects.semantic.helper.format.abbreviated
+import pro.vlprojects.semantic.format.abbreviated
 
 public abstract class AbstractAggregateRoot<A : AggregateRoot<A, I>, I : Identifier> :
     AbstractEntity<A, I>(),
