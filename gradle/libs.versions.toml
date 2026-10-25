@@ -4,6 +4,7 @@
 kotlin = "2.4.20"
 kotlinter = "5.7.0"
 spring-boot = "4.1.1"
+spring-framework = "7.0.9"
 spring-data-commons = "4.1.1"
 spring-data-mongodb = "5.1.1"
 jakarta-persistence = "3.2.0"
@@ -18,6 +19,7 @@ kotlinter-gradle = { module = "org.jmailen.gradle:kotlinter-gradle", version.ref
 
 jakarta-persistence-api = { module = "jakarta.persistence:jakarta.persistence-api", version.ref = "jakarta-persistence" }
 hibernate-core = { module = "org.hibernate.orm:hibernate-core", version.ref = "hibernate" }
+spring-aop = { module = "org.springframework:spring-aop", version.ref = "spring-framework" }
 spring-data-commons = { module = "org.springframework.data:spring-data-commons", version.ref = "spring-data-commons" }
 spring-data-mongodb = { module = "org.springframework.data:spring-data-mongodb", version.ref = "spring-data-mongodb" }
 spring-boot-autoconfigure = { module = "org.springframework.boot:spring-boot-autoconfigure", version.ref = "spring-boot" }

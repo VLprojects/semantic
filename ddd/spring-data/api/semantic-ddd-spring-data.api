@@ -1,8 +1,27 @@
-public abstract class pro/vlprojects/semantic/ddd/spring/data/SpringDataAggregateRoot : pro/vlprojects/semantic/ddd/tactical/base/AbstractAggregateRoot, org/springframework/data/domain/Persistable {
+public abstract class pro/vlprojects/semantic/ddd/spring/data/AbstractSpringDataAggregateRoot : pro/vlprojects/semantic/ddd/spring/data/AbstractSpringDataEntity, pro/vlprojects/semantic/ddd/tactical/AggregateRoot {
 	public fun <init> ()V
 	protected final fun clearEvents ()V
-	protected final fun getDomainEvents ()Ljava/util/Collection;
+	protected final fun getEvents ()Ljava/util/List;
+	public final fun getRevision ()Lpro/vlprojects/semantic/ddd/tactical/Revision;
+	public final fun getVersion ()J
+	protected final fun register (Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;Lpro/vlprojects/semantic/ddd/tactical/Event;)Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;
+	protected final fun setVersion (J)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract class pro/vlprojects/semantic/ddd/spring/data/AbstractSpringDataEntity : org/springframework/data/domain/Persistable, pro/vlprojects/semantic/ddd/tactical/Entity {
+	protected field identifier Lpro/vlprojects/semantic/ddd/tactical/Identifier;
+	public fun <init> ()V
+	protected final fun change (Lpro/vlprojects/semantic/ddd/tactical/Entity;Lkotlin/jvm/functions/Function1;)Lpro/vlprojects/semantic/ddd/tactical/Entity;
+	public fun equals (Ljava/lang/Object;)Z
 	public synthetic fun getId ()Ljava/lang/Object;
 	public final fun getId ()Lpro/vlprojects/semantic/ddd/tactical/Identifier;
+	public final fun getIdentifier ()Lpro/vlprojects/semantic/ddd/tactical/Identifier;
+	protected fun getInvariants ()Ljava/util/List;
+	public fun hashCode ()I
+	public final fun isNew ()Z
+	protected final fun markPersisted ()V
+	protected final fun setIdentifier (Lpro/vlprojects/semantic/ddd/tactical/Identifier;)V
+	public fun toString ()Ljava/lang/String;
 }
 

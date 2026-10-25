@@ -1,11 +1,14 @@
 # semantic-format
 
-How a value is written down: a name in cases, a long value abbreviated. The
-words of a name and the symbols of a text come from `semantic-helper`.
+How a value is written down: a name in cases, a long value abbreviated, a
+secret masked. The words of a name and the symbols of a text come from
+`semantic-helper`.
 
 | Package | Extends | What is there |
 | --- | --- | --- |
-| `format` | `String`, `WordSequence`, `Int`, `Long`, later `Duration` | cases, abbreviation, plurals |
+| `format` | `String`, `WordSequence`, `Int`, `Long`, later `Duration` | cases, plurals |
+| `format.abbreviation` | `String` | abbreviation |
+| `format.mask` | `String` | masking |
 
 ## Cases
 
@@ -38,20 +41,45 @@ each part of a name; the rest keeps its case.
 
 ## Abbreviation
 
-`abbreviated` keeps a few symbols of a long value and hides the rest behind an
-ellipsis, where the mode says.
+`abbreviated` keeps a few symbols of a long value visible and puts an ellipsis
+in place of the rest: the prefix, the infix or the suffix. The abbreviation
+lives in the package `format.abbreviation`.
 
 ![An identifier cut in the middle, at the beginning and at the end](../docs/assets/format-abbreviated-light.svg#gh-light-mode-only)
 ![An identifier cut in the middle, at the beginning and at the end](../docs/assets/format-abbreviated-dark.svg#gh-dark-mode-only)
 
 ```kotlin
-id.abbreviated()                                  // 019…1d
-id.abbreviated(keepLength = 8)                    // 0190…c41d
-id.abbreviated(mode = EllipsisMode.HideBeginning) // …ec41d
-id.abbreviated(mode = { value, keep -> "${value.take(keep)}…" })
+id.abbreviated()                                   // 019…1d
+id.abbreviated(visibleLength = 8)                  // 0190…c41d
+id.abbreviated(abbreviation = PrefixAbbreviation) // …ec41d
+id.abbreviated(abbreviation = { source, length -> "${source.take(length)}…" })
 ```
 
 A value shorter than `minLength`, 10 by default, stays whole.
+
+## Masking
+
+`masked` keeps a few letters and digits of a value visible and masks the rest:
+the prefix, the infix or the suffix. The separators stay, so a phone or a card
+still reads as one. The masking lives in the package `format.mask`; a value
+object with rules of its own, an email, writes a masking of its own.
+
+```kotlin
+"4242 4242 4242 4242".masked()                                          // 42** **** **** **42
+"4242 4242 4242 4242".masked(visibleLength = 6, masking = SuffixMasking) // 4242 42** **** ****
+"+7 (916) 123-45-67".masked(visibleLength = 3, masking = InfixMasking)   // +7 (9**) ***-**-*7
+"secret".masked(visibleLength = 0, maskChar = '•')                       // ••••••
+```
+
+By default the mask is as long as the masked part. `maskLength = 3` makes it
+`***` whatever the value, so the length gives nothing away:
+
+```kotlin
+"4242 4242 4242 4242".masked(maskLength = 3)                          // 42***42
+"4242 4242 4242 4242".masked(masking = PrefixMasking, maskLength = 3) // *** 4242
+```
+
+A value too short to mask anything is masked whole.
 
 ## Plurals
 

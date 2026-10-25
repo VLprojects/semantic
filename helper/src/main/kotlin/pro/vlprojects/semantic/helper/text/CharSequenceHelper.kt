@@ -47,8 +47,10 @@ private fun CharSequence.toBreakIterator() = BreakIterator
         this.toString().let(iterator::setText)
     }
 
+public fun CharSequence.toSymbolSequence(): SymbolSequence = SymbolSequence.of(this)
+
 public fun CharSequence.toWordSequence(): WordSequence = this
-    .let(::SymbolSequence)
+    .toSymbolSequence()
     .toWords()
     .let(::ListWordSequence)
 
@@ -58,7 +60,7 @@ internal fun CharSequence.isWord() = when {
 }
 
 private fun CharSequence.hasOnlyLetterOrDigitSymbols() = this
-    .let(::SymbolSequence)
+    .toSymbolSequence()
     .hasOnlyLetterOrDigitSymbols()
 
 private fun SymbolSequence.hasOnlyLetterOrDigitSymbols() = this.indices.all(::isLetterOrDigitAt)
