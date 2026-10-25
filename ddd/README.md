@@ -5,7 +5,7 @@ identifiers, entities, aggregate roots, domain events, business rules,
 specifications and domain errors. The core is plain Kotlin; Spring Data with its stores, JPA and
 MongoDB, and Spring Boot live in modules of their own.
 
-The contracts of the core are in place, and so is the base class of the
+The contracts of the core are in place, and so are the base classes of the
 Spring Data module; the store and Spring Boot modules are empty so far.
 
 ## The core
@@ -81,18 +81,33 @@ never through `?.let`.
 
 ## Spring Data
 
-`semantic-ddd-spring-data` gives `SpringDataAggregateRoot`, the base an
+`semantic-ddd-spring-data` gives `AbstractSpringDataAggregateRoot`, the base an
 aggregate saved by a Spring Data repository extends, under
-`pro.vlprojects.semantic.ddd.spring.data`. It is an `AbstractAggregateRoot` of
-the core and a `Persistable`: `getId()` is the identifier, the registered events
+`pro.vlprojects.semantic.ddd.spring.data`. It is an `AggregateRoot` and a
+`Persistable`: `getId()` is the identifier, the registered events
 are handed out with `@DomainEvents` when the repository saves the aggregate and
 forgotten with `@AfterDomainEventPublication` once they are published. Events
 are published by `save()` only: an aggregate changed and not saved publishes
 nothing.
 
-`isNew()` is left to the store, since each tells a new aggregate from a saved
-one in its own way: the JPA base by the callbacks of the entity, the MongoDB base
-by the version.
+`AbstractSpringDataEntity` is the base of an entity: an `Entity` and a
+`Persistable` whose `getId()` is the identifier. The root extends it and adds
+the version, the revision and the events.
+
+The two bases implement the contracts of the core themselves and repeat what
+`AbstractEntity` and `AbstractAggregateRoot` do, equality by identifier and
+invariants checked on a change. They do not extend those classes, so the
+fields are declared here and not in the core, and how a store maps them is
+decided on the side of Spring Data.
+
+`isNew()` is true until `markPersisted()` is called. Neither this flag nor the
+events of a root are stored: the `transient` modifier keeps them out of JPA,
+`@Transient` of Spring Data out of the other stores. Marking an object persisted on load and after save is left
+to the store modules: JPA through the callbacks of the entity, MongoDB through
+the callbacks of its mapping.
+
+Equality compares the classes through `ProxyUtils.getUserClass`, so an entity
+equals the lazy proxy Hibernate puts in its place.
 
 ## Modules
 
@@ -104,7 +119,7 @@ Six artifacts, group `pro.vlprojects.semantic`:
 | Artifact | For | Depends on |
 | --- | --- | --- |
 | `semantic-ddd` | any JVM code: the building blocks | `semantic-vo`, `semantic-format` |
-| `semantic-ddd-spring-data` | what every Spring Data store shares: `Persistable`, events handed out on save | core, `spring-data-commons` |
+| `semantic-ddd-spring-data` | what every Spring Data store shares: `Persistable`, events handed out on save | core, `spring-data-commons`, `spring-aop` |
 | `semantic-ddd-spring-data-jpa` | aggregates mapped with JPA | the Spring Data module, `jakarta.persistence-api` |
 | `semantic-ddd-spring-data-mongodb` | aggregates stored in MongoDB | the Spring Data module, `spring-data-mongodb` |
 | `semantic-ddd-spring-boot` | auto-configuration | the Spring Data module, Spring Boot |
@@ -135,8 +150,8 @@ Packages follow the artifacts: `pro.vlprojects.semantic.ddd`,
 `pro.vlprojects.semantic.ddd.spring.data.jpa`,
 `pro.vlprojects.semantic.ddd.spring.data.mongodb`,
 `pro.vlprojects.semantic.ddd.spring.boot`. A package belongs to one artifact
-only. The base classes of a store carry its name, `JpaAggregateRoot` and
-`MongoAggregateRoot`, so they do not clash with those of the core.
+only. The base classes of a store carry its name, `AbstractJpaAggregateRoot` and
+`AbstractMongoAggregateRoot`, so they do not clash with those of the core.
 
 ---
 
