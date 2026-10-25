@@ -5,11 +5,17 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import pro.vlprojects.semantic.helper.text.collapse
+import pro.vlprojects.semantic.helper.text.collapseApostrophes
+import pro.vlprojects.semantic.helper.text.collapseDots
+import pro.vlprojects.semantic.helper.text.collapseHyphens
+import pro.vlprojects.semantic.helper.text.collapseSpaces
 import pro.vlprojects.semantic.helper.text.endsWithAny
 import pro.vlprojects.semantic.helper.text.isAscii
 import pro.vlprojects.semantic.helper.text.isNotAscii
 import pro.vlprojects.semantic.helper.text.notEndsWithAny
 import pro.vlprojects.semantic.helper.text.notStartsWithAny
+import pro.vlprojects.semantic.helper.text.removeDiacritics
 import pro.vlprojects.semantic.helper.text.startsWithAny
 import pro.vlprojects.semantic.helper.text.symbolCount
 import pro.vlprojects.semantic.helper.text.takeLastSymbols
@@ -137,5 +143,59 @@ class StringHelperTests {
     fun `an empty collection matches nothing`() {
         assertFalse("order-42".startsWithAny(emptyList()))
         assertFalse("order-42".endsWithAny(emptySet()))
+    }
+
+    @Test
+    fun `a run of whitespace becomes one space`() {
+        assertEquals("Anne Marie Curie", "Anne  \t Marie\n\nCurie".collapseSpaces())
+        assertEquals("Anne Marie", "Anne\u00A0\u2009Marie".collapseSpaces())
+    }
+
+    @Test
+    fun `a run of hyphens, apostrophes or dots becomes one`() {
+        assertEquals("Jean-Luc", "Jean---Luc".collapseHyphens())
+        assertEquals("O'Neil", "O''Neil".collapseApostrophes())
+        assertEquals("a.b.", "a..b...".collapseDots())
+    }
+
+    @Test
+    fun `a collapse keeps the other characters`() {
+        assertEquals("a - b", "a - b".collapseHyphens())
+        assertEquals("", "".collapseSpaces())
+    }
+
+    @Test
+    fun `a run of the chosen characters becomes the replacement`() {
+        assertEquals("order_42_id", "order  42\t\tid".collapse('_', Char::isWhitespace))
+        assertEquals("a-b-c", "a-_b_-_c".collapse('-', listOf('-', '_')))
+    }
+
+    @Test
+    fun `a replacement already in the value is not taken for a run`() {
+        assertEquals("a__b", "a_ b".collapse('_', Char::isWhitespace))
+    }
+
+    @Test
+    fun `no characters to collapse keep the value`() {
+        assertEquals("a  b", "a  b".collapse('_', emptyList()))
+    }
+
+    @Test
+    fun `a letter loses its accent`() {
+        assertEquals("Cafe creme", "Café crème".removeDiacritics())
+        assertEquals("Ecole", "E\u0301cole".removeDiacritics())
+        assertEquals("Angstrom", "Ångstrom".removeDiacritics())
+    }
+
+    @Test
+    fun `a text without accents stays as it is`() {
+        assertEquals("Hello", "Hello".removeDiacritics())
+        assertEquals("Привет 👋", "Привет 👋".removeDiacritics())
+        assertEquals("한국어", "한국어".removeDiacritics())
+    }
+
+    @Test
+    fun `a cyrillic short letter loses its breve`() {
+        assertEquals("Иеи", "Йёй".removeDiacritics())
     }
 }

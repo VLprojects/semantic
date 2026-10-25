@@ -70,3 +70,23 @@ pattern.any(Char::isWildcard)
 key.notStartsWithAny("internal.", "debug.")
 "Café".isNotAscii() // true
 ```
+
+## Cleanup
+
+A value typed by a person comes with doubled separators and accents; a cleanup
+brings it to one form before it is compared or stored.
+
+```kotlin
+"Anne  \t Marie".collapseSpaces() // Anne Marie
+"Jean---Luc".collapseHyphens()    // Jean-Luc
+"O''Neil".collapseApostrophes()   // O'Neil
+"a..b".collapseDots()             // a.b
+"Café crème".removeDiacritics()   // Cafe creme
+```
+
+`collapse` turns a run of any characters you choose into one.
+
+```kotlin
+"order  42\t\tid".collapse('_', Char::isWhitespace) // order_42_id
+"a-_b_-_c".collapse('-', listOf('-', '_'))          // a-b-c
+```
