@@ -38,7 +38,8 @@ public fun Char.isClosingParenthesis(): Boolean = this == ')'
 
 public fun Char.isParenthesis(): Boolean = when {
     isOpeningParenthesis() -> true
-    else -> isClosingParenthesis()
+    isClosingParenthesis() -> true
+    else -> false
 }
 
 public fun Char.isOpeningBracket(): Boolean = this == '['
@@ -47,5 +48,6 @@ public fun Char.isClosingBracket(): Boolean = this == ']'
 
 public fun Char.isBracket(): Boolean = when {
     isOpeningBracket() -> true
-    else -> isClosingBracket()
+    isClosingBracket() -> true
+    else -> false
 }
