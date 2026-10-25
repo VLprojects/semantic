@@ -13,7 +13,7 @@ public abstract class AbstractSpringDataEntity<E : Entity<E, I>, I : Identifier>
     Entity<E, I>,
     Persistable<I> {
 
-    // Open, so that a lazy proxy of a store answers with its own key and not with its empty field.
+    // Open, so that the base of a store maps them and a lazy proxy answers with its own key, not an empty field.
     override lateinit var identifier: I
         protected set
 
@@ -32,7 +32,7 @@ public abstract class AbstractSpringDataEntity<E : Entity<E, I>, I : Identifier>
 
     final override fun isNew(): Boolean = !persisted
 
-    protected fun markPersisted() {
+    protected open fun markPersisted() {
         persisted = true
     }
 

@@ -97,13 +97,13 @@ public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractAggregat
 public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractEntity : pro/vlprojects/semantic/ddd/tactical/Entity {
 	protected field identifier Lpro/vlprojects/semantic/ddd/tactical/Identifier;
 	public fun <init> ()V
+	protected final fun assignVersion (J)V
 	protected final fun change (Lpro/vlprojects/semantic/ddd/tactical/Entity;Lkotlin/jvm/functions/Function1;)Lpro/vlprojects/semantic/ddd/tactical/Entity;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getIdentifier ()Lpro/vlprojects/semantic/ddd/tactical/Identifier;
 	protected fun getInvariants ()Ljava/util/List;
 	public final fun getVersion ()J
 	public fun hashCode ()I
-	protected final fun incrementVersion ()V
 	protected final fun setIdentifier (Lpro/vlprojects/semantic/ddd/tactical/Identifier;)V
 	protected final fun setVersion (J)V
 	public fun toString ()Ljava/lang/String;

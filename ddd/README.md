@@ -129,13 +129,14 @@ class Cart(identifier: CartId) : AbstractJpaAggregateRoot<Cart, CartId>() {
 }
 ```
 
-The Spring Data bases know nothing of JPA, so `META-INF/semantic-ddd-orm.xml`
-maps them: `identifier` is the `@EmbeddedId`, its `value` stored in the column
-`id`, neither null nor updated; `version` is the `@Version`; `markPersisted()`
-runs on `@PostPersist` and `@PostLoad`, so `isNew()` turns false once the
-entity is persisted or loaded. The service adds the file to its persistence
-unit, `spring.jpa.mapping-resources=META-INF/semantic-ddd-orm.xml`. A
-composite key names its columns with an `@AttributeOverride` of its own.
+The Spring Data bases know nothing of JPA, so the JPA bases override their
+members with the mapping: `identifier` is the `@EmbeddedId`, its `value`
+stored in the column `id`, neither null nor updated; `version` is the
+`@Version`; `markPersisted()` runs on `@PostPersist` and `@PostLoad`, so
+`isNew()` turns false once the entity is persisted or loaded. A composite key
+names its columns with an `@AttributeOverride` of its own. The root repeats
+the mapping of the entity: it extends the root of Spring Data, and a class has
+one superclass.
 
 The class of the key does not extend `AbstractId` of the core: JPA builds it by
 a constructor with no arguments, and `AbstractId` has none. It implements

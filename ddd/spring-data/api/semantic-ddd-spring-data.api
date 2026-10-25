@@ -19,7 +19,7 @@ public abstract class pro/vlprojects/semantic/ddd/spring/data/AbstractSpringData
 	public fun getVersion ()J
 	public fun hashCode ()I
 	public final fun isNew ()Z
-	protected final fun markPersisted ()V
+	protected fun markPersisted ()V
 	protected fun setIdentifier (Lpro/vlprojects/semantic/ddd/tactical/Identifier;)V
 	protected fun setVersion (J)V
 	public fun toString ()Ljava/lang/String;

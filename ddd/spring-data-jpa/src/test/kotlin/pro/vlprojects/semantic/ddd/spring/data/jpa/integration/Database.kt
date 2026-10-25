@@ -11,7 +11,6 @@ object Database {
         .apply { start() }
 
     private val entityManagerFactory = PersistenceConfiguration("semantic-ddd")
-        .mappingFile("META-INF/semantic-ddd-orm.xml")
         .managedClass(Cart::class.java)
         .managedClass(Item::class.java)
         .property(PersistenceConfiguration.JDBC_URL, postgres.jdbcUrl)

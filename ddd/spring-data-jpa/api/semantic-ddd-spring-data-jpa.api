@@ -1,8 +1,20 @@
 public abstract class pro/vlprojects/semantic/ddd/spring/data/jpa/AbstractJpaAggregateRoot : pro/vlprojects/semantic/ddd/spring/data/AbstractSpringDataAggregateRoot {
+	protected field identifier Lpro/vlprojects/semantic/ddd/tactical/Identifier;
 	public fun <init> ()V
+	public fun getIdentifier ()Lpro/vlprojects/semantic/ddd/tactical/Identifier;
+	public fun getVersion ()J
+	protected fun markPersisted ()V
+	protected fun setIdentifier (Lpro/vlprojects/semantic/ddd/tactical/Identifier;)V
+	protected fun setVersion (J)V
 }
 
 public abstract class pro/vlprojects/semantic/ddd/spring/data/jpa/AbstractJpaEntity : pro/vlprojects/semantic/ddd/spring/data/AbstractSpringDataEntity {
+	protected field identifier Lpro/vlprojects/semantic/ddd/tactical/Identifier;
 	public fun <init> ()V
+	public fun getIdentifier ()Lpro/vlprojects/semantic/ddd/tactical/Identifier;
+	public fun getVersion ()J
+	protected fun markPersisted ()V
+	protected fun setIdentifier (Lpro/vlprojects/semantic/ddd/tactical/Identifier;)V
+	protected fun setVersion (J)V
 }
 
