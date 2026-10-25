@@ -11,9 +11,25 @@ public fun String.toSnakeCase(): String = this
     .toWordSequence()
     .toSnakeCase()
 
+public fun String.toConstantCase(): String = this
+    .toWordSequence()
+    .toConstantCase()
+
 public fun String.toCamelCase(): String = this
     .toWordSequence()
     .toCamelCase()
+
+public fun String.toPascalCase(): String = this
+    .toWordSequence()
+    .toPascalCase()
+
+public fun String.toTrainCase(): String = this
+    .toWordSequence()
+    .toTrainCase()
+
+public fun String.toSentenceCase(): String = this
+    .toWordSequence()
+    .toSentenceCase()
 
 public fun String.abbreviated(
     minLength: Int = 10,

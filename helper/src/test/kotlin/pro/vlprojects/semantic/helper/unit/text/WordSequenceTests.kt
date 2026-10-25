@@ -52,9 +52,10 @@ class WordSequenceTests {
     }
 
     @Test
-    fun `a word is given in lower case or capitalized`() {
+    fun `a word is given in lower case, in capitals or capitalized`() {
         val word = "HTTPRequest".toWordSequence()[0]
         assertEquals("http", word.lowercase())
+        assertEquals("HTTP", word.uppercase())
         assertEquals("Http", word.capitalized())
     }
 
