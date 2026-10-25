@@ -8,24 +8,15 @@ class ItemId(
 ) : AbstractId<Long>(value)
 
 open class Item(
-    identifier: ItemId,
+    override val identifier: ItemId,
 ) : AbstractSpringDataEntity<Item, ItemId>() {
-
-    init {
-        this.identifier = identifier
-    }
 
     fun loaded() = apply { markPersisted() }
 }
 
 class Bundle(
-    identifier: ItemId,
-) : AbstractSpringDataEntity<Bundle, ItemId>() {
-
-    init {
-        this.identifier = identifier
-    }
-}
+    override val identifier: ItemId,
+) : AbstractSpringDataEntity<Bundle, ItemId>()
 
 // ProxyUtils tells a CGLIB proxy by the $$ in the name of its class.
 @Suppress("ktlint:standard:class-naming")

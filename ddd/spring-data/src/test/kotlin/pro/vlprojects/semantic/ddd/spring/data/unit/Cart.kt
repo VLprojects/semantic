@@ -24,14 +24,9 @@ class ItemAdded(
 }
 
 class Cart(
-    identifier: CartId,
-    version: Long = 0,
+    override val identifier: CartId,
+    override val version: Long = 0,
 ) : AbstractSpringDataAggregateRoot<Cart, CartId>() {
-
-    init {
-        this.identifier = identifier
-        this.version = version
-    }
 
     val items = mutableListOf<String>()
 

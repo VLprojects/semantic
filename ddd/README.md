@@ -92,13 +92,27 @@ nothing.
 
 `AbstractSpringDataEntity` is the base of an entity: an `Entity` and a
 `Persistable` whose `getId()` is the identifier. The root extends it and adds
-the version, the revision and the events.
+the revision and the events.
 
 The two bases implement the contracts of the core themselves and repeat what
 `AbstractEntity` and `AbstractAggregateRoot` do, equality by identifier and
-invariants checked on a change. They do not extend those classes, so the
-fields are declared here and not in the core, and how a store maps them is
-decided on the side of Spring Data.
+invariants checked on a change. They do not extend those classes, whose fields
+no store could map.
+
+The bases declare no field a store keeps. The identifier is declared by the
+class of the service, the only one that knows how its key is mapped, with
+`@EmbeddedId`, `@Id` and a converter or as a composite key:
+
+```kotlin
+@Entity
+class Order(
+    @EmbeddedId override val identifier: OrderId,
+) : AbstractJpaAggregateRoot<Order, OrderId>()
+```
+
+The version is declared by the base of the store, with the annotation the store
+reads. The getter of the identifier is then the service's own: the JPA plugin
+of Kotlin opens it with the entity, and a lazy proxy of Hibernate answers it.
 
 `isNew()` is true until `markPersisted()` is called. Neither this flag nor the
 events of a root are stored: the `transient` modifier keeps them out of JPA,

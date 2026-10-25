@@ -13,9 +13,6 @@ public abstract class AbstractSpringDataEntity<E : Entity<E, I>, I : Identifier>
     Entity<E, I>,
     Persistable<I> {
 
-    final override lateinit var identifier: I
-        protected set
-
     // The modifier keeps JPA from storing the flag, the annotation the other stores.
     @Transient
     @field:StoreTransient
