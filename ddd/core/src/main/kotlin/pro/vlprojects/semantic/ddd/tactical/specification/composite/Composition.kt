@@ -12,7 +12,11 @@ internal fun <T> Iterable<Specification<T>?>.conjoin(): Specification<T> {
             else -> parts.add(part)
         }
     }
-    return parts.toSpecification(Always, ::AllOf)
+    return when (parts.size) {
+        0 -> Always
+        1 -> parts.first()
+        else -> AllOf(parts)
+    }
 }
 
 internal fun <T> Iterable<Specification<T>?>.disjoin(): Specification<T> {
@@ -25,7 +29,11 @@ internal fun <T> Iterable<Specification<T>?>.disjoin(): Specification<T> {
             else -> parts.add(part)
         }
     }
-    return parts.toSpecification(Never, ::AnyOf)
+    return when (parts.size) {
+        0 -> Never
+        1 -> parts.first()
+        else -> AnyOf(parts)
+    }
 }
 
 internal fun <T> Specification<T>.negate() = when (this) {
@@ -33,13 +41,4 @@ internal fun <T> Specification<T>.negate() = when (this) {
     Always -> Never
     Never -> Always
     else -> Not(this)
-}
-
-private fun <T> List<Specification<T>>.toSpecification(
-    neutral: Specification<T>,
-    composite: (List<Specification<T>>) -> Specification<T>,
-) = when (size) {
-    0 -> neutral
-    1 -> first()
-    else -> composite(this)
 }
