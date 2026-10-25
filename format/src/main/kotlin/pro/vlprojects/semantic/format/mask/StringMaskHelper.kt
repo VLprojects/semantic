@@ -21,7 +21,7 @@ public fun String.masked(
 
     val maskedIndices = when {
         visibleLength >= maskableIndices.size -> maskableIndices
-        else -> masking.mask(maskableIndices, visibleLength)
+        else -> masking.cover(maskableIndices, visibleLength)
     }
 
     return when {

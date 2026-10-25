@@ -56,8 +56,8 @@ class StringMaskHelperTests {
     }
 
     @Test
-    fun `a masking picks the indices to mask`() {
-        assertEquals(listOf(0, 1, 2), PrefixMasking.mask(listOf(0, 1, 2, 3), 1))
+    fun `a masking picks the indices to cover`() {
+        assertEquals(listOf(0, 1, 2), PrefixMasking.cover(listOf(0, 1, 2, 3), 1))
     }
 
     @Test

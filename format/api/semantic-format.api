@@ -62,21 +62,21 @@ public final class pro/vlprojects/semantic/format/WordSequenceFormatHelperKt {
 
 public final class pro/vlprojects/semantic/format/mask/InfixMasking : pro/vlprojects/semantic/format/mask/Masking {
 	public static final field INSTANCE Lpro/vlprojects/semantic/format/mask/InfixMasking;
+	public fun cover (Ljava/util/List;I)Ljava/util/List;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
-	public fun mask (Ljava/util/List;I)Ljava/util/List;
 	public fun toString ()Ljava/lang/String;
 }
 
 public abstract interface class pro/vlprojects/semantic/format/mask/Masking {
-	public abstract fun mask (Ljava/util/List;I)Ljava/util/List;
+	public abstract fun cover (Ljava/util/List;I)Ljava/util/List;
 }
 
 public final class pro/vlprojects/semantic/format/mask/PrefixMasking : pro/vlprojects/semantic/format/mask/Masking {
 	public static final field INSTANCE Lpro/vlprojects/semantic/format/mask/PrefixMasking;
+	public fun cover (Ljava/util/List;I)Ljava/util/List;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
-	public fun mask (Ljava/util/List;I)Ljava/util/List;
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -87,9 +87,9 @@ public final class pro/vlprojects/semantic/format/mask/StringMaskHelperKt {
 
 public final class pro/vlprojects/semantic/format/mask/SuffixMasking : pro/vlprojects/semantic/format/mask/Masking {
 	public static final field INSTANCE Lpro/vlprojects/semantic/format/mask/SuffixMasking;
+	public fun cover (Ljava/util/List;I)Ljava/util/List;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
-	public fun mask (Ljava/util/List;I)Ljava/util/List;
 	public fun toString ()Ljava/lang/String;
 }
 
