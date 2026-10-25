@@ -1,3 +1,7 @@
+public final class pro/vlprojects/semantic/format/AnyFormatHelperKt {
+	public static final fun getKebabClassName (Ljava/lang/Object;)Ljava/lang/String;
+}
+
 public abstract interface class pro/vlprojects/semantic/format/EllipsisMode {
 	public abstract fun abbreviate (Ljava/lang/String;I)Ljava/lang/String;
 }

@@ -1,8 +1,6 @@
-package pro.vlprojects.semantic.ddd.support
+package pro.vlprojects.semantic.format
 
-import pro.vlprojects.semantic.format.toKebabCase
-
-internal val Any.kebabClassName
+public val Any.kebabClassName: String
     get() = this::class.simpleName
         ?.toKebabCase()
         ?: error("${this::class} has no class name to be named after")
