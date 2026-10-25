@@ -46,8 +46,9 @@ Package `pro.vlprojects.semantic.architecture.contract` of `semantic-architectur
 
 The annotation holds what the class name cannot: a `namespace` and a `name`
 that stay when the class is renamed, the `scope` of the integration, a
-`version` that grows with each change of the contract and whether that change
-is `breaking` for the consumers of the previous version.
+`version` that grows with each change of the contract and whether that version
+`breaksBackwardCompatibility`: the consumers of the previous version can no
+longer read it.
 
 ```kotlin
 @Contracted(
@@ -55,7 +56,7 @@ is `breaking` for the consumers of the previous version.
     name = "placed",
     scope = IntegrationScope.EXTERNAL,
     version = 3,
-    breaking = true,
+    breaksBackwardCompatibility = true,
 )
 class OrderPlaced(...)
 ```

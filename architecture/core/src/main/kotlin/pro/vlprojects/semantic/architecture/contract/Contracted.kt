@@ -7,5 +7,5 @@ public annotation class Contracted(
     val name: String,
     val scope: IntegrationScope,
     val version: Int = 1,
-    val breaking: Boolean = false,
+    val breaksBackwardCompatibility: Boolean = false,
 )

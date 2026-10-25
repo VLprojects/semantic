@@ -1,5 +1,5 @@
 public abstract interface annotation class pro/vlprojects/semantic/architecture/contract/Contracted : java/lang/annotation/Annotation {
-	public abstract fun breaking ()Z
+	public abstract fun breaksBackwardCompatibility ()Z
 	public abstract fun name ()Ljava/lang/String;
 	public abstract fun namespace ()Ljava/lang/String;
 	public abstract fun scope ()Lpro/vlprojects/semantic/architecture/contract/IntegrationScope;
