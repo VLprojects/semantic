@@ -2,7 +2,7 @@ package pro.vlprojects.semantic.ddd.tactical.specification.composite
 
 import pro.vlprojects.semantic.ddd.tactical.Specification
 
-internal fun <T> List<Specification<T>>.allOf() = flatMap { it.conjuncts() }
+internal fun <T> Iterable<Specification<T>>.conjunction() = flatMap { it.conjuncts() }
     .filterNot { it == Always }
     .let { parts ->
         when {
@@ -13,7 +13,7 @@ internal fun <T> List<Specification<T>>.allOf() = flatMap { it.conjuncts() }
         }
     }
 
-internal fun <T> List<Specification<T>>.anyOf() = flatMap { it.disjuncts() }
+internal fun <T> Iterable<Specification<T>>.disjunction() = flatMap { it.disjuncts() }
     .filterNot { it == Never }
     .let { parts ->
         when {
