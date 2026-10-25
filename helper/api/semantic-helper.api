@@ -177,3 +177,105 @@ public final class pro/vlprojects/semantic/helper/text/transforming/StringHelper
 	public static final fun takeSymbols (Ljava/lang/String;I)Ljava/lang/String;
 }
 
+public final class pro/vlprojects/semantic/helper/time/ByteHelperKt {
+	public static final fun day (B)J
+	public static final fun days (B)J
+	public static final fun hour (B)J
+	public static final fun hours (B)J
+	public static final fun microsecond (B)J
+	public static final fun microseconds (B)J
+	public static final fun millisecond (B)J
+	public static final fun milliseconds (B)J
+	public static final fun minute (B)J
+	public static final fun minutes (B)J
+	public static final fun nanosecond (B)J
+	public static final fun nanoseconds (B)J
+	public static final fun second (B)J
+	public static final fun seconds (B)J
+}
+
+public final class pro/vlprojects/semantic/helper/time/DoubleHelperKt {
+	public static final fun day (D)J
+	public static final fun days (D)J
+	public static final fun hour (D)J
+	public static final fun hours (D)J
+	public static final fun microsecond (D)J
+	public static final fun microseconds (D)J
+	public static final fun millisecond (D)J
+	public static final fun milliseconds (D)J
+	public static final fun minute (D)J
+	public static final fun minutes (D)J
+	public static final fun nanosecond (D)J
+	public static final fun nanoseconds (D)J
+	public static final fun second (D)J
+	public static final fun seconds (D)J
+}
+
+public final class pro/vlprojects/semantic/helper/time/FloatHelperKt {
+	public static final fun day (F)J
+	public static final fun days (F)J
+	public static final fun hour (F)J
+	public static final fun hours (F)J
+	public static final fun microsecond (F)J
+	public static final fun microseconds (F)J
+	public static final fun millisecond (F)J
+	public static final fun milliseconds (F)J
+	public static final fun minute (F)J
+	public static final fun minutes (F)J
+	public static final fun nanosecond (F)J
+	public static final fun nanoseconds (F)J
+	public static final fun second (F)J
+	public static final fun seconds (F)J
+}
+
+public final class pro/vlprojects/semantic/helper/time/IntHelperKt {
+	public static final fun day (I)J
+	public static final fun days (I)J
+	public static final fun hour (I)J
+	public static final fun hours (I)J
+	public static final fun microsecond (I)J
+	public static final fun microseconds (I)J
+	public static final fun millisecond (I)J
+	public static final fun milliseconds (I)J
+	public static final fun minute (I)J
+	public static final fun minutes (I)J
+	public static final fun nanosecond (I)J
+	public static final fun nanoseconds (I)J
+	public static final fun second (I)J
+	public static final fun seconds (I)J
+}
+
+public final class pro/vlprojects/semantic/helper/time/LongHelperKt {
+	public static final fun day (J)J
+	public static final fun days (J)J
+	public static final fun hour (J)J
+	public static final fun hours (J)J
+	public static final fun microsecond (J)J
+	public static final fun microseconds (J)J
+	public static final fun millisecond (J)J
+	public static final fun milliseconds (J)J
+	public static final fun minute (J)J
+	public static final fun minutes (J)J
+	public static final fun nanosecond (J)J
+	public static final fun nanoseconds (J)J
+	public static final fun second (J)J
+	public static final fun seconds (J)J
+}
+
+public final class pro/vlprojects/semantic/helper/time/ShortHelperKt {
+	public static final fun day (S)J
+	public static final fun days (S)J
+	public static final fun hour (S)J
+	public static final fun hours (S)J
+	public static final fun microsecond (S)J
+	public static final fun microseconds (S)J
+	public static final fun millisecond (S)J
+	public static final fun milliseconds (S)J
+	public static final fun minute (S)J
+	public static final fun minutes (S)J
+	public static final fun nanosecond (S)J
+	public static final fun nanoseconds (S)J
+	public static final fun second (S)J
+	public static final fun seconds (S)J
+}
+

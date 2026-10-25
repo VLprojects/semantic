@@ -9,7 +9,7 @@ file per type it extends: `StringHelper.kt`, `InstantHelper.kt`.
 | Package | Extends | What is there |
 | --- | --- | --- |
 | `text` | `String`, `CharSequence` | the text itself: symbols as a reader sees them, the words of a name |
-| `time` | `Instant`, `LocalDate`, `Duration` | planned |
+| `time` | `Int`, `Long`, `Double`, `Short`, `Byte`, `Float` | a duration built from a number: `2.hours()`, `1.hour()` |
 | `number` | `Int`, `Long`, `Short`, `Byte`, `BigDecimal` | the sign of a number, a narrowing that refuses to lose a digit |
 | `lang` | `Any`, `KClass` | planned |
 
@@ -105,3 +105,19 @@ BigDecimal("42.00").toSafeInt() // 42
 BigDecimal("1.5").toSafeInt()   // ArithmeticException
 5_000_000_000L.toSafeInt()      // ArithmeticException
 ```
+
+## Durations
+
+A number builds a `Duration` in any unit from nanoseconds to days. Each unit
+has a plural and a singular, so a duration of one reads as a sentence too.
+
+```kotlin
+2.hours()           // 2h
+1.hour()            // 1h
+90.seconds()        // 1m 30s
+1.5.days()          // 1d 12h
+500L.milliseconds() // 500ms
+```
+
+There are no weeks or months: a month has no fixed length, and a week is
+`7.days()`.
