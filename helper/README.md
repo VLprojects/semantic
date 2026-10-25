@@ -12,6 +12,7 @@ file per type it extends: `StringHelper.kt`, `InstantHelper.kt`.
 | `time` | `Instant`, `LocalDate`, `Duration` | planned |
 | `number` | `Int`, `Long`, `Short`, `Byte`, `BigDecimal` | the sign of a number, a narrowing that refuses to lose a digit |
 | `lang` | `Any`, `KClass` | planned |
+| `collection` | `Collection`, `Iterable` | equality and hash that ignore the order of the elements |
 
 A helper extends a type that already exists and knows nothing of the domain:
 what speaks of aggregates or value objects belongs to its family. How a value

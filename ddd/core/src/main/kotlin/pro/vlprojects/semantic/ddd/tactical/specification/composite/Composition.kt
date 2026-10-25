@@ -6,35 +6,37 @@ public fun <T> allOf(vararg specifications: Specification<T>?): Specification<T>
 
 public fun <T> anyOf(vararg specifications: Specification<T>?): Specification<T> = specifications.asList().anyOf()
 
+// O(m) over the arguments: nested nodes are kept as they are and flattened on first use.
 public fun <T> Iterable<Specification<T>?>.allOf(): Specification<T> {
-    val parts = mutableListOf<Specification<T>>()
+    val children = mutableListOf<Specification<T>>()
     for (part in this) {
         when (part) {
             null, Always -> Unit
             Never -> return Never
-            else -> parts.add(part)
+            else -> children.add(part)
         }
     }
-    return when (parts.size) {
+    return when (children.size) {
         0 -> Always
-        1 -> parts.first()
-        else -> AllOf(parts)
+        1 -> children.first()
+        else -> AllOf(children)
     }
 }
 
+// O(m) over the arguments: nested nodes are kept as they are and flattened on first use.
 public fun <T> Iterable<Specification<T>?>.anyOf(): Specification<T> {
-    val parts = mutableListOf<Specification<T>>()
+    val children = mutableListOf<Specification<T>>()
     for (part in this) {
         when (part) {
             null, Never -> Unit
             Always -> return Always
-            else -> parts.add(part)
+            else -> children.add(part)
         }
     }
-    return when (parts.size) {
+    return when (children.size) {
         0 -> Never
-        1 -> parts.first()
-        else -> AnyOf(parts)
+        1 -> children.first()
+        else -> AnyOf(children)
     }
 }
 
@@ -45,14 +47,15 @@ internal fun <T> Specification<T>.negate() = when (this) {
     else -> Not(this)
 }
 
-internal fun <T> List<Specification<T>>.flatten(nestedPartsOf: (Specification<T>) -> List<Specification<T>>?) =
+// O(n) time and memory with a stack of its own, so a chain of any depth does not overflow the call stack.
+internal fun <T> List<Specification<T>>.flatten(childrenOf: (Specification<T>) -> List<Specification<T>>?) =
     ArrayDeque(this.asReversed()).let { pending ->
         buildList {
             while (pending.isNotEmpty()) {
-                val part = pending.removeLast()
-                when (val nested = nestedPartsOf(part)) {
-                    null -> add(part)
-                    else -> pending.addAll(nested.asReversed())
+                val specification = pending.removeLast()
+                when (val children = childrenOf(specification)) {
+                    null -> add(specification)
+                    else -> pending.addAll(children.asReversed())
                 }
             }
         }
