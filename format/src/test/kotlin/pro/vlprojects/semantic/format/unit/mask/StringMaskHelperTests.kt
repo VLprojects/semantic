@@ -3,8 +3,10 @@ package pro.vlprojects.semantic.format.unit.mask
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import pro.vlprojects.semantic.format.mask.HideAll
+import pro.vlprojects.semantic.format.mask.HideBeginning
+import pro.vlprojects.semantic.format.mask.HideEnding
 import pro.vlprojects.semantic.format.mask.HideMiddle
+import pro.vlprojects.semantic.format.mask.Mask
 import pro.vlprojects.semantic.format.mask.masked
 
 class StringMaskHelperTests {
@@ -15,40 +17,58 @@ class StringMaskHelperTests {
     }
 
     @Test
+    fun `the mode says where the kept symbols are`() {
+        assertEquals("****ef", "abcdef".masked(keepLength = 2, mode = HideBeginning))
+        assertEquals("a****f", "abcdef".masked(keepLength = 2, mode = HideMiddle))
+        assertEquals("ab****", "abcdef".masked(keepLength = 2, mode = HideEnding))
+    }
+
+    @Test
     fun `separators stay and only letters and digits are counted`() {
-        assertEquals("+7 (***) ***-**-67", "+7 (916) 123-45-67".masked(HideMiddle.of(keepFirst = 1, keepLast = 2)))
-        assertEquals("4242 42** **** 4242", "4242 4242 4242 4242".masked(HideMiddle.of(keepFirst = 6, keepLast = 4)))
+        assertEquals("+7 (9**) ***-**-*7", "+7 (916) 123-45-67".masked(keepLength = 3, mode = HideMiddle))
+        assertEquals("4242 42** **** ****", "4242 4242 4242 4242".masked(keepLength = 6, mode = HideEnding))
+    }
+
+    @Test
+    fun `a collapsed mask covers the hidden part whole`() {
+        assertEquals("*** 4242", "4242 4242 4242 4242".masked(mask = Mask.of(length = 3)))
+        assertEquals("se***ue", "secret-token-value".masked(mode = HideMiddle, mask = Mask.of(length = 3)))
     }
 
     @Test
     fun `a symbol of several characters is hidden by one mask`() {
-        assertEquals("****", "Cafe\u0301".masked(HideAll))
+        assertEquals("****", "Café".masked(keepLength = 0))
     }
 
     @Test
     fun `a value too short to hide anything is hidden whole`() {
         assertEquals("****", "1234".masked())
-        assertEquals("**-**", "12-34".masked(HideMiddle.of(keepFirst = 2, keepLast = 2)))
+        assertEquals("***", "1234".masked(mask = Mask.of(length = 3)))
+    }
+
+    @Test
+    fun `a value with no letters or digits stays as it is`() {
+        assertEquals("+-()", "+-()".masked())
     }
 
     @Test
     fun `the mask is any character`() {
-        assertEquals("••••5678", "12345678".masked(mask = '•'))
+        assertEquals("••••5678", "12345678".masked(mask = Mask.of(symbol = '•')))
     }
 
     @Test
     fun `a mode masks with a star by default`() {
-        assertEquals("**", HideAll.mask("ab"))
+        assertEquals("****ef", HideBeginning.mask("abcdef", 2))
     }
 
     @Test
     fun `a mode of its own is a function`() {
-        assertEquals("[hidden]", "secret".masked(mode = { _, _ -> "[hidden]" }))
+        assertEquals("[hidden]", "secret".masked(mode = { _, _, _ -> "[hidden]" }))
     }
 
     @Test
-    fun `a negative count is rejected`() {
-        assertThrows<IllegalArgumentException> { HideMiddle.of(keepFirst = -1) }
-        assertThrows<IllegalArgumentException> { HideMiddle.of(keepLast = -1) }
+    fun `a negative kept length or an empty mask is rejected`() {
+        assertThrows<IllegalArgumentException> { "secret".masked(keepLength = -1) }
+        assertThrows<IllegalArgumentException> { Mask.of(length = 0) }
     }
 }
