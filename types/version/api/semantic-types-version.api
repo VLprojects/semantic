@@ -1,0 +1,34 @@
+public abstract interface class pro/vlprojects/semantic/types/version/OrderedVersion : java/lang/Comparable, pro/vlprojects/semantic/types/version/Version {
+}
+
+public final class pro/vlprojects/semantic/types/version/SequentialVersion : pro/vlprojects/semantic/types/version/OrderedVersion, pro/vlprojects/semantic/types/version/Successive {
+	public static final field Format Lpro/vlprojects/semantic/types/version/SequentialVersion$Format;
+	public static final field INITIAL Lpro/vlprojects/semantic/types/version/SequentialVersion;
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun compareTo (Lpro/vlprojects/semantic/types/version/SequentialVersion;)I
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getValue ()J
+	public fun hashCode ()I
+	public fun next ()Lpro/vlprojects/semantic/types/version/SequentialVersion;
+	public synthetic fun next ()Lpro/vlprojects/semantic/types/version/Version;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/types/version/SequentialVersion$Format : pro/vlprojects/semantic/types/version/VersionFormat {
+	public final fun of (J)Lpro/vlprojects/semantic/types/version/SequentialVersion;
+	public fun parseOrNull (Ljava/lang/String;)Lpro/vlprojects/semantic/types/version/SequentialVersion;
+	public synthetic fun parseOrNull (Ljava/lang/String;)Lpro/vlprojects/semantic/types/version/Version;
+}
+
+public abstract interface class pro/vlprojects/semantic/types/version/Successive {
+	public abstract fun next ()Lpro/vlprojects/semantic/types/version/Version;
+}
+
+public abstract interface class pro/vlprojects/semantic/types/version/Version {
+}
+
+public abstract interface class pro/vlprojects/semantic/types/version/VersionFormat {
+	public fun parse (Ljava/lang/String;)Lpro/vlprojects/semantic/types/version/Version;
+	public abstract fun parseOrNull (Ljava/lang/String;)Lpro/vlprojects/semantic/types/version/Version;
+}
+
