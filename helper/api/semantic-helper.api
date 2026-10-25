@@ -28,6 +28,8 @@ public final class pro/vlprojects/semantic/helper/text/CharSequenceHelperKt {
 }
 
 public final class pro/vlprojects/semantic/helper/text/StringHelperKt {
+	public static final fun collapse (Ljava/lang/String;CLjava/lang/Iterable;)Ljava/lang/String;
+	public static final fun collapse (Ljava/lang/String;CLkotlin/jvm/functions/Function1;)Ljava/lang/String;
 	public static final fun collapseApostrophes (Ljava/lang/String;)Ljava/lang/String;
 	public static final fun collapseDots (Ljava/lang/String;)Ljava/lang/String;
 	public static final fun collapseHyphens (Ljava/lang/String;)Ljava/lang/String;

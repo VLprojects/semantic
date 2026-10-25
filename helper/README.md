@@ -83,3 +83,10 @@ brings it to one form before it is compared or stored.
 "a..b".collapseDots()             // a.b
 "Café crème".removeDiacritics()   // Cafe creme
 ```
+
+`collapse` turns a run of any characters you choose into one.
+
+```kotlin
+"order  42\t\tid".collapse('_', Char::isWhitespace) // order_42_id
+"a-_b_-_c".collapse('-', listOf('-', '_'))          // a-b-c
+```

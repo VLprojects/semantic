@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import pro.vlprojects.semantic.helper.text.collapse
 import pro.vlprojects.semantic.helper.text.collapseApostrophes
 import pro.vlprojects.semantic.helper.text.collapseDots
 import pro.vlprojects.semantic.helper.text.collapseHyphens
@@ -161,6 +162,22 @@ class StringHelperTests {
     fun `a collapse keeps the other characters`() {
         assertEquals("a - b", "a - b".collapseHyphens())
         assertEquals("", "".collapseSpaces())
+    }
+
+    @Test
+    fun `a run of the chosen characters becomes the replacement`() {
+        assertEquals("order_42_id", "order  42\t\tid".collapse('_', Char::isWhitespace))
+        assertEquals("a-b-c", "a-_b_-_c".collapse('-', listOf('-', '_')))
+    }
+
+    @Test
+    fun `a replacement already in the value is not taken for a run`() {
+        assertEquals("a__b", "a_ b".collapse('_', Char::isWhitespace))
+    }
+
+    @Test
+    fun `no characters to collapse keep the value`() {
+        assertEquals("a  b", "a  b".collapse('_', emptyList()))
     }
 
     @Test

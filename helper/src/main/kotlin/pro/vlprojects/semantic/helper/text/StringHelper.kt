@@ -53,25 +53,36 @@ public fun String.collapseApostrophes(): String = collapse('\'', Char::isApostro
 
 public fun String.collapseDots(): String = collapse('.', Char::isDot)
 
-public fun String.removeDiacritics(): String = this
-    .takeUnless(String::isAscii)
-    ?.normalizeTo(Normalizer.Form.NFD)
-    ?.filterNot(Char::isDiacritic)
-    ?.normalizeTo(Normalizer.Form.NFC)
-    ?: this
-
-private fun String.collapse(replacement: Char, isCollapsible: (Char) -> Boolean) = this
+public fun String.collapse(replacement: Char, isCollapsible: (Char) -> Boolean): String = this
     .let { source ->
         buildString(source.length) {
-            source.forEach { char ->
+            source.forEachIndexed { index, char ->
                 when {
                     !isCollapsible(char) -> append(char)
-                    !endsWith(replacement) -> append(replacement)
+                    !source.hasCollapsibleBefore(index, isCollapsible) -> append(replacement)
                 }
             }
         }
     }
 
-private fun String.normalizeTo(form: Normalizer.Form) = Normalizer.normalize(this, form)
+public fun String.collapse(replacement: Char, collapsible: Iterable<Char>): String = collapsible
+    .toSet()
+    .let { chars ->
+        collapse(replacement, chars::contains)
+    }
+
+public fun String.removeDiacritics(): String = this
+    .takeUnless(String::isAscii)
+    ?.normalizeWith(Normalizer.Form.NFD)
+    ?.filterNot(Char::isDiacritic)
+    ?.normalizeWith(Normalizer.Form.NFC)
+    ?: this
+
+private fun String.hasCollapsibleBefore(index: Int, isCollapsible: (Char) -> Boolean) = when (index) {
+    0 -> false
+    else -> this[index - 1].let(isCollapsible)
+}
+
+private fun String.normalizeWith(form: Normalizer.Form) = Normalizer.normalize(this, form)
 
 private fun Char.isDiacritic() = category == CharCategory.NON_SPACING_MARK
