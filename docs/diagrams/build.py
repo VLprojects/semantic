@@ -238,6 +238,9 @@ def families(pal):
 	y = family(a, 16, "helper", "in development, v1", [
 		("JVM", [("blue", "helper", "semantic-helper", "extensions of the standard types")]),
 	])
+	y = family(a, y, "format", "in development, v1", [
+		("JVM", [("blue", "format", "semantic-format", "cases, abbreviation")]),
+	])
 	y = family(a, y, "ddd", "in development, v1", [
 		("JVM", [("blue", "ddd/core", "semantic-ddd", "building blocks, no framework")]),
 		*DDD_SPRING,
@@ -256,12 +259,12 @@ def families(pal):
 
 
 def modules(pal):
-	# the ddd family alone, with the vo and helper modules it builds on: read top to bottom, each level builds on
+	# the ddd family alone, with the vo and format modules it builds on: read top to bottom, each level builds on
 	# the one above it
 	a = Art(720, 0, pal)
 	y = family(a, 16, "ddd", "in development, v1", [
 		("JVM", [(None, "vo/core", "semantic-vo", "value objects, the vo family"),
-			(None, "helper", "semantic-helper", "extensions, the helper family")]),
+			(None, "format", "semantic-format", "names, the format family")]),
 		(None, [("blue", "ddd/core", "semantic-ddd", "building blocks, no framework")]),
 		*DDD_SPRING,
 	])
@@ -269,8 +272,8 @@ def modules(pal):
 	return a
 
 
-# ---------------------------------------------------------------------- helper examples
-# What a helper does, shown on a value: what goes in on the left, what comes out on the right. A grey
+# ---------------------------------------------------------------------- format and helper examples
+# What a function does, shown on a value: what goes in on the left, what comes out on the right. A grey
 # chip is the value as written, a blue one a word on the way, a green one the result
 CHIP, CELL, CELL_NOTE = 28, 7.8, 7.2  # chip height, width of a mono char at 13 and at 12
 
@@ -412,7 +415,7 @@ def symbols(pal):
 
 DIAGRAMS = {
 	"families": families, "modules": modules,
-	"helper-cases": cases, "helper-words": words, "helper-abbreviated": abbreviated, "helper-symbols": symbols,
+	"format-cases": cases, "helper-words": words, "format-abbreviated": abbreviated, "helper-symbols": symbols,
 }
 
 if __name__ == "__main__":
