@@ -1,3 +1,55 @@
+public final class pro/vlprojects/semantic/helper/number/BigDecimalHelperKt {
+	public static final fun isNegative (Ljava/math/BigDecimal;)Z
+	public static final fun isNonNegative (Ljava/math/BigDecimal;)Z
+	public static final fun isNotZero (Ljava/math/BigDecimal;)Z
+	public static final fun isPositive (Ljava/math/BigDecimal;)Z
+	public static final fun isZero (Ljava/math/BigDecimal;)Z
+	public static final fun toSafeByte (Ljava/math/BigDecimal;)B
+	public static final fun toSafeDouble (Ljava/math/BigDecimal;)D
+	public static final fun toSafeFloat (Ljava/math/BigDecimal;)F
+	public static final fun toSafeInt (Ljava/math/BigDecimal;)I
+	public static final fun toSafeLong (Ljava/math/BigDecimal;)J
+	public static final fun toSafeShort (Ljava/math/BigDecimal;)S
+}
+
+public final class pro/vlprojects/semantic/helper/number/ByteHelperKt {
+	public static final fun isNegative (B)Z
+	public static final fun isNonNegative (B)Z
+	public static final fun isNotZero (B)Z
+	public static final fun isPositive (B)Z
+	public static final fun isZero (B)Z
+}
+
+public final class pro/vlprojects/semantic/helper/number/IntHelperKt {
+	public static final fun isNegative (I)Z
+	public static final fun isNonNegative (I)Z
+	public static final fun isNotZero (I)Z
+	public static final fun isPositive (I)Z
+	public static final fun isZero (I)Z
+	public static final fun toSafeByte (I)B
+	public static final fun toSafeShort (I)S
+}
+
+public final class pro/vlprojects/semantic/helper/number/LongHelperKt {
+	public static final fun isNegative (J)Z
+	public static final fun isNonNegative (J)Z
+	public static final fun isNotZero (J)Z
+	public static final fun isPositive (J)Z
+	public static final fun isZero (J)Z
+	public static final fun toSafeByte (J)B
+	public static final fun toSafeInt (J)I
+	public static final fun toSafeShort (J)S
+}
+
+public final class pro/vlprojects/semantic/helper/number/ShortHelperKt {
+	public static final fun isNegative (S)Z
+	public static final fun isNonNegative (S)Z
+	public static final fun isNotZero (S)Z
+	public static final fun isPositive (S)Z
+	public static final fun isZero (S)Z
+	public static final fun toSafeByte (S)B
+}
+
 public final class pro/vlprojects/semantic/helper/text/CharHelperKt {
 	public static final fun isApostrophe (C)Z
 	public static final fun isAscii (C)Z
@@ -28,6 +80,12 @@ public final class pro/vlprojects/semantic/helper/text/CharSequenceHelperKt {
 }
 
 public final class pro/vlprojects/semantic/helper/text/StringHelperKt {
+	public static final fun collapse (Ljava/lang/String;CLjava/lang/Iterable;)Ljava/lang/String;
+	public static final fun collapse (Ljava/lang/String;CLkotlin/jvm/functions/Function1;)Ljava/lang/String;
+	public static final fun collapseApostrophes (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun collapseDots (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun collapseHyphens (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun collapseSpaces (Ljava/lang/String;)Ljava/lang/String;
 	public static final fun endsWithAny (Ljava/lang/String;Ljava/lang/Iterable;)Z
 	public static final fun endsWithAny (Ljava/lang/String;[Ljava/lang/String;)Z
 	public static final fun getSymbolCount (Ljava/lang/String;)I
@@ -37,6 +95,7 @@ public final class pro/vlprojects/semantic/helper/text/StringHelperKt {
 	public static final fun notEndsWithAny (Ljava/lang/String;[Ljava/lang/String;)Z
 	public static final fun notStartsWithAny (Ljava/lang/String;Ljava/lang/Iterable;)Z
 	public static final fun notStartsWithAny (Ljava/lang/String;[Ljava/lang/String;)Z
+	public static final fun removeDiacritics (Ljava/lang/String;)Ljava/lang/String;
 	public static final fun startsWithAny (Ljava/lang/String;Ljava/lang/Iterable;)Z
 	public static final fun startsWithAny (Ljava/lang/String;[Ljava/lang/String;)Z
 	public static final fun takeLastSymbols (Ljava/lang/String;I)Ljava/lang/String;

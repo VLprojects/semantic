@@ -31,6 +31,13 @@ public fun String.toSentenceCase(): String = this
     .toWordSequence()
     .toSentenceCase()
 
+public fun String.capitalizeEachPart(separator: String): String {
+    require(separator.isNotEmpty()) { "The separator must not be empty" }
+    return this
+        .split(separator)
+        .joinToString(separator) { it.replaceFirstChar(Char::titlecase) }
+}
+
 public fun String.abbreviated(
     minLength: Int = 10,
     keepLength: Int = 5,

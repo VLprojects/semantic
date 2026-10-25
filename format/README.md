@@ -30,6 +30,13 @@ them: `iPhone` as one word.
 listOf(Word.of("iPhone"), Word.of("Case")).toWordSequence().toKebabCase() // iphone-case
 ```
 
+`capitalizeEachPart` starts each part of a name with a capital and leaves the
+rest as it is.
+
+```kotlin
+"jean-luc".capitalizeEachPart("-") // Jean-Luc
+```
+
 ## Abbreviation
 
 `abbreviated` keeps a few symbols of a long value and hides the rest behind an
