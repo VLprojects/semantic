@@ -435,9 +435,9 @@ ID = "0190a3f2-7b1e-7c3a-9f4e-5d2b8a6ec41d"
 
 
 def abbreviated(pal):
-	# one identifier cut by each mode: what stays in bold, what the ellipsis hides in grey
+	# one identifier shortened by each abbreviation: what stays in bold, what the ellipsis hides in grey
 	a = Art(0, 0, pal)
-	rows = [("HideMiddle", 3, 2, "019…1d"), ("HideBeginning", 0, 5, "…ec41d"), ("HideEnding", 5, 0, "0190a…")]
+	rows = [("InfixAbbreviation", 3, 2, "019…1d"), ("PrefixAbbreviation", 0, 5, "…ec41d"), ("SuffixAbbreviation", 5, 0, "0190a…")]
 	gx = 16 + max(len(mode) for mode, *_ in rows) * CELL_NOTE + 16
 	vw = len(ID) * CELL + 24
 	for i, (mode, start, end, result) in enumerate(rows):
