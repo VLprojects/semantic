@@ -6,6 +6,10 @@ public abstract interface annotation class pro/vlprojects/semantic/architecture/
 	public abstract fun version ()I
 }
 
+public abstract interface annotation class pro/vlprojects/semantic/architecture/integration/IntroducedIn : java/lang/annotation/Annotation {
+	public abstract fun version ()I
+}
+
 public final class pro/vlprojects/semantic/architecture/integration/Scope : java/lang/Enum {
 	public static final field COMPONENT_INTERNAL Lpro/vlprojects/semantic/architecture/integration/Scope;
 	public static final field EXTERNAL Lpro/vlprojects/semantic/architecture/integration/Scope;
@@ -13,10 +17,6 @@ public final class pro/vlprojects/semantic/architecture/integration/Scope : java
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lpro/vlprojects/semantic/architecture/integration/Scope;
 	public static fun values ()[Lpro/vlprojects/semantic/architecture/integration/Scope;
-}
-
-public abstract interface annotation class pro/vlprojects/semantic/architecture/integration/Since : java/lang/annotation/Annotation {
-	public abstract fun version ()I
 }
 
 public abstract interface annotation class pro/vlprojects/semantic/architecture/layer/ApplicationLayer : java/lang/annotation/Annotation {

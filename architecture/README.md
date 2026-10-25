@@ -43,13 +43,13 @@ Package `pro.vlprojects.semantic.architecture.integration` of `semantic-architec
 | --- | --- |
 | `@Integrated` | a class other code depends on by its shape: an event, a DTO, a message of an API |
 | `Scope` | who depends on it: `COMPONENT_INTERNAL` for the modules of the same application, `SYSTEM_INTERNAL` for the other applications of the same system, `EXTERNAL` for other systems |
-| `@Since` | a property of an integrated class, with the `version` it appeared in |
+| `@IntroducedIn` | a property of an integrated class, with the `version` it appeared in |
 
 The annotation holds what the class name cannot: a `namespace` and a `name`
 that stay when the class is renamed, the `scope` of the integration, a
 `version` that grows with each change of the contract and whether that version
 `breaksBackwardCompatibility`: the consumers of the previous version can no
-longer read it. `@Since` marks the properties added after the first version.
+longer read it. `@IntroducedIn` marks the properties introduced after the first version.
 
 ```kotlin
 @Integrated(
@@ -61,7 +61,7 @@ longer read it. `@Since` marks the properties added after the first version.
 )
 class OrderPlaced(
     val orderId: String,
-    @Since(version = 3)
+    @IntroducedIn(version = 3)
     val currency: String,
 )
 ```
