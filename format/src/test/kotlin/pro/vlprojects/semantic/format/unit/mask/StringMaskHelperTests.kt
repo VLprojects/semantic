@@ -12,8 +12,8 @@ import pro.vlprojects.semantic.format.mask.masked
 class StringMaskHelperTests {
 
     @Test
-    fun `the last four symbols stay by default`() {
-        assertEquals("************4242", "4242424242424242".masked())
+    fun `two first and two last symbols stay by default`() {
+        assertEquals("42************42", "4242424242424242".masked())
     }
 
     @Test
@@ -31,7 +31,7 @@ class StringMaskHelperTests {
 
     @Test
     fun `a collapsed mask covers the hidden part whole`() {
-        assertEquals("*** 4242", "4242 4242 4242 4242".masked(mask = Mask.of(length = 3)))
+        assertEquals("*** 4242", "4242 4242 4242 4242".masked(mode = MaskBeginning, mask = Mask.of(length = 3)))
         assertEquals("se***ue", "secret-token-value".masked(mode = MaskMiddle, mask = Mask.of(length = 3)))
     }
 
@@ -53,7 +53,7 @@ class StringMaskHelperTests {
 
     @Test
     fun `the mask is any character`() {
-        assertEquals("••••5678", "12345678".masked(mask = Mask.of(symbol = '•')))
+        assertEquals("12••••78", "12345678".masked(mask = Mask.of(symbol = '•')))
     }
 
     @Test

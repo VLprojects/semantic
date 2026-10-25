@@ -19,18 +19,22 @@ public class Mask private constructor(private val symbol: Char, private val leng
         }
 
     private fun coverSpan(symbols: SymbolSequence, hidden: List<Int>, length: Int): String {
+
         val before = hidden
             .first()
             .let { 0 until it }
             .let(symbols::extract)
+
         val after = hidden
             .last()
             .inc()
             .until(symbols.length)
             .let(symbols::extract)
+
         val cover = symbol
             .toString()
             .repeat(length)
+
         return "$before$cover$after"
     }
 
@@ -38,6 +42,7 @@ public class Mask private constructor(private val symbol: Char, private val leng
 
         public fun of(symbol: Char = '*', length: Int? = null): Mask {
             length?.let { require(it > 0) { "The length of a mask must be positive, got $it" } }
+
             return Mask(symbol, length)
         }
     }

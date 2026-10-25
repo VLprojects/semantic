@@ -52,8 +52,10 @@ private fun CharSequence.toBreakIterator() = BreakIterator
         this.toString().let(iterator::setText)
     }
 
+public fun CharSequence.toSymbolSequence(): SymbolSequence = SymbolSequence(this)
+
 public fun CharSequence.toWordSequence(): WordSequence = this
-    .let(::SymbolSequence)
+    .toSymbolSequence()
     .toWords()
     .let(::ListWordSequence)
 

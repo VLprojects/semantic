@@ -1,6 +1,6 @@
 package pro.vlprojects.semantic.helper.text
 
-public class SymbolSequence(private val text: CharSequence) {
+public class SymbolSequence internal constructor(private val text: CharSequence) {
 
     private val boundaries = text.calculateSymbolBoundaryArray()
 

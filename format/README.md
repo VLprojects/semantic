@@ -64,7 +64,7 @@ a phone or a card still reads as one. The mode lives in the package
 of its own.
 
 ```kotlin
-"4242 4242 4242 4242".masked()                                  // **** **** **** 4242
+"4242 4242 4242 4242".masked()                                  // 42** **** **** **42
 "4242 4242 4242 4242".masked(keepLength = 6, mode = MaskEnding) // 4242 42** **** ****
 "+7 (916) 123-45-67".masked(keepLength = 3, mode = MaskMiddle)  // +7 (9**) ***-**-*7
 "secret".masked(keepLength = 0, mask = Mask.of(symbol = '•'))   // ••••••
@@ -74,7 +74,8 @@ By default the mask keeps the length of the value. `Mask.of(length = 3)`
 collapses the hidden part into three symbols, so the length gives nothing away:
 
 ```kotlin
-"4242 4242 4242 4242".masked(mask = Mask.of(length = 3)) // *** 4242
+"4242 4242 4242 4242".masked(mask = Mask.of(length = 3))                      // 42***42
+"4242 4242 4242 4242".masked(mode = MaskBeginning, mask = Mask.of(length = 3)) // *** 4242
 ```
 
 A value too short to hide anything is hidden whole.

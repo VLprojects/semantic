@@ -76,6 +76,7 @@ public final class pro/vlprojects/semantic/helper/text/CharHelperKt {
 
 public final class pro/vlprojects/semantic/helper/text/CharSequenceHelperKt {
 	public static final fun hasFewerSymbolsThan (Ljava/lang/CharSequence;I)Z
+	public static final fun toSymbolSequence (Ljava/lang/CharSequence;)Lpro/vlprojects/semantic/helper/text/SymbolSequence;
 	public static final fun toWordSequence (Ljava/lang/CharSequence;)Lpro/vlprojects/semantic/helper/text/WordSequence;
 }
 
@@ -105,7 +106,6 @@ public final class pro/vlprojects/semantic/helper/text/StringHelperKt {
 }
 
 public final class pro/vlprojects/semantic/helper/text/SymbolSequence {
-	public fun <init> (Ljava/lang/CharSequence;)V
 	public final fun extract (Lkotlin/ranges/IntRange;)Ljava/lang/String;
 	public final fun getIndices ()Lkotlin/ranges/IntRange;
 	public final fun getLength ()I
