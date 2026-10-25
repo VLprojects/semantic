@@ -209,7 +209,7 @@ def families(pal):
 		("JVM", [("blue", "semantic-", "helper", "extensions of the standard types")], 3),
 	])
 	y = family(a, y, "format", "in development, v1", [
-		("JVM", [("blue", "semantic-", "format", "words, cases, abbreviation")], 3),
+		("JVM", [("blue", "semantic-", "format", "cases, abbreviation")], 3),
 	])
 	y = family(a, y, "ddd", "in development, v1", [
 		("JVM", [("blue", "semantic-", "ddd", "building blocks, no framework")], 3),
@@ -385,7 +385,7 @@ def symbols(pal):
 
 DIAGRAMS = {
 	"families": families, "modules": modules,
-	"format-cases": cases, "format-words": words, "format-abbreviated": abbreviated, "helper-symbols": symbols,
+	"format-cases": cases, "helper-words": words, "format-abbreviated": abbreviated, "helper-symbols": symbols,
 }
 
 if __name__ == "__main__":

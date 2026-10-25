@@ -1,5 +1,6 @@
 public final class pro/vlprojects/semantic/helper/text/CharSequenceHelperKt {
 	public static final fun hasFewerSymbolsThan (Ljava/lang/CharSequence;I)Z
+	public static final fun toWordSequence (Ljava/lang/CharSequence;)Lpro/vlprojects/semantic/helper/text/WordSequence;
 }
 
 public final class pro/vlprojects/semantic/helper/text/StringHelperKt {
@@ -16,5 +17,38 @@ public final class pro/vlprojects/semantic/helper/text/SymbolSequence {
 	public final fun isCapitalAt (I)Z
 	public final fun isLetterOrDigitAt (I)Z
 	public final fun isLowercaseAt (I)Z
+}
+
+public final class pro/vlprojects/semantic/helper/text/Word : java/lang/CharSequence {
+	public static final field Factory Lpro/vlprojects/semantic/helper/text/Word$Factory;
+	public final fun capitalized ()Ljava/lang/String;
+	public final fun charAt (I)C
+	public fun equals (Ljava/lang/Object;)Z
+	public fun get (I)C
+	public fun getLength ()I
+	public fun hashCode ()I
+	public final fun length ()I
+	public final fun lowercase ()Ljava/lang/String;
+	public fun subSequence (II)Ljava/lang/CharSequence;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/helper/text/Word$Factory {
+	public final fun of (Ljava/lang/CharSequence;)Lpro/vlprojects/semantic/helper/text/Word;
+}
+
+public abstract interface class pro/vlprojects/semantic/helper/text/WordSequence {
+	public abstract fun get (I)Lpro/vlprojects/semantic/helper/text/Word;
+	public fun getIndices ()Lkotlin/ranges/IntRange;
+	public abstract fun getLength ()I
+	public fun isEmpty ()Z
+	public fun iterator ()Ljava/util/Iterator;
+	public abstract fun subSequence (II)Lpro/vlprojects/semantic/helper/text/WordSequence;
+}
+
+public final class pro/vlprojects/semantic/helper/text/WordSequenceHelperKt {
+	public static final fun asIterable (Lpro/vlprojects/semantic/helper/text/WordSequence;)Ljava/lang/Iterable;
+	public static final fun asSequence (Lpro/vlprojects/semantic/helper/text/WordSequence;)Lkotlin/sequences/Sequence;
+	public static final fun toWordSequence (Ljava/util/Collection;)Lpro/vlprojects/semantic/helper/text/WordSequence;
 }
 

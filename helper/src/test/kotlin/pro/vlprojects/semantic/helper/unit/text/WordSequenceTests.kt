@@ -1,12 +1,12 @@
-package pro.vlprojects.semantic.format.unit
+package pro.vlprojects.semantic.helper.unit.text
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import pro.vlprojects.semantic.format.Word
-import pro.vlprojects.semantic.format.WordSequence
-import pro.vlprojects.semantic.format.asIterable
-import pro.vlprojects.semantic.format.toWordSequence
+import pro.vlprojects.semantic.helper.text.Word
+import pro.vlprojects.semantic.helper.text.WordSequence
+import pro.vlprojects.semantic.helper.text.asIterable
+import pro.vlprojects.semantic.helper.text.toWordSequence
 
 class WordSequenceTests {
 

@@ -1,4 +1,4 @@
-package pro.vlprojects.semantic.format
+package pro.vlprojects.semantic.helper.text
 
 internal class ListWordSequence(private val words: List<Word>) : WordSequence {
 

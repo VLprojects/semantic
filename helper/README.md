@@ -8,15 +8,31 @@ file per type it extends: `StringHelper.kt`, `InstantHelper.kt`.
 
 | Package | Extends | What is there |
 | --- | --- | --- |
-| `text` | `String`, `CharSequence` | the text itself: symbols as a reader sees them, `SymbolSequence` to walk them |
+| `text` | `String`, `CharSequence` | the text itself: symbols as a reader sees them, the words of a name |
 | `time` | `Instant`, `LocalDate`, `Duration` | planned |
 | `number` | `BigDecimal`, `Int`, `Long` | planned |
 | `lang` | `Any`, `KClass` | planned |
 
 A helper extends a type that already exists and knows nothing of the domain:
 what speaks of aggregates or value objects belongs to its family. How a value
-is written down, words, cases and abbreviation, is the
-[`format`](../format/README.md) family.
+is written down, cases and abbreviation, is the [`format`](../format/README.md)
+family.
+
+## Words
+
+A word starts where the case changes, after a separator or after a digit.
+
+![Where a name breaks into words](../docs/assets/helper-words-light.svg#gh-light-mode-only)
+![Where a name breaks into words](../docs/assets/helper-words-dark.svg#gh-dark-mode-only)
+
+`toWordSequence()` gives the words; `WordSequence` is built as `CharSequence`
+is, so a service with rules of its own implements it. `Word.of` takes letters
+and digits only.
+
+```kotlin
+"ShoppingCartItem".toWordSequence()                         // Shopping Cart Item
+listOf(Word.of("iPhone"), Word.of("Case")).toWordSequence() // iPhone Case
+```
 
 ## Symbols
 

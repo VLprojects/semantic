@@ -1,11 +1,11 @@
 # semantic-format
 
-How a value is written down: a name in words and cases, a long value
-abbreviated. Lengths count symbols as a reader sees them, by `semantic-helper`.
+How a value is written down: a name in cases, a long value abbreviated. The
+words of a name and the symbols of a text come from `semantic-helper`.
 
 | Package | Extends | What is there |
 | --- | --- | --- |
-| `format` | `String`, `CharSequence`, later `Duration` and numbers | words, cases, abbreviation |
+| `format` | `String`, `WordSequence`, later `Duration` and numbers | cases, abbreviation |
 
 ## Cases
 
@@ -19,16 +19,8 @@ A name splits into words, and the words join back in any case.
 "order_id".toCamelCase()         // orderId
 ```
 
-## Words
-
-A word starts where the case changes, after a separator or after a digit.
-
-![Where a name breaks into words](../docs/assets/format-words-light.svg#gh-light-mode-only)
-![Where a name breaks into words](../docs/assets/format-words-dark.svg#gh-dark-mode-only)
-
-`toWordSequence()` gives the words; `WordSequence` is built as `CharSequence`
-is, so a service with rules of its own, `iPhone` as one word, implements it and
-gets the cases too. `Word.of` takes letters and digits only.
+The cases take a `WordSequence` too, so a name split by rules of its own keeps
+them: `iPhone` as one word.
 
 ```kotlin
 listOf(Word.of("iPhone"), Word.of("Case")).toWordSequence().toKebabCase() // iphone-case

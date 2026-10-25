@@ -2,11 +2,11 @@ package pro.vlprojects.semantic.format.unit
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import pro.vlprojects.semantic.format.Word
-import pro.vlprojects.semantic.format.WordSequence
 import pro.vlprojects.semantic.format.toCamelCase
 import pro.vlprojects.semantic.format.toKebabCase
 import pro.vlprojects.semantic.format.toSnakeCase
+import pro.vlprojects.semantic.helper.text.Word
+import pro.vlprojects.semantic.helper.text.WordSequence
 
 class WordSequenceFormatHelperTests {
 
