@@ -512,10 +512,44 @@ def context_reference(pal):
 	a.w, a.h = ox + ow + 16, y - 16 + 16
 	return a
 
+
+# ---------------------------------------------------------------------- subdomain examples
+# Each context with the subdomains it serves: a subdomain is a chip, its kind a tag beside it, a context
+# that names none has nothing to the right of its arrow
+
+
+def subdomains(pal):
+	a = Art(0, 0, pal)
+	rows = [
+		("object Ordering", [("Pricing", "core"), ("Catalog", "supporting")]),
+		("object Billing", [("Invoicing", "supporting"), ("Taxes", "generic")]),
+		("object Notifications", [("Messaging", "generic")]),
+		("object Reports", []),
+	]
+	cw = max(cells(context) for context, _ in rows) * CELL + 24
+	ox = 16 + cw + 8 + 40
+	right, y = ox, 16
+	for context, served in rows:
+		a.rect(16, y, cw, CHIP, "card", r=6)
+		a.name(28, y + 18.5, context, mono=True)
+		a.arrow(16 + cw + 8, y + CHIP / 2, ox - 8)
+		x = ox
+		for subdomain, kind in served:
+			x += chip(a, x, y, subdomain) + 8
+			x += tag(a, x, y + (CHIP - TAG_H) / 2, kind) + 16
+		if not served:
+			a.t(ox, y + 18.5, "serves no subdomain yet", color="mute")
+			x = ox + 160
+		right = max(right, x)
+		y += CHIP + 16
+	a.w, a.h = right, y - 16 + 16
+	return a
+
 DIAGRAMS = {
 	"families": families, "modules": modules,
 	"format-cases": cases, "helper-words": words, "format-abbreviated": abbreviated, "helper-symbols": symbols,
 	"ddd-context-packages": context_packages, "ddd-context-uses": context_uses, "ddd-context-reference": context_reference,
+	"ddd-subdomains": subdomains,
 }
 
 if __name__ == "__main__":
