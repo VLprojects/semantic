@@ -15,6 +15,7 @@ Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd`:
 | Package | What is there |
 | --- | --- |
 | `tactical` | The building blocks, side by side: `DomainObject` they all extend, with `typeName`, the class name in kebab case, on an object and on its class; `Identifier`, `Identifiable`, `Entity`, `AggregateRoot` with the `Revision` it gives, `Versioned`, `ValueObject`, `Event` with its `EventMeta`, built by `EventMeta.of<ItemAdded>()` with a new `EventId`, the current time and the class name in kebab case by default, `BusinessRule`, `Specification` |
+| `tactical.specification.composite` | The parts a specification is composed of: `AllOf`, `AnyOf` and `Not` hold other specifications, `Always` and `Never` hold for every candidate and for none |
 | `tactical.base` | Base classes to extend, free of any framework: `AbstractEntity` and `AbstractId` equal by identifier and value, `AbstractAggregateRoot` that registers events and gives a `BaseRevision` of itself, `AbstractEvent` equal by id, and `EventId` on a `UUID`, the default id of an event |
 | `dsl` | The ways to write the blocks down: `rule` builds a `BusinessRule`, `check` runs a list of them, `checkRule` checks a one-off condition |
 | `architecture.error` | What a layer of the application raises, not a pattern of the model: `DomainException` and the refusals a service extends, `NotFoundException`, `ConflictException`, `BusinessRuleException` |
@@ -59,6 +60,18 @@ an aggregate, an entity, a value object, a collection. It is a
 and `rule(IsOpen) { "Closed" }` makes a business rule of it. A specification is
 a domain object, not a value object: it holds a rule, not data of the model.
 
+Specifications compose into a tree. `AllOf` holds when every part holds,
+`AnyOf` when one does, `Not` when its part does not. A node is equal to another
+by its parts, in any order, so a test can compare the rule a service built.
+`Always` and `Never` are the neutral elements, the rule with no condition and
+the rule nothing satisfies.
+
+`and`, `or` and `not` build the tree: `IsOpen and !Paid` is an `AllOf` of
+`IsOpen` and a `Not` of `Paid`. The tree comes out simplified: a nested `AllOf`
+is flattened, `Always` drops out of a conjunction and `Never` absorbs it, `!!a`
+is `a`. Like any infix call in Kotlin, `and` and `or` bind equally, left to
+right: `a or b and c` is `(a or b) and c`, so a mix of them needs parentheses.
+
 ## Spring Data
 
 `semantic-ddd-spring-data` gives `SpringDataAggregateRoot`, the base an
@@ -83,7 +96,7 @@ Six artifacts, group `pro.vlprojects.semantic`:
 
 | Artifact | For | Depends on |
 | --- | --- | --- |
-| `semantic-ddd` | any JVM code: the building blocks | `semantic-vo` |
+| `semantic-ddd` | any JVM code: the building blocks | `semantic-vo`, `semantic-helper` |
 | `semantic-ddd-spring-data` | what every Spring Data store shares: `Persistable`, events handed out on save | core, `spring-data-commons` |
 | `semantic-ddd-spring-data-jpa` | aggregates mapped with JPA | the Spring Data module, `jakarta.persistence-api` |
 | `semantic-ddd-spring-data-mongodb` | aggregates stored in MongoDB | the Spring Data module, `spring-data-mongodb` |
