@@ -6,7 +6,8 @@ secret masked. The words of a name and the symbols of a text come from
 
 | Package | Extends | What is there |
 | --- | --- | --- |
-| `format` | `String`, `WordSequence`, later `Duration` and numbers | cases, abbreviation, masking |
+| `format` | `String`, `WordSequence`, later `Duration` and numbers | cases, abbreviation |
+| `format.mask` | `String` | masking |
 
 ## Cases
 
@@ -50,14 +51,14 @@ A value shorter than `minLength`, 10 by default, stays whole.
 
 `masked` hides a value for a log or a screen and keeps its length: the letters
 and digits turn into a mask, the separators stay, so a phone or a card still
-reads as one. The mode says what stays in sight.
+reads as one. The mode, in the package `format.mask`, says what stays in
+sight; a value object with rules of its own, an email, writes a mode of its own.
 
 ```kotlin
-"4242 4242 4242 4242".masked()                                   // **** **** **** 4242
-"4242 4242 4242 4242".masked(MaskMode.Keep(first = 6, last = 4)) // 4242 42** **** 4242
-"+7 (916) 123-45-67".masked(MaskMode.Keep(first = 1, last = 2))  // +7 (***) ***-**-67
-"ivan.petrov@mail.ru".masked(MaskMode.HideEmailName)             // i***.******@mail.ru
-"secret".masked(MaskMode.HideAll, mask = '•')                    // ••••••
+"4242 4242 4242 4242".masked()                                  // **** **** **** 4242
+"4242 4242 4242 4242".masked(KeepSymbols(first = 6, last = 4)) // 4242 42** **** 4242
+"+7 (916) 123-45-67".masked(KeepSymbols(first = 1, last = 2))  // +7 (***) ***-**-67
+"secret".masked(HideAll, mask = '•')                           // ••••••
 ```
 
 A value too short to hide anything is hidden whole.

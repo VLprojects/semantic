@@ -44,5 +44,3 @@ public fun String.abbreviated(
         else -> mode.abbreviate(this, keepLength)
     }
 }
-
-public fun String.masked(mode: MaskMode = MaskMode.Keep(last = 4), mask: Char = '*'): String = mode.mask(this, mask)
