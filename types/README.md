@@ -15,7 +15,7 @@ depends on its kind, and each kind says it with a supertype:
 | `Version` | a version of any kind: it is only equal or not to another one, like an ETag or a hash; `Serializable` |
 | `OrderedVersion<V>` | a version that is older or newer than any other version of its kind |
 | `IncrementableVersion<V>` | an ordered version that goes up by one step: `next()` is newer than it |
-| `VersionFormat<V>` | reads a version of its kind from text: `parse` fails on a wrong text, `parseOrNull` gives `null` |
+| `VersionParser<V>` | reads a version of its kind from text: `parse` fails on a wrong text, `parseOrNull` gives `null` |
 | `SequentialVersion` | a counter: `0`, `1`, `2`; the version of a schema, of an event, of a document |
 
 `Comparable` is not on `Version`: a hash has no order, and a vector clock
@@ -31,7 +31,7 @@ version < SequentialVersion.of(10)    // true
 SequentialVersion.parseOrNull("v3")   // null
 ```
 
-The format of a version is its companion: `SequentialVersion.Format` in Java.
+The parser of a version is its companion: `SequentialVersion.Factory` in Java.
 A sequential version is written as a canonical number, with no sign and no
 leading zeros, and starts at `SequentialVersion.INITIAL`, zero.
 

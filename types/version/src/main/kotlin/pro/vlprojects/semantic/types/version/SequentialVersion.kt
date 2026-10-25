@@ -18,7 +18,7 @@ public class SequentialVersion private constructor(
 
     override fun toString(): String = value.toString()
 
-    public companion object Format : VersionFormat<SequentialVersion> {
+    public companion object Factory : VersionParser<SequentialVersion> {
 
         private val CANONICAL = Regex("0|[1-9][0-9]*")
 
