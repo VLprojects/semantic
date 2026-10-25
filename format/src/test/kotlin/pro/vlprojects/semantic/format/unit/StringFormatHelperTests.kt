@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import pro.vlprojects.semantic.format.EllipsisMode
 import pro.vlprojects.semantic.format.abbreviated
+import pro.vlprojects.semantic.format.capitalizeEachPart
 import pro.vlprojects.semantic.format.toCamelCase
 import pro.vlprojects.semantic.format.toKebabCase
 import pro.vlprojects.semantic.format.toSnakeCase
@@ -134,6 +135,32 @@ class StringFormatHelperTests {
     @Test
     fun `a minimum length not over the kept length is refused`() {
         assertThrows<IllegalArgumentException> { ID.abbreviated(minLength = 5, keepLength = 5) }
+    }
+
+    @Test
+    fun `each part of a name starts with a capital`() {
+        assertEquals("Jean-Luc", "jean-luc".capitalizeEachPart("-"))
+        assertEquals("Anne Marie", "anne marie".capitalizeEachPart(" "))
+    }
+
+    @Test
+    fun `the rest of a part keeps its case`() {
+        assertEquals("McDonald O'Neil", "mcDonald o'Neil".capitalizeEachPart(" "))
+    }
+
+    @Test
+    fun `a value without the separator is one part`() {
+        assertEquals("Jean", "jean".capitalizeEachPart("-"))
+    }
+
+    @Test
+    fun `empty parts stay empty`() {
+        assertEquals("-Jean--Luc-", "-jean--luc-".capitalizeEachPart("-"))
+    }
+
+    @Test
+    fun `an empty separator is refused`() {
+        assertThrows<IllegalArgumentException> { "jean".capitalizeEachPart("") }
     }
 
     private companion object {

@@ -1,5 +1,7 @@
 package pro.vlprojects.semantic.helper.text
 
+import java.text.Normalizer
+
 public val String.symbolCount: Int
     get() = this
         .calculateAllSymbolsStartedAt()
@@ -42,3 +44,35 @@ public fun String.notStartsWithAny(prefixes: Iterable<String>): Boolean = !start
 public fun String.notEndsWithAny(vararg suffixes: String): Boolean = !endsWithAny(*suffixes)
 
 public fun String.notEndsWithAny(suffixes: Iterable<String>): Boolean = !endsWithAny(suffixes)
+
+public fun String.collapseSpaces(): String = collapse(' ', Char::isWhitespace)
+
+public fun String.collapseHyphens(): String = collapse('-', Char::isHyphen)
+
+public fun String.collapseApostrophes(): String = collapse('\'', Char::isApostrophe)
+
+public fun String.collapseDots(): String = collapse('.', Char::isDot)
+
+public fun String.removeDiacritics(): String = when {
+    isAscii() -> this
+    else -> stripCombiningMarks()
+}
+
+private fun String.collapse(replacement: Char, isCollapsible: (Char) -> Boolean) = this
+    .fold(StringBuilder(length)) { collapsed, char ->
+        when {
+            !isCollapsible(char) -> collapsed.append(char)
+            collapsed.endsWith(replacement) -> collapsed
+            else -> collapsed.append(replacement)
+        }
+    }
+    .toString()
+
+private fun String.stripCombiningMarks() = this
+    .normalizeTo(Normalizer.Form.NFD)
+    .filterNot(Char::isNonSpacingMark)
+    .normalizeTo(Normalizer.Form.NFC)
+
+private fun String.normalizeTo(form: Normalizer.Form) = Normalizer.normalize(this, form)
+
+private fun Char.isNonSpacingMark() = category == CharCategory.NON_SPACING_MARK
