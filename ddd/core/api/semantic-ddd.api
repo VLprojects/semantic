@@ -20,7 +20,7 @@ public final class pro/vlprojects/semantic/ddd/dsl/BusinessRulesKt {
 	public static final fun rule (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lpro/vlprojects/semantic/ddd/tactical/BusinessRule;
 }
 
-public abstract interface class pro/vlprojects/semantic/ddd/tactical/AggregateRoot : pro/vlprojects/semantic/ddd/tactical/Entity, pro/vlprojects/semantic/ddd/tactical/Versioned {
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/AggregateRoot : pro/vlprojects/semantic/ddd/tactical/Entity {
 	public abstract fun getRevision ()Lpro/vlprojects/semantic/ddd/tactical/Revision;
 }
 
@@ -36,7 +36,7 @@ public final class pro/vlprojects/semantic/ddd/tactical/DomainExtensionsKt {
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/DomainObject {
 }
 
-public abstract interface class pro/vlprojects/semantic/ddd/tactical/Entity : pro/vlprojects/semantic/ddd/tactical/DomainObject, pro/vlprojects/semantic/ddd/tactical/Identifiable {
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/Entity : pro/vlprojects/semantic/ddd/tactical/DomainObject, pro/vlprojects/semantic/ddd/tactical/Identifiable, pro/vlprojects/semantic/ddd/tactical/Versioned {
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/Event : pro/vlprojects/semantic/ddd/tactical/DomainObject {
@@ -90,9 +90,7 @@ public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractAggregat
 	protected fun clearEvents ()V
 	protected final fun getEvents ()Ljava/util/List;
 	public final fun getRevision ()Lpro/vlprojects/semantic/ddd/tactical/Revision;
-	public final fun getVersion ()J
 	protected final fun register (Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;Lpro/vlprojects/semantic/ddd/tactical/Event;)Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;
-	protected final fun setVersion (J)V
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -103,8 +101,11 @@ public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractEntity :
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getIdentifier ()Lpro/vlprojects/semantic/ddd/tactical/Identifier;
 	protected fun getInvariants ()Ljava/util/List;
+	public final fun getVersion ()J
 	public fun hashCode ()I
+	protected final fun incrementVersion ()V
 	protected final fun setIdentifier (Lpro/vlprojects/semantic/ddd/tactical/Identifier;)V
+	protected final fun setVersion (J)V
 	public fun toString ()Ljava/lang/String;
 }
 

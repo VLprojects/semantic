@@ -13,7 +13,11 @@ public abstract class AbstractSpringDataEntity<E : Entity<E, I>, I : Identifier>
     Entity<E, I>,
     Persistable<I> {
 
-    final override lateinit var identifier: I
+    // Open, so that a lazy proxy of a store answers with its own key and not with its empty field.
+    override lateinit var identifier: I
+        protected set
+
+    override var version: Long = 0
         protected set
 
     // The modifier keeps JPA from storing the flag, the annotation the other stores.

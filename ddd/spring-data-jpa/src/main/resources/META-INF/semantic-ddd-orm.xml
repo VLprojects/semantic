@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- The core and the Spring Data bases know nothing of JPA, so their fields are mapped here. -->
+<!-- The Spring Data bases know nothing of JPA, so their fields and callbacks are mapped here. -->
 <entity-mappings xmlns="https://jakarta.ee/xml/ns/persistence/orm"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm https://jakarta.ee/xml/ns/persistence/orm/orm_3_2.xsd"
                  version="3.2">
 
     <mapped-superclass class="pro.vlprojects.semantic.ddd.spring.data.AbstractSpringDataEntity" access="FIELD">
+        <post-persist method-name="markPersisted"/>
+        <post-load method-name="markPersisted"/>
         <attributes>
-            <embedded-id name="identifier"/>
-        </attributes>
-    </mapped-superclass>
-
-    <mapped-superclass class="pro.vlprojects.semantic.ddd.spring.data.AbstractSpringDataAggregateRoot" access="FIELD">
-        <attributes>
+            <embedded-id name="identifier">
+                <attribute-override name="value">
+                    <column name="id" updatable="false" nullable="false"/>
+                </attribute-override>
+            </embedded-id>
             <version name="version"/>
         </attributes>
     </mapped-superclass>
+
+    <mapped-superclass class="pro.vlprojects.semantic.ddd.spring.data.AbstractSpringDataAggregateRoot" access="FIELD"/>
 </entity-mappings>

@@ -13,7 +13,7 @@ class AbstractJpaEntityTests {
     private val itemId = ItemId(sequence.incrementAndGet())
 
     @Test
-    fun `the identifier is the only stored field of the base`() {
+    fun `the identifier and the version are the only stored fields of the base`() {
         val attributes = runInTransaction {
             this.metamodel
                 .entity(Item::class.java)
@@ -22,7 +22,20 @@ class AbstractJpaEntityTests {
                 .toSet()
         }
 
-        assertEquals(setOf("identifier"), attributes)
+        assertEquals(setOf("identifier", "version"), attributes)
+    }
+
+    @Test
+    fun `the key is stored in the id column`() {
+        runInTransaction { persist(Item(itemId)) }
+
+        val stored = runInTransaction {
+            createNativeQuery("select id from item where id = :id", Long::class.java)
+                .setParameter("id", itemId.value)
+                .singleResult
+        }
+
+        assertEquals(itemId.value, stored)
     }
 
     @Test
@@ -54,17 +67,7 @@ class AbstractJpaEntityTests {
             val proxy = getReference(Item::class.java, itemId)
 
             assertNotSame(Item::class.java, proxy.javaClass)
-            val target = org.hibernate.Hibernate.unproxy(proxy) as Item
-            val initializer = org.hibernate.proxy.HibernateProxy.extractLazyInitializer(proxy)
-            assertEquals(
-                found,
-                proxy,
-                "proxy=${proxy.javaClass} interfaces=${proxy.javaClass.interfaces.toList()} initializer=$initializer " +
-                    "target=${target.javaClass} sameAsProxy=${target === proxy} " +
-                    "foundId=${found.identifier.javaClass}/${found.identifier} targetId=${target.identifier.javaClass}/${target.identifier} " +
-                    "idsEqual=${found.identifier == target.identifier} foundUser=${org.springframework.data.util.ProxyUtils.getUserClass(found)} " +
-                    "targetUser=${org.springframework.data.util.ProxyUtils.getUserClass(target)}",
-            )
+            assertEquals(found, proxy)
             assertEquals(proxy, found)
         }
     }

@@ -10,9 +10,6 @@ public abstract class AbstractAggregateRoot<A : AggregateRoot<A, I>, I : Identif
     AbstractEntity<A, I>(),
     AggregateRoot<A, I> {
 
-    final override var version: Long = 0
-        protected set
-
     final override val revision: Revision<I>
         get() = BaseRevision.of(this)
 

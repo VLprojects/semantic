@@ -63,6 +63,8 @@ class Line(
     init {
         this.identifier = identifier
     }
+
+    fun versioned(version: Long) = apply { assignVersion(version) }
 }
 
 class WishList(

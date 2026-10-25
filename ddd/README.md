@@ -14,9 +14,9 @@ Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd`:
 
 | Package | What is there |
 | --- | --- |
-| `tactical` | The building blocks, side by side: `DomainObject` they all extend, with `typeName`, the class name in kebab case, on an object and on its class; `Identifier`, `Identifiable`, `Entity`, `AggregateRoot` with the `Revision` it gives, `Versioned`, `ValueObject`, `Event` with its `EventMeta`, built by `EventMeta.of<ItemAdded>()` with a new `EventId`, the current time and the class name in kebab case by default, `BusinessRule`, `Specification` |
+| `tactical` | The building blocks, side by side: `DomainObject` they all extend, with `typeName`, the class name in kebab case, on an object and on its class; `Identifier`, `Identifiable`, `Entity` with its version, `AggregateRoot` with the `Revision` it gives, `Versioned`, `ValueObject`, `Event` with its `EventMeta`, built by `EventMeta.of<ItemAdded>()` with a new `EventId`, the current time and the class name in kebab case by default, `BusinessRule`, `Specification` |
 | `tactical.specification.composite` | The parts a specification is composed of: `AllOf`, `AnyOf` and `Not` hold other specifications, `Always` and `Never` hold for every candidate and for none, `allOf` and `anyOf` combine any number of specifications |
-| `tactical.base` | Base classes to extend, free of any framework: `AbstractEntity` and `AbstractId` equal by identifier and value, `AbstractAggregateRoot` that registers events and gives a `BaseRevision` of itself, `AbstractEvent` equal by id, and `EventId` on a `UUID`, the default id of an event |
+| `tactical.base` | Base classes to extend, free of any framework: `AbstractEntity` and `AbstractId` equal by identifier and value, the version of an entity set by `assignVersion`, `AbstractAggregateRoot` that registers events and gives a `BaseRevision` of itself, `AbstractEvent` equal by id, and `EventId` on a `UUID`, the default id of an event |
 | `dsl` | The ways to write the blocks down: `rule` builds a `BusinessRule`, `check` runs a list of them, `checkRule` checks a one-off condition |
 | `architecture.error` | What a layer of the application raises, not a pattern of the model: `DomainException` and the refusals a service extends, `NotFoundException`, `ConflictException`, `BusinessRuleException` |
 
@@ -91,8 +91,8 @@ are published by `save()` only: an aggregate changed and not saved publishes
 nothing.
 
 `AbstractSpringDataEntity` is the base of an entity: an `Entity` and a
-`Persistable` whose `getId()` is the identifier. The root extends it and adds
-the version, the revision and the events.
+`Persistable` whose `getId()` is the identifier, with a version. The root
+extends it and adds the revision and the events.
 
 The two bases implement the contracts of the core themselves and repeat what
 `AbstractEntity` and `AbstractAggregateRoot` do, equality by identifier and
@@ -129,24 +129,22 @@ class Cart(identifier: CartId) : AbstractJpaAggregateRoot<Cart, CartId>() {
 }
 ```
 
-The fields of the Spring Data bases know nothing of JPA, so
-`META-INF/semantic-ddd-orm.xml` maps them: `identifier` is the
-`@EmbeddedId`, `version` is the `@Version`. The service adds the file to its
-persistence unit, `spring.jpa.mapping-resources=META-INF/semantic-ddd-orm.xml`.
-The class of the key is an `@Embeddable` of the service, so a key of one column
-and a composite key are mapped alike; its columns are named by it.
+The Spring Data bases know nothing of JPA, so `META-INF/semantic-ddd-orm.xml`
+maps them: `identifier` is the `@EmbeddedId`, its `value` stored in the column
+`id`, neither null nor updated; `version` is the `@Version`; `markPersisted()`
+runs on `@PostPersist` and `@PostLoad`, so `isNew()` turns false once the
+entity is persisted or loaded. The service adds the file to its persistence
+unit, `spring.jpa.mapping-resources=META-INF/semantic-ddd-orm.xml`. A
+composite key names its columns with an `@AttributeOverride` of its own.
 
 The class of the key does not extend `AbstractId` of the core: JPA builds it by
 a constructor with no arguments, and `AbstractId` has none. It implements
 `Identifier` and its own equality.
 
-`isNew()` turns false after the entity is persisted and after it is loaded,
-through `@PostPersist` and `@PostLoad`.
-
-The getters of the bases are final, so on a lazy proxy of Hibernate they read
-the empty fields of the proxy, not of the entity. Equality unwraps the proxy
-first, so an entity equals its proxy both ways. For that the module needs
-Hibernate, which the service brings with Spring Data JPA.
+`identifier` and `version` are open, so a lazy proxy of Hibernate answers
+with the key it holds, not with its own empty field, and an entity equals its
+proxy both ways: `ProxyUtils` takes the class of the entity from the proxy by
+the detector of Spring Data JPA.
 
 ## Modules
 
@@ -159,7 +157,7 @@ Six artifacts, group `pro.vlprojects.semantic`:
 | --- | --- | --- |
 | `semantic-ddd` | any JVM code: the building blocks | `semantic-vo`, `semantic-format` |
 | `semantic-ddd-spring-data` | what every Spring Data store shares: `Persistable`, events handed out on save | core, `spring-data-commons`, `spring-aop` |
-| `semantic-ddd-spring-data-jpa` | aggregates mapped with JPA | the Spring Data module, `jakarta.persistence-api`, Hibernate of the service |
+| `semantic-ddd-spring-data-jpa` | aggregates mapped with JPA | the Spring Data module, `jakarta.persistence-api`, `spring-data-jpa` |
 | `semantic-ddd-spring-data-mongodb` | aggregates stored in MongoDB | the Spring Data module, `spring-data-mongodb` |
 | `semantic-ddd-spring-boot` | auto-configuration | the Spring Data module, Spring Boot |
 | `semantic-ddd-spring-boot-starter` | the usual way in: dependencies only | core, the Spring Data and Spring Boot modules |

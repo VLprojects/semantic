@@ -1,10 +1,8 @@
 public abstract class pro/vlprojects/semantic/ddd/spring/data/jpa/AbstractJpaAggregateRoot : pro/vlprojects/semantic/ddd/spring/data/AbstractSpringDataAggregateRoot {
 	public fun <init> ()V
-	public fun equals (Ljava/lang/Object;)Z
 }
 
 public abstract class pro/vlprojects/semantic/ddd/spring/data/jpa/AbstractJpaEntity : pro/vlprojects/semantic/ddd/spring/data/AbstractSpringDataEntity {
 	public fun <init> ()V
-	public fun equals (Ljava/lang/Object;)Z
 }
 

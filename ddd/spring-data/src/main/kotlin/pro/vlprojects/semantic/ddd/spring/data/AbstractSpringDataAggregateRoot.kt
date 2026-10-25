@@ -14,9 +14,6 @@ public abstract class AbstractSpringDataAggregateRoot<A : AggregateRoot<A, I>, I
     AbstractSpringDataEntity<A, I>(),
     AggregateRoot<A, I> {
 
-    final override var version: Long = 0
-        protected set
-
     final override val revision: Revision<I>
         get() = BaseRevision.of(this)
 

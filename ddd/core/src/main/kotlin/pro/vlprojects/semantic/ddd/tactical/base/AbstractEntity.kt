@@ -11,8 +11,15 @@ public abstract class AbstractEntity<E : Entity<E, I>, I : Identifier> : Entity<
     final override lateinit var identifier: I
         protected set
 
+    final override var version: Long = 0
+        protected set
+
     protected open val invariants: List<BusinessRule<E>>
         get() = emptyList()
+
+    protected fun assignVersion(version: Long) {
+        this.version = version
+    }
 
     protected fun E.change(mutation: E.() -> Unit): E = apply {
         mutation()
