@@ -7,7 +7,7 @@ import pro.vlprojects.semantic.ddd.tactical.Event
 import pro.vlprojects.semantic.ddd.tactical.Identifier
 import pro.vlprojects.semantic.ddd.tactical.Revision
 import pro.vlprojects.semantic.ddd.tactical.base.BaseRevision
-import pro.vlprojects.semantic.format.abbreviated
+import pro.vlprojects.semantic.format.abbreviation.abbreviated
 
 public abstract class AbstractSpringDataAggregateRoot<A : AggregateRoot<A, I>, I : Identifier> :
     AbstractSpringDataEntity<A, I>(),
