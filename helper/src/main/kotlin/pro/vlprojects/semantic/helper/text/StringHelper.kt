@@ -61,14 +61,16 @@ public fun String.removeDiacritics(): String = this
     ?: this
 
 private fun String.collapse(replacement: Char, isCollapsible: (Char) -> Boolean) = this
-    .fold(StringBuilder(length)) { collapsed, char ->
-        when {
-            !isCollapsible(char) -> collapsed.append(char)
-            collapsed.endsWith(replacement) -> collapsed
-            else -> collapsed.append(replacement)
+    .let { source ->
+        buildString(source.length) {
+            source.forEach { char ->
+                when {
+                    !isCollapsible(char) -> append(char)
+                    !endsWith(replacement) -> append(replacement)
+                }
+            }
         }
     }
-    .toString()
 
 private fun String.normalizeTo(form: Normalizer.Form) = Normalizer.normalize(this, form)
 
