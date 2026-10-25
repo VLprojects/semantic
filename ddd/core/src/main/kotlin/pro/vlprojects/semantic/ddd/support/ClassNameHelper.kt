@@ -1,4 +1,4 @@
-package pro.vlprojects.semantic.ddd.strategic
+package pro.vlprojects.semantic.ddd.support
 
 import pro.vlprojects.semantic.format.toKebabCase
 

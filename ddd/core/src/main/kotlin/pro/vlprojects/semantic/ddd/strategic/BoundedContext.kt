@@ -1,5 +1,6 @@
 package pro.vlprojects.semantic.ddd.strategic
 
+import pro.vlprojects.semantic.ddd.support.kebabClassName
 import kotlin.reflect.KClass
 
 public interface BoundedContext {
