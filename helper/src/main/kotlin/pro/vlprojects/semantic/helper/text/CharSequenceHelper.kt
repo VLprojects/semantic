@@ -41,19 +41,16 @@ internal fun CharSequence.calculateAllSymbolsStartedAt() = this
     .calculateSymbolBoundaries()
     .takeWhile(this.indices::contains)
 
-public fun CharSequence.hasFewerSymbolsThan(count: Int): Boolean = this
-    .calculateAllSymbolsStartedAt()
-    .take(count)
-    .count() < count
-
 private fun CharSequence.toBreakIterator() = BreakIterator
     .getCharacterInstance()
     .also { iterator ->
         this.toString().let(iterator::setText)
     }
 
+public fun CharSequence.toSymbolSequence(): SymbolSequence = SymbolSequence.of(this)
+
 public fun CharSequence.toWordSequence(): WordSequence = this
-    .let(::SymbolSequence)
+    .toSymbolSequence()
     .toWords()
     .let(::ListWordSequence)
 
@@ -63,7 +60,7 @@ internal fun CharSequence.isWord() = when {
 }
 
 private fun CharSequence.hasOnlyLetterOrDigitSymbols() = this
-    .let(::SymbolSequence)
+    .toSymbolSequence()
     .hasOnlyLetterOrDigitSymbols()
 
 private fun SymbolSequence.hasOnlyLetterOrDigitSymbols() = this.indices.all(::isLetterOrDigitAt)
