@@ -2,7 +2,7 @@ package pro.vlprojects.semantic.format.mask
 
 import pro.vlprojects.semantic.helper.text.SymbolSequence
 
-public fun String.masked(keepLength: Int = 4, mode: MaskMode = HideBeginning, mask: Mask = Mask.of()): String {
+public fun String.masked(keepLength: Int = 4, mode: MaskMode = MaskBeginning, mask: Mask = Mask.of()): String {
     require(keepLength >= 0) { "The kept length must not be negative, got $keepLength" }
     return mode.mask(this, keepLength, mask)
 }

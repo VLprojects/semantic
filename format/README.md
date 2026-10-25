@@ -65,8 +65,8 @@ of its own.
 
 ```kotlin
 "4242 4242 4242 4242".masked()                                  // **** **** **** 4242
-"4242 4242 4242 4242".masked(keepLength = 6, mode = HideEnding) // 4242 42** **** ****
-"+7 (916) 123-45-67".masked(keepLength = 3, mode = HideMiddle)  // +7 (9**) ***-**-*7
+"4242 4242 4242 4242".masked(keepLength = 6, mode = MaskEnding) // 4242 42** **** ****
+"+7 (916) 123-45-67".masked(keepLength = 3, mode = MaskMiddle)  // +7 (9**) ***-**-*7
 "secret".masked(keepLength = 0, mask = Mask.of(symbol = '•'))   // ••••••
 ```
 

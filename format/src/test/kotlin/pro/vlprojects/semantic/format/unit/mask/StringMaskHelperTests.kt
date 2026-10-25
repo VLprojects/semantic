@@ -3,10 +3,10 @@ package pro.vlprojects.semantic.format.unit.mask
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import pro.vlprojects.semantic.format.mask.HideBeginning
-import pro.vlprojects.semantic.format.mask.HideEnding
-import pro.vlprojects.semantic.format.mask.HideMiddle
 import pro.vlprojects.semantic.format.mask.Mask
+import pro.vlprojects.semantic.format.mask.MaskBeginning
+import pro.vlprojects.semantic.format.mask.MaskEnding
+import pro.vlprojects.semantic.format.mask.MaskMiddle
 import pro.vlprojects.semantic.format.mask.masked
 
 class StringMaskHelperTests {
@@ -18,26 +18,26 @@ class StringMaskHelperTests {
 
     @Test
     fun `the mode says where the kept symbols are`() {
-        assertEquals("****ef", "abcdef".masked(keepLength = 2, mode = HideBeginning))
-        assertEquals("a****f", "abcdef".masked(keepLength = 2, mode = HideMiddle))
-        assertEquals("ab****", "abcdef".masked(keepLength = 2, mode = HideEnding))
+        assertEquals("****ef", "abcdef".masked(keepLength = 2, mode = MaskBeginning))
+        assertEquals("a****f", "abcdef".masked(keepLength = 2, mode = MaskMiddle))
+        assertEquals("ab****", "abcdef".masked(keepLength = 2, mode = MaskEnding))
     }
 
     @Test
     fun `separators stay and only letters and digits are counted`() {
-        assertEquals("+7 (9**) ***-**-*7", "+7 (916) 123-45-67".masked(keepLength = 3, mode = HideMiddle))
-        assertEquals("4242 42** **** ****", "4242 4242 4242 4242".masked(keepLength = 6, mode = HideEnding))
+        assertEquals("+7 (9**) ***-**-*7", "+7 (916) 123-45-67".masked(keepLength = 3, mode = MaskMiddle))
+        assertEquals("4242 42** **** ****", "4242 4242 4242 4242".masked(keepLength = 6, mode = MaskEnding))
     }
 
     @Test
     fun `a collapsed mask covers the hidden part whole`() {
         assertEquals("*** 4242", "4242 4242 4242 4242".masked(mask = Mask.of(length = 3)))
-        assertEquals("se***ue", "secret-token-value".masked(mode = HideMiddle, mask = Mask.of(length = 3)))
+        assertEquals("se***ue", "secret-token-value".masked(mode = MaskMiddle, mask = Mask.of(length = 3)))
     }
 
     @Test
     fun `a symbol of several characters is hidden by one mask`() {
-        assertEquals("****", "Café".masked(keepLength = 0))
+        assertEquals("****", "Cafe\u0301".masked(keepLength = 0))
     }
 
     @Test
@@ -58,7 +58,7 @@ class StringMaskHelperTests {
 
     @Test
     fun `a mode masks with a star by default`() {
-        assertEquals("****ef", HideBeginning.mask("abcdef", 2))
+        assertEquals("****ef", MaskBeginning.mask("abcdef", 2))
     }
 
     @Test
