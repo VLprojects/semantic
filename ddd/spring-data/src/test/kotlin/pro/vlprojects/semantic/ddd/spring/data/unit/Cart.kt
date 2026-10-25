@@ -1,6 +1,6 @@
 package pro.vlprojects.semantic.ddd.spring.data.unit
 
-import pro.vlprojects.semantic.ddd.spring.data.SpringDataAggregateRoot
+import pro.vlprojects.semantic.ddd.spring.data.AbstractSpringDataAggregateRoot
 import pro.vlprojects.semantic.ddd.tactical.EventMeta
 import pro.vlprojects.semantic.ddd.tactical.Revision
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractEvent
@@ -24,7 +24,7 @@ class ItemAdded(
 
 class Cart(
     identifier: CartId,
-) : SpringDataAggregateRoot<Cart, CartId>() {
+) : AbstractSpringDataAggregateRoot<Cart, CartId>() {
 
     init {
         this.identifier = identifier

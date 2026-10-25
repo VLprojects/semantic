@@ -7,7 +7,7 @@ import org.springframework.data.domain.DomainEvents
 import org.springframework.data.util.AnnotationDetectionMethodCallback
 import org.springframework.util.ReflectionUtils
 
-class SpringDataAggregateRootTests {
+class AbstractSpringDataAggregateRootTests {
 
     @Test
     fun `the id is the identifier`() {

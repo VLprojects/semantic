@@ -5,7 +5,7 @@ identifiers, entities, aggregate roots, domain events, business rules,
 specifications and domain errors. The core is plain Kotlin; Spring Data with its stores, JPA and
 MongoDB, and Spring Boot live in modules of their own.
 
-The contracts of the core are in place, and so is the base class of the
+The contracts of the core are in place, and so are the base classes of the
 Spring Data module; the store and Spring Boot modules are empty so far.
 
 ## The core
@@ -81,7 +81,7 @@ never through `?.let`.
 
 ## Spring Data
 
-`semantic-ddd-spring-data` gives `SpringDataAggregateRoot`, the base an
+`semantic-ddd-spring-data` gives `AbstractSpringDataAggregateRoot`, the base an
 aggregate saved by a Spring Data repository extends, under
 `pro.vlprojects.semantic.ddd.spring.data`. It is an `AbstractAggregateRoot` of
 the core and a `Persistable`: `getId()` is the identifier, the registered events
@@ -90,7 +90,11 @@ forgotten with `@AfterDomainEventPublication` once they are published. Events
 are published by `save()` only: an aggregate changed and not saved publishes
 nothing.
 
-`isNew()` is left to the store, since each tells a new aggregate from a saved
+`AbstractSpringDataEntity` is the base of an entity of the model that is not a
+root: an `AbstractEntity` of the core and a `Persistable` whose `getId()` is the
+identifier. It hands out no events, since only a root registers them.
+
+`isNew()` is left to the store, since each tells a new object from a saved
 one in its own way: the JPA base by the callbacks of the entity, the MongoDB base
 by the version.
 
@@ -135,8 +139,8 @@ Packages follow the artifacts: `pro.vlprojects.semantic.ddd`,
 `pro.vlprojects.semantic.ddd.spring.data.jpa`,
 `pro.vlprojects.semantic.ddd.spring.data.mongodb`,
 `pro.vlprojects.semantic.ddd.spring.boot`. A package belongs to one artifact
-only. The base classes of a store carry its name, `JpaAggregateRoot` and
-`MongoAggregateRoot`, so they do not clash with those of the core.
+only. The base classes of a store carry its name, `AbstractJpaAggregateRoot` and
+`AbstractMongoAggregateRoot`, so they do not clash with those of the core.
 
 ---
 

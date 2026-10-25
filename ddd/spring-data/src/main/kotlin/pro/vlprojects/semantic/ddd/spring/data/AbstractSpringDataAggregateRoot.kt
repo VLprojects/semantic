@@ -8,7 +8,7 @@ import pro.vlprojects.semantic.ddd.tactical.Event
 import pro.vlprojects.semantic.ddd.tactical.Identifier
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractAggregateRoot
 
-public abstract class SpringDataAggregateRoot<A : AggregateRoot<A, I>, I : Identifier> :
+public abstract class AbstractSpringDataAggregateRoot<A : AggregateRoot<A, I>, I : Identifier> :
     AbstractAggregateRoot<A, I>(),
     Persistable<I> {
 
