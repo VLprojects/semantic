@@ -39,3 +39,5 @@ module("semantic-ddd-spring-boot-starter", "ddd/spring-boot-starter")
 module("semantic-cqrs", "cqrs/core")
 
 module("semantic-architecture", "architecture/core")
+
+module("semantic-events", "events/core")
