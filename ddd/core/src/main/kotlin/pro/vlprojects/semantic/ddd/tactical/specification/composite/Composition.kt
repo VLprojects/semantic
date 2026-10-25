@@ -8,11 +8,11 @@ internal fun <T> Iterable<Specification<T>?>.conjoin(): Specification<T> {
         when (part) {
             null, Always -> Unit
             Never -> return Never
-            is AllOf -> parts += part.specifications
-            else -> parts += part
+            is AllOf -> parts.addAll(part.specifications)
+            else -> parts.add(part)
         }
     }
-    return parts.collapse(Always, ::AllOf)
+    return parts.toSpecification(Always, ::AllOf)
 }
 
 internal fun <T> Iterable<Specification<T>?>.disjoin(): Specification<T> {
@@ -21,11 +21,11 @@ internal fun <T> Iterable<Specification<T>?>.disjoin(): Specification<T> {
         when (part) {
             null, Never -> Unit
             Always -> return Always
-            is AnyOf -> parts += part.specifications
-            else -> parts += part
+            is AnyOf -> parts.addAll(part.specifications)
+            else -> parts.add(part)
         }
     }
-    return parts.collapse(Never, ::AnyOf)
+    return parts.toSpecification(Never, ::AnyOf)
 }
 
 internal fun <T> Specification<T>.negate() = when (this) {
@@ -35,11 +35,11 @@ internal fun <T> Specification<T>.negate() = when (this) {
     else -> Not(this)
 }
 
-private fun <T> List<Specification<T>>.collapse(
-    empty: Specification<T>,
-    node: (List<Specification<T>>) -> Specification<T>,
+private fun <T> List<Specification<T>>.toSpecification(
+    neutral: Specification<T>,
+    composite: (List<Specification<T>>) -> Specification<T>,
 ) = when (size) {
-    0 -> empty
+    0 -> neutral
     1 -> first()
-    else -> node(this)
+    else -> composite(this)
 }
