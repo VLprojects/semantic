@@ -2,5 +2,7 @@ package pro.vlprojects.semantic.format.mask
 
 public data object HideAll : MaskMode {
 
-    override fun mask(value: String, mask: Char): String = KeepSymbols().mask(value, mask)
+    override fun mask(source: String, mask: Char): String = HideMiddle
+        .of()
+        .mask(source, mask)
 }

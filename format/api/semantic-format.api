@@ -56,14 +56,18 @@ public final class pro/vlprojects/semantic/format/mask/HideAll : pro/vlprojects/
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class pro/vlprojects/semantic/format/mask/KeepSymbols : pro/vlprojects/semantic/format/mask/MaskMode {
-	public fun <init> ()V
-	public fun <init> (II)V
-	public synthetic fun <init> (IIILkotlin/jvm/internal/DefaultConstructorMarker;)V
+public final class pro/vlprojects/semantic/format/mask/HideMiddle : pro/vlprojects/semantic/format/mask/MaskMode {
+	public static final field Factory Lpro/vlprojects/semantic/format/mask/HideMiddle$Factory;
 	public fun mask (Ljava/lang/String;C)Ljava/lang/String;
 }
 
+public final class pro/vlprojects/semantic/format/mask/HideMiddle$Factory {
+	public final fun of (II)Lpro/vlprojects/semantic/format/mask/HideMiddle;
+	public static synthetic fun of$default (Lpro/vlprojects/semantic/format/mask/HideMiddle$Factory;IIILjava/lang/Object;)Lpro/vlprojects/semantic/format/mask/HideMiddle;
+}
+
 public abstract interface class pro/vlprojects/semantic/format/mask/MaskMode {
+	public fun mask (Ljava/lang/String;)Ljava/lang/String;
 	public abstract fun mask (Ljava/lang/String;C)Ljava/lang/String;
 }
 

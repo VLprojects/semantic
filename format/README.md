@@ -55,10 +55,10 @@ reads as one. The mode, in the package `format.mask`, says what stays in
 sight; a value object with rules of its own, an email, writes a mode of its own.
 
 ```kotlin
-"4242 4242 4242 4242".masked()                                  // **** **** **** 4242
-"4242 4242 4242 4242".masked(KeepSymbols(first = 6, last = 4)) // 4242 42** **** 4242
-"+7 (916) 123-45-67".masked(KeepSymbols(first = 1, last = 2))  // +7 (***) ***-**-67
-"secret".masked(HideAll, mask = '•')                           // ••••••
+"4242 4242 4242 4242".masked()                                             // **** **** **** 4242
+"4242 4242 4242 4242".masked(HideMiddle.of(keepFirst = 6, keepLast = 4)) // 4242 42** **** 4242
+"+7 (916) 123-45-67".masked(HideMiddle.of(keepFirst = 1, keepLast = 2))  // +7 (***) ***-**-67
+"secret".masked(HideAll, mask = '•')                                      // ••••••
 ```
 
 A value too short to hide anything is hidden whole.
