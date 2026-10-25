@@ -10,7 +10,7 @@ file per type it extends: `StringHelper.kt`, `InstantHelper.kt`.
 | --- | --- | --- |
 | `text` | `String`, `CharSequence` | the text itself: symbols as a reader sees them, the words of a name |
 | `time` | `Instant`, `LocalDate`, `Duration` | planned |
-| `number` | `BigDecimal`, `Int`, `Long` | planned |
+| `number` | `Int`, `Long`, `Short`, `Byte`, `BigDecimal` | the sign of a number, a narrowing that refuses to lose a digit |
 | `lang` | `Any`, `KClass` | planned |
 
 A helper extends a type that already exists and knows nothing of the domain:
@@ -89,4 +89,17 @@ brings it to one form before it is compared or stored.
 ```kotlin
 "order  42\t\tid".collapse('_', Char::isWhitespace) // order_42_id
 "a-_b_-_c".collapse('-', listOf('-', '_'))          // a-b-c
+```
+
+## Numbers
+
+The sign of a number reads as a word, and a narrowing to a smaller type refuses
+a value that does not fit instead of cutting it.
+
+```kotlin
+amount.isPositive()
+quantity.isNonNegative()
+BigDecimal("42.00").toSafeInt() // 42
+BigDecimal("1.5").toSafeInt()   // ArithmeticException
+5_000_000_000L.toSafeInt()      // ArithmeticException
 ```
