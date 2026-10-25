@@ -54,7 +54,17 @@ class AbstractJpaEntityTests {
             val proxy = getReference(Item::class.java, itemId)
 
             assertNotSame(Item::class.java, proxy.javaClass)
-            assertEquals(found, proxy)
+            val target = org.hibernate.Hibernate.unproxy(proxy) as Item
+            val initializer = org.hibernate.proxy.HibernateProxy.extractLazyInitializer(proxy)
+            assertEquals(
+                found,
+                proxy,
+                "proxy=${proxy.javaClass} interfaces=${proxy.javaClass.interfaces.toList()} initializer=$initializer " +
+                    "target=${target.javaClass} sameAsProxy=${target === proxy} " +
+                    "foundId=${found.identifier.javaClass}/${found.identifier} targetId=${target.identifier.javaClass}/${target.identifier} " +
+                    "idsEqual=${found.identifier == target.identifier} foundUser=${org.springframework.data.util.ProxyUtils.getUserClass(found)} " +
+                    "targetUser=${org.springframework.data.util.ProxyUtils.getUserClass(target)}",
+            )
             assertEquals(proxy, found)
         }
     }
