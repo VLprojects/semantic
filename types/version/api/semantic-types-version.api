@@ -1,7 +1,11 @@
+public abstract interface class pro/vlprojects/semantic/types/version/IncrementableVersion : pro/vlprojects/semantic/types/version/OrderedVersion {
+	public abstract fun next ()Lpro/vlprojects/semantic/types/version/IncrementableVersion;
+}
+
 public abstract interface class pro/vlprojects/semantic/types/version/OrderedVersion : java/lang/Comparable, pro/vlprojects/semantic/types/version/Version {
 }
 
-public final class pro/vlprojects/semantic/types/version/SequentialVersion : pro/vlprojects/semantic/types/version/OrderedVersion, pro/vlprojects/semantic/types/version/Successive {
+public final class pro/vlprojects/semantic/types/version/SequentialVersion : pro/vlprojects/semantic/types/version/IncrementableVersion {
 	public static final field Format Lpro/vlprojects/semantic/types/version/SequentialVersion$Format;
 	public static final field INITIAL Lpro/vlprojects/semantic/types/version/SequentialVersion;
 	public synthetic fun compareTo (Ljava/lang/Object;)I
@@ -9,8 +13,8 @@ public final class pro/vlprojects/semantic/types/version/SequentialVersion : pro
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getValue ()J
 	public fun hashCode ()I
+	public synthetic fun next ()Lpro/vlprojects/semantic/types/version/IncrementableVersion;
 	public fun next ()Lpro/vlprojects/semantic/types/version/SequentialVersion;
-	public synthetic fun next ()Lpro/vlprojects/semantic/types/version/Version;
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -20,11 +24,7 @@ public final class pro/vlprojects/semantic/types/version/SequentialVersion$Forma
 	public synthetic fun parseOrNull (Ljava/lang/String;)Lpro/vlprojects/semantic/types/version/Version;
 }
 
-public abstract interface class pro/vlprojects/semantic/types/version/Successive {
-	public abstract fun next ()Lpro/vlprojects/semantic/types/version/Version;
-}
-
-public abstract interface class pro/vlprojects/semantic/types/version/Version {
+public abstract interface class pro/vlprojects/semantic/types/version/Version : java/io/Serializable {
 }
 
 public abstract interface class pro/vlprojects/semantic/types/version/VersionFormat {

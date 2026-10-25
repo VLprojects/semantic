@@ -12,9 +12,9 @@ depends on its kind, and each kind says it with a supertype:
 
 | Type | What it is |
 | --- | --- |
-| `Version` | a version of any kind: it is only equal or not to another one, like an ETag or a hash |
+| `Version` | a version of any kind: it is only equal or not to another one, like an ETag or a hash; `Serializable` |
 | `OrderedVersion<V>` | a version that is older or newer than any other version of its kind |
-| `Successive<V>` | a version that knows the one that comes after it |
+| `IncrementableVersion<V>` | an ordered version that goes up by one step: `next()` is newer than it |
 | `VersionFormat<V>` | reads a version of its kind from text: `parse` fails on a wrong text, `parseOrNull` gives `null` |
 | `SequentialVersion` | a counter: `0`, `1`, `2`; the version of a schema, of an event, of a document |
 

@@ -1,3 +1,5 @@
 package pro.vlprojects.semantic.types.version
 
-public interface Version
+import java.io.Serializable
+
+public interface Version : Serializable
