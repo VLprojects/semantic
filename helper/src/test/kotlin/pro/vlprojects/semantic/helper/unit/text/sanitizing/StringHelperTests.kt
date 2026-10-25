@@ -8,6 +8,7 @@ import pro.vlprojects.semantic.helper.text.sanitizing.collapseDots
 import pro.vlprojects.semantic.helper.text.sanitizing.collapseHyphens
 import pro.vlprojects.semantic.helper.text.sanitizing.collapseSpaces
 import pro.vlprojects.semantic.helper.text.sanitizing.filterAscii
+import pro.vlprojects.semantic.helper.text.sanitizing.normalizeSpaces
 import pro.vlprojects.semantic.helper.text.sanitizing.removeDiacritics
 
 class StringHelperTests {
@@ -70,5 +71,16 @@ class StringHelperTests {
     fun `only the ascii characters are kept`() {
         assertEquals("Caf crme ", "Café crème 👋".filterAscii())
         assertEquals("order-42", "order-42".filterAscii())
+    }
+
+    @Test
+    fun `the edges lose their whitespace and a run inside becomes one space`() {
+        assertEquals("Anne Marie Curie", " \t Anne  Marie\n\nCurie \u00A0".normalizeSpaces())
+    }
+
+    @Test
+    fun `a value of whitespace only becomes empty`() {
+        assertEquals("", " \t\n ".normalizeSpaces())
+        assertEquals("", "".normalizeSpaces())
     }
 }

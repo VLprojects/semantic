@@ -133,17 +133,26 @@ public final class pro/vlprojects/semantic/helper/text/predicate/CharSequenceHel
 }
 
 public final class pro/vlprojects/semantic/helper/text/predicate/StringHelperKt {
-	public static final fun endsWithAny (Ljava/lang/String;Ljava/lang/Iterable;)Z
-	public static final fun endsWithAny (Ljava/lang/String;[Ljava/lang/String;)Z
+	public static final fun endsWithAny (Ljava/lang/String;Ljava/lang/Iterable;Z)Z
+	public static final fun endsWithAny (Ljava/lang/String;[Ljava/lang/String;Z)Z
+	public static synthetic fun endsWithAny$default (Ljava/lang/String;Ljava/lang/Iterable;ZILjava/lang/Object;)Z
+	public static synthetic fun endsWithAny$default (Ljava/lang/String;[Ljava/lang/String;ZILjava/lang/Object;)Z
 	public static final fun isAscii (Ljava/lang/String;)Z
 	public static final fun isLowercase (Ljava/lang/String;)Z
 	public static final fun isNotAscii (Ljava/lang/String;)Z
-	public static final fun notEndsWithAny (Ljava/lang/String;Ljava/lang/Iterable;)Z
-	public static final fun notEndsWithAny (Ljava/lang/String;[Ljava/lang/String;)Z
-	public static final fun notStartsWithAny (Ljava/lang/String;Ljava/lang/Iterable;)Z
-	public static final fun notStartsWithAny (Ljava/lang/String;[Ljava/lang/String;)Z
-	public static final fun startsWithAny (Ljava/lang/String;Ljava/lang/Iterable;)Z
-	public static final fun startsWithAny (Ljava/lang/String;[Ljava/lang/String;)Z
+	public static final fun isUppercase (Ljava/lang/String;)Z
+	public static final fun notEndsWithAny (Ljava/lang/String;Ljava/lang/Iterable;Z)Z
+	public static final fun notEndsWithAny (Ljava/lang/String;[Ljava/lang/String;Z)Z
+	public static synthetic fun notEndsWithAny$default (Ljava/lang/String;Ljava/lang/Iterable;ZILjava/lang/Object;)Z
+	public static synthetic fun notEndsWithAny$default (Ljava/lang/String;[Ljava/lang/String;ZILjava/lang/Object;)Z
+	public static final fun notStartsWithAny (Ljava/lang/String;Ljava/lang/Iterable;Z)Z
+	public static final fun notStartsWithAny (Ljava/lang/String;[Ljava/lang/String;Z)Z
+	public static synthetic fun notStartsWithAny$default (Ljava/lang/String;Ljava/lang/Iterable;ZILjava/lang/Object;)Z
+	public static synthetic fun notStartsWithAny$default (Ljava/lang/String;[Ljava/lang/String;ZILjava/lang/Object;)Z
+	public static final fun startsWithAny (Ljava/lang/String;Ljava/lang/Iterable;Z)Z
+	public static final fun startsWithAny (Ljava/lang/String;[Ljava/lang/String;Z)Z
+	public static synthetic fun startsWithAny$default (Ljava/lang/String;Ljava/lang/Iterable;ZILjava/lang/Object;)Z
+	public static synthetic fun startsWithAny$default (Ljava/lang/String;[Ljava/lang/String;ZILjava/lang/Object;)Z
 }
 
 public final class pro/vlprojects/semantic/helper/text/sanitizing/StringHelperKt {
@@ -154,6 +163,7 @@ public final class pro/vlprojects/semantic/helper/text/sanitizing/StringHelperKt
 	public static final fun collapseHyphens (Ljava/lang/String;)Ljava/lang/String;
 	public static final fun collapseSpaces (Ljava/lang/String;)Ljava/lang/String;
 	public static final fun filterAscii (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun normalizeSpaces (Ljava/lang/String;)Ljava/lang/String;
 	public static final fun removeDiacritics (Ljava/lang/String;)Ljava/lang/String;
 }
 
