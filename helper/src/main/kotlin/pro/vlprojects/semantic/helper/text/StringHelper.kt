@@ -53,10 +53,12 @@ public fun String.collapseApostrophes(): String = collapse('\'', Char::isApostro
 
 public fun String.collapseDots(): String = collapse('.', Char::isDot)
 
-public fun String.removeDiacritics(): String = when {
-    isAscii() -> this
-    else -> stripCombiningMarks()
-}
+public fun String.removeDiacritics(): String = this
+    .takeUnless(String::isAscii)
+    ?.normalizeTo(Normalizer.Form.NFD)
+    ?.filterNot(Char::isDiacritic)
+    ?.normalizeTo(Normalizer.Form.NFC)
+    ?: this
 
 private fun String.collapse(replacement: Char, isCollapsible: (Char) -> Boolean) = this
     .fold(StringBuilder(length)) { collapsed, char ->
@@ -68,11 +70,6 @@ private fun String.collapse(replacement: Char, isCollapsible: (Char) -> Boolean)
     }
     .toString()
 
-private fun String.stripCombiningMarks() = this
-    .normalizeTo(Normalizer.Form.NFD)
-    .filterNot(Char::isNonSpacingMark)
-    .normalizeTo(Normalizer.Form.NFC)
-
 private fun String.normalizeTo(form: Normalizer.Form) = Normalizer.normalize(this, form)
 
-private fun Char.isNonSpacingMark() = category == CharCategory.NON_SPACING_MARK
+private fun Char.isDiacritic() = category == CharCategory.NON_SPACING_MARK
