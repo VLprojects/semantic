@@ -1,30 +1,32 @@
-package pro.vlprojects.semantic.helper.unit.text
+package pro.vlprojects.semantic.helper.unit.text.predicate
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import pro.vlprojects.semantic.helper.text.isApostrophe
-import pro.vlprojects.semantic.helper.text.isAscii
-import pro.vlprojects.semantic.helper.text.isBracket
-import pro.vlprojects.semantic.helper.text.isCarriageReturn
-import pro.vlprojects.semantic.helper.text.isClosingBracket
-import pro.vlprojects.semantic.helper.text.isClosingParenthesis
-import pro.vlprojects.semantic.helper.text.isComma
-import pro.vlprojects.semantic.helper.text.isDot
-import pro.vlprojects.semantic.helper.text.isEquals
-import pro.vlprojects.semantic.helper.text.isHorizontalTab
-import pro.vlprojects.semantic.helper.text.isHyphen
-import pro.vlprojects.semantic.helper.text.isNewline
-import pro.vlprojects.semantic.helper.text.isOpeningBracket
-import pro.vlprojects.semantic.helper.text.isOpeningParenthesis
-import pro.vlprojects.semantic.helper.text.isParenthesis
-import pro.vlprojects.semantic.helper.text.isQuote
-import pro.vlprojects.semantic.helper.text.isSemicolon
-import pro.vlprojects.semantic.helper.text.isSpace
-import pro.vlprojects.semantic.helper.text.isSpaceSeparator
-import pro.vlprojects.semantic.helper.text.isUnderscore
-import pro.vlprojects.semantic.helper.text.isWildcard
+import pro.vlprojects.semantic.helper.text.predicate.isApostrophe
+import pro.vlprojects.semantic.helper.text.predicate.isAscii
+import pro.vlprojects.semantic.helper.text.predicate.isBracket
+import pro.vlprojects.semantic.helper.text.predicate.isCapital
+import pro.vlprojects.semantic.helper.text.predicate.isCarriageReturn
+import pro.vlprojects.semantic.helper.text.predicate.isClosingBracket
+import pro.vlprojects.semantic.helper.text.predicate.isClosingParenthesis
+import pro.vlprojects.semantic.helper.text.predicate.isComma
+import pro.vlprojects.semantic.helper.text.predicate.isDiacritic
+import pro.vlprojects.semantic.helper.text.predicate.isDot
+import pro.vlprojects.semantic.helper.text.predicate.isEquals
+import pro.vlprojects.semantic.helper.text.predicate.isHorizontalTab
+import pro.vlprojects.semantic.helper.text.predicate.isHyphen
+import pro.vlprojects.semantic.helper.text.predicate.isNewline
+import pro.vlprojects.semantic.helper.text.predicate.isOpeningBracket
+import pro.vlprojects.semantic.helper.text.predicate.isOpeningParenthesis
+import pro.vlprojects.semantic.helper.text.predicate.isParenthesis
+import pro.vlprojects.semantic.helper.text.predicate.isQuote
+import pro.vlprojects.semantic.helper.text.predicate.isSemicolon
+import pro.vlprojects.semantic.helper.text.predicate.isSpace
+import pro.vlprojects.semantic.helper.text.predicate.isSpaceSeparator
+import pro.vlprojects.semantic.helper.text.predicate.isUnderscore
+import pro.vlprojects.semantic.helper.text.predicate.isWildcard
 
 class CharHelperTests {
 
@@ -72,6 +74,26 @@ class CharHelperTests {
     @Test
     fun `a tab and a line break are not space separators`() {
         assertFalse("\t\n\r".any(Char::isSpaceSeparator))
+    }
+
+    @Test
+    fun `a combining mark is a diacritic`() {
+        assertTrue("\u0301\u0306\u0308".all(Char::isDiacritic))
+    }
+
+    @Test
+    fun `a letter with its accent built in is not a diacritic`() {
+        assertFalse("éйa".any(Char::isDiacritic))
+    }
+
+    @Test
+    fun `an uppercase or a titlecase letter is a capital`() {
+        assertTrue("AЯ\u01C5".all(Char::isCapital))
+    }
+
+    @Test
+    fun `a lowercase letter, a digit and a sign are not capitals`() {
+        assertFalse("aя1-".any(Char::isCapital))
     }
 
     @Test

@@ -1,7 +1,7 @@
 package pro.vlprojects.semantic.format
 
-import pro.vlprojects.semantic.helper.text.takeLastSymbols
-import pro.vlprojects.semantic.helper.text.takeSymbols
+import pro.vlprojects.semantic.helper.text.transforming.takeLastSymbols
+import pro.vlprojects.semantic.helper.text.transforming.takeSymbols
 
 private const val ELLIPSIS = "…"
 

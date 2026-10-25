@@ -50,59 +50,13 @@ public final class pro/vlprojects/semantic/helper/number/ShortHelperKt {
 	public static final fun toSafeByte (S)B
 }
 
-public final class pro/vlprojects/semantic/helper/text/CharHelperKt {
-	public static final fun isApostrophe (C)Z
-	public static final fun isAscii (C)Z
-	public static final fun isBracket (C)Z
-	public static final fun isCarriageReturn (C)Z
-	public static final fun isClosingBracket (C)Z
-	public static final fun isClosingParenthesis (C)Z
-	public static final fun isComma (C)Z
-	public static final fun isDot (C)Z
-	public static final fun isEquals (C)Z
-	public static final fun isHorizontalTab (C)Z
-	public static final fun isHyphen (C)Z
-	public static final fun isNewline (C)Z
-	public static final fun isOpeningBracket (C)Z
-	public static final fun isOpeningParenthesis (C)Z
-	public static final fun isParenthesis (C)Z
-	public static final fun isQuote (C)Z
-	public static final fun isSemicolon (C)Z
-	public static final fun isSpace (C)Z
-	public static final fun isSpaceSeparator (C)Z
-	public static final fun isUnderscore (C)Z
-	public static final fun isWildcard (C)Z
-}
-
 public final class pro/vlprojects/semantic/helper/text/CharSequenceHelperKt {
-	public static final fun hasFewerSymbolsThan (Ljava/lang/CharSequence;I)Z
 	public static final fun toSymbolSequence (Ljava/lang/CharSequence;)Lpro/vlprojects/semantic/helper/text/SymbolSequence;
 	public static final fun toWordSequence (Ljava/lang/CharSequence;)Lpro/vlprojects/semantic/helper/text/WordSequence;
 }
 
 public final class pro/vlprojects/semantic/helper/text/StringHelperKt {
-	public static final fun collapse (Ljava/lang/String;CLjava/lang/Iterable;)Ljava/lang/String;
-	public static final fun collapse (Ljava/lang/String;CLkotlin/jvm/functions/Function1;)Ljava/lang/String;
-	public static final fun collapseApostrophes (Ljava/lang/String;)Ljava/lang/String;
-	public static final fun collapseDots (Ljava/lang/String;)Ljava/lang/String;
-	public static final fun collapseHyphens (Ljava/lang/String;)Ljava/lang/String;
-	public static final fun collapseSpaces (Ljava/lang/String;)Ljava/lang/String;
-	public static final fun endsWithAny (Ljava/lang/String;Ljava/lang/Iterable;)Z
-	public static final fun endsWithAny (Ljava/lang/String;[Ljava/lang/String;)Z
-	public static final fun filterAscii (Ljava/lang/String;)Ljava/lang/String;
 	public static final fun getSymbolCount (Ljava/lang/String;)I
-	public static final fun isAscii (Ljava/lang/String;)Z
-	public static final fun isLowercase (Ljava/lang/String;)Z
-	public static final fun isNotAscii (Ljava/lang/String;)Z
-	public static final fun notEndsWithAny (Ljava/lang/String;Ljava/lang/Iterable;)Z
-	public static final fun notEndsWithAny (Ljava/lang/String;[Ljava/lang/String;)Z
-	public static final fun notStartsWithAny (Ljava/lang/String;Ljava/lang/Iterable;)Z
-	public static final fun notStartsWithAny (Ljava/lang/String;[Ljava/lang/String;)Z
-	public static final fun removeDiacritics (Ljava/lang/String;)Ljava/lang/String;
-	public static final fun startsWithAny (Ljava/lang/String;Ljava/lang/Iterable;)Z
-	public static final fun startsWithAny (Ljava/lang/String;[Ljava/lang/String;)Z
-	public static final fun takeLastSymbols (Ljava/lang/String;I)Ljava/lang/String;
-	public static final fun takeSymbols (Ljava/lang/String;I)Ljava/lang/String;
 }
 
 public final class pro/vlprojects/semantic/helper/text/SymbolSequence {
@@ -151,5 +105,65 @@ public final class pro/vlprojects/semantic/helper/text/WordSequenceHelperKt {
 	public static final fun asIterable (Lpro/vlprojects/semantic/helper/text/WordSequence;)Ljava/lang/Iterable;
 	public static final fun asSequence (Lpro/vlprojects/semantic/helper/text/WordSequence;)Lkotlin/sequences/Sequence;
 	public static final fun toWordSequence (Ljava/util/Collection;)Lpro/vlprojects/semantic/helper/text/WordSequence;
+}
+
+public final class pro/vlprojects/semantic/helper/text/predicate/CharHelperKt {
+	public static final fun isApostrophe (C)Z
+	public static final fun isAscii (C)Z
+	public static final fun isBracket (C)Z
+	public static final fun isCapital (C)Z
+	public static final fun isCarriageReturn (C)Z
+	public static final fun isClosingBracket (C)Z
+	public static final fun isClosingParenthesis (C)Z
+	public static final fun isComma (C)Z
+	public static final fun isDiacritic (C)Z
+	public static final fun isDot (C)Z
+	public static final fun isEquals (C)Z
+	public static final fun isHorizontalTab (C)Z
+	public static final fun isHyphen (C)Z
+	public static final fun isNewline (C)Z
+	public static final fun isOpeningBracket (C)Z
+	public static final fun isOpeningParenthesis (C)Z
+	public static final fun isParenthesis (C)Z
+	public static final fun isQuote (C)Z
+	public static final fun isSemicolon (C)Z
+	public static final fun isSpace (C)Z
+	public static final fun isSpaceSeparator (C)Z
+	public static final fun isUnderscore (C)Z
+	public static final fun isWildcard (C)Z
+}
+
+public final class pro/vlprojects/semantic/helper/text/predicate/CharSequenceHelperKt {
+	public static final fun hasFewerSymbolsThan (Ljava/lang/CharSequence;I)Z
+}
+
+public final class pro/vlprojects/semantic/helper/text/predicate/StringHelperKt {
+	public static final fun endsWithAny (Ljava/lang/String;Ljava/lang/Iterable;)Z
+	public static final fun endsWithAny (Ljava/lang/String;[Ljava/lang/String;)Z
+	public static final fun isAscii (Ljava/lang/String;)Z
+	public static final fun isLowercase (Ljava/lang/String;)Z
+	public static final fun isNotAscii (Ljava/lang/String;)Z
+	public static final fun notEndsWithAny (Ljava/lang/String;Ljava/lang/Iterable;)Z
+	public static final fun notEndsWithAny (Ljava/lang/String;[Ljava/lang/String;)Z
+	public static final fun notStartsWithAny (Ljava/lang/String;Ljava/lang/Iterable;)Z
+	public static final fun notStartsWithAny (Ljava/lang/String;[Ljava/lang/String;)Z
+	public static final fun startsWithAny (Ljava/lang/String;Ljava/lang/Iterable;)Z
+	public static final fun startsWithAny (Ljava/lang/String;[Ljava/lang/String;)Z
+}
+
+public final class pro/vlprojects/semantic/helper/text/sanitizing/StringHelperKt {
+	public static final fun collapse (Ljava/lang/String;CLjava/lang/Iterable;)Ljava/lang/String;
+	public static final fun collapse (Ljava/lang/String;CLkotlin/jvm/functions/Function1;)Ljava/lang/String;
+	public static final fun collapseApostrophes (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun collapseDots (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun collapseHyphens (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun collapseSpaces (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun filterAscii (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun removeDiacritics (Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/helper/text/transforming/StringHelperKt {
+	public static final fun takeLastSymbols (Ljava/lang/String;I)Ljava/lang/String;
+	public static final fun takeSymbols (Ljava/lang/String;I)Ljava/lang/String;
 }
 

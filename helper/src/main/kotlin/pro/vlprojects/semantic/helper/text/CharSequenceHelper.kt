@@ -41,11 +41,6 @@ internal fun CharSequence.calculateAllSymbolsStartedAt() = this
     .calculateSymbolBoundaries()
     .takeWhile(this.indices::contains)
 
-public fun CharSequence.hasFewerSymbolsThan(count: Int): Boolean = this
-    .calculateAllSymbolsStartedAt()
-    .take(count)
-    .count() < count
-
 private fun CharSequence.toBreakIterator() = BreakIterator
     .getCharacterInstance()
     .also { iterator ->
