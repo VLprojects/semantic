@@ -46,13 +46,14 @@ internal fun <T> Specification<T>.negate() = when (this) {
 }
 
 internal fun <T> List<Specification<T>>.flatten(nestedPartsOf: (Specification<T>) -> List<Specification<T>>?) =
-    buildList {
-        val pending = ArrayDeque(asReversed())
-        while (pending.isNotEmpty()) {
-            val part = pending.removeLast()
-            when (val nested = nestedPartsOf(part)) {
-                null -> add(part)
-                else -> pending.addAll(nested.asReversed())
+    ArrayDeque(this.asReversed()).let { pending ->
+        buildList {
+            while (pending.isNotEmpty()) {
+                val part = pending.removeLast()
+                when (val nested = nestedPartsOf(part)) {
+                    null -> add(part)
+                    else -> pending.addAll(nested.asReversed())
+                }
             }
         }
     }
