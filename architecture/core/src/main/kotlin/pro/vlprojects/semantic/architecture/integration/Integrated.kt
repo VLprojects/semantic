@@ -1,11 +1,11 @@
-package pro.vlprojects.semantic.architecture.contract
+package pro.vlprojects.semantic.architecture.integration
 
 @MustBeDocumented
 @Target(AnnotationTarget.CLASS)
-public annotation class Contracted(
+public annotation class Integrated(
     val namespace: String,
     val name: String,
-    val scope: IntegrationScope,
+    val scope: Scope,
     val version: Int = 1,
     val breaksBackwardCompatibility: Boolean = false,
 )

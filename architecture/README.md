@@ -35,14 +35,14 @@ class JpaOrders(private val repository: OrderRepository) : Orders
 class OrderController(private val placeOrder: PlaceOrderService)
 ```
 
-## Contracts
+## Integration
 
-Package `pro.vlprojects.semantic.architecture.contract` of `semantic-architecture`:
+Package `pro.vlprojects.semantic.architecture.integration` of `semantic-architecture`:
 
 | Type | What it is |
 | --- | --- |
-| `@Contracted` | a class other code depends on by its shape: an event, a DTO, a message of an API |
-| `IntegrationScope` | who depends on it: `APPLICATION` for the modules of the same application, `SYSTEM` for the other services of the same system, `EXTERNAL` for other systems |
+| `@Integrated` | a class other code depends on by its shape: an event, a DTO, a message of an API |
+| `Scope` | who depends on it: `COMPONENT_INTERNAL` for the modules of the same application, `SYSTEM_INTERNAL` for the other applications of the same system, `EXTERNAL` for other systems |
 
 The annotation holds what the class name cannot: a `namespace` and a `name`
 that stay when the class is renamed, the `scope` of the integration, a
@@ -51,10 +51,10 @@ that stay when the class is renamed, the `scope` of the integration, a
 longer read it.
 
 ```kotlin
-@Contracted(
+@Integrated(
     namespace = "orders",
     name = "placed",
-    scope = IntegrationScope.EXTERNAL,
+    scope = Scope.EXTERNAL,
     version = 3,
     breaksBackwardCompatibility = true,
 )
@@ -67,7 +67,7 @@ One artifact so far, group `pro.vlprojects.semantic`:
 
 | Artifact | For | Depends on |
 | --- | --- | --- |
-| `semantic-architecture` | any JVM code: the layers of a service and its contracts | nothing |
+| `semantic-architecture` | any JVM code: the layers of a service and its integrations | nothing |
 
 ```
 architecture/
