@@ -1,6 +1,7 @@
-package pro.vlprojects.semantic.helper.format
+package pro.vlprojects.semantic.format
 
 import pro.vlprojects.semantic.helper.text.hasFewerSymbolsThan
+import pro.vlprojects.semantic.helper.text.toWordSequence
 
 public fun String.toKebabCase(): String = this
     .toWordSequence()

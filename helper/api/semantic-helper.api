@@ -1,82 +1,3 @@
-public final class pro/vlprojects/semantic/helper/format/CharSequenceHelperKt {
-	public static final fun toWordSequence (Ljava/lang/CharSequence;)Lpro/vlprojects/semantic/helper/format/WordSequence;
-}
-
-public abstract interface class pro/vlprojects/semantic/helper/format/EllipsisMode {
-	public abstract fun abbreviate (Ljava/lang/String;I)Ljava/lang/String;
-}
-
-public final class pro/vlprojects/semantic/helper/format/EllipsisMode$HideBeginning : pro/vlprojects/semantic/helper/format/EllipsisMode {
-	public static final field INSTANCE Lpro/vlprojects/semantic/helper/format/EllipsisMode$HideBeginning;
-	public fun abbreviate (Ljava/lang/String;I)Ljava/lang/String;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class pro/vlprojects/semantic/helper/format/EllipsisMode$HideEnding : pro/vlprojects/semantic/helper/format/EllipsisMode {
-	public static final field INSTANCE Lpro/vlprojects/semantic/helper/format/EllipsisMode$HideEnding;
-	public fun abbreviate (Ljava/lang/String;I)Ljava/lang/String;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class pro/vlprojects/semantic/helper/format/EllipsisMode$HideMiddle : pro/vlprojects/semantic/helper/format/EllipsisMode {
-	public static final field INSTANCE Lpro/vlprojects/semantic/helper/format/EllipsisMode$HideMiddle;
-	public fun abbreviate (Ljava/lang/String;I)Ljava/lang/String;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class pro/vlprojects/semantic/helper/format/StringFormatHelperKt {
-	public static final fun abbreviated (Ljava/lang/String;IILpro/vlprojects/semantic/helper/format/EllipsisMode;)Ljava/lang/String;
-	public static synthetic fun abbreviated$default (Ljava/lang/String;IILpro/vlprojects/semantic/helper/format/EllipsisMode;ILjava/lang/Object;)Ljava/lang/String;
-	public static final fun toCamelCase (Ljava/lang/String;)Ljava/lang/String;
-	public static final fun toKebabCase (Ljava/lang/String;)Ljava/lang/String;
-	public static final fun toSnakeCase (Ljava/lang/String;)Ljava/lang/String;
-}
-
-public final class pro/vlprojects/semantic/helper/format/Word : java/lang/CharSequence {
-	public static final field Factory Lpro/vlprojects/semantic/helper/format/Word$Factory;
-	public final fun capitalized ()Ljava/lang/String;
-	public final fun charAt (I)C
-	public fun equals (Ljava/lang/Object;)Z
-	public fun get (I)C
-	public fun getLength ()I
-	public fun hashCode ()I
-	public final fun length ()I
-	public final fun lowercase ()Ljava/lang/String;
-	public fun subSequence (II)Ljava/lang/CharSequence;
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class pro/vlprojects/semantic/helper/format/Word$Factory {
-	public final fun of (Ljava/lang/CharSequence;)Lpro/vlprojects/semantic/helper/format/Word;
-}
-
-public abstract interface class pro/vlprojects/semantic/helper/format/WordSequence {
-	public abstract fun get (I)Lpro/vlprojects/semantic/helper/format/Word;
-	public fun getIndices ()Lkotlin/ranges/IntRange;
-	public abstract fun getLength ()I
-	public fun isEmpty ()Z
-	public fun iterator ()Ljava/util/Iterator;
-	public abstract fun subSequence (II)Lpro/vlprojects/semantic/helper/format/WordSequence;
-}
-
-public final class pro/vlprojects/semantic/helper/format/WordSequenceFormatHelperKt {
-	public static final fun toCamelCase (Lpro/vlprojects/semantic/helper/format/WordSequence;)Ljava/lang/String;
-	public static final fun toKebabCase (Lpro/vlprojects/semantic/helper/format/WordSequence;)Ljava/lang/String;
-	public static final fun toSnakeCase (Lpro/vlprojects/semantic/helper/format/WordSequence;)Ljava/lang/String;
-}
-
-public final class pro/vlprojects/semantic/helper/format/WordSequenceHelperKt {
-	public static final fun asIterable (Lpro/vlprojects/semantic/helper/format/WordSequence;)Ljava/lang/Iterable;
-	public static final fun asSequence (Lpro/vlprojects/semantic/helper/format/WordSequence;)Lkotlin/sequences/Sequence;
-	public static final fun toWordSequence (Ljava/util/Collection;)Lpro/vlprojects/semantic/helper/format/WordSequence;
-}
-
 public final class pro/vlprojects/semantic/helper/text/CharHelperKt {
 	public static final fun isApostrophe (C)Z
 	public static final fun isAscii (C)Z
@@ -101,6 +22,11 @@ public final class pro/vlprojects/semantic/helper/text/CharHelperKt {
 	public static final fun isWildcard (C)Z
 }
 
+public final class pro/vlprojects/semantic/helper/text/CharSequenceHelperKt {
+	public static final fun hasFewerSymbolsThan (Ljava/lang/CharSequence;I)Z
+	public static final fun toWordSequence (Ljava/lang/CharSequence;)Lpro/vlprojects/semantic/helper/text/WordSequence;
+}
+
 public final class pro/vlprojects/semantic/helper/text/StringHelperKt {
 	public static final fun endsWithAny (Ljava/lang/String;Ljava/lang/Iterable;)Z
 	public static final fun endsWithAny (Ljava/lang/String;[Ljava/lang/String;)Z
@@ -115,5 +41,48 @@ public final class pro/vlprojects/semantic/helper/text/StringHelperKt {
 	public static final fun startsWithAny (Ljava/lang/String;[Ljava/lang/String;)Z
 	public static final fun takeLastSymbols (Ljava/lang/String;I)Ljava/lang/String;
 	public static final fun takeSymbols (Ljava/lang/String;I)Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/helper/text/SymbolSequence {
+	public fun <init> (Ljava/lang/CharSequence;)V
+	public final fun extract (Lkotlin/ranges/IntRange;)Ljava/lang/String;
+	public final fun getIndices ()Lkotlin/ranges/IntRange;
+	public final fun getLength ()I
+	public final fun isCapitalAt (I)Z
+	public final fun isLetterOrDigitAt (I)Z
+	public final fun isLowercaseAt (I)Z
+}
+
+public final class pro/vlprojects/semantic/helper/text/Word : java/lang/CharSequence {
+	public static final field Factory Lpro/vlprojects/semantic/helper/text/Word$Factory;
+	public final fun capitalized ()Ljava/lang/String;
+	public final fun charAt (I)C
+	public fun equals (Ljava/lang/Object;)Z
+	public fun get (I)C
+	public fun getLength ()I
+	public fun hashCode ()I
+	public final fun length ()I
+	public final fun lowercase ()Ljava/lang/String;
+	public fun subSequence (II)Ljava/lang/CharSequence;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/helper/text/Word$Factory {
+	public final fun of (Ljava/lang/CharSequence;)Lpro/vlprojects/semantic/helper/text/Word;
+}
+
+public abstract interface class pro/vlprojects/semantic/helper/text/WordSequence {
+	public abstract fun get (I)Lpro/vlprojects/semantic/helper/text/Word;
+	public fun getIndices ()Lkotlin/ranges/IntRange;
+	public abstract fun getLength ()I
+	public fun isEmpty ()Z
+	public fun iterator ()Ljava/util/Iterator;
+	public abstract fun subSequence (II)Lpro/vlprojects/semantic/helper/text/WordSequence;
+}
+
+public final class pro/vlprojects/semantic/helper/text/WordSequenceHelperKt {
+	public static final fun asIterable (Lpro/vlprojects/semantic/helper/text/WordSequence;)Ljava/lang/Iterable;
+	public static final fun asSequence (Lpro/vlprojects/semantic/helper/text/WordSequence;)Lkotlin/sequences/Sequence;
+	public static final fun toWordSequence (Ljava/util/Collection;)Lpro/vlprojects/semantic/helper/text/WordSequence;
 }
 
