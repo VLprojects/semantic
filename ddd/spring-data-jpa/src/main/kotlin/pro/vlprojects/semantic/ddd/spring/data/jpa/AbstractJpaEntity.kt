@@ -25,7 +25,5 @@ public abstract class AbstractJpaEntity<E : Entity<E, I>, I : Identifier> : Abst
 
     @PostLoad
     @PostPersist
-    override fun markPersisted() {
-        super.markPersisted()
-    }
+    override fun markPersisted() = super.markPersisted()
 }
