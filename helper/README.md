@@ -76,3 +76,14 @@ a cut never splits one.
 "Café🇷🇺👍🏽".takeSymbols(5)   // Café🇷🇺
 "Café🇷🇺👍🏽".takeLastSymbols(1) // 👍🏽
 ```
+
+## Predicates
+
+A predicate names what a check means, so a condition reads as a sentence.
+
+```kotlin
+name.filterNot(Char::isHyphen)
+pattern.any(Char::isWildcard)
+key.notStartsWithAny("internal.", "debug.")
+"Café".isNotAscii() // true
+```

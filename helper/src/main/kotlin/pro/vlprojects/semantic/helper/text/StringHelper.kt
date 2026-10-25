@@ -22,3 +22,15 @@ public fun String.takeLastSymbols(count: Int): String {
         ?.let(::substring)
         ?: this
 }
+
+public fun String.isAscii(): Boolean = all(Char::isAscii)
+
+public fun String.isNotAscii(): Boolean = !isAscii()
+
+public fun String.startsWithAny(vararg prefixes: String): Boolean = prefixes.any(::startsWith)
+
+public fun String.endsWithAny(vararg suffixes: String): Boolean = suffixes.any(::endsWith)
+
+public fun String.notStartsWithAny(vararg prefixes: String): Boolean = !startsWithAny(*prefixes)
+
+public fun String.notEndsWithAny(vararg suffixes: String): Boolean = !endsWithAny(*suffixes)
