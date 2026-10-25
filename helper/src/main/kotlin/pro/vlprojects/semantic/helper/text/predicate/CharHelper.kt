@@ -10,6 +10,12 @@ public fun Char.isSpaceSeparator(): Boolean = this.category == CharCategory.SPAC
 
 public fun Char.isDiacritic(): Boolean = this.category == CharCategory.NON_SPACING_MARK
 
+public fun Char.isCapital(): Boolean = when {
+    this.isUpperCase() -> true
+    this.isTitleCase() -> true
+    else -> false
+}
+
 public fun Char.isHorizontalTab(): Boolean = this == '\t'
 
 public fun Char.isNewline(): Boolean = this == '\n'

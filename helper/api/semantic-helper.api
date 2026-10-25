@@ -106,6 +106,7 @@ public final class pro/vlprojects/semantic/helper/text/predicate/CharHelperKt {
 	public static final fun isApostrophe (C)Z
 	public static final fun isAscii (C)Z
 	public static final fun isBracket (C)Z
+	public static final fun isCapital (C)Z
 	public static final fun isCarriageReturn (C)Z
 	public static final fun isClosingBracket (C)Z
 	public static final fun isClosingParenthesis (C)Z

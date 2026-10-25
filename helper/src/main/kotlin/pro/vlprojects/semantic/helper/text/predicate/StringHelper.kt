@@ -21,9 +21,3 @@ public fun String.notStartsWithAny(prefixes: Iterable<String>): Boolean = !this.
 public fun String.notEndsWithAny(vararg suffixes: String): Boolean = !this.endsWithAny(*suffixes)
 
 public fun String.notEndsWithAny(suffixes: Iterable<String>): Boolean = !this.endsWithAny(suffixes)
-
-private fun Char.isCapital() = when {
-    this.isUpperCase() -> true
-    this.isTitleCase() -> true
-    else -> false
-}

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test
 import pro.vlprojects.semantic.helper.text.predicate.isApostrophe
 import pro.vlprojects.semantic.helper.text.predicate.isAscii
 import pro.vlprojects.semantic.helper.text.predicate.isBracket
+import pro.vlprojects.semantic.helper.text.predicate.isCapital
 import pro.vlprojects.semantic.helper.text.predicate.isCarriageReturn
 import pro.vlprojects.semantic.helper.text.predicate.isClosingBracket
 import pro.vlprojects.semantic.helper.text.predicate.isClosingParenthesis
@@ -83,6 +84,16 @@ class CharHelperTests {
     @Test
     fun `a letter with its accent built in is not a diacritic`() {
         assertFalse("éйa".any(Char::isDiacritic))
+    }
+
+    @Test
+    fun `an uppercase or a titlecase letter is a capital`() {
+        assertTrue("AЯ\u01C5".all(Char::isCapital))
+    }
+
+    @Test
+    fun `a lowercase letter, a digit and a sign are not capitals`() {
+        assertFalse("aя1-".any(Char::isCapital))
     }
 
     @Test
