@@ -29,6 +29,7 @@ fun module(name: String, directory: String) {
 
 module("semantic-helper", "helper")
 module("semantic-format", "format")
+module("semantic-math", "math")
 module("semantic-ddd", "ddd/core")
 module("semantic-ddd-spring-data", "ddd/spring-data")
 module("semantic-ddd-spring-data-jpa", "ddd/spring-data-jpa")
