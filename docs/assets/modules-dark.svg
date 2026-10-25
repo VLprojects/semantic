@@ -9,10 +9,14 @@
     <text x="104.0" y="81.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">semantic-</text>
     <text x="104.0" y="97.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">vo</text>
     <text x="104.0" y="120.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">value objects, the vo family</text>
-    <rect x="296.0" y="60.0" width="188.0" height="72.0" rx="6" fill="#6E9BFF"/>
-    <text x="308.0" y="81.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#1B3A80" text-anchor="start">semantic-</text>
-    <text x="308.0" y="97.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#06173D" text-anchor="start">ddd</text>
-    <text x="308.0" y="120.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1B3A80" text-anchor="start">building blocks</text>
+    <rect x="296.0" y="60.0" width="188.0" height="72.0" rx="6" fill="#29313C"/>
+    <text x="308.0" y="81.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">semantic-</text>
+    <text x="308.0" y="97.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">helper</text>
+    <text x="308.0" y="120.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">extensions, the helper family</text>
+    <rect x="500.0" y="60.0" width="188.0" height="72.0" rx="6" fill="#6E9BFF"/>
+    <text x="512.0" y="81.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#1B3A80" text-anchor="start">semantic-</text>
+    <text x="512.0" y="97.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#06173D" text-anchor="start">ddd</text>
+    <text x="512.0" y="120.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1B3A80" text-anchor="start">building blocks</text>
     <text x="32.0" y="185.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">Spring</text>
     <rect x="92.0" y="148.0" width="188.0" height="72.0" rx="6" fill="#5BF08A"/>
     <text x="104.0" y="169.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">semantic-ddd-</text>

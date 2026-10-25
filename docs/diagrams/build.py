@@ -30,6 +30,7 @@ one family:
 """
 
 import pathlib
+import unicodedata
 
 OUT = pathlib.Path(__file__).resolve().parent.parent / "assets"
 
@@ -204,7 +205,10 @@ DDD_SPRING = [
 def families(pal):
 	# the whole library on one page, a family per plate, the ones in development on top
 	a = Art(720, 0, pal)
-	y = family(a, 16, "ddd", "in development, v1", [
+	y = family(a, 16, "helper", "in development, v1", [
+		("JVM", [("blue", "semantic-", "helper", "extensions of the standard types")], 3),
+	])
+	y = family(a, y, "ddd", "in development, v1", [
 		("JVM", [("blue", "semantic-", "ddd", "building blocks, no framework")], 3),
 		*DDD_SPRING,
 	])
@@ -222,19 +226,164 @@ def families(pal):
 
 
 def modules(pal):
-	# the ddd family alone, with the vo module it builds on: read left to right, top to bottom, each
+	# the ddd family alone, with the vo and helper modules it builds on: read left to right, top to bottom, each
 	# module builds on the one before it
 	a = Art(720, 0, pal)
 	y = family(a, 16, "ddd", "in development, v1", [
 		("JVM", [(None, "semantic-", "vo", "value objects, the vo family"),
-			("blue", "semantic-", "ddd", "building blocks")], 3),
+			(None, "semantic-", "helper", "extensions, the helper family"),
+			("blue", "semantic-", "ddd", "building blocks")]),
 		*DDD_SPRING,
 	])
 	a.h = y - 24 + 16
 	return a
 
 
-DIAGRAMS = {"families": families, "modules": modules}
+# ---------------------------------------------------------------------- helper examples
+# What a helper does, shown on a value: what goes in on the left, what comes out on the right. A grey
+# chip is the value as written, a blue one a word on the way, a green one the result
+CHIP, CELL, CELL_NOTE = 28, 7.8, 7.2  # chip height, width of a mono char at 13 and at 12
+
+
+def cells(s):
+	"""Width of s in mono chars: a mark adds nothing, a flag or an emoji takes two."""
+	n = 0
+	for c in s:
+		o = ord(c)
+		if unicodedata.combining(c) or o in (0x200D, 0xFE0F) or 0x1F3FB <= o <= 0x1F3FF:
+			continue
+		n += 1 if 0x1F1E6 <= o <= 0x1F1FF else 2 if o >= 0x1F000 else 1
+	return n
+
+
+def chip(a, x, y, s, hue=None):
+	"""A value in a chip; returns its width."""
+	w = cells(s) * CELL + 24
+	a.rect(x, y, w, CHIP, (hue + "-plate") if hue else "card", r=6)
+	a.t(x + 12, y + 18.5, s, size=CODE, color=ink(hue) if hue else "ink", weight="600", mono=True)
+	return w
+
+
+def chips(a, x, y, words, hue="blue"):
+	"""Words side by side, 8 apart; returns where they end."""
+	for word in words:
+		x += chip(a, x, y, word, hue) + 8
+	return x - 8
+
+
+def head(a, x, y, color="line"):
+	a.add(f'<path d="M{x - 7},{y - 4} L{x},{y} L{x - 7},{y + 4} Z" fill="{a.p[color]}"/>')
+
+
+def cases(pal):
+	# one name split into words and joined back in each case, the call under what it gives
+	a = Art(0, 0, pal)
+	h, gap = 52, 8
+	top = [16 + i * (h + gap) for i in range(3)]
+	cy = 16 + (3 * h + 2 * gap) / 2
+	name = "ShoppingCartItem"
+	iw = cells(name) * CELL + 24
+	a.rect(16, cy - h / 2, iw, h, "card", r=6)
+	a.name(16 + 12, cy - h / 2 + 22, name, mono=True)
+	a.t(16 + 12, cy - h / 2 + 40, "as written")
+	x = 16 + iw + 8
+	a.arrow(x, cy, x + 32)
+	x += 40
+	end = chips(a, x, cy - CHIP / 2, ["Shopping", "Cart", "Item"])
+	a.t(x, cy + CHIP / 2 + 18, "toWordSequence()", mono=True)
+	x1, xm = end + 8, end + 24
+	ox = xm + 24
+	results = [("shopping-cart-item", "toKebabCase()"), ("shopping_cart_item", "toSnakeCase()"),
+		("shoppingCartItem", "toCamelCase()")]
+	ow = max(cells(v) for v, _ in results) * CELL + 24
+	for y, (value, call) in zip(top, results):
+		yc = y + h / 2
+		a.path(f"M{x1},{cy} H{xm} V{yc} H{ox - 8 - 6}")
+		head(a, ox - 8, yc)
+		a.rect(ox, y, ow, h, "green-plate", r=6)
+		a.name(ox + 12, y + 22, value, mono=True, color=ink("green"))
+		a.t(ox + 12, y + 40, call, color="green-soft", mono=True)
+	a.w, a.h = ox + ow + 16, top[-1] + h + 16
+	return a
+
+
+def words(pal):
+	# where a name breaks into words, one rule a row, told on the right
+	a = Art(600, 0, pal)
+	rows = [
+		("HTTPRequest", ["HTTP", "Request"], "an acronym stays one word"),
+		("order_line.id", ["order", "line", "id"], "any separator splits"),
+		("ЗаказТовара", ["Заказ", "Товара"], "any alphabet"),
+		("Cart🛒Item", ["Cart", "Item"], "an emoji splits too"),
+	]
+	x0 = 16 + max(cells(name) for name, _, _ in rows) * CELL + 24 + 8
+	for i, (name, parts, note) in enumerate(rows):
+		y = 16 + i * (CHIP + 12)
+		chip(a, 16, y, name)
+		a.arrow(x0, y + CHIP / 2, x0 + 32)
+		chips(a, x0 + 40, y, parts)
+		a.t(a.w - 16, y + 18.5, note, anchor="end")
+	a.h = 16 + len(rows) * (CHIP + 12) - 12 + 16
+	return a
+
+
+ID = "0190a3f2-7b1e-7c3a-9f4e-5d2b8a6ec41d"
+
+
+def abbreviated(pal):
+	# one identifier cut by each mode: what stays in bold, what the ellipsis hides in grey
+	a = Art(0, 0, pal)
+	rows = [("HideMiddle", 3, 2, "019…1d"), ("HideBeginning", 0, 5, "…ec41d"), ("HideEnding", 5, 0, "0190a…")]
+	gx = 16 + max(len(mode) for mode, *_ in rows) * CELL_NOTE + 16
+	vw = len(ID) * CELL + 24
+	for i, (mode, start, end, result) in enumerate(rows):
+		y = 16 + i * (CHIP + 12)
+		a.t(16, y + 18.5, mode, mono=True)
+		a.rect(gx, y, vw, CHIP, "card", r=6)
+		for c, char in enumerate(ID):
+			kept = c < start or c >= len(ID) - end
+			a.t(gx + 12 + c * CELL, y + 18.5, char, size=CODE, color="ink" if kept else "mute",
+				weight="600" if kept else "400", mono=True)
+		x = gx + vw + 8
+		a.arrow(x, y + CHIP / 2, x + 32)
+		w = chip(a, x + 40, y, result, "green")
+		a.w = max(a.w, x + 40 + w + 16)
+	a.h = 16 + len(rows) * (CHIP + 12) - 12 + 16
+	return a
+
+
+def symbols(pal):
+	# what one reads as a symbol over the chars that store it, and a cut that keeps every symbol whole
+	a = Art(0, 0, pal)
+	parts = [("C", 1), ("a", 1), ("f", 1), ("é", 2), ("🇷🇺", 4), ("👍🏽", 4)]
+	gx = 16 + len("takeSymbols(5)") * CELL_NOTE + 16
+	box, step = 36, 44
+	y2 = 16 + box + 8
+	a.t(16, 16 + box / 2 + 4.5, "symbols")
+	a.t(16, y2 + 7.5, "chars")
+	for i, (glyph, units) in enumerate(parts):
+		bx = gx + i * step
+		a.rect(bx, 16, box, box, "card", r=6)
+		a.t(bx + box / 2, 16 + box / 2 + 6, glyph, size=18, color="ink", anchor="middle")
+		sx = bx + (box - (units * PITCH - (PITCH - REC))) / 2
+		for u in range(units):
+			a.record(sx + u * PITCH, y2)
+	rx = gx + len(parts) * step - 8 + 32
+	for y, call, value in [(16 + box / 2 + 4.5, "symbolCount", "6"), (y2 + 7.5, "length", "13")]:
+		a.t(rx, y, call, mono=True)
+		a.name(rx + 112, y, value, anchor="end", mono=True)
+	y3 = y2 + REC + 24
+	a.t(16, y3 + 18.5, "takeSymbols(5)", mono=True)
+	chip(a, gx, y3, "Café🇷🇺", "green")
+	a.t(rx + 112, y3 + 18.5, "never half a symbol", anchor="end")
+	a.w, a.h = rx + 112 + 16, y3 + CHIP + 16
+	return a
+
+
+DIAGRAMS = {
+	"families": families, "modules": modules,
+	"helper-cases": cases, "helper-words": words, "helper-abbreviated": abbreviated, "helper-symbols": symbols,
+}
 
 if __name__ == "__main__":
 	OUT.mkdir(parents=True, exist_ok=True)

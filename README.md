@@ -12,11 +12,12 @@ Each family has a core with no dependencies and adapters for the frameworks you
 use. Take only what you need: a service that wants an `Email` does not get
 aggregates with it.
 
-<img src="docs/assets/families-light.svg#gh-light-mode-only" width="100%" alt="Families and their modules: ddd and cqrs in development, vo planned">
-<img src="docs/assets/families-dark.svg#gh-dark-mode-only" width="100%" alt="Families and their modules: ddd and cqrs in development, vo planned">
+<img src="docs/assets/families-light.svg#gh-light-mode-only" width="100%" alt="Families and their modules: helper, ddd and cqrs in development, vo planned">
+<img src="docs/assets/families-dark.svg#gh-dark-mode-only" width="100%" alt="Families and their modules: helper, ddd and cqrs in development, vo planned">
 
 | Family | What it is | Status |
 | --- | --- | --- |
+| [`helper`](helper/README.md) | extensions of the standard types, in groups: `text` and `format` so far | in development, v1 |
 | [`types`](types/README.md) | rich value objects, one module for each kind: `semantic-types-version` first, then `net`, `range`, `time` and more | design, v1 |
 | [`ddd`](ddd/README.md) | identifiers, entities, aggregate roots with events and invariants, business rules, domain errors; Spring Data adapters for JPA and MongoDB, Spring Boot | design, v1 |
 | [`cqrs`](cqrs/README.md) | commands, queries, their handlers and buses; no dependency on `ddd` | design |
