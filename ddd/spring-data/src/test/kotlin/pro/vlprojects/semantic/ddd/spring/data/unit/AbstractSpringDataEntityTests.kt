@@ -41,8 +41,8 @@ class AbstractSpringDataEntityTests {
 
     @Test
     fun `an entity equals its proxy`() {
-        assertEquals(Item(ItemId(1)), ItemProxy(ItemId(1)))
-        assertEquals(ItemProxy(ItemId(1)), Item(ItemId(1)))
+        assertEquals(Item(ItemId(1)), `Item$$Proxy`(ItemId(1)))
+        assertEquals(`Item$$Proxy`(ItemId(1)), Item(ItemId(1)))
     }
 
     @Test
