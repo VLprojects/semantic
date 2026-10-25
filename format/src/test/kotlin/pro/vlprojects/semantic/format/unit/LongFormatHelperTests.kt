@@ -3,6 +3,7 @@ package pro.vlprojects.semantic.format.unit
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import pro.vlprojects.semantic.format.pluralize
+import pro.vlprojects.semantic.format.pluralizeWithCount
 
 class LongFormatHelperTests {
 
@@ -39,5 +40,11 @@ class LongFormatHelperTests {
         assertEquals("товар", (-1L).pluralize("товар", "товара", "товаров"))
         assertEquals("товара", (-22L).pluralize("товар", "товара", "товаров"))
         assertEquals("товаров", Long.MIN_VALUE.pluralize("товар", "товара", "товаров"))
+    }
+
+    @Test
+    fun `a count is written before its form`() {
+        assertEquals("21 день", 21L.pluralizeWithCount("день", "дня", "дней"))
+        assertEquals("-3 дня", (-3L).pluralizeWithCount("день", "дня", "дней"))
     }
 }

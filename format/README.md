@@ -56,8 +56,9 @@ A value shorter than `minLength`, 10 by default, stays whole.
 ## Plurals
 
 `pluralize` picks the form of a word for a count by the rules of Russian: one,
-few or many.
+few or many; `pluralizeWithCount` writes the count before it.
 
 ```kotlin
-"$count ${count.pluralize("товар", "товара", "товаров")}" // 1 товар, 3 товара, 11 товаров
+21.pluralize("день", "дня", "дней")          // день
+21.pluralizeWithCount("день", "дня", "дней") // 21 день
 ```
