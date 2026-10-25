@@ -2,6 +2,7 @@ package pro.vlprojects.semantic.helper.text.sanitizing
 
 import pro.vlprojects.semantic.helper.text.predicate.isApostrophe
 import pro.vlprojects.semantic.helper.text.predicate.isAscii
+import pro.vlprojects.semantic.helper.text.predicate.isDiacritic
 import pro.vlprojects.semantic.helper.text.predicate.isDot
 import pro.vlprojects.semantic.helper.text.predicate.isHyphen
 import java.text.Normalizer
@@ -47,5 +48,3 @@ private fun String.hasCollapsibleBefore(index: Int, isCollapsible: (Char) -> Boo
 }
 
 private fun String.normalizeWith(form: Normalizer.Form) = Normalizer.normalize(this, form)
-
-private fun Char.isDiacritic() = this.category == CharCategory.NON_SPACING_MARK

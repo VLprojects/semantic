@@ -8,6 +8,8 @@ public fun Char.isSpace(): Boolean = this == ' '
 
 public fun Char.isSpaceSeparator(): Boolean = this.category == CharCategory.SPACE_SEPARATOR
 
+public fun Char.isDiacritic(): Boolean = this.category == CharCategory.NON_SPACING_MARK
+
 public fun Char.isHorizontalTab(): Boolean = this == '\t'
 
 public fun Char.isNewline(): Boolean = this == '\n'

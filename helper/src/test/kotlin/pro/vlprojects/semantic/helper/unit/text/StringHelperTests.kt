@@ -1,8 +1,8 @@
-package pro.vlprojects.semantic.helper.unit.text.parsing
+package pro.vlprojects.semantic.helper.unit.text
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import pro.vlprojects.semantic.helper.text.parsing.symbolCount
+import pro.vlprojects.semantic.helper.text.symbolCount
 
 class StringHelperTests {
 

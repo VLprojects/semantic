@@ -11,6 +11,7 @@ import pro.vlprojects.semantic.helper.text.predicate.isCarriageReturn
 import pro.vlprojects.semantic.helper.text.predicate.isClosingBracket
 import pro.vlprojects.semantic.helper.text.predicate.isClosingParenthesis
 import pro.vlprojects.semantic.helper.text.predicate.isComma
+import pro.vlprojects.semantic.helper.text.predicate.isDiacritic
 import pro.vlprojects.semantic.helper.text.predicate.isDot
 import pro.vlprojects.semantic.helper.text.predicate.isEquals
 import pro.vlprojects.semantic.helper.text.predicate.isHorizontalTab
@@ -72,6 +73,16 @@ class CharHelperTests {
     @Test
     fun `a tab and a line break are not space separators`() {
         assertFalse("\t\n\r".any(Char::isSpaceSeparator))
+    }
+
+    @Test
+    fun `a combining mark is a diacritic`() {
+        assertTrue("\u0301\u0306\u0308".all(Char::isDiacritic))
+    }
+
+    @Test
+    fun `a letter with its accent built in is not a diacritic`() {
+        assertFalse("éйa".any(Char::isDiacritic))
     }
 
     @Test

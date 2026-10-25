@@ -54,6 +54,10 @@ public final class pro/vlprojects/semantic/helper/text/CharSequenceHelperKt {
 	public static final fun toWordSequence (Ljava/lang/CharSequence;)Lpro/vlprojects/semantic/helper/text/WordSequence;
 }
 
+public final class pro/vlprojects/semantic/helper/text/StringHelperKt {
+	public static final fun getSymbolCount (Ljava/lang/String;)I
+}
+
 public final class pro/vlprojects/semantic/helper/text/SymbolSequence {
 	public fun <init> (Ljava/lang/CharSequence;)V
 	public final fun extract (Lkotlin/ranges/IntRange;)Ljava/lang/String;
@@ -98,10 +102,6 @@ public final class pro/vlprojects/semantic/helper/text/WordSequenceHelperKt {
 	public static final fun toWordSequence (Ljava/util/Collection;)Lpro/vlprojects/semantic/helper/text/WordSequence;
 }
 
-public final class pro/vlprojects/semantic/helper/text/parsing/StringHelperKt {
-	public static final fun getSymbolCount (Ljava/lang/String;)I
-}
-
 public final class pro/vlprojects/semantic/helper/text/predicate/CharHelperKt {
 	public static final fun isApostrophe (C)Z
 	public static final fun isAscii (C)Z
@@ -110,6 +110,7 @@ public final class pro/vlprojects/semantic/helper/text/predicate/CharHelperKt {
 	public static final fun isClosingBracket (C)Z
 	public static final fun isClosingParenthesis (C)Z
 	public static final fun isComma (C)Z
+	public static final fun isDiacritic (C)Z
 	public static final fun isDot (C)Z
 	public static final fun isEquals (C)Z
 	public static final fun isHorizontalTab (C)Z
