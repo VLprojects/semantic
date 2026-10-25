@@ -8,6 +8,7 @@ import pro.vlprojects.semantic.ddd.tactical.Identifier
 import pro.vlprojects.semantic.ddd.tactical.Revision
 import pro.vlprojects.semantic.ddd.tactical.base.BaseRevision
 import pro.vlprojects.semantic.format.abbreviation.abbreviated
+import org.springframework.data.annotation.Transient as StoreTransient
 
 public abstract class AbstractSpringDataAggregateRoot<A : AggregateRoot<A, I>, I : Identifier> :
     AbstractSpringDataEntity<A, I>(),
@@ -19,12 +20,11 @@ public abstract class AbstractSpringDataAggregateRoot<A : AggregateRoot<A, I>, I
     final override val revision: Revision<I>
         get() = BaseRevision.of(this)
 
+    @Transient
+    @field:StoreTransient
+    @get:DomainEvents
     protected val events: List<Event<A, I>>
         field = mutableListOf()
-
-    @get:DomainEvents
-    protected val domainEvents: Collection<Event<A, I>>
-        get() = events.toList()
 
     protected fun A.register(event: Event<A, I>): A = apply { events.add(event) }
 

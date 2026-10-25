@@ -1,14 +1,18 @@
 package pro.vlprojects.semantic.ddd.spring.data.unit
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import org.springframework.data.annotation.Transient
 import org.springframework.data.domain.AfterDomainEventPublication
 import org.springframework.data.domain.DomainEvents
 import org.springframework.data.util.AnnotationDetectionMethodCallback
 import org.springframework.util.ReflectionUtils
 import pro.vlprojects.semantic.ddd.architecture.error.BusinessRuleException
+import pro.vlprojects.semantic.ddd.spring.data.AbstractSpringDataAggregateRoot
 import pro.vlprojects.semantic.ddd.tactical.base.BaseRevision
+import java.lang.reflect.Modifier
 
 class AbstractSpringDataAggregateRootTests {
 
@@ -22,16 +26,6 @@ class AbstractSpringDataAggregateRootTests {
         val cart = Cart(CartId(1)).add("apple").add("pear")
 
         assertEquals(listOf("apple", "pear"), cart.call<DomainEvents>().map { (it as ItemAdded).sku })
-    }
-
-    @Test
-    fun `the events handed out do not follow later changes`() {
-        val cart = Cart(CartId(1)).add("apple")
-        val events = cart.call<DomainEvents>()
-
-        cart.add("pear")
-
-        assertEquals(1, events.size)
     }
 
     @Test
@@ -53,6 +47,14 @@ class AbstractSpringDataAggregateRootTests {
     @Test
     fun `an aggregate root shows its class, kind and identifier`() {
         assertEquals("Cart [aggregate-root][id: 1]", Cart(CartId(1)).toString())
+    }
+
+    @Test
+    fun `no store keeps the events`() {
+        val events = AbstractSpringDataAggregateRoot::class.java.getDeclaredField("events")
+
+        assertTrue(events.modifiers.let(Modifier::isTransient))
+        assertTrue(events.isAnnotationPresent(Transient::class.java))
     }
 
     @Test

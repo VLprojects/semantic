@@ -1,7 +1,6 @@
 public abstract class pro/vlprojects/semantic/ddd/spring/data/AbstractSpringDataAggregateRoot : pro/vlprojects/semantic/ddd/spring/data/AbstractSpringDataEntity, pro/vlprojects/semantic/ddd/tactical/AggregateRoot {
 	public fun <init> ()V
 	protected final fun clearEvents ()V
-	protected final fun getDomainEvents ()Ljava/util/Collection;
 	protected final fun getEvents ()Ljava/util/List;
 	public final fun getRevision ()Lpro/vlprojects/semantic/ddd/tactical/Revision;
 	public final fun getVersion ()J
