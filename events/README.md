@@ -1,14 +1,19 @@
 # semantic-events
 
-Publishing of events and a transactional outbox for Kotlin and Java. An event
-is written in the same transaction as the change that caused it and delivered
-to each of its consumers after the commit, again and again until it is handled
-or given up. The family does not depend on `ddd` or Spring: the code of a
-service sees a port, and a Spring module will plug the outbox into
-`@TransactionalEventListener`.
+A transactional outbox for Kotlin and Java: an event is written in the same
+transaction as the change that caused it and sent to a broker, Kafka or
+RabbitMQ, after the commit. The family does not depend on `ddd` or Spring: the
+code of a service sees a port, and a Spring module will take the events of
+`publishEvent()` into the outbox.
 
-The core holds the port and the model of a delivery so far. The store, the
-dispatcher and the Spring modules come next.
+The outbox takes an event as far as the broker and no further. An event is
+published once the broker has acknowledged it; the broker then delivers it to
+the consumers. The guarantee is at least once: if the broker took an event but
+marking it published failed, the event is sent again. Each message carries the
+id of its event, so a consumer can drop a duplicate.
+
+The core holds the port and the model of the outbox so far. The store, the
+relay, Jackson and the senders to Kafka and RabbitMQ come next.
 
 ## The core
 
@@ -17,16 +22,15 @@ Package `pro.vlprojects.semantic.events` of `semantic-events`:
 | Type | What it is |
 | --- | --- |
 | `EventPublisher<E>` | the port: takes an event, or several in their order, within a transaction |
-| `ConsumerId` | the id of a consumer, given explicitly and kept when its method is renamed |
-| `DeliveryStatus` | `PENDING`, `COMPLETED`, `FAILED` for an event nobody knows, `ABANDONED` once the attempts run out |
-| `RetryPolicy` | how long to wait after a failed attempt, or `null` to give up |
-| `FixedRetryPolicy` | the same delay after each attempt |
-| `ExponentialRetryPolicy` | a delay growing by a multiplier up to a max one, shortened by a random jitter |
+| `OutboxStatus` | `PENDING` until the broker has the event, then `PUBLISHED`; `ABANDONED` if the broker will never take it |
+| `Backoff` | how long to wait after a failed attempt to send |
+| `FixedBackoff` | the same delay after each attempt |
+| `ExponentialBackoff` | a delay growing by a multiplier up to a max one, shortened by a random jitter |
 
-An event is stored once and delivered to each consumer on its own: a consumer
-that failed is retried without the others getting the event again. A consumer
-is found by its id, not by the signature of its method, so renaming a method
-loses nothing.
+A broker that is down is waited for as long as it takes: a backoff spaces the
+attempts out and never gives up. An event that no broker will take, one that
+cannot be written or is too large, is abandoned at once, so that it does not
+hold back the events behind it.
 
 ```kotlin
 class PlaceOrderService(private val events: EventPublisher<OrderPlaced>) {
@@ -37,12 +41,7 @@ class PlaceOrderService(private val events: EventPublisher<OrderPlaced>) {
     }
 }
 
-val retries = ExponentialRetryPolicy(
-    initialDelay = 1.seconds,
-    maxDelay = 5.minutes,
-    maxAttempts = 10,
-    jitter = 0.2,
-)
+val backoff = ExponentialBackoff(initialDelay = 1.seconds, maxDelay = 5.minutes, jitter = 0.2)
 ```
 
 ## Modules
@@ -51,7 +50,7 @@ One artifact so far, group `pro.vlprojects.semantic`:
 
 | Artifact | For | Depends on |
 | --- | --- | --- |
-| `semantic-events` | any JVM code: the port, deliveries and retries | nothing |
+| `semantic-events` | any JVM code: the port and the model of the outbox | nothing |
 
 ```
 events/

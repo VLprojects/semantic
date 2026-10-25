@@ -1,8 +1,7 @@
 package pro.vlprojects.semantic.events
 
-public enum class DeliveryStatus {
+public enum class OutboxStatus {
     PENDING,
-    COMPLETED,
-    FAILED,
+    PUBLISHED,
     ABANDONED,
 }

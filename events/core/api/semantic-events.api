@@ -1,19 +1,5 @@
-public final class pro/vlprojects/semantic/events/ConsumerId {
-	public fun <init> (Ljava/lang/String;)V
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getValue ()Ljava/lang/String;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class pro/vlprojects/semantic/events/DeliveryStatus : java/lang/Enum {
-	public static final field ABANDONED Lpro/vlprojects/semantic/events/DeliveryStatus;
-	public static final field COMPLETED Lpro/vlprojects/semantic/events/DeliveryStatus;
-	public static final field FAILED Lpro/vlprojects/semantic/events/DeliveryStatus;
-	public static final field PENDING Lpro/vlprojects/semantic/events/DeliveryStatus;
-	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lpro/vlprojects/semantic/events/DeliveryStatus;
-	public static fun values ()[Lpro/vlprojects/semantic/events/DeliveryStatus;
+public abstract interface class pro/vlprojects/semantic/events/Backoff {
+	public abstract fun delayAfter-5sfh64U (I)J
 }
 
 public abstract interface class pro/vlprojects/semantic/events/EventPublisher {
@@ -21,18 +7,23 @@ public abstract interface class pro/vlprojects/semantic/events/EventPublisher {
 	public abstract fun publish (Ljava/lang/Object;)V
 }
 
-public final class pro/vlprojects/semantic/events/ExponentialRetryPolicy : pro/vlprojects/semantic/events/RetryPolicy {
-	public synthetic fun <init> (JJIDDLkotlin/random/Random;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (JJIDDLkotlin/random/Random;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun delayAfter-LV8wdWc (I)Lkotlin/time/Duration;
+public final class pro/vlprojects/semantic/events/ExponentialBackoff : pro/vlprojects/semantic/events/Backoff {
+	public synthetic fun <init> (JJDDLkotlin/random/Random;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JJDDLkotlin/random/Random;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun delayAfter-5sfh64U (I)J
 }
 
-public final class pro/vlprojects/semantic/events/FixedRetryPolicy : pro/vlprojects/semantic/events/RetryPolicy {
-	public synthetic fun <init> (JILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun delayAfter-LV8wdWc (I)Lkotlin/time/Duration;
+public final class pro/vlprojects/semantic/events/FixedBackoff : pro/vlprojects/semantic/events/Backoff {
+	public synthetic fun <init> (JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun delayAfter-5sfh64U (I)J
 }
 
-public abstract interface class pro/vlprojects/semantic/events/RetryPolicy {
-	public abstract fun delayAfter-LV8wdWc (I)Lkotlin/time/Duration;
+public final class pro/vlprojects/semantic/events/OutboxStatus : java/lang/Enum {
+	public static final field ABANDONED Lpro/vlprojects/semantic/events/OutboxStatus;
+	public static final field PENDING Lpro/vlprojects/semantic/events/OutboxStatus;
+	public static final field PUBLISHED Lpro/vlprojects/semantic/events/OutboxStatus;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lpro/vlprojects/semantic/events/OutboxStatus;
+	public static fun values ()[Lpro/vlprojects/semantic/events/OutboxStatus;
 }
 
