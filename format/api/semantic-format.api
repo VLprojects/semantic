@@ -1,31 +1,3 @@
-public abstract interface class pro/vlprojects/semantic/format/EllipsisMode {
-	public abstract fun abbreviate (Ljava/lang/String;I)Ljava/lang/String;
-}
-
-public final class pro/vlprojects/semantic/format/EllipsisMode$HideBeginning : pro/vlprojects/semantic/format/EllipsisMode {
-	public static final field INSTANCE Lpro/vlprojects/semantic/format/EllipsisMode$HideBeginning;
-	public fun abbreviate (Ljava/lang/String;I)Ljava/lang/String;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class pro/vlprojects/semantic/format/EllipsisMode$HideEnding : pro/vlprojects/semantic/format/EllipsisMode {
-	public static final field INSTANCE Lpro/vlprojects/semantic/format/EllipsisMode$HideEnding;
-	public fun abbreviate (Ljava/lang/String;I)Ljava/lang/String;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class pro/vlprojects/semantic/format/EllipsisMode$HideMiddle : pro/vlprojects/semantic/format/EllipsisMode {
-	public static final field INSTANCE Lpro/vlprojects/semantic/format/EllipsisMode$HideMiddle;
-	public fun abbreviate (Ljava/lang/String;I)Ljava/lang/String;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
 public final class pro/vlprojects/semantic/format/IntFormatHelperKt {
 	public static final fun pluralize (ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
 	public static final fun pluralizeWithCount (ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
@@ -37,8 +9,6 @@ public final class pro/vlprojects/semantic/format/LongFormatHelperKt {
 }
 
 public final class pro/vlprojects/semantic/format/StringFormatHelperKt {
-	public static final fun abbreviated (Ljava/lang/String;IILpro/vlprojects/semantic/format/EllipsisMode;)Ljava/lang/String;
-	public static synthetic fun abbreviated$default (Ljava/lang/String;IILpro/vlprojects/semantic/format/EllipsisMode;ILjava/lang/Object;)Ljava/lang/String;
 	public static final fun capitalizeEachPart (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
 	public static final fun capitalizeFirstLetter (Ljava/lang/String;)Ljava/lang/String;
 	public static final fun toCamelCase (Ljava/lang/String;)Ljava/lang/String;
@@ -58,6 +28,39 @@ public final class pro/vlprojects/semantic/format/WordSequenceFormatHelperKt {
 	public static final fun toSentenceCase (Lpro/vlprojects/semantic/helper/text/WordSequence;)Ljava/lang/String;
 	public static final fun toSnakeCase (Lpro/vlprojects/semantic/helper/text/WordSequence;)Ljava/lang/String;
 	public static final fun toTrainCase (Lpro/vlprojects/semantic/helper/text/WordSequence;)Ljava/lang/String;
+}
+
+public abstract interface class pro/vlprojects/semantic/format/abbreviation/Abbreviation {
+	public abstract fun shorten (Ljava/lang/String;I)Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/format/abbreviation/InfixAbbreviation : pro/vlprojects/semantic/format/abbreviation/Abbreviation {
+	public static final field INSTANCE Lpro/vlprojects/semantic/format/abbreviation/InfixAbbreviation;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun shorten (Ljava/lang/String;I)Ljava/lang/String;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/format/abbreviation/PrefixAbbreviation : pro/vlprojects/semantic/format/abbreviation/Abbreviation {
+	public static final field INSTANCE Lpro/vlprojects/semantic/format/abbreviation/PrefixAbbreviation;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun shorten (Ljava/lang/String;I)Ljava/lang/String;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/format/abbreviation/StringAbbreviationHelperKt {
+	public static final fun abbreviated (Ljava/lang/String;IILpro/vlprojects/semantic/format/abbreviation/Abbreviation;)Ljava/lang/String;
+	public static synthetic fun abbreviated$default (Ljava/lang/String;IILpro/vlprojects/semantic/format/abbreviation/Abbreviation;ILjava/lang/Object;)Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/format/abbreviation/SuffixAbbreviation : pro/vlprojects/semantic/format/abbreviation/Abbreviation {
+	public static final field INSTANCE Lpro/vlprojects/semantic/format/abbreviation/SuffixAbbreviation;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun shorten (Ljava/lang/String;I)Ljava/lang/String;
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class pro/vlprojects/semantic/format/mask/InfixMasking : pro/vlprojects/semantic/format/mask/Masking {
