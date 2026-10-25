@@ -56,10 +56,18 @@ class SpecificationsTests {
     }
 
     @Test
-    fun `optional filters drop out`() {
-        val minimum: Int? = null
-        val filters = listOfNotNull(Positive, minimum?.let { Small })
+    fun `a filter that is not set drops out`() {
+        val limit: Int? = null
 
-        assertEquals(Positive, filters.allOf())
+        assertEquals(Positive, allOf(Positive, limit?.let { Small }))
+        assertEquals(Positive, anyOf(Positive, limit?.let { Small }))
+    }
+
+    @Test
+    fun `no filter set gives the neutral element`() {
+        val limit: Int? = null
+
+        assertEquals(Always, allOf(limit?.let { Small }))
+        assertEquals(Never, anyOf(limit?.let { Small }))
     }
 }

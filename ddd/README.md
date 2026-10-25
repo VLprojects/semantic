@@ -73,8 +73,11 @@ is `a`. Like any infix call in Kotlin, `and` and `or` bind equally, left to
 right: `a or b and c` is `(a or b) and c`, so a mix of them needs parentheses.
 
 `allOf(a, b, c)` and `anyOf(a, b, c)`, or the same on a list, combine any
-number of them. A rule built of optional filters takes the ones that are set:
-`allOf()` with nothing to combine is `Always`, `anyOf()` is `Never`.
+number of them. They skip a null, so a rule built of optional filters takes
+the ones that are set, `allOf(IsOpen, sku?.let(::ContainsSku))`. With nothing
+to combine `allOf` is `Always` and `anyOf` is `Never`. A null that should not
+be there weakens the rule silently: a filter that must hold is passed as it is,
+never through `?.let`.
 
 ## Spring Data
 
