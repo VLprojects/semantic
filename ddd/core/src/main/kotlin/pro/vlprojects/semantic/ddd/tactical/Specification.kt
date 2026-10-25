@@ -1,7 +1,7 @@
 package pro.vlprojects.semantic.ddd.tactical
 
-import pro.vlprojects.semantic.ddd.dsl.allOf
-import pro.vlprojects.semantic.ddd.dsl.anyOf
+import pro.vlprojects.semantic.ddd.tactical.specification.composite.allOf
+import pro.vlprojects.semantic.ddd.tactical.specification.composite.anyOf
 import pro.vlprojects.semantic.ddd.tactical.specification.composite.negate
 
 public interface Specification<in T> :

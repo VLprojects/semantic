@@ -20,13 +20,6 @@ public final class pro/vlprojects/semantic/ddd/dsl/BusinessRulesKt {
 	public static final fun rule (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lpro/vlprojects/semantic/ddd/tactical/BusinessRule;
 }
 
-public final class pro/vlprojects/semantic/ddd/dsl/SpecificationsKt {
-	public static final fun allOf (Ljava/lang/Iterable;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
-	public static final fun allOf ([Lpro/vlprojects/semantic/ddd/tactical/Specification;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
-	public static final fun anyOf (Ljava/lang/Iterable;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
-	public static final fun anyOf ([Lpro/vlprojects/semantic/ddd/tactical/Specification;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
-}
-
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/AggregateRoot : pro/vlprojects/semantic/ddd/tactical/Entity, pro/vlprojects/semantic/ddd/tactical/Versioned {
 	public abstract fun getRevision ()Lpro/vlprojects/semantic/ddd/tactical/Revision;
 }
@@ -178,6 +171,13 @@ public final class pro/vlprojects/semantic/ddd/tactical/specification/composite/
 	public fun hashCode ()I
 	public fun isSatisfiedBy (Ljava/lang/Object;)Z
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/specification/composite/CompositionKt {
+	public static final fun allOf (Ljava/lang/Iterable;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public static final fun allOf ([Lpro/vlprojects/semantic/ddd/tactical/Specification;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public static final fun anyOf (Ljava/lang/Iterable;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public static final fun anyOf ([Lpro/vlprojects/semantic/ddd/tactical/Specification;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
 }
 
 public final class pro/vlprojects/semantic/ddd/tactical/specification/composite/Never : pro/vlprojects/semantic/ddd/tactical/Specification {

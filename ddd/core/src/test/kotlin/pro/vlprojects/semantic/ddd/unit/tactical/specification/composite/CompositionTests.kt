@@ -1,14 +1,14 @@
-package pro.vlprojects.semantic.ddd.unit.dsl
+package pro.vlprojects.semantic.ddd.unit.tactical.specification.composite
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import pro.vlprojects.semantic.ddd.dsl.allOf
-import pro.vlprojects.semantic.ddd.dsl.anyOf
 import pro.vlprojects.semantic.ddd.tactical.Specification
 import pro.vlprojects.semantic.ddd.tactical.specification.composite.Always
 import pro.vlprojects.semantic.ddd.tactical.specification.composite.Never
+import pro.vlprojects.semantic.ddd.tactical.specification.composite.allOf
+import pro.vlprojects.semantic.ddd.tactical.specification.composite.anyOf
 
-class SpecificationsTests {
+class CompositionTests {
 
     private data object Positive : Specification<Int> {
 

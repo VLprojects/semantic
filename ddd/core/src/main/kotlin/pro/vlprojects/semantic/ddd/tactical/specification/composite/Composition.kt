@@ -2,7 +2,11 @@ package pro.vlprojects.semantic.ddd.tactical.specification.composite
 
 import pro.vlprojects.semantic.ddd.tactical.Specification
 
-internal fun <T> Iterable<Specification<T>?>.conjoin(): Specification<T> {
+public fun <T> allOf(vararg specifications: Specification<T>?): Specification<T> = specifications.asList().allOf()
+
+public fun <T> anyOf(vararg specifications: Specification<T>?): Specification<T> = specifications.asList().anyOf()
+
+public fun <T> Iterable<Specification<T>?>.allOf(): Specification<T> {
     val parts = mutableListOf<Specification<T>>()
     for (part in this) {
         when (part) {
@@ -19,7 +23,7 @@ internal fun <T> Iterable<Specification<T>?>.conjoin(): Specification<T> {
     }
 }
 
-internal fun <T> Iterable<Specification<T>?>.disjoin(): Specification<T> {
+public fun <T> Iterable<Specification<T>?>.anyOf(): Specification<T> {
     val parts = mutableListOf<Specification<T>>()
     for (part in this) {
         when (part) {
