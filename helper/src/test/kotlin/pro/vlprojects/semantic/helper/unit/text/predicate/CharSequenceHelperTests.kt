@@ -1,9 +1,9 @@
-package pro.vlprojects.semantic.helper.unit.text
+package pro.vlprojects.semantic.helper.unit.text.predicate
 
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import pro.vlprojects.semantic.helper.text.hasFewerSymbolsThan
+import pro.vlprojects.semantic.helper.text.predicate.hasFewerSymbolsThan
 
 class CharSequenceHelperTests {
 
