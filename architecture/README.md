@@ -42,28 +42,20 @@ Package `pro.vlprojects.semantic.architecture.contract` of `semantic-architectur
 | Type | What it is |
 | --- | --- |
 | `@Contracted` | a class other code depends on by its shape: an event, a DTO, a message of an API |
-| `ContractScope` | who depends on it: `INTERNAL` for the modules of the same application, `EXTERNAL` for other systems |
-| `ContractCompatibility` | which changes keep the `version`, `BACKWARD` by default |
+| `IntegrationScope` | who depends on it: `APPLICATION` for the modules of the same application, `SYSTEM` for the other services of the same system, `EXTERNAL` for other systems |
 
 The annotation holds what the class name cannot: a `namespace` and a `name`
-that stay when the class is renamed, the `scope` of the contract, a `version`
-that grows with each breaking change and the `compatibility` that tells a
-breaking change from a safe one.
-
-| Compatibility | Guarantees | Allows without a new version |
-| --- | --- | --- |
-| `BACKWARD` | a new consumer reads old data | removing fields, adding optional ones |
-| `FORWARD` | an old consumer reads new data | adding fields, removing optional ones |
-| `FULL` | both | adding and removing optional fields |
-| `BREAKING` | nothing: a draft contract that may break its consumers | any change |
+that stay when the class is renamed, the `scope` of the integration, a
+`version` that grows with each change of the contract and whether that change
+is `breaking` for the consumers of the previous version.
 
 ```kotlin
 @Contracted(
     namespace = "orders",
     name = "placed",
-    scope = ContractScope.EXTERNAL,
-    version = 2,
-    compatibility = ContractCompatibility.FORWARD,
+    scope = IntegrationScope.EXTERNAL,
+    version = 3,
+    breaking = true,
 )
 class OrderPlaced(...)
 ```

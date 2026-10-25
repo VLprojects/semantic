@@ -5,7 +5,7 @@ package pro.vlprojects.semantic.architecture.contract
 public annotation class Contracted(
     val namespace: String,
     val name: String,
-    val scope: ContractScope,
+    val scope: IntegrationScope,
     val version: Int = 1,
-    val compatibility: ContractCompatibility = ContractCompatibility.BACKWARD,
+    val breaking: Boolean = false,
 )
