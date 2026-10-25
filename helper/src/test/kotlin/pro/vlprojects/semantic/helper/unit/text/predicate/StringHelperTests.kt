@@ -7,6 +7,7 @@ import pro.vlprojects.semantic.helper.text.predicate.endsWithAny
 import pro.vlprojects.semantic.helper.text.predicate.isAscii
 import pro.vlprojects.semantic.helper.text.predicate.isLowercase
 import pro.vlprojects.semantic.helper.text.predicate.isNotAscii
+import pro.vlprojects.semantic.helper.text.predicate.isUppercase
 import pro.vlprojects.semantic.helper.text.predicate.notEndsWithAny
 import pro.vlprojects.semantic.helper.text.predicate.notStartsWithAny
 import pro.vlprojects.semantic.helper.text.predicate.startsWithAny
@@ -90,5 +91,26 @@ class StringHelperTests {
         assertFalse("orderId".isLowercase())
         assertFalse("Заказ".isLowercase())
         assertFalse("\u01C5".isLowercase())
+    }
+
+    @Test
+    fun `a value without lowercase letters is uppercase`() {
+        assertTrue("ORDER-ID 42".isUppercase())
+        assertTrue("ЗАКАЗ".isUppercase())
+        assertTrue("".isUppercase())
+    }
+
+    @Test
+    fun `a value with a lowercase letter is not uppercase`() {
+        assertFalse("ORDEr".isUppercase())
+        assertFalse("Заказ".isUppercase())
+    }
+
+    @Test
+    fun `a prefix or a suffix may match ignoring the case`() {
+        assertTrue("Order-42".startsWithAny("user-", "ORDER-", ignoreCase = true))
+        assertTrue("report.PDF".endsWithAny(listOf(".doc", ".pdf"), ignoreCase = true))
+        assertTrue("Order-42".notStartsWithAny("ORDER-"))
+        assertFalse("report.PDF".notEndsWithAny(".pdf", ignoreCase = true))
     }
 }

@@ -11,6 +11,10 @@ public fun String.filterAscii(): String = this.filter(Char::isAscii)
 
 public fun String.collapseSpaces(): String = this.collapse(' ', Char::isWhitespace)
 
+public fun String.normalizeSpaces(): String = this
+    .trim()
+    .collapseSpaces()
+
 public fun String.collapseHyphens(): String = this.collapse('-', Char::isHyphen)
 
 public fun String.collapseApostrophes(): String = this.collapse('\'', Char::isApostrophe)
