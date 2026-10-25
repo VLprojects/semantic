@@ -415,9 +415,107 @@ def symbols(pal):
 	return a
 
 
+# ---------------------------------------------------------------------- bounded context examples
+# A context shown as what it holds: the green plate is the context, a package under its object belongs to it
+# at any depth, a package beside it does not. A row with a type names it in bold, with a note below
+INDENT, TYPE_X = 20, 280  # indent of a package per level, where the types start
+
+
+def context_packages(pal):
+	a = Art(720, 0, pal)
+	rows = [
+		(0, "pro.acme", None, None, False),
+		(1, "billing", "object Billing : BoundedContext", "declares the billing context", True),
+		(2, "invoice", "Invoice", "in billing", True),
+		(2, "payment", None, None, True),
+		(3, "card", "CardPayment", "in billing too, at any depth", True),
+		(1, "billingreport", "BillingReport", "not in billing: the name only starts the same", False),
+		(1, "ordering", "object Ordering : BoundedContext", "a context of its own", False),
+	]
+	placed, y = [], 16
+	for row in rows:
+		h = 52 if row[2] else 32
+		placed.append((y, h, row))
+		y += h
+	held = [(top, h) for top, h, row in placed if row[4]]
+	a.rect(16, held[0][0], a.w - 32, held[-1][0] + held[-1][1] - held[0][0], "green-plate", r=6)
+	for top, h, (depth, package, kind, note, inside) in placed:
+		soft, strong = ("green-soft", ink("green")) if inside else ("soft", "ink")
+		a.t(28 + depth * INDENT, top + (22 if kind else 20), package, size=CODE, color=soft, mono=True)
+		if kind:
+			a.name(TYPE_X, top + 22, kind, color=strong, mono=True)
+			a.t(TYPE_X, top + 40, note, color=soft)
+	a.h = y + 16
+	return a
+
+
+def context_uses(pal):
+	# what the object of a context answers today, a call on the left and what it gives on the right, and below,
+	# in a lighter colour, what the other strategic patterns will build on it
+	a = Art(0, 0, pal)
+	now = [
+		("Billing.name", "billing", "the class name in kebab case"),
+		("Invoice::class in Billing", "true", "a package at or under the object"),
+		("BillingReport::class in Billing", "false", "a package beside it"),
+		("Billing::class", "KClass<out BoundedContext>", "a reference the compiler checks"),
+	]
+	later = [
+		"the relations of a context map name it by type",
+		"architecture tests guard its boundaries",
+		"its name marks events, logs and metrics",
+	]
+	gx = 16 + 64
+	cw = max(cells(call) for call, _, _ in now) * CELL + 24
+	ox = gx + cw + 8 + 40
+	ow = max(max(cells(value) * CELL, len(note) * 6.4) for _, value, note in now) + 24
+	y = 16
+	a.t(16, y + 30, "now")
+	for call, value, note in now:
+		a.rect(gx, y, cw, 52, "card", r=6)
+		a.name(gx + 12, y + 30, call, mono=True)
+		a.arrow(gx + cw + 8, y + 26, ox - 8)
+		a.rect(ox, y, ow, 52, "green-plate", r=6)
+		a.name(ox + 12, y + 22, value, color=ink("green"), mono=True)
+		a.t(ox + 12, y + 40, note, color="green-soft")
+		y += 52 + 16
+	y += 24 - 16
+	a.t(16, y + 12, "next")
+	for line in later:
+		a.t(gx + 12, y + 12, line, size=NAME, color="mute")
+		y += 28
+	a.w, a.h = ox + ow + 16, y - 28 + 16 + 16
+	return a
+
+
+def context_reference(pal):
+	# the same mistake in a reference by name and in one by type: only the type stops it before the build ends.
+	# What gets through is red on grey, what the compiler stops is the green result
+	a = Art(0, 0, pal)
+	rows = [
+		("by name", 'upstream = "biling"', "compiles", "the typo waits for a test", None),
+		("by type", "upstream = Invoice::class", "does not compile", "Invoice is not a context", "green"),
+	]
+	gx = 16 + 64
+	cw = max(cells(code) for _, code, _, _, _ in rows) * CELL + 24
+	ox = gx + cw + 8 + 40
+	ow = max(len(note) * 6.4 for _, _, _, note, _ in rows) + 24
+	y = 16
+	for gutter, code, outcome, note, hue in rows:
+		a.t(16, y + 30, gutter)
+		a.rect(gx, y, cw, 52, "card", r=6)
+		a.name(gx + 12, y + 30, code, mono=True)
+		a.arrow(gx + cw + 8, y + 26, ox - 8)
+		a.rect(ox, y, ow, 52, (hue + "-plate") if hue else "card", r=6)
+		a.name(ox + 12, y + 22, outcome, color=ink(hue) if hue else "red")
+		a.t(ox + 12, y + 40, note, color=(hue + "-soft") if hue else "soft")
+		y += 52 + 16
+	a.w, a.h = ox + ow + 16, y - 16 + 16
+	return a
+
 DIAGRAMS = {
 	"families": families, "modules": modules,
 	"format-cases": cases, "helper-words": words, "format-abbreviated": abbreviated, "helper-symbols": symbols,
+	"ddd-context-packages": context_packages, "ddd-context-uses": context_uses, "ddd-context-reference": context_reference,
 }
 
 if __name__ == "__main__":

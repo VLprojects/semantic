@@ -22,15 +22,6 @@ Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd`:
 | `dsl` | The ways to write the blocks down: `rule` builds a `BusinessRule`, `check` runs a list of them, `checkRule` checks a one-off condition |
 | `architecture.error` | What a layer of the application raises, not a pattern of the model: `DomainException` and the refusals a service extends, `NotFoundException`, `ConflictException`, `BusinessRuleException` |
 
-A bounded context is an object, `object Billing : BoundedContext`, put in the
-root package of the context: the package of the object and every package under
-it belong to the context, so its classes need no mark of their own.
-`Invoice::class in Billing` tells whether a class belongs to it. Being an
-object, a context is referred to by its type, `Billing::class`, and the other
-strategic patterns will name the contexts they relate in this way, so a typo
-does not compile. The rest of them, subdomains, the relations of a context map
-and the like, come one by one.
-
 The contracts are interfaces; `tactical.base` gives classes to extend. What
 needs a framework, handing the events out on save, telling a new aggregate from
 a saved one, the mapping of the identifier and the version and the proxies, is
@@ -86,6 +77,41 @@ the ones that are set, `allOf(IsOpen, sku?.let(::ContainsSku))`. With nothing
 to combine `allOf` is `Always` and `anyOf` is `Never`. A null that should not
 be there weakens the rule silently: a filter that must hold is passed as it is,
 never through `?.let`.
+
+## Bounded contexts
+
+A bounded context is an object put in the root package of the context:
+
+```kotlin
+package pro.acme.billing
+
+object Billing : BoundedContext
+```
+
+The package of the object and every package under it belong to the context,
+at any depth, so its classes need no mark of their own. A package that only
+starts with the same name, `billingreport`, stands beside it.
+
+![The billing context holds its package and the packages under it, not the ones beside it](../docs/assets/ddd-context-packages-light.svg#gh-light-mode-only)
+![The billing context holds its package and the packages under it, not the ones beside it](../docs/assets/ddd-context-packages-dark.svg#gh-dark-mode-only)
+
+The object answers what the rest of the code asks of a context: its name, the
+class name in kebab case as with the `typeName` of an event unless the object
+overrides `name`; whether a class belongs to it; and a reference to it by type.
+The other strategic patterns, subdomains and the relations of a context map,
+will build on these.
+
+![What the object of a context gives now and what will build on it](../docs/assets/ddd-context-uses-light.svg#gh-light-mode-only)
+![What the object of a context gives now and what will build on it](../docs/assets/ddd-context-uses-dark.svg#gh-dark-mode-only)
+
+A context is an interface to implement, not an annotation. Kotlin cannot
+annotate a package, so an annotation would sit on an object all the same; the
+object is a value that code can pass and ask; and a parameter of the type
+`KClass<out BoundedContext>` takes a context only, so a wrong reference does not
+compile, where a name in a string compiles with a typo in it.
+
+![A reference by name compiles with a typo, a reference by type to a class that is not a context does not](../docs/assets/ddd-context-reference-light.svg#gh-light-mode-only)
+![A reference by name compiles with a typo, a reference by type to a class that is not a context does not](../docs/assets/ddd-context-reference-dark.svg#gh-dark-mode-only)
 
 ## Spring Data
 

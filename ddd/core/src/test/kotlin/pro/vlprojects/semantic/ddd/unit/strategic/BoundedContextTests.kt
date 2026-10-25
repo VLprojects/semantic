@@ -4,20 +4,12 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import pro.vlprojects.semantic.ddd.strategic.BoundedContext
 import pro.vlprojects.semantic.ddd.strategic.contains
 import pro.vlprojects.semantic.ddd.strategic.packageName
 import pro.vlprojects.semantic.ddd.unit.strategic.billing.Billing
 import pro.vlprojects.semantic.ddd.unit.strategic.billing.Invoice
 import pro.vlprojects.semantic.ddd.unit.strategic.billing.payment.Payment
 import pro.vlprojects.semantic.ddd.unit.strategic.billingreport.BillingReport
-
-private object OrderFulfillment : BoundedContext
-
-private object Shipping : BoundedContext {
-
-    override val name = "delivery"
-}
 
 class BoundedContextTests {
 
