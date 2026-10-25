@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 678.0 468" width="678.0" height="468" role="img">
+  <rect width="678.0" height="468" rx="12" fill="#151B23"/>
+  <g transform="translate(12,12)">
+    <rect x="16.0" y="196.0" width="148.8" height="52.0" rx="6" fill="#29313C"/>
+    <text x="28.0" y="218.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">ShoppingCartItem</text>
+    <text x="28.0" y="236.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">as written</text>
+    <path d="M172.8,222.0 L198.8,222.0" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M197.8,218.0 L204.8,222.0 L197.8,226.0 Z" fill="#515B66"/>
+    <rect x="212.8" y="208.0" width="86.4" height="28.0" rx="6" fill="#6E9BFF"/>
+    <text x="224.8" y="226.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#06173D" text-anchor="start">Shopping</text>
+    <rect x="307.2" y="208.0" width="55.2" height="28.0" rx="6" fill="#6E9BFF"/>
+    <text x="319.2" y="226.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#06173D" text-anchor="start">Cart</text>
+    <rect x="370.4" y="208.0" width="55.2" height="28.0" rx="6" fill="#6E9BFF"/>
+    <text x="382.4" y="226.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#06173D" text-anchor="start">Item</text>
+    <text x="212.8" y="254.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">toWordSequence()</text>
+    <path d="M433.6,222.0 H449.6 V42.0 H459.6" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M458.6,38.0 L465.6,42.0 L458.6,46.0 Z" fill="#515B66"/>
+    <rect x="473.6" y="16.0" width="164.4" height="52.0" rx="6" fill="#5BF08A"/>
+    <text x="485.6" y="38.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#03240E" text-anchor="start">shopping-cart-item</text>
+    <text x="485.6" y="56.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">toKebabCase()</text>
+    <path d="M433.6,222.0 H449.6 V102.0 H459.6" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M458.6,98.0 L465.6,102.0 L458.6,106.0 Z" fill="#515B66"/>
+    <rect x="473.6" y="76.0" width="164.4" height="52.0" rx="6" fill="#5BF08A"/>
+    <text x="485.6" y="98.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#03240E" text-anchor="start">shopping_cart_item</text>
+    <text x="485.6" y="116.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">toSnakeCase()</text>
+    <path d="M433.6,222.0 H449.6 V162.0 H459.6" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M458.6,158.0 L465.6,162.0 L458.6,166.0 Z" fill="#515B66"/>
+    <rect x="473.6" y="136.0" width="164.4" height="52.0" rx="6" fill="#5BF08A"/>
+    <text x="485.6" y="158.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#03240E" text-anchor="start">SHOPPING_CART_ITEM</text>
+    <text x="485.6" y="176.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">toConstantCase()</text>
+    <path d="M433.6,222.0 H449.6 V222.0 H459.6" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M458.6,218.0 L465.6,222.0 L458.6,226.0 Z" fill="#515B66"/>
+    <rect x="473.6" y="196.0" width="164.4" height="52.0" rx="6" fill="#5BF08A"/>
+    <text x="485.6" y="218.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#03240E" text-anchor="start">shoppingCartItem</text>
+    <text x="485.6" y="236.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">toCamelCase()</text>
+    <path d="M433.6,222.0 H449.6 V282.0 H459.6" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M458.6,278.0 L465.6,282.0 L458.6,286.0 Z" fill="#515B66"/>
+    <rect x="473.6" y="256.0" width="164.4" height="52.0" rx="6" fill="#5BF08A"/>
+    <text x="485.6" y="278.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#03240E" text-anchor="start">ShoppingCartItem</text>
+    <text x="485.6" y="296.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">toPascalCase()</text>
+    <path d="M433.6,222.0 H449.6 V342.0 H459.6" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M458.6,338.0 L465.6,342.0 L458.6,346.0 Z" fill="#515B66"/>
+    <rect x="473.6" y="316.0" width="164.4" height="52.0" rx="6" fill="#5BF08A"/>
+    <text x="485.6" y="338.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#03240E" text-anchor="start">Shopping-Cart-Item</text>
+    <text x="485.6" y="356.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">toTrainCase()</text>
+    <path d="M433.6,222.0 H449.6 V402.0 H459.6" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M458.6,398.0 L465.6,402.0 L458.6,406.0 Z" fill="#515B66"/>
+    <rect x="473.6" y="376.0" width="164.4" height="52.0" rx="6" fill="#5BF08A"/>
+    <text x="485.6" y="398.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#03240E" text-anchor="start">Shopping cart item</text>
+    <text x="485.6" y="416.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">toSentenceCase()</text>
+  </g>
+</svg>

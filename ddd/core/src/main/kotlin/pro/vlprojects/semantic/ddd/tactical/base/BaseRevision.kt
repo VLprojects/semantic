@@ -1,10 +1,10 @@
 package pro.vlprojects.semantic.ddd.tactical.base
 
-import pro.vlprojects.semantic.ddd.support.abbreviated
 import pro.vlprojects.semantic.ddd.tactical.AggregateRoot
 import pro.vlprojects.semantic.ddd.tactical.Identifier
 import pro.vlprojects.semantic.ddd.tactical.Revision
 import pro.vlprojects.semantic.ddd.tactical.typeName
+import pro.vlprojects.semantic.format.abbreviated
 import java.util.Objects
 
 public class BaseRevision<out I : Identifier>(

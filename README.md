@@ -12,11 +12,13 @@ Each family has a core with no dependencies and adapters for the frameworks you
 use. Take only what you need: a service that wants an `Email` does not get
 aggregates with it.
 
-<img src="docs/assets/families-light.svg#gh-light-mode-only" width="100%" alt="Families and their modules: ddd and cqrs in development, vo planned">
-<img src="docs/assets/families-dark.svg#gh-dark-mode-only" width="100%" alt="Families and their modules: ddd and cqrs in development, vo planned">
+<img src="docs/assets/families-light.svg#gh-light-mode-only" width="100%" alt="Families and their modules: helper, format, ddd and cqrs in development, vo planned">
+<img src="docs/assets/families-dark.svg#gh-dark-mode-only" width="100%" alt="Families and their modules: helper, format, ddd and cqrs in development, vo planned">
 
 | Family | What it is | Status |
 | --- | --- | --- |
+| [`helper`](helper/README.md) | extensions of the standard types, in groups: `text` and `number` so far | in development, v1 |
+| [`format`](format/README.md) | how a value is written down: cases, abbreviation | in development, v1 |
 | `vo` | rich value objects: `semantic-vo` with the validation every value object shares, then `net`, `range`, `time` and more | planned for v1 |
 | [`ddd`](ddd/README.md) | identifiers, entities, aggregate roots with events and invariants, business rules, domain errors; Spring Data adapters for JPA and MongoDB, Spring Boot | design, v1 |
 | [`cqrs`](cqrs/README.md) | commands, queries, their handlers and buses; no dependency on `ddd` | design |

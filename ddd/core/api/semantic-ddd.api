@@ -74,9 +74,12 @@ public abstract interface class pro/vlprojects/semantic/ddd/tactical/Revision : 
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/Specification : kotlin/jvm/functions/Function1, pro/vlprojects/semantic/ddd/tactical/DomainObject {
+	public fun and (Lpro/vlprojects/semantic/ddd/tactical/Specification;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
 	public fun invoke (Ljava/lang/Object;)Ljava/lang/Boolean;
 	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
 	public abstract fun isSatisfiedBy (Ljava/lang/Object;)Z
+	public fun not ()Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public fun or (Lpro/vlprojects/semantic/ddd/tactical/Specification;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/ValueObject : pro/vlprojects/semantic/ddd/tactical/DomainObject {
@@ -172,6 +175,13 @@ public final class pro/vlprojects/semantic/ddd/tactical/specification/composite/
 	public fun hashCode ()I
 	public fun isSatisfiedBy (Ljava/lang/Object;)Z
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/tactical/specification/composite/CompositionKt {
+	public static final fun allOf (Ljava/lang/Iterable;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public static final fun allOf ([Lpro/vlprojects/semantic/ddd/tactical/Specification;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public static final fun anyOf (Ljava/lang/Iterable;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
+	public static final fun anyOf ([Lpro/vlprojects/semantic/ddd/tactical/Specification;)Lpro/vlprojects/semantic/ddd/tactical/Specification;
 }
 
 public final class pro/vlprojects/semantic/ddd/tactical/specification/composite/Never : pro/vlprojects/semantic/ddd/tactical/Specification {
