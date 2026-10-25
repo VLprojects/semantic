@@ -455,8 +455,8 @@ def context_uses(pal):
 	a = Art(0, 0, pal)
 	now = [
 		("Billing.name", "billing", "the class name in kebab case"),
-		("Invoice::class in Billing", "true", "a package at or under the object"),
-		("BillingReport::class in Billing", "false", "a package beside it"),
+		("Invoice::class hasBoundedContext Billing", "true", "a package at or under the object"),
+		("BillingReport::class hasBoundedContext Billing", "false", "a package beside it"),
 		("Billing::class", "KClass<out BoundedContext>", "a reference the compiler checks"),
 	]
 	later = [

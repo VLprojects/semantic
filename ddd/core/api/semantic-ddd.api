@@ -25,8 +25,8 @@ public abstract interface class pro/vlprojects/semantic/ddd/strategic/BoundedCon
 }
 
 public final class pro/vlprojects/semantic/ddd/strategic/BoundedContextKt {
-	public static final fun contains (Lpro/vlprojects/semantic/ddd/strategic/BoundedContext;Lkotlin/reflect/KClass;)Z
 	public static final fun getPackageName (Lpro/vlprojects/semantic/ddd/strategic/BoundedContext;)Ljava/lang/String;
+	public static final fun hasBoundedContext (Lkotlin/reflect/KClass;Lpro/vlprojects/semantic/ddd/strategic/BoundedContext;)Z
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/AggregateRoot : pro/vlprojects/semantic/ddd/tactical/Entity, pro/vlprojects/semantic/ddd/tactical/Versioned {

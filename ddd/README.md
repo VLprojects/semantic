@@ -97,7 +97,8 @@ starts with the same name, `billingreport`, stands beside it.
 
 The object answers what the rest of the code asks of a context: its name, the
 class name in kebab case as with the `typeName` of an event unless the object
-overrides `name`; whether a class belongs to it; and a reference to it by type.
+overrides `name`; whether a class belongs to it,
+`Invoice::class hasBoundedContext Billing`; and a reference to it by type.
 The other strategic patterns, subdomains and the relations of a context map,
 will build on these.
 

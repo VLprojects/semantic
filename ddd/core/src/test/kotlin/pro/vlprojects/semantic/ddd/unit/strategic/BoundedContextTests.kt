@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import pro.vlprojects.semantic.ddd.strategic.contains
+import pro.vlprojects.semantic.ddd.strategic.hasBoundedContext
 import pro.vlprojects.semantic.ddd.strategic.packageName
 import pro.vlprojects.semantic.ddd.unit.strategic.billing.Billing
 import pro.vlprojects.semantic.ddd.unit.strategic.billing.Invoice
@@ -31,21 +31,21 @@ class BoundedContextTests {
 
     @Test
     fun `a context holds the types of its package`() {
-        assertTrue(Invoice::class in Billing)
+        assertTrue(Invoice::class hasBoundedContext Billing)
     }
 
     @Test
     fun `a context holds the types of its subpackages`() {
-        assertTrue(Payment::class in Billing)
+        assertTrue(Payment::class hasBoundedContext Billing)
     }
 
     @Test
     fun `a context does not hold a package that only starts with its name`() {
-        assertFalse(BillingReport::class in Billing)
+        assertFalse(BillingReport::class hasBoundedContext Billing)
     }
 
     @Test
     fun `a context does not hold the package above it`() {
-        assertFalse(BoundedContextTests::class in Billing)
+        assertFalse(BoundedContextTests::class hasBoundedContext Billing)
     }
 }

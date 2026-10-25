@@ -14,7 +14,8 @@ public interface BoundedContext {
 public val BoundedContext.packageName: String
     get() = this::class.java.packageName
 
-public operator fun BoundedContext.contains(type: KClass<*>): Boolean = when (val typePackage = type.java.packageName) {
-    packageName -> true
-    else -> typePackage.startsWith("$packageName.")
-}
+public infix fun KClass<*>.hasBoundedContext(context: BoundedContext): Boolean =
+    when (val typePackage = this.java.packageName) {
+        context.packageName -> true
+        else -> typePackage.startsWith("${context.packageName}.")
+    }
