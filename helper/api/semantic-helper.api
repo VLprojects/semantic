@@ -177,3 +177,111 @@ public final class pro/vlprojects/semantic/helper/text/transforming/StringHelper
 	public static final fun takeSymbols (Ljava/lang/String;I)Ljava/lang/String;
 }
 
+public final class pro/vlprojects/semantic/helper/time/ByteHelperKt {
+	public static final fun day (B)Ljava/time/Duration;
+	public static final fun days (B)Ljava/time/Duration;
+	public static final fun decade (B)Ljava/time/Period;
+	public static final fun decades (B)Ljava/time/Period;
+	public static final fun hour (B)Ljava/time/Duration;
+	public static final fun hours (B)Ljava/time/Duration;
+	public static final fun microsecond (B)Ljava/time/Duration;
+	public static final fun microseconds (B)Ljava/time/Duration;
+	public static final fun millisecond (B)Ljava/time/Duration;
+	public static final fun milliseconds (B)Ljava/time/Duration;
+	public static final fun minute (B)Ljava/time/Duration;
+	public static final fun minutes (B)Ljava/time/Duration;
+	public static final fun month (B)Ljava/time/Period;
+	public static final fun months (B)Ljava/time/Period;
+	public static final fun nanosecond (B)Ljava/time/Duration;
+	public static final fun nanoseconds (B)Ljava/time/Duration;
+	public static final fun quarter (B)Ljava/time/Period;
+	public static final fun quarters (B)Ljava/time/Period;
+	public static final fun second (B)Ljava/time/Duration;
+	public static final fun seconds (B)Ljava/time/Duration;
+	public static final fun week (B)Ljava/time/Duration;
+	public static final fun weeks (B)Ljava/time/Duration;
+	public static final fun year (B)Ljava/time/Period;
+	public static final fun years (B)Ljava/time/Period;
+}
+
+public final class pro/vlprojects/semantic/helper/time/IntHelperKt {
+	public static final fun day (I)Ljava/time/Duration;
+	public static final fun days (I)Ljava/time/Duration;
+	public static final fun decade (I)Ljava/time/Period;
+	public static final fun decades (I)Ljava/time/Period;
+	public static final fun hour (I)Ljava/time/Duration;
+	public static final fun hours (I)Ljava/time/Duration;
+	public static final fun microsecond (I)Ljava/time/Duration;
+	public static final fun microseconds (I)Ljava/time/Duration;
+	public static final fun millisecond (I)Ljava/time/Duration;
+	public static final fun milliseconds (I)Ljava/time/Duration;
+	public static final fun minute (I)Ljava/time/Duration;
+	public static final fun minutes (I)Ljava/time/Duration;
+	public static final fun month (I)Ljava/time/Period;
+	public static final fun months (I)Ljava/time/Period;
+	public static final fun nanosecond (I)Ljava/time/Duration;
+	public static final fun nanoseconds (I)Ljava/time/Duration;
+	public static final fun quarter (I)Ljava/time/Period;
+	public static final fun quarters (I)Ljava/time/Period;
+	public static final fun second (I)Ljava/time/Duration;
+	public static final fun seconds (I)Ljava/time/Duration;
+	public static final fun week (I)Ljava/time/Duration;
+	public static final fun weeks (I)Ljava/time/Duration;
+	public static final fun year (I)Ljava/time/Period;
+	public static final fun years (I)Ljava/time/Period;
+}
+
+public final class pro/vlprojects/semantic/helper/time/LongHelperKt {
+	public static final fun day (J)Ljava/time/Duration;
+	public static final fun days (J)Ljava/time/Duration;
+	public static final fun decade (J)Ljava/time/Period;
+	public static final fun decades (J)Ljava/time/Period;
+	public static final fun hour (J)Ljava/time/Duration;
+	public static final fun hours (J)Ljava/time/Duration;
+	public static final fun microsecond (J)Ljava/time/Duration;
+	public static final fun microseconds (J)Ljava/time/Duration;
+	public static final fun millisecond (J)Ljava/time/Duration;
+	public static final fun milliseconds (J)Ljava/time/Duration;
+	public static final fun minute (J)Ljava/time/Duration;
+	public static final fun minutes (J)Ljava/time/Duration;
+	public static final fun month (J)Ljava/time/Period;
+	public static final fun months (J)Ljava/time/Period;
+	public static final fun nanosecond (J)Ljava/time/Duration;
+	public static final fun nanoseconds (J)Ljava/time/Duration;
+	public static final fun quarter (J)Ljava/time/Period;
+	public static final fun quarters (J)Ljava/time/Period;
+	public static final fun second (J)Ljava/time/Duration;
+	public static final fun seconds (J)Ljava/time/Duration;
+	public static final fun week (J)Ljava/time/Duration;
+	public static final fun weeks (J)Ljava/time/Duration;
+	public static final fun year (J)Ljava/time/Period;
+	public static final fun years (J)Ljava/time/Period;
+}
+
+public final class pro/vlprojects/semantic/helper/time/ShortHelperKt {
+	public static final fun day (S)Ljava/time/Duration;
+	public static final fun days (S)Ljava/time/Duration;
+	public static final fun decade (S)Ljava/time/Period;
+	public static final fun decades (S)Ljava/time/Period;
+	public static final fun hour (S)Ljava/time/Duration;
+	public static final fun hours (S)Ljava/time/Duration;
+	public static final fun microsecond (S)Ljava/time/Duration;
+	public static final fun microseconds (S)Ljava/time/Duration;
+	public static final fun millisecond (S)Ljava/time/Duration;
+	public static final fun milliseconds (S)Ljava/time/Duration;
+	public static final fun minute (S)Ljava/time/Duration;
+	public static final fun minutes (S)Ljava/time/Duration;
+	public static final fun month (S)Ljava/time/Period;
+	public static final fun months (S)Ljava/time/Period;
+	public static final fun nanosecond (S)Ljava/time/Duration;
+	public static final fun nanoseconds (S)Ljava/time/Duration;
+	public static final fun quarter (S)Ljava/time/Period;
+	public static final fun quarters (S)Ljava/time/Period;
+	public static final fun second (S)Ljava/time/Duration;
+	public static final fun seconds (S)Ljava/time/Duration;
+	public static final fun week (S)Ljava/time/Duration;
+	public static final fun weeks (S)Ljava/time/Duration;
+	public static final fun year (S)Ljava/time/Period;
+	public static final fun years (S)Ljava/time/Period;
+}
+
