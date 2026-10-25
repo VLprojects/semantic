@@ -113,8 +113,12 @@ proxy class of a store counts as the class of the entity.
 
 `semantic-ddd-spring-data-jpa` gives `AbstractJpaEntity` and
 `AbstractJpaAggregateRoot`, under `pro.vlprojects.semantic.ddd.spring.data.jpa`.
-They extend the Spring Data bases and are mapped superclasses: an entity of the
-service extends one of them and is an `@Entity`.
+Both are mapped superclasses: an entity of the service extends one of them and
+is an `@Entity`. Each module has a hierarchy of its own, the root extending
+the entity of the same module: `AbstractJpaEntity` extends
+`AbstractSpringDataEntity`, `AbstractJpaAggregateRoot` extends
+`AbstractJpaEntity` and repeats the events and the revision of the Spring Data
+root, since a class has one superclass.
 
 ```kotlin
 @Embeddable
@@ -134,9 +138,7 @@ members with the mapping: `identifier` is the `@EmbeddedId`, its `value`
 stored in the column `id`, neither null nor updated; `version` is the
 `@Version`; `markPersisted()` runs on `@PostPersist` and `@PostLoad`, so
 `isNew()` turns false once the entity is persisted or loaded. A composite key
-names its columns with an `@AttributeOverride` of its own. The root repeats
-the mapping of the entity: it extends the root of Spring Data, and a class has
-one superclass.
+names its columns with an `@AttributeOverride` of its own.
 
 The class of the key does not extend `AbstractId` of the core: JPA builds it by
 a constructor with no arguments, and `AbstractId` has none. It implements

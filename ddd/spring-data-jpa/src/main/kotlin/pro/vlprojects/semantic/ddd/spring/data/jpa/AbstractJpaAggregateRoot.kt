@@ -1,33 +1,35 @@
 package pro.vlprojects.semantic.ddd.spring.data.jpa
 
-import pro.vlprojects.semantic.ddd.spring.data.AbstractSpringDataAggregateRoot
+import org.springframework.data.domain.AfterDomainEventPublication
+import org.springframework.data.domain.DomainEvents
 import pro.vlprojects.semantic.ddd.tactical.AggregateRoot
+import pro.vlprojects.semantic.ddd.tactical.Event
 import pro.vlprojects.semantic.ddd.tactical.Identifier
-import jakarta.persistence.AttributeOverride
-import jakarta.persistence.Column
-import jakarta.persistence.EmbeddedId
+import pro.vlprojects.semantic.ddd.tactical.Revision
+import pro.vlprojects.semantic.ddd.tactical.base.BaseRevision
+import pro.vlprojects.semantic.format.abbreviation.abbreviated
 import jakarta.persistence.MappedSuperclass
-import jakarta.persistence.PostLoad
-import jakarta.persistence.PostPersist
-import jakarta.persistence.Version
 
-// Repeats AbstractJpaEntity: the root extends the root of Spring Data, and a class has one superclass.
 @MappedSuperclass
 public abstract class AbstractJpaAggregateRoot<A : AggregateRoot<A, I>, I : Identifier> :
-    AbstractSpringDataAggregateRoot<A, I>() {
+    AbstractJpaEntity<A, I>(),
+    AggregateRoot<A, I> {
 
-    @EmbeddedId
-    @AttributeOverride(name = "value", column = Column(name = "id", updatable = false, nullable = false))
-    override lateinit var identifier: I
-        protected set
+    final override val revision: Revision<I>
+        get() = BaseRevision.of(this)
 
-    @Version
-    override var version: Long = 0
-        protected set
+    @Transient
+    @get:DomainEvents
+    protected final val events: List<Event<A, I>>
+        field = mutableListOf()
 
-    @PostLoad
-    @PostPersist
-    override fun markPersisted() {
-        super.markPersisted()
+    protected final fun A.register(event: Event<A, I>): A = apply { events.add(event) }
+
+    @AfterDomainEventPublication
+    protected final fun clearEvents() {
+        events.clear()
     }
+
+    override fun toString(): String =
+        "${this::class.simpleName} [aggregate-root][id: ${identifier.toString().abbreviated()}]"
 }
