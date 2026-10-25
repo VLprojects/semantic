@@ -9,7 +9,7 @@ file per type it extends: `StringHelper.kt`, `InstantHelper.kt`.
 | Package | Extends | What is there |
 | --- | --- | --- |
 | `text` | `String`, `CharSequence` | the text itself: symbols as a reader sees them, the words of a name |
-| `time` | `Int`, `Long`, `Double`, `Short`, `Byte`, `Float` | a duration built from a number: `2.hours()`, `1.hour()` |
+| `time` | `Int`, `Long`, `Short`, `Byte` | a `Duration` or a `Period` built from a number: `2.hours()`, `1.month()` |
 | `number` | `Int`, `Long`, `Short`, `Byte`, `BigDecimal` | the sign of a number, a narrowing that refuses to lose a digit |
 | `lang` | `Any`, `KClass` | planned |
 
@@ -108,16 +108,27 @@ BigDecimal("1.5").toSafeInt()   // ArithmeticException
 
 ## Durations
 
-A number builds a `Duration` in any unit from nanoseconds to days. Each unit
-has a plural and a singular, so a duration of one reads as a sentence too.
+A number builds a `java.time.Duration` in a unit of a fixed length, from
+nanoseconds to weeks, and a `java.time.Period` in a unit of the calendar:
+months, quarters, years and decades. Each unit has a plural and a singular, so
+a duration of one reads as a sentence too.
 
 ```kotlin
-2.hours()           // 2h
-1.hour()            // 1h
-90.seconds()        // 1m 30s
-1.5.days()          // 1d 12h
-500L.milliseconds() // 500ms
+2.hours()   // PT2H
+1.hour()    // PT1H
+2.weeks()   // PT336H
+3.months()  // P3M
+1.quarter() // P3M
+1.decade()  // P10Y
 ```
 
-There are no weeks or months: a month has no fixed length, and a week is
-`7.days()`.
+A period goes with a date, not with an `Instant`: the calendar knows how long
+the month is.
+
+```kotlin
+LocalDate.of(2026, 1, 31) + 1.month() // 2026-02-28
+```
+
+A number too large for the unit is refused with `ArithmeticException`. There
+are no fractions: `java.time` has none, so an hour and a half is
+`90.minutes()`.
