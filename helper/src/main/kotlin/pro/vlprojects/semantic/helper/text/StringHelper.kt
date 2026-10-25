@@ -12,7 +12,7 @@ public fun String.takeSymbols(count: Int): String {
     return this
         .calculateSymbolBoundaries()
         .elementAtOrNull(count)
-        ?.let { substring(0, it) }
+        ?.let { this.substring(0, it) }
         ?: this
 }
 
@@ -25,9 +25,13 @@ public fun String.takeLastSymbols(count: Int): String {
         ?: this
 }
 
-public fun String.isAscii(): Boolean = all(Char::isAscii)
+public fun String.isAscii(): Boolean = this.all(Char::isAscii)
 
-public fun String.isNotAscii(): Boolean = !isAscii()
+public fun String.isNotAscii(): Boolean = !this.isAscii()
+
+public fun String.filterAscii(): String = this.filter(Char::isAscii)
+
+public fun String.isLowercase(): Boolean = this.none(Char::isCapital)
 
 public fun String.startsWithAny(vararg prefixes: String): Boolean = prefixes.any(::startsWith)
 
@@ -37,21 +41,21 @@ public fun String.endsWithAny(vararg suffixes: String): Boolean = suffixes.any(:
 
 public fun String.endsWithAny(suffixes: Iterable<String>): Boolean = suffixes.any(::endsWith)
 
-public fun String.notStartsWithAny(vararg prefixes: String): Boolean = !startsWithAny(*prefixes)
+public fun String.notStartsWithAny(vararg prefixes: String): Boolean = !this.startsWithAny(*prefixes)
 
-public fun String.notStartsWithAny(prefixes: Iterable<String>): Boolean = !startsWithAny(prefixes)
+public fun String.notStartsWithAny(prefixes: Iterable<String>): Boolean = !this.startsWithAny(prefixes)
 
-public fun String.notEndsWithAny(vararg suffixes: String): Boolean = !endsWithAny(*suffixes)
+public fun String.notEndsWithAny(vararg suffixes: String): Boolean = !this.endsWithAny(*suffixes)
 
-public fun String.notEndsWithAny(suffixes: Iterable<String>): Boolean = !endsWithAny(suffixes)
+public fun String.notEndsWithAny(suffixes: Iterable<String>): Boolean = !this.endsWithAny(suffixes)
 
-public fun String.collapseSpaces(): String = collapse(' ', Char::isWhitespace)
+public fun String.collapseSpaces(): String = this.collapse(' ', Char::isWhitespace)
 
-public fun String.collapseHyphens(): String = collapse('-', Char::isHyphen)
+public fun String.collapseHyphens(): String = this.collapse('-', Char::isHyphen)
 
-public fun String.collapseApostrophes(): String = collapse('\'', Char::isApostrophe)
+public fun String.collapseApostrophes(): String = this.collapse('\'', Char::isApostrophe)
 
-public fun String.collapseDots(): String = collapse('.', Char::isDot)
+public fun String.collapseDots(): String = this.collapse('.', Char::isDot)
 
 public fun String.collapse(replacement: Char, isCollapsible: (Char) -> Boolean): String = this
     .let { source ->
@@ -68,7 +72,7 @@ public fun String.collapse(replacement: Char, isCollapsible: (Char) -> Boolean):
 public fun String.collapse(replacement: Char, collapsible: Iterable<Char>): String = collapsible
     .toSet()
     .let { chars ->
-        collapse(replacement, chars::contains)
+        this.collapse(replacement, chars::contains)
     }
 
 public fun String.removeDiacritics(): String = this
@@ -85,4 +89,10 @@ private fun String.hasCollapsibleBefore(index: Int, isCollapsible: (Char) -> Boo
 
 private fun String.normalizeWith(form: Normalizer.Form) = Normalizer.normalize(this, form)
 
-private fun Char.isDiacritic() = category == CharCategory.NON_SPACING_MARK
+private fun Char.isDiacritic() = this.category == CharCategory.NON_SPACING_MARK
+
+private fun Char.isCapital() = when {
+    this.isUpperCase() -> true
+    this.isTitleCase() -> true
+    else -> false
+}

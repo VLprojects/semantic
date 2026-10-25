@@ -6,6 +6,7 @@ import org.junit.jupiter.api.assertThrows
 import pro.vlprojects.semantic.format.EllipsisMode
 import pro.vlprojects.semantic.format.abbreviated
 import pro.vlprojects.semantic.format.capitalizeEachPart
+import pro.vlprojects.semantic.format.capitalizeFirstLetter
 import pro.vlprojects.semantic.format.toCamelCase
 import pro.vlprojects.semantic.format.toConstantCase
 import pro.vlprojects.semantic.format.toKebabCase
@@ -190,6 +191,20 @@ class StringFormatHelperTests {
     @Test
     fun `an empty separator is refused`() {
         assertThrows<IllegalArgumentException> { "jean".capitalizeEachPart("") }
+    }
+
+    @Test
+    fun `the first letter becomes a capital and the rest keeps its case`() {
+        assertEquals("Order id", "order id".capitalizeFirstLetter())
+        assertEquals("McDonald", "mcDonald".capitalizeFirstLetter())
+        assertEquals("Élan", "élan".capitalizeFirstLetter())
+    }
+
+    @Test
+    fun `a value without a lowercase start stays as it is`() {
+        assertEquals("Order", "Order".capitalizeFirstLetter())
+        assertEquals("42 orders", "42 orders".capitalizeFirstLetter())
+        assertEquals("", "".capitalizeFirstLetter())
     }
 
     private companion object {

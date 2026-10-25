@@ -2,11 +2,11 @@ package pro.vlprojects.semantic.helper.text
 
 private const val LAST_ASCII_CODE = 127
 
-public fun Char.isAscii(): Boolean = code <= LAST_ASCII_CODE
+public fun Char.isAscii(): Boolean = this.code <= LAST_ASCII_CODE
 
 public fun Char.isSpace(): Boolean = this == ' '
 
-public fun Char.isSpaceSeparator(): Boolean = category == CharCategory.SPACE_SEPARATOR
+public fun Char.isSpaceSeparator(): Boolean = this.category == CharCategory.SPACE_SEPARATOR
 
 public fun Char.isHorizontalTab(): Boolean = this == '\t'
 
@@ -37,8 +37,8 @@ public fun Char.isOpeningParenthesis(): Boolean = this == '('
 public fun Char.isClosingParenthesis(): Boolean = this == ')'
 
 public fun Char.isParenthesis(): Boolean = when {
-    isOpeningParenthesis() -> true
-    isClosingParenthesis() -> true
+    this.isOpeningParenthesis() -> true
+    this.isClosingParenthesis() -> true
     else -> false
 }
 
@@ -47,7 +47,7 @@ public fun Char.isOpeningBracket(): Boolean = this == '['
 public fun Char.isClosingBracket(): Boolean = this == ']'
 
 public fun Char.isBracket(): Boolean = when {
-    isOpeningBracket() -> true
-    isClosingBracket() -> true
+    this.isOpeningBracket() -> true
+    this.isClosingBracket() -> true
     else -> false
 }

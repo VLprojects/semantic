@@ -69,6 +69,7 @@ name.filterNot(Char::isHyphen)
 pattern.any(Char::isWildcard)
 key.notStartsWithAny("internal.", "debug.")
 "Café".isNotAscii() // true
+"order-id".isLowercase() // true
 ```
 
 ## Cleanup
@@ -82,6 +83,7 @@ brings it to one form before it is compared or stored.
 "O''Neil".collapseApostrophes()   // O'Neil
 "a..b".collapseDots()             // a.b
 "Café crème".removeDiacritics()   // Cafe creme
+"Café 👋".filterAscii()           // Caf
 ```
 
 `collapse` turns a run of any characters you choose into one.

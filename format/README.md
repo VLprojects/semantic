@@ -6,7 +6,7 @@ secret masked. The words of a name and the symbols of a text come from
 
 | Package | Extends | What is there |
 | --- | --- | --- |
-| `format` | `String`, `WordSequence`, later `Duration` and numbers | cases, abbreviation |
+| `format` | `String`, `WordSequence`, `Int`, `Long`, later `Duration` | cases, abbreviation, plurals |
 | `format.mask` | `String` | masking |
 
 ## Cases
@@ -30,10 +30,11 @@ them: `iPhone` as one word.
 listOf(Word.of("iPhone"), Word.of("Case")).toWordSequence().toKebabCase() // iphone-case
 ```
 
-`capitalizeEachPart` starts each part of a name with a capital and leaves the
-rest as it is.
+`capitalizeFirstLetter` starts a value with a capital, `capitalizeEachPart`
+each part of a name; the rest keeps its case.
 
 ```kotlin
+"order id".capitalizeFirstLetter() // Order id
 "jean-luc".capitalizeEachPart("-") // Jean-Luc
 ```
 
@@ -77,3 +78,13 @@ collapses the hidden part into three symbols, so the length gives nothing away:
 ```
 
 A value too short to hide anything is hidden whole.
+
+## Plurals
+
+`pluralize` picks the form of a word for a count by the rules of Russian: one,
+few or many; `pluralizeWithCount` writes the count before it.
+
+```kotlin
+21.pluralize("день", "дня", "дней")          // день
+21.pluralizeWithCount("день", "дня", "дней") // 21 день
+```
