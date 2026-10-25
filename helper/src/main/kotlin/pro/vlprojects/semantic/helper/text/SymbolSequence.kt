@@ -1,6 +1,6 @@
 package pro.vlprojects.semantic.helper.text
 
-public class SymbolSequence internal constructor(private val text: CharSequence) {
+public class SymbolSequence private constructor(private val text: CharSequence) {
 
     private val boundaries = text.calculateSymbolBoundaryArray()
 
@@ -28,5 +28,10 @@ public class SymbolSequence internal constructor(private val text: CharSequence)
     private fun isCapital(codePoint: Int) = when {
         Character.isUpperCase(codePoint) -> true
         else -> Character.isTitleCase(codePoint)
+    }
+
+    public companion object Factory {
+
+        public fun of(source: CharSequence): SymbolSequence = SymbolSequence(source)
     }
 }

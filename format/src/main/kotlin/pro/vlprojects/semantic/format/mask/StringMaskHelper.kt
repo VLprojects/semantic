@@ -26,36 +26,36 @@ public fun String.masked(
 
     return when {
         masked.isEmpty() -> this
-        collapseTo == null -> symbols.coverEach(masked.toSet(), symbol)
-        else -> symbols.coverSpan(masked, symbol, collapseTo)
+        collapseTo == null -> symbols.maskEach(masked.toSet(), symbol)
+        else -> symbols.collapse(masked, symbol, collapseTo)
     }
 }
 
-private fun SymbolSequence.coverEach(masked: Set<Int>, symbol: Char) = this
+private fun SymbolSequence.maskEach(positions: Set<Int>, symbol: Char) = this
     .indices
     .joinToString("") { index ->
         when (index) {
-            in masked -> symbol.toString()
+            in positions -> symbol.toString()
             else -> extract(index..index)
         }
     }
 
-private fun SymbolSequence.coverSpan(masked: List<Int>, symbol: Char, length: Int): String {
+private fun SymbolSequence.collapse(positions: List<Int>, symbol: Char, length: Int): String {
 
-    val before = masked
+    val before = positions
         .first()
         .let { 0 until it }
         .let(::extract)
 
-    val after = masked
+    val after = positions
         .last()
         .inc()
         .until(this.length)
         .let(::extract)
 
-    val cover = symbol
+    val mask = symbol
         .toString()
         .repeat(length)
 
-    return "$before$cover$after"
+    return "$before$mask$after"
 }

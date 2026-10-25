@@ -106,12 +106,17 @@ public final class pro/vlprojects/semantic/helper/text/StringHelperKt {
 }
 
 public final class pro/vlprojects/semantic/helper/text/SymbolSequence {
+	public static final field Factory Lpro/vlprojects/semantic/helper/text/SymbolSequence$Factory;
 	public final fun extract (Lkotlin/ranges/IntRange;)Ljava/lang/String;
 	public final fun getIndices ()Lkotlin/ranges/IntRange;
 	public final fun getLength ()I
 	public final fun isCapitalAt (I)Z
 	public final fun isLetterOrDigitAt (I)Z
 	public final fun isLowercaseAt (I)Z
+}
+
+public final class pro/vlprojects/semantic/helper/text/SymbolSequence$Factory {
+	public final fun of (Ljava/lang/CharSequence;)Lpro/vlprojects/semantic/helper/text/SymbolSequence;
 }
 
 public final class pro/vlprojects/semantic/helper/text/Word : java/lang/CharSequence {
