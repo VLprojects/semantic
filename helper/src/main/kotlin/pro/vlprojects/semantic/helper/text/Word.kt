@@ -10,6 +10,8 @@ public class Word internal constructor(private val text: String) : CharSequence 
 
     public fun lowercase(): String = text.lowercase()
 
+    public fun uppercase(): String = text.uppercase()
+
     public fun capitalized(): String = lowercase().replaceFirstChar(Char::titlecase)
 
     override fun equals(other: Any?): Boolean = when {

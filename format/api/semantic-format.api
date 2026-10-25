@@ -31,13 +31,21 @@ public final class pro/vlprojects/semantic/format/StringFormatHelperKt {
 	public static synthetic fun abbreviated$default (Ljava/lang/String;IILpro/vlprojects/semantic/format/EllipsisMode;ILjava/lang/Object;)Ljava/lang/String;
 	public static final fun capitalizeEachPart (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
 	public static final fun toCamelCase (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun toConstantCase (Ljava/lang/String;)Ljava/lang/String;
 	public static final fun toKebabCase (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun toPascalCase (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun toSentenceCase (Ljava/lang/String;)Ljava/lang/String;
 	public static final fun toSnakeCase (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun toTrainCase (Ljava/lang/String;)Ljava/lang/String;
 }
 
 public final class pro/vlprojects/semantic/format/WordSequenceFormatHelperKt {
 	public static final fun toCamelCase (Lpro/vlprojects/semantic/helper/text/WordSequence;)Ljava/lang/String;
+	public static final fun toConstantCase (Lpro/vlprojects/semantic/helper/text/WordSequence;)Ljava/lang/String;
 	public static final fun toKebabCase (Lpro/vlprojects/semantic/helper/text/WordSequence;)Ljava/lang/String;
+	public static final fun toPascalCase (Lpro/vlprojects/semantic/helper/text/WordSequence;)Ljava/lang/String;
+	public static final fun toSentenceCase (Lpro/vlprojects/semantic/helper/text/WordSequence;)Ljava/lang/String;
 	public static final fun toSnakeCase (Lpro/vlprojects/semantic/helper/text/WordSequence;)Ljava/lang/String;
+	public static final fun toTrainCase (Lpro/vlprojects/semantic/helper/text/WordSequence;)Ljava/lang/String;
 }
 

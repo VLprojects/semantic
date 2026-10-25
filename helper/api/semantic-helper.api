@@ -70,6 +70,7 @@ public final class pro/vlprojects/semantic/helper/text/Word : java/lang/CharSequ
 	public final fun lowercase ()Ljava/lang/String;
 	public fun subSequence (II)Ljava/lang/CharSequence;
 	public fun toString ()Ljava/lang/String;
+	public final fun uppercase ()Ljava/lang/String;
 }
 
 public final class pro/vlprojects/semantic/helper/text/Word$Factory {
