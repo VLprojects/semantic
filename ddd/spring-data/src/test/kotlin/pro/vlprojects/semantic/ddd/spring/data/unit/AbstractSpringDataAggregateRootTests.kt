@@ -2,10 +2,13 @@ package pro.vlprojects.semantic.ddd.spring.data.unit
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.springframework.data.domain.AfterDomainEventPublication
 import org.springframework.data.domain.DomainEvents
 import org.springframework.data.util.AnnotationDetectionMethodCallback
 import org.springframework.util.ReflectionUtils
+import pro.vlprojects.semantic.ddd.architecture.error.BusinessRuleException
+import pro.vlprojects.semantic.ddd.tactical.base.BaseRevision
 
 class AbstractSpringDataAggregateRootTests {
 
@@ -29,6 +32,27 @@ class AbstractSpringDataAggregateRootTests {
         cart.add("pear")
 
         assertEquals(1, events.size)
+    }
+
+    @Test
+    fun `an event names the revision it happened at`() {
+        val event = Cart(CartId(1), version = 3).add("apple").call<DomainEvents>().single()
+
+        assertEquals(BaseRevision("cart", CartId(1), 3), (event as ItemAdded).aggregateRevision)
+    }
+
+    @Test
+    fun `a change that breaks an invariant throws`() {
+        val cart = Cart(CartId(1)).add("apple").add("pear")
+
+        val failure = assertThrows<BusinessRuleException> { cart.add("plum") }
+
+        assertEquals("Cart 1 holds more than 2 items", failure.message)
+    }
+
+    @Test
+    fun `an aggregate root shows its class, kind and identifier`() {
+        assertEquals("Cart [aggregate-root][id: 1]", Cart(CartId(1)).toString())
     }
 
     @Test

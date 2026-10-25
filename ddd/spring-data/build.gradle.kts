@@ -5,4 +5,5 @@ plugins {
 dependencies {
     api(project(":semantic-ddd"))
     api(libs.spring.data.commons)
+    implementation(project(":semantic-format"))
 }

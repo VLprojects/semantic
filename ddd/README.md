@@ -83,16 +83,22 @@ never through `?.let`.
 
 `semantic-ddd-spring-data` gives `AbstractSpringDataAggregateRoot`, the base an
 aggregate saved by a Spring Data repository extends, under
-`pro.vlprojects.semantic.ddd.spring.data`. It is an `AbstractAggregateRoot` of
-the core and a `Persistable`: `getId()` is the identifier, the registered events
+`pro.vlprojects.semantic.ddd.spring.data`. It is an `AggregateRoot` and a
+`Persistable`: `getId()` is the identifier, the registered events
 are handed out with `@DomainEvents` when the repository saves the aggregate and
 forgotten with `@AfterDomainEventPublication` once they are published. Events
 are published by `save()` only: an aggregate changed and not saved publishes
 nothing.
 
-`AbstractSpringDataEntity` is the base of an entity of the model that is not a
-root: an `AbstractEntity` of the core and a `Persistable` whose `getId()` is the
-identifier. It hands out no events, since only a root registers them.
+`AbstractSpringDataEntity` is the base of an entity: an `Entity` and a
+`Persistable` whose `getId()` is the identifier. The root extends it and adds
+the version, the revision and the events.
+
+The two bases implement the contracts of the core themselves and repeat what
+`AbstractEntity` and `AbstractAggregateRoot` do, equality by identifier and
+invariants checked on a change. They do not extend those classes, so the
+fields are declared here and not in the core, and how a store maps them is
+decided on the side of Spring Data.
 
 `isNew()` is left to the store, since each tells a new object from a saved
 one in its own way: the JPA base by the callbacks of the entity, the MongoDB base
