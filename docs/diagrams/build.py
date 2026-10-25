@@ -2,7 +2,9 @@
 """Generates docs/assets/*.svg: one light and one dark file per diagram.
 
 The drawings follow the rules of the batcher diagrams, so the libraries read as
-one family:
+one family. A new diagram is drawn with the parts below, family() and block(),
+and passes the checklist of the Gorbunov and Birman bureau before it is shown;
+spacing is measured on the render, not read off the code:
 
 - Show the thing, not a box with its name; draw everything to one scale.
 - Plates, not frames: a group is a flat fill with no outline.
@@ -16,9 +18,17 @@ one family:
   The exception is the family map: a family in development is filled, one
   planned for v1 is dashed, one for later is dotted.
 - One grid of 4 px. Space inside a group is smaller than space between groups:
-  12 inside a block, 16 between blocks, 24 between plates.
-- Two text sizes: the name in bold, the explanation in grey. Below the name
+  12 inside a block, 16 between blocks and rows of one level, 24 between
+  levels, 32 between plates.
+- A block is a module: a tag with its directory, its whole artifact name in
+  bold 8 below, and what it is for in grey, apart from them and 12 above the
+  bottom, as the tag is 12 below the top. Never a prefix over a tail. A block
+  alone in its row spans the row.
+- A family name outranks the artifacts in it: 16 against 13.
+- Two text sizes for content: the name in bold, the explanation in grey. Below the name
   where there is room; in a compact row, on the same line, aligned right.
+  A tag is a third, smaller one: a directory or a status on a tint of its own
+  text colour, with no outline.
 - Every part is named in plain lowercase words, types included. Only what one would type is monospaced: calls,
   annotations, artifacts, config keys. Product names keep their capitals.
 - All diagrams share one scale and are embedded at their native width, except
@@ -151,54 +161,74 @@ def ink(hue):
 # ---------------------------------------------------------------------- family plates
 # A family is a plate: filled while in development, a dashed outline while planned for v1, a dotted one
 # for later. Its name and status head the plate; the gutter on the left names the level of each row.
-# Spacing climbs 12 < 16 < 24: text inside a block, blocks inside a plate, plates on the page
+# Spacing climbs 12 < 16 < 24 < 32: text inside a block, rows of one level, levels, plates on the page
 X0, CW = 16, 688  # plate edge and width
-INSET, GUT, GAP, BLOCK = 16, 76, 16, 72  # plate padding, gutter, gap between blocks, block height
+INSET, GUT, GAP, LEVEL, BLOCK = 16, 100, 16, 24, 92  # plate padding, gutter, gap between blocks and levels, block height
+PLATES = 32
 BX, BW = X0 + GUT, CW - GUT - INSET  # where the blocks of a row start, and how wide a row is
+COLS = 2  # the longest artifact name fills half a row; a block alone in its row fills all of it
+TITLE = 16  # a family outranks the artifacts in it
+TAG, TAG_H = 11, 18  # text size and height of a tag
 DASH, DOT = "6 4", "0.1 4"
 
 
-def plate_height(rows):
-	return 44 + len(rows) * (BLOCK + GAP)
+def tag(a, x, y, text, color="soft", mono=False):
+	"""A tag whose top left corner is at x, y: the colour of its text at a fifth, no outline."""
+	w = len(text) * (6.6 if mono else 5.5) + 16
+	a.add(f'<rect x="{x:.1f}" y="{y:.1f}" width="{w:.1f}" height="{TAG_H}" rx="4" fill="{a.p[color]}" fill-opacity="0.2"/>')
+	a.t(x + 8, y + 12.5, text, size=TAG, color=color, mono=mono)
+	return w
+
+
+def row_tops(y, rows):
+	"""Where each row starts and where the last one ends: a row that opens a level stands further off."""
+	tops = []
+	for level, *_ in rows:
+		if tops:
+			y += GAP if level is None else LEVEL
+		tops.append(y)
+		y += BLOCK
+	return tops, y
 
 
 def family(a, y, name, status, rows, dash=None):
 	"""Draws a family at y and returns where the next one starts."""
-	h = plate_height(rows)
+	tops, bottom = row_tops(y + 48, rows)
+	h = bottom + INSET - y
 	if dash:
 		a.outline(X0, y, CW, h, r=12, dash=dash)
 	else:
 		a.rect(X0, y, CW, h, "plate", r=12)
-	a.name(X0 + INSET, y + 28, name, mono=True)
-	a.t(X0 + INSET + 7.8 * len(name) + 12, y + 28, status, color="soft")
-	for r, (level, specs, *cols) in enumerate(rows):
-		ry = y + 44 + r * (BLOCK + GAP)
+	a.t(X0 + INSET, y + 30, name, size=TITLE, color="ink", weight="600", mono=True)
+	tag(a, X0 + INSET + 0.6 * TITLE * len(name) + 12, y + 15, status)  # centred on the cap height of the name
+	for ry, (level, specs, *cols) in zip(tops, rows):
 		if level:
-			a.t(X0 + INSET, ry + 37, level, color="soft")  # on the baseline of the names in its row
-		n = cols[0] if cols else len(specs)
+			a.t(X0 + INSET, ry + 48, level, color="soft")  # on the baseline of the artifacts in its row
+		n = cols[0] if cols else min(COLS, len(specs))
 		w = (BW - (n - 1) * GAP) / n
-		for c, (hue, prefix, title, note) in enumerate(specs):
-			block(a, BX + c * (w + GAP), ry, w, hue, prefix, title, note)
-	return y + h + 24
+		for c, (hue, directory, artifact, note) in enumerate(specs):
+			block(a, BX + c * (w + GAP), ry, w, hue, directory, artifact, note)
+	return y + h + PLATES
 
 
-def block(a, x, y, w, hue, prefix, title, note):
-	# a module names its artifact in two tight lines, the common prefix in grey and the part that tells
-	# it apart in bold, and explains it a step lower; 12 to every edge, counted from the cap height and the
-	# baseline. A grey block is a module that does not exist yet or belongs to another family
+def block(a, x, y, w, hue, directory, artifact, note):
+	# three roles, three means: where the module lives is a tag, the artifact a build declares is bold,
+	# what it is for is grey. The tag and the artifact name one thing and sit 8 apart; the note is apart
+	# from them and rests 12 above the bottom, as the tag hangs 12 below the top. A grey block is a module that
+	# does not exist yet or belongs to another family
 	a.rect(x, y, w, BLOCK, (hue + "-plate") if hue else "card", r=6)
 	soft = (hue + "-soft") if hue else "soft"
-	a.t(x + 12, y + 21, prefix, color=soft, mono=True)
-	a.name(x + 12, y + 37, title, mono=True, color=ink(hue) if hue else "ink")
-	a.t(x + 12, y + 60, note, color=soft)
+	tag(a, x + 12, y + 12, directory, color=soft, mono=True)
+	a.name(x + 12, y + 48, artifact, mono=True, color=ink(hue) if hue else "ink")
+	a.t(x + 12, y + BLOCK - 12, note, color=soft)
 
 
 DDD_SPRING = [
-	("Spring", [("green", "semantic-ddd-", "spring-data", "what every store shares"),
-		("green", "semantic-ddd-", "spring-data-jpa", "JPA entities"),
-		("green", "semantic-ddd-", "spring-data-mongodb", "MongoDB documents")]),
-	(None, [("green", "semantic-ddd-", "spring-boot", "auto-configuration"),
-		("green", "semantic-ddd-", "spring-boot-starter", "dependencies only")], 3),
+	("Spring Data", [("green", "ddd/spring-data", "semantic-ddd-spring-data", "what every store shares")]),
+	(None, [("green", "ddd/spring-data-jpa", "semantic-ddd-spring-data-jpa", "aggregates as JPA entities"),
+		("green", "ddd/spring-data-mongodb", "semantic-ddd-spring-data-mongodb", "aggregates as MongoDB documents")]),
+	("Spring Boot", [("green", "ddd/spring-boot", "semantic-ddd-spring-boot", "auto-configuration"),
+		("green", "ddd/spring-boot-starter", "semantic-ddd-spring-boot-starter", "the way in: add it and one store")]),
 ]
 
 
@@ -206,41 +236,110 @@ def families(pal):
 	# the whole library on one page, a family per plate, the ones in development on top
 	a = Art(720, 0, pal)
 	y = family(a, 16, "helper", "in development, v1", [
-		("JVM", [("blue", "semantic-", "helper", "extensions of the standard types")], 3),
+		("JVM", [("blue", "helper", "semantic-helper", "extensions of the standard types")]),
 	])
 	y = family(a, y, "format", "in development, v1", [
-		("JVM", [("blue", "semantic-", "format", "cases, abbreviation")], 3),
+		("JVM", [("blue", "format", "semantic-format", "cases, abbreviation, masking")]),
 	])
 	y = family(a, y, "ddd", "in development, v1", [
-		("JVM", [("blue", "semantic-", "ddd", "building blocks, no framework")], 3),
+		("JVM", [("blue", "ddd/core", "semantic-ddd", "building blocks, no framework")]),
 		*DDD_SPRING,
 	])
 	y = family(a, y, "cqrs", "in development", [
-		("JVM", [("blue", "semantic-", "cqrs", "commands, queries, buses")], 3),
+		("JVM", [("blue", "cqrs/core", "semantic-cqrs", "commands, queries, buses")]),
 	])
 	y = family(a, y, "vo", "planned, v1", [
-		("base", [(None, "semantic-", "vo", "the validation every value object shares")]),
-		("groups", [(None, "semantic-vo-", "net", "email, URL, IP"),
-			(None, "semantic-vo-", "range", "bounded ranges"),
-			(None, "semantic-vo-", "time", "dates, periods")]),
+		("base", [(None, "vo/core", "semantic-vo", "the validation every value object shares")]),
+		("groups", [(None, "vo/net", "semantic-vo-net", "email, URL, IP"),
+			(None, "vo/range", "semantic-vo-range", "bounded ranges")]),
+		(None, [(None, "vo/time", "semantic-vo-time", "dates, periods")]),
 	], DASH)
-	a.h = y - 24 + 16
+	a.h = y - PLATES + 16
 	return a
 
 
 def modules(pal):
-	# the ddd family alone, with the vo and format modules it builds on: read left to right, top to bottom, each
-	# module builds on the one before it
+	# the ddd family alone, with the vo and format modules it builds on: read top to bottom, each level builds on
+	# the one above it
 	a = Art(720, 0, pal)
 	y = family(a, 16, "ddd", "in development, v1", [
-		("JVM", [(None, "semantic-", "vo", "value objects, the vo family"),
-			(None, "semantic-", "format", "names, the format family"),
-			("blue", "semantic-", "ddd", "building blocks")]),
+		("JVM", [(None, "vo/core", "semantic-vo", "value objects, the vo family"),
+			(None, "format", "semantic-format", "names, the format family")]),
+		(None, [("blue", "ddd/core", "semantic-ddd", "building blocks, no framework")]),
 		*DDD_SPRING,
 	])
-	a.h = y - 24 + 16
+	a.h = y - PLATES + 16
 	return a
 
+
+
+# ---------------------------------------------------------------------- ddd dependencies
+# Which module builds on which: an arrow runs from a module up to the one it needs and says what it takes from
+# it. A dependency the service may leave out is lighter, as is its note. The blocks keep one width so that
+# every arrow runs straight up between two of them; the gaps hold the arrows and their notes
+DEP_COL, DEP_GAP, DEP_ROW, DEP_LEVEL = 336, 48, 48, 56  # block width, gap between columns, rows of a level, levels
+
+
+def uarrow(a, x, y1, y2, color):
+	"""Vertical arrow from y1 up to y2, the head touching y2."""
+	a.path(f"M{x},{y1} L{x},{y2 + 6}", color)
+	a.add(f'<path d="M{x - 4},{y2 + 7} L{x},{y2} L{x + 4},{y2 + 7} Z" fill="{a.p[color]}"/>')
+
+
+def dependencies(pal):
+	a = Art(16 + GUT + 2 * DEP_COL + DEP_GAP + 16, 0, pal)
+	left, right = BX, BX + DEP_COL + DEP_GAP
+	middle = left + (DEP_COL + DEP_GAP) / 2
+	tops, y = [], 16
+	for gap in (0, DEP_LEVEL, DEP_ROW, DEP_LEVEL, DEP_ROW):
+		y += gap
+		tops.append(y)
+		y += BLOCK
+	core, data, stores, boot, starters = tops
+	for level, top in (("JVM", core), ("Spring Data", data), ("Spring Boot", boot)):
+		a.t(16, top + 48, level)
+	for x, top, hue, directory, artifact, note in (
+		(middle, core, "blue", "ddd/core", "semantic-ddd", "building blocks, no framework"),
+		(middle, data, "green", "ddd/spring-data", "semantic-ddd-spring-data", "what every store shares"),
+		(left, stores, "green", "ddd/spring-data-jpa", "semantic-ddd-spring-data-jpa", "aggregates as JPA entities"),
+		(right, stores, "green", "ddd/spring-data-mongodb", "semantic-ddd-spring-data-mongodb",
+			"aggregates as MongoDB documents"),
+		(middle, boot, "green", "ddd/spring-boot", "semantic-ddd-spring-boot", "auto-configuration"),
+		(left, starters, "green", "ddd/spring-boot-starter-jpa", "semantic-ddd-spring-boot-starter-jpa",
+			"no code: all a JPA service adds"),
+		(right, starters, "green", "ddd/spring-boot-starter-mongodb", "semantic-ddd-spring-boot-starter-mongodb",
+			"no code: all a MongoDB service adds"),
+	):
+		block(a, x, top, DEP_COL, hue, directory, artifact, note)
+	# an arrow between two blocks of one width runs under the middle of the span they share
+	shared_left, shared_right, centre = (middle + left + DEP_COL) / 2, (right + middle + DEP_COL) / 2, middle + DEP_COL / 2
+	outer_left, outer_right = (left + middle) / 2, (middle + DEP_COL + right + DEP_COL) / 2
+	for x, source, target, optional in (
+		(centre, data, core, False), (shared_left, stores, data, False), (shared_right, stores, data, False),
+		(centre, boot, data, False), (shared_left, boot, stores, True), (shared_right, boot, stores, True),
+		(shared_left, starters, boot, False), (shared_right, starters, boot, False),
+		(outer_left, starters, stores, False), (outer_right, starters, stores, False),
+	):
+		uarrow(a, x, source, target + BLOCK, "line" if optional else "soft")
+	# a note stands 8 off its arrow in the gap right above the module the arrow starts from, so it reads as
+	# what that module takes from the one the arrow points to
+	for x, below, note, optional, anchor in (
+		(centre, data, "extends the base classes", False, "start"),
+		(shared_left, stores, "extends", False, "start"),
+		(shared_right, stores, "extends", False, "start"),
+		(shared_left, boot, "configures if present", True, "end"),
+		(centre, boot, "configures", False, "start"),
+		(shared_right, boot, "configures if present", True, "start"),
+		(outer_left, starters, "brings in", False, "start"),
+		(shared_left, starters, "brings in", False, "start"),
+		(shared_right, starters, "brings in", False, "start"),
+		(outer_right, starters, "brings in", False, "start"),
+	):
+		gap = DEP_LEVEL if below in (data, boot) else DEP_ROW
+		a.t(x - 8 if anchor == "end" else x + 8, below - gap / 2 + 4, note, color="mute" if optional else "soft",
+			anchor=anchor)
+	a.h = y + 16
+	return a
 
 # ---------------------------------------------------------------------- format and helper examples
 # What a function does, shown on a value: what goes in on the left, what comes out on the right. A grey
@@ -386,7 +485,7 @@ def symbols(pal):
 
 
 DIAGRAMS = {
-	"families": families, "modules": modules,
+	"families": families, "modules": modules, "dependencies": dependencies,
 	"format-cases": cases, "helper-words": words, "format-abbreviated": abbreviated, "helper-symbols": symbols,
 }
 

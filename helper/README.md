@@ -50,11 +50,11 @@ a cut never splits one.
 "Café🇷🇺👍🏽".hasFewerSymbolsThan(7) // true
 ```
 
-`SymbolSequence` walks a text symbol by symbol, for a family that reads it on
+`toSymbolSequence()` walks a text symbol by symbol, for a family that reads it on
 its own: `format` finds the words of a name with it.
 
 ```kotlin
-val symbols = SymbolSequence("Café🇷🇺")
+val symbols = "Café🇷🇺".toSymbolSequence()
 symbols.length         // 5
 symbols.extract(3..4)  // é🇷🇺
 symbols.isCapitalAt(0) // true

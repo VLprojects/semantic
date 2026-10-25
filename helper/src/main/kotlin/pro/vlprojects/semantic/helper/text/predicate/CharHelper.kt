@@ -1,4 +1,4 @@
-package pro.vlprojects.semantic.helper.text
+package pro.vlprojects.semantic.helper.text.predicate
 
 private const val LAST_ASCII_CODE = 127
 
@@ -7,6 +7,14 @@ public fun Char.isAscii(): Boolean = this.code <= LAST_ASCII_CODE
 public fun Char.isSpace(): Boolean = this == ' '
 
 public fun Char.isSpaceSeparator(): Boolean = this.category == CharCategory.SPACE_SEPARATOR
+
+public fun Char.isDiacritic(): Boolean = this.category == CharCategory.NON_SPACING_MARK
+
+public fun Char.isCapital(): Boolean = when {
+    this.isUpperCase() -> true
+    this.isTitleCase() -> true
+    else -> false
+}
 
 public fun Char.isHorizontalTab(): Boolean = this == '\t'
 
