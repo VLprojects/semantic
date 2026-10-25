@@ -7,4 +7,9 @@ dependencies {
     api(libs.jakarta.persistence.api)
     // Only to see through a Hibernate proxy when comparing entities; the service brings Hibernate itself.
     compileOnly(libs.hibernate.core)
+
+    testImplementation(libs.hibernate.core)
+    testImplementation(platform(libs.testcontainers.bom))
+    testImplementation(libs.testcontainers.postgresql)
+    testRuntimeOnly(libs.postgresql)
 }

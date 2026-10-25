@@ -6,7 +6,7 @@ specifications and domain errors. The core is plain Kotlin; Spring Data with its
 MongoDB, and Spring Boot live in modules of their own.
 
 The contracts of the core are in place, and so are the base classes of the
-Spring Data module; the store and Spring Boot modules are empty so far.
+Spring Data and JPA modules; the MongoDB and Spring Boot modules are empty so far.
 
 ## The core
 
@@ -106,8 +106,47 @@ events of a root are stored: the `transient` modifier keeps them out of JPA,
 to the store modules: JPA through the callbacks of the entity, MongoDB through
 the callbacks of its mapping.
 
-Equality compares the classes through `ProxyUtils.getUserClass`, so an entity
-equals the lazy proxy Hibernate puts in its place.
+Equality compares the classes through `ProxyUtils.getUserClass`, so the
+proxy class of a store counts as the class of the entity.
+
+## JPA
+
+`semantic-ddd-spring-data-jpa` gives `AbstractJpaEntity` and
+`AbstractJpaAggregateRoot`, under `pro.vlprojects.semantic.ddd.spring.data.jpa`.
+They extend the Spring Data bases and are mapped superclasses: an entity of the
+service extends one of them and is an `@Entity`.
+
+```kotlin
+@Embeddable
+class CartId(val value: Long) : Identifier
+
+@Entity
+class Cart(identifier: CartId) : AbstractJpaAggregateRoot<Cart, CartId>() {
+
+    init {
+        this.identifier = identifier
+    }
+}
+```
+
+The fields of the Spring Data bases know nothing of JPA, so
+`META-INF/semantic-ddd-orm.xml` maps them: `identifier` is the
+`@EmbeddedId`, `version` is the `@Version`. The service adds the file to its
+persistence unit, `spring.jpa.mapping-resources=META-INF/semantic-ddd-orm.xml`.
+The class of the key is an `@Embeddable` of the service, so a key of one column
+and a composite key are mapped alike; its columns are named by it.
+
+The class of the key does not extend `AbstractId` of the core: JPA builds it by
+a constructor with no arguments, and `AbstractId` has none. It implements
+`Identifier` and its own equality.
+
+`isNew()` turns false after the entity is persisted and after it is loaded,
+through `@PostPersist` and `@PostLoad`.
+
+The getters of the bases are final, so on a lazy proxy of Hibernate they read
+the empty fields of the proxy, not of the entity. Equality unwraps the proxy
+first, so an entity equals its proxy both ways. For that the module needs
+Hibernate, which the service brings with Spring Data JPA.
 
 ## Modules
 
@@ -120,7 +159,7 @@ Six artifacts, group `pro.vlprojects.semantic`:
 | --- | --- | --- |
 | `semantic-ddd` | any JVM code: the building blocks | `semantic-vo`, `semantic-format` |
 | `semantic-ddd-spring-data` | what every Spring Data store shares: `Persistable`, events handed out on save | core, `spring-data-commons`, `spring-aop` |
-| `semantic-ddd-spring-data-jpa` | aggregates mapped with JPA | the Spring Data module, `jakarta.persistence-api` |
+| `semantic-ddd-spring-data-jpa` | aggregates mapped with JPA | the Spring Data module, `jakarta.persistence-api`, Hibernate of the service |
 | `semantic-ddd-spring-data-mongodb` | aggregates stored in MongoDB | the Spring Data module, `spring-data-mongodb` |
 | `semantic-ddd-spring-boot` | auto-configuration | the Spring Data module, Spring Boot |
 | `semantic-ddd-spring-boot-starter` | the usual way in: dependencies only | core, the Spring Data and Spring Boot modules |
