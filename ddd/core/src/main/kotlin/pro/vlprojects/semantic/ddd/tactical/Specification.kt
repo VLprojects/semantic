@@ -1,7 +1,7 @@
 package pro.vlprojects.semantic.ddd.tactical
 
-import pro.vlprojects.semantic.ddd.tactical.specification.composite.conjunction
-import pro.vlprojects.semantic.ddd.tactical.specification.composite.disjunction
+import pro.vlprojects.semantic.ddd.dsl.allOf
+import pro.vlprojects.semantic.ddd.dsl.anyOf
 import pro.vlprojects.semantic.ddd.tactical.specification.composite.negate
 
 public interface Specification<in T> :
@@ -12,9 +12,9 @@ public interface Specification<in T> :
 
     override fun invoke(candidate: T): Boolean = isSatisfiedBy(candidate)
 
-    public infix fun and(other: Specification<@UnsafeVariance T>): Specification<T> = listOf(this, other).conjunction()
+    public infix fun and(other: Specification<@UnsafeVariance T>): Specification<T> = allOf(this, other)
 
-    public infix fun or(other: Specification<@UnsafeVariance T>): Specification<T> = listOf(this, other).disjunction()
+    public infix fun or(other: Specification<@UnsafeVariance T>): Specification<T> = anyOf(this, other)
 
     public operator fun not(): Specification<T> = negate()
 }
