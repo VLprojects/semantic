@@ -93,8 +93,8 @@ The package of the object and every package under it belong to the context,
 at any depth, so its classes need no mark of their own. A package that only
 starts with the same name, `billingreport`, stands beside it.
 
-![The billing context holds its package and the packages under it, not the ones beside it](../docs/assets/ddd-context-packages-light.svg#gh-light-mode-only)
-![The billing context holds its package and the packages under it, not the ones beside it](../docs/assets/ddd-context-packages-dark.svg#gh-dark-mode-only)
+![The billing context holds its package and the packages under it, not the ones beside it](../../docs/assets/ddd-context-packages-light.svg#gh-light-mode-only)
+![The billing context holds its package and the packages under it, not the ones beside it](../../docs/assets/ddd-context-packages-dark.svg#gh-dark-mode-only)
 
 The object answers what the rest of the code asks of a context: its name, the
 class name in kebab case as with the `typeName` of an event unless the object
@@ -103,8 +103,8 @@ overrides `name`; whether a class belongs to it,
 The other strategic patterns, subdomains and the relations of a context map,
 will build on these.
 
-![What the object of a context gives now and what will build on it](../docs/assets/ddd-context-uses-light.svg#gh-light-mode-only)
-![What the object of a context gives now and what will build on it](../docs/assets/ddd-context-uses-dark.svg#gh-dark-mode-only)
+![What the object of a context gives now and what will build on it](../../docs/assets/ddd-context-uses-light.svg#gh-light-mode-only)
+![What the object of a context gives now and what will build on it](../../docs/assets/ddd-context-uses-dark.svg#gh-dark-mode-only)
 
 A context is an interface to implement, not an annotation. Kotlin cannot
 annotate a package, so an annotation would sit on an object all the same; the
@@ -112,8 +112,8 @@ object is a value that code can pass and ask; and a parameter of the type
 `KClass<out BoundedContext>` takes a context only, so a wrong reference does not
 compile, where a name in a string compiles with a typo in it.
 
-![A reference by name compiles with a typo, a reference by type to a class that is not a context does not](../docs/assets/ddd-context-reference-light.svg#gh-light-mode-only)
-![A reference by name compiles with a typo, a reference by type to a class that is not a context does not](../docs/assets/ddd-context-reference-dark.svg#gh-dark-mode-only)
+![A reference by name compiles with a typo, a reference by type to a class that is not a context does not](../../docs/assets/ddd-context-reference-light.svg#gh-light-mode-only)
+![A reference by name compiles with a typo, a reference by type to a class that is not a context does not](../../docs/assets/ddd-context-reference-dark.svg#gh-dark-mode-only)
 
 ## Jackson
 
