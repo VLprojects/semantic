@@ -56,7 +56,7 @@ PALETTE = {
 		"sky": "#9DD1FF", "slate": "#7A8594", "lime": "#22C063",
 		"blue-plate": "#E3EFFF", "blue-ink": "#1F2328", "green-plate": "#DDF7E7", "green-ink": "#1F2328", "green-glyph": "#22C063", "amber-plate": "#FFEEDC", "amber-ink": "#1F2328", "amber-glyph": "#FF9F2E",
 		"green-soft": "#3A7550", "blue-soft": "#41679C", "amber-soft": "#8F4600", "green-text": "#12873F", "amber-text": "#B85300",
-		"violet-link": "#8B5CF6", "pink-link": "#EC4899", "cyan-link": "#06B6D4",
+		"violet-link": "#8B5CF6", "amber-link": "#FF9F2E", "green-link": "#22C063",
 		"on-green": "#0B2915", "on-blue": "#FFFFFF", "on-amber": "#2E1700", "on-sky": "#0B2340", "on-slate": "#FFFFFF", "on-lime": "#0B2915",
 	},
 	"dark": {
@@ -67,7 +67,7 @@ PALETTE = {
 		"sky": "#6E9BFF", "slate": "#545D68", "lime": "#5BF08A",
 		"blue-plate": "#6E9BFF", "blue-ink": "#06173D", "green-plate": "#5BF08A", "green-ink": "#03240E", "green-glyph": "#0D7A32", "amber-plate": "#FFB46B", "amber-ink": "#1F1206", "amber-glyph": "#8A3F00",
 		"green-soft": "#0D5A26", "blue-soft": "#1B3A80", "amber-soft": "#4A2808", "green-text": "#03240E", "amber-text": "#FF9F4A",
-		"violet-link": "#A78BFA", "pink-link": "#F472B6", "cyan-link": "#22D3EE",
+		"violet-link": "#A78BFA", "amber-link": "#FF9F4A", "green-link": "#3FB950",
 		"on-green": "#0D1117", "on-blue": "#0D1117", "on-amber": "#0D1117", "on-sky": "#06173D", "on-slate": "#E6EDF3", "on-lime": "#03240E",
 	},
 }
@@ -265,20 +265,19 @@ def families(pal):
 # ---------------------------------------------------------------------- ddd dependencies
 # Which module builds on which, on the plate of the family and on its grid: every block keeps the edges of
 # the row, a store and its starter share a column, and the starters, what a service adds, come last. An
-# arrow points to what a module needs: it starts on a dot at the module and ends on a filled head 2 short
-# of the other one, and what it takes is said beside it. Its colour is its kind, a neon of its own beside
-# the pale plates: violet builds on the classes of the module it points to, extending them or implementing
-# them, pink configures a module when the service has it, cyan puts a module into the service with the
-# starter. An
-# arrow that has a row to skip, from a starter up to its store, takes a lane beside the blocks, left for the
-# left column and right for the right one, and enters them from the side; its note keeps 8 off the lane and
-# more than the padding of a block off the block, so it reads with the lane. The page is wider than the
-# family map, so the longest starter fits half a row. The gaps that hold arrows are 40 inside a level and 48
-# between levels, on the grid of 4
+# arrow points to what a module needs: it starts on a dot and ends on a filled head, both 3 off the blocks,
+# and what it takes is said beside it. Its colour is its kind, from the palette of the plates: violet
+# builds on the classes of the module it points to, extending them or implementing them, amber configures a
+# module when the service has it, green puts a module into the service with the starter. An arrow that has
+# a row to skip, from a starter up to its store, takes a lane beside the blocks, left for the left column
+# and right for the right one, and enters them from the side; its note keeps 8 off the lane and more than
+# the padding of a block off the block, so it reads with the lane. The page is wider than the family map,
+# so the longest starter fits half a row. The gaps that hold arrows are 40 inside a level and 48 between
+# levels, on the grid of 4
 DEP_W, DEP_ROW, DEP_LEVEL, BEND = 1040, 40, 48, 8  # page, gaps with arrows, bends
 LANE, RUN = 88, 56  # room beside the blocks, and how far out of it the lane runs
-BUILDS, CONFIGURES, ADDS = "violet-link", "pink-link", "cyan-link"
-HEAD, HALF = 6, 3  # length of a head and half its base
+BUILDS, CONFIGURES, ADDS = "violet-link", "amber-link", "green-link"
+HEAD, HALF, DOT, AIR = 5, 2.5, 2, 3  # length of a head and half its base, radius of a dot, air to a block
 
 
 def arrowhead(a, x, y, dx, dy, color):
@@ -286,29 +285,31 @@ def arrowhead(a, x, y, dx, dy, color):
 	bx, by = x - dx * HEAD, y - dy * HEAD
 	a.add(
 		f'<path d="M{x},{y} L{bx - dy * HALF},{by + dx * HALF} L{bx + dy * HALF},{by - dx * HALF} Z" '
-		f'fill="{a.p[color]}" stroke="{a.p[color]}" stroke-width="1" stroke-linejoin="round"/>'
+		f'fill="{a.p[color]}" stroke="{a.p[color]}" stroke-width="0.5" stroke-linejoin="round"/>'
 	)
 	return bx, by
 
 
 def dot(a, x, y, color):
-	a.add(f'<circle cx="{x}" cy="{y}" r="2.5" fill="{a.p[color]}"/>')
+	a.add(f'<circle cx="{x}" cy="{y}" r="{DOT}" fill="{a.p[color]}"/>')
 
 
 def link(a, x, y1, y2, color):
-	"""From a dot on the edge at y1 up to a head 2 short of y2."""
-	dot(a, x, y1, color)
-	_, by = arrowhead(a, x, y2 + 2, 0, -1, color)
-	a.path(f"M{x},{y1} L{x},{by}", color)
+	"""From a dot over the edge at y1 up to a head under the edge at y2."""
+	start = y1 - AIR - DOT
+	dot(a, x, start, color)
+	_, by = arrowhead(a, x, y2 + AIR, 0, -1, color)
+	a.path(f"M{x},{start} L{x},{by}", color)
 
 
 def bypass(a, edge, lane, y1, y2, color):
-	"""From a dot on the edge at y1 out to the lane, up it and back in, to a head 2 short of the edge at y2."""
+	"""From a dot beside the edge at y1 out to the lane, up it and back in, to a head beside the edge at y2."""
 	d = 1 if lane > edge else -1
-	dot(a, edge, y1, color)
-	bx, _ = arrowhead(a, edge + d * 2, y2, -d, 0, color)
+	start = edge + d * (AIR + DOT)
+	dot(a, start, y1, color)
+	bx, _ = arrowhead(a, edge + d * AIR, y2, -d, 0, color)
 	a.path(
-		f"M{edge},{y1} L{lane - d * BEND},{y1} Q{lane},{y1} {lane},{y1 - BEND} L{lane},{y2 + BEND} "
+		f"M{start},{y1} L{lane - d * BEND},{y1} Q{lane},{y1} {lane},{y1 - BEND} L{lane},{y2 + BEND} "
 		f"Q{lane},{y2} {lane - d * BEND},{y2} L{bx},{y2}", color)
 
 
