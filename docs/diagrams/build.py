@@ -227,8 +227,10 @@ DDD_SPRING = [
 	("Spring Data", [("green", "ddd/spring-data", "semantic-ddd-spring-data", "what every store shares")]),
 	(None, [("green", "ddd/spring-data-jpa", "semantic-ddd-spring-data-jpa", "aggregates as JPA entities"),
 		("green", "ddd/spring-data-mongodb", "semantic-ddd-spring-data-mongodb", "aggregates as MongoDB documents")]),
-	("Spring Boot", [("green", "ddd/spring-boot", "semantic-ddd-spring-boot", "auto-configuration"),
-		("green", "ddd/spring-boot-starter", "semantic-ddd-spring-boot-starter", "the way in: add it and one store")]),
+	("Spring Boot", [("green", "ddd/spring-boot", "semantic-ddd-spring-boot", "auto-configuration")]),
+	(None, [("green", "ddd/spring-boot-starter-jpa", "semantic-ddd-spring-boot-starter-jpa", "the way in for JPA")]),
+	(None, [("green", "ddd/spring-boot-starter-mongodb", "semantic-ddd-spring-boot-starter-mongodb",
+		"the way in for MongoDB")]),
 ]
 
 
@@ -256,21 +258,6 @@ def families(pal):
 	], DASH)
 	a.h = y - PLATES + 16
 	return a
-
-
-def modules(pal):
-	# the ddd family alone, with the vo and format modules it builds on: read top to bottom, each level builds on
-	# the one above it
-	a = Art(720, 0, pal)
-	y = family(a, 16, "ddd", "in development, v1", [
-		("JVM", [(None, "vo/core", "semantic-vo", "value objects, the vo family"),
-			(None, "format", "semantic-format", "names, the format family")]),
-		(None, [("blue", "ddd/core", "semantic-ddd", "building blocks, no framework")]),
-		*DDD_SPRING,
-	])
-	a.h = y - PLATES + 16
-	return a
-
 
 
 # ---------------------------------------------------------------------- ddd dependencies
@@ -485,7 +472,7 @@ def symbols(pal):
 
 
 DIAGRAMS = {
-	"families": families, "modules": modules, "dependencies": dependencies,
+	"families": families, "dependencies": dependencies,
 	"format-cases": cases, "helper-words": words, "format-abbreviated": abbreviated, "helper-symbols": symbols,
 }
 
