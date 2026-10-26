@@ -221,25 +221,27 @@ the detector of Spring Data JPA.
 
 ## Modules
 
-![Modules, and which of them a service takes](../docs/assets/modules-light.svg#gh-light-mode-only)
-![Modules, and which of them a service takes](../docs/assets/modules-dark.svg#gh-dark-mode-only)
+![Modules, and what each takes from the one it builds on](../docs/assets/dependencies-light.svg#gh-light-mode-only)
+![Modules, and what each takes from the one it builds on](../docs/assets/dependencies-dark.svg#gh-dark-mode-only)
 
-Six artifacts, group `pro.vlprojects.semantic`:
+Seven artifacts, group `pro.vlprojects.semantic`:
 
 | Artifact | For | Depends on |
 | --- | --- | --- |
-| `semantic-ddd` | any JVM code: the building blocks | `semantic-vo`, `semantic-format` |
+| `semantic-ddd` | any JVM code: the building blocks | `semantic-format` |
 | `semantic-ddd-spring-data` | what every Spring Data store shares: `Persistable`, events handed out on save | core, `spring-data-commons`, `spring-aop` |
 | `semantic-ddd-spring-data-jpa` | aggregates mapped with JPA | the Spring Data module, `jakarta.persistence-api`, `spring-data-jpa` |
 | `semantic-ddd-spring-data-mongodb` | aggregates stored in MongoDB | the Spring Data module, `spring-data-mongodb` |
-| `semantic-ddd-spring-boot` | auto-configuration | the Spring Data module, Spring Boot |
-| `semantic-ddd-spring-boot-starter` | the usual way in: dependencies only | core, the Spring Data and Spring Boot modules |
+| `semantic-ddd-spring-boot` | auto-configuration, empty so far: [what it may hold](spring-boot/README.md) | the Spring Data module, Spring Boot |
+| `semantic-ddd-spring-boot-starter-jpa` | the way in for a JPA service: dependencies only | the Spring Boot and JPA modules, `spring-boot-starter-data-jpa` |
+| `semantic-ddd-spring-boot-starter-mongodb` | the way in for a MongoDB service: dependencies only | the Spring Boot and MongoDB modules, `spring-boot-starter-data-mongodb` |
 
-A service takes the starter and the module of its store, JPA or MongoDB: the
-starter does not pick a store for it. JPA without Spring Data is not supported.
+A service takes the starter of its store, JPA or MongoDB, and gets with it the
+modules of the family and the Spring Boot starter of that store. JPA without
+Spring Data is not supported.
 
 The naming follows the Spring Boot reference: a module of your own is
-`<name>-spring-boot`, the starter is `<name>-spring-boot-starter`. A store
+`<name>-spring-boot`, a starter is `<name>-spring-boot-starter-<store>`. A store
 module is named as in Spring Data, `spring-data-jpa` and `spring-data-mongodb`.
 Configuration keys live under `semantic.ddd`.
 
@@ -247,12 +249,13 @@ Directories drop the prefix the path already gives:
 
 ```
 ddd/
-├── core/                  semantic-ddd
-├── spring-data/           semantic-ddd-spring-data
-├── spring-data-jpa/       semantic-ddd-spring-data-jpa
-├── spring-data-mongodb/   semantic-ddd-spring-data-mongodb
-├── spring-boot/           semantic-ddd-spring-boot
-└── spring-boot-starter/   semantic-ddd-spring-boot-starter
+├── core/                          semantic-ddd
+├── spring-data/                   semantic-ddd-spring-data
+├── spring-data-jpa/               semantic-ddd-spring-data-jpa
+├── spring-data-mongodb/           semantic-ddd-spring-data-mongodb
+├── spring-boot/                   semantic-ddd-spring-boot
+├── spring-boot-starter-jpa/       semantic-ddd-spring-boot-starter-jpa
+└── spring-boot-starter-mongodb/   semantic-ddd-spring-boot-starter-mongodb
 ```
 
 Packages follow the artifacts: `pro.vlprojects.semantic.ddd`,
