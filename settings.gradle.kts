@@ -27,8 +27,8 @@ fun module(name: String, directory: String) {
     project(":$name").projectDir = file(directory)
 }
 
-module("semantic-helper", "helper")
-module("semantic-format", "format")
+module("semantic-helper", "helper/core")
+module("semantic-format", "format/core")
 module("semantic-ddd", "ddd/core")
 module("semantic-ddd-spring-data", "ddd/spring/data/core")
 module("semantic-ddd-spring-data-jpa", "ddd/spring/data/jpa")

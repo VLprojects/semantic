@@ -11,8 +11,8 @@
     <text x="56.0" y="152.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#6E7681" text-anchor="start">Spring, no Jakarta, no</text>
     <text x="56.0" y="165.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#6E7681" text-anchor="start">annotations</text>
     <rect x="272.0" y="97.0" width="912.0" height="151.0" rx="6" fill="#6E9BFF"/>
-    <rect x="284.0" y="109.0" width="55.6" height="18" rx="4" fill="#1B3A80" fill-opacity="0.2"/>
-    <text x="292.0" y="121.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1B3A80" text-anchor="start">helper</text>
+    <rect x="284.0" y="109.0" width="88.6" height="18" rx="4" fill="#1B3A80" fill-opacity="0.2"/>
+    <text x="292.0" y="121.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1B3A80" text-anchor="start">helper/core</text>
     <text x="284.0" y="145.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#06173D" text-anchor="start">semantic-helper</text>
     <text x="284.0" y="177.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1B3A80" text-anchor="start">extensions of the standard types, a package per kind</text>
     <rect x="284.0" y="194.0" width="216.0" height="42" rx="4" fill="#1B3A80" fill-opacity="0.12"/>
@@ -37,8 +37,8 @@
     <text x="56.0" y="472.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#6E7681" text-anchor="start">Spring, no Jakarta, no</text>
     <text x="56.0" y="485.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#6E7681" text-anchor="start">annotations</text>
     <rect x="272.0" y="417.0" width="912.0" height="151.0" rx="6" fill="#6E9BFF"/>
-    <rect x="284.0" y="429.0" width="55.6" height="18" rx="4" fill="#1B3A80" fill-opacity="0.2"/>
-    <text x="292.0" y="441.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1B3A80" text-anchor="start">format</text>
+    <rect x="284.0" y="429.0" width="88.6" height="18" rx="4" fill="#1B3A80" fill-opacity="0.2"/>
+    <text x="292.0" y="441.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1B3A80" text-anchor="start">format/core</text>
     <text x="284.0" y="465.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#06173D" text-anchor="start">semantic-format</text>
     <text x="284.0" y="497.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1B3A80" text-anchor="start">a value written down for a reader</text>
     <rect x="284.0" y="514.0" width="290.7" height="42" rx="4" fill="#1B3A80" fill-opacity="0.12"/>

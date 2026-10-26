@@ -232,13 +232,13 @@ def part(a, x, y, w, hue, name, what):
 
 FAMILIES = [
 	("Helper", "extensions of the standard types", [
-		("JVM", [[("blue", "helper", "semantic-helper", "extensions of the standard types, a package per kind", [
+		("JVM", [[("blue", "helper/core", "semantic-helper", "extensions of the standard types, a package per kind", [
 			("text", "symbols and the words of a name"), ("number", "the sign, a lossless narrowing"),
 			("time", "a Duration or a Period of a number"), ("lang", "Any and KClass, planned"),
 		])]]),
 	]),
 	("Format", "how a value is written down", [
-		("JVM", [[("blue", "format", "semantic-format", "a value written down for a reader", [
+		("JVM", [[("blue", "format/core", "semantic-format", "a value written down for a reader", [
 			("format", "cases and plurals"), ("abbreviation", "cut in the middle or at an end"),
 			("mask", "part of a value hidden"),
 		])]]),
