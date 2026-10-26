@@ -14,6 +14,7 @@ entity by itself. The packages below are laid out for what is to come.
 
 | Package | Auto-configuration | When | What it registers |
 | --- | --- | --- | --- |
+| `repository` | `SpecificationRepositoryAutoConfiguration` | `semantic-ddd-spring-data` and Querydsl are present | what a repository needs to find entities by a `Specification`: the metadata of the repository exposed to its fragments |
 | `web` | `IdentifierConversionAutoConfiguration` | `semantic-ddd-spring-web` is present | the converter of a `String` to a `BoxedIdentifier`, so `@PathVariable id: CartId` and `@PathVariable cart: Cart` work |
 | `mongodb` | `MongoAutoConfiguration` | `semantic-ddd-spring-data-mongodb` is present | the callbacks that mark an aggregate persisted on load and after save, the conversions of a key |
 | `events` | `EventMetricsAutoConfiguration` | a `MeterRegistry` is present | a counter of the published events, tagged by the event and the aggregate |
@@ -21,6 +22,11 @@ entity by itself. The packages below are laid out for what is to come.
 
 `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`
 lists the auto-configurations once the first of them is written.
+
+The modules it configures are `compileOnly`: an auto-configuration turns on
+when the service has the module, and the auto-configuration never brings one.
+The starter of a store brings the modules of that store; any other module the
+service adds itself.
 
 ## What it does not hold
 
