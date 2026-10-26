@@ -156,8 +156,7 @@ counting and deleting, sorted and by page, with `findByIdOrThrow`, which raises
 `NotFoundException` of the core when there is no such entity.
 `AggregateRepository` extends it for an aggregate root and adds nothing yet:
 it takes a root only. A store gives a repository of its own on top of each,
-`JpaAggregateRepository` with `JpaRepository`, `MongoAggregateRepository` with
-`MongoRepository`.
+`JpaEntityRepository` and `JpaAggregateRepository` with `JpaRepository`.
 
 `SpecificationExecutor` finds by a specification the way
 `QuerydslPredicateExecutor` finds by a predicate. At its root is `findBy`,
@@ -223,6 +222,16 @@ a constructor with no arguments, and `AbstractId` has none. It implements
 with the key it holds, not with its own empty field, and an entity equals its
 proxy both ways: `ProxyUtils` takes the class of the entity from the proxy by
 the detector of Spring Data JPA.
+
+`JpaEntityRepository` and `JpaAggregateRepository`, under
+`pro.vlprojects.semantic.ddd.spring.data.jpa.repository`, are `JpaRepository`
+of Spring Data with `EntityRepository` and `AggregateRepository` of the Spring
+Data module. A service declares its repository on one of them, and Spring Data
+builds it as any other.
+
+```kotlin
+interface CartRepository : JpaAggregateRepository<Cart, CartId>
+```
 
 ## Modules
 
