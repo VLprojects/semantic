@@ -1,8 +1,9 @@
 package pro.vlprojects.semantic.ddd.tactical.base
 
 import pro.vlprojects.semantic.ddd.tactical.BoxedIdentifier
+import java.io.Serializable
 
-public abstract class AbstractId<out T : Any>(
+public abstract class AbstractId<out T : Serializable>(
     override val value: T,
 ) : BoxedIdentifier<T> {
 

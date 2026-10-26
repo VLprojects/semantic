@@ -24,7 +24,7 @@ public abstract interface class pro/vlprojects/semantic/ddd/tactical/AggregateRo
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/BoxedIdentifier : pro/vlprojects/semantic/ddd/tactical/Identifier {
-	public abstract fun getValue ()Ljava/lang/Object;
+	public abstract fun getValue ()Ljava/io/Serializable;
 }
 
 public final class pro/vlprojects/semantic/ddd/tactical/BusinessRule {
@@ -121,9 +121,9 @@ public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractEvent : 
 }
 
 public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractId : pro/vlprojects/semantic/ddd/tactical/BoxedIdentifier {
-	public fun <init> (Ljava/lang/Object;)V
+	public fun <init> (Ljava/io/Serializable;)V
 	public fun equals (Ljava/lang/Object;)Z
-	public fun getValue ()Ljava/lang/Object;
+	public fun getValue ()Ljava/io/Serializable;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }

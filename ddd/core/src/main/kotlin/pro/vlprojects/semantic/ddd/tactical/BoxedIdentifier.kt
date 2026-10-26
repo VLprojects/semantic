@@ -1,6 +1,8 @@
 package pro.vlprojects.semantic.ddd.tactical
 
-public interface BoxedIdentifier<out T : Any> : Identifier {
+import java.io.Serializable
+
+public interface BoxedIdentifier<out T : Serializable> : Identifier {
 
     public val value: T
 }
