@@ -4,6 +4,7 @@ import pro.vlprojects.semantic.ddd.spring.data.jpa.AbstractJpaAggregateRoot
 import pro.vlprojects.semantic.ddd.tactical.EventMeta
 import pro.vlprojects.semantic.ddd.tactical.Revision
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractEvent
+import pro.vlprojects.semantic.ddd.tactical.base.BaseRevision
 import jakarta.persistence.Embeddable
 import jakarta.persistence.Entity
 
@@ -31,6 +32,6 @@ class Cart(
 
     fun add() = change {
         items += 1
-        register(ItemAdded(EventMeta.of<ItemAdded>(), revision))
+        register(ItemAdded(EventMeta.of<ItemAdded>(), BaseRevision.of(this)))
     }
 }

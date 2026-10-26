@@ -14,9 +14,9 @@ Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd`:
 
 | Package | What is there |
 | --- | --- |
-| `tactical` | The building blocks, side by side: `DomainObject` they all extend, with `typeName`, the class name in kebab case, on an object and on its class; `Identifier`, `Identifiable`, `Entity` with its version, `AggregateRoot` with the `Revision` it gives, `Versioned`, `ValueObject`, `Event` with its `EventMeta`, built by `EventMeta.of<ItemAdded>()` with a new `EventId`, the current time and the class name in kebab case by default, `BusinessRule`, `Specification` |
+| `tactical` | The building blocks, side by side: `DomainObject` they all extend, with `typeName`, the class name in kebab case, on an object and on its class; `Identifier`, `Identifiable`, `Entity` with its version, `AggregateRoot`, `Revision` of an aggregate, `Versioned`, `ValueObject`, `Event` with its `EventMeta`, built by `EventMeta.of<ItemAdded>()` with a new `EventId`, the current time and the class name in kebab case by default, `BusinessRule`, `Specification` |
 | `tactical.specification.composite` | The parts a specification is composed of: `AllOf`, `AnyOf` and `Not` hold other specifications, `Always` and `Never` hold for every candidate and for none, `allOf` and `anyOf` combine any number of specifications |
-| `tactical.base` | Base classes to extend, free of any framework: `AbstractEntity` and `AbstractId` equal by identifier and value, the version of an entity set by `assignVersion`, `AbstractAggregateRoot` that registers events and gives a `BaseRevision` of itself, `AbstractEvent` equal by id, and `EventId` on a `UUID`, the default id of an event |
+| `tactical.base` | Base classes to extend, free of any framework: `AbstractEntity` and `AbstractId` equal by identifier and value, the version of an entity set by `assignVersion`, `AbstractAggregateRoot` that registers events, `BaseRevision` built of any aggregate, `AbstractEvent` equal by id, and `EventId` on a `UUID`, the default id of an event |
 | `dsl` | The ways to write the blocks down: `rule` builds a `BusinessRule`, `check` runs a list of them, `checkRule` checks a one-off condition |
 | `architecture.error` | What a layer of the application raises, not a pattern of the model: `DomainException` and the refusals a service extends, `NotFoundException`, `ConflictException`, `BusinessRuleException` |
 
@@ -40,7 +40,7 @@ through Java serialization, and a service that needs it marks its own class.
 
 An event carries its meta, the revision of its aggregate and fields of its own. The
 meta, `EventMeta`, holds the id of the event, its name and the time it
-happened; the revision, `Revision`, taken by `aggregate.revision`, holds the
+happened; the revision, `Revision`, built by `BaseRevision.of(aggregate)`, holds the
 name, the identifier and the version of the aggregate. Both are set once when the event
 is raised. The name of an event and of an aggregate is its `typeName`, the class in kebab case, `ItemAdded` is
 `item-added` and `ShoppingCart` is `shopping-cart`, so renaming a class
@@ -97,7 +97,7 @@ is a `Persistable` whose `getId()` is the identifier.
 Each module has a hierarchy of its own, the root extending the entity of the
 same module: `AbstractSpringDataAggregateRoot` extends
 `AbstractSpringDataEntity`, not `AbstractAggregateRoot`, and repeats the
-revision and the events of the core root, since a class has one superclass.
+events of the core root, since a class has one superclass.
 `identifier` and `version` of the core are open, so the base of a store
 overrides them with its mapping.
 
@@ -118,7 +118,7 @@ Both are mapped superclasses: an entity of the service extends one of them and
 is an `@Entity`. Each module has a hierarchy of its own, the root extending
 the entity of the same module: `AbstractJpaEntity` extends
 `AbstractSpringDataEntity`, `AbstractJpaAggregateRoot` extends
-`AbstractJpaEntity` and repeats the events and the revision of the Spring Data
+`AbstractJpaEntity` and repeats the events of the Spring Data
 root, since a class has one superclass.
 
 ```kotlin

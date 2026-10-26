@@ -2,7 +2,6 @@ public abstract class pro/vlprojects/semantic/ddd/spring/data/jpa/AbstractJpaAgg
 	public fun <init> ()V
 	protected final fun clearEvents ()V
 	protected final fun getEvents ()Ljava/util/List;
-	public final fun getRevision ()Lpro/vlprojects/semantic/ddd/tactical/Revision;
 	protected final fun register (Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;Lpro/vlprojects/semantic/ddd/tactical/Event;)Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;
 	public fun toString ()Ljava/lang/String;
 }

@@ -21,7 +21,6 @@ public final class pro/vlprojects/semantic/ddd/dsl/BusinessRulesKt {
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/AggregateRoot : pro/vlprojects/semantic/ddd/tactical/Entity {
-	public abstract fun getRevision ()Lpro/vlprojects/semantic/ddd/tactical/Revision;
 }
 
 public final class pro/vlprojects/semantic/ddd/tactical/BusinessRule {
@@ -89,7 +88,6 @@ public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractAggregat
 	public fun <init> ()V
 	protected fun clearEvents ()V
 	protected final fun getEvents ()Ljava/util/List;
-	public final fun getRevision ()Lpro/vlprojects/semantic/ddd/tactical/Revision;
 	protected final fun register (Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;Lpro/vlprojects/semantic/ddd/tactical/Event;)Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;
 	public fun toString ()Ljava/lang/String;
 }

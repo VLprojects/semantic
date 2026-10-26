@@ -6,6 +6,7 @@ import pro.vlprojects.semantic.ddd.tactical.EventMeta
 import pro.vlprojects.semantic.ddd.tactical.Revision
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractEvent
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractId
+import pro.vlprojects.semantic.ddd.tactical.base.BaseRevision
 
 class CartId(
     value: Long,
@@ -19,7 +20,7 @@ class ItemAdded(
 
     companion object Factory {
 
-        fun of(cart: Cart, sku: String) = ItemAdded(EventMeta.of<ItemAdded>(), cart.revision, sku)
+        fun of(cart: Cart, sku: String) = ItemAdded(EventMeta.of<ItemAdded>(), BaseRevision.of(cart), sku)
     }
 }
 

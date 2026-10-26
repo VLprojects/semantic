@@ -5,8 +5,6 @@ import org.springframework.data.domain.DomainEvents
 import pro.vlprojects.semantic.ddd.tactical.AggregateRoot
 import pro.vlprojects.semantic.ddd.tactical.Event
 import pro.vlprojects.semantic.ddd.tactical.Identifier
-import pro.vlprojects.semantic.ddd.tactical.Revision
-import pro.vlprojects.semantic.ddd.tactical.base.BaseRevision
 import pro.vlprojects.semantic.format.abbreviation.abbreviated
 import jakarta.persistence.MappedSuperclass
 
@@ -14,9 +12,6 @@ import jakarta.persistence.MappedSuperclass
 public abstract class AbstractJpaAggregateRoot<A : AggregateRoot<A, I>, I : Identifier> :
     AbstractJpaEntity<A, I>(),
     AggregateRoot<A, I> {
-
-    final override val revision: Revision<I>
-        get() = BaseRevision.of(this)
 
     @Transient
     @get:DomainEvents
