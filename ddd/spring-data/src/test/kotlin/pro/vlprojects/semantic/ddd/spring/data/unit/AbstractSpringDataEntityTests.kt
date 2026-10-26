@@ -17,6 +17,11 @@ class AbstractSpringDataEntityTests {
     }
 
     @Test
+    fun `a new entity has the first version`() {
+        assertEquals(0, Item(ItemId(1)).version)
+    }
+
+    @Test
     fun `entities with one identifier are equal whatever their state`() {
         val first = Cart(CartId(1)).add("apple")
         val second = Cart(CartId(1))

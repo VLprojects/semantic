@@ -6,7 +6,7 @@ specifications and domain errors. The core is plain Kotlin; Spring Data with its
 MongoDB, and Spring Boot live in modules of their own.
 
 The contracts of the core are in place, and so are the base classes of the
-Spring Data module; the store and Spring Boot modules are empty so far.
+Spring Data and JPA modules; the MongoDB and Spring Boot modules are empty so far.
 
 ## The core
 
@@ -14,9 +14,9 @@ Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd`:
 
 | Package | What is there |
 | --- | --- |
-| `tactical` | The building blocks, side by side: `DomainObject` they all extend, with `typeName`, the class name in kebab case, on an object and on its class; `Identifier`, `Identifiable`, `Entity`, `AggregateRoot` with the `Revision` it gives, `Versioned`, `ValueObject`, `Event` with its `EventMeta`, built by `EventMeta.of<ItemAdded>()` with a new `EventId`, the current time and the class name in kebab case by default, `BusinessRule`, `Specification` |
+| `tactical` | The building blocks, side by side: `DomainObject` they all extend, with `typeName`, the class name in kebab case, on an object and on its class; `Identifier`, `BoxedIdentifier`, a key that boxes one serializable value such as a `UUID` or a `Long`, `Identifiable`, `Entity` with its version, `AggregateRoot`, `Revision` of an aggregate, `Versioned`, `ValueObject`, `Event` with its `EventMeta`, built by `EventMeta.of<ItemAdded>()` with a new `EventId`, the current time and the class name in kebab case by default, `BusinessRule`, `Specification` |
 | `tactical.specification.composite` | The parts a specification is composed of: `AllOf`, `AnyOf` and `Not` hold other specifications, `Always` and `Never` hold for every candidate and for none, `allOf` and `anyOf` combine any number of specifications |
-| `tactical.base` | Base classes to extend, free of any framework: `AbstractEntity` and `AbstractId` equal by identifier and value, `AbstractAggregateRoot` that registers events and gives a `BaseRevision` of itself, `AbstractEvent` equal by id, and `EventId` on a `UUID`, the default id of an event |
+| `tactical.base` | Base classes to extend, free of any framework: `AbstractEntity` and `AbstractId` equal by identifier and value, the version of an entity set by `assignVersion`, `AbstractAggregateRoot` that registers events, `BaseRevision` built of any aggregate, `AbstractEvent` equal by id, and `EventId` on a `UUID`, the default id of an event |
 | `dsl` | The ways to write the blocks down: `rule` builds a `BusinessRule`, `check` runs a list of them, `checkRule` checks a one-off condition |
 | `architecture.error` | What a layer of the application raises, not a pattern of the model: `DomainException` and the refusals a service extends, `NotFoundException`, `ConflictException`, `BusinessRuleException` |
 
@@ -40,7 +40,7 @@ through Java serialization, and a service that needs it marks its own class.
 
 An event carries its meta, the revision of its aggregate and fields of its own. The
 meta, `EventMeta`, holds the id of the event, its name and the time it
-happened; the revision, `Revision`, taken by `aggregate.revision`, holds the
+happened; the revision, `Revision`, built by `BaseRevision.of(aggregate)`, holds the
 name, the identifier and the version of the aggregate. Both are set once when the event
 is raised. The name of an event and of an aggregate is its `typeName`, the class in kebab case, `ItemAdded` is
 `item-added` and `ShoppingCart` is `shopping-cart`, so renaming a class
@@ -90,15 +90,16 @@ forgotten with `@AfterDomainEventPublication` once they are published. Events
 are published by `save()` only: an aggregate changed and not saved publishes
 nothing.
 
-`AbstractSpringDataEntity` is the base of an entity: an `Entity` and a
-`Persistable` whose `getId()` is the identifier. The root extends it and adds
-the version, the revision and the events.
+`AbstractSpringDataEntity` is the base of an entity: it extends
+`AbstractEntity` of the core, with its identifier, version and invariants, and
+is a `Persistable` whose `getId()` is the identifier.
 
-The two bases implement the contracts of the core themselves and repeat what
-`AbstractEntity` and `AbstractAggregateRoot` do, equality by identifier and
-invariants checked on a change. They do not extend those classes, so the
-fields are declared here and not in the core, and how a store maps them is
-decided on the side of Spring Data.
+Each module has a hierarchy of its own, the root extending the entity of the
+same module: `AbstractSpringDataAggregateRoot` extends
+`AbstractSpringDataEntity`, not `AbstractAggregateRoot`, and repeats the
+events of the core root, since a class has one superclass.
+`identifier` and `version` of the core are open, so the base of a store
+overrides them with its mapping.
 
 `isNew()` is true until `markPersisted()` is called. Neither this flag nor the
 events of a root are stored: the `transient` modifier keeps them out of JPA,
@@ -106,8 +107,49 @@ events of a root are stored: the `transient` modifier keeps them out of JPA,
 to the store modules: JPA through the callbacks of the entity, MongoDB through
 the callbacks of its mapping.
 
-Equality compares the classes through `ProxyUtils.getUserClass`, so an entity
-equals the lazy proxy Hibernate puts in its place.
+Equality compares the classes through `ProxyUtils.getUserClass`, so the
+proxy class of a store counts as the class of the entity.
+
+## JPA
+
+`semantic-ddd-spring-data-jpa` gives `AbstractJpaEntity` and
+`AbstractJpaAggregateRoot`, under `pro.vlprojects.semantic.ddd.spring.data.jpa`.
+Both are mapped superclasses: an entity of the service extends one of them and
+is an `@Entity`. Each module has a hierarchy of its own, the root extending
+the entity of the same module: `AbstractJpaEntity` extends
+`AbstractSpringDataEntity`, `AbstractJpaAggregateRoot` extends
+`AbstractJpaEntity` and repeats the events of the Spring Data
+root, since a class has one superclass.
+
+```kotlin
+@Embeddable
+class CartId(override val value: Long) : BoxedIdentifier<Long>
+
+@Entity
+class Cart(identifier: CartId) : AbstractJpaAggregateRoot<Cart, CartId>() {
+
+    init {
+        this.identifier = identifier
+    }
+}
+```
+
+The Spring Data bases know nothing of JPA, so the JPA bases override their
+members with the mapping: `identifier` is the `@EmbeddedId`, its `value`
+stored in the column `id`, neither null nor updated; `version` is the
+`@Version`; `markPersisted()` runs on `@PostPersist` and `@PostLoad`, so
+`isNew()` turns false once the entity is persisted or loaded. The key of a
+JPA base is a `BoxedIdentifier`, so the value it boxes is always there to map; a
+composite key needs a base of its own.
+
+The class of the key does not extend `AbstractId` of the core: JPA builds it by
+a constructor with no arguments, and `AbstractId` has none. It implements
+`BoxedIdentifier` and its own equality.
+
+`identifier` and `version` are open, so a lazy proxy of Hibernate answers
+with the key it holds, not with its own empty field, and an entity equals its
+proxy both ways: `ProxyUtils` takes the class of the entity from the proxy by
+the detector of Spring Data JPA.
 
 ## Modules
 
@@ -120,7 +162,7 @@ Six artifacts, group `pro.vlprojects.semantic`:
 | --- | --- | --- |
 | `semantic-ddd` | any JVM code: the building blocks | `semantic-vo`, `semantic-format` |
 | `semantic-ddd-spring-data` | what every Spring Data store shares: `Persistable`, events handed out on save | core, `spring-data-commons`, `spring-aop` |
-| `semantic-ddd-spring-data-jpa` | aggregates mapped with JPA | the Spring Data module, `jakarta.persistence-api` |
+| `semantic-ddd-spring-data-jpa` | aggregates mapped with JPA | the Spring Data module, `jakarta.persistence-api`, `spring-data-jpa` |
 | `semantic-ddd-spring-data-mongodb` | aggregates stored in MongoDB | the Spring Data module, `spring-data-mongodb` |
 | `semantic-ddd-spring-boot` | auto-configuration | the Spring Data module, Spring Boot |
 | `semantic-ddd-spring-boot-starter` | the usual way in: dependencies only | core, the Spring Data and Spring Boot modules |
