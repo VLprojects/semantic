@@ -15,5 +15,5 @@ public interface EntityRepository<E : Entity<E, I>, I : Identifier> :
 
     // A default body keeps Spring Data from deriving a query out of the name.
     public fun findByIdOrThrow(identifier: I): E = findByIdOrNull(identifier)
-        ?: throw NotFoundException("Nothing found by identifier $identifier")
+        ?: throw NotFoundException("Entity not found [id: $identifier]")
 }
