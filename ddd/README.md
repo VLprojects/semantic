@@ -182,19 +182,22 @@ drop the prefix the path already gives:
 
 ```
 ddd/
-├── core/                  semantic-ddd
+├── core/                    semantic-ddd
 ├── spring/
-│   ├── data/              semantic-ddd-spring-data
-│   ├── data-jpa/          semantic-ddd-spring-data-jpa
-│   └── data-mongodb/      semantic-ddd-spring-data-mongodb
+│   └── data/
+│       ├── core/            semantic-ddd-spring-data
+│       ├── jpa/             semantic-ddd-spring-data-jpa
+│       └── mongodb/         semantic-ddd-spring-data-mongodb
 └── spring-boot/
-    ├── autoconfigure/     semantic-ddd-spring-boot
-    ├── starter-jpa/       semantic-ddd-spring-boot-starter-jpa
-    └── starter-mongodb/   semantic-ddd-spring-boot-starter-mongodb
+    ├── autoconfigure/       semantic-ddd-spring-boot
+    └── starter/
+        ├── jpa/             semantic-ddd-spring-boot-starter-jpa
+        └── mongodb/         semantic-ddd-spring-boot-starter-mongodb
 ```
 
-A new store goes next to its kin: its Spring Data module under `spring/`, its
-starter under `spring-boot/`.
+A module lies only at the bottom of the tree; a directory above it only groups.
+A new store goes next to its kin: its Spring Data module under `spring/data/`,
+its starter under `spring-boot/starter/`.
 
 Packages follow the artifacts: `pro.vlprojects.semantic.ddd`,
 `pro.vlprojects.semantic.ddd.spring.data`,
