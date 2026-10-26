@@ -34,6 +34,7 @@ module("semantic-type-version", "type/version")
 
 module("semantic-math", "math/core")
 
+module("semantic-constraint", "correctness/constraint/core")
 module("semantic-rule", "correctness/rule/core")
 module("semantic-validation", "correctness/validation/core")
 module("semantic-error", "correctness/error/core")
