@@ -12,8 +12,8 @@ Each family has a core with no dependencies and adapters for the frameworks you
 use. Take only what you need: a service that wants an `Email` does not get
 aggregates with it.
 
-<img src="docs/assets/families-light.svg#gh-light-mode-only" width="100%" alt="Families and their modules: helper, format, ddd and cqrs in development, vo planned">
-<img src="docs/assets/families-dark.svg#gh-dark-mode-only" width="100%" alt="Families and their modules: helper, format, ddd and cqrs in development, vo planned">
+<img src="docs/assets/families-light.svg#gh-light-mode-only" width="100%" alt="Families, their layers and their modules: helper, format, ddd, cqrs, architecture and types">
+<img src="docs/assets/families-dark.svg#gh-dark-mode-only" width="100%" alt="Families, their layers and their modules: helper, format, ddd, cqrs, architecture and types">
 
 | Family | What it is | Status |
 | --- | --- | --- |

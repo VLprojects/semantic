@@ -1,10 +1,11 @@
 package pro.vlprojects.semantic.ddd.tactical.base
 
-import pro.vlprojects.semantic.ddd.tactical.Identifier
+import pro.vlprojects.semantic.ddd.tactical.BoxedIdentifier
+import java.io.Serializable
 
-public abstract class AbstractId<out T : Any>(
-    public val value: T,
-) : Identifier {
+public abstract class AbstractId<out T : Serializable>(
+    override val value: T,
+) : BoxedIdentifier<T> {
 
     override fun equals(other: Any?): Boolean = when {
         this === other -> true
