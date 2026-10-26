@@ -164,8 +164,8 @@
     <text x="292.0" y="1856.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">events</text>
     <text x="292.0" y="1870.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">after-commit events</text>
     <rect x="420.0" y="1839.0" width="128.0" height="42" rx="4" fill="#3A7550" fill-opacity="0.12"/>
-    <text x="428.0" y="1856.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">jackson</text>
-    <text x="428.0" y="1870.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">ids, values as JSON</text>
+    <text x="428.0" y="1856.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">repository</text>
+    <text x="428.0" y="1870.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">aggregate stores</text>
     <rect x="556.0" y="1839.0" width="128.0" height="42" rx="4" fill="#3A7550" fill-opacity="0.12"/>
     <text x="564.0" y="1856.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">mongodb</text>
     <text x="564.0" y="1870.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">MongoDB setup</text>

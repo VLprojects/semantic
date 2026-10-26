@@ -276,7 +276,7 @@ TREE = [
 				(1, ("green", "design/ddd/spring/data/jpa", "semantic-ddd-spring-data-jpa", "JPA mapping")),
 				(1, ("green", "design/ddd/spring/data/mongodb", "semantic-ddd-spring-data-mongodb", "MongoDB mapping"))],
 			[(1, ("green", "design/ddd/spring-boot/autoconfigure", "semantic-ddd-spring-boot", "auto-configuration of the modules on the classpath", [
-				("events", "after-commit events"), ("jackson", "ids, values as JSON"), ("mongodb", "MongoDB setup"),
+				("events", "after-commit events"), ("repository", "aggregate stores"), ("mongodb", "MongoDB setup"),
 				("verification", "startup checks"), ("web", "errors as HTTP"),
 			]))],
 			[(1, ("green", "design/ddd/spring-boot/starter/jpa", "semantic-ddd-spring-boot-starter-jpa", "dependencies of a JPA service")),

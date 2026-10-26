@@ -111,7 +111,7 @@ Approaches to designing a model and its abstractions.
 - **`semantic-ddd-spring-boot`** `design/ddd/spring-boot/autoconfigure`: beans
   for the modules found on the classpath, configured under `semantic.ddd`.
   - `events`: domain events published after the transaction commits.
-  - `jackson`: identifiers and value objects written as plain JSON values.
+  - `repository`: repositories of aggregates enabled for the stores found.
   - `mongodb`: MongoDB converters of identifiers and value objects.
   - `verification`: checks at startup that aggregates and entities are mapped
     right.
