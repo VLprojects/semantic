@@ -1,0 +1,12 @@
+public abstract interface annotation class pro/vlprojects/semantic/explicit/layer/ApplicationLayer : java/lang/annotation/Annotation {
+}
+
+public abstract interface annotation class pro/vlprojects/semantic/explicit/layer/DomainLayer : java/lang/annotation/Annotation {
+}
+
+public abstract interface annotation class pro/vlprojects/semantic/explicit/layer/InfrastructureLayer : java/lang/annotation/Annotation {
+}
+
+public abstract interface annotation class pro/vlprojects/semantic/explicit/layer/PresentationLayer : java/lang/annotation/Annotation {
+}
+
