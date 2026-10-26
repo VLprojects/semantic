@@ -20,7 +20,7 @@ aggregates with it.
 | [`helper`](helper/README.md) | extensions of the standard types, in groups: `text` and `number` so far | in development, v1 |
 | [`format`](format/README.md) | how a value is written down: cases, abbreviation, masking | in development, v1 |
 | `types` | rich value objects, a module per category: `version` first, then email, URL, ranges, dates | design |
-| [`ddd`](ddd/README.md) | identifiers, entities, aggregate roots with events and invariants, business rules, domain errors; Spring Data adapters for JPA and MongoDB, Spring Boot | design, v1 |
+| [`ddd`](ddd/README.md) | identifiers, entities, aggregate roots with events and invariants, business rules, domain errors; Jackson, Spring Data adapters for JPA and MongoDB, Spring Boot | design, v1 |
 | [`cqrs`](cqrs/README.md) | commands, queries, their handlers and buses; no dependency on `ddd` | design |
 | [`architecture`](architecture/README.md) | the layers of a service: presentation, application, domain, infrastructure | design |
 

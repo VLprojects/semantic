@@ -30,6 +30,7 @@ fun module(name: String, directory: String) {
 module("semantic-helper", "helper/core")
 module("semantic-format", "format/core")
 module("semantic-ddd", "ddd/core")
+module("semantic-ddd-jackson", "ddd/jackson")
 module("semantic-ddd-spring-data", "ddd/spring/data/core")
 module("semantic-ddd-spring-data-jpa", "ddd/spring/data/jpa")
 module("semantic-ddd-spring-data-mongodb", "ddd/spring/data/mongodb")
