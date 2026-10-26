@@ -283,7 +283,7 @@ DEP_W, BEND = 1112, 8  # page, bends
 FRAME, FRAMES = 16, 48  # padding of a layer, gap between layers
 DEP_ROW = 2 * FRAME + FRAMES  # gap between the rows of a layer, the same as between layers
 LEVEL_W, LANE, RUN = 232, 88, 56  # gutter for the name and the notes of a layer, room beside the blocks, lane out of them
-ABOUT = 10  # the notes of a layer, under its name
+ABOUT = 9  # the notes of a layer, under its name
 MARGIN = 24  # plate to its layers, more than a layer to its blocks
 ARROW = "violet-link"
 BUILDS, DECLARES, CONFIGURES = None, "3 4", "0.01 3"  # the dash of each kind; dots of 2, a pixel apart
@@ -383,7 +383,7 @@ def dependencies(pal):
 		layer(a, edge, top, width, height)
 		a.t(edge + FRAME, top + FRAME + 24.5, name, color="ink", weight="500")  # on the baseline of the tags of its first row
 		for i, s in enumerate(textwrap.wrap(about, int(room / (0.55 * ABOUT)))):
-			a.t(edge + FRAME, top + FRAME + 44 + 14 * i, s, size=ABOUT, color="mute")
+			a.t(edge + FRAME, top + FRAME + 42 + 13 * i, s, size=ABOUT, color="mute")
 	for x, top, width, hue, directory, artifact, note in (
 		(left, core, bw, "blue", "ddd/core", "semantic-ddd", "entities, aggregates, events; no framework"),
 		(left, data, bw, "green", "ddd/spring-data", "semantic-ddd-spring-data", "aggregates saved by a Spring Data repository"),
@@ -419,11 +419,11 @@ def dependencies(pal):
 		(jpa, starters, boot, "api dependency: auto-configuration"),
 		(mongodb, starters, boot, "api dependency: auto-configuration"),
 	):
-		a.t(x + 8, (source + target + BLOCK) / 2 + 4, note)
+		a.t(x + 20, (source + target + BLOCK) / 2 + 4, note)
 	# the note of a lane reads up it, 8 off the lane on the side of the blocks; a glyph turned up stands 10
 	# left of its baseline and 3 right of it
-	for x, note in ((lane_left + 23, "api dependency: JPA base classes"),
-			(lane_right - 16, "api dependency: MongoDB base classes")):
+	for x, note in ((lane_left + 18, "api dependency: JPA base classes"),
+			(lane_right - 11, "api dependency: MongoDB base classes")):
 		along(a, x, (stores + starters + BLOCK) / 2, note)
 	a.h = y + MARGIN
 	return a
