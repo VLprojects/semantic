@@ -227,7 +227,8 @@ the detector of Spring Data JPA.
 `pro.vlprojects.semantic.ddd.spring.data.jpa.repository`, are `JpaRepository`
 of Spring Data with `EntityRepository` and `AggregateRepository` of the Spring
 Data module. A service declares its repository on one of them, and Spring Data
-builds it as any other.
+builds it as any other. A repository declared in Kotlin needs
+`kotlin-reflect` at run time: Spring Data reads its methods through it.
 
 ```kotlin
 interface CartRepository : JpaAggregateRepository<Cart, CartId>

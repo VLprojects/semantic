@@ -13,4 +13,6 @@ dependencies {
     testImplementation(platform(libs.testcontainers.bom))
     testImplementation(libs.testcontainers.postgresql)
     testRuntimeOnly(libs.postgresql)
+    // Spring Data reads a repository declared in Kotlin through kotlin-reflect.
+    testRuntimeOnly(libs.kotlin.reflect)
 }
