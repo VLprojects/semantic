@@ -232,39 +232,76 @@ def part(a, x, y, w, hue, name, what):
 
 
 TREE = [
-	[("idiom", "extensions of the Kotlin standard library", [(None, None, [
-		[(1, ("blue", "idiom/helper/core", "semantic-helper", "extensions of the standard types, a package per kind", [
-			("text", "symbols and words", ["predicate", "sanitizing", "transforming"]),
-			("number", "sign, safe narrowing"), ("time", "durations, periods"),
-		]))],
-		[(1, ("blue", "idiom/format/core", "semantic-format", "values written for a reader: cases and plurals", [
-			("abbreviation", "shortened text"), ("mask", "hidden characters"),
-		]))],
-	])])],
-	[
-		("type", "rich value objects", [(None, None, [
-			[(1, ("blue", "type/version", "semantic-type-version", "a module per category", [
-				("version", "version schemes"),
+	[("architecture", "styles of a service and the patterns it applies", [
+		("boundary", "what a component publishes to other systems and how it evolves", [
+			[(1, ("blue", "architecture/boundary/core", "semantic-boundary", "architectural boundaries: contract scope, version introduced"))],
+		]),
+		("pattern", "a module per pattern or per group of patterns", [
+			[(1, ("blue", "architecture/pattern/caching/core", "semantic-caching", "cache-aside, read-through, write-through, write-behind, refresh-ahead"))],
+			[(1, ("blue", "architecture/pattern/coordination/core", "semantic-coordination", "processes acting in step", [
+				("saga", "compensating steps"), ("lock", "distributed lock"),
+			])), (1, ("blue", "architecture/pattern/delivery/core", "semantic-delivery", "transactional outbox and inbox: exactly once together", [
+				("outbox", "at least once"), ("inbox", "at most once"), ("idempotency", "idempotency keys"),
 			]))],
-		])]),
-		("math", "computations over numbers", [(None, None, [
-			[(1, ("blue", "math/core", "semantic-math", "a package per computation", [
-				("rounding", "rounding modes"), ("statistics", "mean, percentiles"),
+			[(1, ("blue", "architecture/pattern/lifecycle/core", "semantic-lifecycle", "a process from start to stop", [
+				("startup", "graceful startup"), ("warmup", "caches, pools, JIT"),
+				("health", "liveness, readiness"), ("shutdown", "graceful shutdown"),
 			]))],
-		])]),
-	],
+			[(1, ("blue", "architecture/pattern/persistence/cqrs/core", "semantic-cqrs", "separate write and read models", [
+				("command", "commands, handlers"), ("query", "queries, handlers"), ("bus", "command, query bus"),
+			])), (1, ("blue", "architecture/pattern/persistence/event-sourcing/core", "semantic-event-sourcing", "state rebuilt from events", [
+				("store", "append-only store"), ("snapshot", "state checkpoints"), ("projection", "read models"),
+			]))],
+			[(1, ("blue", "architecture/pattern/persistence/unit-of-work/core", "semantic-unit-of-work", "changes committed atomically", [
+				("tracking", "new, dirty, removed"), ("commit", "one transaction"),
+			])), (1, ("blue", "architecture/pattern/resilience/core", "semantic-resilience", "survive a failing dependency", [
+				("circuitbreaker", "fail fast"), ("retry", "transient faults"), ("backoff", "exponential, jitter"),
+				("timeout", "bounded waits"), ("bulkhead", "isolated pools"), ("fallback", "degraded answer"),
+			]))],
+			[(1, ("blue", "architecture/pattern/rollout/core", "semantic-rollout", "features released in code", [
+				("featureflag", "on, off per user"), ("killswitch", "emergency off"), ("canary", "growing share"),
+				("darklaunch", "run, not shown"), ("experiment", "A/B tests"),
+			])), (1, ("blue", "architecture/pattern/traffic/core", "semantic-traffic", "control of incoming load", [
+				("ratelimit", "quotas per client"), ("throttling", "rate smoothing"),
+				("shedding", "load shedding"), ("backpressure", "slow the producer"),
+			]))],
+		]),
+		("style", "a module per style; layered, onion, clean, explicit, each extending the one before", [
+			[(1, ("blue", "architecture/style/clean/core", "semantic-clean", "dependencies point in", [
+				("layer", "layer annotations"), ("error", "layer exceptions"),
+			])), (1, ("blue", "architecture/style/explicit/core", "semantic-explicit", "onion and clean, no ports", [
+				("layer", "layer annotations"), ("error", "layer exceptions"),
+			]))],
+			[(1, ("blue", "architecture/style/layered/core", "semantic-layered", "tiers call downward", [
+				("layer", "layer annotations"), ("error", "layer exceptions"),
+			])), (1, ("blue", "architecture/style/onion/core", "semantic-onion", "rings around a domain", [
+				("layer", "layer annotations"), ("error", "layer exceptions"),
+			]))],
+		]),
+	])],
 	[("correctness", "what is right and what went wrong", [(None, None, [
+		[(1, ("blue", "correctness/constraint/core", "semantic-constraint", "constraints of a value declared once")),
+			(1, ("blue", "correctness/error/core", "semantic-error", "the model of a failure; depends on nothing", [
+			("failure", "failure types"), ("result", "success or failure"),
+			("raise", "raise, recover"), ("accumulate", "many failures"),
+		]))],
 		[(1, ("blue", "correctness/rule/core", "semantic-rule", "named business checks", [
 			("dsl", "rule, checkRule"), ("composite", "all, any, not"),
 		])), (1, ("blue", "correctness/validation/core", "semantic-validation", "every rule of a value checked at once", [
 			("validator", "validators of a type"), ("path", "where a value failed"),
 		]))],
-		[(1, ("blue", "correctness/error/core", "semantic-error", "the model of a failure; depends on nothing", [
-			("failure", "failure types"), ("result", "success or failure"),
-			("raise", "raise, recover"), ("accumulate", "many failures"),
-		]))],
 	])])],
 	[("design", "approaches to designing a model", [
+		("algebra", "algebraic abstractions: the laws an operation obeys", [
+			[(1, ("blue", "design/algebra/core", "semantic-algebra", "orders and structures with their laws", [
+				("relation", "orders, equivalence"), ("structure", "monoids, groups"),
+			]))],
+		]),
+		("dbc", "design by contract: what a call and a type guarantee", [
+			[(1, ("blue", "design/dbc/core", "semantic-dbc", "contracts checked at run time", [
+				("condition", "pre, postconditions"), ("invariant", "type invariants"),
+			]))],
+		]),
 		("ddd", "domain-driven design with Spring Data and Spring Boot adapters", [
 			[(1, ("blue", "design/ddd/core", "semantic-ddd", "building blocks of a model; no framework", [
 				("tactical", "building blocks", ["base", "specification", "specification.composite"]),
@@ -273,75 +310,38 @@ TREE = [
 				("support", "collection helpers"),
 			]))],
 			[(1, ("blue", "design/ddd/jackson", "semantic-ddd-jackson", "identifiers in JSON as the value they box"))],
-			[(1, ("green", "design/ddd/spring/data/core", "semantic-ddd-spring-data", "aggregates in Spring Data")),
-				(1, ("green", "design/ddd/spring/data/jpa", "semantic-ddd-spring-data-jpa", "JPA mapping")),
-				(1, ("green", "design/ddd/spring/data/mongodb", "semantic-ddd-spring-data-mongodb", "MongoDB mapping"))],
 			[(1, ("green", "design/ddd/spring-boot/autoconfigure", "semantic-ddd-spring-boot", "auto-configuration of the modules on the classpath", [
 				("events", "after-commit events"), ("repository", "aggregate stores"), ("mongodb", "MongoDB setup"),
 				("verification", "startup checks"), ("web", "errors as HTTP"),
 			]))],
 			[(1, ("green", "design/ddd/spring-boot/starter/jpa", "semantic-ddd-spring-boot-starter-jpa", "dependencies of a JPA service")),
 				(1, ("green", "design/ddd/spring-boot/starter/mongodb", "semantic-ddd-spring-boot-starter-mongodb", "dependencies of a MongoDB service"))],
-		]),
-		("dbc", "design by contract: what a call and a type guarantee", [
-			[(1, ("blue", "design/dbc/core", "semantic-dbc", "contracts checked at run time", [
-				("condition", "pre, postconditions"), ("invariant", "type invariants"),
-			]))],
-		]),
-		("algebra", "algebraic abstractions: the laws an operation obeys", [
-			[(1, ("blue", "design/algebra/core", "semantic-algebra", "orders and structures with their laws", [
-				("relation", "orders, equivalence"), ("structure", "monoids, groups"),
-			]))],
+			[(1, ("green", "design/ddd/spring/data/core", "semantic-ddd-spring-data", "aggregates in Spring Data")),
+				(1, ("green", "design/ddd/spring/data/jpa", "semantic-ddd-spring-data-jpa", "JPA mapping")),
+				(1, ("green", "design/ddd/spring/data/mongodb", "semantic-ddd-spring-data-mongodb", "MongoDB mapping"))],
 		]),
 	])],
-	[("architecture", "styles of a service and the patterns it applies", [
-		("style", "a module per style; each extends the one before it and adds the errors of its layers", [
-			[(1, ("blue", "architecture/style/layered/core", "semantic-layered", "tiers call downward", [
-				("layer", "layer annotations"), ("error", "layer exceptions"),
-			])), (1, ("blue", "architecture/style/onion/core", "semantic-onion", "rings around a domain", [
-				("layer", "layer annotations"), ("error", "layer exceptions"),
+	[("idiom", "extensions of the Kotlin standard library", [(None, None, [
+		[(1, ("blue", "idiom/format/core", "semantic-format", "values written for a reader: cases and plurals", [
+			("abbreviation", "shortened text"), ("mask", "hidden characters"),
+		]))],
+		[(1, ("blue", "idiom/helper/core", "semantic-helper", "extensions of the standard types, a package per kind", [
+			("text", "symbols and words", ["predicate", "sanitizing", "transforming"]),
+			("number", "sign, safe narrowing"), ("time", "durations, periods"),
+		]))],
+	])])],
+	[
+		("math", "computations over numbers", [(None, None, [
+			[(1, ("blue", "math/core", "semantic-math", "a package per computation", [
+				("rounding", "rounding modes"), ("statistics", "mean, percentiles"),
 			]))],
-			[(1, ("blue", "architecture/style/clean/core", "semantic-clean", "dependencies point in", [
-				("layer", "layer annotations"), ("error", "layer exceptions"),
-			])), (1, ("blue", "architecture/style/explicit/core", "semantic-explicit", "onion and clean, no ports", [
-				("layer", "layer annotations"), ("error", "layer exceptions"),
+		])]),
+		("type", "rich value objects", [(None, None, [
+			[(1, ("blue", "type/version", "semantic-type-version", "a module per category", [
+				("version", "version schemes"),
 			]))],
-		]),
-		("boundary", "what a component publishes to other systems and how it evolves", [
-			[(1, ("blue", "architecture/boundary/core", "semantic-boundary", "architectural boundaries: contract scope, version introduced"))],
-		]),
-		("pattern", "a module per pattern or per group of patterns", [
-			[(1, ("blue", "architecture/pattern/persistence/cqrs/core", "semantic-cqrs", "separate write and read models", [
-				("command", "commands, handlers"), ("query", "queries, handlers"), ("bus", "command, query bus"),
-			])), (1, ("blue", "architecture/pattern/persistence/event-sourcing/core", "semantic-event-sourcing", "state rebuilt from events", [
-				("store", "append-only store"), ("snapshot", "state checkpoints"), ("projection", "read models"),
-			]))],
-			[(1, ("blue", "architecture/pattern/persistence/unit-of-work/core", "semantic-unit-of-work", "changes committed atomically", [
-				("tracking", "new, dirty, removed"), ("commit", "one transaction"),
-			])), (1, ("blue", "architecture/pattern/delivery/core", "semantic-delivery", "transactional outbox and inbox: exactly once together", [
-				("outbox", "at least once"), ("inbox", "at most once"), ("idempotency", "idempotency keys"),
-			]))],
-			[(1, ("blue", "architecture/pattern/coordination/core", "semantic-coordination", "processes acting in step", [
-				("saga", "compensating steps"), ("lock", "distributed lock"),
-			])), (2, ("blue", "architecture/pattern/lifecycle/core", "semantic-lifecycle", "a process from start to stop", [
-				("startup", "graceful startup"), ("warmup", "caches, pools, JIT"),
-				("health", "liveness, readiness"), ("shutdown", "graceful shutdown"),
-			]))],
-			[(1, ("blue", "architecture/pattern/caching/core", "semantic-caching", "cache-aside, read-through, write-through, write-behind, refresh-ahead"))],
-			[(1, ("blue", "architecture/pattern/resilience/core", "semantic-resilience", "survive a failing dependency", [
-				("circuitbreaker", "fail fast"), ("retry", "transient faults"), ("backoff", "exponential, jitter"),
-				("timeout", "bounded waits"), ("bulkhead", "isolated pools"), ("fallback", "degraded answer"),
-			]))],
-			[(1, ("blue", "architecture/pattern/traffic/core", "semantic-traffic", "control of incoming load", [
-				("ratelimit", "quotas per client"), ("throttling", "rate smoothing"),
-				("shedding", "load shedding"), ("backpressure", "slow the producer"),
-			]))],
-			[(1, ("blue", "architecture/pattern/rollout/core", "semantic-rollout", "features released in code", [
-				("featureflag", "on, off per user"), ("killswitch", "emergency off"), ("canary", "growing share"),
-				("darklaunch", "run, not shown"), ("experiment", "A/B tests"),
-			]))],
-		]),
-	])],
+		])]),
+	],
 ]
 LAYER_NOTES = {
 	"JVM": "Kotlin and the JDK, or one library such as Jackson; no Spring, no Jakarta",

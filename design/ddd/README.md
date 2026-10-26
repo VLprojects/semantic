@@ -183,6 +183,41 @@ the callbacks of its mapping.
 Equality compares the classes through `ProxyUtils.getUserClass`, so the
 proxy class of a store counts as the class of the entity.
 
+`EntityRepository`, under `pro.vlprojects.semantic.ddd.spring.data.repository`,
+is the repository of an entity, for a table of an admin page that lists entities
+which are not roots: a `ListCrudRepository` and a
+`ListPagingAndSortingRepository` of Spring Data, which give saving, finding,
+counting and deleting, sorted and by page, with `findByIdOrThrow`, which raises
+`NotFoundException` of the core when there is no such entity.
+`AggregateRepository` extends it for an aggregate root and adds nothing yet:
+it takes a root only. A store gives a repository of its own on top of each,
+`JpaAggregateRepository` with `JpaRepository`, `MongoAggregateRepository` with
+`MongoRepository`.
+
+`SpecificationExecutor` finds by a specification the way
+`QuerydslPredicateExecutor` finds by a predicate. At its root is `findBy`,
+which hands a `FetchableFluentQuery` of Spring Data to a lambda: sort, limit,
+project, take a page, a slice, a window or a stream. The other methods say in
+their name what the lambda would do and are written through it. `findOne` gives
+one or null, `findOneOrThrow` raises `NotFoundException` instead. `findAll`
+gives every candidate in a list, and a suffix tells another shape of the same:
+`findAllPaged` a page with the total of rows, `findAllSliced` a page with no
+total, for a table where counting the rows costs too much, `findAllStreamed` a
+stream read within a transaction and closed by the caller, `findAllScrolled` a
+window from a scroll position. `count` and `exists` count and check. It is
+an add-on, not a part of `EntityRepository`: a repository that needs it names
+it among its parents.
+
+```kotlin
+interface OrderRepository : JpaAggregateRepository<Order, OrderId>, SpecificationExecutor<Order>
+
+orders.findAllSliced(IsOpen, pageable)
+orders.findBy(IsOpen) { it.sortBy(byDate).limit(10).all() }
+```
+
+So far these are contracts only: the store repositories and the code that runs
+a specification come with the store modules.
+
 ## JPA
 
 `semantic-ddd-spring-data-jpa` gives `AbstractJpaEntity` and
