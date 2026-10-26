@@ -15,8 +15,11 @@ public abstract class pro/vlprojects/semantic/ddd/spring/data/AbstractSpringData
 	protected fun markPersisted ()V
 }
 
-public abstract interface class pro/vlprojects/semantic/ddd/spring/data/repository/AggregateRepository : org/springframework/data/repository/ListCrudRepository, org/springframework/data/repository/ListPagingAndSortingRepository {
-	public fun findByIdOrThrow (Lpro/vlprojects/semantic/ddd/tactical/Identifier;)Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;
+public abstract interface class pro/vlprojects/semantic/ddd/spring/data/repository/AggregateRepository : pro/vlprojects/semantic/ddd/spring/data/repository/EntityRepository {
+}
+
+public abstract interface class pro/vlprojects/semantic/ddd/spring/data/repository/EntityRepository : org/springframework/data/repository/ListCrudRepository, org/springframework/data/repository/ListPagingAndSortingRepository {
+	public fun findByIdOrThrow (Lpro/vlprojects/semantic/ddd/tactical/Identifier;)Lpro/vlprojects/semantic/ddd/tactical/Entity;
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/spring/data/repository/SpecificationExecutor {

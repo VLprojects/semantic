@@ -148,20 +148,24 @@ the callbacks of its mapping.
 Equality compares the classes through `ProxyUtils.getUserClass`, so the
 proxy class of a store counts as the class of the entity.
 
-`AggregateRepository`, under `pro.vlprojects.semantic.ddd.spring.data.repository`,
-is the repository of an aggregate root: a `ListCrudRepository` and a
-`ListPagingAndSortingRepository` of Spring Data with `findByIdOrThrow`, which
-raises `NotFoundException` of the core when there is no such aggregate. A
-store gives a repository of its own on top of it, `JpaAggregateRepository`
-with `JpaRepository`, `MongoAggregateRepository` with `MongoRepository`.
+`EntityRepository`, under `pro.vlprojects.semantic.ddd.spring.data.repository`,
+is the repository of an entity, for a table of an admin page that lists entities
+which are not roots: a `ListCrudRepository` and a
+`ListPagingAndSortingRepository` of Spring Data, which give saving, finding,
+counting and deleting, sorted and by page, with `findByIdOrThrow`, which raises
+`NotFoundException` of the core when there is no such entity.
+`AggregateRepository` extends it for an aggregate root and adds nothing yet:
+it takes a root only. A store gives a repository of its own on top of each,
+`JpaAggregateRepository` with `JpaRepository`, `MongoAggregateRepository` with
+`MongoRepository`.
 
 `SpecificationExecutor` finds by a specification, with `Sort` and `Pageable`,
 the way `QuerydslPredicateExecutor` finds by a predicate. `findSlice` gives a
 `Slice`, a page with no total, for a table where counting the rows costs too
 much. `streamAll` reads the candidates one by one, within a transaction, and
 the caller closes the `Stream`. It is an add-on, not a
-part of `AggregateRepository`: a repository that needs it names it among its
-parents, a repository of an entity that is not a root too.
+part of `EntityRepository`: a repository that needs it names it among its
+parents.
 
 ```kotlin
 interface OrderRepository : JpaAggregateRepository<Order, OrderId>, SpecificationExecutor<Order>
