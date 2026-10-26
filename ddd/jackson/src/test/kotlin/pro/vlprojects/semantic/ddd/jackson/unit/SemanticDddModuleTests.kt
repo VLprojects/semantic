@@ -133,6 +133,13 @@ class SemanticDddModuleTests {
     }
 
     @Test
+    fun `reads an identifier of a Short as a key of a map`() {
+        val shelves = mapper.readValue<Map<ShelfId, String>>("{\"7\":\"tea\"}")
+
+        assertEquals(mapOf(ShelfId(7) to "tea"), shelves)
+    }
+
+    @Test
     fun `reads a key of an identifier with a deserializer of its own`() {
         val skuIdDeserializer = SkuIdDeserializer()
         val skuIdModule = SimpleModule().addDeserializer(SkuId::class.java, skuIdDeserializer)

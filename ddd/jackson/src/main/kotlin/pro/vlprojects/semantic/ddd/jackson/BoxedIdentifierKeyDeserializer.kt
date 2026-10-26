@@ -9,7 +9,7 @@ internal class BoxedIdentifierKeyDeserializer(private val type: JavaType) : KeyD
     private lateinit var keyDeserializer: KeyDeserializer
 
     override fun resolve(ctxt: DeserializationContext) {
-        keyDeserializer = ctxt.findDelegatingCreatorKeyDeserializer(type)
+        keyDeserializer = ctxt.findCreatorKeyDeserializer(type)
             ?: ctxt.requireStringBasedKeyDeserializer(type)
     }
 
