@@ -249,17 +249,17 @@ FAMILIES = [
 			("dsl", "rule, check, checkRule"), ("architecture.error", "the refusals a service raises"),
 		])]]),
 		("Spring", [
-			[("green", "ddd/spring-data", "semantic-ddd-spring-data", "aggregates saved by a Spring Data repository")],
-			[("green", "ddd/spring-data-jpa", "semantic-ddd-spring-data-jpa", "base classes with JPA mapping"),
-				("ghost", "ddd/spring-data-*", "other stores", "Redis, Cassandra, Neo4j"),
-				("green", "ddd/spring-data-mongodb", "semantic-ddd-spring-data-mongodb", "base classes with MongoDB mapping")],
+			[("green", "ddd/spring/data", "semantic-ddd-spring-data", "aggregates saved by a Spring Data repository")],
+			[("green", "ddd/spring/data-jpa", "semantic-ddd-spring-data-jpa", "base classes with JPA mapping"),
+				("ghost", "ddd/spring/data-*", "other stores", "Redis, Cassandra, Neo4j"),
+				("green", "ddd/spring/data-mongodb", "semantic-ddd-spring-data-mongodb", "base classes with MongoDB mapping")],
 		]),
 		("Spring Boot", [
-			[("green", "ddd/spring-boot", "semantic-ddd-spring-boot", "registers beans of the modules it finds")],
-			[("green", "ddd/spring-boot-starter-jpa", "semantic-ddd-spring-boot-starter-jpa",
+			[("green", "ddd/spring-boot/autoconfigure", "semantic-ddd-spring-boot", "registers beans of the modules it finds")],
+			[("green", "ddd/spring-boot/starter-jpa", "semantic-ddd-spring-boot-starter-jpa",
 					"the one dependency a JPA service declares"),
-				("ghost", "ddd/spring-boot-starter-*", "other starters", "one per store"),
-				("green", "ddd/spring-boot-starter-mongodb", "semantic-ddd-spring-boot-starter-mongodb",
+				("ghost", "ddd/spring-boot/starter-*", "other starters", "one per store"),
+				("green", "ddd/spring-boot/starter-mongodb", "semantic-ddd-spring-boot-starter-mongodb",
 					"the one dependency a MongoDB service declares")],
 		]),
 	]),
@@ -472,19 +472,19 @@ def dependencies(pal):
 		caption(a, edge + FRAME, top + FRAME, name)
 	for x, top, width, hue, directory, artifact, note in (
 		(left, core, bw, "blue", "ddd/core", "semantic-ddd", "entities, aggregates, events; no framework"),
-		(left, data, bw, "green", "ddd/spring-data", "semantic-ddd-spring-data", "aggregates saved by a Spring Data repository"),
-		(left, stores, w, "green", "ddd/spring-data-jpa", "semantic-ddd-spring-data-jpa", "base classes with JPA mapping"),
-		(right, stores, w, "green", "ddd/spring-data-mongodb", "semantic-ddd-spring-data-mongodb",
+		(left, data, bw, "green", "ddd/spring/data", "semantic-ddd-spring-data", "aggregates saved by a Spring Data repository"),
+		(left, stores, w, "green", "ddd/spring/data-jpa", "semantic-ddd-spring-data-jpa", "base classes with JPA mapping"),
+		(right, stores, w, "green", "ddd/spring/data-mongodb", "semantic-ddd-spring-data-mongodb",
 			"base classes with MongoDB mapping"),
-		(left, boot, bw, "green", "ddd/spring-boot", "semantic-ddd-spring-boot", "registers beans of the modules it finds"),
-		(left, starters, w, "green", "ddd/spring-boot-starter-jpa", "semantic-ddd-spring-boot-starter-jpa",
+		(left, boot, bw, "green", "ddd/spring-boot/autoconfigure", "semantic-ddd-spring-boot", "registers beans of the modules it finds"),
+		(left, starters, w, "green", "ddd/spring-boot/starter-jpa", "semantic-ddd-spring-boot-starter-jpa",
 			"the one dependency a JPA service declares"),
-		(right, starters, w, "green", "ddd/spring-boot-starter-mongodb", "semantic-ddd-spring-boot-starter-mongodb",
+		(right, starters, w, "green", "ddd/spring-boot/starter-mongodb", "semantic-ddd-spring-boot-starter-mongodb",
 			"the one dependency a MongoDB service declares"),
 	):
 		block(a, x, top, width, hue, directory, artifact, note)
-	ghost(a, more, stores, MORE, "ddd/spring-data-*", "other stores", "Redis, Cassandra, Neo4j")
-	ghost(a, more, starters, MORE, "ddd/spring-boot-starter-*", "other starters", "one per store")
+	ghost(a, more, stores, MORE, "ddd/spring/data-*", "other stores", "Redis, Cassandra, Neo4j")
+	ghost(a, more, starters, MORE, "ddd/spring-boot/starter-*", "other starters", "one per store")
 	# an arrow keeps a third of its column, so its note fits the column; the one between two full rows keeps
 	# the middle of the row
 	middle, jpa, mongodb = start + bw / 2, left + w / 3, right + w / 3
