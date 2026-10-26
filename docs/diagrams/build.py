@@ -268,7 +268,7 @@ TREE = [
 		("ddd", "domain-driven design with Spring Data and Spring Boot adapters", [
 			[(1, ("blue", "design/ddd/core", "semantic-ddd", "building blocks of a model; no framework", [
 				("tactical", "building blocks", ["base", "specification", "specification.composite"]),
-				("strategic", "contexts, subdomains"),
+				("strategic", "strategic design"),
 				("dsl", "business rule DSL"), ("architecture", "domain errors", ["error"]),
 				("support", "collection helpers"),
 			]))],
