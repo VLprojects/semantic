@@ -19,7 +19,8 @@ spacing is measured on the render, not read off the code:
   The exceptions are the dotted frame of a layer, the fine dashes of a ghost
   and the arrows of the dependency map, whose line is their kind.
 - One grid of 4 px. Space inside a group is smaller than space between groups:
-  12 inside a block, 16 between blocks of one layer and from a layer to its
+  4 between the lines of a cell, 8 around and between cells, 12 inside a block,
+  16 from its note to its cells, 16 between blocks of one layer and from a layer to its
   blocks, 32 between layers, 48 between plates; on the dependency map the
   arrows take 48 between layers.
 - A block is a module: a tag with its directory, its whole artifact name in
@@ -173,7 +174,8 @@ GAP, BLOCK = 16, 92  # gap between blocks, block height
 TITLE = 16  # a family outranks the artifacts in it
 TAG, TAG_H = 11, 18  # text size and height of a tag
 FAMILY_W, LAYERS, PLATES = 1240, 32, 48  # page, gap between layers, gap between plates
-CELL_H, CELL_GAP, PART = 44, 8, 12  # a cell inside a block, the gap between cells, the size of its name
+CELL_H, CELL_GAP, PART = 42, 8, 12  # a cell inside a block, the gap between cells, the size of its name
+CELLS = 5  # from the bottom of the note to the cells: 16 on the render, as between blocks
 
 
 # advance of each printable ASCII glyph of SF Pro, in thousandths of an em, from space to tilde
@@ -212,20 +214,20 @@ def block(a, x, y, w, hue, directory, artifact, note, inside=()):
 	a.t(x + 12, y + BLOCK - 12, note, color=soft)
 	cell = (w - 24 - (len(inside) - 1) * CELL_GAP) / max(len(inside), 1)
 	for i, (name, what) in enumerate(inside):
-		part(a, x + 12 + i * (cell + CELL_GAP), y + BLOCK + 4, cell, hue, name, what)
+		part(a, x + 12 + i * (cell + CELL_GAP), y + BLOCK + CELLS, cell, hue, name, what)
 
 
 def height(inside):
 	"""A block that shows what is inside it grows by a row of cells, 12 off its bottom."""
-	return BLOCK + 4 + CELL_H + 12 if inside else BLOCK
+	return BLOCK + CELLS + CELL_H + 12 if inside else BLOCK
 
 
 def part(a, x, y, w, hue, name, what):
 	"""A package or a type of a module: a cell on a tint of the block, its name in mono and what it holds."""
 	soft = hue + "-soft"
 	a.add(f'<rect x="{x:.1f}" y="{y:.1f}" width="{w:.1f}" height="{CELL_H}" rx="4" fill="{a.p[soft]}" fill-opacity="0.12"/>')
-	a.t(x + 10, y + 18, name, size=PART, color=ink(hue), weight="600", mono=True)
-	a.t(x + 10, y + 34, what, size=TAG, color=soft)
+	a.t(x + 8, y + 17, name, size=PART, color=ink(hue), weight="600", mono=True)
+	a.t(x + 8, y + 31, what, size=TAG, color=soft)
 
 
 FAMILIES = [
