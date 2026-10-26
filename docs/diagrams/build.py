@@ -422,8 +422,8 @@ def dependencies(pal):
 		a.t(x + 8, (source + target + BLOCK) / 2 + 4, note)
 	# the note of a lane reads up it, 8 off the lane on the side of the blocks; a glyph turned up stands 10
 	# left of its baseline and 3 right of it
-	for x, note in ((lane_left + 18, "api dependency: JPA base classes"),
-			(lane_right - 11, "api dependency: MongoDB base classes")):
+	for x, note in ((lane_left + 23, "api dependency: JPA base classes"),
+			(lane_right - 16, "api dependency: MongoDB base classes")):
 		along(a, x, (stores + starters + BLOCK) / 2, note)
 	a.h = y + MARGIN
 	return a

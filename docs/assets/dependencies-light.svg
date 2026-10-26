@@ -92,13 +92,13 @@
     <text x="760.0" y="560.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">configures on @ConditionalOnClass</text>
     <text x="396.0" y="732.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">api dependency: auto-configuration</text>
     <text x="760.0" y="732.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">api dependency: auto-configuration</text>
-    <g transform="rotate(-90 234 642.0)">
-    <rect x="124.4" y="630.0" width="219.2" height="16.0" rx="2" fill="#FFFFFF"/>
-    <text x="234.0" y="642.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">api dependency: JPA base classes</text>
+    <g transform="rotate(-90 239 642.0)">
+    <rect x="129.4" y="630.0" width="219.2" height="16.0" rx="2" fill="#FFFFFF"/>
+    <text x="239.0" y="642.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">api dependency: JPA base classes</text>
     </g>
-    <g transform="rotate(-90 1029 642.0)">
-    <rect x="906.2" y="630.0" width="245.6" height="16.0" rx="2" fill="#FFFFFF"/>
-    <text x="1029.0" y="642.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">api dependency: MongoDB base classes</text>
+    <g transform="rotate(-90 1024 642.0)">
+    <rect x="901.2" y="630.0" width="245.6" height="16.0" rx="2" fill="#FFFFFF"/>
+    <text x="1024.0" y="642.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">api dependency: MongoDB base classes</text>
     </g>
   </g>
 </svg>
