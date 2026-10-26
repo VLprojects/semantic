@@ -6,7 +6,7 @@ secret masked. The words of a name and the symbols of a text come from
 
 | Package | Extends | What is there |
 | --- | --- | --- |
-| `format` | `String`, `WordSequence`, `Int`, `Long`, later `Duration` | cases, plurals |
+| `format` | `String`, `WordSequence`, `Any`, `Int`, `Long`, later `Duration` | cases, the class name of a value in kebab case, plurals |
 | `format.abbreviation` | `String` | abbreviation |
 | `format.mask` | `String` | masking |
 
@@ -29,6 +29,15 @@ them: `iPhone` as one word.
 
 ```kotlin
 listOf(Word.of("iPhone"), Word.of("Case")).toWordSequence().toKebabCase() // iphone-case
+```
+
+`kebabClassName` names a value after its class in kebab case, as an object
+names itself: a bounded context, a subdomain, the type of an event.
+
+```kotlin
+object ShoppingCartItem
+
+ShoppingCartItem.kebabClassName // shopping-cart-item
 ```
 
 `capitalizeFirstLetter` starts a value with a capital, `capitalizeEachPart`

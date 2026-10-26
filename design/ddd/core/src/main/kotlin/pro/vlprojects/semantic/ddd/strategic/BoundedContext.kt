@@ -1,14 +1,15 @@
 package pro.vlprojects.semantic.ddd.strategic
 
-import pro.vlprojects.semantic.format.toKebabCase
+import pro.vlprojects.semantic.format.kebabClassName
 import kotlin.reflect.KClass
 
 public interface BoundedContext {
 
     public val name: String
-        get() = this::class.simpleName
-            ?.toKebabCase()
-            ?: error("A bounded context without a class name has no name")
+        get() = kebabClassName
+
+    public val subdomains: Set<Subdomain>
+        get() = emptySet()
 }
 
 public val BoundedContext.packageName: String

@@ -1,3 +1,7 @@
+public final class pro/vlprojects/semantic/format/AnyFormatHelperKt {
+	public static final fun getKebabClassName (Ljava/lang/Object;)Ljava/lang/String;
+}
+
 public final class pro/vlprojects/semantic/format/IntFormatHelperKt {
 	public static final fun pluralize (ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
 	public static final fun pluralizeWithCount (ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
