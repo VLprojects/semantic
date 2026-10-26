@@ -261,27 +261,50 @@ def families(pal):
 
 
 # ---------------------------------------------------------------------- ddd dependencies
-# Which module builds on which, on the plate of the family: the modules every store shares stand on one
-# axis in the middle, those of a store in its column, so each arrow runs straight up. An arrow starts on
-# a dot at the module that needs and ends short of the one it takes from; what it takes is said beside it,
-# once for arrows that mean the same. The page is wider than the family map, so the longest starter fits
-# half a row. The gaps that hold arrows are 40 inside a level and 48 between levels, still on the grid of 4
-DEP_W, DEP_ROW, DEP_LEVEL, LANE = 880, 40, 48, 48  # page, gaps with arrows in a level and between, side lanes
+# Which module builds on which, on the plate of the family and on its grid: every block keeps the edges of
+# the row, a store and its starter share a column, and the starters, what a service adds, come last. An
+# arrow points to what a module needs: it starts on a dot at the module and ends on a chevron 4 short of the
+# other one, and what it takes is said beside it. Arrows are structure, so they are grey and lighter than
+# the notes; a dependency the service may leave out is lighter still, as is its note. An arrow that has a
+# row to skip, from a starter up to its store, takes a lane beside the blocks, left for the left column and
+# right for the right one, and enters them from the side. The page is wider than the family map, so the
+# longest starter fits half a row. The gaps that hold arrows are 40 inside a level and 48 between levels,
+# on the grid of 4
+DEP_W, DEP_ROW, DEP_LEVEL, LANE, BEND = 976, 40, 48, 56, 8  # page, gaps with arrows, lanes beside the blocks, bends
+ARROW = "mute"
 
 
-def link(a, x, y1, y2, color="soft"):
+def link(a, x, y1, y2, color=ARROW):
 	"""From a dot on the edge at y1 up to a chevron 4 short of y2."""
 	a.add(f'<circle cx="{x}" cy="{y1}" r="2.5" fill="{a.p[color]}"/>')
 	a.path(f"M{x},{y1} L{x},{y2 + 4}", color)
 	a.path(f"M{x - 4},{y2 + 9} L{x},{y2 + 4} L{x + 4},{y2 + 9}", color)
 
 
+def bypass(a, edge, lane, y1, y2):
+	"""From a dot on the edge at y1 out to the lane, up it and back in, to a chevron 4 short of the edge at y2."""
+	d = 1 if lane > edge else -1
+	a.add(f'<circle cx="{edge}" cy="{y1}" r="2.5" fill="{a.p[ARROW]}"/>')
+	a.path(
+		f"M{edge},{y1} L{lane - d * BEND},{y1} Q{lane},{y1} {lane},{y1 - BEND} L{lane},{y2 + BEND} "
+		f"Q{lane},{y2} {lane - d * BEND},{y2} L{edge + d * 4},{y2}", ARROW)
+	a.path(f"M{edge + d * 9},{y2 - 4} L{edge + d * 4},{y2} L{edge + d * 9},{y2 + 4}", ARROW)
+
+
+def along(a, x, y, s):
+	"""A note that reads up a lane, centred on y, its baseline at x."""
+	a.add(f'<g transform="rotate(-90 {x} {y})">')
+	a.t(x, y, s, anchor="middle")
+	a.add("</g>")
+
+
 def dependencies(pal):
 	a = Art(DEP_W, 0, pal)
 	cw = DEP_W - 2 * X0
-	bw = cw - GUT - INSET
+	start, end = BX + LANE, X0 + cw - INSET - LANE
+	bw = end - start
 	w = (bw - GAP) / 2
-	left, right, shared, shared_w = BX, BX + w + GAP, BX + LANE, bw - 2 * LANE
+	left, right = start, start + w + GAP
 	tops, y = [], 64
 	for gap in (0, DEP_LEVEL, DEP_ROW, DEP_LEVEL, DEP_ROW):
 		y += gap
@@ -293,40 +316,44 @@ def dependencies(pal):
 	tag(a, X0 + INSET + 0.6 * TITLE * 3 + 12, 31, "in development, v1")
 	for level, top in (("JVM", core), ("Spring Data", data), ("Spring Boot", boot)):
 		a.t(X0 + INSET, top + 48, level)  # on the baseline of the artifacts in its row
-	for x, top, bw_, hue, directory, artifact, note in (
-		(shared, core, shared_w, "blue", "ddd/core", "semantic-ddd", "building blocks, no framework"),
-		(shared, data, shared_w, "green", "ddd/spring-data", "semantic-ddd-spring-data", "what every store shares"),
+	for x, top, width, hue, directory, artifact, note in (
+		(left, core, bw, "blue", "ddd/core", "semantic-ddd", "building blocks, no framework"),
+		(left, data, bw, "green", "ddd/spring-data", "semantic-ddd-spring-data", "what every store shares"),
 		(left, stores, w, "green", "ddd/spring-data-jpa", "semantic-ddd-spring-data-jpa", "aggregates as JPA entities"),
 		(right, stores, w, "green", "ddd/spring-data-mongodb", "semantic-ddd-spring-data-mongodb",
 			"aggregates as MongoDB documents"),
-		(shared, boot, shared_w, "green", "ddd/spring-boot", "semantic-ddd-spring-boot", "auto-configuration"),
+		(left, boot, bw, "green", "ddd/spring-boot", "semantic-ddd-spring-boot", "auto-configuration"),
 		(left, starters, w, "green", "ddd/spring-boot-starter-jpa", "semantic-ddd-spring-boot-starter-jpa",
 			"no code: all a JPA service adds"),
 		(right, starters, w, "green", "ddd/spring-boot-starter-mongodb", "semantic-ddd-spring-boot-starter-mongodb",
 			"no code: all a MongoDB service adds"),
 	):
-		block(a, x, top, bw_, hue, directory, artifact, note)
-	# the spine runs through the gap between the columns; a store keeps the middle of its column; a starter
-	# reaches its store by the lane beside the shared blocks
-	spine, jpa, mongodb = BX + bw / 2, left + w / 2, right + w / 2
-	lane_left, lane_right = left + LANE / 2, right + w - LANE / 2
-	for x, source, target in (
-		(spine, data, core), (jpa, stores, data), (mongodb, stores, data), (spine, boot, data),
-		(jpa, starters, boot), (mongodb, starters, boot), (lane_left, starters, stores), (lane_right, starters, stores),
+		block(a, x, top, width, hue, directory, artifact, note)
+	# an arrow keeps the middle of its column, the one between two full rows the middle of the row
+	middle, jpa, mongodb = start + bw / 2, left + w / 2, right + w / 2
+	for x, source, target, color in (
+		(middle, data, core, ARROW), (jpa, stores, data, ARROW), (mongodb, stores, data, ARROW),
+		(jpa, boot, stores, "line"), (mongodb, boot, stores, "line"),
+		(jpa, starters, boot, ARROW), (mongodb, starters, boot, ARROW),
 	):
-		link(a, x, source, target + BLOCK)
-	# a note sits 8 off its arrow, on the middle of the gap above the module the arrow starts from; the two
-	# arrows of a starter share one note, centred between them
-	for x, below, note, anchor in (
-		(spine + 8, data, "extends the base classes", "start"),
-		(jpa + 8, stores, "extends", "start"),
-		(mongodb + 8, stores, "extends", "start"),
-		(spine + 8, boot, "configures", "start"),
-		((lane_left + jpa) / 2, starters, "brings in", "middle"),
-		((lane_right + mongodb) / 2, starters, "brings in", "middle"),
+		link(a, x, source, target + BLOCK, color)
+	lane_left, lane_right = start - LANE / 2, end + LANE / 2
+	bypass(a, start, lane_left, starters + BLOCK / 2, stores + BLOCK / 2)
+	bypass(a, end, lane_right, starters + BLOCK / 2, stores + BLOCK / 2)
+	# a note stands 8 off its arrow, on the middle of the gap, and says what the module takes
+	for x, gap_top, gap, note, color, anchor in (
+		(middle + 8, core + BLOCK, DEP_LEVEL, "extends the base classes", "soft", "start"),
+		(jpa + 8, data + BLOCK, DEP_ROW, "extends", "soft", "start"),
+		(mongodb + 8, data + BLOCK, DEP_ROW, "extends", "soft", "start"),
+		(jpa + 8, stores + BLOCK, DEP_LEVEL, "configures if present", "mute", "start"),
+		(mongodb + 8, stores + BLOCK, DEP_LEVEL, "configures if present", "mute", "start"),
+		(jpa + 8, boot + BLOCK, DEP_ROW, "adds the auto-configuration", "soft", "start"),
+		(mongodb + 8, boot + BLOCK, DEP_ROW, "adds the auto-configuration", "soft", "start"),
 	):
-		gap = DEP_LEVEL if below in (data, boot) else DEP_ROW
-		a.t(x, below - gap / 2 + 4, note, anchor=anchor)
+		a.t(x, gap_top + gap / 2 + 4, note, color=color, anchor=anchor)
+	# the note of a lane reads up it, between the lane and the blocks
+	along(a, start - LANE / 2 + 17, (stores + starters + BLOCK) / 2, "adds the JPA bases")
+	along(a, end + LANE / 2 - 11, (stores + starters + BLOCK) / 2, "adds the MongoDB bases")
 	a.h = y + INSET
 	return a
 
