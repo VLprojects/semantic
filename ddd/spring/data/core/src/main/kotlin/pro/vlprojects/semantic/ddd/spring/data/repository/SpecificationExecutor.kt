@@ -2,8 +2,10 @@ package pro.vlprojects.semantic.ddd.spring.data.repository
 
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Slice
 import org.springframework.data.domain.Sort
 import pro.vlprojects.semantic.ddd.tactical.Specification
+import java.util.stream.Stream
 
 public interface SpecificationExecutor<T : Any> {
 
@@ -16,6 +18,12 @@ public interface SpecificationExecutor<T : Any> {
     public fun findAll(specification: Specification<T>, sort: Sort): List<T>
 
     public fun findAll(specification: Specification<T>, pageable: Pageable): Page<T>
+
+    public fun findSlice(specification: Specification<T>, pageable: Pageable): Slice<T>
+
+    public fun streamAll(specification: Specification<T>): Stream<T>
+
+    public fun streamAll(specification: Specification<T>, sort: Sort): Stream<T>
 
     public fun count(specification: Specification<T>): Long
 

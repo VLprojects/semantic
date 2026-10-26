@@ -27,5 +27,8 @@ public abstract interface class pro/vlprojects/semantic/ddd/spring/data/reposito
 	public abstract fun findAll (Lpro/vlprojects/semantic/ddd/tactical/Specification;Lorg/springframework/data/domain/Sort;)Ljava/util/List;
 	public abstract fun findOne (Lpro/vlprojects/semantic/ddd/tactical/Specification;)Ljava/lang/Object;
 	public abstract fun findOneOrThrow (Lpro/vlprojects/semantic/ddd/tactical/Specification;)Ljava/lang/Object;
+	public abstract fun findSlice (Lpro/vlprojects/semantic/ddd/tactical/Specification;Lorg/springframework/data/domain/Pageable;)Lorg/springframework/data/domain/Slice;
+	public abstract fun streamAll (Lpro/vlprojects/semantic/ddd/tactical/Specification;)Ljava/util/stream/Stream;
+	public abstract fun streamAll (Lpro/vlprojects/semantic/ddd/tactical/Specification;Lorg/springframework/data/domain/Sort;)Ljava/util/stream/Stream;
 }
 

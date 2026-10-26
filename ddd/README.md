@@ -156,7 +156,10 @@ store gives a repository of its own on top of it, `JpaAggregateRepository`
 with `JpaRepository`, `MongoAggregateRepository` with `MongoRepository`.
 
 `SpecificationExecutor` finds by a specification, with `Sort` and `Pageable`,
-the way `QuerydslPredicateExecutor` finds by a predicate. It is an add-on, not a
+the way `QuerydslPredicateExecutor` finds by a predicate. `findSlice` gives a
+`Slice`, a page with no total, for a table where counting the rows costs too
+much. `streamAll` reads the candidates one by one, within a transaction, and
+the caller closes the `Stream`. It is an add-on, not a
 part of `AggregateRepository`: a repository that needs it names it among its
 parents, a repository of an entity that is not a root too.
 
