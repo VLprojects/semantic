@@ -53,7 +53,7 @@ PALETTE = {
 	"light": {
 		"bg": "#F6F8FA", "ink": "#1F2328", "soft": "#59636E", "mute": "#8C959F",
 		"plate": "#FFFFFF", "slot": "#DDE2E7", "line": "#AFB8C1",
-		"wash": "#FFFFFF", "card": "#E3E8ED", "ghost": "#F2F4F6", "bar": "#BEC7D0",
+		"wash": "#FFFFFF", "card": "#E3E8ED", "ghost": "#F9FAFB", "bar": "#BEC7D0",
 		"blue": "#1A7CFF", "green": "#22C063", "amber": "#FF9F2E", "red": "#EE2D62",
 		"sky": "#9DD1FF", "slate": "#7A8594", "lime": "#22C063",
 		"blue-plate": "#E3EFFF", "blue-ink": "#1F2328", "green-plate": "#DDF7E7", "green-ink": "#1F2328", "green-glyph": "#22C063", "amber-plate": "#FFEEDC", "amber-ink": "#1F2328", "amber-glyph": "#FF9F2E",
@@ -178,7 +178,7 @@ DASH, DOT = "6 4", "0.1 4"
 
 def tag(a, x, y, text, color="soft", mono=False):
 	"""A tag whose top left corner is at x, y: the colour of its text at a fifth, no outline."""
-	w = len(text) * (6.6 if mono else 5.2) + 16
+	w = len(text) * (6.6 if mono else 5.25) + 16
 	a.add(f'<rect x="{x:.1f}" y="{y:.1f}" width="{w:.1f}" height="{TAG_H}" rx="4" fill="{a.p[color]}" fill-opacity="0.2"/>')
 	a.t(x + 8, y + 12.5, text, size=TAG, color=color, mono=mono)
 	return w
@@ -387,7 +387,7 @@ def dependencies(pal):
 	core, data, stores, boot, starters = tops
 	a.rect(X0, 16, cw, y + MARGIN - 16, "plate", r=12)
 	a.t(edge, 46, "DDD", size=TITLE, color="ink", weight="600", mono=True)
-	tag(a, edge + 0.6 * TITLE * 3 + 12, 31, "tactical building blocks of domain-driven design for Kotlin and Spring")
+	tag(a, edge + 0.6 * TITLE * 3 + 12, 31, "tactical and strategic patterns of domain-driven design for Kotlin and the Spring ecosystem")
 	room = LEVEL_W - RUN - 2 * FRAME  # the gutter up to the lane
 	for name, about, top, height in frames:
 		layer(a, edge, top, width, height)

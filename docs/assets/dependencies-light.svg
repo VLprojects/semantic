@@ -3,8 +3,8 @@
   <g transform="translate(12,12)">
     <rect x="16.0" y="16.0" width="1280.0" height="917.0" rx="12" fill="#FFFFFF"/>
     <text x="40.0" y="46.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="16" font-weight="600" fill="#1F2328" text-anchor="start">DDD</text>
-    <rect x="80.8" y="31.0" width="380.0" height="18" rx="4" fill="#59636E" fill-opacity="0.2"/>
-    <text x="88.8" y="43.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="start">tactical building blocks of domain-driven design for Kotlin and Spring</text>
+    <rect x="80.8" y="31.0" width="493.8" height="18" rx="4" fill="#59636E" fill-opacity="0.2"/>
+    <text x="88.8" y="43.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="start">tactical and strategic patterns of domain-driven design for Kotlin and the Spring ecosystem</text>
     <rect x="40" y="97" width="1232" height="124" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
     <text x="56.0" y="137.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1F2328" text-anchor="start">JVM</text>
     <text x="56.0" y="155.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">Kotlin and the JDK only, no</text>
@@ -57,13 +57,13 @@
     <text x="864.0" y="825.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">ddd/spring-boot-starter-mongodb</text>
     <text x="856.0" y="849.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-boot-starter-mongodb</text>
     <text x="856.0" y="881.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">the one dependency a MongoDB service declares</text>
-    <rect x="628.0" y="457.0" width="200.0" height="92.0" rx="6" fill="#F2F4F6"/>
+    <rect x="628.0" y="457.0" width="200.0" height="92.0" rx="6" fill="#F9FAFB"/>
     <rect x="640.0" y="469.0" width="128.2" height="18" rx="4" fill="#59636E" fill-opacity="0.2"/>
     <text x="648.0" y="481.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#59636E" text-anchor="start">ddd/spring-data-*</text>
     <text x="640.0" y="505.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">other stores</text>
     <text x="640.0" y="537.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">Redis, Cassandra, Neo4j</text>
     <rect x="628.8" y="457.8" width="198.5" height="90.5" rx="6" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-dasharray="2 3" stroke-linecap="round"/>
-    <rect x="628.0" y="801.0" width="200.0" height="92.0" rx="6" fill="#F2F4F6"/>
+    <rect x="628.0" y="801.0" width="200.0" height="92.0" rx="6" fill="#F9FAFB"/>
     <rect x="640.0" y="813.0" width="181.0" height="18" rx="4" fill="#59636E" fill-opacity="0.2"/>
     <text x="648.0" y="825.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#59636E" text-anchor="start">ddd/spring-boot-starter-*</text>
     <text x="640.0" y="849.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">other starters</text>
