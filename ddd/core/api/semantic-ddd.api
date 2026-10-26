@@ -23,6 +23,10 @@ public final class pro/vlprojects/semantic/ddd/dsl/BusinessRulesKt {
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/AggregateRoot : pro/vlprojects/semantic/ddd/tactical/Entity {
 }
 
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/BoxedIdentifier : pro/vlprojects/semantic/ddd/tactical/Identifier {
+	public abstract fun getValue ()Ljava/lang/Object;
+}
+
 public final class pro/vlprojects/semantic/ddd/tactical/BusinessRule {
 	public final fun check (Ljava/lang/Object;)V
 }
@@ -66,10 +70,6 @@ public abstract interface class pro/vlprojects/semantic/ddd/tactical/Identifier 
 
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/Revision : pro/vlprojects/semantic/ddd/tactical/Identifiable, pro/vlprojects/semantic/ddd/tactical/Versioned {
 	public abstract fun getName ()Ljava/lang/String;
-}
-
-public abstract interface class pro/vlprojects/semantic/ddd/tactical/ScalarIdentifier : pro/vlprojects/semantic/ddd/tactical/Identifier {
-	public abstract fun getValue ()Ljava/lang/Object;
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/Specification : kotlin/jvm/functions/Function1, pro/vlprojects/semantic/ddd/tactical/DomainObject {
@@ -120,7 +120,7 @@ public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractEvent : 
 	public fun toString ()Ljava/lang/String;
 }
 
-public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractId : pro/vlprojects/semantic/ddd/tactical/ScalarIdentifier {
+public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractId : pro/vlprojects/semantic/ddd/tactical/BoxedIdentifier {
 	public fun <init> (Ljava/lang/Object;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getValue ()Ljava/lang/Object;

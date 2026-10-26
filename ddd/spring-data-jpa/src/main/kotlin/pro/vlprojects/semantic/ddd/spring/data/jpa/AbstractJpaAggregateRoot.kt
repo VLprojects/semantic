@@ -3,13 +3,13 @@ package pro.vlprojects.semantic.ddd.spring.data.jpa
 import org.springframework.data.domain.AfterDomainEventPublication
 import org.springframework.data.domain.DomainEvents
 import pro.vlprojects.semantic.ddd.tactical.AggregateRoot
+import pro.vlprojects.semantic.ddd.tactical.BoxedIdentifier
 import pro.vlprojects.semantic.ddd.tactical.Event
-import pro.vlprojects.semantic.ddd.tactical.ScalarIdentifier
 import pro.vlprojects.semantic.format.abbreviation.abbreviated
 import jakarta.persistence.MappedSuperclass
 
 @MappedSuperclass
-public abstract class AbstractJpaAggregateRoot<A : AggregateRoot<A, I>, I : ScalarIdentifier<*>> :
+public abstract class AbstractJpaAggregateRoot<A : AggregateRoot<A, I>, I : BoxedIdentifier<*>> :
     AbstractJpaEntity<A, I>(),
     AggregateRoot<A, I> {
 
