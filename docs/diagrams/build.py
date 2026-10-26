@@ -627,21 +627,21 @@ def dependencies(pal):
 		layer(a, edge, top, width, height)
 		caption(a, edge + FRAME, top + FRAME, name)
 	for x, top, width, hue, directory, artifact, note in (
-		(left, core, w, "blue", "ddd/core", "semantic-ddd", "entities, aggregates, events; no framework"),
-		(right, core, w, "blue", "ddd/jackson", "semantic-ddd-jackson", "identifiers in JSON as the value they box"),
-		(left, data, bw, "green", "ddd/spring/data/core", "semantic-ddd-spring-data", "aggregates saved by a Spring Data repository"),
-		(left, stores, w, "green", "ddd/spring/data/jpa", "semantic-ddd-spring-data-jpa", "base classes with JPA mapping"),
-		(right, stores, w, "green", "ddd/spring/data/mongodb", "semantic-ddd-spring-data-mongodb",
+		(left, core, w, "blue", "design/ddd/core", "semantic-ddd", "entities, aggregates, events; no framework"),
+		(right, core, w, "blue", "design/ddd/jackson", "semantic-ddd-jackson", "identifiers in JSON as the value they box"),
+		(left, data, bw, "green", "design/ddd/spring/data/core", "semantic-ddd-spring-data", "aggregates saved by a Spring Data repository"),
+		(left, stores, w, "green", "design/ddd/spring/data/jpa", "semantic-ddd-spring-data-jpa", "base classes with JPA mapping"),
+		(right, stores, w, "green", "design/ddd/spring/data/mongodb", "semantic-ddd-spring-data-mongodb",
 			"base classes with MongoDB mapping"),
-		(left, boot, bw, "green", "ddd/spring-boot/autoconfigure", "semantic-ddd-spring-boot", "registers beans of the modules it finds"),
-		(left, starters, w, "green", "ddd/spring-boot/starter/jpa", "semantic-ddd-spring-boot-starter-jpa",
+		(left, boot, bw, "green", "design/ddd/spring-boot/autoconfigure", "semantic-ddd-spring-boot", "registers beans of the modules it finds"),
+		(left, starters, w, "green", "design/ddd/spring-boot/starter/jpa", "semantic-ddd-spring-boot-starter-jpa",
 			"the one dependency a JPA service declares"),
-		(right, starters, w, "green", "ddd/spring-boot/starter/mongodb", "semantic-ddd-spring-boot-starter-mongodb",
+		(right, starters, w, "green", "design/ddd/spring-boot/starter/mongodb", "semantic-ddd-spring-boot-starter-mongodb",
 			"the one dependency a MongoDB service declares"),
 	):
 		block(a, x, top, width, hue, directory, artifact, note)
-	ghost(a, more, stores, MORE, "ddd/spring/data/*", "other stores", "Redis, Cassandra, Neo4j")
-	ghost(a, more, starters, MORE, "ddd/spring-boot/starter/*", "other starters", "one per store")
+	ghost(a, more, stores, MORE, "design/ddd/spring/data/*", "other stores", "Redis, Cassandra, Neo4j")
+	ghost(a, more, starters, MORE, "design/ddd/spring-boot/starter/*", "other starters", "one per store")
 	# an arrow keeps a third of its column, so its note fits the column
 	jpa, mongodb = left + w / 3, right + w / 3
 	for x, source, target, dash in (
