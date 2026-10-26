@@ -11,6 +11,6 @@ public class SemanticDddModule : JacksonModule() {
 
     override fun setupModule(context: SetupContext) {
         context.appendAnnotationIntrospector(BoxedIdentifierIntrospector)
-        context.addKeyDeserializers(BoxedIdentifierKeyDeserializers)
+        context.addKeyDeserializers(BoxedIdentifierKeyDeserializerFinder)
     }
 }

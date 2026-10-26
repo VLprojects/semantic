@@ -112,13 +112,20 @@ own member with `@get:JsonValue`.
 
 A key of a map is written as the value it boxes and read back the way the
 identifier itself is read: Jackson reads the key as the value, and the module
-hands the value to the constructor or to the factory marked `@JsonCreator`. An
-identifier with neither, or with a deserializer of its own, is read from a key
-the way Jackson reads it by itself: through a constructor of a `String` or a
-factory of one marked `@JsonCreator` or named `valueOf` or `fromString`. A key
-deserializer named by `@JsonDeserialize(keyUsing = ...)` wins over the module,
-and one added by another module wins only if that module is registered after
-this one.
+hands the value to the constructor or to the factory marked `@JsonCreator`; a
+factory of a `String` goes first, as it does for a string of JSON. A key the
+identifier rejects fails as a rejected value does. A key that is not such a
+value fails with an error that names the identifier; a
+`DeserializationProblemHandler` is asked about the value, not about the
+identifier. An identifier whose value Jackson cannot read as a key needs a key
+deserializer of its own, and one that Jackson cannot read as a value is not read
+from a key either. An identifier with no such constructor or factory, or with a
+deserializer of its own, is read from a key the way Jackson reads it by itself:
+through its public constructor of the value when that value is a `String`, or
+through a factory of a `String` marked `@JsonCreator` or named `valueOf` or
+`fromString`. A key deserializer named by `@JsonDeserialize(keyUsing = ...)`
+wins over the module, and one added by another module wins only if that module
+is registered after this one.
 
 ## Spring Data
 
