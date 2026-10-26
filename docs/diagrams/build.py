@@ -56,7 +56,7 @@ PALETTE = {
 		"sky": "#9DD1FF", "slate": "#7A8594", "lime": "#22C063",
 		"blue-plate": "#E3EFFF", "blue-ink": "#1F2328", "green-plate": "#DDF7E7", "green-ink": "#1F2328", "green-glyph": "#22C063", "amber-plate": "#FFEEDC", "amber-ink": "#1F2328", "amber-glyph": "#FF9F2E",
 		"green-soft": "#3A7550", "blue-soft": "#41679C", "amber-soft": "#8F4600", "green-text": "#12873F", "amber-text": "#B85300",
-		"blue-link": "#4C8DF0", "green-link": "#2FA85A", "amber-link": "#E8902E",
+		"violet-link": "#8B5CF6", "pink-link": "#EC4899", "cyan-link": "#06B6D4",
 		"on-green": "#0B2915", "on-blue": "#FFFFFF", "on-amber": "#2E1700", "on-sky": "#0B2340", "on-slate": "#FFFFFF", "on-lime": "#0B2915",
 	},
 	"dark": {
@@ -67,7 +67,7 @@ PALETTE = {
 		"sky": "#6E9BFF", "slate": "#545D68", "lime": "#5BF08A",
 		"blue-plate": "#6E9BFF", "blue-ink": "#06173D", "green-plate": "#5BF08A", "green-ink": "#03240E", "green-glyph": "#0D7A32", "amber-plate": "#FFB46B", "amber-ink": "#1F1206", "amber-glyph": "#8A3F00",
 		"green-soft": "#0D5A26", "blue-soft": "#1B3A80", "amber-soft": "#4A2808", "green-text": "#03240E", "amber-text": "#FF9F4A",
-		"blue-link": "#6E9BFF", "green-link": "#3FB950", "amber-link": "#E5963F",
+		"violet-link": "#A78BFA", "pink-link": "#F472B6", "cyan-link": "#22D3EE",
 		"on-green": "#0D1117", "on-blue": "#0D1117", "on-amber": "#0D1117", "on-sky": "#06173D", "on-slate": "#E6EDF3", "on-lime": "#03240E",
 	},
 }
@@ -226,9 +226,9 @@ def block(a, x, y, w, hue, directory, artifact, note):
 
 
 DDD_SPRING = [
-	("Spring Data", [("green", "ddd/spring-data", "semantic-ddd-spring-data", "aggregates saved by a Spring Data repository")]),
-	(None, [("green", "ddd/spring-data-jpa", "semantic-ddd-spring-data-jpa", "the bases mapped with JPA"),
-		("green", "ddd/spring-data-mongodb", "semantic-ddd-spring-data-mongodb", "the bases mapped for MongoDB")]),
+	("Spring", [("green", "ddd/spring-data", "semantic-ddd-spring-data", "aggregates saved by a Spring Data repository")]),
+	(None, [("green", "ddd/spring-data-jpa", "semantic-ddd-spring-data-jpa", "base classes with JPA mapping"),
+		("green", "ddd/spring-data-mongodb", "semantic-ddd-spring-data-mongodb", "base classes with MongoDB mapping")]),
 	("Spring Boot", [("green", "ddd/spring-boot", "semantic-ddd-spring-boot", "auto-configuration")]),
 	(None, [("green", "ddd/spring-boot-starter-jpa", "semantic-ddd-spring-boot-starter-jpa", "the way in for JPA")]),
 	(None, [("green", "ddd/spring-boot-starter-mongodb", "semantic-ddd-spring-boot-starter-mongodb",
@@ -266,9 +266,10 @@ def families(pal):
 # Which module builds on which, on the plate of the family and on its grid: every block keeps the edges of
 # the row, a store and its starter share a column, and the starters, what a service adds, come last. An
 # arrow points to what a module needs: it starts on a dot at the module and ends on a filled head 2 short
-# of the other one, and what it takes is said beside it. Its colour is its kind, in a middle tone of the
-# plates: blue builds on the classes of the module it points to, extending them or implementing them, amber
-# configures a module when the service has it, green puts a module into the service with the starter. An
+# of the other one, and what it takes is said beside it. Its colour is its kind, a neon of its own beside
+# the pale plates: violet builds on the classes of the module it points to, extending them or implementing
+# them, pink configures a module when the service has it, cyan puts a module into the service with the
+# starter. An
 # arrow that has a row to skip, from a starter up to its store, takes a lane beside the blocks, left for the
 # left column and right for the right one, and enters them from the side; its note keeps 8 off the lane and
 # more than the padding of a block off the block, so it reads with the lane. The page is wider than the
@@ -276,8 +277,8 @@ def families(pal):
 # between levels, on the grid of 4
 DEP_W, DEP_ROW, DEP_LEVEL, BEND = 1040, 40, 48, 8  # page, gaps with arrows, bends
 LANE, RUN = 88, 56  # room beside the blocks, and how far out of it the lane runs
-BUILDS, CONFIGURES, ADDS = "blue-link", "amber-link", "green-link"
-HEAD, HALF = 8, 4.5  # length of a head and half its base
+BUILDS, CONFIGURES, ADDS = "violet-link", "pink-link", "cyan-link"
+HEAD, HALF = 6, 3  # length of a head and half its base
 
 
 def arrowhead(a, x, y, dx, dy, color):
@@ -285,7 +286,7 @@ def arrowhead(a, x, y, dx, dy, color):
 	bx, by = x - dx * HEAD, y - dy * HEAD
 	a.add(
 		f'<path d="M{x},{y} L{bx - dy * HALF},{by + dx * HALF} L{bx + dy * HALF},{by - dx * HALF} Z" '
-		f'fill="{a.p[color]}" stroke="{a.p[color]}" stroke-width="1.5" stroke-linejoin="round"/>'
+		f'fill="{a.p[color]}" stroke="{a.p[color]}" stroke-width="1" stroke-linejoin="round"/>'
 	)
 	return bx, by
 
@@ -334,14 +335,14 @@ def dependencies(pal):
 	a.rect(X0, 16, cw, y + INSET - 16, "plate", r=12)
 	a.t(X0 + INSET, 46, "ddd", size=TITLE, color="ink", weight="600", mono=True)
 	tag(a, X0 + INSET + 0.6 * TITLE * 3 + 12, 31, "in development, v1")
-	for level, top in (("JVM", core), ("Spring Data", data), ("Spring Boot", boot)):
+	for level, top in (("JVM", core), ("Spring", data), ("Spring Boot", boot)):
 		a.t(X0 + INSET, top + 48, level)  # on the baseline of the artifacts in its row
 	for x, top, width, hue, directory, artifact, note in (
 		(left, core, bw, "blue", "ddd/core", "semantic-ddd", "entities, aggregates, events; no framework"),
 		(left, data, bw, "green", "ddd/spring-data", "semantic-ddd-spring-data", "aggregates saved by a Spring Data repository"),
-		(left, stores, w, "green", "ddd/spring-data-jpa", "semantic-ddd-spring-data-jpa", "the bases mapped with JPA"),
+		(left, stores, w, "green", "ddd/spring-data-jpa", "semantic-ddd-spring-data-jpa", "base classes with JPA mapping"),
 		(right, stores, w, "green", "ddd/spring-data-mongodb", "semantic-ddd-spring-data-mongodb",
-			"the bases mapped for MongoDB"),
+			"base classes with MongoDB mapping"),
 		(left, boot, bw, "green", "ddd/spring-boot", "semantic-ddd-spring-boot", "registers beans of the modules it finds"),
 		(left, starters, w, "green", "ddd/spring-boot-starter-jpa", "semantic-ddd-spring-boot-starter-jpa",
 			"the one dependency a JPA service declares"),
@@ -363,19 +364,19 @@ def dependencies(pal):
 	bypass(a, end, lane_right, starters + BLOCK / 2, stores + BLOCK / 2, ADDS)
 	# a note stands 8 off its arrow, on the middle of the gap, and says what the module takes
 	for x, gap_top, gap, note, color, anchor in (
-		(middle + 8, core + BLOCK, DEP_LEVEL, "extends the bases, implements the contracts", "soft", "start"),
-		(jpa + 8, data + BLOCK, DEP_ROW, "extends the Spring Data bases", "soft", "start"),
-		(mongodb + 8, data + BLOCK, DEP_ROW, "extends the Spring Data bases", "soft", "start"),
-		(jpa + 8, stores + BLOCK, DEP_LEVEL, "configures when present", "soft", "start"),
-		(mongodb + 8, stores + BLOCK, DEP_LEVEL, "configures when present", "soft", "start"),
-		(jpa + 8, boot + BLOCK, DEP_ROW, "turns on auto-configuration", "soft", "start"),
-		(mongodb + 8, boot + BLOCK, DEP_ROW, "turns on auto-configuration", "soft", "start"),
+		(middle + 8, core + BLOCK, DEP_LEVEL, "extends base classes, implements interfaces", "soft", "start"),
+		(jpa + 8, data + BLOCK, DEP_ROW, "extends Spring Data base classes", "soft", "start"),
+		(mongodb + 8, data + BLOCK, DEP_ROW, "extends Spring Data base classes", "soft", "start"),
+		(jpa + 8, stores + BLOCK, DEP_LEVEL, "configures on @ConditionalOnClass", "soft", "start"),
+		(mongodb + 8, stores + BLOCK, DEP_LEVEL, "configures on @ConditionalOnClass", "soft", "start"),
+		(jpa + 8, boot + BLOCK, DEP_ROW, "api dependency: auto-configuration", "soft", "start"),
+		(mongodb + 8, boot + BLOCK, DEP_ROW, "api dependency: auto-configuration", "soft", "start"),
 	):
 		a.t(x, gap_top + gap / 2 + 4, note, color=color, anchor=anchor)
 	# the note of a lane reads up it, 8 off the lane on the side of the blocks; a glyph turned up stands 10
 	# left of its baseline and 3 right of it
-	for x, note in ((lane_left + 18, "adds the JPA bases to the service"),
-			(lane_right - 11, "adds the MongoDB bases to the service")):
+	for x, note in ((lane_left + 18, "api dependency: JPA base classes"),
+			(lane_right - 11, "api dependency: MongoDB base classes")):
 		along(a, x, (stores + starters + BLOCK) / 2, note)
 	a.h = y + INSET
 	return a

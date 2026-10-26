@@ -30,23 +30,23 @@
     <rect x="128.0" y="452.0" width="68.8" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
     <text x="136.0" y="464.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">ddd/core</text>
     <text x="128.0" y="488.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd</text>
-    <text x="128.0" y="520.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">building blocks, no framework</text>
-    <text x="32.0" y="604.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">Spring Data</text>
+    <text x="128.0" y="520.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">entities, aggregates, events; no framework</text>
+    <text x="32.0" y="604.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">Spring</text>
     <rect x="116.0" y="556.0" width="572.0" height="92.0" rx="6" fill="#DDF7E7"/>
     <rect x="128.0" y="568.0" width="115.0" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
     <text x="136.0" y="580.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">ddd/spring-data</text>
     <text x="128.0" y="604.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-data</text>
-    <text x="128.0" y="636.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">what every store shares</text>
+    <text x="128.0" y="636.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">aggregates saved by a Spring Data repository</text>
     <rect x="116.0" y="664.0" width="278.0" height="92.0" rx="6" fill="#DDF7E7"/>
     <rect x="128.0" y="676.0" width="141.4" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
     <text x="136.0" y="688.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">ddd/spring-data-jpa</text>
     <text x="128.0" y="712.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-data-jpa</text>
-    <text x="128.0" y="744.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">aggregates as JPA entities</text>
+    <text x="128.0" y="744.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">base classes with JPA mapping</text>
     <rect x="410.0" y="664.0" width="278.0" height="92.0" rx="6" fill="#DDF7E7"/>
     <rect x="422.0" y="676.0" width="167.8" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
     <text x="430.0" y="688.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">ddd/spring-data-mongodb</text>
     <text x="422.0" y="712.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-data-mongodb</text>
-    <text x="422.0" y="744.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">aggregates as MongoDB documents</text>
+    <text x="422.0" y="744.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">base classes with MongoDB mapping</text>
     <text x="32.0" y="828.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">Spring Boot</text>
     <rect x="116.0" y="780.0" width="572.0" height="92.0" rx="6" fill="#DDF7E7"/>
     <rect x="128.0" y="792.0" width="115.0" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
