@@ -18,6 +18,8 @@ class BaseRevisionTests {
 
     @Test
     fun `a revision shows its name, identifier and version`() {
-        assertEquals("[name: cart, id: 1, version: 3]", Cart(CartId(1), version = 3).let(BaseRevision.Factory::of).toString())
+        val revision = Cart(CartId(1), version = 3).let(BaseRevision.Factory::of)
+
+        assertEquals("[name: cart, id: 1, version: 3]", revision.toString())
     }
 }
