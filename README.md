@@ -12,14 +12,14 @@ Each family has a core with no dependencies and adapters for the frameworks you
 use. Take only what you need: a service that wants an `Email` does not get
 aggregates with it.
 
-<img src="docs/assets/families-light.svg#gh-light-mode-only" width="100%" alt="Families and their modules: helper, format, ddd and cqrs in development, vo planned">
-<img src="docs/assets/families-dark.svg#gh-dark-mode-only" width="100%" alt="Families and their modules: helper, format, ddd and cqrs in development, vo planned">
+<img src="docs/assets/families-light.svg#gh-light-mode-only" width="100%" alt="Families, their layers and their modules: helper, format, ddd, cqrs, architecture and types">
+<img src="docs/assets/families-dark.svg#gh-dark-mode-only" width="100%" alt="Families, their layers and their modules: helper, format, ddd, cqrs, architecture and types">
 
 | Family | What it is | Status |
 | --- | --- | --- |
 | [`helper`](helper/README.md) | extensions of the standard types, in groups: `text` and `number` so far | in development, v1 |
 | [`format`](format/README.md) | how a value is written down: cases, abbreviation, masking | in development, v1 |
-| `vo` | rich value objects: `semantic-vo` with the validation every value object shares, then `net`, `range`, `time` and more | planned for v1 |
+| `types` | rich value objects, a module per category: `version` first, then email, URL, ranges, dates | design |
 | [`ddd`](ddd/README.md) | identifiers, entities, aggregate roots with events and invariants, business rules, domain errors; Spring Data adapters for JPA and MongoDB, Spring Boot | design, v1 |
 | [`cqrs`](cqrs/README.md) | commands, queries, their handlers and buses; no dependency on `ddd` | design |
 | [`architecture`](architecture/README.md) | the layers of a service: presentation, application, domain, infrastructure | design |
@@ -27,5 +27,10 @@ aggregates with it.
 Artifacts are named `semantic-<family>[-<adapter>]` and live in the group
 `pro.vlprojects.semantic`. Packages follow the same path:
 `pro.vlprojects.semantic.ddd.spring.data.jpa`.
+
+Directories follow the path too, without the prefix it already gives: a family
+has a directory of its own, a module lies only at the bottom of the tree, and a
+directory above it only groups. The core of a family is `<family>/core`, a
+Spring Data store of ddd is `ddd/spring/data/<store>`.
 
 Built for Java 25, Kotlin 2.4 and Spring Boot 4.1. Licensed under Apache 2.0.

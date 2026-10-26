@@ -7,6 +7,7 @@ import pro.vlprojects.semantic.ddd.tactical.base.AbstractAggregateRoot
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractEntity
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractEvent
 import pro.vlprojects.semantic.ddd.tactical.base.AbstractId
+import pro.vlprojects.semantic.ddd.tactical.base.BaseRevision
 import java.time.Instant
 
 class CartId(
@@ -22,7 +23,7 @@ class ItemAdded(
     companion object Factory {
 
         fun of(cart: Cart, sku: String, meta: EventMeta = EventMeta.of<ItemAdded>()) =
-            ItemAdded(meta, cart.revision, sku)
+            ItemAdded(meta, BaseRevision.of(cart), sku)
     }
 }
 
@@ -63,6 +64,8 @@ class Line(
     init {
         this.identifier = identifier
     }
+
+    fun versioned(version: Long) = apply { assignVersion(version) }
 }
 
 class WishList(
