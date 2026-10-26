@@ -5,7 +5,7 @@ import pro.vlprojects.semantic.ddd.tactical.Event
 import pro.vlprojects.semantic.ddd.tactical.EventMeta
 import pro.vlprojects.semantic.ddd.tactical.Identifier
 import pro.vlprojects.semantic.ddd.tactical.Revision
-import pro.vlprojects.semantic.format.abbreviated
+import pro.vlprojects.semantic.format.abbreviation.abbreviated
 
 public abstract class AbstractEvent<A : AggregateRoot<A, I>, out I : Identifier>(
     final override val meta: EventMeta,

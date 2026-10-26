@@ -20,7 +20,7 @@
     <rect x="128.0" y="264.0" width="55.6" height="18" rx="4" fill="#1B3A80" fill-opacity="0.2"/>
     <text x="136.0" y="276.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1B3A80" text-anchor="start">format</text>
     <text x="128.0" y="300.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#06173D" text-anchor="start">semantic-format</text>
-    <text x="128.0" y="332.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1B3A80" text-anchor="start">cases, abbreviation</text>
+    <text x="128.0" y="332.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1B3A80" text-anchor="start">cases, abbreviation, masking</text>
     <rect x="16.0" y="392.0" width="688.0" height="496.0" rx="12" fill="#1D242D"/>
     <text x="32.0" y="422.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="16" font-weight="600" fill="#E6EDF3" text-anchor="start">ddd</text>
     <rect x="72.8" y="407.0" width="115.0" height="18" rx="4" fill="#9198A1" fill-opacity="0.2"/>

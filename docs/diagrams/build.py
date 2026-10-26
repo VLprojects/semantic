@@ -239,7 +239,7 @@ def families(pal):
 		("JVM", [("blue", "helper", "semantic-helper", "extensions of the standard types")]),
 	])
 	y = family(a, y, "format", "in development, v1", [
-		("JVM", [("blue", "format", "semantic-format", "cases, abbreviation")]),
+		("JVM", [("blue", "format", "semantic-format", "cases, abbreviation, masking")]),
 	])
 	y = family(a, y, "ddd", "in development, v1", [
 		("JVM", [("blue", "ddd/core", "semantic-ddd", "building blocks, no framework")]),
@@ -271,6 +271,75 @@ def modules(pal):
 	a.h = y - PLATES + 16
 	return a
 
+
+
+# ---------------------------------------------------------------------- ddd dependencies
+# Which module builds on which: an arrow runs from a module up to the one it needs and says what it takes from
+# it. A dependency the service may leave out is lighter, as is its note. The blocks keep one width so that
+# every arrow runs straight up between two of them; the gaps hold the arrows and their notes
+DEP_COL, DEP_GAP, DEP_ROW, DEP_LEVEL = 336, 48, 48, 56  # block width, gap between columns, rows of a level, levels
+
+
+def uarrow(a, x, y1, y2, color):
+	"""Vertical arrow from y1 up to y2, the head touching y2."""
+	a.path(f"M{x},{y1} L{x},{y2 + 6}", color)
+	a.add(f'<path d="M{x - 4},{y2 + 7} L{x},{y2} L{x + 4},{y2 + 7} Z" fill="{a.p[color]}"/>')
+
+
+def dependencies(pal):
+	a = Art(16 + GUT + 2 * DEP_COL + DEP_GAP + 16, 0, pal)
+	left, right = BX, BX + DEP_COL + DEP_GAP
+	middle = left + (DEP_COL + DEP_GAP) / 2
+	tops, y = [], 16
+	for gap in (0, DEP_LEVEL, DEP_ROW, DEP_LEVEL, DEP_ROW):
+		y += gap
+		tops.append(y)
+		y += BLOCK
+	core, data, stores, boot, starters = tops
+	for level, top in (("JVM", core), ("Spring Data", data), ("Spring Boot", boot)):
+		a.t(16, top + 48, level)
+	for x, top, hue, directory, artifact, note in (
+		(middle, core, "blue", "ddd/core", "semantic-ddd", "building blocks, no framework"),
+		(middle, data, "green", "ddd/spring-data", "semantic-ddd-spring-data", "what every store shares"),
+		(left, stores, "green", "ddd/spring-data-jpa", "semantic-ddd-spring-data-jpa", "aggregates as JPA entities"),
+		(right, stores, "green", "ddd/spring-data-mongodb", "semantic-ddd-spring-data-mongodb",
+			"aggregates as MongoDB documents"),
+		(middle, boot, "green", "ddd/spring-boot", "semantic-ddd-spring-boot", "auto-configuration"),
+		(left, starters, "green", "ddd/spring-boot-starter-jpa", "semantic-ddd-spring-boot-starter-jpa",
+			"no code: all a JPA service adds"),
+		(right, starters, "green", "ddd/spring-boot-starter-mongodb", "semantic-ddd-spring-boot-starter-mongodb",
+			"no code: all a MongoDB service adds"),
+	):
+		block(a, x, top, DEP_COL, hue, directory, artifact, note)
+	# an arrow between two blocks of one width runs under the middle of the span they share
+	shared_left, shared_right, centre = (middle + left + DEP_COL) / 2, (right + middle + DEP_COL) / 2, middle + DEP_COL / 2
+	outer_left, outer_right = (left + middle) / 2, (middle + DEP_COL + right + DEP_COL) / 2
+	for x, source, target, optional in (
+		(centre, data, core, False), (shared_left, stores, data, False), (shared_right, stores, data, False),
+		(centre, boot, data, False), (shared_left, boot, stores, True), (shared_right, boot, stores, True),
+		(shared_left, starters, boot, False), (shared_right, starters, boot, False),
+		(outer_left, starters, stores, False), (outer_right, starters, stores, False),
+	):
+		uarrow(a, x, source, target + BLOCK, "line" if optional else "soft")
+	# a note stands 8 off its arrow in the gap right above the module the arrow starts from, so it reads as
+	# what that module takes from the one the arrow points to
+	for x, below, note, optional, anchor in (
+		(centre, data, "extends the base classes", False, "start"),
+		(shared_left, stores, "extends", False, "start"),
+		(shared_right, stores, "extends", False, "start"),
+		(shared_left, boot, "configures if present", True, "end"),
+		(centre, boot, "configures", False, "start"),
+		(shared_right, boot, "configures if present", True, "start"),
+		(outer_left, starters, "brings in", False, "start"),
+		(shared_left, starters, "brings in", False, "start"),
+		(shared_right, starters, "brings in", False, "start"),
+		(outer_right, starters, "brings in", False, "start"),
+	):
+		gap = DEP_LEVEL if below in (data, boot) else DEP_ROW
+		a.t(x - 8 if anchor == "end" else x + 8, below - gap / 2 + 4, note, color="mute" if optional else "soft",
+			anchor=anchor)
+	a.h = y + 16
+	return a
 
 # ---------------------------------------------------------------------- format and helper examples
 # What a function does, shown on a value: what goes in on the left, what comes out on the right. A grey
@@ -366,9 +435,9 @@ ID = "0190a3f2-7b1e-7c3a-9f4e-5d2b8a6ec41d"
 
 
 def abbreviated(pal):
-	# one identifier cut by each mode: what stays in bold, what the ellipsis hides in grey
+	# one identifier shortened by each abbreviation: what stays in bold, what the ellipsis hides in grey
 	a = Art(0, 0, pal)
-	rows = [("HideMiddle", 3, 2, "019…1d"), ("HideBeginning", 0, 5, "…ec41d"), ("HideEnding", 5, 0, "0190a…")]
+	rows = [("InfixAbbreviation", 3, 2, "019…1d"), ("PrefixAbbreviation", 0, 5, "…ec41d"), ("SuffixAbbreviation", 5, 0, "0190a…")]
 	gx = 16 + max(len(mode) for mode, *_ in rows) * CELL_NOTE + 16
 	vw = len(ID) * CELL + 24
 	for i, (mode, start, end, result) in enumerate(rows):
@@ -546,7 +615,7 @@ def subdomains(pal):
 	return a
 
 DIAGRAMS = {
-	"families": families, "modules": modules,
+	"families": families, "modules": modules, "dependencies": dependencies,
 	"format-cases": cases, "helper-words": words, "format-abbreviated": abbreviated, "helper-symbols": symbols,
 	"ddd-context-packages": context_packages, "ddd-context-uses": context_uses, "ddd-context-reference": context_reference,
 	"ddd-subdomains": subdomains,

@@ -1,8 +1,17 @@
-public abstract class pro/vlprojects/semantic/ddd/spring/data/SpringDataAggregateRoot : pro/vlprojects/semantic/ddd/tactical/base/AbstractAggregateRoot, org/springframework/data/domain/Persistable {
+public abstract class pro/vlprojects/semantic/ddd/spring/data/AbstractSpringDataAggregateRoot : pro/vlprojects/semantic/ddd/spring/data/AbstractSpringDataEntity, pro/vlprojects/semantic/ddd/tactical/AggregateRoot {
 	public fun <init> ()V
 	protected final fun clearEvents ()V
-	protected final fun getDomainEvents ()Ljava/util/Collection;
+	protected final fun getEvents ()Ljava/util/List;
+	protected final fun register (Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;Lpro/vlprojects/semantic/ddd/tactical/Event;)Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract class pro/vlprojects/semantic/ddd/spring/data/AbstractSpringDataEntity : pro/vlprojects/semantic/ddd/tactical/base/AbstractEntity, org/springframework/data/domain/Persistable {
+	public fun <init> ()V
+	public fun equals (Ljava/lang/Object;)Z
 	public synthetic fun getId ()Ljava/lang/Object;
 	public final fun getId ()Lpro/vlprojects/semantic/ddd/tactical/Identifier;
+	public final fun isNew ()Z
+	protected fun markPersisted ()V
 }
 

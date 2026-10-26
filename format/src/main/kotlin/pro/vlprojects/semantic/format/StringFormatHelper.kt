@@ -1,6 +1,5 @@
 package pro.vlprojects.semantic.format
 
-import pro.vlprojects.semantic.helper.text.hasFewerSymbolsThan
 import pro.vlprojects.semantic.helper.text.toWordSequence
 
 public fun String.toKebabCase(): String = this
@@ -39,17 +38,3 @@ public fun String.capitalizeEachPart(separator: String): String {
 }
 
 public fun String.capitalizeFirstLetter(): String = this.replaceFirstChar(Char::titlecase)
-
-public fun String.abbreviated(
-    minLength: Int = 10,
-    keepLength: Int = 5,
-    mode: EllipsisMode = EllipsisMode.HideMiddle,
-): String {
-    require(keepLength > 0) { "The kept length must be positive, got $keepLength" }
-    require(minLength > keepLength) { "The minimum length $minLength must be over the kept length $keepLength" }
-    return when {
-        this.hasFewerSymbolsThan(minLength) -> this
-        this.hasFewerSymbolsThan(keepLength + 2) -> this
-        else -> mode.abbreviate(this, keepLength)
-    }
-}

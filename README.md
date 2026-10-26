@@ -18,7 +18,7 @@ aggregates with it.
 | Family | What it is | Status |
 | --- | --- | --- |
 | [`helper`](helper/README.md) | extensions of the standard types, in groups: `text` and `number` so far | in development, v1 |
-| [`format`](format/README.md) | how a value is written down: cases, abbreviation | in development, v1 |
+| [`format`](format/README.md) | how a value is written down: cases, abbreviation, masking | in development, v1 |
 | `vo` | rich value objects: `semantic-vo` with the validation every value object shares, then `net`, `range`, `time` and more | planned for v1 |
 | [`ddd`](ddd/README.md) | identifiers, entities, aggregate roots with events and invariants, business rules, domain errors, bounded contexts and subdomains; Spring Data adapters for JPA and MongoDB, Spring Boot | design, v1 |
 | [`cqrs`](cqrs/README.md) | commands, queries, their handlers and buses; no dependency on `ddd` | design |

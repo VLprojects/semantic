@@ -1,0 +1,20 @@
+public abstract class pro/vlprojects/semantic/ddd/spring/data/jpa/AbstractJpaAggregateRoot : pro/vlprojects/semantic/ddd/spring/data/jpa/AbstractJpaEntity, pro/vlprojects/semantic/ddd/tactical/AggregateRoot {
+	public fun <init> ()V
+	protected final fun clearEvents ()V
+	protected final fun getEvents ()Ljava/util/List;
+	protected final fun register (Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;Lpro/vlprojects/semantic/ddd/tactical/Event;)Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract class pro/vlprojects/semantic/ddd/spring/data/jpa/AbstractJpaEntity : pro/vlprojects/semantic/ddd/spring/data/AbstractSpringDataEntity {
+	protected field identifier Lpro/vlprojects/semantic/ddd/tactical/BoxedIdentifier;
+	public fun <init> ()V
+	public fun getIdentifier ()Lpro/vlprojects/semantic/ddd/tactical/BoxedIdentifier;
+	public synthetic fun getIdentifier ()Lpro/vlprojects/semantic/ddd/tactical/Identifier;
+	public fun getVersion ()J
+	protected fun markPersisted ()V
+	protected fun setIdentifier (Lpro/vlprojects/semantic/ddd/tactical/BoxedIdentifier;)V
+	public synthetic fun setIdentifier (Lpro/vlprojects/semantic/ddd/tactical/Identifier;)V
+	protected fun setVersion (J)V
+}
+
