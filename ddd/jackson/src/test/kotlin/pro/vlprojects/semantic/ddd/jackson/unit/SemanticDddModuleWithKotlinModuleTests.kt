@@ -51,9 +51,24 @@ class SemanticDddModuleWithKotlinModuleTests {
     }
 
     @Test
+    fun `reads a key of a map through a factory the identifier marks`() {
+        val parcelId = ParcelId.create(uuidOfVersion7)
+        val parcels = mapper.readValue<Map<ParcelId, String>>("{\"$uuidOfVersion7\":\"sent\"}")
+
+        assertEquals(mapOf(parcelId to "sent"), parcels)
+    }
+
+    @Test
     fun `refuses an identifier whose constructor is not public`() {
         assertThrows<InvalidDefinitionException> {
             mapper.readValue<ShipmentId>("\"$uuidOfVersion7\"")
+        }
+    }
+
+    @Test
+    fun `refuses a key of an identifier whose constructor is not public`() {
+        assertThrows<InvalidDefinitionException> {
+            mapper.readValue<Map<ShipmentId, String>>("{\"$uuidOfVersion7\":\"sent\"}")
         }
     }
 

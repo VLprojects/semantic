@@ -85,12 +85,12 @@ never through `?.let`.
 `semantic-ddd-jackson` gives `SemanticDddModule`, a module of Jackson 3 under
 `pro.vlprojects.semantic.ddd.jackson`. It writes a `BoxedIdentifier` as the
 value it boxes, `42` or `"0192f0c1-…"`, not `{"value": 42}`, and reads it back
-through the constructor of the identifier that takes that value. It adds no
-serializer or deserializer of its own: Jackson treats `value` as if it carried
-`@JsonValue` and that constructor as if it carried
-`@JsonCreator(mode = DELEGATING)`, so the identifier needs no annotation. A
-value the constructor rejects fails the reading, as any other invalid input
-does.
+through the constructor of the identifier that takes that value. Besides a key
+deserializer for maps, it adds no serializer or deserializer of its own: Jackson
+treats `value` as if it carried `@JsonValue` and that constructor as if it
+carried `@JsonCreator(mode = DELEGATING)`, so the identifier needs no
+annotation. A value the constructor rejects fails the reading, as any other
+invalid input does.
 
 ```kotlin
 val mapper = JsonMapper.builder()
@@ -110,12 +110,15 @@ Kotlin with `@JvmStatic` in the companion; a `@JsonCreator` or
 written another way turns `value` off with `@get:JsonValue(false)` and marks its
 own member with `@get:JsonValue`.
 
-A key of a map is written as the value it boxes. Jackson by itself reads a key
-back only through a constructor or a factory of a `String`, and the module turns
-off every constructor but the one of the value: an identifier of a `String` is
-read back from a key, an identifier of another type through a factory of a
-`String` marked `@JsonCreator` or named `valueOf` or `fromString`, or through a
-key deserializer of its own.
+A key of a map is written as the value it boxes and read back the way the
+identifier itself is read: Jackson reads the key as the value, and the module
+hands the value to the constructor or to the factory marked `@JsonCreator`. An
+identifier with neither, or with a deserializer of its own, is read from a key
+the way Jackson reads it by itself: through a constructor of a `String` or a
+factory of one marked `@JsonCreator` or named `valueOf` or `fromString`. A key
+deserializer named by `@JsonDeserialize(keyUsing = ...)` wins over the module,
+and one added by another module wins only if that module is registered after
+this one.
 
 ## Spring Data
 

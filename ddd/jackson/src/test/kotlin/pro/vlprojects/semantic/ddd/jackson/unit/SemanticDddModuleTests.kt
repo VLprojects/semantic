@@ -7,6 +7,7 @@ import pro.vlprojects.semantic.ddd.jackson.SemanticDddModule
 import tools.jackson.databind.exc.InvalidDefinitionException
 import tools.jackson.databind.exc.ValueInstantiationException
 import tools.jackson.databind.json.JsonMapper
+import tools.jackson.databind.module.SimpleModule
 import tools.jackson.module.kotlin.readValue
 import java.util.UUID
 
@@ -115,6 +116,47 @@ class SemanticDddModuleTests {
         val stock = mapper.readValue<Map<SkuId, Int>>("{\"A-42\":3}")
 
         assertEquals(mapOf(SkuId("A-42") to 3), stock)
+    }
+
+    @Test
+    fun `reads an identifier of a UUID as a key of a map`() {
+        val statuses = mapper.readValue<Map<OrderId, String>>("{\"$uuidOfVersion7\":\"paid\"}")
+
+        assertEquals(mapOf(orderId to "paid"), statuses)
+    }
+
+    @Test
+    fun `reads an identifier of a number as a key of a map`() {
+        val totals = mapper.readValue<Map<CartId, Int>>("{\"42\":3}")
+
+        assertEquals(mapOf(CartId(42) to 3), totals)
+    }
+
+    @Test
+    fun `reads a key of an identifier with a deserializer of its own`() {
+        val skuIdDeserializer = SkuIdDeserializer()
+        val skuIdModule = SimpleModule().addDeserializer(SkuId::class.java, skuIdDeserializer)
+        val mapperWithSkuIdModule = JsonMapper.builder()
+            .addModule(skuIdModule)
+            .addModule(semanticDddModule)
+            .build()
+        val stock = mapperWithSkuIdModule.readValue<Map<SkuId, Int>>("{\"A-42\":3}")
+
+        assertEquals(mapOf(SkuId("A-42") to 3), stock)
+    }
+
+    @Test
+    fun `refuses a key the identifier rejects`() {
+        assertThrows<ValueInstantiationException> {
+            mapper.readValue<Map<TrackingId, String>>("{\"$uuidOfVersion4\":\"sent\"}")
+        }
+    }
+
+    @Test
+    fun `leaves alone a constructor the identifier disabled for a key`() {
+        assertThrows<InvalidDefinitionException> {
+            mapper.readValue<Map<RefundId, String>>("{\"$uuidOfVersion7\":\"paid\"}")
+        }
     }
 
     @Test
