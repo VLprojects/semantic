@@ -1,0 +1,7 @@
+public final class pro/vlprojects/semantic/ddd/jackson/SemanticDddModule : tools/jackson/databind/JacksonModule {
+	public fun <init> ()V
+	public fun getModuleName ()Ljava/lang/String;
+	public fun setupModule (Ltools/jackson/databind/JacksonModule$SetupContext;)V
+	public fun version ()Ltools/jackson/core/Version;
+}
+

@@ -1,0 +1,98 @@
+public final class pro/vlprojects/semantic/format/IntFormatHelperKt {
+	public static final fun pluralize (ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public static final fun pluralizeWithCount (ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/format/LongFormatHelperKt {
+	public static final fun pluralize (JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public static final fun pluralizeWithCount (JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/format/StringFormatHelperKt {
+	public static final fun capitalizeEachPart (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public static final fun capitalizeFirstLetter (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun toCamelCase (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun toConstantCase (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun toKebabCase (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun toPascalCase (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun toSentenceCase (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun toSnakeCase (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun toTrainCase (Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/format/WordSequenceFormatHelperKt {
+	public static final fun toCamelCase (Lpro/vlprojects/semantic/helper/text/WordSequence;)Ljava/lang/String;
+	public static final fun toConstantCase (Lpro/vlprojects/semantic/helper/text/WordSequence;)Ljava/lang/String;
+	public static final fun toKebabCase (Lpro/vlprojects/semantic/helper/text/WordSequence;)Ljava/lang/String;
+	public static final fun toPascalCase (Lpro/vlprojects/semantic/helper/text/WordSequence;)Ljava/lang/String;
+	public static final fun toSentenceCase (Lpro/vlprojects/semantic/helper/text/WordSequence;)Ljava/lang/String;
+	public static final fun toSnakeCase (Lpro/vlprojects/semantic/helper/text/WordSequence;)Ljava/lang/String;
+	public static final fun toTrainCase (Lpro/vlprojects/semantic/helper/text/WordSequence;)Ljava/lang/String;
+}
+
+public abstract interface class pro/vlprojects/semantic/format/abbreviation/Abbreviation {
+	public abstract fun shorten (Ljava/lang/String;I)Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/format/abbreviation/InfixAbbreviation : pro/vlprojects/semantic/format/abbreviation/Abbreviation {
+	public static final field INSTANCE Lpro/vlprojects/semantic/format/abbreviation/InfixAbbreviation;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun shorten (Ljava/lang/String;I)Ljava/lang/String;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/format/abbreviation/PrefixAbbreviation : pro/vlprojects/semantic/format/abbreviation/Abbreviation {
+	public static final field INSTANCE Lpro/vlprojects/semantic/format/abbreviation/PrefixAbbreviation;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun shorten (Ljava/lang/String;I)Ljava/lang/String;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/format/abbreviation/StringAbbreviationHelperKt {
+	public static final fun abbreviated (Ljava/lang/String;IILpro/vlprojects/semantic/format/abbreviation/Abbreviation;)Ljava/lang/String;
+	public static synthetic fun abbreviated$default (Ljava/lang/String;IILpro/vlprojects/semantic/format/abbreviation/Abbreviation;ILjava/lang/Object;)Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/format/abbreviation/SuffixAbbreviation : pro/vlprojects/semantic/format/abbreviation/Abbreviation {
+	public static final field INSTANCE Lpro/vlprojects/semantic/format/abbreviation/SuffixAbbreviation;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun shorten (Ljava/lang/String;I)Ljava/lang/String;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/format/mask/InfixMasking : pro/vlprojects/semantic/format/mask/Masking {
+	public static final field INSTANCE Lpro/vlprojects/semantic/format/mask/InfixMasking;
+	public fun cover (Ljava/util/List;I)Ljava/util/List;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class pro/vlprojects/semantic/format/mask/Masking {
+	public abstract fun cover (Ljava/util/List;I)Ljava/util/List;
+}
+
+public final class pro/vlprojects/semantic/format/mask/PrefixMasking : pro/vlprojects/semantic/format/mask/Masking {
+	public static final field INSTANCE Lpro/vlprojects/semantic/format/mask/PrefixMasking;
+	public fun cover (Ljava/util/List;I)Ljava/util/List;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/format/mask/StringMaskHelperKt {
+	public static final fun masked (Ljava/lang/String;ILpro/vlprojects/semantic/format/mask/Masking;CLjava/lang/Integer;)Ljava/lang/String;
+	public static synthetic fun masked$default (Ljava/lang/String;ILpro/vlprojects/semantic/format/mask/Masking;CLjava/lang/Integer;ILjava/lang/Object;)Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/format/mask/SuffixMasking : pro/vlprojects/semantic/format/mask/Masking {
+	public static final field INSTANCE Lpro/vlprojects/semantic/format/mask/SuffixMasking;
+	public fun cover (Ljava/util/List;I)Ljava/util/List;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+

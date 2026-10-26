@@ -21,6 +21,16 @@ class AbstractEntityTests {
     }
 
     @Test
+    fun `a new entity has the first version`() {
+        assertEquals(0, Line(CartId(1)).version)
+    }
+
+    @Test
+    fun `an entity takes the version assigned to it`() {
+        assertEquals(3, Line(CartId(1)).versioned(3).version)
+    }
+
+    @Test
     fun `an entity shows its class, kind and identifier`() {
         assertEquals("Line [entity][id: 1]", Line(CartId(1)).toString())
     }

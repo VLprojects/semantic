@@ -2,7 +2,7 @@
 """Generates docs/assets/*.svg: one light and one dark file per diagram.
 
 The drawings follow the rules of the batcher diagrams, so the libraries read as
-one family. A new diagram is drawn with the parts below, family() and block(),
+one family. A new diagram is drawn with the parts below, plate(), block() and ghost(),
 and passes the checklist of the Gorbunov and Birman bureau before it is shown;
 spacing is measured on the render, not read off the code:
 
@@ -11,15 +11,18 @@ spacing is measured on the render, not read off the code:
 - Colour means the same thing everywhere. Blue is data on the move, green is
   done or allowed, amber is waiting, red is a failure, grey is structure. On
   the dark canvas coloured plates are bright with dark text. In the module maps
-  blue is plain JVM, green is Spring, grey is a module that is not there yet.
-- No legends. Every part is labelled where it stands: a row by its level in
-  the gutter, a family by its status next to its name.
+  blue is plain JVM, green is Spring, a pale ghost in a fine dashed outline a
+  module that is not there yet.
+- No legends. Every part is labelled where it stands: a layer by its name and
+  what it holds in the gutter, a family by what it is next to its name.
 - Every line is solid; a lighter colour, never a dash, marks what is inactive.
-  The exception is the family map: a family in development is filled, one
-  planned for v1 is dashed, one for later is dotted.
+  The exceptions are the dotted frame of a layer, the fine dashes of a ghost
+  and the arrows of the dependency map, whose line is their kind.
 - One grid of 4 px. Space inside a group is smaller than space between groups:
-  12 inside a block, 16 between blocks and rows of one level, 24 between
-  levels, 32 between plates.
+  4 between the lines of a cell, 8 around and between cells, 12 inside a block,
+  16 from its note to its cells, 16 between blocks of one layer and from a layer to its
+  blocks, 32 between layers, 48 between plates; on the dependency map the
+  arrows take 48 between layers.
 - A block is a module: a tag with its directory, its whole artifact name in
   bold 8 below, and what it is for in grey, apart from them and 12 above the
   bottom, as the tag is 12 below the top. Never a prefix over a tail. A block
@@ -39,7 +42,9 @@ spacing is measured on the render, not read off the code:
   <picture> media query would follow the OS instead.
 """
 
+import math
 import pathlib
+import textwrap
 import unicodedata
 
 OUT = pathlib.Path(__file__).resolve().parent.parent / "assets"
@@ -51,21 +56,23 @@ PALETTE = {
 	"light": {
 		"bg": "#F6F8FA", "ink": "#1F2328", "soft": "#59636E", "mute": "#8C959F",
 		"plate": "#FFFFFF", "slot": "#DDE2E7", "line": "#AFB8C1",
-		"wash": "#FFFFFF", "card": "#E3E8ED", "bar": "#BEC7D0",
+		"wash": "#FFFFFF", "card": "#E3E8ED", "ghost": "#F9FAFB", "bar": "#BEC7D0",
 		"blue": "#1A7CFF", "green": "#22C063", "amber": "#FF9F2E", "red": "#EE2D62",
 		"sky": "#9DD1FF", "slate": "#7A8594", "lime": "#22C063",
 		"blue-plate": "#E3EFFF", "blue-ink": "#1F2328", "green-plate": "#DDF7E7", "green-ink": "#1F2328", "green-glyph": "#22C063", "amber-plate": "#FFEEDC", "amber-ink": "#1F2328", "amber-glyph": "#FF9F2E",
 		"green-soft": "#3A7550", "blue-soft": "#41679C", "amber-soft": "#8F4600", "green-text": "#12873F", "amber-text": "#B85300",
+		"violet-link": "#8B5CF6",
 		"on-green": "#0B2915", "on-blue": "#FFFFFF", "on-amber": "#2E1700", "on-sky": "#0B2340", "on-slate": "#FFFFFF", "on-lime": "#0B2915",
 	},
 	"dark": {
 		"bg": "#151B23", "ink": "#E6EDF3", "soft": "#9198A1", "mute": "#6E7681",
 		"plate": "#1D242D", "slot": "#323B46", "line": "#515B66",
-		"wash": "#1D242D", "card": "#29313C", "bar": "#454F5A",
+		"wash": "#1D242D", "card": "#29313C", "ghost": "#29313C", "bar": "#454F5A",
 		"blue": "#4493F8", "green": "#3FB950", "amber": "#FF9F4A", "red": "#FF4F7B",
 		"sky": "#6E9BFF", "slate": "#545D68", "lime": "#5BF08A",
 		"blue-plate": "#6E9BFF", "blue-ink": "#06173D", "green-plate": "#5BF08A", "green-ink": "#03240E", "green-glyph": "#0D7A32", "amber-plate": "#FFB46B", "amber-ink": "#1F1206", "amber-glyph": "#8A3F00",
 		"green-soft": "#0D5A26", "blue-soft": "#1B3A80", "amber-soft": "#4A2808", "green-text": "#03240E", "amber-text": "#FF9F4A",
+		"violet-link": "#A78BFA",
 		"on-green": "#0D1117", "on-blue": "#0D1117", "on-amber": "#0D1117", "on-sky": "#06173D", "on-slate": "#E6EDF3", "on-lime": "#03240E",
 	},
 }
@@ -159,116 +166,512 @@ def ink(hue):
 
 
 # ---------------------------------------------------------------------- family plates
-# A family is a plate: filled while in development, a dashed outline while planned for v1, a dotted one
-# for later. Its name and status head the plate; the gutter on the left names the level of each row.
-# Spacing climbs 12 < 16 < 24 < 32: text inside a block, rows of one level, levels, plates on the page
-X0, CW = 16, 688  # plate edge and width
-INSET, GUT, GAP, LEVEL, BLOCK = 16, 100, 16, 24, 92  # plate padding, gutter, gap between blocks and levels, block height
-PLATES = 32
-BX, BW = X0 + GUT, CW - GUT - INSET  # where the blocks of a row start, and how wide a row is
-COLS = 2  # the longest artifact name fills half a row; a block alone in its row fills all of it
+# A family is a plate: its name and what it is head it, and its layers, JVM, Spring or Spring Boot, stand
+# under it as dotted frames across the plate, each named in the gutter, as on the dependency map. A module
+# that is not there yet is a ghost; a family with none of its modules there is all ghosts. Spacing climbs
+# 12 < 16 < 32 < 48: text inside a block, blocks of one layer and a layer to its blocks, layers, plates
+X0 = 16  # plate edge
+GAP, BLOCK = 16, 92  # gap between blocks, block height
 TITLE = 16  # a family outranks the artifacts in it
 TAG, TAG_H = 11, 18  # text size and height of a tag
-DASH, DOT = "6 4", "0.1 4"
+FAMILY_W, LAYERS, PLATES = 1240, 32, 48  # page, gap between layers, gap between plates
+CELL_H, CELL_GAP, PART = 42, 8, 12  # a cell inside a block, the gap between cells, the size of its name
+CELLS = 5  # from the bottom of the note to the cells: 16 on the render, as between blocks
+
+
+# advance of each printable ASCII glyph of SF Pro, in thousandths of an em, from space to tilde
+SANS = [
+	205, 267, 403, 605, 605, 807, 669, 254, 323, 323, 400, 605, 215, 429, 215, 279, 605, 444, 566,
+	592, 605, 585, 617, 546, 600, 617, 215, 215, 605, 605, 605, 489, 874, 636, 604, 686, 678, 552,
+	527, 707, 699, 224, 495, 600, 524, 830, 699, 731, 577, 731, 599, 593, 580, 696, 631, 924, 635,
+	612, 617, 323, 279, 323, 605, 527, 500, 503, 554, 501, 554, 512, 304, 549, 540, 206, 205, 485,
+	205, 803, 527, 530, 549, 549, 308, 465, 302, 527, 483, 715, 468, 486, 467, 322, 215, 323, 605,
+]
+TRACKING = 1.15  # a browser sets small text looser than the font draws it
+
+
+def sans_em(s):
+	"""Width of s in the sans font, in ems."""
+	return sum(SANS[ord(c) - 32] if " " <= c <= "~" else 600 for c in s) / 1000 * TRACKING
 
 
 def tag(a, x, y, text, color="soft", mono=False):
 	"""A tag whose top left corner is at x, y: the colour of its text at a fifth, no outline."""
-	w = len(text) * (6.6 if mono else 5.5) + 16
+	w = (len(text) * 0.6 if mono else sans_em(text)) * TAG + 16
 	a.add(f'<rect x="{x:.1f}" y="{y:.1f}" width="{w:.1f}" height="{TAG_H}" rx="4" fill="{a.p[color]}" fill-opacity="0.2"/>')
 	a.t(x + 8, y + 12.5, text, size=TAG, color=color, mono=mono)
 	return w
 
 
-def row_tops(y, rows):
-	"""Where each row starts and where the last one ends: a row that opens a level stands further off."""
-	tops = []
-	for level, *_ in rows:
-		if tops:
-			y += GAP if level is None else LEVEL
-		tops.append(y)
-		y += BLOCK
-	return tops, y
-
-
-def family(a, y, name, status, rows, dash=None):
-	"""Draws a family at y and returns where the next one starts."""
-	tops, bottom = row_tops(y + 48, rows)
-	h = bottom + INSET - y
-	if dash:
-		a.outline(X0, y, CW, h, r=12, dash=dash)
-	else:
-		a.rect(X0, y, CW, h, "plate", r=12)
-	a.t(X0 + INSET, y + 30, name, size=TITLE, color="ink", weight="600", mono=True)
-	tag(a, X0 + INSET + 0.6 * TITLE * len(name) + 12, y + 15, status)  # centred on the cap height of the name
-	for ry, (level, specs, *cols) in zip(tops, rows):
-		if level:
-			a.t(X0 + INSET, ry + 48, level, color="soft")  # on the baseline of the artifacts in its row
-		n = cols[0] if cols else min(COLS, len(specs))
-		w = (BW - (n - 1) * GAP) / n
-		for c, (hue, directory, artifact, note) in enumerate(specs):
-			block(a, BX + c * (w + GAP), ry, w, hue, directory, artifact, note)
-	return y + h + PLATES
-
-
-def block(a, x, y, w, hue, directory, artifact, note):
+def block(a, x, y, w, hue, directory, artifact, note, inside=()):
 	# three roles, three means: where the module lives is a tag, the artifact a build declares is bold,
 	# what it is for is grey. The tag and the artifact name one thing and sit 8 apart; the note is apart
 	# from them and rests 12 above the bottom, as the tag hangs 12 below the top. A grey block is a module that
 	# does not exist yet or belongs to another family
-	a.rect(x, y, w, BLOCK, (hue + "-plate") if hue else "card", r=6)
+	a.rect(x, y, w, height(inside), (hue + "-plate") if hue else "card", r=6)
 	soft = (hue + "-soft") if hue else "soft"
 	tag(a, x + 12, y + 12, directory, color=soft, mono=True)
 	a.name(x + 12, y + 48, artifact, mono=True, color=ink(hue) if hue else "ink")
 	a.t(x + 12, y + BLOCK - 12, note, color=soft)
+	cell = (w - 24 - (len(inside) - 1) * CELL_GAP) / max(len(inside), 1)
+	for i, (name, what) in enumerate(inside):
+		part(a, x + 12 + i * (cell + CELL_GAP), y + BLOCK + CELLS, cell, hue, name, what)
 
 
-DDD_SPRING = [
-	("Spring Data", [("green", "ddd/spring-data", "semantic-ddd-spring-data", "what every store shares")]),
-	(None, [("green", "ddd/spring-data-jpa", "semantic-ddd-spring-data-jpa", "aggregates as JPA entities"),
-		("green", "ddd/spring-data-mongodb", "semantic-ddd-spring-data-mongodb", "aggregates as MongoDB documents")]),
-	("Spring Boot", [("green", "ddd/spring-boot", "semantic-ddd-spring-boot", "auto-configuration"),
-		("green", "ddd/spring-boot-starter", "semantic-ddd-spring-boot-starter", "the way in: add it and one store")]),
+def height(inside):
+	"""A block that shows what is inside it grows by a row of cells, 12 off its bottom."""
+	return BLOCK + CELLS + CELL_H + 12 if inside else BLOCK
+
+
+def part(a, x, y, w, hue, name, what):
+	"""A package or a type of a module: a cell on a tint of the block, its name in mono and what it holds."""
+	soft = hue + "-soft"
+	a.add(f'<rect x="{x:.1f}" y="{y:.1f}" width="{w:.1f}" height="{CELL_H}" rx="4" fill="{a.p[soft]}" fill-opacity="0.12"/>')
+	a.t(x + 8, y + 17, name, size=PART, color=ink(hue), weight="600", mono=True)
+	a.t(x + 8, y + 31, what, size=TAG, color=soft)
+
+
+TREE = [
+	[("idiom", "extensions of the Kotlin standard library", [(None, None, [
+		[(1, ("blue", "idiom/helper/core", "semantic-helper", "extensions of the standard types, a package per kind", [
+			("text", "symbols and words", ["predicate", "sanitizing", "transforming"]),
+			("number", "sign, safe narrowing"), ("time", "durations, periods"),
+		]))],
+		[(1, ("blue", "idiom/format/core", "semantic-format", "values written for a reader: cases and plurals", [
+			("abbreviation", "shortened text"), ("mask", "hidden characters"),
+		]))],
+	])])],
+	[
+		("type", "rich value objects", [(None, None, [
+			[(1, ("blue", "type/version", "semantic-type-version", "a module per category", [
+				("version", "version schemes"),
+			]))],
+		])]),
+		("math", "computations over numbers", [(None, None, [
+			[(1, ("blue", "math/core", "semantic-math", "a package per computation", [
+				("rounding", "rounding modes"), ("statistics", "mean, percentiles"),
+			]))],
+		])]),
+	],
+	[("correctness", "what is right and what went wrong", [(None, None, [
+		[(1, ("blue", "correctness/rule/core", "semantic-rule", "named business checks", [
+			("dsl", "rule, checkRule"), ("composite", "all, any, not"),
+		])), (1, ("blue", "correctness/validation/core", "semantic-validation", "every rule of a value checked at once", [
+			("validator", "validators of a type"), ("path", "where a value failed"),
+		]))],
+		[(1, ("blue", "correctness/error/core", "semantic-error", "the model of a failure; depends on nothing", [
+			("failure", "failure types"), ("result", "success or failure"),
+			("raise", "raise, recover"), ("accumulate", "many failures"),
+		]))],
+	])])],
+	[("design", "approaches to designing a model", [
+		("ddd", "domain-driven design with Spring Data and Spring Boot adapters", [
+			[(1, ("blue", "design/ddd/core", "semantic-ddd", "building blocks of a model; no framework", [
+				("tactical", "building blocks", ["base", "specification", "specification.composite"]),
+				("dsl", "business rule DSL"), ("architecture", "domain errors", ["error"]),
+				("support", "collection helpers"),
+			]))],
+			[(1, ("blue", "design/ddd/jackson", "semantic-ddd-jackson", "identifiers in JSON as the value they box"))],
+			[(1, ("green", "design/ddd/spring/data/core", "semantic-ddd-spring-data", "aggregates in Spring Data")),
+				(1, ("green", "design/ddd/spring/data/jpa", "semantic-ddd-spring-data-jpa", "JPA mapping")),
+				(1, ("green", "design/ddd/spring/data/mongodb", "semantic-ddd-spring-data-mongodb", "MongoDB mapping"))],
+			[(1, ("green", "design/ddd/spring-boot/autoconfigure", "semantic-ddd-spring-boot", "auto-configuration of the modules on the classpath", [
+				("events", "after-commit events"), ("repository", "aggregate stores"), ("mongodb", "MongoDB setup"),
+				("verification", "startup checks"), ("web", "errors as HTTP"),
+			]))],
+			[(1, ("green", "design/ddd/spring-boot/starter/jpa", "semantic-ddd-spring-boot-starter-jpa", "dependencies of a JPA service")),
+				(1, ("green", "design/ddd/spring-boot/starter/mongodb", "semantic-ddd-spring-boot-starter-mongodb", "dependencies of a MongoDB service"))],
+		]),
+		("dbc", "design by contract: what a call and a type guarantee", [
+			[(1, ("blue", "design/dbc/core", "semantic-dbc", "contracts checked at run time", [
+				("condition", "pre, postconditions"), ("invariant", "type invariants"),
+			]))],
+		]),
+		("algebra", "algebraic abstractions: the laws an operation obeys", [
+			[(1, ("blue", "design/algebra/core", "semantic-algebra", "orders and structures with their laws", [
+				("relation", "orders, equivalence"), ("structure", "monoids, groups"),
+			]))],
+		]),
+	])],
+	[("architecture", "styles of a service and the patterns it applies", [
+		("style", "a module per style; each extends the one before it and adds the errors of its layers", [
+			[(1, ("blue", "architecture/style/layered/core", "semantic-layered", "tiers call downward", [
+				("layer", "layer annotations"), ("error", "layer exceptions"),
+			])), (1, ("blue", "architecture/style/onion/core", "semantic-onion", "rings around a domain", [
+				("layer", "layer annotations"), ("error", "layer exceptions"),
+			]))],
+			[(1, ("blue", "architecture/style/clean/core", "semantic-clean", "dependencies point in", [
+				("layer", "layer annotations"), ("error", "layer exceptions"),
+			])), (1, ("blue", "architecture/style/explicit/core", "semantic-explicit", "onion and clean, no ports", [
+				("layer", "layer annotations"), ("error", "layer exceptions"),
+			]))],
+		]),
+		("boundary", "what a component publishes to other systems and how it evolves", [
+			[(1, ("blue", "architecture/boundary/core", "semantic-boundary", "architectural boundaries: contract scope, version introduced"))],
+		]),
+		("pattern", "a module per pattern or per group of patterns", [
+			[(1, ("blue", "architecture/pattern/persistence/cqrs/core", "semantic-cqrs", "separate write and read models", [
+				("command", "commands, handlers"), ("query", "queries, handlers"), ("bus", "command, query bus"),
+			])), (1, ("blue", "architecture/pattern/persistence/event-sourcing/core", "semantic-event-sourcing", "state rebuilt from events", [
+				("store", "append-only store"), ("snapshot", "state checkpoints"), ("projection", "read models"),
+			]))],
+			[(1, ("blue", "architecture/pattern/persistence/unit-of-work/core", "semantic-unit-of-work", "changes committed atomically", [
+				("tracking", "new, dirty, removed"), ("commit", "one transaction"),
+			])), (1, ("blue", "architecture/pattern/delivery/core", "semantic-delivery", "transactional outbox and inbox: exactly once together", [
+				("outbox", "at least once"), ("inbox", "at most once"), ("idempotency", "idempotency keys"),
+			]))],
+			[(1, ("blue", "architecture/pattern/coordination/core", "semantic-coordination", "processes acting in step", [
+				("saga", "compensating steps"), ("lock", "distributed lock"),
+			])), (2, ("blue", "architecture/pattern/lifecycle/core", "semantic-lifecycle", "a process from start to stop", [
+				("startup", "graceful startup"), ("warmup", "caches, pools, JIT"),
+				("health", "liveness, readiness"), ("shutdown", "graceful shutdown"),
+			]))],
+			[(1, ("blue", "architecture/pattern/caching/core", "semantic-caching", "cache-aside, read-through, write-through, write-behind, refresh-ahead"))],
+			[(1, ("blue", "architecture/pattern/resilience/core", "semantic-resilience", "survive a failing dependency", [
+				("circuitbreaker", "fail fast"), ("retry", "transient faults"), ("backoff", "exponential, jitter"),
+				("timeout", "bounded waits"), ("bulkhead", "isolated pools"), ("fallback", "degraded answer"),
+			]))],
+			[(1, ("blue", "architecture/pattern/traffic/core", "semantic-traffic", "control of incoming load", [
+				("ratelimit", "quotas per client"), ("throttling", "rate smoothing"),
+				("shedding", "load shedding"), ("backpressure", "slow the producer"),
+			]))],
+			[(1, ("blue", "architecture/pattern/rollout/core", "semantic-rollout", "features released in code", [
+				("featureflag", "on, off per user"), ("killswitch", "emergency off"), ("canary", "growing share"),
+				("darklaunch", "run, not shown"), ("experiment", "A/B tests"),
+			]))],
+		]),
+	])],
 ]
+LAYER_NOTES = {
+	"JVM": "Kotlin and the JDK, or one library such as Jackson; no Spring, no Jakarta",
+	"Spring": "Spring and Spring Data, mapping and callbacks; no Spring Boot, a service takes them by @Import",
+	"Spring Boot": "@AutoConfiguration on @ConditionalOnClass, keys under semantic.ddd; a starter holds dependencies only",
+}
+UNIT = 128  # one width for every cell, so their columns line up down the page
+CHIP_H, CHIP_GAP = 22, 6  # a subpackage inside the cell of its package, the gap between two
+OVERFLOW = []
+
+
+def header(a, x, y, name, about):
+	"""The name of a family at the top of its plate, and what it is in a tag beside it."""
+	a.t(x, y + 30, name, size=TITLE, color="ink", weight="600", mono=True)
+	tag(a, x + 0.6 * TITLE * len(name) + 12, y + 15, about)
+
+
+def caption(a, x, top, name, note=None):
+	"""The name of a layer on the line of the tags of its first row, and what it holds under it."""
+	a.t(x, top + 24.5, name, color="ink", weight="500")
+	for i, s in enumerate(textwrap.wrap(note or LAYER_NOTES[name], int(ROOM / (0.55 * ABOUT)))):
+		a.t(x, top + 42 + 13 * i, s, size=ABOUT, color="mute")
+
+
+def fits(text, width, size, mono=False):
+	if (0.6 * len(text) if mono else sans_em(text)) * size > width:
+		OVERFLOW.append(text)
+
+
+def chip_w(name):
+	return 0.6 * TAG * len(name) + 16
+
+
+def span(package):
+	"""Cells a package takes: one, or as many as its subpackages need side by side."""
+	children = package[2] if len(package) > 2 else []
+	need = sum(chip_w(c) for c in children) + CHIP_GAP * (len(children) - 1) + 16
+	return max(1, math.ceil((need + CELL_GAP) / (UNIT + CELL_GAP)))
+
+
+def cell_w(units):
+	return units * UNIT + (units - 1) * CELL_GAP
+
+
+def lines(packages, w):
+	"""Packages in lines of whole cells; when they do not fit in one, as many to a line as makes the lines even."""
+	room = int((w + CELL_GAP) // (UNIT + CELL_GAP))
+	total = sum(span(p) for p in packages)
+	count = math.ceil(len(packages) / math.ceil(total / room))
+	out, line = [], []
+	for p in packages:
+		if line and (len(line) == count or sum(span(q) for q in line) + span(p) > room):
+			out.append(line)
+			line = []
+		line.append(p)
+	return out + [line] if line else out
+
+
+def tall(line):
+	return CELL_H + CHIP_H + 10 if any(len(p) > 2 for p in line) else CELL_H
+
+
+def extent(w, packages):
+	"""Height of a module: its head, then lines of cells 8 apart and 12 off the bottom."""
+	if not packages:
+		return BLOCK
+	ls = lines(packages, w - 24)
+	return BLOCK + CELLS + sum(tall(line) for line in ls) + CELL_GAP * (len(ls) - 1) + 12
+
+
+def module(a, x, y, w, h, hue, directory, artifact, note, packages=()):
+	"""A module: what names it at the top, what it is for and its packages at the bottom, however tall the row."""
+	a.rect(x, y, w, h, hue + "-plate", r=6)
+	soft = hue + "-soft"
+	for text, size, mono in ((directory, TAG, True), (artifact, CODE, True), (note, NOTE, False)):
+		fits(text, w - 40 if text is directory else w - 24, size, mono)
+	tag(a, x + 12, y + 12, directory, color=soft, mono=True)
+	a.name(x + 12, y + 48, artifact, mono=True, color=ink(hue))
+	low = y + h - extent(w, packages)
+	a.t(x + 12, low + BLOCK - 12, note, color=soft)
+	cy = low + BLOCK + CELLS
+	for line in lines(packages, w - 24) if packages else ():
+		cx, ch = x + 12, tall(line)
+		for package in line:
+			name, what, *children = package
+			cw = cell_w(span(package))
+			fits(name, cw - 16, PART, True)
+			fits(what, cw - 16, TAG)
+			a.add(f'<rect x="{cx:.1f}" y="{cy:.1f}" width="{cw:.1f}" height="{ch}" rx="4" fill="{a.p[soft]}" fill-opacity="0.12"/>')
+			a.t(cx + 8, cy + 17, name, size=PART, color=ink(hue), weight="600", mono=True)
+			a.t(cx + 8, cy + 31, what, size=TAG, color=soft)
+			sx = cx + 8
+			for child in children[0] if children else ():
+				a.add(f'<rect x="{sx:.1f}" y="{cy + CELL_H:.1f}" width="{chip_w(child):.1f}" height="{CHIP_H}" rx="4" fill="{a.p[soft]}" fill-opacity="0.16"/>')
+				a.t(sx + 8, cy + CELL_H + 15, child, size=TAG, color=ink(hue), mono=True)
+				sx += chip_w(child) + CHIP_GAP
+			cx += cw + CELL_GAP
+		cy += ch + CELL_GAP
+
+
+def grid(a, x, y, w, rows, stretch=0):
+	"""Rows of modules across w, each as wide as its share of the row and as tall as the tallest; returns the bottom."""
+	for i, row in enumerate(rows):
+		room = w - GAP * (len(row) - 1)
+		widths = [room * share / sum(s for s, _ in row) for share, _ in row]
+		h = max(extent(width, spec[4] if len(spec) > 4 else ()) for width, (_, spec) in zip(widths, row))
+		h += stretch if i == len(rows) - 1 else 0
+		for width, (_, spec) in zip(widths, row):
+			module(a, x, y, width, h, *spec)
+			x += width + GAP
+		x -= sum(widths) + GAP * len(row)
+		y += h + GAP
+	return y - GAP
+
+
+def plate(a, x, y, w, name, about, sections, stretch=0):
+	"""A root directory: a dotted frame per subdirectory, or its modules straight on the plate; returns its height."""
+	edge, width = x + MARGIN, w - 2 * MARGIN
+	top = y + 15 + TAG_H + LAYERS
+	for i, (section, note, rows) in enumerate(sections):
+		extra = stretch if i == len(sections) - 1 else 0
+		if section is None:
+			top = grid(a, edge, top, width, rows, extra) + LAYERS
+			continue
+		start = edge + LEVEL_W
+		bottom = grid(a, start, top + FRAME, edge + width - FRAME - start, rows, extra) + FRAME
+		layer(a, edge, top, width, bottom - top)
+		caption(a, edge + FRAME, top + FRAME, section, note)
+		top = bottom + LAYERS
+	return top - LAYERS + MARGIN - y
 
 
 def families(pal):
-	# the whole library on one page, a family per plate, the ones in development on top
-	a = Art(720, 0, pal)
-	y = family(a, 16, "helper", "in development, v1", [
-		("JVM", [("blue", "helper", "semantic-helper", "extensions of the standard types")]),
-	])
-	y = family(a, y, "format", "in development, v1", [
-		("JVM", [("blue", "format", "semantic-format", "cases, abbreviation")]),
-	])
-	y = family(a, y, "ddd", "in development, v1", [
-		("JVM", [("blue", "ddd/core", "semantic-ddd", "building blocks, no framework")]),
-		*DDD_SPRING,
-	])
-	y = family(a, y, "cqrs", "in development", [
-		("JVM", [("blue", "cqrs/core", "semantic-cqrs", "commands, queries, buses")]),
-	])
-	y = family(a, y, "vo", "planned, v1", [
-		("base", [(None, "vo/core", "semantic-vo", "the validation every value object shares")]),
-		("groups", [(None, "vo/net", "semantic-vo-net", "email, URL, IP"),
-			(None, "vo/range", "semantic-vo-range", "bounded ranges")]),
-		(None, [(None, "vo/time", "semantic-vo-time", "dates, periods")]),
-	], DASH)
+	# small roots share a row of plates, their last modules stretched so the plates end on one line
+	a = Art(FAMILY_W, 0, pal)
+	y, full = 16, FAMILY_W - 2 * X0
+	for roots in TREE:
+		w = (full - PLATES * (len(roots) - 1)) / len(roots)
+		heights = [plate(Art(w, 0, pal), 0, 0, w, *root) for root in roots]
+		h = max(heights)
+		for i, (root, natural) in enumerate(zip(roots, heights)):
+			x = X0 + i * (w + PLATES)
+			a.rect(x, y, w, h, "plate", r=12)
+			header(a, x + MARGIN, y, root[0], root[1])
+			plate(a, x, y, w, *root, stretch=h - natural)
+		y += h + PLATES
 	a.h = y - PLATES + 16
+	if OVERFLOW:
+		raise SystemExit(f"text wider than its place: {sorted(set(OVERFLOW))}")
 	return a
 
 
-def modules(pal):
-	# the ddd family alone, with the vo and format modules it builds on: read top to bottom, each level builds on
-	# the one above it
-	a = Art(720, 0, pal)
-	y = family(a, 16, "ddd", "in development, v1", [
-		("JVM", [(None, "vo/core", "semantic-vo", "value objects, the vo family"),
-			(None, "format", "semantic-format", "names, the format family")]),
-		(None, [("blue", "ddd/core", "semantic-ddd", "building blocks, no framework")]),
-		*DDD_SPRING,
-	])
-	a.h = y - PLATES + 16
+# ---------------------------------------------------------------------- ddd dependencies
+# Which module builds on which, on the plate of the family and on its grid: every block keeps the edges of
+# the row, a store and its starter share a column, and the starters, what a service adds, come last. An
+# arrow points to what a module needs: it starts on a dot and ends on a filled head, both 3 off the blocks,
+# and what it takes is said beside it. Every arrow is violet; its line is its kind, as in UML: solid builds
+# on the classes of the module it points to, extending them or implementing them, dashed is an api dependency
+# a module declares, dotted configures a module only when the service has it. An arrow that has a row to
+# skip, from a starter up to its store, takes a lane beside the blocks, left for the left column and right
+# for the right one, and enters them from the side; its note keeps 8 off the lane and more than the padding
+# of a block off the block, so it reads with the lane. The page is wider than the family map, so the
+# longest starter fits half a row. A layer, JVM, Spring or Spring Boot, is a dotted frame across the plate,
+# 16 off its blocks, with its name in the gutter on the line of the tags of its first row, and 48 off the next one,
+# so a frame holds its blocks closer than its neighbour. Rows inside a layer are as far apart as rows of two
+# layers, so every arrow up is as long as another, and the note of one between layers sits in the middle of
+# the gap between the frames
+DEP_W, BEND = 1312, 8  # page, bends
+FRAME, FRAMES = 16, 48  # padding of a layer, gap between layers
+DEP_ROW = 2 * FRAME + FRAMES  # gap between the rows of a layer, the same as between layers
+MORE = 200  # the column of the stores to come
+LEVEL_W, LANE, RUN = 232, 88, 56  # gutter for the name and the notes of a layer, room beside the blocks, lane out of them
+ABOUT = 9  # the notes of a layer, under its name
+ROOM = LEVEL_W - RUN - 2 * FRAME  # the gutter up to the lane
+HEADER = 15 + TAG_H + FRAMES  # the header stands off the layers as they do off each other
+MARGIN = 24  # plate to its layers, more than a layer to its blocks
+ARROW = "violet-link"
+BUILDS, DECLARES, CONFIGURES = None, "3 4", "0.01 3"  # the dash of each kind; dots of 2, a pixel apart
+HEAD, HALF, DOT, AIR = 5, 2.5, 2, 3  # length of a head and half its base, radius of a dot, air to a block
+
+
+def line(a, d, dash):
+	"""A violet line along d, dashed by its kind."""
+	pattern = f' stroke-dasharray="{dash}"' if dash else ""
+	width = 2 if dash == CONFIGURES else 1.5  # a dot as thin as the line is lost
+	a.add(
+		f'<path d="{d}" stroke="{a.p[ARROW]}" stroke-width="{width}" fill="none" stroke-linecap="round" '
+		f'stroke-linejoin="round"{pattern}/>'
+	)
+
+
+def arrowhead(a, x, y, dx, dy):
+	"""A filled head with its tip at x, y, pointing along dx, dy; returns the middle of its base."""
+	bx, by = x - dx * HEAD, y - dy * HEAD
+	a.add(
+		f'<path d="M{x},{y} L{bx - dy * HALF},{by + dx * HALF} L{bx + dy * HALF},{by - dx * HALF} Z" '
+		f'fill="{a.p[ARROW]}" stroke="{a.p[ARROW]}" stroke-width="0.5" stroke-linejoin="round"/>'
+	)
+	return bx, by
+
+
+def dot(a, x, y):
+	a.add(f'<circle cx="{x}" cy="{y}" r="{DOT}" fill="{a.p[ARROW]}"/>')
+
+
+def link(a, x, y1, y2, dash):
+	"""From a dot over the edge at y1 up to a head under the edge at y2."""
+	start = y1 - AIR - DOT
+	dot(a, x, start)
+	_, by = arrowhead(a, x, y2 + AIR, 0, -1)
+	line(a, f"M{x},{start} L{x},{by}", dash)
+
+
+def across(a, x1, x2, y, dash):
+	d = 1 if x2 > x1 else -1
+	start = x1 + d * (AIR + DOT)
+	dot(a, start, y)
+	bx, _ = arrowhead(a, x2 - d * AIR, y, d, 0)
+	line(a, f"M{start},{y} L{bx},{y}", dash)
+
+
+def bypass(a, edge, lane, y1, y2, dash):
+	"""From a dot beside the edge at y1 out to the lane, up it and back in, to a head beside the edge at y2."""
+	d = 1 if lane > edge else -1
+	start = edge + d * (AIR + DOT)
+	dot(a, start, y1)
+	bx, _ = arrowhead(a, edge + d * AIR, y2, -d, 0)
+	line(a,
+		f"M{start},{y1} L{lane - d * BEND},{y1} Q{lane},{y1} {lane},{y1 - BEND} "
+		f"L{lane},{y2 + BEND} Q{lane},{y2} {lane - d * BEND},{y2} L{bx},{y2}", dash)
+
+
+def along(a, x, y, s):
+	"""A note that reads up a lane, centred on y, its baseline at x, on the plate where it crosses a frame."""
+	half = len(s) * 3.3 + 4
+	a.add(f'<g transform="rotate(-90 {x} {y})">')
+	a.rect(x - half, y - 12, 2 * half, 16, "plate")
+	a.t(x, y, s, anchor="middle")
+	a.add("</g>")
+
+
+def ghost(a, x, y, w, directory, artifact, note):
+	"""Modules to come: a block paler than grey in a fine dashed outline, no arrows."""
+	a.rect(x, y, w, BLOCK, "ghost", r=6)
+	tag(a, x + 12, y + 12, directory, mono=True)
+	a.name(x + 12, y + 48, artifact, mono=True)
+	a.t(x + 12, y + BLOCK - 12, note)
+	a.outline(x, y, w, BLOCK, dash="2 3")
+
+
+def layer(a, x, y, w, h):
+	"""A layer of the family: a dotted frame around its blocks."""
+	a.add(
+		f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="12" fill="none" stroke="{a.p["line"]}" '
+		f'stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>'
+	)
+
+
+def dependencies(pal):
+	a = Art(DEP_W, 0, pal)
+	cw = DEP_W - 2 * X0
+	edge, width = X0 + MARGIN, cw - 2 * MARGIN
+	start, end = edge + LEVEL_W, edge + width - LANE
+	bw = end - start
+	w = (bw - MORE - 2 * GAP) / 2
+	left, more, right = start, start + w + GAP, start + w + GAP + MORE + GAP
+	tops, frames, y = [], [], 16 + HEADER
+	for name, rows in (("JVM", 1), ("Spring", 2), ("Spring Boot", 2)):
+		frame = y
+		y += FRAME
+		for row in range(rows):
+			y += DEP_ROW if row else 0
+			tops.append(y)
+			y += BLOCK
+		y += FRAME
+		frames.append((name, frame, y - frame))
+		y += FRAMES
+	y -= FRAMES
+	core, data, stores, boot, starters = tops
+	a.rect(X0, 16, cw, y + MARGIN - 16, "plate", r=12)
+	header(a, edge, 16, "DDD", "tactical and strategic patterns of domain-driven design for Kotlin and the Spring ecosystem")
+	for name, top, height in frames:
+		layer(a, edge, top, width, height)
+		caption(a, edge + FRAME, top + FRAME, name)
+	for x, top, width, hue, directory, artifact, note in (
+		(left, core, w, "blue", "ddd/core", "semantic-ddd", "entities, aggregates, events; no framework"),
+		(right, core, w, "blue", "ddd/jackson", "semantic-ddd-jackson", "identifiers in JSON as the value they box"),
+		(left, data, bw, "green", "ddd/spring/data/core", "semantic-ddd-spring-data", "aggregates saved by a Spring Data repository"),
+		(left, stores, w, "green", "ddd/spring/data/jpa", "semantic-ddd-spring-data-jpa", "base classes with JPA mapping"),
+		(right, stores, w, "green", "ddd/spring/data/mongodb", "semantic-ddd-spring-data-mongodb",
+			"base classes with MongoDB mapping"),
+		(left, boot, bw, "green", "ddd/spring-boot/autoconfigure", "semantic-ddd-spring-boot", "registers beans of the modules it finds"),
+		(left, starters, w, "green", "ddd/spring-boot/starter/jpa", "semantic-ddd-spring-boot-starter-jpa",
+			"the one dependency a JPA service declares"),
+		(right, starters, w, "green", "ddd/spring-boot/starter/mongodb", "semantic-ddd-spring-boot-starter-mongodb",
+			"the one dependency a MongoDB service declares"),
+	):
+		block(a, x, top, width, hue, directory, artifact, note)
+	ghost(a, more, stores, MORE, "ddd/spring/data/*", "other stores", "Redis, Cassandra, Neo4j")
+	ghost(a, more, starters, MORE, "ddd/spring-boot/starter/*", "other starters", "one per store")
+	# an arrow keeps a third of its column, so its note fits the column
+	jpa, mongodb = left + w / 3, right + w / 3
+	for x, source, target, dash in (
+		(jpa, data, core, BUILDS), (jpa, stores, data, BUILDS), (mongodb, stores, data, BUILDS),
+		(jpa, boot, stores, CONFIGURES), (mongodb, boot, stores, CONFIGURES),
+		(jpa, starters, boot, DECLARES), (mongodb, starters, boot, DECLARES),
+	):
+		link(a, x, source, target + BLOCK, dash)
+	lane_left, lane_right = start - RUN, end + RUN
+	bypass(a, start, lane_left, starters + BLOCK / 2, stores + BLOCK / 2, DECLARES)
+	bypass(a, end, lane_right, starters + BLOCK / 2, stores + BLOCK / 2, DECLARES)
+	# Jackson stands beside the core it depends on, so its arrow runs across the column between them
+	across(a, right, left + w, core + BLOCK / 2, DECLARES)
+	a.t((left + w + right) / 2, core + BLOCK / 2 - 12, "api dependency: identifiers", anchor="middle")
+	# a note stands 8 off its arrow, on its middle, and says what the module takes
+	for x, source, target, note in (
+		(jpa, data, core, "extends base classes, implements interfaces"),
+		(jpa, stores, data, "extends Spring Data base classes"),
+		(mongodb, stores, data, "extends Spring Data base classes"),
+		(jpa, boot, stores, "configures on @ConditionalOnClass"),
+		(mongodb, boot, stores, "configures on @ConditionalOnClass"),
+		(jpa, starters, boot, "api dependency: auto-configuration"),
+		(mongodb, starters, boot, "api dependency: auto-configuration"),
+	):
+		a.t(x + 20, (source + target + BLOCK) / 2 + 4, note)
+	# the note of a lane reads up it, 8 off the lane on the side of the blocks; a glyph turned up stands 10
+	# left of its baseline and 3 right of it
+	for x, note in ((lane_left + 18, "api dependency: JPA base classes"),
+			(lane_right - 11, "api dependency: MongoDB base classes")):
+		along(a, x, (stores + starters + BLOCK) / 2, note)
+	a.h = y + MARGIN
 	return a
 
 
@@ -366,9 +769,9 @@ ID = "0190a3f2-7b1e-7c3a-9f4e-5d2b8a6ec41d"
 
 
 def abbreviated(pal):
-	# one identifier cut by each mode: what stays in bold, what the ellipsis hides in grey
+	# one identifier shortened by each abbreviation: what stays in bold, what the ellipsis hides in grey
 	a = Art(0, 0, pal)
-	rows = [("HideMiddle", 3, 2, "019…1d"), ("HideBeginning", 0, 5, "…ec41d"), ("HideEnding", 5, 0, "0190a…")]
+	rows = [("InfixAbbreviation", 3, 2, "019…1d"), ("PrefixAbbreviation", 0, 5, "…ec41d"), ("SuffixAbbreviation", 5, 0, "0190a…")]
 	gx = 16 + max(len(mode) for mode, *_ in rows) * CELL_NOTE + 16
 	vw = len(ID) * CELL + 24
 	for i, (mode, start, end, result) in enumerate(rows):
@@ -416,7 +819,7 @@ def symbols(pal):
 
 
 DIAGRAMS = {
-	"families": families, "modules": modules,
+	"families": families, "dependencies": dependencies,
 	"format-cases": cases, "helper-words": words, "format-abbreviated": abbreviated, "helper-symbols": symbols,
 }
 
