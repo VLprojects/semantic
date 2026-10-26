@@ -3,12 +3,12 @@
 Building blocks of domain-driven design for Kotlin and Java: typed
 identifiers, entities, aggregate roots, domain events, business rules,
 specifications and domain errors, and the bounded contexts that hold them
-with the subdomains they serve. The
-core is plain Kotlin; Spring Data with its stores, JPA and
-MongoDB, and Spring Boot live in modules of their own.
+with the subdomains they serve. The core is plain Kotlin; Jackson, Spring Data
+with its stores, JPA and MongoDB, and Spring Boot live in modules of their own.
 
 The contracts of the core are in place, and so are the base classes of the
-Spring Data and JPA modules; the MongoDB and Spring Boot modules are empty so far.
+Spring Data and JPA modules and the whole Jackson module; the MongoDB and Spring
+Boot modules are empty so far.
 
 ## The core
 
@@ -147,6 +147,43 @@ The kind is a type, not a value: code picks the subdomains of a kind,
 three kinds is exhaustive. An architecture test may hold a context that serves
 a core subdomain to rules of its own, and a context map may put it first.
 
+## Jackson
+
+`semantic-ddd-jackson` gives `SemanticDddModule`, a module of Jackson 3 under
+`pro.vlprojects.semantic.ddd.jackson`. It writes a `BoxedIdentifier` as the
+value it boxes, `42` or `"0192f0c1-…"`, not `{"value": 42}`, and reads it back
+through the constructor of the identifier that takes that value. It adds no
+serializer or deserializer of its own: Jackson treats `value` as if it carried
+`@JsonValue` and that constructor as if it carried
+`@JsonCreator(mode = DELEGATING)`, so the identifier needs no annotation. A
+value the constructor rejects fails the reading, as any other invalid input
+does.
+
+```kotlin
+val mapper = JsonMapper.builder()
+    .addModule(SemanticDddModule())
+    .build()
+```
+
+The module is listed for `ServiceLoader`, so `findAndAddModules()` finds it,
+and so does Spring Boot, which looks for modules by default.
+
+The module reads an identifier only through its public constructor of the value
+and turns off every other constructor that takes an argument, a private one or
+one of another type, with jackson-module-kotlin too. An identifier built by a
+factory hides its constructor and marks that factory with `@JsonCreator`, in
+Kotlin with `@JvmStatic` in the companion; a `@JsonCreator` or
+`@ConstructorProperties` on a constructor wins over the module. An identifier
+written another way turns `value` off with `@get:JsonValue(false)` and marks its
+own member with `@get:JsonValue`.
+
+A key of a map is written as the value it boxes. Jackson by itself reads a key
+back only through a constructor or a factory of a `String`, and the module turns
+off every constructor but the one of the value: an identifier of a `String` is
+read back from a key, an identifier of another type through a factory of a
+`String` marked `@JsonCreator` or named `valueOf` or `fromString`, or through a
+key deserializer of its own.
+
 ## Spring Data
 
 `semantic-ddd-spring-data` gives `AbstractSpringDataAggregateRoot`, the base an
@@ -224,41 +261,54 @@ the detector of Spring Data JPA.
 ![Modules, and what each takes from the one it builds on](../docs/assets/dependencies-light.svg#gh-light-mode-only)
 ![Modules, and what each takes from the one it builds on](../docs/assets/dependencies-dark.svg#gh-dark-mode-only)
 
-Seven artifacts, group `pro.vlprojects.semantic`:
+Eight artifacts, group `pro.vlprojects.semantic`:
 
 | Artifact | For | Depends on |
 | --- | --- | --- |
 | `semantic-ddd` | any JVM code: the building blocks | `semantic-format` |
+| `semantic-ddd-jackson` | identifiers in JSON, with Spring or without | core, `jackson-databind` 3 |
 | `semantic-ddd-spring-data` | what every Spring Data store shares: `Persistable`, events handed out on save | core, `spring-data-commons`, `spring-aop` |
 | `semantic-ddd-spring-data-jpa` | aggregates mapped with JPA | the Spring Data module, `jakarta.persistence-api`, `spring-data-jpa` |
 | `semantic-ddd-spring-data-mongodb` | aggregates stored in MongoDB | the Spring Data module, `spring-data-mongodb` |
-| `semantic-ddd-spring-boot` | auto-configuration, empty so far: [what it may hold](spring-boot/README.md) | the Spring Data module, Spring Boot |
+| `semantic-ddd-spring-boot` | auto-configuration, empty so far: [what it may hold](spring-boot/autoconfigure/README.md) | the Spring Data module, Spring Boot |
 | `semantic-ddd-spring-boot-starter-jpa` | the way in for a JPA service: dependencies only | the Spring Boot and JPA modules, `spring-boot-starter-data-jpa` |
 | `semantic-ddd-spring-boot-starter-mongodb` | the way in for a MongoDB service: dependencies only | the Spring Boot and MongoDB modules, `spring-boot-starter-data-mongodb` |
 
 A service takes the starter of its store, JPA or MongoDB, and gets with it the
-modules of the family and the Spring Boot starter of that store. JPA without
-Spring Data is not supported.
+modules of the family for that store and the Spring Boot starter of that store;
+`semantic-ddd-jackson` the service adds itself. JPA without Spring Data is not
+supported.
 
 The naming follows the Spring Boot reference: a module of your own is
 `<name>-spring-boot`, a starter is `<name>-spring-boot-starter-<store>`. A store
 module is named as in Spring Data, `spring-data-jpa` and `spring-data-mongodb`.
 Configuration keys live under `semantic.ddd`.
 
-Directories drop the prefix the path already gives:
+Directories follow the types of module, core, Jackson, Spring and Spring Boot,
+and drop the prefix the path already gives:
 
 ```
 ddd/
-├── core/                          semantic-ddd
-├── spring-data/                   semantic-ddd-spring-data
-├── spring-data-jpa/               semantic-ddd-spring-data-jpa
-├── spring-data-mongodb/           semantic-ddd-spring-data-mongodb
-├── spring-boot/                   semantic-ddd-spring-boot
-├── spring-boot-starter-jpa/       semantic-ddd-spring-boot-starter-jpa
-└── spring-boot-starter-mongodb/   semantic-ddd-spring-boot-starter-mongodb
+├── core/                    semantic-ddd
+├── jackson/                 semantic-ddd-jackson
+├── spring/
+│   └── data/
+│       ├── core/            semantic-ddd-spring-data
+│       ├── jpa/             semantic-ddd-spring-data-jpa
+│       └── mongodb/         semantic-ddd-spring-data-mongodb
+└── spring-boot/
+    ├── autoconfigure/       semantic-ddd-spring-boot
+    └── starter/
+        ├── jpa/             semantic-ddd-spring-boot-starter-jpa
+        └── mongodb/         semantic-ddd-spring-boot-starter-mongodb
 ```
 
+A module lies only at the bottom of the tree; a directory above it only groups.
+A new store goes next to its kin: its Spring Data module under `spring/data/`,
+its starter under `spring-boot/starter/`.
+
 Packages follow the artifacts: `pro.vlprojects.semantic.ddd`,
+`pro.vlprojects.semantic.ddd.jackson`,
 `pro.vlprojects.semantic.ddd.spring.data`,
 `pro.vlprojects.semantic.ddd.spring.data.jpa`,
 `pro.vlprojects.semantic.ddd.spring.data.mongodb`,

@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 598.7 216" width="598.7" height="216" role="img">
-  <rect width="598.7" height="216" rx="12" fill="#F6F8FA"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 601.68155 216" width="601.68155" height="216" role="img">
+  <rect width="601.68155" height="216" rx="12" fill="#F6F8FA"/>
   <g transform="translate(12,12)">
     <rect x="16.0" y="16.0" width="180.0" height="28.0" rx="6" fill="#E3E8ED"/>
     <text x="28.0" y="34.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">object Ordering</text>
@@ -7,31 +7,31 @@
     <path d="M229.0,26.0 L236.0,30.0 L229.0,34.0 Z" fill="#AFB8C1"/>
     <rect x="244.0" y="16.0" width="78.6" height="28.0" rx="6" fill="#E3E8ED"/>
     <text x="256.0" y="34.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">Pricing</text>
-    <rect x="330.6" y="21.0" width="38.0" height="18" rx="4" fill="#59636E" fill-opacity="0.2"/>
+    <rect x="330.6" y="21.0" width="39.4" height="18" rx="4" fill="#59636E" fill-opacity="0.2"/>
     <text x="338.6" y="33.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="start">core</text>
-    <rect x="384.6" y="16.0" width="78.6" height="28.0" rx="6" fill="#E3E8ED"/>
-    <text x="396.6" y="34.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">Catalog</text>
-    <rect x="471.2" y="21.0" width="71.0" height="18" rx="4" fill="#59636E" fill-opacity="0.2"/>
-    <text x="479.2" y="33.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="start">supporting</text>
+    <rect x="386.0" y="16.0" width="78.6" height="28.0" rx="6" fill="#E3E8ED"/>
+    <text x="398.0" y="34.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">Catalog</text>
+    <rect x="472.6" y="21.0" width="73.1" height="18" rx="4" fill="#59636E" fill-opacity="0.2"/>
+    <text x="480.6" y="33.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="start">supporting</text>
     <rect x="16.0" y="60.0" width="180.0" height="28.0" rx="6" fill="#E3E8ED"/>
     <text x="28.0" y="78.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">object Billing</text>
     <path d="M204.0,74.0 L230.0,74.0" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="M229.0,70.0 L236.0,74.0 L229.0,78.0 Z" fill="#AFB8C1"/>
     <rect x="244.0" y="60.0" width="94.2" height="28.0" rx="6" fill="#E3E8ED"/>
     <text x="256.0" y="78.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">Invoicing</text>
-    <rect x="346.2" y="65.0" width="71.0" height="18" rx="4" fill="#59636E" fill-opacity="0.2"/>
+    <rect x="346.2" y="65.0" width="73.1" height="18" rx="4" fill="#59636E" fill-opacity="0.2"/>
     <text x="354.2" y="77.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="start">supporting</text>
-    <rect x="433.2" y="60.0" width="63.0" height="28.0" rx="6" fill="#E3E8ED"/>
-    <text x="445.2" y="78.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">Taxes</text>
-    <rect x="504.2" y="65.0" width="54.5" height="18" rx="4" fill="#59636E" fill-opacity="0.2"/>
-    <text x="512.2" y="77.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="start">generic</text>
+    <rect x="435.3" y="60.0" width="63.0" height="28.0" rx="6" fill="#E3E8ED"/>
+    <text x="447.3" y="78.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">Taxes</text>
+    <rect x="506.3" y="65.0" width="55.4" height="18" rx="4" fill="#59636E" fill-opacity="0.2"/>
+    <text x="514.3" y="77.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="start">generic</text>
     <rect x="16.0" y="104.0" width="180.0" height="28.0" rx="6" fill="#E3E8ED"/>
     <text x="28.0" y="122.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">object Notifications</text>
     <path d="M204.0,118.0 L230.0,118.0" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="M229.0,114.0 L236.0,118.0 L229.0,122.0 Z" fill="#AFB8C1"/>
     <rect x="244.0" y="104.0" width="94.2" height="28.0" rx="6" fill="#E3E8ED"/>
     <text x="256.0" y="122.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">Messaging</text>
-    <rect x="346.2" y="109.0" width="54.5" height="18" rx="4" fill="#59636E" fill-opacity="0.2"/>
+    <rect x="346.2" y="109.0" width="55.4" height="18" rx="4" fill="#59636E" fill-opacity="0.2"/>
     <text x="354.2" y="121.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="start">generic</text>
     <rect x="16.0" y="148.0" width="180.0" height="28.0" rx="6" fill="#E3E8ED"/>
     <text x="28.0" y="166.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">object Reports</text>
