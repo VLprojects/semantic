@@ -163,17 +163,20 @@ it takes a root only. A store gives a repository of its own on top of each,
 `QuerydslPredicateExecutor` finds by a predicate. At its root is `findBy`,
 which hands a `FetchableFluentQuery` of Spring Data to a lambda: sort, limit,
 project, take a page, a slice, a window or a stream. The other methods say in
-their name what the lambda would do and are written through it: `findOne`,
-`findOneOrThrow`, `findAll` with `Sort` and `Pageable`, `findSlice`, a page
-with no total for a table where counting the rows costs too much, `streamAll`,
-read within a transaction and closed by the caller, `count` and `exists`. It is
+their name what the lambda would do and are written through it. `findOne` gives
+one or null, `findOneOrThrow` raises `NotFoundException` instead. `findAll`
+gives every candidate in a list, and a suffix tells another shape of the same:
+`findAllPaged` a page with the total of rows, `findAllSliced` a page with no
+total, for a table where counting the rows costs too much, `findAllStreamed` a
+stream read within a transaction and closed by the caller, `findAllScrolled` a
+window from a scroll position. `count` and `exists` count and check. It is
 an add-on, not a part of `EntityRepository`: a repository that needs it names
 it among its parents.
 
 ```kotlin
 interface OrderRepository : JpaAggregateRepository<Order, OrderId>, SpecificationExecutor<Order>
 
-orders.findSlice(IsOpen, pageable)
+orders.findAllSliced(IsOpen, pageable)
 orders.findBy(IsOpen) { it.sortBy(byDate).limit(10).all() }
 ```
 
