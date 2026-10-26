@@ -42,6 +42,7 @@ spacing is measured on the render, not read off the code:
   <picture> media query would follow the OS instead.
 """
 
+import math
 import pathlib
 import textwrap
 import unicodedata
@@ -230,62 +231,125 @@ def part(a, x, y, w, hue, name, what):
 	a.t(x + 8, y + 31, what, size=TAG, color=soft)
 
 
-FAMILIES = [
-	("Helper", "extensions of the standard types", [
-		("JVM", [[("blue", "helper/core", "semantic-helper", "extensions of the standard types, a package per kind", [
-			("text", "symbols and the words of a name"), ("number", "the sign, a lossless narrowing"),
-			("time", "a Duration or a Period of a number"), ("lang", "Any and KClass, planned"),
-		])]]),
-	]),
-	("Format", "how a value is written down", [
-		("JVM", [[("blue", "format/core", "semantic-format", "a value written down for a reader", [
-			("format", "cases and plurals"), ("abbreviation", "cut in the middle or at an end"),
-			("mask", "part of a value hidden"),
-		])]]),
-	]),
-	("DDD", "tactical and strategic patterns of domain-driven design", [
-		("JVM", [[("blue", "ddd/core", "semantic-ddd", "entities, aggregates, events; no framework", [
-			("tactical", "the building blocks"), ("tactical.base", "base classes to extend"),
-			("dsl", "rule, check, checkRule"), ("architecture.error", "the refusals a service raises"),
-		])], [("blue", "ddd/jackson", "semantic-ddd-jackson", "identifiers in JSON as the value they box")]]),
-		("Spring", [
-			[("green", "ddd/spring/data/core", "semantic-ddd-spring-data", "aggregates saved by a Spring Data repository")],
-			[("green", "ddd/spring/data/jpa", "semantic-ddd-spring-data-jpa", "base classes with JPA mapping"),
-				("ghost", "ddd/spring/data/*", "other stores", "Redis, Cassandra, Neo4j"),
-				("green", "ddd/spring/data/mongodb", "semantic-ddd-spring-data-mongodb", "base classes with MongoDB mapping")],
+TREE = [
+	[("idiom", "extensions of the Kotlin standard library", [(None, None, [
+		[(1, ("blue", "idiom/helper/core", "semantic-helper", "extensions of the standard types, a package per kind", [
+			("text", "symbols and words", ["predicate", "sanitizing", "transforming"]),
+			("number", "sign, safe narrowing"), ("time", "durations, periods"),
+		]))],
+		[(1, ("blue", "idiom/format/core", "semantic-format", "values written for a reader: cases and plurals", [
+			("abbreviation", "shortened text"), ("mask", "hidden characters"),
+		]))],
+	])])],
+	[
+		("type", "rich value objects", [(None, None, [
+			[(1, ("blue", "type/version", "semantic-type-version", "a module per category", [
+				("version", "version schemes"),
+			]))],
+		])]),
+		("math", "computations over numbers", [(None, None, [
+			[(1, ("blue", "math/core", "semantic-math", "a package per computation", [
+				("rounding", "rounding modes"), ("statistics", "mean, percentiles"),
+			]))],
+		])]),
+	],
+	[("correctness", "what is right and what went wrong", [(None, None, [
+		[(1, ("blue", "correctness/rule/core", "semantic-rule", "named business checks", [
+			("dsl", "rule, checkRule"), ("composite", "all, any, not"),
+		])), (1, ("blue", "correctness/validation/core", "semantic-validation", "every rule of a value checked at once", [
+			("validator", "validators of a type"), ("path", "where a value failed"),
+		]))],
+		[(1, ("blue", "correctness/error/core", "semantic-error", "the model of a failure; depends on nothing", [
+			("failure", "failure types"), ("result", "success or failure"),
+			("raise", "raise, recover"), ("accumulate", "many failures"),
+		]))],
+	])])],
+	[("design", "approaches to designing a model", [
+		("ddd", "domain-driven design with Spring Data and Spring Boot adapters", [
+			[(1, ("blue", "design/ddd/core", "semantic-ddd", "building blocks of a model; no framework", [
+				("tactical", "building blocks", ["base", "specification", "specification.composite"]),
+				("dsl", "business rule DSL"), ("architecture", "domain errors", ["error"]),
+				("support", "collection helpers"),
+			]))],
+			[(1, ("blue", "design/ddd/jackson", "semantic-ddd-jackson", "identifiers in JSON as the value they box"))],
+			[(1, ("green", "design/ddd/spring/data/core", "semantic-ddd-spring-data", "aggregates in Spring Data")),
+				(1, ("green", "design/ddd/spring/data/jpa", "semantic-ddd-spring-data-jpa", "JPA mapping")),
+				(1, ("green", "design/ddd/spring/data/mongodb", "semantic-ddd-spring-data-mongodb", "MongoDB mapping"))],
+			[(1, ("green", "design/ddd/spring-boot/autoconfigure", "semantic-ddd-spring-boot", "auto-configuration of the modules on the classpath", [
+				("events", "after-commit events"), ("repository", "aggregate stores"), ("mongodb", "MongoDB setup"),
+				("verification", "startup checks"), ("web", "errors as HTTP"),
+			]))],
+			[(1, ("green", "design/ddd/spring-boot/starter/jpa", "semantic-ddd-spring-boot-starter-jpa", "dependencies of a JPA service")),
+				(1, ("green", "design/ddd/spring-boot/starter/mongodb", "semantic-ddd-spring-boot-starter-mongodb", "dependencies of a MongoDB service"))],
 		]),
-		("Spring Boot", [
-			[("green", "ddd/spring-boot/autoconfigure", "semantic-ddd-spring-boot", "registers beans of the modules it finds")],
-			[("green", "ddd/spring-boot/starter/jpa", "semantic-ddd-spring-boot-starter-jpa",
-					"the one dependency a JPA service declares"),
-				("ghost", "ddd/spring-boot/starter/*", "other starters", "one per store"),
-				("green", "ddd/spring-boot/starter/mongodb", "semantic-ddd-spring-boot-starter-mongodb",
-					"the one dependency a MongoDB service declares")],
+		("dbc", "design by contract: what a call and a type guarantee", [
+			[(1, ("blue", "design/dbc/core", "semantic-dbc", "contracts checked at run time", [
+				("condition", "pre, postconditions"), ("invariant", "type invariants"),
+			]))],
 		]),
-	]),
-	("CQRS", "commands, queries, their handlers and buses", [
-		("JVM", [[("blue", "cqrs/core", "semantic-cqrs", "the supertypes of messages; no dependency on ddd", [
-			("Command", "an intent to change the state"), ("Query", "a question that changes nothing"),
-			("Handler", "carries out one kind of message"), ("Bus", "delivers it to its one handler"),
-		])]]),
-	]),
-	("Architecture", "the layers of a service and its integrations", [
-		("JVM", [[("blue", "architecture/core", "semantic-architecture", "what a class is to the service", [
-			("layer", "@DomainLayer and the other three"), ("integration", "@Integrated, its scope and version"),
-		])]]),
-	]),
-	("Types", "rich value objects, a module per category", [
-		("JVM", [
-			[("ghost", "types/version", "semantic-types-version", "sequential, semantic and calendar versions")],
-			[("ghost", "types/*", "other categories", "email, URL, ranges, dates")],
+		("algebra", "algebraic abstractions: the laws an operation obeys", [
+			[(1, ("blue", "design/algebra/core", "semantic-algebra", "orders and structures with their laws", [
+				("relation", "orders, equivalence"), ("structure", "monoids, groups"),
+			]))],
 		]),
-	]),
+	])],
+	[("architecture", "styles of a service and the patterns it applies", [
+		("style", "a module per style; each extends the one before it and adds the errors of its layers", [
+			[(1, ("blue", "architecture/style/layered/core", "semantic-layered", "tiers call downward", [
+				("layer", "layer annotations"), ("error", "layer exceptions"),
+			])), (1, ("blue", "architecture/style/onion/core", "semantic-onion", "rings around a domain", [
+				("layer", "layer annotations"), ("error", "layer exceptions"),
+			]))],
+			[(1, ("blue", "architecture/style/clean/core", "semantic-clean", "dependencies point in", [
+				("layer", "layer annotations"), ("error", "layer exceptions"),
+			])), (1, ("blue", "architecture/style/explicit/core", "semantic-explicit", "onion and clean, no ports", [
+				("layer", "layer annotations"), ("error", "layer exceptions"),
+			]))],
+		]),
+		("boundary", "what a component publishes to other systems and how it evolves", [
+			[(1, ("blue", "architecture/boundary/core", "semantic-boundary", "architectural boundaries: contract scope, version introduced"))],
+		]),
+		("pattern", "a module per pattern or per group of patterns", [
+			[(1, ("blue", "architecture/pattern/persistence/cqrs/core", "semantic-cqrs", "separate write and read models", [
+				("command", "commands, handlers"), ("query", "queries, handlers"), ("bus", "command, query bus"),
+			])), (1, ("blue", "architecture/pattern/persistence/event-sourcing/core", "semantic-event-sourcing", "state rebuilt from events", [
+				("store", "append-only store"), ("snapshot", "state checkpoints"), ("projection", "read models"),
+			]))],
+			[(1, ("blue", "architecture/pattern/persistence/unit-of-work/core", "semantic-unit-of-work", "changes committed atomically", [
+				("tracking", "new, dirty, removed"), ("commit", "one transaction"),
+			])), (1, ("blue", "architecture/pattern/delivery/core", "semantic-delivery", "transactional outbox and inbox: exactly once together", [
+				("outbox", "at least once"), ("inbox", "at most once"), ("idempotency", "idempotency keys"),
+			]))],
+			[(1, ("blue", "architecture/pattern/coordination/core", "semantic-coordination", "processes acting in step", [
+				("saga", "compensating steps"), ("lock", "distributed lock"),
+			])), (2, ("blue", "architecture/pattern/lifecycle/core", "semantic-lifecycle", "a process from start to stop", [
+				("startup", "graceful startup"), ("warmup", "caches, pools, JIT"),
+				("health", "liveness, readiness"), ("shutdown", "graceful shutdown"),
+			]))],
+			[(1, ("blue", "architecture/pattern/caching/core", "semantic-caching", "cache-aside, read-through, write-through, write-behind, refresh-ahead"))],
+			[(1, ("blue", "architecture/pattern/resilience/core", "semantic-resilience", "survive a failing dependency", [
+				("circuitbreaker", "fail fast"), ("retry", "transient faults"), ("backoff", "exponential, jitter"),
+				("timeout", "bounded waits"), ("bulkhead", "isolated pools"), ("fallback", "degraded answer"),
+			]))],
+			[(1, ("blue", "architecture/pattern/traffic/core", "semantic-traffic", "control of incoming load", [
+				("ratelimit", "quotas per client"), ("throttling", "rate smoothing"),
+				("shedding", "load shedding"), ("backpressure", "slow the producer"),
+			]))],
+			[(1, ("blue", "architecture/pattern/rollout/core", "semantic-rollout", "features released in code", [
+				("featureflag", "on, off per user"), ("killswitch", "emergency off"), ("canary", "growing share"),
+				("darklaunch", "run, not shown"), ("experiment", "A/B tests"),
+			]))],
+		]),
+	])],
 ]
 LAYER_NOTES = {
 	"JVM": "Kotlin and the JDK, or one library such as Jackson; no Spring, no Jakarta",
 	"Spring": "Spring and Spring Data, mapping and callbacks; no Spring Boot, a service takes them by @Import",
 	"Spring Boot": "@AutoConfiguration on @ConditionalOnClass, keys under semantic.ddd; a starter holds dependencies only",
 }
+UNIT = 128  # one width for every cell, so their columns line up down the page
+CHIP_H, CHIP_GAP = 22, 6  # a subpackage inside the cell of its package, the gap between two
+OVERFLOW = []
 
 
 def header(a, x, y, name, about):
@@ -294,55 +358,138 @@ def header(a, x, y, name, about):
 	tag(a, x + 0.6 * TITLE * len(name) + 12, y + 15, about)
 
 
-def caption(a, x, top, name):
+def caption(a, x, top, name, note=None):
 	"""The name of a layer on the line of the tags of its first row, and what it holds under it."""
 	a.t(x, top + 24.5, name, color="ink", weight="500")
-	for i, s in enumerate(textwrap.wrap(LAYER_NOTES[name], int(ROOM / (0.55 * ABOUT)))):
+	for i, s in enumerate(textwrap.wrap(note or LAYER_NOTES[name], int(ROOM / (0.55 * ABOUT)))):
 		a.t(x, top + 42 + 13 * i, s, size=ABOUT, color="mute")
 
 
-def row(a, x, y, w, specs):
-	"""A row of blocks across w: a ghost among blocks keeps the width of its column, the blocks share the rest."""
-	ghosts = sum(hue == "ghost" for hue, *_ in specs)
-	ghosts = ghosts if ghosts < len(specs) else 0
-	share = (w - ghosts * MORE - (len(specs) - 1) * GAP) / (len(specs) - ghosts)
-	for hue, directory, artifact, note, *inside in specs:
-		width = MORE if ghosts and hue == "ghost" else share
-		if hue == "ghost":
-			ghost(a, x, y, width, directory, artifact, note)
-		else:
-			block(a, x, y, width, hue, directory, artifact, note, *inside)
-		x += width + GAP
+def fits(text, width, size, mono=False):
+	if (0.6 * len(text) if mono else sans_em(text)) * size > width:
+		OVERFLOW.append(text)
 
 
-def plate(a, y, name, about, layers):
-	"""Draws a family at y and returns where the next one starts."""
-	edge, width = X0 + MARGIN, FAMILY_W - 2 * X0 - 2 * MARGIN
-	start = edge + LEVEL_W
-	tall = [[max(height(spec[4] if len(spec) > 4 else ()) for spec in specs) for specs in rows] for _, rows in layers]
-	heights = [2 * FRAME + sum(rows) + (len(rows) - 1) * GAP for rows in tall]
-	h = 15 + TAG_H + LAYERS + sum(heights) + LAYERS * (len(layers) - 1) + MARGIN
-	a.rect(X0, y, FAMILY_W - 2 * X0, h, "plate", r=12)
-	header(a, edge, y, name, about)
-	top = y + 15 + TAG_H + LAYERS  # the header stands off the layers as they do off each other
-	for (level, rows), rows_tall, frame in zip(layers, tall, heights):
-		layer(a, edge, top, width, frame)
-		caption(a, edge + FRAME, top + FRAME, level)
-		ry = top + FRAME
-		for specs, tallest in zip(rows, rows_tall):
-			row(a, start, ry, edge + width - FRAME - start, specs)
-			ry += tallest + GAP
-		top += frame + LAYERS
-	return y + h + PLATES
+def chip_w(name):
+	return 0.6 * TAG * len(name) + 16
+
+
+def span(package):
+	"""Cells a package takes: one, or as many as its subpackages need side by side."""
+	children = package[2] if len(package) > 2 else []
+	need = sum(chip_w(c) for c in children) + CHIP_GAP * (len(children) - 1) + 16
+	return max(1, math.ceil((need + CELL_GAP) / (UNIT + CELL_GAP)))
+
+
+def cell_w(units):
+	return units * UNIT + (units - 1) * CELL_GAP
+
+
+def lines(packages, w):
+	"""Packages in lines of whole cells; when they do not fit in one, as many to a line as makes the lines even."""
+	room = int((w + CELL_GAP) // (UNIT + CELL_GAP))
+	total = sum(span(p) for p in packages)
+	count = math.ceil(len(packages) / math.ceil(total / room))
+	out, line = [], []
+	for p in packages:
+		if line and (len(line) == count or sum(span(q) for q in line) + span(p) > room):
+			out.append(line)
+			line = []
+		line.append(p)
+	return out + [line] if line else out
+
+
+def tall(line):
+	return CELL_H + CHIP_H + 10 if any(len(p) > 2 for p in line) else CELL_H
+
+
+def extent(w, packages):
+	"""Height of a module: its head, then lines of cells 8 apart and 12 off the bottom."""
+	if not packages:
+		return BLOCK
+	ls = lines(packages, w - 24)
+	return BLOCK + CELLS + sum(tall(line) for line in ls) + CELL_GAP * (len(ls) - 1) + 12
+
+
+def module(a, x, y, w, h, hue, directory, artifact, note, packages=()):
+	"""A module: what names it at the top, what it is for and its packages at the bottom, however tall the row."""
+	a.rect(x, y, w, h, hue + "-plate", r=6)
+	soft = hue + "-soft"
+	for text, size, mono in ((directory, TAG, True), (artifact, CODE, True), (note, NOTE, False)):
+		fits(text, w - 40 if text is directory else w - 24, size, mono)
+	tag(a, x + 12, y + 12, directory, color=soft, mono=True)
+	a.name(x + 12, y + 48, artifact, mono=True, color=ink(hue))
+	low = y + h - extent(w, packages)
+	a.t(x + 12, low + BLOCK - 12, note, color=soft)
+	cy = low + BLOCK + CELLS
+	for line in lines(packages, w - 24) if packages else ():
+		cx, ch = x + 12, tall(line)
+		for package in line:
+			name, what, *children = package
+			cw = cell_w(span(package))
+			fits(name, cw - 16, PART, True)
+			fits(what, cw - 16, TAG)
+			a.add(f'<rect x="{cx:.1f}" y="{cy:.1f}" width="{cw:.1f}" height="{ch}" rx="4" fill="{a.p[soft]}" fill-opacity="0.12"/>')
+			a.t(cx + 8, cy + 17, name, size=PART, color=ink(hue), weight="600", mono=True)
+			a.t(cx + 8, cy + 31, what, size=TAG, color=soft)
+			sx = cx + 8
+			for child in children[0] if children else ():
+				a.add(f'<rect x="{sx:.1f}" y="{cy + CELL_H:.1f}" width="{chip_w(child):.1f}" height="{CHIP_H}" rx="4" fill="{a.p[soft]}" fill-opacity="0.16"/>')
+				a.t(sx + 8, cy + CELL_H + 15, child, size=TAG, color=ink(hue), mono=True)
+				sx += chip_w(child) + CHIP_GAP
+			cx += cw + CELL_GAP
+		cy += ch + CELL_GAP
+
+
+def grid(a, x, y, w, rows, stretch=0):
+	"""Rows of modules across w, each as wide as its share of the row and as tall as the tallest; returns the bottom."""
+	for i, row in enumerate(rows):
+		room = w - GAP * (len(row) - 1)
+		widths = [room * share / sum(s for s, _ in row) for share, _ in row]
+		h = max(extent(width, spec[4] if len(spec) > 4 else ()) for width, (_, spec) in zip(widths, row))
+		h += stretch if i == len(rows) - 1 else 0
+		for width, (_, spec) in zip(widths, row):
+			module(a, x, y, width, h, *spec)
+			x += width + GAP
+		x -= sum(widths) + GAP * len(row)
+		y += h + GAP
+	return y - GAP
+
+
+def plate(a, x, y, w, name, about, sections, stretch=0):
+	"""A root directory: a dotted frame per subdirectory, or its modules straight on the plate; returns its height."""
+	edge, width = x + MARGIN, w - 2 * MARGIN
+	top = y + 15 + TAG_H + LAYERS
+	for i, (section, note, rows) in enumerate(sections):
+		extra = stretch if i == len(sections) - 1 else 0
+		if section is None:
+			top = grid(a, edge, top, width, rows, extra) + LAYERS
+			continue
+		start = edge + LEVEL_W
+		bottom = grid(a, start, top + FRAME, edge + width - FRAME - start, rows, extra) + FRAME
+		layer(a, edge, top, width, bottom - top)
+		caption(a, edge + FRAME, top + FRAME, section, note)
+		top = bottom + LAYERS
+	return top - LAYERS + MARGIN - y
 
 
 def families(pal):
-	# the whole library on one page, a family per plate, the ones in development on top
+	# small roots share a row of plates, their last modules stretched so the plates end on one line
 	a = Art(FAMILY_W, 0, pal)
-	y = 16
-	for name, about, layers in FAMILIES:
-		y = plate(a, y, name, about, layers)
+	y, full = 16, FAMILY_W - 2 * X0
+	for roots in TREE:
+		w = (full - PLATES * (len(roots) - 1)) / len(roots)
+		heights = [plate(Art(w, 0, pal), 0, 0, w, *root) for root in roots]
+		h = max(heights)
+		for i, (root, natural) in enumerate(zip(roots, heights)):
+			x = X0 + i * (w + PLATES)
+			a.rect(x, y, w, h, "plate", r=12)
+			header(a, x + MARGIN, y, root[0], root[1])
+			plate(a, x, y, w, *root, stretch=h - natural)
+		y += h + PLATES
 	a.h = y - PLATES + 16
+	if OVERFLOW:
+		raise SystemExit(f"text wider than its place: {sorted(set(OVERFLOW))}")
 	return a
 
 
