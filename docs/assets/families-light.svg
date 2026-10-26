@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1264 4204" width="1264" height="4204" role="img">
-  <rect width="1264" height="4204" rx="12" fill="#F6F8FA"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1264 4312" width="1264" height="4312" role="img">
+  <rect width="1264" height="4312" rx="12" fill="#F6F8FA"/>
   <g transform="translate(12,12)">
     <rect x="16.0" y="16.0" width="1208.0" height="439.0" rx="12" fill="#FFFFFF"/>
     <text x="40.0" y="46.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="16" font-weight="600" fill="#1F2328" text-anchor="start">idiom</text>
@@ -106,7 +106,7 @@
     <rect x="460.0" y="1120.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
     <text x="468.0" y="1137.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">accumulate</text>
     <text x="468.0" y="1151.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">many failures</text>
-    <rect x="16.0" y="1246.0" width="1208.0" height="1117.0" rx="12" fill="#FFFFFF"/>
+    <rect x="16.0" y="1246.0" width="1208.0" height="1225.0" rx="12" fill="#FFFFFF"/>
     <text x="40.0" y="1276.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="16" font-weight="600" fill="#1F2328" text-anchor="start">design</text>
     <rect x="109.6" y="1261.0" width="190.7" height="18" rx="4" fill="#59636E" fill-opacity="0.2"/>
     <text x="117.6" y="1273.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="start">approaches to designing a model</text>
@@ -135,298 +135,303 @@
     <rect x="964.0" y="1424.0" width="128.0" height="74" rx="4" fill="#41679C" fill-opacity="0.12"/>
     <text x="972.0" y="1441.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">support</text>
     <text x="972.0" y="1455.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">collection helpers</text>
-    <rect x="272.0" y="1526.0" width="293.3" height="92.0" rx="6" fill="#DDF7E7"/>
-    <rect x="284.0" y="1538.0" width="194.2" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
-    <text x="292.0" y="1550.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">design/ddd/spring/data/core</text>
-    <text x="284.0" y="1574.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-data</text>
-    <text x="284.0" y="1606.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">aggregates in Spring Data</text>
-    <rect x="581.3" y="1526.0" width="293.3" height="92.0" rx="6" fill="#DDF7E7"/>
-    <rect x="593.3" y="1538.0" width="187.6" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
-    <text x="601.3" y="1550.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">design/ddd/spring/data/jpa</text>
-    <text x="593.3" y="1574.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-data-jpa</text>
-    <text x="593.3" y="1606.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">JPA mapping</text>
-    <rect x="890.7" y="1526.0" width="293.3" height="92.0" rx="6" fill="#DDF7E7"/>
-    <rect x="902.7" y="1538.0" width="214.0" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
-    <text x="910.7" y="1550.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">design/ddd/spring/data/mongodb</text>
-    <text x="902.7" y="1574.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-data-mongodb</text>
-    <text x="902.7" y="1606.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">MongoDB mapping</text>
-    <rect x="272.0" y="1634.0" width="912.0" height="151.0" rx="6" fill="#DDF7E7"/>
-    <rect x="284.0" y="1646.0" width="253.6" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
-    <text x="292.0" y="1658.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">design/ddd/spring-boot/autoconfigure</text>
-    <text x="284.0" y="1682.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-boot</text>
-    <text x="284.0" y="1714.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">auto-configuration of the modules on the classpath</text>
-    <rect x="284.0" y="1731.0" width="128.0" height="42" rx="4" fill="#3A7550" fill-opacity="0.12"/>
-    <text x="292.0" y="1748.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">events</text>
-    <text x="292.0" y="1762.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">after-commit events</text>
-    <rect x="420.0" y="1731.0" width="128.0" height="42" rx="4" fill="#3A7550" fill-opacity="0.12"/>
-    <text x="428.0" y="1748.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">jackson</text>
-    <text x="428.0" y="1762.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">ids, values as JSON</text>
-    <rect x="556.0" y="1731.0" width="128.0" height="42" rx="4" fill="#3A7550" fill-opacity="0.12"/>
-    <text x="564.0" y="1748.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">mongodb</text>
-    <text x="564.0" y="1762.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">MongoDB setup</text>
-    <rect x="692.0" y="1731.0" width="128.0" height="42" rx="4" fill="#3A7550" fill-opacity="0.12"/>
-    <text x="700.0" y="1748.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">verification</text>
-    <text x="700.0" y="1762.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">startup checks</text>
-    <rect x="828.0" y="1731.0" width="128.0" height="42" rx="4" fill="#3A7550" fill-opacity="0.12"/>
-    <text x="836.0" y="1748.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">web</text>
-    <text x="836.0" y="1762.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">errors as HTTP</text>
-    <rect x="272.0" y="1801.0" width="448.0" height="92.0" rx="6" fill="#DDF7E7"/>
-    <rect x="284.0" y="1813.0" width="240.4" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
-    <text x="292.0" y="1825.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">design/ddd/spring-boot/starter/jpa</text>
-    <text x="284.0" y="1849.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-boot-starter-jpa</text>
-    <text x="284.0" y="1881.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">dependencies of a JPA service</text>
-    <rect x="736.0" y="1801.0" width="448.0" height="92.0" rx="6" fill="#DDF7E7"/>
-    <rect x="748.0" y="1813.0" width="266.8" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
-    <text x="756.0" y="1825.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">design/ddd/spring-boot/starter/mongodb</text>
-    <text x="748.0" y="1849.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-boot-starter-mongodb</text>
-    <text x="748.0" y="1881.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">dependencies of a MongoDB service</text>
-    <rect x="40.0" y="1311" width="1160.0" height="598" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
+    <rect x="272.0" y="1526.0" width="912.0" height="92.0" rx="6" fill="#E3EFFF"/>
+    <rect x="284.0" y="1538.0" width="134.8" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
+    <text x="292.0" y="1550.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">design/ddd/jackson</text>
+    <text x="284.0" y="1574.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-jackson</text>
+    <text x="284.0" y="1606.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">identifiers in JSON as the value they box</text>
+    <rect x="272.0" y="1634.0" width="293.3" height="92.0" rx="6" fill="#DDF7E7"/>
+    <rect x="284.0" y="1646.0" width="194.2" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
+    <text x="292.0" y="1658.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">design/ddd/spring/data/core</text>
+    <text x="284.0" y="1682.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-data</text>
+    <text x="284.0" y="1714.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">aggregates in Spring Data</text>
+    <rect x="581.3" y="1634.0" width="293.3" height="92.0" rx="6" fill="#DDF7E7"/>
+    <rect x="593.3" y="1646.0" width="187.6" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
+    <text x="601.3" y="1658.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">design/ddd/spring/data/jpa</text>
+    <text x="593.3" y="1682.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-data-jpa</text>
+    <text x="593.3" y="1714.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">JPA mapping</text>
+    <rect x="890.7" y="1634.0" width="293.3" height="92.0" rx="6" fill="#DDF7E7"/>
+    <rect x="902.7" y="1646.0" width="214.0" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
+    <text x="910.7" y="1658.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">design/ddd/spring/data/mongodb</text>
+    <text x="902.7" y="1682.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-data-mongodb</text>
+    <text x="902.7" y="1714.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">MongoDB mapping</text>
+    <rect x="272.0" y="1742.0" width="912.0" height="151.0" rx="6" fill="#DDF7E7"/>
+    <rect x="284.0" y="1754.0" width="253.6" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
+    <text x="292.0" y="1766.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">design/ddd/spring-boot/autoconfigure</text>
+    <text x="284.0" y="1790.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-boot</text>
+    <text x="284.0" y="1822.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">auto-configuration of the modules on the classpath</text>
+    <rect x="284.0" y="1839.0" width="128.0" height="42" rx="4" fill="#3A7550" fill-opacity="0.12"/>
+    <text x="292.0" y="1856.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">events</text>
+    <text x="292.0" y="1870.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">after-commit events</text>
+    <rect x="420.0" y="1839.0" width="128.0" height="42" rx="4" fill="#3A7550" fill-opacity="0.12"/>
+    <text x="428.0" y="1856.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">jackson</text>
+    <text x="428.0" y="1870.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">ids, values as JSON</text>
+    <rect x="556.0" y="1839.0" width="128.0" height="42" rx="4" fill="#3A7550" fill-opacity="0.12"/>
+    <text x="564.0" y="1856.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">mongodb</text>
+    <text x="564.0" y="1870.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">MongoDB setup</text>
+    <rect x="692.0" y="1839.0" width="128.0" height="42" rx="4" fill="#3A7550" fill-opacity="0.12"/>
+    <text x="700.0" y="1856.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">verification</text>
+    <text x="700.0" y="1870.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">startup checks</text>
+    <rect x="828.0" y="1839.0" width="128.0" height="42" rx="4" fill="#3A7550" fill-opacity="0.12"/>
+    <text x="836.0" y="1856.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">web</text>
+    <text x="836.0" y="1870.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">errors as HTTP</text>
+    <rect x="272.0" y="1909.0" width="448.0" height="92.0" rx="6" fill="#DDF7E7"/>
+    <rect x="284.0" y="1921.0" width="240.4" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
+    <text x="292.0" y="1933.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">design/ddd/spring-boot/starter/jpa</text>
+    <text x="284.0" y="1957.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-boot-starter-jpa</text>
+    <text x="284.0" y="1989.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">dependencies of a JPA service</text>
+    <rect x="736.0" y="1909.0" width="448.0" height="92.0" rx="6" fill="#DDF7E7"/>
+    <rect x="748.0" y="1921.0" width="266.8" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
+    <text x="756.0" y="1933.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">design/ddd/spring-boot/starter/mongodb</text>
+    <text x="748.0" y="1957.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-boot-starter-mongodb</text>
+    <text x="748.0" y="1989.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">dependencies of a MongoDB service</text>
+    <rect x="40.0" y="1311" width="1160.0" height="706" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
     <text x="56.0" y="1351.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1F2328" text-anchor="start">ddd</text>
     <text x="56.0" y="1369.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">domain-driven design with</text>
     <text x="56.0" y="1382.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">Spring Data and Spring Boot</text>
     <text x="56.0" y="1395.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">adapters</text>
-    <rect x="272.0" y="1957.0" width="912.0" height="151.0" rx="6" fill="#E3EFFF"/>
-    <rect x="284.0" y="1969.0" width="115.0" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
-    <text x="292.0" y="1981.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">design/dbc/core</text>
-    <text x="284.0" y="2005.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-dbc</text>
-    <text x="284.0" y="2037.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">contracts checked at run time</text>
-    <rect x="284.0" y="2054.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="292.0" y="2071.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">condition</text>
-    <text x="292.0" y="2085.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">pre, postconditions</text>
-    <rect x="420.0" y="2054.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="428.0" y="2071.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">invariant</text>
-    <text x="428.0" y="2085.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">type invariants</text>
-    <rect x="40.0" y="1941" width="1160.0" height="183" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
-    <text x="56.0" y="1981.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1F2328" text-anchor="start">dbc</text>
-    <text x="56.0" y="1999.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">design by contract: what a</text>
-    <text x="56.0" y="2012.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">call and a type guarantee</text>
-    <rect x="272.0" y="2172.0" width="912.0" height="151.0" rx="6" fill="#E3EFFF"/>
-    <rect x="284.0" y="2184.0" width="141.4" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
-    <text x="292.0" y="2196.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">design/algebra/core</text>
-    <text x="284.0" y="2220.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-algebra</text>
-    <text x="284.0" y="2252.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">orders and structures with their laws</text>
-    <rect x="284.0" y="2269.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="292.0" y="2286.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">relation</text>
-    <text x="292.0" y="2300.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">orders, equivalence</text>
-    <rect x="420.0" y="2269.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="428.0" y="2286.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">structure</text>
-    <text x="428.0" y="2300.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">monoids, groups</text>
-    <rect x="40.0" y="2156" width="1160.0" height="183" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
-    <text x="56.0" y="2196.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1F2328" text-anchor="start">algebra</text>
-    <text x="56.0" y="2214.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">algebraic abstractions: the</text>
-    <text x="56.0" y="2227.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">laws an operation obeys</text>
-    <rect x="16.0" y="2411.0" width="1208.0" height="1753.0" rx="12" fill="#FFFFFF"/>
-    <text x="40.0" y="2441.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="16" font-weight="600" fill="#1F2328" text-anchor="start">architecture</text>
-    <rect x="167.2" y="2426.0" width="247.5" height="18" rx="4" fill="#59636E" fill-opacity="0.2"/>
-    <text x="175.2" y="2438.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="start">styles of a service and the patterns it applies</text>
-    <rect x="272.0" y="2492.0" width="448.0" height="151.0" rx="6" fill="#E3EFFF"/>
-    <rect x="284.0" y="2504.0" width="220.6" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
-    <text x="292.0" y="2516.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">architecture/style/layered/core</text>
-    <text x="284.0" y="2540.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-layered</text>
-    <text x="284.0" y="2572.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">tiers call downward</text>
-    <rect x="284.0" y="2589.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="292.0" y="2606.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">layer</text>
-    <text x="292.0" y="2620.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">layer annotations</text>
-    <rect x="420.0" y="2589.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="428.0" y="2606.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">error</text>
-    <text x="428.0" y="2620.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">layer exceptions</text>
-    <rect x="736.0" y="2492.0" width="448.0" height="151.0" rx="6" fill="#E3EFFF"/>
-    <rect x="748.0" y="2504.0" width="207.4" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
-    <text x="756.0" y="2516.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">architecture/style/onion/core</text>
-    <text x="748.0" y="2540.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-onion</text>
-    <text x="748.0" y="2572.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">rings around a domain</text>
-    <rect x="748.0" y="2589.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="756.0" y="2606.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">layer</text>
-    <text x="756.0" y="2620.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">layer annotations</text>
-    <rect x="884.0" y="2589.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="892.0" y="2606.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">error</text>
-    <text x="892.0" y="2620.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">layer exceptions</text>
-    <rect x="272.0" y="2659.0" width="448.0" height="151.0" rx="6" fill="#E3EFFF"/>
-    <rect x="284.0" y="2671.0" width="207.4" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
-    <text x="292.0" y="2683.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">architecture/style/clean/core</text>
-    <text x="284.0" y="2707.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-clean</text>
-    <text x="284.0" y="2739.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">dependencies point in</text>
-    <rect x="284.0" y="2756.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="292.0" y="2773.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">layer</text>
-    <text x="292.0" y="2787.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">layer annotations</text>
-    <rect x="420.0" y="2756.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="428.0" y="2773.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">error</text>
-    <text x="428.0" y="2787.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">layer exceptions</text>
-    <rect x="736.0" y="2659.0" width="448.0" height="151.0" rx="6" fill="#E3EFFF"/>
-    <rect x="748.0" y="2671.0" width="227.2" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
-    <text x="756.0" y="2683.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">architecture/style/explicit/core</text>
-    <text x="748.0" y="2707.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-explicit</text>
-    <text x="748.0" y="2739.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">onion and clean, no ports</text>
-    <rect x="748.0" y="2756.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="756.0" y="2773.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">layer</text>
-    <text x="756.0" y="2787.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">layer annotations</text>
-    <rect x="884.0" y="2756.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="892.0" y="2773.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">error</text>
-    <text x="892.0" y="2787.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">layer exceptions</text>
-    <rect x="40.0" y="2476" width="1160.0" height="350" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
-    <text x="56.0" y="2516.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1F2328" text-anchor="start">style</text>
-    <text x="56.0" y="2534.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">a module per style; each</text>
-    <text x="56.0" y="2547.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">extends the one before it and</text>
-    <text x="56.0" y="2560.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">adds the errors of its layers</text>
-    <rect x="272.0" y="2874.0" width="912.0" height="92.0" rx="6" fill="#E3EFFF"/>
-    <rect x="284.0" y="2886.0" width="187.6" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
-    <text x="292.0" y="2898.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">architecture/boundary/core</text>
-    <text x="284.0" y="2922.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-boundary</text>
-    <text x="284.0" y="2954.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">architectural boundaries: contract scope, version introduced</text>
-    <rect x="40.0" y="2858" width="1160.0" height="124" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
-    <text x="56.0" y="2898.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1F2328" text-anchor="start">boundary</text>
-    <text x="56.0" y="2916.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">what a component publishes to</text>
-    <text x="56.0" y="2929.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">other systems and how it</text>
-    <text x="56.0" y="2942.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">evolves</text>
-    <rect x="272.0" y="3030.0" width="448.0" height="151.0" rx="6" fill="#E3EFFF"/>
-    <rect x="284.0" y="3042.0" width="293.2" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
-    <text x="292.0" y="3054.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">architecture/pattern/persistence/cqrs/core</text>
-    <text x="284.0" y="3078.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-cqrs</text>
-    <text x="284.0" y="3110.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">separate write and read models</text>
-    <rect x="284.0" y="3127.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="292.0" y="3144.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">command</text>
-    <text x="292.0" y="3158.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">commands, handlers</text>
-    <rect x="420.0" y="3127.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="428.0" y="3144.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">query</text>
-    <text x="428.0" y="3158.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">queries, handlers</text>
-    <rect x="556.0" y="3127.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="564.0" y="3144.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">bus</text>
-    <text x="564.0" y="3158.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">command, query bus</text>
-    <rect x="736.0" y="3030.0" width="448.0" height="151.0" rx="6" fill="#E3EFFF"/>
-    <rect x="748.0" y="3042.0" width="359.2" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
-    <text x="756.0" y="3054.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">architecture/pattern/persistence/event-sourcing/core</text>
-    <text x="748.0" y="3078.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-event-sourcing</text>
-    <text x="748.0" y="3110.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">state rebuilt from events</text>
-    <rect x="748.0" y="3127.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="756.0" y="3144.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">store</text>
-    <text x="756.0" y="3158.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">append-only store</text>
-    <rect x="884.0" y="3127.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="892.0" y="3144.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">snapshot</text>
-    <text x="892.0" y="3158.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">state checkpoints</text>
-    <rect x="1020.0" y="3127.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="1028.0" y="3144.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">projection</text>
-    <text x="1028.0" y="3158.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">read models</text>
-    <rect x="272.0" y="3197.0" width="448.0" height="151.0" rx="6" fill="#E3EFFF"/>
-    <rect x="284.0" y="3209.0" width="346.0" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
-    <text x="292.0" y="3221.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">architecture/pattern/persistence/unit-of-work/core</text>
-    <text x="284.0" y="3245.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-unit-of-work</text>
-    <text x="284.0" y="3277.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">changes committed atomically</text>
-    <rect x="284.0" y="3294.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="292.0" y="3311.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">tracking</text>
-    <text x="292.0" y="3325.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">new, dirty, removed</text>
-    <rect x="420.0" y="3294.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="428.0" y="3311.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">commit</text>
-    <text x="428.0" y="3325.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">one transaction</text>
-    <rect x="736.0" y="3197.0" width="448.0" height="151.0" rx="6" fill="#E3EFFF"/>
-    <rect x="748.0" y="3209.0" width="240.4" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
-    <text x="756.0" y="3221.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">architecture/pattern/delivery/core</text>
-    <text x="748.0" y="3245.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-delivery</text>
-    <text x="748.0" y="3277.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">transactional outbox and inbox: exactly once together</text>
-    <rect x="748.0" y="3294.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="756.0" y="3311.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">outbox</text>
-    <text x="756.0" y="3325.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">at least once</text>
-    <rect x="884.0" y="3294.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="892.0" y="3311.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">inbox</text>
-    <text x="892.0" y="3325.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">at most once</text>
-    <rect x="1020.0" y="3294.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="1028.0" y="3311.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">idempotency</text>
-    <text x="1028.0" y="3325.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">idempotency keys</text>
-    <rect x="272.0" y="3364.0" width="298.7" height="151.0" rx="6" fill="#E3EFFF"/>
-    <rect x="284.0" y="3376.0" width="266.8" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
-    <text x="292.0" y="3388.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">architecture/pattern/coordination/core</text>
-    <text x="284.0" y="3412.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-coordination</text>
-    <text x="284.0" y="3444.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">processes acting in step</text>
-    <rect x="284.0" y="3461.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="292.0" y="3478.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">saga</text>
-    <text x="292.0" y="3492.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">compensating steps</text>
-    <rect x="420.0" y="3461.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="428.0" y="3478.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">lock</text>
-    <text x="428.0" y="3492.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">distributed lock</text>
-    <rect x="586.7" y="3364.0" width="597.3" height="151.0" rx="6" fill="#E3EFFF"/>
-    <rect x="598.7" y="3376.0" width="247.0" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
-    <text x="606.7" y="3388.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">architecture/pattern/lifecycle/core</text>
-    <text x="598.7" y="3412.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-lifecycle</text>
-    <text x="598.7" y="3444.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">a process from start to stop</text>
-    <rect x="598.7" y="3461.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="606.7" y="3478.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">startup</text>
-    <text x="606.7" y="3492.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">graceful startup</text>
-    <rect x="734.7" y="3461.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="742.7" y="3478.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">warmup</text>
-    <text x="742.7" y="3492.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">caches, pools, JIT</text>
-    <rect x="870.7" y="3461.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="878.7" y="3478.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">health</text>
-    <text x="878.7" y="3492.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">liveness, readiness</text>
-    <rect x="1006.7" y="3461.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="1014.7" y="3478.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">shutdown</text>
-    <text x="1014.7" y="3492.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">graceful shutdown</text>
-    <rect x="272.0" y="3531.0" width="912.0" height="92.0" rx="6" fill="#E3EFFF"/>
-    <rect x="284.0" y="3543.0" width="233.8" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
-    <text x="292.0" y="3555.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">architecture/pattern/caching/core</text>
-    <text x="284.0" y="3579.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-caching</text>
-    <text x="284.0" y="3611.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">cache-aside, read-through, write-through, write-behind, refresh-ahead</text>
-    <rect x="272.0" y="3639.0" width="912.0" height="151.0" rx="6" fill="#E3EFFF"/>
-    <rect x="284.0" y="3651.0" width="253.6" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
-    <text x="292.0" y="3663.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">architecture/pattern/resilience/core</text>
-    <text x="284.0" y="3687.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-resilience</text>
-    <text x="284.0" y="3719.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">survive a failing dependency</text>
-    <rect x="284.0" y="3736.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="292.0" y="3753.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">circuitbreaker</text>
-    <text x="292.0" y="3767.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">fail fast</text>
-    <rect x="420.0" y="3736.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="428.0" y="3753.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">retry</text>
-    <text x="428.0" y="3767.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">transient faults</text>
-    <rect x="556.0" y="3736.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="564.0" y="3753.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">backoff</text>
-    <text x="564.0" y="3767.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">exponential, jitter</text>
-    <rect x="692.0" y="3736.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="700.0" y="3753.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">timeout</text>
-    <text x="700.0" y="3767.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">bounded waits</text>
-    <rect x="828.0" y="3736.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="836.0" y="3753.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">bulkhead</text>
-    <text x="836.0" y="3767.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">isolated pools</text>
-    <rect x="964.0" y="3736.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="972.0" y="3753.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">fallback</text>
-    <text x="972.0" y="3767.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">degraded answer</text>
-    <rect x="272.0" y="3806.0" width="912.0" height="151.0" rx="6" fill="#E3EFFF"/>
-    <rect x="284.0" y="3818.0" width="233.8" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
-    <text x="292.0" y="3830.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">architecture/pattern/traffic/core</text>
-    <text x="284.0" y="3854.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-traffic</text>
-    <text x="284.0" y="3886.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">control of incoming load</text>
-    <rect x="284.0" y="3903.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="292.0" y="3920.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">ratelimit</text>
-    <text x="292.0" y="3934.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">quotas per client</text>
-    <rect x="420.0" y="3903.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="428.0" y="3920.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">throttling</text>
-    <text x="428.0" y="3934.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">rate smoothing</text>
-    <rect x="556.0" y="3903.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="564.0" y="3920.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">shedding</text>
-    <text x="564.0" y="3934.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">load shedding</text>
-    <rect x="692.0" y="3903.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="700.0" y="3920.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">backpressure</text>
-    <text x="700.0" y="3934.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">slow the producer</text>
-    <rect x="272.0" y="3973.0" width="912.0" height="151.0" rx="6" fill="#E3EFFF"/>
-    <rect x="284.0" y="3985.0" width="233.8" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
-    <text x="292.0" y="3997.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">architecture/pattern/rollout/core</text>
-    <text x="284.0" y="4021.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-rollout</text>
-    <text x="284.0" y="4053.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">features released in code</text>
-    <rect x="284.0" y="4070.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="292.0" y="4087.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">featureflag</text>
-    <text x="292.0" y="4101.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">on, off per user</text>
-    <rect x="420.0" y="4070.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="428.0" y="4087.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">killswitch</text>
-    <text x="428.0" y="4101.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">emergency off</text>
-    <rect x="556.0" y="4070.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="564.0" y="4087.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">canary</text>
-    <text x="564.0" y="4101.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">growing share</text>
-    <rect x="692.0" y="4070.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="700.0" y="4087.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">darklaunch</text>
-    <text x="700.0" y="4101.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">run, not shown</text>
-    <rect x="828.0" y="4070.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
-    <text x="836.0" y="4087.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">experiment</text>
-    <text x="836.0" y="4101.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">A/B tests</text>
-    <rect x="40.0" y="3014" width="1160.0" height="1126" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
-    <text x="56.0" y="3054.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1F2328" text-anchor="start">pattern</text>
-    <text x="56.0" y="3072.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">a module per pattern or per</text>
-    <text x="56.0" y="3085.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">group of patterns</text>
+    <rect x="272.0" y="2065.0" width="912.0" height="151.0" rx="6" fill="#E3EFFF"/>
+    <rect x="284.0" y="2077.0" width="115.0" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
+    <text x="292.0" y="2089.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">design/dbc/core</text>
+    <text x="284.0" y="2113.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-dbc</text>
+    <text x="284.0" y="2145.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">contracts checked at run time</text>
+    <rect x="284.0" y="2162.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="292.0" y="2179.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">condition</text>
+    <text x="292.0" y="2193.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">pre, postconditions</text>
+    <rect x="420.0" y="2162.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="428.0" y="2179.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">invariant</text>
+    <text x="428.0" y="2193.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">type invariants</text>
+    <rect x="40.0" y="2049" width="1160.0" height="183" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
+    <text x="56.0" y="2089.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1F2328" text-anchor="start">dbc</text>
+    <text x="56.0" y="2107.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">design by contract: what a</text>
+    <text x="56.0" y="2120.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">call and a type guarantee</text>
+    <rect x="272.0" y="2280.0" width="912.0" height="151.0" rx="6" fill="#E3EFFF"/>
+    <rect x="284.0" y="2292.0" width="141.4" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
+    <text x="292.0" y="2304.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">design/algebra/core</text>
+    <text x="284.0" y="2328.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-algebra</text>
+    <text x="284.0" y="2360.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">orders and structures with their laws</text>
+    <rect x="284.0" y="2377.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="292.0" y="2394.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">relation</text>
+    <text x="292.0" y="2408.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">orders, equivalence</text>
+    <rect x="420.0" y="2377.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="428.0" y="2394.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">structure</text>
+    <text x="428.0" y="2408.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">monoids, groups</text>
+    <rect x="40.0" y="2264" width="1160.0" height="183" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
+    <text x="56.0" y="2304.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1F2328" text-anchor="start">algebra</text>
+    <text x="56.0" y="2322.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">algebraic abstractions: the</text>
+    <text x="56.0" y="2335.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">laws an operation obeys</text>
+    <rect x="16.0" y="2519.0" width="1208.0" height="1753.0" rx="12" fill="#FFFFFF"/>
+    <text x="40.0" y="2549.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="16" font-weight="600" fill="#1F2328" text-anchor="start">architecture</text>
+    <rect x="167.2" y="2534.0" width="247.5" height="18" rx="4" fill="#59636E" fill-opacity="0.2"/>
+    <text x="175.2" y="2546.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="start">styles of a service and the patterns it applies</text>
+    <rect x="272.0" y="2600.0" width="448.0" height="151.0" rx="6" fill="#E3EFFF"/>
+    <rect x="284.0" y="2612.0" width="220.6" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
+    <text x="292.0" y="2624.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">architecture/style/layered/core</text>
+    <text x="284.0" y="2648.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-layered</text>
+    <text x="284.0" y="2680.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">tiers call downward</text>
+    <rect x="284.0" y="2697.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="292.0" y="2714.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">layer</text>
+    <text x="292.0" y="2728.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">layer annotations</text>
+    <rect x="420.0" y="2697.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="428.0" y="2714.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">error</text>
+    <text x="428.0" y="2728.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">layer exceptions</text>
+    <rect x="736.0" y="2600.0" width="448.0" height="151.0" rx="6" fill="#E3EFFF"/>
+    <rect x="748.0" y="2612.0" width="207.4" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
+    <text x="756.0" y="2624.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">architecture/style/onion/core</text>
+    <text x="748.0" y="2648.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-onion</text>
+    <text x="748.0" y="2680.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">rings around a domain</text>
+    <rect x="748.0" y="2697.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="756.0" y="2714.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">layer</text>
+    <text x="756.0" y="2728.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">layer annotations</text>
+    <rect x="884.0" y="2697.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="892.0" y="2714.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">error</text>
+    <text x="892.0" y="2728.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">layer exceptions</text>
+    <rect x="272.0" y="2767.0" width="448.0" height="151.0" rx="6" fill="#E3EFFF"/>
+    <rect x="284.0" y="2779.0" width="207.4" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
+    <text x="292.0" y="2791.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">architecture/style/clean/core</text>
+    <text x="284.0" y="2815.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-clean</text>
+    <text x="284.0" y="2847.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">dependencies point in</text>
+    <rect x="284.0" y="2864.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="292.0" y="2881.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">layer</text>
+    <text x="292.0" y="2895.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">layer annotations</text>
+    <rect x="420.0" y="2864.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="428.0" y="2881.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">error</text>
+    <text x="428.0" y="2895.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">layer exceptions</text>
+    <rect x="736.0" y="2767.0" width="448.0" height="151.0" rx="6" fill="#E3EFFF"/>
+    <rect x="748.0" y="2779.0" width="227.2" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
+    <text x="756.0" y="2791.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">architecture/style/explicit/core</text>
+    <text x="748.0" y="2815.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-explicit</text>
+    <text x="748.0" y="2847.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">onion and clean, no ports</text>
+    <rect x="748.0" y="2864.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="756.0" y="2881.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">layer</text>
+    <text x="756.0" y="2895.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">layer annotations</text>
+    <rect x="884.0" y="2864.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="892.0" y="2881.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">error</text>
+    <text x="892.0" y="2895.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">layer exceptions</text>
+    <rect x="40.0" y="2584" width="1160.0" height="350" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
+    <text x="56.0" y="2624.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1F2328" text-anchor="start">style</text>
+    <text x="56.0" y="2642.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">a module per style; each</text>
+    <text x="56.0" y="2655.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">extends the one before it and</text>
+    <text x="56.0" y="2668.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">adds the errors of its layers</text>
+    <rect x="272.0" y="2982.0" width="912.0" height="92.0" rx="6" fill="#E3EFFF"/>
+    <rect x="284.0" y="2994.0" width="187.6" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
+    <text x="292.0" y="3006.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">architecture/boundary/core</text>
+    <text x="284.0" y="3030.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-boundary</text>
+    <text x="284.0" y="3062.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">architectural boundaries: contract scope, version introduced</text>
+    <rect x="40.0" y="2966" width="1160.0" height="124" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
+    <text x="56.0" y="3006.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1F2328" text-anchor="start">boundary</text>
+    <text x="56.0" y="3024.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">what a component publishes to</text>
+    <text x="56.0" y="3037.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">other systems and how it</text>
+    <text x="56.0" y="3050.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">evolves</text>
+    <rect x="272.0" y="3138.0" width="448.0" height="151.0" rx="6" fill="#E3EFFF"/>
+    <rect x="284.0" y="3150.0" width="293.2" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
+    <text x="292.0" y="3162.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">architecture/pattern/persistence/cqrs/core</text>
+    <text x="284.0" y="3186.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-cqrs</text>
+    <text x="284.0" y="3218.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">separate write and read models</text>
+    <rect x="284.0" y="3235.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="292.0" y="3252.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">command</text>
+    <text x="292.0" y="3266.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">commands, handlers</text>
+    <rect x="420.0" y="3235.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="428.0" y="3252.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">query</text>
+    <text x="428.0" y="3266.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">queries, handlers</text>
+    <rect x="556.0" y="3235.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="564.0" y="3252.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">bus</text>
+    <text x="564.0" y="3266.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">command, query bus</text>
+    <rect x="736.0" y="3138.0" width="448.0" height="151.0" rx="6" fill="#E3EFFF"/>
+    <rect x="748.0" y="3150.0" width="359.2" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
+    <text x="756.0" y="3162.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">architecture/pattern/persistence/event-sourcing/core</text>
+    <text x="748.0" y="3186.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-event-sourcing</text>
+    <text x="748.0" y="3218.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">state rebuilt from events</text>
+    <rect x="748.0" y="3235.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="756.0" y="3252.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">store</text>
+    <text x="756.0" y="3266.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">append-only store</text>
+    <rect x="884.0" y="3235.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="892.0" y="3252.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">snapshot</text>
+    <text x="892.0" y="3266.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">state checkpoints</text>
+    <rect x="1020.0" y="3235.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="1028.0" y="3252.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">projection</text>
+    <text x="1028.0" y="3266.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">read models</text>
+    <rect x="272.0" y="3305.0" width="448.0" height="151.0" rx="6" fill="#E3EFFF"/>
+    <rect x="284.0" y="3317.0" width="346.0" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
+    <text x="292.0" y="3329.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">architecture/pattern/persistence/unit-of-work/core</text>
+    <text x="284.0" y="3353.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-unit-of-work</text>
+    <text x="284.0" y="3385.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">changes committed atomically</text>
+    <rect x="284.0" y="3402.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="292.0" y="3419.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">tracking</text>
+    <text x="292.0" y="3433.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">new, dirty, removed</text>
+    <rect x="420.0" y="3402.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="428.0" y="3419.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">commit</text>
+    <text x="428.0" y="3433.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">one transaction</text>
+    <rect x="736.0" y="3305.0" width="448.0" height="151.0" rx="6" fill="#E3EFFF"/>
+    <rect x="748.0" y="3317.0" width="240.4" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
+    <text x="756.0" y="3329.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">architecture/pattern/delivery/core</text>
+    <text x="748.0" y="3353.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-delivery</text>
+    <text x="748.0" y="3385.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">transactional outbox and inbox: exactly once together</text>
+    <rect x="748.0" y="3402.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="756.0" y="3419.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">outbox</text>
+    <text x="756.0" y="3433.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">at least once</text>
+    <rect x="884.0" y="3402.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="892.0" y="3419.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">inbox</text>
+    <text x="892.0" y="3433.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">at most once</text>
+    <rect x="1020.0" y="3402.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="1028.0" y="3419.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">idempotency</text>
+    <text x="1028.0" y="3433.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">idempotency keys</text>
+    <rect x="272.0" y="3472.0" width="298.7" height="151.0" rx="6" fill="#E3EFFF"/>
+    <rect x="284.0" y="3484.0" width="266.8" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
+    <text x="292.0" y="3496.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">architecture/pattern/coordination/core</text>
+    <text x="284.0" y="3520.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-coordination</text>
+    <text x="284.0" y="3552.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">processes acting in step</text>
+    <rect x="284.0" y="3569.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="292.0" y="3586.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">saga</text>
+    <text x="292.0" y="3600.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">compensating steps</text>
+    <rect x="420.0" y="3569.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="428.0" y="3586.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">lock</text>
+    <text x="428.0" y="3600.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">distributed lock</text>
+    <rect x="586.7" y="3472.0" width="597.3" height="151.0" rx="6" fill="#E3EFFF"/>
+    <rect x="598.7" y="3484.0" width="247.0" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
+    <text x="606.7" y="3496.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">architecture/pattern/lifecycle/core</text>
+    <text x="598.7" y="3520.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-lifecycle</text>
+    <text x="598.7" y="3552.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">a process from start to stop</text>
+    <rect x="598.7" y="3569.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="606.7" y="3586.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">startup</text>
+    <text x="606.7" y="3600.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">graceful startup</text>
+    <rect x="734.7" y="3569.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="742.7" y="3586.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">warmup</text>
+    <text x="742.7" y="3600.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">caches, pools, JIT</text>
+    <rect x="870.7" y="3569.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="878.7" y="3586.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">health</text>
+    <text x="878.7" y="3600.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">liveness, readiness</text>
+    <rect x="1006.7" y="3569.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="1014.7" y="3586.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">shutdown</text>
+    <text x="1014.7" y="3600.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">graceful shutdown</text>
+    <rect x="272.0" y="3639.0" width="912.0" height="92.0" rx="6" fill="#E3EFFF"/>
+    <rect x="284.0" y="3651.0" width="233.8" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
+    <text x="292.0" y="3663.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">architecture/pattern/caching/core</text>
+    <text x="284.0" y="3687.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-caching</text>
+    <text x="284.0" y="3719.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">cache-aside, read-through, write-through, write-behind, refresh-ahead</text>
+    <rect x="272.0" y="3747.0" width="912.0" height="151.0" rx="6" fill="#E3EFFF"/>
+    <rect x="284.0" y="3759.0" width="253.6" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
+    <text x="292.0" y="3771.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">architecture/pattern/resilience/core</text>
+    <text x="284.0" y="3795.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-resilience</text>
+    <text x="284.0" y="3827.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">survive a failing dependency</text>
+    <rect x="284.0" y="3844.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="292.0" y="3861.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">circuitbreaker</text>
+    <text x="292.0" y="3875.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">fail fast</text>
+    <rect x="420.0" y="3844.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="428.0" y="3861.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">retry</text>
+    <text x="428.0" y="3875.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">transient faults</text>
+    <rect x="556.0" y="3844.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="564.0" y="3861.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">backoff</text>
+    <text x="564.0" y="3875.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">exponential, jitter</text>
+    <rect x="692.0" y="3844.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="700.0" y="3861.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">timeout</text>
+    <text x="700.0" y="3875.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">bounded waits</text>
+    <rect x="828.0" y="3844.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="836.0" y="3861.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">bulkhead</text>
+    <text x="836.0" y="3875.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">isolated pools</text>
+    <rect x="964.0" y="3844.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="972.0" y="3861.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">fallback</text>
+    <text x="972.0" y="3875.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">degraded answer</text>
+    <rect x="272.0" y="3914.0" width="912.0" height="151.0" rx="6" fill="#E3EFFF"/>
+    <rect x="284.0" y="3926.0" width="233.8" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
+    <text x="292.0" y="3938.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">architecture/pattern/traffic/core</text>
+    <text x="284.0" y="3962.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-traffic</text>
+    <text x="284.0" y="3994.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">control of incoming load</text>
+    <rect x="284.0" y="4011.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="292.0" y="4028.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">ratelimit</text>
+    <text x="292.0" y="4042.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">quotas per client</text>
+    <rect x="420.0" y="4011.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="428.0" y="4028.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">throttling</text>
+    <text x="428.0" y="4042.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">rate smoothing</text>
+    <rect x="556.0" y="4011.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="564.0" y="4028.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">shedding</text>
+    <text x="564.0" y="4042.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">load shedding</text>
+    <rect x="692.0" y="4011.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="700.0" y="4028.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">backpressure</text>
+    <text x="700.0" y="4042.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">slow the producer</text>
+    <rect x="272.0" y="4081.0" width="912.0" height="151.0" rx="6" fill="#E3EFFF"/>
+    <rect x="284.0" y="4093.0" width="233.8" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
+    <text x="292.0" y="4105.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">architecture/pattern/rollout/core</text>
+    <text x="284.0" y="4129.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-rollout</text>
+    <text x="284.0" y="4161.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">features released in code</text>
+    <rect x="284.0" y="4178.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="292.0" y="4195.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">featureflag</text>
+    <text x="292.0" y="4209.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">on, off per user</text>
+    <rect x="420.0" y="4178.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="428.0" y="4195.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">killswitch</text>
+    <text x="428.0" y="4209.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">emergency off</text>
+    <rect x="556.0" y="4178.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="564.0" y="4195.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">canary</text>
+    <text x="564.0" y="4209.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">growing share</text>
+    <rect x="692.0" y="4178.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="700.0" y="4195.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">darklaunch</text>
+    <text x="700.0" y="4209.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">run, not shown</text>
+    <rect x="828.0" y="4178.0" width="128.0" height="42" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="836.0" y="4195.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">experiment</text>
+    <text x="836.0" y="4209.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">A/B tests</text>
+    <rect x="40.0" y="3122" width="1160.0" height="1126" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
+    <text x="56.0" y="3162.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1F2328" text-anchor="start">pattern</text>
+    <text x="56.0" y="3180.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">a module per pattern or per</text>
+    <text x="56.0" y="3193.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">group of patterns</text>
   </g>
 </svg>

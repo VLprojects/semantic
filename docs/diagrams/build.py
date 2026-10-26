@@ -271,6 +271,7 @@ TREE = [
 				("dsl", "business rule DSL"), ("architecture", "domain errors", ["error"]),
 				("support", "collection helpers"),
 			]))],
+			[(1, ("blue", "design/ddd/jackson", "semantic-ddd-jackson", "identifiers in JSON as the value they box"))],
 			[(1, ("green", "design/ddd/spring/data/core", "semantic-ddd-spring-data", "aggregates in Spring Data")),
 				(1, ("green", "design/ddd/spring/data/jpa", "semantic-ddd-spring-data-jpa", "JPA mapping")),
 				(1, ("green", "design/ddd/spring/data/mongodb", "semantic-ddd-spring-data-mongodb", "MongoDB mapping"))],
@@ -342,7 +343,7 @@ TREE = [
 	])],
 ]
 LAYER_NOTES = {
-	"JVM": "Kotlin and the JDK only, no Spring, no Jakarta, no annotations",
+	"JVM": "Kotlin and the JDK, or one library such as Jackson; no Spring, no Jakarta",
 	"Spring": "Spring and Spring Data, mapping and callbacks; no Spring Boot, a service takes them by @Import",
 	"Spring Boot": "@AutoConfiguration on @ConditionalOnClass, keys under semantic.ddd; a starter holds dependencies only",
 }
@@ -497,8 +498,8 @@ def families(pal):
 # the row, a store and its starter share a column, and the starters, what a service adds, come last. An
 # arrow points to what a module needs: it starts on a dot and ends on a filled head, both 3 off the blocks,
 # and what it takes is said beside it. Every arrow is violet; its line is its kind, as in UML: solid builds
-# on the classes of the module it points to, extending them or implementing them, dashed is a dependency the
-# starter declares, dotted configures a module only when the service has it. An arrow that has a row to
+# on the classes of the module it points to, extending them or implementing them, dashed is an api dependency
+# a module declares, dotted configures a module only when the service has it. An arrow that has a row to
 # skip, from a starter up to its store, takes a lane beside the blocks, left for the left column and right
 # for the right one, and enters them from the side; its note keeps 8 off the lane and more than the padding
 # of a block off the block, so it reads with the lane. The page is wider than the family map, so the
@@ -551,6 +552,14 @@ def link(a, x, y1, y2, dash):
 	dot(a, x, start)
 	_, by = arrowhead(a, x, y2 + AIR, 0, -1)
 	line(a, f"M{x},{start} L{x},{by}", dash)
+
+
+def across(a, x1, x2, y, dash):
+	d = 1 if x2 > x1 else -1
+	start = x1 + d * (AIR + DOT)
+	dot(a, start, y)
+	bx, _ = arrowhead(a, x2 - d * AIR, y, d, 0)
+	line(a, f"M{start},{y} L{bx},{y}", dash)
 
 
 def bypass(a, edge, lane, y1, y2, dash):
@@ -617,7 +626,8 @@ def dependencies(pal):
 		layer(a, edge, top, width, height)
 		caption(a, edge + FRAME, top + FRAME, name)
 	for x, top, width, hue, directory, artifact, note in (
-		(left, core, bw, "blue", "ddd/core", "semantic-ddd", "entities, aggregates, events; no framework"),
+		(left, core, w, "blue", "ddd/core", "semantic-ddd", "entities, aggregates, events; no framework"),
+		(right, core, w, "blue", "ddd/jackson", "semantic-ddd-jackson", "identifiers in JSON as the value they box"),
 		(left, data, bw, "green", "ddd/spring/data/core", "semantic-ddd-spring-data", "aggregates saved by a Spring Data repository"),
 		(left, stores, w, "green", "ddd/spring/data/jpa", "semantic-ddd-spring-data-jpa", "base classes with JPA mapping"),
 		(right, stores, w, "green", "ddd/spring/data/mongodb", "semantic-ddd-spring-data-mongodb",
@@ -631,11 +641,10 @@ def dependencies(pal):
 		block(a, x, top, width, hue, directory, artifact, note)
 	ghost(a, more, stores, MORE, "ddd/spring/data/*", "other stores", "Redis, Cassandra, Neo4j")
 	ghost(a, more, starters, MORE, "ddd/spring-boot/starter/*", "other starters", "one per store")
-	# an arrow keeps a third of its column, so its note fits the column; the one between two full rows keeps
-	# the middle of the row
-	middle, jpa, mongodb = start + bw / 2, left + w / 3, right + w / 3
+	# an arrow keeps a third of its column, so its note fits the column
+	jpa, mongodb = left + w / 3, right + w / 3
 	for x, source, target, dash in (
-		(middle, data, core, BUILDS), (jpa, stores, data, BUILDS), (mongodb, stores, data, BUILDS),
+		(jpa, data, core, BUILDS), (jpa, stores, data, BUILDS), (mongodb, stores, data, BUILDS),
 		(jpa, boot, stores, CONFIGURES), (mongodb, boot, stores, CONFIGURES),
 		(jpa, starters, boot, DECLARES), (mongodb, starters, boot, DECLARES),
 	):
@@ -643,9 +652,12 @@ def dependencies(pal):
 	lane_left, lane_right = start - RUN, end + RUN
 	bypass(a, start, lane_left, starters + BLOCK / 2, stores + BLOCK / 2, DECLARES)
 	bypass(a, end, lane_right, starters + BLOCK / 2, stores + BLOCK / 2, DECLARES)
+	# Jackson stands beside the core it depends on, so its arrow runs across the column between them
+	across(a, right, left + w, core + BLOCK / 2, DECLARES)
+	a.t((left + w + right) / 2, core + BLOCK / 2 - 12, "api dependency: identifiers", anchor="middle")
 	# a note stands 8 off its arrow, on its middle, and says what the module takes
 	for x, source, target, note in (
-		(middle, data, core, "extends base classes, implements interfaces"),
+		(jpa, data, core, "extends base classes, implements interfaces"),
 		(jpa, stores, data, "extends Spring Data base classes"),
 		(mongodb, stores, data, "extends Spring Data base classes"),
 		(jpa, boot, stores, "configures on @ConditionalOnClass"),

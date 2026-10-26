@@ -14,8 +14,8 @@ entity by itself. The packages below are laid out for what is to come.
 
 | Package | Auto-configuration | When | What it registers |
 | --- | --- | --- | --- |
+| `repository` | `SpecificationRepositoryAutoConfiguration` | `semantic-ddd-spring-data` and Querydsl are present | what a repository needs to find entities by a `Specification`: the metadata of the repository exposed to its fragments |
 | `web` | `IdentifierConversionAutoConfiguration` | `semantic-ddd-spring-web` is present | the converter of a `String` to a `BoxedIdentifier`, so `@PathVariable id: CartId` and `@PathVariable cart: Cart` work |
-| `jackson` | `IdentifierJacksonAutoConfiguration` | `semantic-ddd-jackson` is present | the module that writes a `BoxedIdentifier` as the value it boxes, `42`, not `{"value": 42}` |
 | `mongodb` | `MongoAutoConfiguration` | `semantic-ddd-spring-data-mongodb` is present | the callbacks that mark an aggregate persisted on load and after save, the conversions of a key |
 | `events` | `EventMetricsAutoConfiguration` | a `MeterRegistry` is present | a counter of the published events, tagged by the event and the aggregate |
 | `verification` | `ModelVerificationAutoConfiguration` | `semantic.ddd.verify` is on | a check on start: a repository of an entity that is not a root, a key with no constructor JPA can call |
@@ -23,11 +23,17 @@ entity by itself. The packages below are laid out for what is to come.
 `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`
 lists the auto-configurations once the first of them is written.
 
+The modules it configures are `compileOnly`: an auto-configuration turns on
+when the service has the module, and the auto-configuration never brings one.
+The starter of a store brings the modules of that store; any other module the
+service adds itself.
+
 ## What it does not hold
 
-- The converters, serializers and callbacks themselves: they live in the
-  modules of their technology, `semantic-ddd-spring-web`, `semantic-ddd-jackson`,
-  `semantic-ddd-spring-data-mongodb`, and work without Spring Boot.
+- The converters, the Jackson module and the callbacks themselves: they live
+  in the modules of their technology, `semantic-ddd-spring-web`,
+  `semantic-ddd-jackson`, `semantic-ddd-spring-data-mongodb`, and work without
+  Spring Boot.
 - A bean the service cannot replace: every one is `@ConditionalOnMissingBean`.
 - `@ComponentScan` or an `@Enable…` annotation, which would take over the
   configuration of the service.

@@ -99,6 +99,8 @@ Approaches to designing a model and its abstractions.
   - `dsl`: the business rule DSL: `rule`, `checkRule`.
   - `architecture.error`: `DomainException` and its kinds.
   - `support`: collection helpers for aggregates.
+- **`semantic-ddd-jackson`** `design/ddd/jackson`: a Jackson module that writes
+  an identifier in JSON as the value it boxes and reads it back; no Spring.
 - **`semantic-ddd-spring-data`** `design/ddd/spring/data/core`: bases of
   aggregate roots and entities that a Spring Data repository saves, their
   events published on save.
