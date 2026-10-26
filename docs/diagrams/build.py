@@ -273,20 +273,23 @@ def families(pal):
 # skip, from a starter up to its store, takes a lane beside the blocks, left for the left column and right
 # for the right one, and enters them from the side; its note keeps 8 off the lane and more than the padding
 # of a block off the block, so it reads with the lane. The page is wider than the family map, so the
-# longest starter fits half a row. The gaps that hold arrows are 48 inside a level and 56 between levels,
-# on the grid of 4
-DEP_W, DEP_ROW, DEP_LEVEL, BEND = 1040, 48, 56, 8  # page, gaps with arrows, bends
-LANE, RUN = 88, 56  # room beside the blocks, and how far out of it the lane runs
+# longest starter fits half a row. A layer, JVM, Spring or Spring Boot, is a dotted frame 16 off its blocks
+# with its name in the corner, and 32 off the next one, so a frame holds its blocks closer than its
+# neighbour; the rows inside a layer are 48 apart, on the grid of 4
+DEP_W, DEP_ROW, BEND = 960, 48, 8  # page, gap with arrows inside a layer, bends
+FRAME, FRAMES, HEADER = 16, 32, 40  # padding of a layer, gap between layers, top of a layer down to its blocks
+LANE, RUN = 96, 64  # room beside the blocks, and how far out of it the lane runs
 ARROW = "violet-link"
-BUILDS, DECLARES, CONFIGURES = None, "5 4", "0.01 3"  # the dash of each kind; a dot of 1.5 and a gap of the same
+BUILDS, DECLARES, CONFIGURES = None, "3 4", "0.01 3"  # the dash of each kind; dots of 2, a pixel apart
 HEAD, HALF, DOT, AIR = 5, 2.5, 2, 3  # length of a head and half its base, radius of a dot, air to a block
 
 
 def line(a, d, dash):
 	"""A violet line along d, dashed by its kind."""
 	pattern = f' stroke-dasharray="{dash}"' if dash else ""
+	width = 2 if dash == CONFIGURES else 1.5  # a dot as thin as the line is lost
 	a.add(
-		f'<path d="{d}" stroke="{a.p[ARROW]}" stroke-width="1.5" fill="none" stroke-linecap="round" '
+		f'<path d="{d}" stroke="{a.p[ARROW]}" stroke-width="{width}" fill="none" stroke-linecap="round" '
 		f'stroke-linejoin="round"{pattern}/>'
 	)
 
@@ -331,24 +334,40 @@ def along(a, x, y, s):
 	a.add("</g>")
 
 
+def layer(a, x, y, w, h, name):
+	"""A layer of the family: a dotted frame around its blocks, its name in the corner."""
+	a.add(
+		f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="12" fill="none" stroke="{a.p["line"]}" '
+		f'stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>'
+	)
+	a.t(x + FRAME, y + FRAME + 9, name)
+
+
 def dependencies(pal):
 	a = Art(DEP_W, 0, pal)
 	cw = DEP_W - 2 * X0
-	start, end = BX + LANE, X0 + cw - INSET - LANE
+	start, end = X0 + INSET + LANE, X0 + cw - INSET - LANE
 	bw = end - start
 	w = (bw - GAP) / 2
 	left, right = start, start + w + GAP
-	tops, y = [], 64
-	for gap in (0, DEP_LEVEL, DEP_ROW, DEP_LEVEL, DEP_ROW):
-		y += gap
-		tops.append(y)
-		y += BLOCK
+	tops, frames, y = [], [], 64
+	for name, rows in (("JVM", 1), ("Spring", 2), ("Spring Boot", 2)):
+		frame = y
+		y += HEADER
+		for row in range(rows):
+			y += DEP_ROW if row else 0
+			tops.append(y)
+			y += BLOCK
+		y += FRAME
+		frames.append((name, frame, y - frame))
+		y += FRAMES
+	y -= FRAMES
 	core, data, stores, boot, starters = tops
 	a.rect(X0, 16, cw, y + INSET - 16, "plate", r=12)
 	a.t(X0 + INSET, 46, "ddd", size=TITLE, color="ink", weight="600", mono=True)
 	tag(a, X0 + INSET + 0.6 * TITLE * 3 + 12, 31, "in development, v1")
-	for level, top in (("JVM", core), ("Spring", data), ("Spring Boot", boot)):
-		a.t(X0 + INSET, top + 48, level)  # on the baseline of the artifacts in its row
+	for name, top, height in frames:
+		layer(a, start - FRAME, top, bw + 2 * FRAME, height, name)
 	for x, top, width, hue, directory, artifact, note in (
 		(left, core, bw, "blue", "ddd/core", "semantic-ddd", "entities, aggregates, events; no framework"),
 		(left, data, bw, "green", "ddd/spring-data", "semantic-ddd-spring-data", "aggregates saved by a Spring Data repository"),
@@ -374,13 +393,14 @@ def dependencies(pal):
 	lane_left, lane_right = start - RUN, end + RUN
 	bypass(a, start, lane_left, starters + BLOCK / 2, stores + BLOCK / 2, DECLARES)
 	bypass(a, end, lane_right, starters + BLOCK / 2, stores + BLOCK / 2, DECLARES)
-	# a note stands 8 off its arrow, on the middle of the gap, and says what the module takes
+	# a note stands 8 off its arrow, on the middle of the gap between the blocks or between the layers, and
+	# says what the module takes
 	for x, gap_top, gap, note, color, anchor in (
-		(middle + 8, core + BLOCK, DEP_LEVEL, "extends base classes, implements interfaces", "soft", "start"),
+		(middle + 8, core + BLOCK + FRAME, FRAMES, "extends base classes, implements interfaces", "soft", "start"),
 		(jpa + 8, data + BLOCK, DEP_ROW, "extends Spring Data base classes", "soft", "start"),
 		(mongodb + 8, data + BLOCK, DEP_ROW, "extends Spring Data base classes", "soft", "start"),
-		(jpa + 8, stores + BLOCK, DEP_LEVEL, "configures on @ConditionalOnClass", "soft", "start"),
-		(mongodb + 8, stores + BLOCK, DEP_LEVEL, "configures on @ConditionalOnClass", "soft", "start"),
+		(jpa + 8, stores + BLOCK + FRAME, FRAMES, "configures on @ConditionalOnClass", "soft", "start"),
+		(mongodb + 8, stores + BLOCK + FRAME, FRAMES, "configures on @ConditionalOnClass", "soft", "start"),
 		(jpa + 8, boot + BLOCK, DEP_ROW, "api dependency: auto-configuration", "soft", "start"),
 		(mongodb + 8, boot + BLOCK, DEP_ROW, "api dependency: auto-configuration", "soft", "start"),
 	):
