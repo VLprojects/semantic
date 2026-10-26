@@ -41,6 +41,7 @@ spacing is measured on the render, not read off the code:
 """
 
 import pathlib
+import textwrap
 import unicodedata
 
 OUT = pathlib.Path(__file__).resolve().parent.parent / "assets"
@@ -274,14 +275,14 @@ def families(pal):
 # for the right one, and enters them from the side; its note keeps 8 off the lane and more than the padding
 # of a block off the block, so it reads with the lane. The page is wider than the family map, so the
 # longest starter fits half a row. A layer, JVM, Spring or Spring Boot, is a dotted frame across the plate,
-# 16 off its blocks, with its name in the gutter on the baseline of its first row, and 32 off the next one,
+# 16 off its blocks, with its name in the gutter on the line of the tags of its first row, and 48 off the next one,
 # so a frame holds its blocks closer than its neighbour. Rows inside a layer are as far apart as rows of two
 # layers, so every arrow up is as long as another, and the note of one between layers sits in the middle of
 # the gap between the frames
-DEP_W, BEND = 1040, 8  # page, bends
-FRAME, FRAMES = 16, 32  # padding of a layer, gap between layers
+DEP_W, BEND = 1112, 8  # page, bends
+FRAME, FRAMES = 16, 48  # padding of a layer, gap between layers
 DEP_ROW = 2 * FRAME + FRAMES  # gap between the rows of a layer, the same as between layers
-LEVEL_W, LANE, RUN = 160, 88, 56  # gutter for the name of a layer, room beside the blocks, lane out of them
+LEVEL_W, LANE, RUN = 232, 88, 56  # gutter for the name and the notes of a layer, room beside the blocks, lane out of them
 MARGIN = 24  # plate to its layers, more than a layer to its blocks
 ARROW = "violet-link"
 BUILDS, DECLARES, CONFIGURES = None, "3 4", "0.01 3"  # the dash of each kind; dots of 2, a pixel apart
@@ -357,7 +358,11 @@ def dependencies(pal):
 	w = (bw - GAP) / 2
 	left, right = start, start + w + GAP
 	tops, frames, y = [], [], 64
-	for name, rows in (("JVM", 1), ("Spring", 2), ("Spring Boot", 2)):
+	for name, rows, about in (
+		("JVM", 1, "Kotlin and the JDK only, no Spring, no Jakarta, no annotations"),
+		("Spring", 2, "Spring and Spring Data, mapping and callbacks; no Spring Boot, a service takes them by @Import"),
+		("Spring Boot", 2, "@AutoConfiguration on @ConditionalOnClass, keys under semantic.ddd; a starter holds dependencies only"),
+	):
 		frame = y
 		y += FRAME
 		for row in range(rows):
@@ -365,16 +370,19 @@ def dependencies(pal):
 			tops.append(y)
 			y += BLOCK
 		y += FRAME
-		frames.append((name, frame, y - frame))
+		frames.append((name, about, frame, y - frame))
 		y += FRAMES
 	y -= FRAMES
 	core, data, stores, boot, starters = tops
 	a.rect(X0, 16, cw, y + MARGIN - 16, "plate", r=12)
 	a.t(edge, 46, "ddd", size=TITLE, color="ink", weight="600", mono=True)
 	tag(a, edge + 0.6 * TITLE * 3 + 12, 31, "in development, v1")
-	for name, top, height in frames:
+	room = LEVEL_W - RUN - 2 * FRAME  # the gutter up to the lane
+	for name, about, top, height in frames:
 		layer(a, edge, top, width, height)
-		a.t(edge + FRAME, top + FRAME + 48, name)  # on the baseline of the artifacts of its first row
+		a.t(edge + FRAME, top + FRAME + 24.5, name)  # on the baseline of the tags of its first row
+		for i, s in enumerate(textwrap.wrap(about, int(room / (0.55 * TAG)))):
+			a.t(edge + FRAME, top + FRAME + 46 + 15 * i, s, size=TAG, color="mute")
 	for x, top, width, hue, directory, artifact, note in (
 		(left, core, bw, "blue", "ddd/core", "semantic-ddd", "entities, aggregates, events; no framework"),
 		(left, data, bw, "green", "ddd/spring-data", "semantic-ddd-spring-data", "aggregates saved by a Spring Data repository"),
