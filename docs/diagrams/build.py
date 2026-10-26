@@ -283,6 +283,7 @@ DEP_W, BEND = 1112, 8  # page, bends
 FRAME, FRAMES = 16, 48  # padding of a layer, gap between layers
 DEP_ROW = 2 * FRAME + FRAMES  # gap between the rows of a layer, the same as between layers
 LEVEL_W, LANE, RUN = 232, 88, 56  # gutter for the name and the notes of a layer, room beside the blocks, lane out of them
+ABOUT = 10  # the notes of a layer, under its name
 MARGIN = 24  # plate to its layers, more than a layer to its blocks
 ARROW = "violet-link"
 BUILDS, DECLARES, CONFIGURES = None, "3 4", "0.01 3"  # the dash of each kind; dots of 2, a pixel apart
@@ -380,9 +381,9 @@ def dependencies(pal):
 	room = LEVEL_W - RUN - 2 * FRAME  # the gutter up to the lane
 	for name, about, top, height in frames:
 		layer(a, edge, top, width, height)
-		a.t(edge + FRAME, top + FRAME + 24.5, name)  # on the baseline of the tags of its first row
-		for i, s in enumerate(textwrap.wrap(about, int(room / (0.55 * TAG)))):
-			a.t(edge + FRAME, top + FRAME + 46 + 15 * i, s, size=TAG, color="mute")
+		a.t(edge + FRAME, top + FRAME + 24.5, name, color="ink", weight="500")  # on the baseline of the tags of its first row
+		for i, s in enumerate(textwrap.wrap(about, int(room / (0.55 * ABOUT)))):
+			a.t(edge + FRAME, top + FRAME + 44 + 14 * i, s, size=ABOUT, color="mute")
 	for x, top, width, hue, directory, artifact, note in (
 		(left, core, bw, "blue", "ddd/core", "semantic-ddd", "entities, aggregates, events; no framework"),
 		(left, data, bw, "green", "ddd/spring-data", "semantic-ddd-spring-data", "aggregates saved by a Spring Data repository"),
