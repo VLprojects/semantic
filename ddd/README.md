@@ -164,7 +164,7 @@ Six artifacts, group `pro.vlprojects.semantic`:
 | `semantic-ddd-spring-data` | what every Spring Data store shares: `Persistable`, events handed out on save | core, `spring-data-commons`, `spring-aop` |
 | `semantic-ddd-spring-data-jpa` | aggregates mapped with JPA | the Spring Data module, `jakarta.persistence-api`, `spring-data-jpa` |
 | `semantic-ddd-spring-data-mongodb` | aggregates stored in MongoDB | the Spring Data module, `spring-data-mongodb` |
-| `semantic-ddd-spring-boot` | auto-configuration | the Spring Data module, Spring Boot |
+| `semantic-ddd-spring-boot` | auto-configuration, empty so far: [what it may hold](spring-boot/README.md) | the Spring Data module, Spring Boot |
 | `semantic-ddd-spring-boot-starter` | the usual way in: dependencies only | core, the Spring Data and Spring Boot modules |
 
 A service takes the starter and the module of its store, JPA or MongoDB: the
