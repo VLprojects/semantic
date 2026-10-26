@@ -224,9 +224,9 @@ def block(a, x, y, w, hue, directory, artifact, note):
 
 
 DDD_SPRING = [
-	("Spring Data", [("green", "ddd/spring-data", "semantic-ddd-spring-data", "what every store shares")]),
-	(None, [("green", "ddd/spring-data-jpa", "semantic-ddd-spring-data-jpa", "aggregates as JPA entities"),
-		("green", "ddd/spring-data-mongodb", "semantic-ddd-spring-data-mongodb", "aggregates as MongoDB documents")]),
+	("Spring Data", [("green", "ddd/spring-data", "semantic-ddd-spring-data", "aggregates saved by a Spring Data repository")]),
+	(None, [("green", "ddd/spring-data-jpa", "semantic-ddd-spring-data-jpa", "the bases mapped with JPA"),
+		("green", "ddd/spring-data-mongodb", "semantic-ddd-spring-data-mongodb", "the bases mapped for MongoDB")]),
 	("Spring Boot", [("green", "ddd/spring-boot", "semantic-ddd-spring-boot", "auto-configuration")]),
 	(None, [("green", "ddd/spring-boot-starter-jpa", "semantic-ddd-spring-boot-starter-jpa", "the way in for JPA")]),
 	(None, [("green", "ddd/spring-boot-starter-mongodb", "semantic-ddd-spring-boot-starter-mongodb",
@@ -244,7 +244,7 @@ def families(pal):
 		("JVM", [("blue", "format", "semantic-format", "cases, abbreviation, masking")]),
 	])
 	y = family(a, y, "ddd", "in development, v1", [
-		("JVM", [("blue", "ddd/core", "semantic-ddd", "building blocks, no framework")]),
+		("JVM", [("blue", "ddd/core", "semantic-ddd", "entities, aggregates, events; no framework")]),
 		*DDD_SPRING,
 	])
 	y = family(a, y, "cqrs", "in development", [
@@ -270,7 +270,7 @@ def families(pal):
 # right for the right one, and enters them from the side. The page is wider than the family map, so the
 # longest starter fits half a row. The gaps that hold arrows are 40 inside a level and 48 between levels,
 # on the grid of 4
-DEP_W, DEP_ROW, DEP_LEVEL, LANE, BEND = 976, 40, 48, 56, 8  # page, gaps with arrows, lanes beside the blocks, bends
+DEP_W, DEP_ROW, DEP_LEVEL, LANE, BEND = 1008, 40, 48, 72, 8  # page, gaps with arrows, lanes beside the blocks, bends
 ARROW = "mute"
 
 
@@ -317,16 +317,16 @@ def dependencies(pal):
 	for level, top in (("JVM", core), ("Spring Data", data), ("Spring Boot", boot)):
 		a.t(X0 + INSET, top + 48, level)  # on the baseline of the artifacts in its row
 	for x, top, width, hue, directory, artifact, note in (
-		(left, core, bw, "blue", "ddd/core", "semantic-ddd", "building blocks, no framework"),
-		(left, data, bw, "green", "ddd/spring-data", "semantic-ddd-spring-data", "what every store shares"),
-		(left, stores, w, "green", "ddd/spring-data-jpa", "semantic-ddd-spring-data-jpa", "aggregates as JPA entities"),
+		(left, core, bw, "blue", "ddd/core", "semantic-ddd", "entities, aggregates, events; no framework"),
+		(left, data, bw, "green", "ddd/spring-data", "semantic-ddd-spring-data", "aggregates saved by a Spring Data repository"),
+		(left, stores, w, "green", "ddd/spring-data-jpa", "semantic-ddd-spring-data-jpa", "the bases mapped with JPA"),
 		(right, stores, w, "green", "ddd/spring-data-mongodb", "semantic-ddd-spring-data-mongodb",
-			"aggregates as MongoDB documents"),
-		(left, boot, bw, "green", "ddd/spring-boot", "semantic-ddd-spring-boot", "auto-configuration"),
+			"the bases mapped for MongoDB"),
+		(left, boot, bw, "green", "ddd/spring-boot", "semantic-ddd-spring-boot", "registers beans of the modules it finds"),
 		(left, starters, w, "green", "ddd/spring-boot-starter-jpa", "semantic-ddd-spring-boot-starter-jpa",
-			"no code: all a JPA service adds"),
+			"the one dependency a JPA service declares"),
 		(right, starters, w, "green", "ddd/spring-boot-starter-mongodb", "semantic-ddd-spring-boot-starter-mongodb",
-			"no code: all a MongoDB service adds"),
+			"the one dependency a MongoDB service declares"),
 	):
 		block(a, x, top, width, hue, directory, artifact, note)
 	# an arrow keeps the middle of its column, the one between two full rows the middle of the row
@@ -343,17 +343,17 @@ def dependencies(pal):
 	# a note stands 8 off its arrow, on the middle of the gap, and says what the module takes
 	for x, gap_top, gap, note, color, anchor in (
 		(middle + 8, core + BLOCK, DEP_LEVEL, "extends the base classes", "soft", "start"),
-		(jpa + 8, data + BLOCK, DEP_ROW, "extends", "soft", "start"),
-		(mongodb + 8, data + BLOCK, DEP_ROW, "extends", "soft", "start"),
-		(jpa + 8, stores + BLOCK, DEP_LEVEL, "configures if present", "mute", "start"),
-		(mongodb + 8, stores + BLOCK, DEP_LEVEL, "configures if present", "mute", "start"),
-		(jpa + 8, boot + BLOCK, DEP_ROW, "adds the auto-configuration", "soft", "start"),
-		(mongodb + 8, boot + BLOCK, DEP_ROW, "adds the auto-configuration", "soft", "start"),
+		(jpa + 8, data + BLOCK, DEP_ROW, "extends the bases", "soft", "start"),
+		(mongodb + 8, data + BLOCK, DEP_ROW, "extends the bases", "soft", "start"),
+		(jpa + 8, stores + BLOCK, DEP_LEVEL, "configures when present", "mute", "start"),
+		(mongodb + 8, stores + BLOCK, DEP_LEVEL, "configures when present", "mute", "start"),
+		(jpa + 8, boot + BLOCK, DEP_ROW, "hands to the service", "soft", "start"),
+		(mongodb + 8, boot + BLOCK, DEP_ROW, "hands to the service", "soft", "start"),
 	):
 		a.t(x, gap_top + gap / 2 + 4, note, color=color, anchor=anchor)
-	# the note of a lane reads up it, between the lane and the blocks
-	along(a, start - LANE / 2 + 17, (stores + starters + BLOCK) / 2, "adds the JPA bases")
-	along(a, end + LANE / 2 - 11, (stores + starters + BLOCK) / 2, "adds the MongoDB bases")
+	# the note of a lane reads up it, centred between the lane and the blocks
+	for x in (start - LANE / 4, end + LANE / 4):
+		along(a, x + 4, (stores + starters + BLOCK) / 2, "hands to the service")
 	a.h = y + INSET
 	return a
 

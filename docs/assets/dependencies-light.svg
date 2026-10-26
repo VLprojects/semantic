@@ -1,87 +1,87 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 740" width="1000" height="740" role="img">
-  <rect width="1000" height="740" rx="12" fill="#F6F8FA"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1032 740" width="1032" height="740" role="img">
+  <rect width="1032" height="740" rx="12" fill="#F6F8FA"/>
   <g transform="translate(12,12)">
-    <rect x="16.0" y="16.0" width="944.0" height="700.0" rx="12" fill="#FFFFFF"/>
+    <rect x="16.0" y="16.0" width="976.0" height="700.0" rx="12" fill="#FFFFFF"/>
     <text x="32.0" y="46.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="16" font-weight="600" fill="#1F2328" text-anchor="start">ddd</text>
     <rect x="72.8" y="31.0" width="115.0" height="18" rx="4" fill="#59636E" fill-opacity="0.2"/>
     <text x="80.8" y="43.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="start">in development, v1</text>
     <text x="32.0" y="112.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">JVM</text>
     <text x="32.0" y="252.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">Spring Data</text>
     <text x="32.0" y="524.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">Spring Boot</text>
-    <rect x="172.0" y="64.0" width="716.0" height="92.0" rx="6" fill="#E3EFFF"/>
-    <rect x="184.0" y="76.0" width="68.8" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
-    <text x="192.0" y="88.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">ddd/core</text>
-    <text x="184.0" y="112.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd</text>
-    <text x="184.0" y="144.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">building blocks, no framework</text>
-    <rect x="172.0" y="204.0" width="716.0" height="92.0" rx="6" fill="#DDF7E7"/>
-    <rect x="184.0" y="216.0" width="115.0" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
-    <text x="192.0" y="228.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">ddd/spring-data</text>
-    <text x="184.0" y="252.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-data</text>
-    <text x="184.0" y="284.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">what every store shares</text>
-    <rect x="172.0" y="336.0" width="350.0" height="92.0" rx="6" fill="#DDF7E7"/>
-    <rect x="184.0" y="348.0" width="141.4" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
-    <text x="192.0" y="360.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">ddd/spring-data-jpa</text>
-    <text x="184.0" y="384.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-data-jpa</text>
-    <text x="184.0" y="416.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">aggregates as JPA entities</text>
-    <rect x="538.0" y="336.0" width="350.0" height="92.0" rx="6" fill="#DDF7E7"/>
-    <rect x="550.0" y="348.0" width="167.8" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
-    <text x="558.0" y="360.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">ddd/spring-data-mongodb</text>
-    <text x="550.0" y="384.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-data-mongodb</text>
-    <text x="550.0" y="416.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">aggregates as MongoDB documents</text>
-    <rect x="172.0" y="476.0" width="716.0" height="92.0" rx="6" fill="#DDF7E7"/>
-    <rect x="184.0" y="488.0" width="115.0" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
-    <text x="192.0" y="500.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">ddd/spring-boot</text>
-    <text x="184.0" y="524.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-boot</text>
-    <text x="184.0" y="556.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">auto-configuration</text>
-    <rect x="172.0" y="608.0" width="350.0" height="92.0" rx="6" fill="#DDF7E7"/>
-    <rect x="184.0" y="620.0" width="194.2" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
-    <text x="192.0" y="632.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">ddd/spring-boot-starter-jpa</text>
-    <text x="184.0" y="656.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-boot-starter-jpa</text>
-    <text x="184.0" y="688.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">no code: all a JPA service adds</text>
-    <rect x="538.0" y="608.0" width="350.0" height="92.0" rx="6" fill="#DDF7E7"/>
-    <rect x="550.0" y="620.0" width="220.6" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
-    <text x="558.0" y="632.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">ddd/spring-boot-starter-mongodb</text>
-    <text x="550.0" y="656.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-boot-starter-mongodb</text>
-    <text x="550.0" y="688.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">no code: all a MongoDB service adds</text>
-    <circle cx="530.0" cy="204" r="2.5" fill="#8C959F"/>
-    <path d="M530.0,204 L530.0,160" stroke="#8C959F" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M526.0,165 L530.0,160 L534.0,165" stroke="#8C959F" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="347.0" cy="336" r="2.5" fill="#8C959F"/>
-    <path d="M347.0,336 L347.0,300" stroke="#8C959F" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M343.0,305 L347.0,300 L351.0,305" stroke="#8C959F" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="713.0" cy="336" r="2.5" fill="#8C959F"/>
-    <path d="M713.0,336 L713.0,300" stroke="#8C959F" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M709.0,305 L713.0,300 L717.0,305" stroke="#8C959F" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="347.0" cy="476" r="2.5" fill="#AFB8C1"/>
-    <path d="M347.0,476 L347.0,432" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M343.0,437 L347.0,432 L351.0,437" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="713.0" cy="476" r="2.5" fill="#AFB8C1"/>
-    <path d="M713.0,476 L713.0,432" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M709.0,437 L713.0,432 L717.0,437" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="347.0" cy="608" r="2.5" fill="#8C959F"/>
-    <path d="M347.0,608 L347.0,572" stroke="#8C959F" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M343.0,577 L347.0,572 L351.0,577" stroke="#8C959F" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="713.0" cy="608" r="2.5" fill="#8C959F"/>
-    <path d="M713.0,608 L713.0,572" stroke="#8C959F" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M709.0,577 L713.0,572 L717.0,577" stroke="#8C959F" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="172" cy="654.0" r="2.5" fill="#8C959F"/>
-    <path d="M172,654.0 L152.0,654.0 Q144.0,654.0 144.0,646.0 L144.0,390.0 Q144.0,382.0 152.0,382.0 L168,382.0" stroke="#8C959F" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M163,378.0 L168,382.0 L163,386.0" stroke="#8C959F" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="888" cy="654.0" r="2.5" fill="#8C959F"/>
-    <path d="M888,654.0 L908.0,654.0 Q916.0,654.0 916.0,646.0 L916.0,390.0 Q916.0,382.0 908.0,382.0 L892,382.0" stroke="#8C959F" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M897,378.0 L892,382.0 L897,386.0" stroke="#8C959F" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <text x="538.0" y="184.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">extends the base classes</text>
-    <text x="355.0" y="320.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">extends</text>
-    <text x="721.0" y="320.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">extends</text>
-    <text x="355.0" y="456.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8C959F" text-anchor="start">configures if present</text>
-    <text x="721.0" y="456.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8C959F" text-anchor="start">configures if present</text>
-    <text x="355.0" y="592.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">adds the auto-configuration</text>
-    <text x="721.0" y="592.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">adds the auto-configuration</text>
-    <g transform="rotate(-90 161.0 518.0)">
-    <text x="161.0" y="518.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">adds the JPA bases</text>
+    <rect x="188.0" y="64.0" width="716.0" height="92.0" rx="6" fill="#E3EFFF"/>
+    <rect x="200.0" y="76.0" width="68.8" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
+    <text x="208.0" y="88.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">ddd/core</text>
+    <text x="200.0" y="112.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd</text>
+    <text x="200.0" y="144.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">entities, aggregates, events; no framework</text>
+    <rect x="188.0" y="204.0" width="716.0" height="92.0" rx="6" fill="#DDF7E7"/>
+    <rect x="200.0" y="216.0" width="115.0" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
+    <text x="208.0" y="228.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">ddd/spring-data</text>
+    <text x="200.0" y="252.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-data</text>
+    <text x="200.0" y="284.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">aggregates saved by a Spring Data repository</text>
+    <rect x="188.0" y="336.0" width="350.0" height="92.0" rx="6" fill="#DDF7E7"/>
+    <rect x="200.0" y="348.0" width="141.4" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
+    <text x="208.0" y="360.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">ddd/spring-data-jpa</text>
+    <text x="200.0" y="384.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-data-jpa</text>
+    <text x="200.0" y="416.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">the bases mapped with JPA</text>
+    <rect x="554.0" y="336.0" width="350.0" height="92.0" rx="6" fill="#DDF7E7"/>
+    <rect x="566.0" y="348.0" width="167.8" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
+    <text x="574.0" y="360.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">ddd/spring-data-mongodb</text>
+    <text x="566.0" y="384.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-data-mongodb</text>
+    <text x="566.0" y="416.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">the bases mapped for MongoDB</text>
+    <rect x="188.0" y="476.0" width="716.0" height="92.0" rx="6" fill="#DDF7E7"/>
+    <rect x="200.0" y="488.0" width="115.0" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
+    <text x="208.0" y="500.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">ddd/spring-boot</text>
+    <text x="200.0" y="524.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-boot</text>
+    <text x="200.0" y="556.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">registers beans of the modules it finds</text>
+    <rect x="188.0" y="608.0" width="350.0" height="92.0" rx="6" fill="#DDF7E7"/>
+    <rect x="200.0" y="620.0" width="194.2" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
+    <text x="208.0" y="632.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">ddd/spring-boot-starter-jpa</text>
+    <text x="200.0" y="656.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-boot-starter-jpa</text>
+    <text x="200.0" y="688.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">the one dependency a JPA service declares</text>
+    <rect x="554.0" y="608.0" width="350.0" height="92.0" rx="6" fill="#DDF7E7"/>
+    <rect x="566.0" y="620.0" width="220.6" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
+    <text x="574.0" y="632.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">ddd/spring-boot-starter-mongodb</text>
+    <text x="566.0" y="656.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-boot-starter-mongodb</text>
+    <text x="566.0" y="688.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">the one dependency a MongoDB service declares</text>
+    <circle cx="546.0" cy="204" r="2.5" fill="#8C959F"/>
+    <path d="M546.0,204 L546.0,160" stroke="#8C959F" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M542.0,165 L546.0,160 L550.0,165" stroke="#8C959F" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="363.0" cy="336" r="2.5" fill="#8C959F"/>
+    <path d="M363.0,336 L363.0,300" stroke="#8C959F" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M359.0,305 L363.0,300 L367.0,305" stroke="#8C959F" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="729.0" cy="336" r="2.5" fill="#8C959F"/>
+    <path d="M729.0,336 L729.0,300" stroke="#8C959F" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M725.0,305 L729.0,300 L733.0,305" stroke="#8C959F" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="363.0" cy="476" r="2.5" fill="#AFB8C1"/>
+    <path d="M363.0,476 L363.0,432" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M359.0,437 L363.0,432 L367.0,437" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="729.0" cy="476" r="2.5" fill="#AFB8C1"/>
+    <path d="M729.0,476 L729.0,432" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M725.0,437 L729.0,432 L733.0,437" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="363.0" cy="608" r="2.5" fill="#8C959F"/>
+    <path d="M363.0,608 L363.0,572" stroke="#8C959F" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M359.0,577 L363.0,572 L367.0,577" stroke="#8C959F" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="729.0" cy="608" r="2.5" fill="#8C959F"/>
+    <path d="M729.0,608 L729.0,572" stroke="#8C959F" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M725.0,577 L729.0,572 L733.0,577" stroke="#8C959F" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="188" cy="654.0" r="2.5" fill="#8C959F"/>
+    <path d="M188,654.0 L160.0,654.0 Q152.0,654.0 152.0,646.0 L152.0,390.0 Q152.0,382.0 160.0,382.0 L184,382.0" stroke="#8C959F" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M179,378.0 L184,382.0 L179,386.0" stroke="#8C959F" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="904" cy="654.0" r="2.5" fill="#8C959F"/>
+    <path d="M904,654.0 L932.0,654.0 Q940.0,654.0 940.0,646.0 L940.0,390.0 Q940.0,382.0 932.0,382.0 L908,382.0" stroke="#8C959F" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M913,378.0 L908,382.0 L913,386.0" stroke="#8C959F" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="554.0" y="184.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">extends the base classes</text>
+    <text x="371.0" y="320.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">extends the bases</text>
+    <text x="737.0" y="320.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">extends the bases</text>
+    <text x="371.0" y="456.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8C959F" text-anchor="start">configures when present</text>
+    <text x="737.0" y="456.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8C959F" text-anchor="start">configures when present</text>
+    <text x="371.0" y="592.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">hands to the service</text>
+    <text x="737.0" y="592.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">hands to the service</text>
+    <g transform="rotate(-90 174.0 518.0)">
+    <text x="174.0" y="518.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">hands to the service</text>
     </g>
-    <g transform="rotate(-90 905.0 518.0)">
-    <text x="905.0" y="518.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">adds the MongoDB bases</text>
+    <g transform="rotate(-90 926.0 518.0)">
+    <text x="926.0" y="518.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">hands to the service</text>
     </g>
   </g>
 </svg>
