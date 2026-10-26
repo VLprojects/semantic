@@ -53,7 +53,7 @@ PALETTE = {
 	"light": {
 		"bg": "#F6F8FA", "ink": "#1F2328", "soft": "#59636E", "mute": "#8C959F",
 		"plate": "#FFFFFF", "slot": "#DDE2E7", "line": "#AFB8C1",
-		"wash": "#FFFFFF", "card": "#E3E8ED", "bar": "#BEC7D0",
+		"wash": "#FFFFFF", "card": "#E3E8ED", "ghost": "#F2F4F6", "bar": "#BEC7D0",
 		"blue": "#1A7CFF", "green": "#22C063", "amber": "#FF9F2E", "red": "#EE2D62",
 		"sky": "#9DD1FF", "slate": "#7A8594", "lime": "#22C063",
 		"blue-plate": "#E3EFFF", "blue-ink": "#1F2328", "green-plate": "#DDF7E7", "green-ink": "#1F2328", "green-glyph": "#22C063", "amber-plate": "#FFEEDC", "amber-ink": "#1F2328", "amber-glyph": "#FF9F2E",
@@ -64,7 +64,7 @@ PALETTE = {
 	"dark": {
 		"bg": "#151B23", "ink": "#E6EDF3", "soft": "#9198A1", "mute": "#6E7681",
 		"plate": "#1D242D", "slot": "#323B46", "line": "#515B66",
-		"wash": "#1D242D", "card": "#29313C", "bar": "#454F5A",
+		"wash": "#1D242D", "card": "#29313C", "ghost": "#29313C", "bar": "#454F5A",
 		"blue": "#4493F8", "green": "#3FB950", "amber": "#FF9F4A", "red": "#FF4F7B",
 		"sky": "#6E9BFF", "slate": "#545D68", "lime": "#5BF08A",
 		"blue-plate": "#6E9BFF", "blue-ink": "#06173D", "green-plate": "#5BF08A", "green-ink": "#03240E", "green-glyph": "#0D7A32", "amber-plate": "#FFB46B", "amber-ink": "#1F1206", "amber-glyph": "#8A3F00",
@@ -178,7 +178,7 @@ DASH, DOT = "6 4", "0.1 4"
 
 def tag(a, x, y, text, color="soft", mono=False):
 	"""A tag whose top left corner is at x, y: the colour of its text at a fifth, no outline."""
-	w = len(text) * (6.6 if mono else 5.5) + 16
+	w = len(text) * (6.6 if mono else 5.2) + 16
 	a.add(f'<rect x="{x:.1f}" y="{y:.1f}" width="{w:.1f}" height="{TAG_H}" rx="4" fill="{a.p[color]}" fill-opacity="0.2"/>')
 	a.t(x + 8, y + 12.5, text, size=TAG, color=color, mono=mono)
 	return w
@@ -344,8 +344,11 @@ def along(a, x, y, s):
 
 
 def ghost(a, x, y, w, directory, artifact, note):
-	"""Modules to come: a grey block in a fine dashed outline, no arrows."""
-	block(a, x, y, w, None, directory, artifact, note)
+	"""Modules to come: a block paler than grey in a fine dashed outline, no arrows."""
+	a.rect(x, y, w, BLOCK, "ghost", r=6)
+	tag(a, x + 12, y + 12, directory, mono=True)
+	a.name(x + 12, y + 48, artifact, mono=True)
+	a.t(x + 12, y + BLOCK - 12, note)
 	a.outline(x, y, w, BLOCK, dash="2 3")
 
 
@@ -365,7 +368,7 @@ def dependencies(pal):
 	bw = end - start
 	w = (bw - MORE - 2 * GAP) / 2
 	left, more, right = start, start + w + GAP, start + w + GAP + MORE + GAP
-	tops, frames, y = [], [], 64
+	tops, frames, y = [], [], 31 + TAG_H + FRAMES  # the header stands off the layers as they do off each other
 	for name, rows, about in (
 		("JVM", 1, "Kotlin and the JDK only, no Spring, no Jakarta, no annotations"),
 		("Spring", 2, "Spring and Spring Data, mapping and callbacks; no Spring Boot, a service takes them by @Import"),
@@ -383,8 +386,8 @@ def dependencies(pal):
 	y -= FRAMES
 	core, data, stores, boot, starters = tops
 	a.rect(X0, 16, cw, y + MARGIN - 16, "plate", r=12)
-	a.t(edge, 46, "ddd", size=TITLE, color="ink", weight="600", mono=True)
-	tag(a, edge + 0.6 * TITLE * 3 + 12, 31, "in development, v1")
+	a.t(edge, 46, "DDD", size=TITLE, color="ink", weight="600", mono=True)
+	tag(a, edge + 0.6 * TITLE * 3 + 12, 31, "tactical building blocks of domain-driven design for Kotlin and Spring")
 	room = LEVEL_W - RUN - 2 * FRAME  # the gutter up to the lane
 	for name, about, top, height in frames:
 		layer(a, edge, top, width, height)
@@ -404,8 +407,8 @@ def dependencies(pal):
 			"the one dependency a MongoDB service declares"),
 	):
 		block(a, x, top, width, hue, directory, artifact, note)
-	ghost(a, more, stores, MORE, "ddd/spring-data-*", "…-spring-data-*", "Redis, Cassandra, Neo4j")
-	ghost(a, more, starters, MORE, "ddd/spring-boot-starter-*", "…-starter-*", "one per store")
+	ghost(a, more, stores, MORE, "ddd/spring-data-*", "other stores", "Redis, Cassandra, Neo4j")
+	ghost(a, more, starters, MORE, "ddd/spring-boot-starter-*", "other starters", "one per store")
 	# an arrow keeps a third of its column, so its note fits the column; the one between two full rows keeps
 	# the middle of the row
 	middle, jpa, mongodb = start + bw / 2, left + w / 3, right + w / 3
