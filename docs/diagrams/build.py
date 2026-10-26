@@ -273,12 +273,16 @@ def families(pal):
 # skip, from a starter up to its store, takes a lane beside the blocks, left for the left column and right
 # for the right one, and enters them from the side; its note keeps 8 off the lane and more than the padding
 # of a block off the block, so it reads with the lane. The page is wider than the family map, so the
-# longest starter fits half a row. A layer, JVM, Spring or Spring Boot, is a dotted frame 16 off its blocks
-# with its name in the corner, and 32 off the next one, so a frame holds its blocks closer than its
-# neighbour; the rows inside a layer are 48 apart, on the grid of 4
-DEP_W, DEP_ROW, BEND = 960, 48, 8  # page, gap with arrows inside a layer, bends
-FRAME, FRAMES, HEADER = 16, 32, 40  # padding of a layer, gap between layers, top of a layer down to its blocks
-LANE, RUN = 96, 64  # room beside the blocks, and how far out of it the lane runs
+# longest starter fits half a row. A layer, JVM, Spring or Spring Boot, is a dotted frame across the plate,
+# 16 off its blocks, with its name in the gutter on the baseline of its first row, and 32 off the next one,
+# so a frame holds its blocks closer than its neighbour. Rows inside a layer are as far apart as rows of two
+# layers, so every arrow up is as long as another, and the note of one between layers sits in the middle of
+# the gap between the frames
+DEP_W, BEND = 1040, 8  # page, bends
+FRAME, FRAMES = 16, 32  # padding of a layer, gap between layers
+DEP_ROW = 2 * FRAME + FRAMES  # gap between the rows of a layer, the same as between layers
+LEVEL_W, LANE, RUN = 160, 88, 56  # gutter for the name of a layer, room beside the blocks, lane out of them
+MARGIN = 24  # plate to its layers, more than a layer to its blocks
 ARROW = "violet-link"
 BUILDS, DECLARES, CONFIGURES = None, "3 4", "0.01 3"  # the dash of each kind; dots of 2, a pixel apart
 HEAD, HALF, DOT, AIR = 5, 2.5, 2, 3  # length of a head and half its base, radius of a dot, air to a block
@@ -328,32 +332,34 @@ def bypass(a, edge, lane, y1, y2, dash):
 
 
 def along(a, x, y, s):
-	"""A note that reads up a lane, centred on y, its baseline at x."""
+	"""A note that reads up a lane, centred on y, its baseline at x, on the plate where it crosses a frame."""
+	half = len(s) * 3.3 + 4
 	a.add(f'<g transform="rotate(-90 {x} {y})">')
+	a.rect(x - half, y - 12, 2 * half, 16, "plate")
 	a.t(x, y, s, anchor="middle")
 	a.add("</g>")
 
 
-def layer(a, x, y, w, h, name):
-	"""A layer of the family: a dotted frame around its blocks, its name in the corner."""
+def layer(a, x, y, w, h):
+	"""A layer of the family: a dotted frame around its blocks."""
 	a.add(
 		f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="12" fill="none" stroke="{a.p["line"]}" '
 		f'stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>'
 	)
-	a.t(x + FRAME, y + FRAME + 9, name)
 
 
 def dependencies(pal):
 	a = Art(DEP_W, 0, pal)
 	cw = DEP_W - 2 * X0
-	start, end = X0 + INSET + LANE, X0 + cw - INSET - LANE
+	edge, width = X0 + MARGIN, cw - 2 * MARGIN
+	start, end = edge + LEVEL_W, edge + width - LANE
 	bw = end - start
 	w = (bw - GAP) / 2
 	left, right = start, start + w + GAP
 	tops, frames, y = [], [], 64
 	for name, rows in (("JVM", 1), ("Spring", 2), ("Spring Boot", 2)):
 		frame = y
-		y += HEADER
+		y += FRAME
 		for row in range(rows):
 			y += DEP_ROW if row else 0
 			tops.append(y)
@@ -363,11 +369,12 @@ def dependencies(pal):
 		y += FRAMES
 	y -= FRAMES
 	core, data, stores, boot, starters = tops
-	a.rect(X0, 16, cw, y + INSET - 16, "plate", r=12)
-	a.t(X0 + INSET, 46, "ddd", size=TITLE, color="ink", weight="600", mono=True)
-	tag(a, X0 + INSET + 0.6 * TITLE * 3 + 12, 31, "in development, v1")
+	a.rect(X0, 16, cw, y + MARGIN - 16, "plate", r=12)
+	a.t(edge, 46, "ddd", size=TITLE, color="ink", weight="600", mono=True)
+	tag(a, edge + 0.6 * TITLE * 3 + 12, 31, "in development, v1")
 	for name, top, height in frames:
-		layer(a, start - FRAME, top, bw + 2 * FRAME, height, name)
+		layer(a, edge, top, width, height)
+		a.t(edge + FRAME, top + FRAME + 48, name)  # on the baseline of the artifacts of its first row
 	for x, top, width, hue, directory, artifact, note in (
 		(left, core, bw, "blue", "ddd/core", "semantic-ddd", "entities, aggregates, events; no framework"),
 		(left, data, bw, "green", "ddd/spring-data", "semantic-ddd-spring-data", "aggregates saved by a Spring Data repository"),
@@ -393,24 +400,23 @@ def dependencies(pal):
 	lane_left, lane_right = start - RUN, end + RUN
 	bypass(a, start, lane_left, starters + BLOCK / 2, stores + BLOCK / 2, DECLARES)
 	bypass(a, end, lane_right, starters + BLOCK / 2, stores + BLOCK / 2, DECLARES)
-	# a note stands 8 off its arrow, on the middle of the gap between the blocks or between the layers, and
-	# says what the module takes
-	for x, gap_top, gap, note, color, anchor in (
-		(middle + 8, core + BLOCK + FRAME, FRAMES, "extends base classes, implements interfaces", "soft", "start"),
-		(jpa + 8, data + BLOCK, DEP_ROW, "extends Spring Data base classes", "soft", "start"),
-		(mongodb + 8, data + BLOCK, DEP_ROW, "extends Spring Data base classes", "soft", "start"),
-		(jpa + 8, stores + BLOCK + FRAME, FRAMES, "configures on @ConditionalOnClass", "soft", "start"),
-		(mongodb + 8, stores + BLOCK + FRAME, FRAMES, "configures on @ConditionalOnClass", "soft", "start"),
-		(jpa + 8, boot + BLOCK, DEP_ROW, "api dependency: auto-configuration", "soft", "start"),
-		(mongodb + 8, boot + BLOCK, DEP_ROW, "api dependency: auto-configuration", "soft", "start"),
+	# a note stands 8 off its arrow, on its middle, and says what the module takes
+	for x, source, target, note in (
+		(middle, data, core, "extends base classes, implements interfaces"),
+		(jpa, stores, data, "extends Spring Data base classes"),
+		(mongodb, stores, data, "extends Spring Data base classes"),
+		(jpa, boot, stores, "configures on @ConditionalOnClass"),
+		(mongodb, boot, stores, "configures on @ConditionalOnClass"),
+		(jpa, starters, boot, "api dependency: auto-configuration"),
+		(mongodb, starters, boot, "api dependency: auto-configuration"),
 	):
-		a.t(x, gap_top + gap / 2 + 4, note, color=color, anchor=anchor)
+		a.t(x + 8, (source + target + BLOCK) / 2 + 4, note)
 	# the note of a lane reads up it, 8 off the lane on the side of the blocks; a glyph turned up stands 10
 	# left of its baseline and 3 right of it
 	for x, note in ((lane_left + 18, "api dependency: JPA base classes"),
 			(lane_right - 11, "api dependency: MongoDB base classes")):
 		along(a, x, (stores + starters + BLOCK) / 2, note)
-	a.h = y + INSET
+	a.h = y + MARGIN
 	return a
 
 
