@@ -279,9 +279,10 @@ def families(pal):
 # so a frame holds its blocks closer than its neighbour. Rows inside a layer are as far apart as rows of two
 # layers, so every arrow up is as long as another, and the note of one between layers sits in the middle of
 # the gap between the frames
-DEP_W, BEND = 1112, 8  # page, bends
+DEP_W, BEND = 1256, 8  # page, bends
 FRAME, FRAMES = 16, 48  # padding of a layer, gap between layers
 DEP_ROW = 2 * FRAME + FRAMES  # gap between the rows of a layer, the same as between layers
+MORE = 128  # the column of the stores to come
 LEVEL_W, LANE, RUN = 232, 88, 56  # gutter for the name and the notes of a layer, room beside the blocks, lane out of them
 ABOUT = 9  # the notes of a layer, under its name
 MARGIN = 24  # plate to its layers, more than a layer to its blocks
@@ -342,6 +343,14 @@ def along(a, x, y, s):
 	a.add("</g>")
 
 
+def ghost(a, x, y, w, directory, note):
+	"""A module to come: a dashed outline in place of a block, no arrows."""
+	a.outline(x, y, w, BLOCK)
+	tag(a, x + 12, y + 12, directory, color="mute", mono=True)
+	a.t(x + 12, y + 48, "…", size=TITLE, color="mute", weight="600")
+	a.t(x + 12, y + BLOCK - 12, note, color="mute")
+
+
 def layer(a, x, y, w, h):
 	"""A layer of the family: a dotted frame around its blocks."""
 	a.add(
@@ -356,8 +365,8 @@ def dependencies(pal):
 	edge, width = X0 + MARGIN, cw - 2 * MARGIN
 	start, end = edge + LEVEL_W, edge + width - LANE
 	bw = end - start
-	w = (bw - GAP) / 2
-	left, right = start, start + w + GAP
+	w = (bw - MORE - 2 * GAP) / 2
+	left, more, right = start, start + w + GAP, start + w + GAP + MORE + GAP
 	tops, frames, y = [], [], 64
 	for name, rows, about in (
 		("JVM", 1, "Kotlin and the JDK only, no Spring, no Jakarta, no annotations"),
@@ -397,6 +406,8 @@ def dependencies(pal):
 			"the one dependency a MongoDB service declares"),
 	):
 		block(a, x, top, width, hue, directory, artifact, note)
+	ghost(a, more, stores, MORE, "spring-data-*", "Redis, Cassandra")
+	ghost(a, more, starters, MORE, "starter-*", "one per store")
 	# an arrow keeps a third of its column, so its note fits the column; the one between two full rows keeps
 	# the middle of the row
 	middle, jpa, mongodb = start + bw / 2, left + w / 3, right + w / 3
