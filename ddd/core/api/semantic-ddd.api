@@ -20,8 +20,11 @@ public final class pro/vlprojects/semantic/ddd/dsl/BusinessRulesKt {
 	public static final fun rule (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lpro/vlprojects/semantic/ddd/tactical/BusinessRule;
 }
 
-public abstract interface class pro/vlprojects/semantic/ddd/tactical/AggregateRoot : pro/vlprojects/semantic/ddd/tactical/Entity, pro/vlprojects/semantic/ddd/tactical/Versioned {
-	public abstract fun getRevision ()Lpro/vlprojects/semantic/ddd/tactical/Revision;
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/AggregateRoot : pro/vlprojects/semantic/ddd/tactical/Entity {
+}
+
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/BoxedIdentifier : pro/vlprojects/semantic/ddd/tactical/Identifier {
+	public abstract fun getValue ()Ljava/io/Serializable;
 }
 
 public final class pro/vlprojects/semantic/ddd/tactical/BusinessRule {
@@ -36,7 +39,7 @@ public final class pro/vlprojects/semantic/ddd/tactical/DomainExtensionsKt {
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/DomainObject {
 }
 
-public abstract interface class pro/vlprojects/semantic/ddd/tactical/Entity : pro/vlprojects/semantic/ddd/tactical/DomainObject, pro/vlprojects/semantic/ddd/tactical/Identifiable {
+public abstract interface class pro/vlprojects/semantic/ddd/tactical/Entity : pro/vlprojects/semantic/ddd/tactical/DomainObject, pro/vlprojects/semantic/ddd/tactical/Identifiable, pro/vlprojects/semantic/ddd/tactical/Versioned {
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/Event : pro/vlprojects/semantic/ddd/tactical/DomainObject {
@@ -89,22 +92,22 @@ public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractAggregat
 	public fun <init> ()V
 	protected fun clearEvents ()V
 	protected final fun getEvents ()Ljava/util/List;
-	public final fun getRevision ()Lpro/vlprojects/semantic/ddd/tactical/Revision;
-	public final fun getVersion ()J
 	protected final fun register (Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;Lpro/vlprojects/semantic/ddd/tactical/Event;)Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;
-	protected final fun setVersion (J)V
 	public fun toString ()Ljava/lang/String;
 }
 
 public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractEntity : pro/vlprojects/semantic/ddd/tactical/Entity {
 	protected field identifier Lpro/vlprojects/semantic/ddd/tactical/Identifier;
 	public fun <init> ()V
+	protected final fun assignVersion (J)V
 	protected final fun change (Lpro/vlprojects/semantic/ddd/tactical/Entity;Lkotlin/jvm/functions/Function1;)Lpro/vlprojects/semantic/ddd/tactical/Entity;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getIdentifier ()Lpro/vlprojects/semantic/ddd/tactical/Identifier;
+	public fun getIdentifier ()Lpro/vlprojects/semantic/ddd/tactical/Identifier;
 	protected fun getInvariants ()Ljava/util/List;
+	public fun getVersion ()J
 	public fun hashCode ()I
-	protected final fun setIdentifier (Lpro/vlprojects/semantic/ddd/tactical/Identifier;)V
+	protected fun setIdentifier (Lpro/vlprojects/semantic/ddd/tactical/Identifier;)V
+	protected fun setVersion (J)V
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -117,10 +120,10 @@ public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractEvent : 
 	public fun toString ()Ljava/lang/String;
 }
 
-public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractId : pro/vlprojects/semantic/ddd/tactical/Identifier {
-	public fun <init> (Ljava/lang/Object;)V
+public abstract class pro/vlprojects/semantic/ddd/tactical/base/AbstractId : pro/vlprojects/semantic/ddd/tactical/BoxedIdentifier {
+	public fun <init> (Ljava/io/Serializable;)V
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getValue ()Ljava/lang/Object;
+	public fun getValue ()Ljava/io/Serializable;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
