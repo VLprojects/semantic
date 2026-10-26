@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 744 380" width="744" height="380" role="img">
+  <rect width="744" height="380" rx="12" fill="#151B23"/>
+  <g transform="translate(12,12)">
+    <rect x="16.0" y="48.0" width="688.0" height="188.0" rx="6" fill="#5BF08A"/>
+    <text x="28.0" y="36.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="400" fill="#9198A1" text-anchor="start">pro.acme</text>
+    <text x="48.0" y="70.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="400" fill="#0D5A26" text-anchor="start">billing</text>
+    <text x="280.0" y="70.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#03240E" text-anchor="start">object Billing : BoundedContext</text>
+    <text x="280.0" y="88.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">declares the billing context</text>
+    <text x="68.0" y="122.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="400" fill="#0D5A26" text-anchor="start">invoice</text>
+    <text x="280.0" y="122.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#03240E" text-anchor="start">Invoice</text>
+    <text x="280.0" y="140.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">in billing</text>
+    <text x="68.0" y="172.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="400" fill="#0D5A26" text-anchor="start">payment</text>
+    <text x="88.0" y="206.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="400" fill="#0D5A26" text-anchor="start">card</text>
+    <text x="280.0" y="206.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#03240E" text-anchor="start">CardPayment</text>
+    <text x="280.0" y="224.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">in billing too, at any depth</text>
+    <text x="48.0" y="258.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="400" fill="#9198A1" text-anchor="start">billingreport</text>
+    <text x="280.0" y="258.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">BillingReport</text>
+    <text x="280.0" y="276.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">not in billing: the name only starts the same</text>
+    <text x="48.0" y="310.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="400" fill="#9198A1" text-anchor="start">ordering</text>
+    <text x="280.0" y="310.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">object Ordering : BoundedContext</text>
+    <text x="280.0" y="328.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">a context of its own</text>
+  </g>
+</svg>

@@ -20,6 +20,15 @@ public final class pro/vlprojects/semantic/ddd/dsl/BusinessRulesKt {
 	public static final fun rule (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lpro/vlprojects/semantic/ddd/tactical/BusinessRule;
 }
 
+public abstract interface class pro/vlprojects/semantic/ddd/strategic/BoundedContext {
+	public fun getName ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/ddd/strategic/BoundedContextKt {
+	public static final fun getPackageName (Lpro/vlprojects/semantic/ddd/strategic/BoundedContext;)Ljava/lang/String;
+	public static final fun hasBoundedContext (Lkotlin/reflect/KClass;Lpro/vlprojects/semantic/ddd/strategic/BoundedContext;)Z
+}
+
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/AggregateRoot : pro/vlprojects/semantic/ddd/tactical/Entity {
 }
 
