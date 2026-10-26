@@ -15,3 +15,17 @@ public abstract class pro/vlprojects/semantic/ddd/spring/data/AbstractSpringData
 	protected fun markPersisted ()V
 }
 
+public abstract interface class pro/vlprojects/semantic/ddd/spring/data/repository/AggregateRepository : org/springframework/data/repository/ListCrudRepository, org/springframework/data/repository/ListPagingAndSortingRepository {
+	public fun findByIdOrThrow (Lpro/vlprojects/semantic/ddd/tactical/Identifier;)Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;
+}
+
+public abstract interface class pro/vlprojects/semantic/ddd/spring/data/repository/SpecificationExecutor {
+	public abstract fun count (Lpro/vlprojects/semantic/ddd/tactical/Specification;)J
+	public abstract fun exists (Lpro/vlprojects/semantic/ddd/tactical/Specification;)Z
+	public abstract fun findAll (Lpro/vlprojects/semantic/ddd/tactical/Specification;)Ljava/util/List;
+	public abstract fun findAll (Lpro/vlprojects/semantic/ddd/tactical/Specification;Lorg/springframework/data/domain/Pageable;)Lorg/springframework/data/domain/Page;
+	public abstract fun findAll (Lpro/vlprojects/semantic/ddd/tactical/Specification;Lorg/springframework/data/domain/Sort;)Ljava/util/List;
+	public abstract fun findOne (Lpro/vlprojects/semantic/ddd/tactical/Specification;)Ljava/lang/Object;
+	public abstract fun findOneOrThrow (Lpro/vlprojects/semantic/ddd/tactical/Specification;)Ljava/lang/Object;
+}
+

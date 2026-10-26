@@ -148,6 +148,25 @@ the callbacks of its mapping.
 Equality compares the classes through `ProxyUtils.getUserClass`, so the
 proxy class of a store counts as the class of the entity.
 
+`AggregateRepository`, under `pro.vlprojects.semantic.ddd.spring.data.repository`,
+is the repository of an aggregate root: a `ListCrudRepository` and a
+`ListPagingAndSortingRepository` of Spring Data with `findByIdOrThrow`, which
+raises `NotFoundException` of the core when there is no such aggregate. A
+store gives a repository of its own on top of it, `JpaAggregateRepository`
+with `JpaRepository`, `MongoAggregateRepository` with `MongoRepository`.
+
+`SpecificationExecutor` finds by a specification, with `Sort` and `Pageable`,
+the way `QuerydslPredicateExecutor` finds by a predicate. It is an add-on, not a
+part of `AggregateRepository`: a repository that needs it names it among its
+parents, a repository of an entity that is not a root too.
+
+```kotlin
+interface OrderRepository : JpaAggregateRepository<Order, OrderId>, SpecificationExecutor<Order>
+```
+
+So far these are contracts only: the store repositories and the code that runs
+a specification come with the store modules.
+
 ## JPA
 
 `semantic-ddd-spring-data-jpa` gives `AbstractJpaEntity` and
