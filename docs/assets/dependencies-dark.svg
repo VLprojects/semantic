@@ -3,7 +3,7 @@
   <g transform="translate(12,12)">
     <rect x="16.0" y="16.0" width="1280.0" height="917.0" rx="12" fill="#1D242D"/>
     <text x="40.0" y="46.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="16" font-weight="600" fill="#E6EDF3" text-anchor="start">DDD</text>
-    <rect x="80.8" y="31.0" width="493.8" height="18" rx="4" fill="#9198A1" fill-opacity="0.2"/>
+    <rect x="80.8" y="31.0" width="493.3" height="18" rx="4" fill="#9198A1" fill-opacity="0.2"/>
     <text x="88.8" y="43.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#9198A1" text-anchor="start">tactical and strategic patterns of domain-driven design for Kotlin and the Spring ecosystem</text>
     <rect x="40" y="97" width="1232" height="124" rx="12" fill="none" stroke="#515B66" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
     <text x="56.0" y="137.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#E6EDF3" text-anchor="start">JVM</text>
