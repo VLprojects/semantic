@@ -1,10 +1,10 @@
 package pro.vlprojects.semantic.ddd.tactical.base
 
-import pro.vlprojects.semantic.ddd.tactical.Identifier
+import pro.vlprojects.semantic.ddd.tactical.ScalarIdentifier
 
 public abstract class AbstractId<out T : Any>(
-    public val value: T,
-) : Identifier {
+    override val value: T,
+) : ScalarIdentifier<T> {
 
     override fun equals(other: Any?): Boolean = when {
         this === other -> true

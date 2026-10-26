@@ -14,7 +14,7 @@ Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd`:
 
 | Package | What is there |
 | --- | --- |
-| `tactical` | The building blocks, side by side: `DomainObject` they all extend, with `typeName`, the class name in kebab case, on an object and on its class; `Identifier`, `Identifiable`, `Entity` with its version, `AggregateRoot`, `Revision` of an aggregate, `Versioned`, `ValueObject`, `Event` with its `EventMeta`, built by `EventMeta.of<ItemAdded>()` with a new `EventId`, the current time and the class name in kebab case by default, `BusinessRule`, `Specification` |
+| `tactical` | The building blocks, side by side: `DomainObject` they all extend, with `typeName`, the class name in kebab case, on an object and on its class; `Identifier`, `ScalarIdentifier`, a wrapper of one value such as a `UUID` or a `Long`, `Identifiable`, `Entity` with its version, `AggregateRoot`, `Revision` of an aggregate, `Versioned`, `ValueObject`, `Event` with its `EventMeta`, built by `EventMeta.of<ItemAdded>()` with a new `EventId`, the current time and the class name in kebab case by default, `BusinessRule`, `Specification` |
 | `tactical.specification.composite` | The parts a specification is composed of: `AllOf`, `AnyOf` and `Not` hold other specifications, `Always` and `Never` hold for every candidate and for none, `allOf` and `anyOf` combine any number of specifications |
 | `tactical.base` | Base classes to extend, free of any framework: `AbstractEntity` and `AbstractId` equal by identifier and value, the version of an entity set by `assignVersion`, `AbstractAggregateRoot` that registers events, `BaseRevision` built of any aggregate, `AbstractEvent` equal by id, and `EventId` on a `UUID`, the default id of an event |
 | `dsl` | The ways to write the blocks down: `rule` builds a `BusinessRule`, `check` runs a list of them, `checkRule` checks a one-off condition |
@@ -123,7 +123,7 @@ root, since a class has one superclass.
 
 ```kotlin
 @Embeddable
-class CartId(val value: Long) : Identifier
+class CartId(override val value: Long) : ScalarIdentifier<Long>
 
 @Entity
 class Cart(identifier: CartId) : AbstractJpaAggregateRoot<Cart, CartId>() {
@@ -138,12 +138,13 @@ The Spring Data bases know nothing of JPA, so the JPA bases override their
 members with the mapping: `identifier` is the `@EmbeddedId`, its `value`
 stored in the column `id`, neither null nor updated; `version` is the
 `@Version`; `markPersisted()` runs on `@PostPersist` and `@PostLoad`, so
-`isNew()` turns false once the entity is persisted or loaded. A composite key
-names its columns with an `@AttributeOverride` of its own.
+`isNew()` turns false once the entity is persisted or loaded. The key of a
+JPA base is a `ScalarIdentifier`, so its `value` is always there to map; a
+composite key needs a base of its own.
 
 The class of the key does not extend `AbstractId` of the core: JPA builds it by
 a constructor with no arguments, and `AbstractId` has none. It implements
-`Identifier` and its own equality.
+`ScalarIdentifier` and its own equality.
 
 `identifier` and `version` are open, so a lazy proxy of Hibernate answers
 with the key it holds, not with its own empty field, and an entity equals its

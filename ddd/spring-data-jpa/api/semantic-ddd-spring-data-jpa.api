@@ -7,12 +7,14 @@ public abstract class pro/vlprojects/semantic/ddd/spring/data/jpa/AbstractJpaAgg
 }
 
 public abstract class pro/vlprojects/semantic/ddd/spring/data/jpa/AbstractJpaEntity : pro/vlprojects/semantic/ddd/spring/data/AbstractSpringDataEntity {
-	protected field identifier Lpro/vlprojects/semantic/ddd/tactical/Identifier;
+	protected field identifier Lpro/vlprojects/semantic/ddd/tactical/ScalarIdentifier;
 	public fun <init> ()V
-	public fun getIdentifier ()Lpro/vlprojects/semantic/ddd/tactical/Identifier;
+	public synthetic fun getIdentifier ()Lpro/vlprojects/semantic/ddd/tactical/Identifier;
+	public fun getIdentifier ()Lpro/vlprojects/semantic/ddd/tactical/ScalarIdentifier;
 	public fun getVersion ()J
 	protected fun markPersisted ()V
-	protected fun setIdentifier (Lpro/vlprojects/semantic/ddd/tactical/Identifier;)V
+	public synthetic fun setIdentifier (Lpro/vlprojects/semantic/ddd/tactical/Identifier;)V
+	protected fun setIdentifier (Lpro/vlprojects/semantic/ddd/tactical/ScalarIdentifier;)V
 	protected fun setVersion (J)V
 }
 
