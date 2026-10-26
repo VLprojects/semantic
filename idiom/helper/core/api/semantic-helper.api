@@ -204,6 +204,21 @@ public final class pro/vlprojects/semantic/helper/time/ByteHelperKt {
 	public static final fun years (B)Ljava/time/Period;
 }
 
+public final class pro/vlprojects/semantic/helper/time/DurationHelperKt {
+	public static final fun ago (Ljava/time/Duration;Ljava/time/Clock;)Ljava/time/Instant;
+	public static synthetic fun ago$default (Ljava/time/Duration;Ljava/time/Clock;ILjava/lang/Object;)Ljava/time/Instant;
+}
+
+public final class pro/vlprojects/semantic/helper/time/InstantHelperKt {
+	public static final fun ceilTo (Ljava/time/Instant;Ljava/time/Duration;)Ljava/time/Instant;
+	public static final fun isCloseTo (Ljava/time/Instant;Ljava/time/Instant;Ljava/time/Duration;)Z
+	public static final fun isOlderThan (Ljava/time/Instant;Ljava/time/Duration;Ljava/time/Clock;)Z
+	public static synthetic fun isOlderThan$default (Ljava/time/Instant;Ljava/time/Duration;Ljava/time/Clock;ILjava/lang/Object;)Z
+	public static final fun isSameDayAs (Ljava/time/Instant;Ljava/time/Instant;Ljava/time/ZoneId;)Z
+	public static final fun roundTo (Ljava/time/Instant;Ljava/time/Duration;)Ljava/time/Instant;
+	public static final fun truncateTo (Ljava/time/Instant;Ljava/time/Duration;)Ljava/time/Instant;
+}
+
 public final class pro/vlprojects/semantic/helper/time/IntHelperKt {
 	public static final fun day (I)Ljava/time/Duration;
 	public static final fun days (I)Ljava/time/Duration;
