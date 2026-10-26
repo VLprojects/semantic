@@ -173,6 +173,7 @@ GAP, BLOCK = 16, 92  # gap between blocks, block height
 TITLE = 16  # a family outranks the artifacts in it
 TAG, TAG_H = 11, 18  # text size and height of a tag
 FAMILY_W, LAYERS, PLATES = 1240, 32, 48  # page, gap between layers, gap between plates
+CELL_H, CELL_GAP, PART = 44, 8, 12  # a cell inside a block, the gap between cells, the size of its name
 
 
 # advance of each printable ASCII glyph of SF Pro, in thousandths of an em, from space to tilde
@@ -199,27 +200,52 @@ def tag(a, x, y, text, color="soft", mono=False):
 	return w
 
 
-def block(a, x, y, w, hue, directory, artifact, note):
+def block(a, x, y, w, hue, directory, artifact, note, inside=()):
 	# three roles, three means: where the module lives is a tag, the artifact a build declares is bold,
 	# what it is for is grey. The tag and the artifact name one thing and sit 8 apart; the note is apart
 	# from them and rests 12 above the bottom, as the tag hangs 12 below the top. A grey block is a module that
 	# does not exist yet or belongs to another family
-	a.rect(x, y, w, BLOCK, (hue + "-plate") if hue else "card", r=6)
+	a.rect(x, y, w, height(inside), (hue + "-plate") if hue else "card", r=6)
 	soft = (hue + "-soft") if hue else "soft"
 	tag(a, x + 12, y + 12, directory, color=soft, mono=True)
 	a.name(x + 12, y + 48, artifact, mono=True, color=ink(hue) if hue else "ink")
 	a.t(x + 12, y + BLOCK - 12, note, color=soft)
+	cell = (w - 24 - (len(inside) - 1) * CELL_GAP) / max(len(inside), 1)
+	for i, (name, what) in enumerate(inside):
+		part(a, x + 12 + i * (cell + CELL_GAP), y + BLOCK + 4, cell, hue, name, what)
+
+
+def height(inside):
+	"""A block that shows what is inside it grows by a row of cells, 12 off its bottom."""
+	return BLOCK + 4 + CELL_H + 12 if inside else BLOCK
+
+
+def part(a, x, y, w, hue, name, what):
+	"""A package or a type of a module: a cell on a tint of the block, its name in mono and what it holds."""
+	soft = hue + "-soft"
+	a.add(f'<rect x="{x:.1f}" y="{y:.1f}" width="{w:.1f}" height="{CELL_H}" rx="4" fill="{a.p[soft]}" fill-opacity="0.12"/>')
+	a.t(x + 10, y + 18, name, size=PART, color=ink(hue), weight="600", mono=True)
+	a.t(x + 10, y + 34, what, size=TAG, color=soft)
 
 
 FAMILIES = [
 	("Helper", "extensions of the standard types", [
-		("JVM", [[("blue", "helper", "semantic-helper", "extensions of the standard types")]]),
+		("JVM", [[("blue", "helper", "semantic-helper", "extensions of the standard types, a package per kind", [
+			("text", "symbols and the words of a name"), ("number", "the sign, a lossless narrowing"),
+			("time", "a Duration or a Period of a number"), ("lang", "Any and KClass, planned"),
+		])]]),
 	]),
 	("Format", "how a value is written down", [
-		("JVM", [[("blue", "format", "semantic-format", "cases, abbreviation, masking")]]),
+		("JVM", [[("blue", "format", "semantic-format", "a value written down for a reader", [
+			("format", "cases and plurals"), ("abbreviation", "cut in the middle or at an end"),
+			("mask", "part of a value hidden"),
+		])]]),
 	]),
 	("DDD", "tactical and strategic patterns of domain-driven design", [
-		("JVM", [[("blue", "ddd/core", "semantic-ddd", "entities, aggregates, events; no framework")]]),
+		("JVM", [[("blue", "ddd/core", "semantic-ddd", "entities, aggregates, events; no framework", [
+			("tactical", "the building blocks"), ("tactical.base", "base classes to extend"),
+			("dsl", "rule, check, checkRule"), ("architecture.error", "the refusals a service raises"),
+		])]]),
 		("Spring", [
 			[("green", "ddd/spring-data", "semantic-ddd-spring-data", "aggregates saved by a Spring Data repository")],
 			[("green", "ddd/spring-data-jpa", "semantic-ddd-spring-data-jpa", "base classes with JPA mapping"),
@@ -236,13 +262,20 @@ FAMILIES = [
 		]),
 	]),
 	("CQRS", "commands, queries, their handlers and buses", [
-		("JVM", [[("blue", "cqrs/core", "semantic-cqrs", "commands, queries, buses")]]),
+		("JVM", [[("blue", "cqrs/core", "semantic-cqrs", "the supertypes of messages; no dependency on ddd", [
+			("Command", "an intent to change the state"), ("Query", "a question that changes nothing"),
+			("Handler", "carries out one kind of message"), ("Bus", "delivers it to its one handler"),
+		])]]),
 	]),
-	("VO", "rich value objects, planned for v1", [
-		("base", [[("ghost", "vo/core", "semantic-vo", "the validation every value object shares")]]),
-		("groups", [
-			[("ghost", "vo/net", "semantic-vo-net", "email, URL, IP"), ("ghost", "vo/range", "semantic-vo-range", "bounded ranges")],
-			[("ghost", "vo/time", "semantic-vo-time", "dates, periods")],
+	("Architecture", "the layers of a service and its integrations", [
+		("JVM", [[("blue", "architecture/core", "semantic-architecture", "what a class is to the service", [
+			("layer", "@DomainLayer and the other three"), ("integration", "@Integrated, its scope and version"),
+		])]]),
+	]),
+	("Types", "rich value objects, a module per category", [
+		("JVM", [
+			[("ghost", "types/version", "semantic-types-version", "sequential, semantic and calendar versions")],
+			[("ghost", "types/*", "other categories", "email, URL, ranges, dates")],
 		]),
 	]),
 ]
@@ -250,8 +283,6 @@ LAYER_NOTES = {
 	"JVM": "Kotlin and the JDK only, no Spring, no Jakarta, no annotations",
 	"Spring": "Spring and Spring Data, mapping and callbacks; no Spring Boot, a service takes them by @Import",
 	"Spring Boot": "@AutoConfiguration on @ConditionalOnClass, keys under semantic.ddd; a starter holds dependencies only",
-	"base": "the one module every group builds on",
-	"groups": "a module per kind of value, take the ones you need",
 }
 
 
@@ -273,12 +304,12 @@ def row(a, x, y, w, specs):
 	ghosts = sum(hue == "ghost" for hue, *_ in specs)
 	ghosts = ghosts if ghosts < len(specs) else 0
 	share = (w - ghosts * MORE - (len(specs) - 1) * GAP) / (len(specs) - ghosts)
-	for hue, directory, artifact, note in specs:
+	for hue, directory, artifact, note, *inside in specs:
 		width = MORE if ghosts and hue == "ghost" else share
 		if hue == "ghost":
 			ghost(a, x, y, width, directory, artifact, note)
 		else:
-			block(a, x, y, width, hue, directory, artifact, note)
+			block(a, x, y, width, hue, directory, artifact, note, *inside)
 		x += width + GAP
 
 
@@ -286,17 +317,20 @@ def plate(a, y, name, about, layers):
 	"""Draws a family at y and returns where the next one starts."""
 	edge, width = X0 + MARGIN, FAMILY_W - 2 * X0 - 2 * MARGIN
 	start = edge + LEVEL_W
-	heights = [2 * FRAME + len(rows) * BLOCK + (len(rows) - 1) * GAP for _, rows in layers]
+	tall = [[max(height(spec[4] if len(spec) > 4 else ()) for spec in specs) for specs in rows] for _, rows in layers]
+	heights = [2 * FRAME + sum(rows) + (len(rows) - 1) * GAP for rows in tall]
 	h = 15 + TAG_H + LAYERS + sum(heights) + LAYERS * (len(layers) - 1) + MARGIN
 	a.rect(X0, y, FAMILY_W - 2 * X0, h, "plate", r=12)
 	header(a, edge, y, name, about)
 	top = y + 15 + TAG_H + LAYERS  # the header stands off the layers as they do off each other
-	for (level, rows), height in zip(layers, heights):
-		layer(a, edge, top, width, height)
+	for (level, rows), rows_tall, frame in zip(layers, tall, heights):
+		layer(a, edge, top, width, frame)
 		caption(a, edge + FRAME, top + FRAME, level)
-		for i, specs in enumerate(rows):
-			row(a, start, top + FRAME + i * (BLOCK + GAP), edge + width - FRAME - start, specs)
-		top += height + LAYERS
+		ry = top + FRAME
+		for specs, tallest in zip(rows, rows_tall):
+			row(a, start, ry, edge + width - FRAME - start, specs)
+			ry += tallest + GAP
+		top += frame + LAYERS
 	return y + h + PLATES
 
 
