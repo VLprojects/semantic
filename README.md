@@ -28,4 +28,9 @@ Artifacts are named `semantic-<family>[-<adapter>]` and live in the group
 `pro.vlprojects.semantic`. Packages follow the same path:
 `pro.vlprojects.semantic.ddd.spring.data.jpa`.
 
+Directories follow the path too, without the prefix it already gives: a family
+has a directory of its own, a module lies only at the bottom of the tree, and a
+directory above it only groups. The core of a family is `<family>/core`, a
+Spring Data store of ddd is `ddd/spring/data/<store>`.
+
 Built for Java 25, Kotlin 2.4 and Spring Boot 4.1. Licensed under Apache 2.0.
