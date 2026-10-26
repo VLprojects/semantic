@@ -15,8 +15,9 @@ spacing is measured on the render, not read off the code:
 - No legends. Every part is labelled where it stands: a row by its level in
   the gutter, a family by its status next to its name.
 - Every line is solid; a lighter colour, never a dash, marks what is inactive.
-  The exception is the family map: a family in development is filled, one
-  planned for v1 is dashed, one for later is dotted.
+  The exceptions are the family map, where a family in development is filled,
+  one planned for v1 is dashed and one for later is dotted, and the arrows of
+  the dependency map, whose line is their kind.
 - One grid of 4 px. Space inside a group is smaller than space between groups:
   12 inside a block, 16 between blocks and rows of one level, 24 between
   levels, 32 between plates.
@@ -56,7 +57,7 @@ PALETTE = {
 		"sky": "#9DD1FF", "slate": "#7A8594", "lime": "#22C063",
 		"blue-plate": "#E3EFFF", "blue-ink": "#1F2328", "green-plate": "#DDF7E7", "green-ink": "#1F2328", "green-glyph": "#22C063", "amber-plate": "#FFEEDC", "amber-ink": "#1F2328", "amber-glyph": "#FF9F2E",
 		"green-soft": "#3A7550", "blue-soft": "#41679C", "amber-soft": "#8F4600", "green-text": "#12873F", "amber-text": "#B85300",
-		"violet-link": "#8B5CF6", "amber-link": "#FF9F2E", "green-link": "#22C063",
+		"violet-link": "#8B5CF6",
 		"on-green": "#0B2915", "on-blue": "#FFFFFF", "on-amber": "#2E1700", "on-sky": "#0B2340", "on-slate": "#FFFFFF", "on-lime": "#0B2915",
 	},
 	"dark": {
@@ -67,7 +68,7 @@ PALETTE = {
 		"sky": "#6E9BFF", "slate": "#545D68", "lime": "#5BF08A",
 		"blue-plate": "#6E9BFF", "blue-ink": "#06173D", "green-plate": "#5BF08A", "green-ink": "#03240E", "green-glyph": "#0D7A32", "amber-plate": "#FFB46B", "amber-ink": "#1F1206", "amber-glyph": "#8A3F00",
 		"green-soft": "#0D5A26", "blue-soft": "#1B3A80", "amber-soft": "#4A2808", "green-text": "#03240E", "amber-text": "#FF9F4A",
-		"violet-link": "#A78BFA", "amber-link": "#FF9F4A", "green-link": "#3FB950",
+		"violet-link": "#A78BFA",
 		"on-green": "#0D1117", "on-blue": "#0D1117", "on-amber": "#0D1117", "on-sky": "#06173D", "on-slate": "#E6EDF3", "on-lime": "#03240E",
 	},
 }
@@ -266,51 +267,61 @@ def families(pal):
 # Which module builds on which, on the plate of the family and on its grid: every block keeps the edges of
 # the row, a store and its starter share a column, and the starters, what a service adds, come last. An
 # arrow points to what a module needs: it starts on a dot and ends on a filled head, both 3 off the blocks,
-# and what it takes is said beside it. Its colour is its kind, from the palette of the plates: violet
-# builds on the classes of the module it points to, extending them or implementing them, amber configures a
-# module when the service has it, green puts a module into the service with the starter. An arrow that has
-# a row to skip, from a starter up to its store, takes a lane beside the blocks, left for the left column
-# and right for the right one, and enters them from the side; its note keeps 8 off the lane and more than
-# the padding of a block off the block, so it reads with the lane. The page is wider than the family map,
-# so the longest starter fits half a row. The gaps that hold arrows are 40 inside a level and 48 between
-# levels, on the grid of 4
-DEP_W, DEP_ROW, DEP_LEVEL, BEND = 1040, 40, 48, 8  # page, gaps with arrows, bends
+# and what it takes is said beside it. Every arrow is violet; its line is its kind, as in UML: solid builds
+# on the classes of the module it points to, extending them or implementing them, dashed is a dependency the
+# starter declares, dotted configures a module only when the service has it. An arrow that has a row to
+# skip, from a starter up to its store, takes a lane beside the blocks, left for the left column and right
+# for the right one, and enters them from the side; its note keeps 8 off the lane and more than the padding
+# of a block off the block, so it reads with the lane. The page is wider than the family map, so the
+# longest starter fits half a row. The gaps that hold arrows are 48 inside a level and 56 between levels,
+# on the grid of 4
+DEP_W, DEP_ROW, DEP_LEVEL, BEND = 1040, 48, 56, 8  # page, gaps with arrows, bends
 LANE, RUN = 88, 56  # room beside the blocks, and how far out of it the lane runs
-BUILDS, CONFIGURES, ADDS = "violet-link", "amber-link", "green-link"
+ARROW = "violet-link"
+BUILDS, DECLARES, CONFIGURES = None, "5 4", "0.1 4"  # the dash of each kind
 HEAD, HALF, DOT, AIR = 5, 2.5, 2, 3  # length of a head and half its base, radius of a dot, air to a block
 
 
-def arrowhead(a, x, y, dx, dy, color):
+def line(a, d, dash):
+	"""A violet line along d, dashed by its kind."""
+	pattern = f' stroke-dasharray="{dash}"' if dash else ""
+	a.add(
+		f'<path d="{d}" stroke="{a.p[ARROW]}" stroke-width="1.5" fill="none" stroke-linecap="round" '
+		f'stroke-linejoin="round"{pattern}/>'
+	)
+
+
+def arrowhead(a, x, y, dx, dy):
 	"""A filled head with its tip at x, y, pointing along dx, dy; returns the middle of its base."""
 	bx, by = x - dx * HEAD, y - dy * HEAD
 	a.add(
 		f'<path d="M{x},{y} L{bx - dy * HALF},{by + dx * HALF} L{bx + dy * HALF},{by - dx * HALF} Z" '
-		f'fill="{a.p[color]}" stroke="{a.p[color]}" stroke-width="0.5" stroke-linejoin="round"/>'
+		f'fill="{a.p[ARROW]}" stroke="{a.p[ARROW]}" stroke-width="0.5" stroke-linejoin="round"/>'
 	)
 	return bx, by
 
 
-def dot(a, x, y, color):
-	a.add(f'<circle cx="{x}" cy="{y}" r="{DOT}" fill="{a.p[color]}"/>')
+def dot(a, x, y):
+	a.add(f'<circle cx="{x}" cy="{y}" r="{DOT}" fill="{a.p[ARROW]}"/>')
 
 
-def link(a, x, y1, y2, color):
+def link(a, x, y1, y2, dash):
 	"""From a dot over the edge at y1 up to a head under the edge at y2."""
 	start = y1 - AIR - DOT
-	dot(a, x, start, color)
-	_, by = arrowhead(a, x, y2 + AIR, 0, -1, color)
-	a.path(f"M{x},{start} L{x},{by}", color)
+	dot(a, x, start)
+	_, by = arrowhead(a, x, y2 + AIR, 0, -1)
+	line(a, f"M{x},{start} L{x},{by}", dash)
 
 
-def bypass(a, edge, lane, y1, y2, color):
+def bypass(a, edge, lane, y1, y2, dash):
 	"""From a dot beside the edge at y1 out to the lane, up it and back in, to a head beside the edge at y2."""
 	d = 1 if lane > edge else -1
 	start = edge + d * (AIR + DOT)
-	dot(a, start, y1, color)
-	bx, _ = arrowhead(a, edge + d * AIR, y2, -d, 0, color)
-	a.path(
-		f"M{start},{y1} L{lane - d * BEND},{y1} Q{lane},{y1} {lane},{y1 - BEND} L{lane},{y2 + BEND} "
-		f"Q{lane},{y2} {lane - d * BEND},{y2} L{bx},{y2}", color)
+	dot(a, start, y1)
+	bx, _ = arrowhead(a, edge + d * AIR, y2, -d, 0)
+	line(a,
+		f"M{start},{y1} L{lane - d * BEND},{y1} Q{lane},{y1} {lane},{y1 - BEND} "
+		f"L{lane},{y2 + BEND} Q{lane},{y2} {lane - d * BEND},{y2} L{bx},{y2}", dash)
 
 
 def along(a, x, y, s):
@@ -354,15 +365,15 @@ def dependencies(pal):
 	# an arrow keeps a third of its column, so its note fits the column; the one between two full rows keeps
 	# the middle of the row
 	middle, jpa, mongodb = start + bw / 2, left + w / 3, right + w / 3
-	for x, source, target, color in (
+	for x, source, target, dash in (
 		(middle, data, core, BUILDS), (jpa, stores, data, BUILDS), (mongodb, stores, data, BUILDS),
 		(jpa, boot, stores, CONFIGURES), (mongodb, boot, stores, CONFIGURES),
-		(jpa, starters, boot, ADDS), (mongodb, starters, boot, ADDS),
+		(jpa, starters, boot, DECLARES), (mongodb, starters, boot, DECLARES),
 	):
-		link(a, x, source, target + BLOCK, color)
+		link(a, x, source, target + BLOCK, dash)
 	lane_left, lane_right = start - RUN, end + RUN
-	bypass(a, start, lane_left, starters + BLOCK / 2, stores + BLOCK / 2, ADDS)
-	bypass(a, end, lane_right, starters + BLOCK / 2, stores + BLOCK / 2, ADDS)
+	bypass(a, start, lane_left, starters + BLOCK / 2, stores + BLOCK / 2, DECLARES)
+	bypass(a, end, lane_right, starters + BLOCK / 2, stores + BLOCK / 2, DECLARES)
 	# a note stands 8 off its arrow, on the middle of the gap, and says what the module takes
 	for x, gap_top, gap, note, color, anchor in (
 		(middle + 8, core + BLOCK, DEP_LEVEL, "extends base classes, implements interfaces", "soft", "start"),
