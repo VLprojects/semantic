@@ -15,3 +15,26 @@ public abstract class pro/vlprojects/semantic/ddd/spring/data/AbstractSpringData
 	protected fun markPersisted ()V
 }
 
+public abstract interface class pro/vlprojects/semantic/ddd/spring/data/repository/AggregateRepository : pro/vlprojects/semantic/ddd/spring/data/repository/EntityRepository {
+}
+
+public abstract interface class pro/vlprojects/semantic/ddd/spring/data/repository/EntityRepository : org/springframework/data/repository/ListCrudRepository, org/springframework/data/repository/ListPagingAndSortingRepository {
+	public fun findByIdOrThrow (Lpro/vlprojects/semantic/ddd/tactical/Identifier;)Lpro/vlprojects/semantic/ddd/tactical/Entity;
+}
+
+public abstract interface class pro/vlprojects/semantic/ddd/spring/data/repository/SpecificationExecutor {
+	public fun count (Lpro/vlprojects/semantic/ddd/tactical/Specification;)J
+	public fun exists (Lpro/vlprojects/semantic/ddd/tactical/Specification;)Z
+	public fun findAll (Lpro/vlprojects/semantic/ddd/tactical/Specification;Lorg/springframework/data/domain/Sort;)Ljava/util/List;
+	public static synthetic fun findAll$default (Lpro/vlprojects/semantic/ddd/spring/data/repository/SpecificationExecutor;Lpro/vlprojects/semantic/ddd/tactical/Specification;Lorg/springframework/data/domain/Sort;ILjava/lang/Object;)Ljava/util/List;
+	public fun findAllPaged (Lpro/vlprojects/semantic/ddd/tactical/Specification;Lorg/springframework/data/domain/Pageable;)Lorg/springframework/data/domain/Page;
+	public fun findAllScrolled (Lpro/vlprojects/semantic/ddd/tactical/Specification;Lorg/springframework/data/domain/ScrollPosition;Lorg/springframework/data/domain/Sort;)Lorg/springframework/data/domain/Window;
+	public static synthetic fun findAllScrolled$default (Lpro/vlprojects/semantic/ddd/spring/data/repository/SpecificationExecutor;Lpro/vlprojects/semantic/ddd/tactical/Specification;Lorg/springframework/data/domain/ScrollPosition;Lorg/springframework/data/domain/Sort;ILjava/lang/Object;)Lorg/springframework/data/domain/Window;
+	public fun findAllSliced (Lpro/vlprojects/semantic/ddd/tactical/Specification;Lorg/springframework/data/domain/Pageable;)Lorg/springframework/data/domain/Slice;
+	public fun findAllStreamed (Lpro/vlprojects/semantic/ddd/tactical/Specification;Lorg/springframework/data/domain/Sort;)Ljava/util/stream/Stream;
+	public static synthetic fun findAllStreamed$default (Lpro/vlprojects/semantic/ddd/spring/data/repository/SpecificationExecutor;Lpro/vlprojects/semantic/ddd/tactical/Specification;Lorg/springframework/data/domain/Sort;ILjava/lang/Object;)Ljava/util/stream/Stream;
+	public abstract fun findBy (Lpro/vlprojects/semantic/ddd/tactical/Specification;Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
+	public fun findOne (Lpro/vlprojects/semantic/ddd/tactical/Specification;)Ljava/lang/Object;
+	public fun findOneOrThrow (Lpro/vlprojects/semantic/ddd/tactical/Specification;)Ljava/lang/Object;
+}
+
