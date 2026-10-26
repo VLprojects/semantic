@@ -1,0 +1,29 @@
+public abstract interface class pro/vlprojects/semantic/delivery/outbox/Backoff {
+	public abstract fun delayAfter (I)Ljava/time/Duration;
+}
+
+public abstract interface class pro/vlprojects/semantic/delivery/outbox/EventPublisher {
+	public fun publish (Ljava/lang/Iterable;)V
+	public abstract fun publish (Ljava/lang/Object;)V
+}
+
+public final class pro/vlprojects/semantic/delivery/outbox/ExponentialBackoff : pro/vlprojects/semantic/delivery/outbox/Backoff {
+	public fun <init> (Ljava/time/Duration;Ljava/time/Duration;DDLkotlin/random/Random;)V
+	public synthetic fun <init> (Ljava/time/Duration;Ljava/time/Duration;DDLkotlin/random/Random;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun delayAfter (I)Ljava/time/Duration;
+}
+
+public final class pro/vlprojects/semantic/delivery/outbox/FixedBackoff : pro/vlprojects/semantic/delivery/outbox/Backoff {
+	public fun <init> (Ljava/time/Duration;)V
+	public fun delayAfter (I)Ljava/time/Duration;
+}
+
+public final class pro/vlprojects/semantic/delivery/outbox/OutboxStatus : java/lang/Enum {
+	public static final field ABANDONED Lpro/vlprojects/semantic/delivery/outbox/OutboxStatus;
+	public static final field PENDING Lpro/vlprojects/semantic/delivery/outbox/OutboxStatus;
+	public static final field PUBLISHED Lpro/vlprojects/semantic/delivery/outbox/OutboxStatus;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lpro/vlprojects/semantic/delivery/outbox/OutboxStatus;
+	public static fun values ()[Lpro/vlprojects/semantic/delivery/outbox/OutboxStatus;
+}
+
