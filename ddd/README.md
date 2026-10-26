@@ -164,7 +164,7 @@ Seven artifacts, group `pro.vlprojects.semantic`:
 | `semantic-ddd-spring-data` | what every Spring Data store shares: `Persistable`, events handed out on save | core, `spring-data-commons`, `spring-aop` |
 | `semantic-ddd-spring-data-jpa` | aggregates mapped with JPA | the Spring Data module, `jakarta.persistence-api`, `spring-data-jpa` |
 | `semantic-ddd-spring-data-mongodb` | aggregates stored in MongoDB | the Spring Data module, `spring-data-mongodb` |
-| `semantic-ddd-spring-boot` | auto-configuration, empty so far: [what it may hold](spring-boot/README.md) | the Spring Data module, Spring Boot |
+| `semantic-ddd-spring-boot` | auto-configuration, empty so far: [what it may hold](spring-boot/autoconfigure/README.md) | the Spring Data module, Spring Boot |
 | `semantic-ddd-spring-boot-starter-jpa` | the way in for a JPA service: dependencies only | the Spring Boot and JPA modules, `spring-boot-starter-data-jpa` |
 | `semantic-ddd-spring-boot-starter-mongodb` | the way in for a MongoDB service: dependencies only | the Spring Boot and MongoDB modules, `spring-boot-starter-data-mongodb` |
 
@@ -177,18 +177,27 @@ The naming follows the Spring Boot reference: a module of your own is
 module is named as in Spring Data, `spring-data-jpa` and `spring-data-mongodb`.
 Configuration keys live under `semantic.ddd`.
 
-Directories drop the prefix the path already gives:
+Directories follow the types of module, core, Spring and Spring Boot, and
+drop the prefix the path already gives:
 
 ```
 ddd/
-├── core/                          semantic-ddd
-├── spring-data/                   semantic-ddd-spring-data
-├── spring-data-jpa/               semantic-ddd-spring-data-jpa
-├── spring-data-mongodb/           semantic-ddd-spring-data-mongodb
-├── spring-boot/                   semantic-ddd-spring-boot
-├── spring-boot-starter-jpa/       semantic-ddd-spring-boot-starter-jpa
-└── spring-boot-starter-mongodb/   semantic-ddd-spring-boot-starter-mongodb
+├── core/                    semantic-ddd
+├── spring/
+│   └── data/
+│       ├── core/            semantic-ddd-spring-data
+│       ├── jpa/             semantic-ddd-spring-data-jpa
+│       └── mongodb/         semantic-ddd-spring-data-mongodb
+└── spring-boot/
+    ├── autoconfigure/       semantic-ddd-spring-boot
+    └── starter/
+        ├── jpa/             semantic-ddd-spring-boot-starter-jpa
+        └── mongodb/         semantic-ddd-spring-boot-starter-mongodb
 ```
+
+A module lies only at the bottom of the tree; a directory above it only groups.
+A new store goes next to its kin: its Spring Data module under `spring/data/`,
+its starter under `spring-boot/starter/`.
 
 Packages follow the artifacts: `pro.vlprojects.semantic.ddd`,
 `pro.vlprojects.semantic.ddd.spring.data`,
