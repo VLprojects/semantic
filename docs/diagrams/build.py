@@ -56,6 +56,7 @@ PALETTE = {
 		"sky": "#9DD1FF", "slate": "#7A8594", "lime": "#22C063",
 		"blue-plate": "#E3EFFF", "blue-ink": "#1F2328", "green-plate": "#DDF7E7", "green-ink": "#1F2328", "green-glyph": "#22C063", "amber-plate": "#FFEEDC", "amber-ink": "#1F2328", "amber-glyph": "#FF9F2E",
 		"green-soft": "#3A7550", "blue-soft": "#41679C", "amber-soft": "#8F4600", "green-text": "#12873F", "amber-text": "#B85300",
+		"blue-link": "#4C8DF0", "green-link": "#2FA85A", "amber-link": "#E8902E",
 		"on-green": "#0B2915", "on-blue": "#FFFFFF", "on-amber": "#2E1700", "on-sky": "#0B2340", "on-slate": "#FFFFFF", "on-lime": "#0B2915",
 	},
 	"dark": {
@@ -66,6 +67,7 @@ PALETTE = {
 		"sky": "#6E9BFF", "slate": "#545D68", "lime": "#5BF08A",
 		"blue-plate": "#6E9BFF", "blue-ink": "#06173D", "green-plate": "#5BF08A", "green-ink": "#03240E", "green-glyph": "#0D7A32", "amber-plate": "#FFB46B", "amber-ink": "#1F1206", "amber-glyph": "#8A3F00",
 		"green-soft": "#0D5A26", "blue-soft": "#1B3A80", "amber-soft": "#4A2808", "green-text": "#03240E", "amber-text": "#FF9F4A",
+		"blue-link": "#6E9BFF", "green-link": "#3FB950", "amber-link": "#E5963F",
 		"on-green": "#0D1117", "on-blue": "#0D1117", "on-amber": "#0D1117", "on-sky": "#06173D", "on-slate": "#E6EDF3", "on-lime": "#03240E",
 	},
 }
@@ -263,32 +265,50 @@ def families(pal):
 # ---------------------------------------------------------------------- ddd dependencies
 # Which module builds on which, on the plate of the family and on its grid: every block keeps the edges of
 # the row, a store and its starter share a column, and the starters, what a service adds, come last. An
-# arrow points to what a module needs: it starts on a dot at the module and ends on a chevron 4 short of the
-# other one, and what it takes is said beside it. Arrows are structure, so they are grey and lighter than
-# the notes; a dependency the service may leave out is lighter still, as is its note. An arrow that has a
-# row to skip, from a starter up to its store, takes a lane beside the blocks, left for the left column and
-# right for the right one, and enters them from the side. The page is wider than the family map, so the
-# longest starter fits half a row. The gaps that hold arrows are 40 inside a level and 48 between levels,
-# on the grid of 4
-DEP_W, DEP_ROW, DEP_LEVEL, LANE, BEND = 1008, 40, 48, 72, 8  # page, gaps with arrows, lanes beside the blocks, bends
-ARROW = "mute"
+# arrow points to what a module needs: it starts on a dot at the module and ends on a filled head 2 short
+# of the other one, and what it takes is said beside it. Its colour is its kind, in a middle tone of the
+# plates: blue builds on the classes of the module it points to, extending them or implementing them, amber
+# configures a module when the service has it, green puts a module into the service with the starter. An
+# arrow that has a row to skip, from a starter up to its store, takes a lane beside the blocks, left for the
+# left column and right for the right one, and enters them from the side; its note keeps 8 off the lane and
+# more than the padding of a block off the block, so it reads with the lane. The page is wider than the
+# family map, so the longest starter fits half a row. The gaps that hold arrows are 40 inside a level and 48
+# between levels, on the grid of 4
+DEP_W, DEP_ROW, DEP_LEVEL, BEND = 1040, 40, 48, 8  # page, gaps with arrows, bends
+LANE, RUN = 88, 56  # room beside the blocks, and how far out of it the lane runs
+BUILDS, CONFIGURES, ADDS = "blue-link", "amber-link", "green-link"
+HEAD, HALF = 8, 4.5  # length of a head and half its base
 
 
-def link(a, x, y1, y2, color=ARROW):
-	"""From a dot on the edge at y1 up to a chevron 4 short of y2."""
-	a.add(f'<circle cx="{x}" cy="{y1}" r="2.5" fill="{a.p[color]}"/>')
-	a.path(f"M{x},{y1} L{x},{y2 + 4}", color)
-	a.path(f"M{x - 4},{y2 + 9} L{x},{y2 + 4} L{x + 4},{y2 + 9}", color)
+def arrowhead(a, x, y, dx, dy, color):
+	"""A filled head with its tip at x, y, pointing along dx, dy; returns the middle of its base."""
+	bx, by = x - dx * HEAD, y - dy * HEAD
+	a.add(
+		f'<path d="M{x},{y} L{bx - dy * HALF},{by + dx * HALF} L{bx + dy * HALF},{by - dx * HALF} Z" '
+		f'fill="{a.p[color]}" stroke="{a.p[color]}" stroke-width="1.5" stroke-linejoin="round"/>'
+	)
+	return bx, by
 
 
-def bypass(a, edge, lane, y1, y2):
-	"""From a dot on the edge at y1 out to the lane, up it and back in, to a chevron 4 short of the edge at y2."""
+def dot(a, x, y, color):
+	a.add(f'<circle cx="{x}" cy="{y}" r="2.5" fill="{a.p[color]}"/>')
+
+
+def link(a, x, y1, y2, color):
+	"""From a dot on the edge at y1 up to a head 2 short of y2."""
+	dot(a, x, y1, color)
+	_, by = arrowhead(a, x, y2 + 2, 0, -1, color)
+	a.path(f"M{x},{y1} L{x},{by}", color)
+
+
+def bypass(a, edge, lane, y1, y2, color):
+	"""From a dot on the edge at y1 out to the lane, up it and back in, to a head 2 short of the edge at y2."""
 	d = 1 if lane > edge else -1
-	a.add(f'<circle cx="{edge}" cy="{y1}" r="2.5" fill="{a.p[ARROW]}"/>')
+	dot(a, edge, y1, color)
+	bx, _ = arrowhead(a, edge + d * 2, y2, -d, 0, color)
 	a.path(
 		f"M{edge},{y1} L{lane - d * BEND},{y1} Q{lane},{y1} {lane},{y1 - BEND} L{lane},{y2 + BEND} "
-		f"Q{lane},{y2} {lane - d * BEND},{y2} L{edge + d * 4},{y2}", ARROW)
-	a.path(f"M{edge + d * 9},{y2 - 4} L{edge + d * 4},{y2} L{edge + d * 9},{y2 + 4}", ARROW)
+		f"Q{lane},{y2} {lane - d * BEND},{y2} L{bx},{y2}", color)
 
 
 def along(a, x, y, s):
@@ -329,31 +349,34 @@ def dependencies(pal):
 			"the one dependency a MongoDB service declares"),
 	):
 		block(a, x, top, width, hue, directory, artifact, note)
-	# an arrow keeps the middle of its column, the one between two full rows the middle of the row
-	middle, jpa, mongodb = start + bw / 2, left + w / 2, right + w / 2
+	# an arrow keeps a third of its column, so its note fits the column; the one between two full rows keeps
+	# the middle of the row
+	middle, jpa, mongodb = start + bw / 2, left + w / 3, right + w / 3
 	for x, source, target, color in (
-		(middle, data, core, ARROW), (jpa, stores, data, ARROW), (mongodb, stores, data, ARROW),
-		(jpa, boot, stores, "line"), (mongodb, boot, stores, "line"),
-		(jpa, starters, boot, ARROW), (mongodb, starters, boot, ARROW),
+		(middle, data, core, BUILDS), (jpa, stores, data, BUILDS), (mongodb, stores, data, BUILDS),
+		(jpa, boot, stores, CONFIGURES), (mongodb, boot, stores, CONFIGURES),
+		(jpa, starters, boot, ADDS), (mongodb, starters, boot, ADDS),
 	):
 		link(a, x, source, target + BLOCK, color)
-	lane_left, lane_right = start - LANE / 2, end + LANE / 2
-	bypass(a, start, lane_left, starters + BLOCK / 2, stores + BLOCK / 2)
-	bypass(a, end, lane_right, starters + BLOCK / 2, stores + BLOCK / 2)
+	lane_left, lane_right = start - RUN, end + RUN
+	bypass(a, start, lane_left, starters + BLOCK / 2, stores + BLOCK / 2, ADDS)
+	bypass(a, end, lane_right, starters + BLOCK / 2, stores + BLOCK / 2, ADDS)
 	# a note stands 8 off its arrow, on the middle of the gap, and says what the module takes
 	for x, gap_top, gap, note, color, anchor in (
-		(middle + 8, core + BLOCK, DEP_LEVEL, "extends the base classes", "soft", "start"),
-		(jpa + 8, data + BLOCK, DEP_ROW, "extends the bases", "soft", "start"),
-		(mongodb + 8, data + BLOCK, DEP_ROW, "extends the bases", "soft", "start"),
-		(jpa + 8, stores + BLOCK, DEP_LEVEL, "configures when present", "mute", "start"),
-		(mongodb + 8, stores + BLOCK, DEP_LEVEL, "configures when present", "mute", "start"),
-		(jpa + 8, boot + BLOCK, DEP_ROW, "hands to the service", "soft", "start"),
-		(mongodb + 8, boot + BLOCK, DEP_ROW, "hands to the service", "soft", "start"),
+		(middle + 8, core + BLOCK, DEP_LEVEL, "extends the bases, implements the contracts", "soft", "start"),
+		(jpa + 8, data + BLOCK, DEP_ROW, "extends the Spring Data bases", "soft", "start"),
+		(mongodb + 8, data + BLOCK, DEP_ROW, "extends the Spring Data bases", "soft", "start"),
+		(jpa + 8, stores + BLOCK, DEP_LEVEL, "configures when present", "soft", "start"),
+		(mongodb + 8, stores + BLOCK, DEP_LEVEL, "configures when present", "soft", "start"),
+		(jpa + 8, boot + BLOCK, DEP_ROW, "turns on auto-configuration", "soft", "start"),
+		(mongodb + 8, boot + BLOCK, DEP_ROW, "turns on auto-configuration", "soft", "start"),
 	):
 		a.t(x, gap_top + gap / 2 + 4, note, color=color, anchor=anchor)
-	# the note of a lane reads up it, centred between the lane and the blocks
-	for x in (start - LANE / 4, end + LANE / 4):
-		along(a, x + 4, (stores + starters + BLOCK) / 2, "hands to the service")
+	# the note of a lane reads up it, 8 off the lane on the side of the blocks; a glyph turned up stands 10
+	# left of its baseline and 3 right of it
+	for x, note in ((lane_left + 18, "adds the JPA bases to the service"),
+			(lane_right - 11, "adds the MongoDB bases to the service")):
+		along(a, x, (stores + starters + BLOCK) / 2, note)
 	a.h = y + INSET
 	return a
 
