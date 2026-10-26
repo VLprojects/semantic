@@ -1,4 +1,4 @@
-# semantic-architecture
+# architecture
 
 The layers of a service for Kotlin and Java: a class says which layer it
 belongs to, and the rules of a project can check that the layers depend on
@@ -8,7 +8,7 @@ The core holds the four layers so far. The rules that check them come next.
 
 ## The core
 
-Package `pro.vlprojects.semantic.architecture.layer` of `semantic-architecture`:
+Package `pro.vlprojects.semantic.explicit.layer` of `semantic-explicit`:
 
 | Type | What it is |
 | --- | --- |
@@ -37,7 +37,7 @@ class OrderController(private val placeOrder: PlaceOrderService)
 
 ## Integration
 
-Package `pro.vlprojects.semantic.architecture.integration` of `semantic-architecture`:
+Package `pro.vlprojects.semantic.boundary` of `semantic-boundary`:
 
 | Type | What it is |
 | --- | --- |
@@ -68,13 +68,16 @@ class OrderPlaced(
 
 ## Modules
 
-One artifact so far, group `pro.vlprojects.semantic`:
+Two artifacts with code so far, group `pro.vlprojects.semantic`:
 
 | Artifact | For | Depends on |
 | --- | --- | --- |
-| `semantic-architecture` | any JVM code: the layers of a service and its integrations | nothing |
+| `semantic-explicit` | any JVM code: the layers of a service | nothing |
+| `semantic-boundary` | any JVM code: the contracts of a component with other systems | nothing |
 
 ```
 architecture/
-└── core/                  semantic-architecture
+├── style/
+│   └── explicit/core/     semantic-explicit
+└── boundary/core/         semantic-boundary
 ```
