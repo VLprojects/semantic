@@ -54,10 +54,10 @@
     <path d="M686.6666666666666,347 L686.6666666666666,312" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
     <circle cx="320.6666666666667" cy="495" r="2" fill="#8B5CF6"/>
     <path d="M320.6666666666667,447 L323.1666666666667,452.0 L318.1666666666667,452.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <path d="M320.6666666666667,495 L320.6666666666667,452" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.1 4"/>
+    <path d="M320.6666666666667,495 L320.6666666666667,452" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.01 3"/>
     <circle cx="686.6666666666666" cy="495" r="2" fill="#8B5CF6"/>
     <path d="M686.6666666666666,447 L689.1666666666666,452.0 L684.1666666666666,452.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <path d="M686.6666666666666,495 L686.6666666666666,452" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.1 4"/>
+    <path d="M686.6666666666666,495 L686.6666666666666,452" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.01 3"/>
     <circle cx="320.6666666666667" cy="635" r="2" fill="#8B5CF6"/>
     <path d="M320.6666666666667,595 L323.1666666666667,600.0 L318.1666666666667,600.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
     <path d="M320.6666666666667,635 L320.6666666666667,600" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 4"/>

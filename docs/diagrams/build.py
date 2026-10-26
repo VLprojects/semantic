@@ -278,7 +278,7 @@ def families(pal):
 DEP_W, DEP_ROW, DEP_LEVEL, BEND = 1040, 48, 56, 8  # page, gaps with arrows, bends
 LANE, RUN = 88, 56  # room beside the blocks, and how far out of it the lane runs
 ARROW = "violet-link"
-BUILDS, DECLARES, CONFIGURES = None, "5 4", "0.1 4"  # the dash of each kind
+BUILDS, DECLARES, CONFIGURES = None, "5 4", "0.01 3"  # the dash of each kind; a dot of 1.5 and a gap of the same
 HEAD, HALF, DOT, AIR = 5, 2.5, 2, 3  # length of a head and half its base, radius of a dot, air to a block
 
 
