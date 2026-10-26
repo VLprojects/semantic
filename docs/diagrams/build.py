@@ -279,10 +279,10 @@ def families(pal):
 # so a frame holds its blocks closer than its neighbour. Rows inside a layer are as far apart as rows of two
 # layers, so every arrow up is as long as another, and the note of one between layers sits in the middle of
 # the gap between the frames
-DEP_W, BEND = 1256, 8  # page, bends
+DEP_W, BEND = 1312, 8  # page, bends
 FRAME, FRAMES = 16, 48  # padding of a layer, gap between layers
 DEP_ROW = 2 * FRAME + FRAMES  # gap between the rows of a layer, the same as between layers
-MORE = 128  # the column of the stores to come
+MORE = 200  # the column of the stores to come
 LEVEL_W, LANE, RUN = 232, 88, 56  # gutter for the name and the notes of a layer, room beside the blocks, lane out of them
 ABOUT = 9  # the notes of a layer, under its name
 MARGIN = 24  # plate to its layers, more than a layer to its blocks
@@ -343,12 +343,10 @@ def along(a, x, y, s):
 	a.add("</g>")
 
 
-def ghost(a, x, y, w, directory, note):
-	"""A module to come: a dashed outline in place of a block, no arrows."""
-	a.outline(x, y, w, BLOCK)
-	tag(a, x + 12, y + 12, directory, color="mute", mono=True)
-	a.t(x + 12, y + 48, "…", size=TITLE, color="mute", weight="600")
-	a.t(x + 12, y + BLOCK - 12, note, color="mute")
+def ghost(a, x, y, w, directory, artifact, note):
+	"""Modules to come: a grey block in a fine dashed outline, no arrows."""
+	block(a, x, y, w, None, directory, artifact, note)
+	a.outline(x, y, w, BLOCK, dash="2 3")
 
 
 def layer(a, x, y, w, h):
@@ -406,8 +404,8 @@ def dependencies(pal):
 			"the one dependency a MongoDB service declares"),
 	):
 		block(a, x, top, width, hue, directory, artifact, note)
-	ghost(a, more, stores, MORE, "spring-data-*", "Redis, Cassandra")
-	ghost(a, more, starters, MORE, "starter-*", "one per store")
+	ghost(a, more, stores, MORE, "ddd/spring-data-*", "…-spring-data-*", "Redis, Cassandra, Neo4j")
+	ghost(a, more, starters, MORE, "ddd/spring-boot-starter-*", "…-starter-*", "one per store")
 	# an arrow keeps a third of its column, so its note fits the column; the one between two full rows keeps
 	# the middle of the row
 	middle, jpa, mongodb = start + bw / 2, left + w / 3, right + w / 3
