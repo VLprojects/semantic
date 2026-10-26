@@ -23,15 +23,16 @@ public abstract interface class pro/vlprojects/semantic/ddd/spring/data/reposito
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/spring/data/repository/SpecificationExecutor {
-	public abstract fun count (Lpro/vlprojects/semantic/ddd/tactical/Specification;)J
-	public abstract fun exists (Lpro/vlprojects/semantic/ddd/tactical/Specification;)Z
-	public abstract fun findAll (Lpro/vlprojects/semantic/ddd/tactical/Specification;)Ljava/util/List;
-	public abstract fun findAll (Lpro/vlprojects/semantic/ddd/tactical/Specification;Lorg/springframework/data/domain/Pageable;)Lorg/springframework/data/domain/Page;
-	public abstract fun findAll (Lpro/vlprojects/semantic/ddd/tactical/Specification;Lorg/springframework/data/domain/Sort;)Ljava/util/List;
-	public abstract fun findOne (Lpro/vlprojects/semantic/ddd/tactical/Specification;)Ljava/lang/Object;
-	public abstract fun findOneOrThrow (Lpro/vlprojects/semantic/ddd/tactical/Specification;)Ljava/lang/Object;
-	public abstract fun findSlice (Lpro/vlprojects/semantic/ddd/tactical/Specification;Lorg/springframework/data/domain/Pageable;)Lorg/springframework/data/domain/Slice;
-	public abstract fun streamAll (Lpro/vlprojects/semantic/ddd/tactical/Specification;)Ljava/util/stream/Stream;
-	public abstract fun streamAll (Lpro/vlprojects/semantic/ddd/tactical/Specification;Lorg/springframework/data/domain/Sort;)Ljava/util/stream/Stream;
+	public fun count (Lpro/vlprojects/semantic/ddd/tactical/Specification;)J
+	public fun exists (Lpro/vlprojects/semantic/ddd/tactical/Specification;)Z
+	public fun findAll (Lpro/vlprojects/semantic/ddd/tactical/Specification;)Ljava/util/List;
+	public fun findAll (Lpro/vlprojects/semantic/ddd/tactical/Specification;Lorg/springframework/data/domain/Pageable;)Lorg/springframework/data/domain/Page;
+	public fun findAll (Lpro/vlprojects/semantic/ddd/tactical/Specification;Lorg/springframework/data/domain/Sort;)Ljava/util/List;
+	public abstract fun findBy (Lpro/vlprojects/semantic/ddd/tactical/Specification;Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
+	public fun findOne (Lpro/vlprojects/semantic/ddd/tactical/Specification;)Ljava/lang/Object;
+	public fun findOneOrThrow (Lpro/vlprojects/semantic/ddd/tactical/Specification;)Ljava/lang/Object;
+	public fun findSlice (Lpro/vlprojects/semantic/ddd/tactical/Specification;Lorg/springframework/data/domain/Pageable;)Lorg/springframework/data/domain/Slice;
+	public fun streamAll (Lpro/vlprojects/semantic/ddd/tactical/Specification;)Ljava/util/stream/Stream;
+	public fun streamAll (Lpro/vlprojects/semantic/ddd/tactical/Specification;Lorg/springframework/data/domain/Sort;)Ljava/util/stream/Stream;
 }
 

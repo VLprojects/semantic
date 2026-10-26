@@ -159,16 +159,22 @@ it takes a root only. A store gives a repository of its own on top of each,
 `JpaAggregateRepository` with `JpaRepository`, `MongoAggregateRepository` with
 `MongoRepository`.
 
-`SpecificationExecutor` finds by a specification, with `Sort` and `Pageable`,
-the way `QuerydslPredicateExecutor` finds by a predicate. `findSlice` gives a
-`Slice`, a page with no total, for a table where counting the rows costs too
-much. `streamAll` reads the candidates one by one, within a transaction, and
-the caller closes the `Stream`. It is an add-on, not a
-part of `EntityRepository`: a repository that needs it names it among its
-parents.
+`SpecificationExecutor` finds by a specification the way
+`QuerydslPredicateExecutor` finds by a predicate. At its root is `findBy`,
+which hands a `FetchableFluentQuery` of Spring Data to a lambda: sort, limit,
+project, take a page, a slice, a window or a stream. The other methods say in
+their name what the lambda would do and are written through it: `findOne`,
+`findOneOrThrow`, `findAll` with `Sort` and `Pageable`, `findSlice`, a page
+with no total for a table where counting the rows costs too much, `streamAll`,
+read within a transaction and closed by the caller, `count` and `exists`. It is
+an add-on, not a part of `EntityRepository`: a repository that needs it names
+it among its parents.
 
 ```kotlin
 interface OrderRepository : JpaAggregateRepository<Order, OrderId>, SpecificationExecutor<Order>
+
+orders.findSlice(IsOpen, pageable)
+orders.findBy(IsOpen) { it.sortBy(byDate).limit(10).all() }
 ```
 
 So far these are contracts only: the store repositories and the code that runs
