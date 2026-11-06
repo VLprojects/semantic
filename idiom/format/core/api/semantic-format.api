@@ -3,6 +3,10 @@ public final class pro/vlprojects/semantic/format/IntFormatHelperKt {
 	public static final fun pluralizeWithCount (ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
 }
 
+public final class pro/vlprojects/semantic/format/KClassFormatHelperKt {
+	public static final fun toKebabCase (Lkotlin/reflect/KClass;)Ljava/lang/String;
+}
+
 public final class pro/vlprojects/semantic/format/LongFormatHelperKt {
 	public static final fun pluralize (JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
 	public static final fun pluralizeWithCount (JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
