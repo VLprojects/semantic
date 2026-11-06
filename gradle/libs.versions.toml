@@ -12,12 +12,14 @@ jakarta-persistence = "3.2.0"
 hibernate = "7.4.5.Final"
 jackson = "3.1.5"
 postgresql = "42.7.13"
+db-util = "1.0.7"
 testcontainers = "2.0.5"
 junit = "6.0.3"
 
 [libraries]
 # Gradle plugins, for the convention plugins in gradle/build-logic
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 kotlin-noarg = { module = "org.jetbrains.kotlin:kotlin-noarg", version.ref = "kotlin" }
 kotlinter-gradle = { module = "org.jmailen.gradle:kotlinter-gradle", version.ref = "kotlinter" }
 
@@ -37,5 +39,6 @@ junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
+db-util = { module = "com.vladmihalcea:db-util", version.ref = "db-util" }
 testcontainers-bom = { module = "org.testcontainers:testcontainers-bom", version.ref = "testcontainers" }
 testcontainers-postgresql = { module = "org.testcontainers:testcontainers-postgresql" }
