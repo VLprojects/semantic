@@ -104,11 +104,11 @@ Depends on nothing: `ddd` and the architecture styles build on it.
 
 #### DDD
 
-`design/ddd/` — tactical domain-driven design. The core knows no framework; the adapters store aggregates with Spring Data and wire them with Spring Boot, so a service takes one starter and gets the rest.
+`design/ddd/` — tactical and strategic domain-driven design. The core knows no framework; the adapters store aggregates with Spring Data and wire them with Spring Boot, so a service takes one starter and gets the rest.
 
 | Directory | What it is | Contents | Status |
 | --- | --- | --- | --- |
-| [`core`](design/ddd/README.md) | tactical DDD without a framework: identifiers, entities, aggregate roots with events, specifications, domain errors | `tactical`, `dsl`, `architecture.error`, `support` | design, v1 |
+| [`core`](design/ddd/README.md) | tactical and strategic DDD without a framework: identifiers, entities, aggregate roots with events, specifications, bounded contexts, domain errors | `tactical`, `strategic`, `dsl`, `architecture.error`, `support` | design, v1 |
 | [`jackson`](design/ddd/jackson) | an identifier in JSON as the value it boxes; no Spring | | design, v1 |
 | [`spring-boot`](#spring-boot) | auto-configuration of the modules and the starters of a service | autoconfigure, starter | |
 | [`spring/data`](#spring-data) | bases of aggregates a Spring Data repository saves, and their mapping | core, jpa, mongodb | |
