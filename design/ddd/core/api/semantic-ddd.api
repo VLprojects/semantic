@@ -22,7 +22,6 @@ public final class pro/vlprojects/semantic/ddd/dsl/BusinessRulesKt {
 
 public abstract interface class pro/vlprojects/semantic/ddd/strategic/BoundedContext {
 	public fun getName ()Ljava/lang/String;
-	public fun getSubdomains ()Ljava/util/Set;
 }
 
 public final class pro/vlprojects/semantic/ddd/strategic/BoundedContextKt {

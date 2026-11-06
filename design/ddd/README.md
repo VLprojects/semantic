@@ -3,7 +3,7 @@
 Building blocks of domain-driven design for Kotlin and Java: typed
 identifiers, entities, aggregate roots, domain events, business rules,
 specifications and domain errors, and the bounded contexts that hold them
-with the subdomains they serve. The core is plain Kotlin; Jackson, Spring Data
+with the subdomains in their packages. The core is plain Kotlin; Jackson, Spring Data
 with its stores, JPA and MongoDB, and Spring Boot live in modules of their own.
 
 The contracts of the core are in place, and so are the base classes of the
@@ -19,7 +19,7 @@ Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd`:
 | `tactical` | The building blocks, side by side: `DomainObject` they all extend, with `typeName`, the class name in kebab case, on an object and on its class; `Identifier`, `BoxedIdentifier`, a key that boxes one serializable value such as a `UUID` or a `Long`, `Identifiable`, `Entity` with its version, `AggregateRoot`, `Revision` of an aggregate, `Versioned`, `ValueObject`, `Event` with its `EventMeta`, built by `EventMeta.of<ItemAdded>()` with a new `EventId`, the current time and the class name in kebab case by default, `BusinessRule`, `Specification` |
 | `tactical.specification.composite` | The parts a specification is composed of: `AllOf`, `AnyOf` and `Not` hold other specifications, `Always` and `Never` hold for every candidate and for none, `allOf` and `anyOf` combine any number of specifications |
 | `tactical.base` | Base classes to extend, free of any framework: `AbstractEntity` and `AbstractId` equal by identifier and value, the version of an entity set by `assignVersion`, `AbstractAggregateRoot` that registers events, `BaseRevision` built of any aggregate, `AbstractEvent` equal by id, and `EventId` on a `UUID`, the default id of an event |
-| `strategic` | The boundaries of the model: `BoundedContext`, declared by an object in the root package of the context and named after it in kebab case, and `Subdomain`, a part of the business of one of three kinds, `Core`, `Supporting` and `Generic`, that a context serves |
+| `strategic` | The boundaries of the model: `BoundedContext`, declared by an object in the root package of the context and named after it in kebab case, and `Subdomain`, a part of the business of one of three categories, `Core`, `Supporting` and `Generic`, declared by an object in the package of the context it belongs to |
 | `dsl` | The ways to write the blocks down: `rule` builds a `BusinessRule`, `check` runs a list of them, `checkRule` checks a one-off condition |
 | `architecture.error` | What a layer of the application raises, not a pattern of the model: `DomainException` and the refusals a service extends, `NotFoundException`, `ConflictException`, `BusinessRuleException` |
 
@@ -117,35 +117,33 @@ compile, where a name in a string compiles with a typo in it.
 
 ## Subdomains
 
-The domain of a product splits into subdomains, and each is of one kind: core,
-what sets the business apart and gets its best people; supporting, what the
-business needs of its own but does not compete on; generic, what every business
-solves the same way and buys or takes ready. A subdomain is an object of its
-kind, and a context names the subdomains it serves:
+The domain of a product splits into subdomains, and each is of one category:
+core, what sets the business apart and gets its best people; supporting, what
+the business needs of its own but does not compete on; generic, what every
+business solves the same way and buys or takes ready. A subdomain is an object
+of its category, declared in the package of the context it belongs to, as any
+other class of that context:
 
 ```kotlin
-object Pricing : Subdomain.Core
+package com.acme.billing
+
+object Billing : BoundedContext
 object Invoicing : Subdomain.Supporting
-object Taxes : Subdomain.Generic
-
-object Billing : BoundedContext {
-
-    override val subdomains = setOf(Invoicing, Taxes)
-}
+object TaxCalculation : Subdomain.Generic
 ```
 
-A subdomain is a part of the problem, a context a part of the solution, so they
-are apart: one context may serve several subdomains, and a context that names
-none serves none so far. A subdomain is named after its class in kebab case, as
-a context is.
+Nothing links them by hand: `TaxCalculation::class hasBoundedContext Billing`
+answers from the package, and moving a subdomain to another context is moving
+its object. One context may hold several subdomains, and a context with none in
+its packages holds none so far. A subdomain is named after its class in kebab
+case, as a context is.
 
-![Each context with the subdomains it serves and the kind of each](../../docs/assets/ddd-subdomains-light.svg#gh-light-mode-only)
-![Each context with the subdomains it serves and the kind of each](../../docs/assets/ddd-subdomains-dark.svg#gh-dark-mode-only)
+![Each context with the subdomains in its packages and the category of each](../../docs/assets/ddd-subdomains-light.svg#gh-light-mode-only)
+![Each context with the subdomains in its packages and the category of each](../../docs/assets/ddd-subdomains-dark.svg#gh-dark-mode-only)
 
-The kind is a type, not a value: code picks the subdomains of a kind,
-`Billing.subdomains.filterIsInstance<Subdomain.Core>()`, and a `when` over the
-three kinds is exhaustive. An architecture test may hold a context that serves
-a core subdomain to rules of its own, and a context map may put it first.
+The category is a type, not a value: code picks the subdomains of a category
+with `filterIsInstance<Subdomain.Core>()`, and a `when` over the three
+categories is exhaustive.
 
 ## Jackson
 

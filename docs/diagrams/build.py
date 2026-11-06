@@ -843,11 +843,11 @@ def context_packages(pal):
 		y += h
 	held = [(top, h) for top, h, row in placed if row[4]]
 	a.rect(16, held[0][0], a.w - 32, held[-1][0] + held[-1][1] - held[0][0], "green-plate", r=6)
-	for top, h, (depth, package, kind, note, inside) in placed:
+	for top, h, (depth, package, declared, note, inside) in placed:
 		soft, strong = ("green-soft", ink("green")) if inside else ("soft", "ink")
-		a.t(28 + depth * INDENT, top + (22 if kind else 20), package, size=CODE, color=soft, mono=True)
-		if kind:
-			a.name(TYPE_X, top + 22, kind, color=strong, mono=True)
+		a.t(28 + depth * INDENT, top + (22 if declared else 20), package, size=CODE, color=soft, mono=True)
+		if declared:
+			a.name(TYPE_X, top + 22, declared, color=strong, mono=True)
 			a.t(TYPE_X, top + 40, note, color=soft)
 	a.h = y + 16
 	return a
@@ -918,15 +918,15 @@ def context_reference(pal):
 
 
 # ---------------------------------------------------------------------- subdomain examples
-# Each context with the subdomains it serves: a subdomain is a chip, its kind a tag beside it, a context
-# that names none has nothing to the right of its arrow
+# Each context with the subdomains in its packages: a subdomain is a chip, its category a tag beside it, a
+# context with none has nothing to the right of its arrow
 
 
 def subdomains(pal):
 	a = Art(0, 0, pal)
 	rows = [
 		("object Ordering", [("Pricing", "core"), ("Catalog", "supporting")]),
-		("object Billing", [("Invoicing", "supporting"), ("Taxes", "generic")]),
+		("object Billing", [("Invoicing", "supporting"), ("TaxCalculation", "generic")]),
 		("object Notifications", [("Messaging", "generic")]),
 		("object Reports", []),
 	]
@@ -938,11 +938,11 @@ def subdomains(pal):
 		a.name(28, y + 18.5, context, mono=True)
 		a.arrow(16 + cw + 8, y + CHIP / 2, ox - 8)
 		x = ox
-		for subdomain, kind in served:
+		for subdomain, category in served:
 			x += chip(a, x, y, subdomain) + 8
-			x += tag(a, x, y + (CHIP - TAG_H) / 2, kind) + 16
+			x += tag(a, x, y + (CHIP - TAG_H) / 2, category) + 16
 		if not served:
-			a.t(ox, y + 18.5, "serves no subdomain yet", color="mute")
+			a.t(ox, y + 18.5, "holds no subdomain yet", color="mute")
 			x = ox + 160
 		right = max(right, x)
 		y += CHIP + 16

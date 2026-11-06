@@ -1,11 +1,11 @@
 package pro.vlprojects.semantic.ddd.strategic
 
-import pro.vlprojects.semantic.format.kebabClassName
+import pro.vlprojects.semantic.format.toKebabCase
 
 public sealed interface Subdomain {
 
     public val name: String
-        get() = kebabClassName
+        get() = this::class.toKebabCase()
 
     public interface Core : Subdomain
 

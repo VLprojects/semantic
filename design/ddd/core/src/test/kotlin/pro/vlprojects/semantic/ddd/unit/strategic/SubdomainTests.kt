@@ -1,10 +1,14 @@
 package pro.vlprojects.semantic.ddd.unit.strategic
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import pro.vlprojects.semantic.ddd.strategic.Subdomain
+import pro.vlprojects.semantic.ddd.strategic.hasBoundedContext
 import pro.vlprojects.semantic.ddd.unit.strategic.billing.Billing
+import pro.vlprojects.semantic.ddd.unit.strategic.billing.Invoicing
+import pro.vlprojects.semantic.ddd.unit.strategic.billing.TaxCalculation
 
 class SubdomainTests {
 
@@ -14,23 +18,18 @@ class SubdomainTests {
     }
 
     @Test
-    fun `a context serves no subdomain until it names one`() {
-        assertTrue(OrderFulfillment.subdomains.isEmpty())
+    fun `a subdomain belongs to the context of its package`() {
+        assertTrue(TaxCalculation::class hasBoundedContext Billing)
     }
 
     @Test
-    fun `a context serves the subdomains it names`() {
-        assertEquals(setOf(Invoicing, TaxCalculation), Billing.subdomains)
+    fun `a subdomain beside the package of a context does not belong to it`() {
+        assertFalse(Pricing::class hasBoundedContext Billing)
     }
 
     @Test
-    fun `the subdomains of a context are picked by their kind`() {
-        assertEquals(listOf(TaxCalculation), Billing.subdomains.filterIsInstance<Subdomain.Generic>())
-    }
-
-    @Test
-    fun `a subdomain is of one of three kinds`() {
-        val kinds = setOf(Pricing, Invoicing, TaxCalculation).map {
+    fun `a subdomain is of one of three categories`() {
+        val categories = setOf(Pricing, Invoicing, TaxCalculation).map {
             when (it) {
                 is Subdomain.Core -> "core"
                 is Subdomain.Supporting -> "supporting"
@@ -38,6 +37,6 @@ class SubdomainTests {
             }
         }
 
-        assertEquals(listOf("core", "supporting", "generic"), kinds)
+        assertEquals(listOf("core", "supporting", "generic"), categories)
     }
 }
