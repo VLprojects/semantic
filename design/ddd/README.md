@@ -19,7 +19,7 @@ Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd`:
 | `tactical` | The building blocks, side by side: `DomainObject` they all extend, with `typeName`, the class name in kebab case, on an object and on its class; `Identifier`, `BoxedIdentifier`, a key that boxes one serializable value such as a `UUID` or a `Long`, `Identifiable`, `Entity` with its version, `AggregateRoot`, `Revision` of an aggregate, `Versioned`, `ValueObject`, `Event` with its `EventMeta`, built by `EventMeta.of<ItemAdded>()` with a new `EventId`, the current time and the class name in kebab case by default, `BusinessRule`, `Specification` |
 | `tactical.specification.composite` | The parts a specification is composed of: `AllOf`, `AnyOf` and `Not` hold other specifications, `Always` and `Never` hold for every candidate and for none, `allOf` and `anyOf` combine any number of specifications |
 | `tactical.base` | Base classes to extend, free of any framework: `AbstractEntity` and `AbstractId` equal by identifier and value, the version of an entity set by `assignVersion`, `AbstractAggregateRoot` that registers events, `BaseRevision` built of any aggregate, `AbstractEvent` equal by id, and `EventId` on a `UUID`, the default id of an event |
-| `strategic` | The boundaries of the model: `BoundedContext`, declared by an object in the root package of the context and named after it in kebab case, and `Subdomain`, a part of the business of one of three categories, `Core`, `Supporting` and `Generic`, declared by an object in the package of the context it belongs to |
+| `strategic` | The boundaries of the model: `BoundedContext`, declared by an object in the root package of the context and named after it in kebab case, and `Subdomain`, a part of the business of one of three categories, `Core`, `Supporting` and `Generic`, declared by an object in the package of the context it belongs to, with its `Complexity`, `Volatility`, `BusinessLogicPattern`, `ArchitecturalPattern` and `TestingStrategy` |
 | `dsl` | The ways to write the blocks down: `rule` builds a `BusinessRule`, `check` runs a list of them, `checkRule` checks a one-off condition |
 | `architecture.error` | What a layer of the application raises, not a pattern of the model: `DomainException` and the refusals a service extends, `NotFoundException`, `ConflictException`, `BusinessRuleException` |
 
@@ -144,6 +144,32 @@ case, as a context is.
 The category is a type, not a value: code picks the subdomains of a category
 with `filterIsInstance<Subdomain.Core>()`, and a `when` over the three
 categories is exhaustive.
+
+## Characteristics of a subdomain
+
+A category comes with what the books say of it, and each choice the design
+makes follows from the one before: complexity picks the pattern of business
+logic, the pattern picks the architecture and the testing strategy. A
+subdomain answers each of them, by default from its category.
+
+![The characteristics of each category, and a subdomain that overrides its pattern of business logic](../../docs/assets/ddd-subdomain-characteristics-light.svg#gh-light-mode-only)
+![The characteristics of each category, and a subdomain that overrides its pattern of business logic](../../docs/assets/ddd-subdomain-characteristics-dark.svg#gh-dark-mode-only)
+
+A subdomain that is not like the rest of its category overrides one link, and
+the links after it follow: a ledger that keeps every change is an event-sourced
+domain model, so its architecture is CQRS, with no `when` anywhere.
+
+```kotlin
+object Ledger : Subdomain.Core {
+
+    override val businessLogicPattern = BusinessLogicPattern.EVENT_SOURCED_DOMAIN_MODEL
+}
+
+Ledger.architecturalPattern // CQRS
+```
+
+A generic subdomain bought or taken ready has no business logic of ours; its
+pattern says how it would be built in house.
 
 ## Jackson
 

@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 966.3999999999999 244" width="966.3999999999999" height="244" role="img">
+  <rect width="966.3999999999999" height="244" rx="12" fill="#F6F8FA"/>
+  <g transform="translate(12,12)">
+    <text x="16.0" y="28.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">category</text>
+    <text x="212.0" y="28.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">complexity</text>
+    <text x="283.2" y="28.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">volatility</text>
+    <text x="354.4" y="28.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">business logic</text>
+    <text x="597.2" y="28.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">architecture</text>
+    <text x="777.6" y="28.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">tests</text>
+    <rect x="16.0" y="44.0" width="133.2" height="28.0" rx="6" fill="#E3E8ED"/>
+    <text x="28.0" y="62.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">Subdomain.Core</text>
+    <rect x="212.0" y="44.0" width="55.2" height="28.0" rx="6" fill="#E3E8ED"/>
+    <text x="224.0" y="62.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">HIGH</text>
+    <rect x="283.2" y="44.0" width="55.2" height="28.0" rx="6" fill="#E3E8ED"/>
+    <text x="295.2" y="62.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">HIGH</text>
+    <rect x="354.4" y="44.0" width="117.6" height="28.0" rx="6" fill="#E3E8ED"/>
+    <text x="366.4" y="62.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">DOMAIN_MODEL</text>
+    <rect x="597.2" y="44.0" width="164.4" height="28.0" rx="6" fill="#E3E8ED"/>
+    <text x="609.2" y="62.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">PORTS_AND_ADAPTERS</text>
+    <rect x="777.6" y="44.0" width="78.6" height="28.0" rx="6" fill="#E3E8ED"/>
+    <text x="789.6" y="62.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">PYRAMID</text>
+    <rect x="16.0" y="88.0" width="180.0" height="28.0" rx="6" fill="#E3E8ED"/>
+    <text x="28.0" y="106.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">Subdomain.Supporting</text>
+    <rect x="212.0" y="88.0" width="47.4" height="28.0" rx="6" fill="#E3E8ED"/>
+    <text x="224.0" y="106.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">LOW</text>
+    <rect x="283.2" y="88.0" width="47.4" height="28.0" rx="6" fill="#E3E8ED"/>
+    <text x="295.2" y="106.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">LOW</text>
+    <rect x="354.4" y="88.0" width="164.4" height="28.0" rx="6" fill="#E3E8ED"/>
+    <text x="366.4" y="106.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">TRANSACTION_SCRIPT</text>
+    <rect x="597.2" y="88.0" width="78.6" height="28.0" rx="6" fill="#E3E8ED"/>
+    <text x="609.2" y="106.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">LAYERED</text>
+    <rect x="777.6" y="88.0" width="148.8" height="28.0" rx="6" fill="#E3E8ED"/>
+    <text x="789.6" y="106.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">REVERSED_PYRAMID</text>
+    <rect x="16.0" y="132.0" width="156.6" height="28.0" rx="6" fill="#E3E8ED"/>
+    <text x="28.0" y="150.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">Subdomain.Generic</text>
+    <rect x="212.0" y="132.0" width="55.2" height="28.0" rx="6" fill="#E3E8ED"/>
+    <text x="224.0" y="150.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">HIGH</text>
+    <rect x="283.2" y="132.0" width="47.4" height="28.0" rx="6" fill="#E3E8ED"/>
+    <text x="295.2" y="150.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">LOW</text>
+    <rect x="354.4" y="132.0" width="117.6" height="28.0" rx="6" fill="#E3E8ED"/>
+    <text x="366.4" y="150.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">DOMAIN_MODEL</text>
+    <rect x="597.2" y="132.0" width="164.4" height="28.0" rx="6" fill="#E3E8ED"/>
+    <text x="609.2" y="150.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">PORTS_AND_ADAPTERS</text>
+    <rect x="777.6" y="132.0" width="78.6" height="28.0" rx="6" fill="#E3E8ED"/>
+    <text x="789.6" y="150.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">PYRAMID</text>
+    <rect x="16.0" y="176.0" width="180.0" height="28.0" rx="6" fill="#E3E8ED"/>
+    <text x="28.0" y="194.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">object Ledger : Core</text>
+    <rect x="212.0" y="176.0" width="55.2" height="28.0" rx="6" fill="#E3E8ED"/>
+    <text x="224.0" y="194.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">HIGH</text>
+    <rect x="283.2" y="176.0" width="55.2" height="28.0" rx="6" fill="#E3E8ED"/>
+    <text x="295.2" y="194.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">HIGH</text>
+    <rect x="354.4" y="176.0" width="226.8" height="28.0" rx="6" fill="#DDF7E7"/>
+    <text x="366.4" y="194.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">EVENT_SOURCED_DOMAIN_MODEL</text>
+    <rect x="597.2" y="176.0" width="55.2" height="28.0" rx="6" fill="#E3E8ED"/>
+    <text x="609.2" y="194.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">CQRS</text>
+    <rect x="777.6" y="176.0" width="78.6" height="28.0" rx="6" fill="#E3E8ED"/>
+    <text x="789.6" y="194.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">PYRAMID</text>
+  </g>
+</svg>
