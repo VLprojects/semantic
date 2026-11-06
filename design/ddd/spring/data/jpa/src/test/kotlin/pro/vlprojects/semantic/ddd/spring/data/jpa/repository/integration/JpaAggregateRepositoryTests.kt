@@ -1,5 +1,6 @@
 package pro.vlprojects.semantic.ddd.spring.data.jpa.repository.integration
 
+import com.vladmihalcea.sql.SQLStatementCountValidator
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -17,19 +18,26 @@ class JpaAggregateRepositoryTests {
 
     @Test
     fun `an aggregate is saved and found by its identifier`() {
+        SQLStatementCountValidator.reset()
         runInTransaction { createCarts().save(Cart(cartId)) }
+        SQLStatementCountValidator.assertInsertCount(1)
 
+        SQLStatementCountValidator.reset()
         val found = runInTransaction { createCarts().findByIdOrThrow(cartId) }
+        SQLStatementCountValidator.assertSelectCount(1)
 
         assertEquals(cartId, found.identifier)
     }
 
     @Test
     fun `an aggregate that is not stored is not found`() {
+        SQLStatementCountValidator.reset()
+
         val error = assertThrows<NotFoundException> {
             runInTransaction { createCarts().findByIdOrThrow(cartId) }
         }
 
+        SQLStatementCountValidator.assertSelectCount(1)
         assertEquals("Entity not found [id: $cartId]", error.message)
     }
 

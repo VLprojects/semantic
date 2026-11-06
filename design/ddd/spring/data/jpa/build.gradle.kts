@@ -12,7 +12,9 @@ dependencies {
     testImplementation(libs.hibernate.core)
     testImplementation(platform(libs.testcontainers.bom))
     testImplementation(libs.testcontainers.postgresql)
-    testRuntimeOnly(libs.postgresql)
+    // The tests hand Hibernate a counting proxy of PGSimpleDataSource.
+    testImplementation(libs.postgresql)
+    testImplementation(libs.db.util)
     // Spring Data reads a repository declared in Kotlin through kotlin-reflect.
     testRuntimeOnly(libs.kotlin.reflect)
 }
