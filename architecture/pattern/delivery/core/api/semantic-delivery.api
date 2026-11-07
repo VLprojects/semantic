@@ -4,7 +4,7 @@ public abstract interface class pro/vlprojects/semantic/delivery/outbox/Backoff 
 
 public abstract interface class pro/vlprojects/semantic/delivery/outbox/EventPublisher {
 	public fun publish (Ljava/lang/Iterable;)V
-	public abstract fun publish (Ljava/lang/Object;)V
+	public abstract fun publish (Lpro/vlprojects/semantic/ddd/tactical/Event;)V
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/ExponentialBackoff : pro/vlprojects/semantic/delivery/outbox/Backoff {

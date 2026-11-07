@@ -1,8 +1,9 @@
 # semantic-delivery
 
-Delivery guarantees of a message for Kotlin and Java. The module does not
-depend on `ddd` or Spring: the code of a service sees a port, and the adapters
-plug it into a store and a broker.
+Delivery guarantees of a message for Kotlin and Java. The messages are the
+domain events of `semantic-ddd`: an event of the domain layer is what other
+services subscribe to. The module does not depend on Spring: the code of a
+service sees a port, and the adapters plug it into a store and a broker.
 
 The core holds the port and the model of the outbox so far. Its store, relay
 and senders to Kafka and RabbitMQ come next, the inbox after them.
@@ -23,7 +24,7 @@ Package `pro.vlprojects.semantic.delivery.outbox` of `semantic-delivery`:
 
 | Type | What it is |
 | --- | --- |
-| `EventPublisher<E>` | the port: takes an event, or several in their order, within a transaction |
+| `EventPublisher<E>` | the port: takes a domain event, or several in their order, within a transaction |
 | `OutboxStatus` | `PENDING` until the broker has the event, then `PUBLISHED`; `ABANDONED` if the broker will never take it |
 | `Backoff` | how long to wait after a failed attempt to send |
 | `FixedBackoff` | the same delay after each attempt |
@@ -56,7 +57,7 @@ One artifact so far, group `pro.vlprojects.semantic`:
 
 | Artifact | For | Depends on |
 | --- | --- | --- |
-| `semantic-delivery` | any JVM code: the port and the model of the outbox | nothing |
+| `semantic-delivery` | any JVM code: the port and the model of the outbox | `semantic-ddd` |
 
 ```
 architecture/pattern/delivery/

@@ -8,10 +8,13 @@ class EventPublisherTests {
 
     @Test
     fun `events are published one by one in their order`() {
-        val published = mutableListOf<String>()
+        val published = mutableListOf<OrderPlaced>()
+        val events = listOf(OrderId(1), OrderId(2))
+            .map(::Order)
+            .map(::OrderPlaced)
 
-        EventPublisher<String>(published::add).publish(listOf("placed", "paid"))
+        EventPublisher<OrderPlaced>(published::add).publish(events)
 
-        assertEquals(listOf("placed", "paid"), published)
+        assertEquals(events, published)
     }
 }
