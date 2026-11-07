@@ -32,9 +32,9 @@ LEVELS = [
 	("other families", "already in the tree; events use them", [0]),
 	("JVM", "Kotlin and one library; no Spring, no Jakarta", [1, 2]),
 	("Spring", "spring-context, spring-tx, spring-jdbc, spring-orm, spring-amqp, spring-messaging, Micrometer",
-		[3, 4, 5, 6, 7]),
-	("Spring Data", "repositories, mapping and callbacks of Spring Data", [8, 9]),
-	("Spring Boot", "@AutoConfiguration on @ConditionalOnClass; a starter only gathers dependencies", [10, 11]),
+		[3, 4, 5, 6]),
+	("Spring Data", "repositories, mapping and callbacks of Spring Data", [7, 8]),
+	("Spring Boot", "@AutoConfiguration on @ConditionalOnClass; a starter only gathers dependencies", [9, 10]),
 ]
 HUE = {"other families": "card", "JVM": "blue", "Spring": "green", "Spring Data": "teal", "Spring Boot": "amber"}
 
@@ -76,10 +76,7 @@ BLOCKS = [
 	(5, [3], "design/edd/spring/observability", "edd › spring › observability", "semantic-edd-spring-observability",
 		"observability", ["ObservedEventMulticaster", "PublicationObservation", "edd.publications"],
 		"Micrometer Observation: spans and counters. A service sets up the export."),
-	(6, [3], "design/edd/spring/moments", "edd › spring › moments", "semantic-edd-spring-moments", "moments",
-		["HourHasPassed", "DayHasPassed", "WeekHasPassed", "MonthHasPassed", "QuarterHasPassed", "Moments"],
-		"Only publishes events of passing time from a Clock; a test shifts the Clock."),
-	(7, [3], "design/edd/spring/test", "edd › spring › test", "semantic-edd-spring-test", "test",
+	(6, [3], "design/edd/spring/test", "edd › spring › test", "semantic-edd-spring-test", "test",
 		["Scenario", "@EnableScenarios", "PublishedEventsExtension"],
 		"Test scope only: JUnit 5 and spring-test. A stimulus, a wait, a check of the event."),
 	(3, [5], "architecture/pattern/delivery/spring/jdbc", "delivery › spring › jdbc", "semantic-delivery-spring-jdbc",
@@ -92,45 +89,45 @@ BLOCKS = [
 		"semantic-delivery-spring-messaging", "events-messaging", ["MessageChannelSender"],
 		"The channel is a bean named by the route, the key goes in a header; Spring Integration takes it from there."),
 
-	(8, [0, 1], "design/ddd/spring/data/core", "ddd › spring › data", "semantic-ddd-spring-data", None,
+	(7, [0, 1], "design/ddd/spring/data/core", "ddd › spring › data", "semantic-ddd-spring-data", None,
 		["AggregateEventCollector", "EntityRepository", "AggregateRepository", "SpecificationExecutor"],
 		"Collects the events of the aggregates of a transaction and hands them to ApplicationEventPublisher before commit. "
 		"Knows nothing of edd."),
-	(9, [0], "design/ddd/spring/data/jpa", "ddd › spring › data › jpa", "semantic-ddd-spring-data-jpa", None,
+	(8, [0], "design/ddd/spring/data/jpa", "ddd › spring › data › jpa", "semantic-ddd-spring-data-jpa", None,
 		["JpaEntityRepository", "JpaAggregateRepository", "CollectingEntityListener"],
 		"Puts roots into the collector on @PostLoad and @PrePersist."),
-	(9, [1], "design/ddd/spring/data/mongodb", "ddd › spring › data › mongodb", "semantic-ddd-spring-data-mongodb",
+	(8, [1], "design/ddd/spring/data/mongodb", "ddd › spring › data › mongodb", "semantic-ddd-spring-data-mongodb",
 		None, ["MongoEntityRepository", "MongoAggregateRepository", "CollectingConvertCallback"],
 		"Puts roots into the collector on AfterConvert and BeforeConvert."),
-	(8, [3], "design/edd/spring/mongodb", "edd › spring › mongodb", "semantic-edd-spring-mongodb", "events-mongodb",
+	(7, [3], "design/edd/spring/mongodb", "edd › spring › mongodb", "semantic-edd-spring-mongodb", "events-mongodb",
 		["MongoEventPublicationRegistry", "event_publication"],
 		"Through MongoTemplate; transactions need a replica set."),
 
-	(10, [0, 1], "design/ddd/spring-boot/autoconfigure", "ddd › spring-boot", "semantic-ddd-spring-boot", None,
+	(9, [0, 1], "design/ddd/spring-boot/autoconfigure", "ddd › spring-boot", "semantic-ddd-spring-boot", None,
 		["DddSpringDataAutoConfiguration"],
 		"Only registers beans of the modules it finds and the collector."),
-	(10, [2, 3], "design/edd/spring-boot/autoconfigure", "edd › spring-boot", "semantic-edd-spring-boot", "events-core",
+	(9, [2, 3], "design/edd/spring-boot/autoconfigure", "edd › spring-boot", "semantic-edd-spring-boot", "events-core",
 		["EddAutoConfiguration", "EddProperties", "IncompletePublicationsResubmitter", "StalePublicationsMonitor"],
 		"Only configuration under semantic.edd and schedules: resubmit on start, stale publications, the archive. "
 		"The logic lives in edd-spring."),
-	(10, [4], "design/edd/spring-boot/actuator", "edd › spring-boot › actuator", "semantic-edd-spring-boot-actuator",
+	(9, [4], "design/edd/spring-boot/actuator", "edd › spring-boot › actuator", "semantic-edd-spring-boot-actuator",
 		None, ["EventPublicationsEndpoint"],
 		"Reads and resubmits publications through the API of the registry; stores nothing."),
-	(10, [5], "architecture/pattern/delivery/spring-boot/autoconfigure", "delivery › spring-boot",
+	(9, [5], "architecture/pattern/delivery/spring-boot/autoconfigure", "delivery › spring-boot",
 		"semantic-delivery-spring-boot", None, ["DeliveryAutoConfiguration", "DeliveryProperties", "ScheduledRelay"],
 		"Configuration under semantic.delivery, Relay on a schedule, metrics of the outbox and the inbox."),
-	(11, [0], "design/ddd/spring-boot/starter/jpa", "ddd › spring-boot › starter › jpa",
+	(10, [0], "design/ddd/spring-boot/starter/jpa", "ddd › spring-boot › starter › jpa",
 		"semantic-ddd-spring-boot-starter-jpa", None, [], "ddd-spring-data-jpa and auto-configuration in one dependency."),
-	(11, [1], "design/ddd/spring-boot/starter/mongodb", "ddd › spring-boot › starter › mongodb",
+	(10, [1], "design/ddd/spring-boot/starter/mongodb", "ddd › spring-boot › starter › mongodb",
 		"semantic-ddd-spring-boot-starter-mongodb", None, [],
 		"ddd-spring-data-mongodb and auto-configuration in one dependency."),
-	(11, [2], "design/edd/spring-boot/starter/jdbc", "edd › spring-boot › starter › jdbc",
+	(10, [2], "design/edd/spring-boot/starter/jdbc", "edd › spring-boot › starter › jdbc",
 		"semantic-edd-spring-boot-starter-jdbc", "starter-jdbc", [],
 		"edd-spring, the registry on JDBC, Jackson and auto-configuration."),
-	(11, [3], "design/edd/spring-boot/starter/jpa", "edd › spring-boot › starter › jpa",
+	(10, [3], "design/edd/spring-boot/starter/jpa", "edd › spring-boot › starter › jpa",
 		"semantic-edd-spring-boot-starter-jpa", "starter-jpa", [],
 		"edd-spring, the registry on JPA, Jackson and auto-configuration."),
-	(11, [4], "design/edd/spring-boot/starter/mongodb", "edd › spring-boot › starter › mongodb",
+	(10, [4], "design/edd/spring-boot/starter/mongodb", "edd › spring-boot › starter › mongodb",
 		"semantic-edd-spring-boot-starter-mongodb", "starter-mongodb", [],
 		"edd-spring, the registry on MongoDB, Jackson and auto-configuration."),
 ]
@@ -329,8 +326,8 @@ def edd(pal):
 	lane = C[2] + W + BUS / 2
 	bus(a, lane, C[3] - 5, (1, 2), C[2] + W, mid(1))
 	along(a, lane - 10, (mid(1) + mid(2)) / 2 + 10, "implement the SPI")
-	bus(a, lane, C[3] - 5, (3, 4, 5, 6, 7, 8), C[2] + W, mid(3))
-	along(a, lane - 10, (mid(4) + mid(7)) / 2, "use edd-spring: registry, metrics, tests")
+	bus(a, lane, C[3] - 5, (3, 4, 5, 6, 7), C[2] + W, mid(3))
+	along(a, lane - 10, (mid(4) + mid(6)) / 2, "use edd-spring: registry, metrics, tests")
 	up(a, C[2] + third, 3, 1, DECLARES, "api: envelope, registry, route")
 
 	delivery_lane = C[5] - 40
@@ -338,33 +335,33 @@ def edd(pal):
 	along(a, delivery_lane - 10, (mid(2) + mid(4)) / 2, "implement the SPI: store, sender")
 
 	glane = C[1] + W + FAM_GAP / 2
-	sy, ty = mid(8), mid(3)
+	sy, ty = mid(7), mid(3)
 	dot(a, C[1] + W + 5, sy, "blue")
 	bx, _ = head(a, C[2] - 3, ty, 1, 0, "blue")
 	line(a, f"M{C[1] + W + 5},{sy} L{glane - 8},{sy} Q{glane},{sy} {glane},{sy - 8} L{glane},{ty + 8} "
 		f"Q{glane},{ty} {glane + 8},{ty} L{bx},{ty}", BUILDS, "blue")
 	along(a, glane - 10, (sy + ty) / 2, "publishEvent at run time, no dependency", color="blue")
 
-	up(a, C[0] + third, 8, 1, BUILDS, "extends AggregateRoot and Entity, collects Event")
-	up(a, C[0] + third, 9, 8, BUILDS, "extends the bases; @PostLoad, @PrePersist")
-	up(a, C[1] + third, 9, 8, BUILDS, "extends the bases; AfterConvertCallback")
-	up(a, C[0] + third, 10, 9, CONFIGURES, "configures on @ConditionalOnClass")
-	up(a, C[1] + third, 10, 9, CONFIGURES, "configures on @ConditionalOnClass")
-	up(a, C[2] + third, 10, 3, CONFIGURES, "configures the registry and sending outside")
-	up(a, C[3] + third, 10, 8, CONFIGURES, "configures the adapters on @ConditionalOnClass")
-	across(a, C[4], C[3] + W, mid(10), DECLARES, "api:", "registry")
+	up(a, C[0] + third, 7, 1, BUILDS, "extends AggregateRoot and Entity, collects Event")
+	up(a, C[0] + third, 8, 7, BUILDS, "extends the bases; @PostLoad, @PrePersist")
+	up(a, C[1] + third, 8, 7, BUILDS, "extends the bases; AfterConvertCallback")
+	up(a, C[0] + third, 9, 8, CONFIGURES, "configures on @ConditionalOnClass")
+	up(a, C[1] + third, 9, 8, CONFIGURES, "configures on @ConditionalOnClass")
+	up(a, C[2] + third, 9, 3, CONFIGURES, "configures the registry and sending outside")
+	up(a, C[3] + third, 9, 7, CONFIGURES, "configures the adapters on @ConditionalOnClass")
+	across(a, C[4], C[3] + W, mid(9), DECLARES, "api:", "registry")
 	for col in (0, 1, 2, 3):
-		up(a, C[col] + third, 11, 10, DECLARES, "api: auto-configuration")
-	elbow(a, C[4] + third, 11, C[3] + 5 * W / 6, 10, DECLARES, "api: auto-configuration")
+		up(a, C[col] + third, 10, 9, DECLARES, "api: auto-configuration")
+	elbow(a, C[4] + third, 10, C[3] + 5 * W / 6, 9, DECLARES, "api: auto-configuration")
 
 	rl = C[5] + W + RIGHT_LANE / 2
-	src = mid(10)
+	src = mid(9)
 	dot(a, C[5] + W + 5, src)
 	line(a, f"M{C[5] + W + 5},{src} L{rl},{src} L{rl},{mid(3)}", CONFIGURES)
 	for r in (3, 4, 5):
 		bx, _ = head(a, C[5] + W + 3, mid(r), -1, 0)
 		line(a, f"M{rl},{mid(r)} L{bx},{mid(r)}", CONFIGURES)
-	along(a, rl + 18, (mid(7) + mid(10)) / 2, "configures on @ConditionalOnClass")
+	along(a, rl + 18, (mid(6) + mid(9)) / 2, "configures on @ConditionalOnClass")
 	return a
 
 

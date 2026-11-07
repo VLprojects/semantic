@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3502 3160" width="3502" height="3160" role="img">
-  <rect width="3502" height="3160" rx="12" fill="#F6F8FA"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3502 2900" width="3502" height="2900" role="img">
+  <rect width="3502" height="2900" rx="12" fill="#F6F8FA"/>
   <g transform="translate(12,12)">
     <text x="24.0" y="46.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="16" font-weight="600" fill="#1F2328" text-anchor="start">EDD</text>
     <rect x="72.0" y="32.0" width="818.6" height="18" rx="4" fill="#59636E" fill-opacity="0.2"/>
@@ -12,22 +12,22 @@
     <text x="40.0" y="372.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1F2328" text-anchor="start">JVM</text>
     <text x="40.0" y="392.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">Kotlin and one library; no</text>
     <text x="40.0" y="406.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">Spring, no Jakarta</text>
-    <rect x="24" y="916" width="3430" height="1228" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
+    <rect x="24" y="916" width="3430" height="968" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
     <text x="40.0" y="956.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1F2328" text-anchor="start">Spring</text>
     <text x="40.0" y="976.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">spring-context, spring-tx,</text>
     <text x="40.0" y="990.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">spring-jdbc, spring-orm,</text>
     <text x="40.0" y="1004.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">spring-amqp, spring-</text>
     <text x="40.0" y="1018.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">messaging, Micrometer</text>
-    <rect x="24" y="2184" width="3430" height="440" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
-    <text x="40.0" y="2224.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1F2328" text-anchor="start">Spring Data</text>
-    <text x="40.0" y="2244.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">repositories, mapping and</text>
-    <text x="40.0" y="2258.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">callbacks of Spring Data</text>
-    <rect x="24" y="2664" width="3430" height="448" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
-    <text x="40.0" y="2704.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1F2328" text-anchor="start">Spring Boot</text>
-    <text x="40.0" y="2724.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">@AutoConfiguration on</text>
-    <text x="40.0" y="2738.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">@ConditionalOnClass; a</text>
-    <text x="40.0" y="2752.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">starter only gathers</text>
-    <text x="40.0" y="2766.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">dependencies</text>
+    <rect x="24" y="1924" width="3430" height="440" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
+    <text x="40.0" y="1964.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1F2328" text-anchor="start">Spring Data</text>
+    <text x="40.0" y="1984.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">repositories, mapping and</text>
+    <text x="40.0" y="1998.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">callbacks of Spring Data</text>
+    <rect x="24" y="2404" width="3430" height="448" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
+    <text x="40.0" y="2444.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1F2328" text-anchor="start">Spring Boot</text>
+    <text x="40.0" y="2464.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">@AutoConfiguration on</text>
+    <text x="40.0" y="2478.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">@ConditionalOnClass; a</text>
+    <text x="40.0" y="2492.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">starter only gathers</text>
+    <text x="40.0" y="2506.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">dependencies</text>
     <rect x="1320.0" y="96.0" width="430.0" height="180.0" rx="6" fill="#E3E8ED"/>
     <rect x="1332.0" y="108.0" width="187.6" height="18" rx="4" fill="#59636E" fill-opacity="0.2"/>
     <text x="1340.0" y="120.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#59636E" text-anchor="start">architecture/boundary/core</text>
@@ -214,44 +214,22 @@
     <text x="1858.0" y="1606.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">Micrometer Observation: spans and counters. A service sets up the</text>
     <text x="1858.0" y="1622.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">export.</text>
     <rect x="1846.8" y="1428.8" width="428.5" height="202.5" rx="6" fill="none" stroke="#3A7550" stroke-width="1.5" stroke-dasharray="2 3" stroke-linecap="round"/>
-    <rect x="1846.0" y="1688.0" width="430.0" height="204.0" rx="6" fill="#DDF7E7"/>
-    <rect x="1858.0" y="1700.0" width="181.0" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
-    <text x="1866.0" y="1712.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">design/edd/spring/moments</text>
-    <text x="1858.0" y="1738.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">edd › spring › moments</text>
-    <text x="1858.0" y="1760.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-edd-spring-moments</text>
-    <rect x="1858.0" y="1770.0" width="155.1" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
-    <text x="1866.0" y="1782.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">Spring Modulith: moments</text>
-    <rect x="1858.0" y="1798.0" width="101.8" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="1866.0" y="1810.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">HourHasPassed</text>
-    <rect x="1965.8" y="1798.0" width="95.2" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="1973.8" y="1810.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">DayHasPassed</text>
-    <rect x="2067.0" y="1798.0" width="101.8" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="2075.0" y="1810.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">WeekHasPassed</text>
-    <rect x="1858.0" y="1822.0" width="108.4" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="1866.0" y="1834.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">MonthHasPassed</text>
-    <rect x="1972.4" y="1822.0" width="121.6" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="1980.4" y="1834.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">QuarterHasPassed</text>
-    <rect x="2100.0" y="1822.0" width="62.2" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="2108.0" y="1834.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">Moments</text>
-    <text x="1858.0" y="1866.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">Only publishes events of passing time from a Clock; a test shifts the</text>
-    <text x="1858.0" y="1882.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">Clock.</text>
-    <rect x="1846.8" y="1688.8" width="428.5" height="202.5" rx="6" fill="none" stroke="#3A7550" stroke-width="1.5" stroke-dasharray="2 3" stroke-linecap="round"/>
-    <rect x="1846.0" y="1948.0" width="430.0" height="180.0" rx="6" fill="#DDF7E7"/>
-    <rect x="1858.0" y="1960.0" width="161.2" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
-    <text x="1866.0" y="1972.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">design/edd/spring/test</text>
-    <text x="1858.0" y="1998.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">edd › spring › test</text>
-    <text x="1858.0" y="2020.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-edd-spring-test</text>
-    <rect x="1858.0" y="2030.0" width="125.2" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
-    <text x="1866.0" y="2042.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">Spring Modulith: test</text>
-    <rect x="1858.0" y="2058.0" width="68.8" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="1866.0" y="2070.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">Scenario</text>
-    <rect x="1932.8" y="2058.0" width="121.6" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="1940.8" y="2070.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">@EnableScenarios</text>
-    <rect x="2060.4" y="2058.0" width="174.4" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="2068.4" y="2070.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">PublishedEventsExtension</text>
-    <text x="1858.0" y="2102.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">Test scope only: JUnit 5 and spring-test. A stimulus, a wait, a check of</text>
-    <text x="1858.0" y="2118.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">the event.</text>
-    <rect x="1846.8" y="1948.8" width="428.5" height="178.5" rx="6" fill="none" stroke="#3A7550" stroke-width="1.5" stroke-dasharray="2 3" stroke-linecap="round"/>
+    <rect x="1846.0" y="1688.0" width="430.0" height="180.0" rx="6" fill="#DDF7E7"/>
+    <rect x="1858.0" y="1700.0" width="161.2" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
+    <text x="1866.0" y="1712.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">design/edd/spring/test</text>
+    <text x="1858.0" y="1738.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">edd › spring › test</text>
+    <text x="1858.0" y="1760.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-edd-spring-test</text>
+    <rect x="1858.0" y="1770.0" width="125.2" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
+    <text x="1866.0" y="1782.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">Spring Modulith: test</text>
+    <rect x="1858.0" y="1798.0" width="68.8" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="1866.0" y="1810.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">Scenario</text>
+    <rect x="1932.8" y="1798.0" width="121.6" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="1940.8" y="1810.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">@EnableScenarios</text>
+    <rect x="2060.4" y="1798.0" width="174.4" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="2068.4" y="1810.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">PublishedEventsExtension</text>
+    <text x="1858.0" y="1842.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">Test scope only: JUnit 5 and spring-test. A stimulus, a wait, a check of</text>
+    <text x="1858.0" y="1858.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">the event.</text>
+    <rect x="1846.8" y="1688.8" width="428.5" height="178.5" rx="6" fill="none" stroke="#3A7550" stroke-width="1.5" stroke-dasharray="2 3" stroke-linecap="round"/>
     <rect x="2952.0" y="932.0" width="430.0" height="204.0" rx="6" fill="#DDF7E7"/>
     <rect x="2964.0" y="944.0" width="286.6" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
     <text x="2972.0" y="956.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">architecture/pattern/delivery/spring/jdbc</text>
@@ -292,147 +270,147 @@
     <text x="2964.0" y="1606.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">The channel is a bean named by the route, the key goes in a header;</text>
     <text x="2964.0" y="1622.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">Spring Integration takes it from there.</text>
     <rect x="2952.8" y="1428.8" width="428.5" height="202.5" rx="6" fill="none" stroke="#3A7550" stroke-width="1.5" stroke-dasharray="2 3" stroke-linecap="round"/>
-    <rect x="214.0" y="2200.0" width="956.0" height="164.0" rx="6" fill="#D9F3EF"/>
-    <rect x="226.0" y="2212.0" width="194.2" height="18" rx="4" fill="#2C6B63" fill-opacity="0.2"/>
-    <text x="234.0" y="2224.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#2C6B63" text-anchor="start">design/ddd/spring/data/core</text>
-    <text x="226.0" y="2250.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#2C6B63" text-anchor="start">ddd › spring › data</text>
-    <text x="226.0" y="2272.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-data</text>
-    <rect x="226.0" y="2310.0" width="167.8" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="234.0" y="2322.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">AggregateEventCollector</text>
-    <rect x="399.8" y="2310.0" width="121.6" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="407.8" y="2322.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">EntityRepository</text>
-    <rect x="527.4" y="2310.0" width="141.4" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="535.4" y="2322.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">AggregateRepository</text>
-    <rect x="674.8" y="2310.0" width="154.6" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="682.8" y="2322.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">SpecificationExecutor</text>
-    <text x="226.0" y="2354.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#2C6B63" text-anchor="start">Collects the events of the aggregates of a transaction and hands them to ApplicationEventPublisher before commit. Knows nothing of edd.</text>
-    <rect x="214.0" y="2420.0" width="430.0" height="188.0" rx="6" fill="#D9F3EF"/>
-    <rect x="226.0" y="2432.0" width="187.6" height="18" rx="4" fill="#2C6B63" fill-opacity="0.2"/>
-    <text x="234.0" y="2444.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#2C6B63" text-anchor="start">design/ddd/spring/data/jpa</text>
-    <text x="226.0" y="2470.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#2C6B63" text-anchor="start">ddd › spring › data › jpa</text>
-    <text x="226.0" y="2492.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-data-jpa</text>
-    <rect x="226.0" y="2530.0" width="141.4" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="234.0" y="2542.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">JpaEntityRepository</text>
-    <rect x="373.4" y="2530.0" width="161.2" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="381.4" y="2542.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">JpaAggregateRepository</text>
-    <rect x="226.0" y="2554.0" width="174.4" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="234.0" y="2566.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">CollectingEntityListener</text>
-    <text x="226.0" y="2598.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#2C6B63" text-anchor="start">Puts roots into the collector on @PostLoad and @PrePersist.</text>
-    <rect x="740.0" y="2420.0" width="430.0" height="188.0" rx="6" fill="#D9F3EF"/>
-    <rect x="752.0" y="2432.0" width="214.0" height="18" rx="4" fill="#2C6B63" fill-opacity="0.2"/>
-    <text x="760.0" y="2444.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#2C6B63" text-anchor="start">design/ddd/spring/data/mongodb</text>
-    <text x="752.0" y="2470.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#2C6B63" text-anchor="start">ddd › spring › data › mongodb</text>
-    <text x="752.0" y="2492.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-data-mongodb</text>
-    <rect x="752.0" y="2530.0" width="154.6" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="760.0" y="2542.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">MongoEntityRepository</text>
-    <rect x="912.6" y="2530.0" width="174.4" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="920.6" y="2542.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">MongoAggregateRepository</text>
-    <rect x="752.0" y="2554.0" width="181.0" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="760.0" y="2566.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">CollectingConvertCallback</text>
-    <text x="752.0" y="2598.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#2C6B63" text-anchor="start">Puts roots into the collector on AfterConvert and BeforeConvert.</text>
-    <rect x="1846.0" y="2200.0" width="430.0" height="164.0" rx="6" fill="#D9F3EF"/>
-    <rect x="1858.0" y="2212.0" width="181.0" height="18" rx="4" fill="#2C6B63" fill-opacity="0.2"/>
-    <text x="1866.0" y="2224.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#2C6B63" text-anchor="start">design/edd/spring/mongodb</text>
-    <text x="1858.0" y="2250.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#2C6B63" text-anchor="start">edd › spring › mongodb</text>
-    <text x="1858.0" y="2272.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-edd-spring-mongodb</text>
-    <rect x="1858.0" y="2282.0" width="197.2" height="18" rx="4" fill="#2C6B63" fill-opacity="0.2"/>
-    <text x="1866.0" y="2294.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#2C6B63" text-anchor="start">Spring Modulith: events-mongodb</text>
-    <rect x="1858.0" y="2310.0" width="207.4" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="1866.0" y="2322.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">MongoEventPublicationRegistry</text>
-    <rect x="2071.4" y="2310.0" width="128.2" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="2079.4" y="2322.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">event_publication</text>
-    <text x="1858.0" y="2354.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#2C6B63" text-anchor="start">Through MongoTemplate; transactions need a replica set.</text>
-    <rect x="1846.8" y="2200.8" width="428.5" height="162.5" rx="6" fill="none" stroke="#2C6B63" stroke-width="1.5" stroke-dasharray="2 3" stroke-linecap="round"/>
-    <rect x="214.0" y="2680.0" width="956.0" height="204.0" rx="6" fill="#FFEEDC"/>
-    <rect x="226.0" y="2692.0" width="253.6" height="18" rx="4" fill="#8F4600" fill-opacity="0.2"/>
-    <text x="234.0" y="2704.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#8F4600" text-anchor="start">design/ddd/spring-boot/autoconfigure</text>
-    <text x="226.0" y="2730.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">ddd › spring-boot</text>
-    <text x="226.0" y="2752.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-boot</text>
-    <rect x="226.0" y="2790.0" width="214.0" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="234.0" y="2802.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">DddSpringDataAutoConfiguration</text>
-    <text x="226.0" y="2874.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">Only registers beans of the modules it finds and the collector.</text>
-    <rect x="1320.0" y="2680.0" width="956.0" height="204.0" rx="6" fill="#FFEEDC"/>
-    <rect x="1332.0" y="2692.0" width="253.6" height="18" rx="4" fill="#8F4600" fill-opacity="0.2"/>
-    <text x="1340.0" y="2704.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#8F4600" text-anchor="start">design/edd/spring-boot/autoconfigure</text>
-    <text x="1332.0" y="2730.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">edd › spring-boot</text>
-    <text x="1332.0" y="2752.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-edd-spring-boot</text>
-    <rect x="1332.0" y="2762.0" width="169.5" height="18" rx="4" fill="#8F4600" fill-opacity="0.2"/>
-    <text x="1340.0" y="2774.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8F4600" text-anchor="start">Spring Modulith: events-core</text>
-    <rect x="1332.0" y="2790.0" width="148.0" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="1340.0" y="2802.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">EddAutoConfiguration</text>
-    <rect x="1486.0" y="2790.0" width="101.8" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="1494.0" y="2802.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">EddProperties</text>
-    <rect x="1593.8" y="2790.0" width="233.8" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="1601.8" y="2802.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">IncompletePublicationsResubmitter</text>
-    <rect x="1833.6" y="2790.0" width="174.4" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="1841.6" y="2802.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">StalePublicationsMonitor</text>
-    <text x="1332.0" y="2874.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">Only configuration under semantic.edd and schedules: resubmit on start, stale publications, the archive. The logic lives in edd-spring.</text>
-    <rect x="1320.8" y="2680.8" width="954.5" height="202.5" rx="6" fill="none" stroke="#8F4600" stroke-width="1.5" stroke-dasharray="2 3" stroke-linecap="round"/>
-    <rect x="2372.0" y="2680.0" width="430.0" height="204.0" rx="6" fill="#FFEEDC"/>
-    <rect x="2384.0" y="2692.0" width="220.6" height="18" rx="4" fill="#8F4600" fill-opacity="0.2"/>
-    <text x="2392.0" y="2704.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#8F4600" text-anchor="start">design/edd/spring-boot/actuator</text>
-    <text x="2384.0" y="2730.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">edd › spring-boot › actuator</text>
-    <text x="2384.0" y="2752.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-edd-spring-boot-actuator</text>
-    <rect x="2384.0" y="2790.0" width="181.0" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="2392.0" y="2802.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">EventPublicationsEndpoint</text>
-    <text x="2384.0" y="2858.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">Reads and resubmits publications through the API of the registry;</text>
-    <text x="2384.0" y="2874.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">stores nothing.</text>
-    <rect x="2372.8" y="2680.8" width="428.5" height="202.5" rx="6" fill="none" stroke="#8F4600" stroke-width="1.5" stroke-dasharray="2 3" stroke-linecap="round"/>
-    <rect x="2952.0" y="2680.0" width="430.0" height="204.0" rx="6" fill="#FFEEDC"/>
-    <rect x="2964.0" y="2692.0" width="379.0" height="18" rx="4" fill="#8F4600" fill-opacity="0.2"/>
-    <text x="2972.0" y="2704.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#8F4600" text-anchor="start">architecture/pattern/delivery/spring-boot/autoconfigure</text>
-    <text x="2964.0" y="2730.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">delivery › spring-boot</text>
-    <text x="2964.0" y="2752.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-delivery-spring-boot</text>
-    <rect x="2964.0" y="2790.0" width="181.0" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="2972.0" y="2802.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">DeliveryAutoConfiguration</text>
-    <rect x="3151.0" y="2790.0" width="134.8" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="3159.0" y="2802.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">DeliveryProperties</text>
-    <rect x="2964.0" y="2814.0" width="108.4" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="2972.0" y="2826.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">ScheduledRelay</text>
-    <text x="2964.0" y="2858.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">Configuration under semantic.delivery, Relay on a schedule, metrics of</text>
-    <text x="2964.0" y="2874.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">the outbox and the inbox.</text>
-    <rect x="2952.8" y="2680.8" width="428.5" height="202.5" rx="6" fill="none" stroke="#8F4600" stroke-width="1.5" stroke-dasharray="2 3" stroke-linecap="round"/>
-    <rect x="214.0" y="2940.0" width="430.0" height="156.0" rx="6" fill="#FFEEDC"/>
-    <rect x="226.0" y="2952.0" width="240.4" height="18" rx="4" fill="#8F4600" fill-opacity="0.2"/>
-    <text x="234.0" y="2964.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#8F4600" text-anchor="start">design/ddd/spring-boot/starter/jpa</text>
-    <text x="226.0" y="2990.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">ddd › spring-boot › starter › jpa</text>
-    <text x="226.0" y="3012.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-boot-starter-jpa</text>
-    <text x="226.0" y="3086.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">ddd-spring-data-jpa and auto-configuration in one dependency.</text>
-    <rect x="740.0" y="2940.0" width="430.0" height="156.0" rx="6" fill="#FFEEDC"/>
-    <rect x="752.0" y="2952.0" width="266.8" height="18" rx="4" fill="#8F4600" fill-opacity="0.2"/>
-    <text x="760.0" y="2964.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#8F4600" text-anchor="start">design/ddd/spring-boot/starter/mongodb</text>
-    <text x="752.0" y="2990.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">ddd › spring-boot › starter › mongodb</text>
-    <text x="752.0" y="3012.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-boot-starter-mongodb</text>
-    <text x="752.0" y="3070.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">ddd-spring-data-mongodb and auto-configuration in one</text>
-    <text x="752.0" y="3086.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">dependency.</text>
-    <rect x="1320.0" y="2940.0" width="430.0" height="156.0" rx="6" fill="#FFEEDC"/>
-    <rect x="1332.0" y="2952.0" width="247.0" height="18" rx="4" fill="#8F4600" fill-opacity="0.2"/>
-    <text x="1340.0" y="2964.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#8F4600" text-anchor="start">design/edd/spring-boot/starter/jdbc</text>
-    <text x="1332.0" y="2990.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">edd › spring-boot › starter › jdbc</text>
-    <text x="1332.0" y="3012.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-edd-spring-boot-starter-jdbc</text>
-    <rect x="1332.0" y="3022.0" width="167.7" height="18" rx="4" fill="#8F4600" fill-opacity="0.2"/>
-    <text x="1340.0" y="3034.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8F4600" text-anchor="start">Spring Modulith: starter-jdbc</text>
-    <text x="1332.0" y="3086.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">edd-spring, the registry on JDBC, Jackson and auto-configuration.</text>
-    <rect x="1320.8" y="2940.8" width="428.5" height="154.5" rx="6" fill="none" stroke="#8F4600" stroke-width="1.5" stroke-dasharray="2 3" stroke-linecap="round"/>
-    <rect x="1846.0" y="2940.0" width="430.0" height="156.0" rx="6" fill="#FFEEDC"/>
-    <rect x="1858.0" y="2952.0" width="240.4" height="18" rx="4" fill="#8F4600" fill-opacity="0.2"/>
-    <text x="1866.0" y="2964.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#8F4600" text-anchor="start">design/edd/spring-boot/starter/jpa</text>
-    <text x="1858.0" y="2990.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">edd › spring-boot › starter › jpa</text>
-    <text x="1858.0" y="3012.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-edd-spring-boot-starter-jpa</text>
-    <rect x="1858.0" y="3022.0" width="160.7" height="18" rx="4" fill="#8F4600" fill-opacity="0.2"/>
-    <text x="1866.0" y="3034.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8F4600" text-anchor="start">Spring Modulith: starter-jpa</text>
-    <text x="1858.0" y="3086.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">edd-spring, the registry on JPA, Jackson and auto-configuration.</text>
-    <rect x="1846.8" y="2940.8" width="428.5" height="154.5" rx="6" fill="none" stroke="#8F4600" stroke-width="1.5" stroke-dasharray="2 3" stroke-linecap="round"/>
-    <rect x="2372.0" y="2940.0" width="430.0" height="156.0" rx="6" fill="#FFEEDC"/>
-    <rect x="2384.0" y="2952.0" width="266.8" height="18" rx="4" fill="#8F4600" fill-opacity="0.2"/>
-    <text x="2392.0" y="2964.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#8F4600" text-anchor="start">design/edd/spring-boot/starter/mongodb</text>
-    <text x="2384.0" y="2990.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">edd › spring-boot › starter › mongodb</text>
-    <text x="2384.0" y="3012.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-edd-spring-boot-starter-mongodb</text>
-    <rect x="2384.0" y="3022.0" width="196.0" height="18" rx="4" fill="#8F4600" fill-opacity="0.2"/>
-    <text x="2392.0" y="3034.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8F4600" text-anchor="start">Spring Modulith: starter-mongodb</text>
-    <text x="2384.0" y="3070.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">edd-spring, the registry on MongoDB, Jackson and</text>
-    <text x="2384.0" y="3086.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">auto-configuration.</text>
-    <rect x="2372.8" y="2940.8" width="428.5" height="154.5" rx="6" fill="none" stroke="#8F4600" stroke-width="1.5" stroke-dasharray="2 3" stroke-linecap="round"/>
+    <rect x="214.0" y="1940.0" width="956.0" height="164.0" rx="6" fill="#D9F3EF"/>
+    <rect x="226.0" y="1952.0" width="194.2" height="18" rx="4" fill="#2C6B63" fill-opacity="0.2"/>
+    <text x="234.0" y="1964.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#2C6B63" text-anchor="start">design/ddd/spring/data/core</text>
+    <text x="226.0" y="1990.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#2C6B63" text-anchor="start">ddd › spring › data</text>
+    <text x="226.0" y="2012.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-data</text>
+    <rect x="226.0" y="2050.0" width="167.8" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="234.0" y="2062.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">AggregateEventCollector</text>
+    <rect x="399.8" y="2050.0" width="121.6" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="407.8" y="2062.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">EntityRepository</text>
+    <rect x="527.4" y="2050.0" width="141.4" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="535.4" y="2062.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">AggregateRepository</text>
+    <rect x="674.8" y="2050.0" width="154.6" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="682.8" y="2062.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">SpecificationExecutor</text>
+    <text x="226.0" y="2094.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#2C6B63" text-anchor="start">Collects the events of the aggregates of a transaction and hands them to ApplicationEventPublisher before commit. Knows nothing of edd.</text>
+    <rect x="214.0" y="2160.0" width="430.0" height="188.0" rx="6" fill="#D9F3EF"/>
+    <rect x="226.0" y="2172.0" width="187.6" height="18" rx="4" fill="#2C6B63" fill-opacity="0.2"/>
+    <text x="234.0" y="2184.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#2C6B63" text-anchor="start">design/ddd/spring/data/jpa</text>
+    <text x="226.0" y="2210.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#2C6B63" text-anchor="start">ddd › spring › data › jpa</text>
+    <text x="226.0" y="2232.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-data-jpa</text>
+    <rect x="226.0" y="2270.0" width="141.4" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="234.0" y="2282.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">JpaEntityRepository</text>
+    <rect x="373.4" y="2270.0" width="161.2" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="381.4" y="2282.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">JpaAggregateRepository</text>
+    <rect x="226.0" y="2294.0" width="174.4" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="234.0" y="2306.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">CollectingEntityListener</text>
+    <text x="226.0" y="2338.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#2C6B63" text-anchor="start">Puts roots into the collector on @PostLoad and @PrePersist.</text>
+    <rect x="740.0" y="2160.0" width="430.0" height="188.0" rx="6" fill="#D9F3EF"/>
+    <rect x="752.0" y="2172.0" width="214.0" height="18" rx="4" fill="#2C6B63" fill-opacity="0.2"/>
+    <text x="760.0" y="2184.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#2C6B63" text-anchor="start">design/ddd/spring/data/mongodb</text>
+    <text x="752.0" y="2210.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#2C6B63" text-anchor="start">ddd › spring › data › mongodb</text>
+    <text x="752.0" y="2232.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-data-mongodb</text>
+    <rect x="752.0" y="2270.0" width="154.6" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="760.0" y="2282.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">MongoEntityRepository</text>
+    <rect x="912.6" y="2270.0" width="174.4" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="920.6" y="2282.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">MongoAggregateRepository</text>
+    <rect x="752.0" y="2294.0" width="181.0" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="760.0" y="2306.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">CollectingConvertCallback</text>
+    <text x="752.0" y="2338.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#2C6B63" text-anchor="start">Puts roots into the collector on AfterConvert and BeforeConvert.</text>
+    <rect x="1846.0" y="1940.0" width="430.0" height="164.0" rx="6" fill="#D9F3EF"/>
+    <rect x="1858.0" y="1952.0" width="181.0" height="18" rx="4" fill="#2C6B63" fill-opacity="0.2"/>
+    <text x="1866.0" y="1964.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#2C6B63" text-anchor="start">design/edd/spring/mongodb</text>
+    <text x="1858.0" y="1990.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#2C6B63" text-anchor="start">edd › spring › mongodb</text>
+    <text x="1858.0" y="2012.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-edd-spring-mongodb</text>
+    <rect x="1858.0" y="2022.0" width="197.2" height="18" rx="4" fill="#2C6B63" fill-opacity="0.2"/>
+    <text x="1866.0" y="2034.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#2C6B63" text-anchor="start">Spring Modulith: events-mongodb</text>
+    <rect x="1858.0" y="2050.0" width="207.4" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="1866.0" y="2062.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">MongoEventPublicationRegistry</text>
+    <rect x="2071.4" y="2050.0" width="128.2" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="2079.4" y="2062.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">event_publication</text>
+    <text x="1858.0" y="2094.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#2C6B63" text-anchor="start">Through MongoTemplate; transactions need a replica set.</text>
+    <rect x="1846.8" y="1940.8" width="428.5" height="162.5" rx="6" fill="none" stroke="#2C6B63" stroke-width="1.5" stroke-dasharray="2 3" stroke-linecap="round"/>
+    <rect x="214.0" y="2420.0" width="956.0" height="204.0" rx="6" fill="#FFEEDC"/>
+    <rect x="226.0" y="2432.0" width="253.6" height="18" rx="4" fill="#8F4600" fill-opacity="0.2"/>
+    <text x="234.0" y="2444.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#8F4600" text-anchor="start">design/ddd/spring-boot/autoconfigure</text>
+    <text x="226.0" y="2470.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">ddd › spring-boot</text>
+    <text x="226.0" y="2492.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-boot</text>
+    <rect x="226.0" y="2530.0" width="214.0" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="234.0" y="2542.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">DddSpringDataAutoConfiguration</text>
+    <text x="226.0" y="2614.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">Only registers beans of the modules it finds and the collector.</text>
+    <rect x="1320.0" y="2420.0" width="956.0" height="204.0" rx="6" fill="#FFEEDC"/>
+    <rect x="1332.0" y="2432.0" width="253.6" height="18" rx="4" fill="#8F4600" fill-opacity="0.2"/>
+    <text x="1340.0" y="2444.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#8F4600" text-anchor="start">design/edd/spring-boot/autoconfigure</text>
+    <text x="1332.0" y="2470.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">edd › spring-boot</text>
+    <text x="1332.0" y="2492.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-edd-spring-boot</text>
+    <rect x="1332.0" y="2502.0" width="169.5" height="18" rx="4" fill="#8F4600" fill-opacity="0.2"/>
+    <text x="1340.0" y="2514.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8F4600" text-anchor="start">Spring Modulith: events-core</text>
+    <rect x="1332.0" y="2530.0" width="148.0" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="1340.0" y="2542.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">EddAutoConfiguration</text>
+    <rect x="1486.0" y="2530.0" width="101.8" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="1494.0" y="2542.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">EddProperties</text>
+    <rect x="1593.8" y="2530.0" width="233.8" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="1601.8" y="2542.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">IncompletePublicationsResubmitter</text>
+    <rect x="1833.6" y="2530.0" width="174.4" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="1841.6" y="2542.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">StalePublicationsMonitor</text>
+    <text x="1332.0" y="2614.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">Only configuration under semantic.edd and schedules: resubmit on start, stale publications, the archive. The logic lives in edd-spring.</text>
+    <rect x="1320.8" y="2420.8" width="954.5" height="202.5" rx="6" fill="none" stroke="#8F4600" stroke-width="1.5" stroke-dasharray="2 3" stroke-linecap="round"/>
+    <rect x="2372.0" y="2420.0" width="430.0" height="204.0" rx="6" fill="#FFEEDC"/>
+    <rect x="2384.0" y="2432.0" width="220.6" height="18" rx="4" fill="#8F4600" fill-opacity="0.2"/>
+    <text x="2392.0" y="2444.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#8F4600" text-anchor="start">design/edd/spring-boot/actuator</text>
+    <text x="2384.0" y="2470.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">edd › spring-boot › actuator</text>
+    <text x="2384.0" y="2492.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-edd-spring-boot-actuator</text>
+    <rect x="2384.0" y="2530.0" width="181.0" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="2392.0" y="2542.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">EventPublicationsEndpoint</text>
+    <text x="2384.0" y="2598.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">Reads and resubmits publications through the API of the registry;</text>
+    <text x="2384.0" y="2614.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">stores nothing.</text>
+    <rect x="2372.8" y="2420.8" width="428.5" height="202.5" rx="6" fill="none" stroke="#8F4600" stroke-width="1.5" stroke-dasharray="2 3" stroke-linecap="round"/>
+    <rect x="2952.0" y="2420.0" width="430.0" height="204.0" rx="6" fill="#FFEEDC"/>
+    <rect x="2964.0" y="2432.0" width="379.0" height="18" rx="4" fill="#8F4600" fill-opacity="0.2"/>
+    <text x="2972.0" y="2444.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#8F4600" text-anchor="start">architecture/pattern/delivery/spring-boot/autoconfigure</text>
+    <text x="2964.0" y="2470.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">delivery › spring-boot</text>
+    <text x="2964.0" y="2492.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-delivery-spring-boot</text>
+    <rect x="2964.0" y="2530.0" width="181.0" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="2972.0" y="2542.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">DeliveryAutoConfiguration</text>
+    <rect x="3151.0" y="2530.0" width="134.8" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="3159.0" y="2542.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">DeliveryProperties</text>
+    <rect x="2964.0" y="2554.0" width="108.4" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="2972.0" y="2566.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">ScheduledRelay</text>
+    <text x="2964.0" y="2598.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">Configuration under semantic.delivery, Relay on a schedule, metrics of</text>
+    <text x="2964.0" y="2614.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">the outbox and the inbox.</text>
+    <rect x="2952.8" y="2420.8" width="428.5" height="202.5" rx="6" fill="none" stroke="#8F4600" stroke-width="1.5" stroke-dasharray="2 3" stroke-linecap="round"/>
+    <rect x="214.0" y="2680.0" width="430.0" height="156.0" rx="6" fill="#FFEEDC"/>
+    <rect x="226.0" y="2692.0" width="240.4" height="18" rx="4" fill="#8F4600" fill-opacity="0.2"/>
+    <text x="234.0" y="2704.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#8F4600" text-anchor="start">design/ddd/spring-boot/starter/jpa</text>
+    <text x="226.0" y="2730.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">ddd › spring-boot › starter › jpa</text>
+    <text x="226.0" y="2752.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-boot-starter-jpa</text>
+    <text x="226.0" y="2826.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">ddd-spring-data-jpa and auto-configuration in one dependency.</text>
+    <rect x="740.0" y="2680.0" width="430.0" height="156.0" rx="6" fill="#FFEEDC"/>
+    <rect x="752.0" y="2692.0" width="266.8" height="18" rx="4" fill="#8F4600" fill-opacity="0.2"/>
+    <text x="760.0" y="2704.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#8F4600" text-anchor="start">design/ddd/spring-boot/starter/mongodb</text>
+    <text x="752.0" y="2730.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">ddd › spring-boot › starter › mongodb</text>
+    <text x="752.0" y="2752.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-ddd-spring-boot-starter-mongodb</text>
+    <text x="752.0" y="2810.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">ddd-spring-data-mongodb and auto-configuration in one</text>
+    <text x="752.0" y="2826.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">dependency.</text>
+    <rect x="1320.0" y="2680.0" width="430.0" height="156.0" rx="6" fill="#FFEEDC"/>
+    <rect x="1332.0" y="2692.0" width="247.0" height="18" rx="4" fill="#8F4600" fill-opacity="0.2"/>
+    <text x="1340.0" y="2704.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#8F4600" text-anchor="start">design/edd/spring-boot/starter/jdbc</text>
+    <text x="1332.0" y="2730.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">edd › spring-boot › starter › jdbc</text>
+    <text x="1332.0" y="2752.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-edd-spring-boot-starter-jdbc</text>
+    <rect x="1332.0" y="2762.0" width="167.7" height="18" rx="4" fill="#8F4600" fill-opacity="0.2"/>
+    <text x="1340.0" y="2774.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8F4600" text-anchor="start">Spring Modulith: starter-jdbc</text>
+    <text x="1332.0" y="2826.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">edd-spring, the registry on JDBC, Jackson and auto-configuration.</text>
+    <rect x="1320.8" y="2680.8" width="428.5" height="154.5" rx="6" fill="none" stroke="#8F4600" stroke-width="1.5" stroke-dasharray="2 3" stroke-linecap="round"/>
+    <rect x="1846.0" y="2680.0" width="430.0" height="156.0" rx="6" fill="#FFEEDC"/>
+    <rect x="1858.0" y="2692.0" width="240.4" height="18" rx="4" fill="#8F4600" fill-opacity="0.2"/>
+    <text x="1866.0" y="2704.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#8F4600" text-anchor="start">design/edd/spring-boot/starter/jpa</text>
+    <text x="1858.0" y="2730.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">edd › spring-boot › starter › jpa</text>
+    <text x="1858.0" y="2752.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-edd-spring-boot-starter-jpa</text>
+    <rect x="1858.0" y="2762.0" width="160.7" height="18" rx="4" fill="#8F4600" fill-opacity="0.2"/>
+    <text x="1866.0" y="2774.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8F4600" text-anchor="start">Spring Modulith: starter-jpa</text>
+    <text x="1858.0" y="2826.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">edd-spring, the registry on JPA, Jackson and auto-configuration.</text>
+    <rect x="1846.8" y="2680.8" width="428.5" height="154.5" rx="6" fill="none" stroke="#8F4600" stroke-width="1.5" stroke-dasharray="2 3" stroke-linecap="round"/>
+    <rect x="2372.0" y="2680.0" width="430.0" height="156.0" rx="6" fill="#FFEEDC"/>
+    <rect x="2384.0" y="2692.0" width="266.8" height="18" rx="4" fill="#8F4600" fill-opacity="0.2"/>
+    <text x="2392.0" y="2704.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#8F4600" text-anchor="start">design/edd/spring-boot/starter/mongodb</text>
+    <text x="2384.0" y="2730.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">edd › spring-boot › starter › mongodb</text>
+    <text x="2384.0" y="2752.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-edd-spring-boot-starter-mongodb</text>
+    <rect x="2384.0" y="2762.0" width="196.0" height="18" rx="4" fill="#8F4600" fill-opacity="0.2"/>
+    <text x="2392.0" y="2774.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8F4600" text-anchor="start">Spring Modulith: starter-mongodb</text>
+    <text x="2384.0" y="2810.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">edd-spring, the registry on MongoDB, Jackson and</text>
+    <text x="2384.0" y="2826.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">auto-configuration.</text>
+    <rect x="2372.8" y="2680.8" width="428.5" height="154.5" rx="6" fill="none" stroke="#8F4600" stroke-width="1.5" stroke-dasharray="2 3" stroke-linecap="round"/>
     <circle cx="1463.3333333333333" cy="343" r="2" fill="#8B5CF6"/>
     <path d="M1463.3333333333333,279 L1465.8333333333333,284.0 L1460.8333333333333,284.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
     <path d="M1463.3333333333333,343 L1463.3333333333333,284" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
@@ -462,18 +440,16 @@
     <path d="M1841,1282.0 L1798.0,1282.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
     <circle cx="1841" cy="1530.0" r="2" fill="#8B5CF6"/>
     <path d="M1841,1530.0 L1798.0,1530.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="1841" cy="1790.0" r="2" fill="#8B5CF6"/>
-    <path d="M1841,1790.0 L1798.0,1790.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="1841" cy="2038.0" r="2" fill="#8B5CF6"/>
-    <path d="M1841,2038.0 L1798.0,2038.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="1841" cy="2282.0" r="2" fill="#8B5CF6"/>
-    <path d="M1841,2282.0 L1798.0,2282.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M1798.0,2282.0 L1798.0,1034.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="1841" cy="1778.0" r="2" fill="#8B5CF6"/>
+    <path d="M1841,1778.0 L1798.0,1778.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="1841" cy="2022.0" r="2" fill="#8B5CF6"/>
+    <path d="M1841,2022.0 L1798.0,2022.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M1798.0,2022.0 L1798.0,1034.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="M1753,1034.0 L1758.0,1031.5 L1758.0,1036.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
     <path d="M1798.0,1034.0 L1758,1034.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <g transform="rotate(-90 1788.0 1660.0)">
-    <rect x="1646.0" y="1648.0" width="284.0" height="16.0" rx="2" fill="#F6F8FA"/>
-    <text x="1788.0" y="1660.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">use edd-spring: registry, metrics, tests</text>
+    <g transform="rotate(-90 1788.0 1530.0)">
+    <rect x="1646.0" y="1518.0" width="284.0" height="16.0" rx="2" fill="#F6F8FA"/>
+    <text x="1788.0" y="1530.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">use edd-spring: registry, metrics, tests</text>
     </g>
     <circle cx="1463.3333333333333" cy="927" r="2" fill="#8B5CF6"/>
     <path d="M1463.3333333333333,603 L1465.8333333333333,608.0 L1460.8333333333333,608.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
@@ -492,77 +468,77 @@
     <rect x="2787.2" y="1008.0" width="229.6" height="16.0" rx="2" fill="#F6F8FA"/>
     <text x="2902.0" y="1020.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">implement the SPI: store, sender</text>
     </g>
-    <circle cx="1175" cy="2282.0" r="2" fill="#1A7CFF"/>
+    <circle cx="1175" cy="2022.0" r="2" fill="#1A7CFF"/>
     <path d="M1317,1034.0 L1312.0,1036.5 L1312.0,1031.5 Z" fill="#1A7CFF" stroke="#1A7CFF" stroke-width="0.5" stroke-linejoin="round"/>
-    <path d="M1175,2282.0 L1237.0,2282.0 Q1245.0,2282.0 1245.0,2274.0 L1245.0,1042.0 Q1245.0,1034.0 1253.0,1034.0 L1312,1034.0" stroke="#1A7CFF" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <g transform="rotate(-90 1235.0 1658.0)">
-    <rect x="1096.4" y="1646.0" width="277.2" height="16.0" rx="2" fill="#F6F8FA"/>
-    <text x="1235.0" y="1658.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1A7CFF" text-anchor="middle">publishEvent at run time, no dependency</text>
+    <path d="M1175,2022.0 L1237.0,2022.0 Q1245.0,2022.0 1245.0,2014.0 L1245.0,1042.0 Q1245.0,1034.0 1253.0,1034.0 L1312,1034.0" stroke="#1A7CFF" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="rotate(-90 1235.0 1528.0)">
+    <rect x="1096.4" y="1516.0" width="277.2" height="16.0" rx="2" fill="#F6F8FA"/>
+    <text x="1235.0" y="1528.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1A7CFF" text-anchor="middle">publishEvent at run time, no dependency</text>
     </g>
-    <circle cx="357.33333333333337" cy="2195" r="2" fill="#8B5CF6"/>
+    <circle cx="357.33333333333337" cy="1935" r="2" fill="#8B5CF6"/>
     <path d="M357.33333333333337,603 L359.83333333333337,608.0 L354.83333333333337,608.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <path d="M357.33333333333337,2195 L357.33333333333337,608" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <text x="369.3" y="1404.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">extends AggregateRoot and Entity, collects Event</text>
+    <path d="M357.33333333333337,1935 L357.33333333333337,608" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="369.3" y="1274.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">extends AggregateRoot and Entity, collects Event</text>
+    <circle cx="357.33333333333337" cy="2155" r="2" fill="#8B5CF6"/>
+    <path d="M357.33333333333337,2107 L359.83333333333337,2112.0 L354.83333333333337,2112.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M357.33333333333337,2155 L357.33333333333337,2112" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="369.3" y="2136.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">extends the bases; @PostLoad, @PrePersist</text>
+    <circle cx="883.3333333333334" cy="2155" r="2" fill="#8B5CF6"/>
+    <path d="M883.3333333333334,2107 L885.8333333333334,2112.0 L880.8333333333334,2112.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M883.3333333333334,2155 L883.3333333333334,2112" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="895.3" y="2136.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">extends the bases; AfterConvertCallback</text>
     <circle cx="357.33333333333337" cy="2415" r="2" fill="#8B5CF6"/>
-    <path d="M357.33333333333337,2367 L359.83333333333337,2372.0 L354.83333333333337,2372.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <path d="M357.33333333333337,2415 L357.33333333333337,2372" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <text x="369.3" y="2396.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">extends the bases; @PostLoad, @PrePersist</text>
+    <path d="M357.33333333333337,2351 L359.83333333333337,2356.0 L354.83333333333337,2356.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M357.33333333333337,2415 L357.33333333333337,2356" stroke="#8B5CF6" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.01 3"/>
+    <text x="369.3" y="2388.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">configures on @ConditionalOnClass</text>
     <circle cx="883.3333333333334" cy="2415" r="2" fill="#8B5CF6"/>
-    <path d="M883.3333333333334,2367 L885.8333333333334,2372.0 L880.8333333333334,2372.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <path d="M883.3333333333334,2415 L883.3333333333334,2372" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <text x="895.3" y="2396.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">extends the bases; AfterConvertCallback</text>
-    <circle cx="357.33333333333337" cy="2675" r="2" fill="#8B5CF6"/>
-    <path d="M357.33333333333337,2611 L359.83333333333337,2616.0 L354.83333333333337,2616.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <path d="M357.33333333333337,2675 L357.33333333333337,2616" stroke="#8B5CF6" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.01 3"/>
-    <text x="369.3" y="2648.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">configures on @ConditionalOnClass</text>
-    <circle cx="883.3333333333334" cy="2675" r="2" fill="#8B5CF6"/>
-    <path d="M883.3333333333334,2611 L885.8333333333334,2616.0 L880.8333333333334,2616.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <path d="M883.3333333333334,2675 L883.3333333333334,2616" stroke="#8B5CF6" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.01 3"/>
-    <text x="895.3" y="2648.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">configures on @ConditionalOnClass</text>
-    <circle cx="1463.3333333333333" cy="2675" r="2" fill="#8B5CF6"/>
+    <path d="M883.3333333333334,2351 L885.8333333333334,2356.0 L880.8333333333334,2356.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M883.3333333333334,2415 L883.3333333333334,2356" stroke="#8B5CF6" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.01 3"/>
+    <text x="895.3" y="2388.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">configures on @ConditionalOnClass</text>
+    <circle cx="1463.3333333333333" cy="2415" r="2" fill="#8B5CF6"/>
     <path d="M1463.3333333333333,1139 L1465.8333333333333,1144.0 L1460.8333333333333,1144.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <path d="M1463.3333333333333,2675 L1463.3333333333333,1144" stroke="#8B5CF6" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.01 3"/>
-    <text x="1475.3" y="1912.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">configures the registry and sending outside</text>
+    <path d="M1463.3333333333333,2415 L1463.3333333333333,1144" stroke="#8B5CF6" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.01 3"/>
+    <text x="1475.3" y="1782.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">configures the registry and sending outside</text>
+    <circle cx="1989.3333333333333" cy="2415" r="2" fill="#8B5CF6"/>
+    <path d="M1989.3333333333333,2107 L1991.8333333333333,2112.0 L1986.8333333333333,2112.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M1989.3333333333333,2415 L1989.3333333333333,2112" stroke="#8B5CF6" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.01 3"/>
+    <text x="2001.3" y="2266.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">configures the adapters on @ConditionalOnClass</text>
+    <circle cx="2367" cy="2522.0" r="2" fill="#8B5CF6"/>
+    <path d="M2279,2522.0 L2284.0,2519.5 L2284.0,2524.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M2367,2522.0 L2284,2522.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <text x="2324.0" y="2496.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">api:</text>
+    <text x="2324.0" y="2512.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">registry</text>
+    <circle cx="357.33333333333337" cy="2675" r="2" fill="#8B5CF6"/>
+    <path d="M357.33333333333337,2627 L359.83333333333337,2632.0 L354.83333333333337,2632.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M357.33333333333337,2675 L357.33333333333337,2632" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <text x="369.3" y="2656.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">api: auto-configuration</text>
+    <circle cx="883.3333333333334" cy="2675" r="2" fill="#8B5CF6"/>
+    <path d="M883.3333333333334,2627 L885.8333333333334,2632.0 L880.8333333333334,2632.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M883.3333333333334,2675 L883.3333333333334,2632" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <text x="895.3" y="2656.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">api: auto-configuration</text>
+    <circle cx="1463.3333333333333" cy="2675" r="2" fill="#8B5CF6"/>
+    <path d="M1463.3333333333333,2627 L1465.8333333333333,2632.0 L1460.8333333333333,2632.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M1463.3333333333333,2675 L1463.3333333333333,2632" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <text x="1475.3" y="2656.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">api: auto-configuration</text>
     <circle cx="1989.3333333333333" cy="2675" r="2" fill="#8B5CF6"/>
-    <path d="M1989.3333333333333,2367 L1991.8333333333333,2372.0 L1986.8333333333333,2372.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <path d="M1989.3333333333333,2675 L1989.3333333333333,2372" stroke="#8B5CF6" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.01 3"/>
-    <text x="2001.3" y="2526.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">configures the adapters on @ConditionalOnClass</text>
-    <circle cx="2367" cy="2782.0" r="2" fill="#8B5CF6"/>
-    <path d="M2279,2782.0 L2284.0,2779.5 L2284.0,2784.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <path d="M2367,2782.0 L2284,2782.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
-    <text x="2324.0" y="2756.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">api:</text>
-    <text x="2324.0" y="2772.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">registry</text>
-    <circle cx="357.33333333333337" cy="2935" r="2" fill="#8B5CF6"/>
-    <path d="M357.33333333333337,2887 L359.83333333333337,2892.0 L354.83333333333337,2892.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <path d="M357.33333333333337,2935 L357.33333333333337,2892" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
-    <text x="369.3" y="2916.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">api: auto-configuration</text>
-    <circle cx="883.3333333333334" cy="2935" r="2" fill="#8B5CF6"/>
-    <path d="M883.3333333333334,2887 L885.8333333333334,2892.0 L880.8333333333334,2892.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <path d="M883.3333333333334,2935 L883.3333333333334,2892" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
-    <text x="895.3" y="2916.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">api: auto-configuration</text>
-    <circle cx="1463.3333333333333" cy="2935" r="2" fill="#8B5CF6"/>
-    <path d="M1463.3333333333333,2887 L1465.8333333333333,2892.0 L1460.8333333333333,2892.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <path d="M1463.3333333333333,2935 L1463.3333333333333,2892" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
-    <text x="1475.3" y="2916.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">api: auto-configuration</text>
-    <circle cx="1989.3333333333333" cy="2935" r="2" fill="#8B5CF6"/>
-    <path d="M1989.3333333333333,2887 L1991.8333333333333,2892.0 L1986.8333333333333,2892.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <path d="M1989.3333333333333,2935 L1989.3333333333333,2892" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
-    <text x="2001.3" y="2916.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">api: auto-configuration</text>
-    <circle cx="2515.3333333333335" cy="2935" r="2" fill="#8B5CF6"/>
-    <path d="M2204.3333333333335,2887 L2206.8333333333335,2892.0 L2201.8333333333335,2892.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <path d="M2515.3333333333335,2935 L2515.3333333333335,2920.0 Q2515.3333333333335,2912.0 2507.3333333333335,2912.0 L2212.3333333333335,2912.0 Q2204.3333333333335,2912.0 2204.3333333333335,2904.0 L2204.3333333333335,2892" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
-    <text x="2359.8" y="2904.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">api: auto-configuration</text>
-    <circle cx="3387" cy="2782.0" r="2" fill="#8B5CF6"/>
-    <path d="M3387,2782.0 L3418.0,2782.0 L3418.0,1034.0" stroke="#8B5CF6" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.01 3"/>
+    <path d="M1989.3333333333333,2627 L1991.8333333333333,2632.0 L1986.8333333333333,2632.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M1989.3333333333333,2675 L1989.3333333333333,2632" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <text x="2001.3" y="2656.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">api: auto-configuration</text>
+    <circle cx="2515.3333333333335" cy="2675" r="2" fill="#8B5CF6"/>
+    <path d="M2204.3333333333335,2627 L2206.8333333333335,2632.0 L2201.8333333333335,2632.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M2515.3333333333335,2675 L2515.3333333333335,2660.0 Q2515.3333333333335,2652.0 2507.3333333333335,2652.0 L2212.3333333333335,2652.0 Q2204.3333333333335,2652.0 2204.3333333333335,2644.0 L2204.3333333333335,2632" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <text x="2359.8" y="2644.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">api: auto-configuration</text>
+    <circle cx="3387" cy="2522.0" r="2" fill="#8B5CF6"/>
+    <path d="M3387,2522.0 L3418.0,2522.0 L3418.0,1034.0" stroke="#8B5CF6" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.01 3"/>
     <path d="M3385,1034.0 L3390.0,1031.5 L3390.0,1036.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
     <path d="M3418.0,1034.0 L3390,1034.0" stroke="#8B5CF6" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.01 3"/>
     <path d="M3385,1282.0 L3390.0,1279.5 L3390.0,1284.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
     <path d="M3418.0,1282.0 L3390,1282.0" stroke="#8B5CF6" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.01 3"/>
     <path d="M3385,1530.0 L3390.0,1527.5 L3390.0,1532.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
     <path d="M3418.0,1530.0 L3390,1530.0" stroke="#8B5CF6" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.01 3"/>
-    <g transform="rotate(-90 3436.0 2410.0)">
-    <rect x="3317.8" y="2398.0" width="236.4" height="16.0" rx="2" fill="#F6F8FA"/>
-    <text x="3436.0" y="2410.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">configures on @ConditionalOnClass</text>
+    <g transform="rotate(-90 3436.0 2150.0)">
+    <rect x="3317.8" y="2138.0" width="236.4" height="16.0" rx="2" fill="#F6F8FA"/>
+    <text x="3436.0" y="2150.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">configures on @ConditionalOnClass</text>
     </g>
   </g>
 </svg>
