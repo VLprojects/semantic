@@ -234,6 +234,22 @@ builds it as any other. A repository declared in Kotlin needs
 interface CartRepository : JpaAggregateRepository<Cart, CartId>
 ```
 
+`findForUpdateByIdOrNull` finds an entity and locks its row until the
+transaction ends: `@Lock(PESSIMISTIC_WRITE)` on a query of its own, one
+`SELECT … FOR UPDATE`, `FOR NO KEY UPDATE` on PostgreSQL. Another transaction
+that locks the same row waits for this one to end.
+`findForUpdateByIdOrThrow` raises `NotFoundException`, as `findByIdOrThrow`
+does. The query is written out: Spring Data would split a derived name at
+`Or`. It compares `id`, which Hibernate reads as the identifier of the entity
+whatever its attribute is named. How long a transaction waits for the lock is
+up to the service: the library sets no timeout, as it sets none for any other
+query. Fetching the associations with an entity graph is left to the
+repository of the service: the interface does not know them.
+
+```kotlin
+carts.findForUpdateByIdOrThrow(cartId).add(item)
+```
+
 ## MongoDB
 
 `semantic-ddd-spring-data-mongodb` gives `AbstractMongoEntity` and
