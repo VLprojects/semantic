@@ -17,7 +17,7 @@ public interface JpaEntityRepository<E : Entity<E, I>, I : Identifier> :
 
     // A derived query would split the name at Or; Hibernate reads id as the identifier whatever the attribute is named.
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("select e from #{#entityName} e where e.id = ?1")
+    @Query("SELECT e FROM #{#entityName} e WHERE e.id = ?1")
     public fun findForUpdateByIdOrNull(identifier: I): E?
 
     // A default body keeps Spring Data from deriving a query out of the name.
