@@ -31,7 +31,7 @@ PAGE_W = C[5] + W + RIGHT_LANE + 24
 LEVELS = [
 	("other families", "already in the tree; events use them", [0]),
 	("JVM", "Kotlin and one library; no Spring, no Jakarta", [1, 2]),
-	("Spring", "spring-context, spring-tx, spring-jdbc, spring-orm, spring-amqp, spring-messaging, Micrometer",
+	("Spring", "spring-context, spring-tx, spring-jdbc, spring-orm, spring-amqp, Micrometer",
 		[3, 4, 5, 6]),
 	("Spring Data", "repositories, mapping and callbacks of Spring Data", [7, 8]),
 	("Spring Boot", "@AutoConfiguration on @ConditionalOnClass; a starter only gathers dependencies", [9, 10]),
@@ -85,9 +85,6 @@ BLOCKS = [
 	(4, [5], "architecture/pattern/delivery/spring/rabbitmq", "delivery › spring › rabbitmq",
 		"semantic-delivery-spring-rabbitmq", "events-amqp", ["RabbitMessageSender"],
 		"Sends through RabbitTemplate, the key is the routing key. Sent once a publisher confirm comes."),
-	(5, [5], "architecture/pattern/delivery/spring/messaging", "delivery › spring › messaging",
-		"semantic-delivery-spring-messaging", "events-messaging", ["MessageChannelSender"],
-		"The channel is a bean named by the route, the key goes in a header; Spring Integration takes it from there."),
 
 	(7, [0, 1], "design/ddd/spring/data/core", "ddd › spring › data", "semantic-ddd-spring-data", None,
 		["AggregateEventCollector", "EntityRepository", "AggregateRepository", "SpecificationExecutor"],
@@ -331,8 +328,8 @@ def edd(pal):
 	up(a, C[2] + third, 3, 1, DECLARES, "api: envelope, registry, route")
 
 	delivery_lane = C[5] - 40
-	bus(a, delivery_lane, C[5] - 5, (3, 4, 5), C[5], mid(1) + 20)
-	along(a, delivery_lane - 10, (mid(2) + mid(4)) / 2, "implement the SPI: store, sender")
+	bus(a, delivery_lane, C[5] - 5, (3, 4), C[5], mid(1) + 20)
+	along(a, delivery_lane - 10, (mid(2) + mid(3)) / 2, "implement the SPI: store, sender")
 
 	glane = C[1] + W + FAM_GAP / 2
 	sy, ty = mid(7), mid(3)
@@ -358,7 +355,7 @@ def edd(pal):
 	src = mid(9)
 	dot(a, C[5] + W + 5, src)
 	line(a, f"M{C[5] + W + 5},{src} L{rl},{src} L{rl},{mid(3)}", CONFIGURES)
-	for r in (3, 4, 5):
+	for r in (3, 4):
 		bx, _ = head(a, C[5] + W + 3, mid(r), -1, 0)
 		line(a, f"M{rl},{mid(r)} L{bx},{mid(r)}", CONFIGURES)
 	along(a, rl + 18, (mid(6) + mid(9)) / 2, "configures on @ConditionalOnClass")
