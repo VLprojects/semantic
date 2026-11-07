@@ -15,16 +15,16 @@ public abstract class pro/vlprojects/semantic/ddd/spring/data/AbstractSpringData
 	protected fun markPersisted ()V
 }
 
-public final class pro/vlprojects/semantic/ddd/spring/data/domain/SortExtensionsKt {
-	public static final fun order (Lkotlin/reflect/KProperty1;)Lorg/springframework/data/domain/Sort$Order;
-	public static final fun sort (Lkotlin/reflect/KProperty1;)Lorg/springframework/data/domain/Sort;
-}
-
 public abstract interface class pro/vlprojects/semantic/ddd/spring/data/repository/AggregateRepository : pro/vlprojects/semantic/ddd/spring/data/repository/EntityRepository {
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/spring/data/repository/EntityRepository : org/springframework/data/repository/ListCrudRepository, org/springframework/data/repository/ListPagingAndSortingRepository {
 	public fun findByIdOrThrow (Lpro/vlprojects/semantic/ddd/tactical/Identifier;)Lpro/vlprojects/semantic/ddd/tactical/Entity;
+}
+
+public final class pro/vlprojects/semantic/ddd/spring/data/repository/SortExtensionsKt {
+	public static final fun order (Lkotlin/reflect/KProperty1;)Lorg/springframework/data/domain/Sort$Order;
+	public static final fun sort (Lkotlin/reflect/KProperty1;)Lorg/springframework/data/domain/Sort;
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/spring/data/repository/SpecificationExecutor {

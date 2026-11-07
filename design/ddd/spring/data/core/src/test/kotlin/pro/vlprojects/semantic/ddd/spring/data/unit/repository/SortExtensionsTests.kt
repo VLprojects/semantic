@@ -1,11 +1,11 @@
-package pro.vlprojects.semantic.ddd.spring.data.unit.domain
+package pro.vlprojects.semantic.ddd.spring.data.unit.repository
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.data.core.div
 import org.springframework.data.domain.Sort
-import pro.vlprojects.semantic.ddd.spring.data.domain.order
-import pro.vlprojects.semantic.ddd.spring.data.domain.sort
+import pro.vlprojects.semantic.ddd.spring.data.repository.order
+import pro.vlprojects.semantic.ddd.spring.data.repository.sort
 import pro.vlprojects.semantic.ddd.spring.data.unit.Cart
 import pro.vlprojects.semantic.ddd.spring.data.unit.CartId
 

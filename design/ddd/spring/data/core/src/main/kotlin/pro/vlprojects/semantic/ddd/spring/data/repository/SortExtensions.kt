@@ -1,4 +1,4 @@
-package pro.vlprojects.semantic.ddd.spring.data.domain
+package pro.vlprojects.semantic.ddd.spring.data.repository
 
 import org.springframework.data.core.toDotPath
 import org.springframework.data.domain.Sort
