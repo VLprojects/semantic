@@ -22,3 +22,9 @@ public final class pro/vlprojects/semantic/ddd/spring/data/mongodb/PersistedMark
 	public fun onAfterSave (Lpro/vlprojects/semantic/ddd/spring/data/mongodb/AbstractMongoEntity;Lorg/bson/Document;Ljava/lang/String;)Lpro/vlprojects/semantic/ddd/spring/data/mongodb/AbstractMongoEntity;
 }
 
+public abstract interface class pro/vlprojects/semantic/ddd/spring/data/mongodb/repository/MongoAggregateRepository : pro/vlprojects/semantic/ddd/spring/data/mongodb/repository/MongoEntityRepository, pro/vlprojects/semantic/ddd/spring/data/repository/AggregateRepository {
+}
+
+public abstract interface class pro/vlprojects/semantic/ddd/spring/data/mongodb/repository/MongoEntityRepository : org/springframework/data/mongodb/repository/MongoRepository, pro/vlprojects/semantic/ddd/spring/data/repository/EntityRepository {
+}
+

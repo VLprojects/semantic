@@ -156,7 +156,8 @@ counting and deleting, sorted and by page, with `findByIdOrThrow`, which raises
 `NotFoundException` of the core when there is no such entity.
 `AggregateRepository` extends it for an aggregate root and adds nothing yet:
 it takes a root only. A store gives a repository of its own on top of each,
-`JpaEntityRepository` and `JpaAggregateRepository` with `JpaRepository`.
+`JpaEntityRepository` and `JpaAggregateRepository` with `JpaRepository`,
+`MongoEntityRepository` and `MongoAggregateRepository` with `MongoRepository`.
 
 `SpecificationExecutor` finds by a specification the way
 `QuerydslPredicateExecutor` finds by a predicate. At its root is `findBy`,
@@ -266,6 +267,16 @@ MongoDB has no callbacks on the entity, so `PersistedMarkingCallback` marks an
 entity persisted once it is loaded or saved. A service declares it as a bean.
 Without it `isNew()` stays true, and the next `save()` inserts the entity again
 and fails on the key.
+
+`MongoEntityRepository` and `MongoAggregateRepository`, under
+`pro.vlprojects.semantic.ddd.spring.data.mongodb.repository`, are
+`MongoRepository` of Spring Data with `EntityRepository` and
+`AggregateRepository` of the Spring Data module, as the JPA ones are. A
+repository declared in Kotlin needs `kotlin-reflect` at run time here too.
+
+```kotlin
+interface CartRepository : MongoAggregateRepository<Cart, CartId>
+```
 
 ## Modules
 
