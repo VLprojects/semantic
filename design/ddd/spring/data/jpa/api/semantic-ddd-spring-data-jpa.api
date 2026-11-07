@@ -22,7 +22,7 @@ public abstract interface class pro/vlprojects/semantic/ddd/spring/data/jpa/repo
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/spring/data/jpa/repository/JpaEntityRepository : org/springframework/data/jpa/repository/JpaRepository, pro/vlprojects/semantic/ddd/spring/data/repository/EntityRepository {
-	public abstract fun findForUpdateById (Lpro/vlprojects/semantic/ddd/tactical/Identifier;)Lpro/vlprojects/semantic/ddd/tactical/Entity;
+	public abstract fun findForUpdateByIdOrNull (Lpro/vlprojects/semantic/ddd/tactical/Identifier;)Lpro/vlprojects/semantic/ddd/tactical/Entity;
 	public fun findForUpdateByIdOrThrow (Lpro/vlprojects/semantic/ddd/tactical/Identifier;)Lpro/vlprojects/semantic/ddd/tactical/Entity;
 }
 
