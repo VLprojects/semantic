@@ -234,6 +234,21 @@ builds it as any other. A repository declared in Kotlin needs
 interface CartRepository : JpaAggregateRepository<Cart, CartId>
 ```
 
+`findForUpdateById` finds an entity and locks its row until the transaction
+ends: `@Lock(PESSIMISTIC_WRITE)` on a query Spring Data derives from the name,
+one `SELECT … FOR UPDATE`, `FOR NO KEY UPDATE` on PostgreSQL. Another
+transaction that locks the same row waits for this one to end.
+`findForUpdateByIdOrThrow` raises `NotFoundException`, as `findByIdOrThrow`
+does. The name is not `findByIdForUpdate`: Spring Data would look for a
+property `idForUpdate`. The `id` of the name is `getId()` of `Persistable`, and
+Hibernate reads `id` in a query as the identifier of the entity. Fetching the
+associations with an entity graph is left to the repository of the service: the
+interface does not know them.
+
+```kotlin
+carts.findForUpdateByIdOrThrow(cartId).add(item)
+```
+
 ## Modules
 
 ![Modules, and what each takes from the one it builds on](../../docs/assets/dependencies-light.svg#gh-light-mode-only)
