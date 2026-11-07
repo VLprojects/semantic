@@ -1,5 +1,7 @@
 package pro.vlprojects.semantic.ddd.spring.data.jpa.integration
 
+import net.ttddyy.dsproxy.support.ProxyDataSourceBuilder
+import org.postgresql.ds.PGSimpleDataSource
 import org.testcontainers.postgresql.PostgreSQLContainer
 import jakarta.persistence.EntityManager
 import jakarta.persistence.PersistenceConfiguration
@@ -10,12 +12,20 @@ object Database {
         .withReuse(true)
         .apply { start() }
 
+    private val dataSource = PGSimpleDataSource()
+        .apply {
+            setURL(postgres.jdbcUrl)
+            user = postgres.username
+            password = postgres.password
+        }
+        .let(ProxyDataSourceBuilder::create)
+        .countQuery()
+        .build()
+
     private val entityManagerFactory = PersistenceConfiguration("semantic-ddd")
         .managedClass(Cart::class.java)
         .managedClass(Item::class.java)
-        .property(PersistenceConfiguration.JDBC_URL, postgres.jdbcUrl)
-        .property(PersistenceConfiguration.JDBC_USER, postgres.username)
-        .property(PersistenceConfiguration.JDBC_PASSWORD, postgres.password)
+        .property("jakarta.persistence.nonJtaDataSource", dataSource)
         .property(PersistenceConfiguration.SCHEMAGEN_DATABASE_ACTION, "drop-and-create")
         .createEntityManagerFactory()
 
