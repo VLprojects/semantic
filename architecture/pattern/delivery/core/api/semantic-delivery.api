@@ -1,0 +1,10 @@
+public abstract interface class pro/vlprojects/semantic/delivery/Message {
+	public abstract fun getIdempotencyKey ()Ljava/lang/String;
+	public abstract fun getMessageId ()Ljava/lang/String;
+	public abstract fun getPayload ()Ljava/lang/Object;
+}
+
+public abstract interface class pro/vlprojects/semantic/delivery/outbox/Outbox {
+	public abstract fun put (Ljava/lang/String;Lpro/vlprojects/semantic/delivery/Message;)V
+}
+
