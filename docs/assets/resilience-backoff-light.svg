@@ -49,13 +49,10 @@
     <path d="M340.6666666666667,193 L343.1666666666667,198.0 L338.1666666666667,198.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
     <path d="M340.6666666666667,257 L340.6666666666667,198" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
     <text x="352.7" y="230.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">api</text>
-    <circle cx="530.6666666666667" cy="399" r="2" fill="#8B5CF6"/>
-    <path d="M530.6666666666667,193 L533.1666666666667,198.0 L528.1666666666667,198.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <path d="M530.6666666666667,399 L530.6666666666667,384.0 Q530.6666666666667,376.0 538.6666666666667,376.0 L634.0,376.0 Q642.0,376.0 642.0,368.0 L642.0,226.0 Q642.0,218.0 634.0,218.0 L538.6666666666667,218.0 Q530.6666666666667,218.0 530.6666666666667,210.0 L530.6666666666667,198" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
-    <g transform="rotate(-90 632.0 297.0)">
-    <rect x="615.8" y="285.0" width="32.4" height="16.0" rx="2" fill="#F6F8FA"/>
-    <text x="632.0" y="297.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">api</text>
-    </g>
+    <circle cx="340.6666666666667" cy="399" r="2" fill="#8B5CF6"/>
+    <path d="M340.6666666666667,335 L343.1666666666667,340.0 L338.1666666666667,340.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M340.6666666666667,399 L340.6666666666667,340" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <text x="352.7" y="372.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">api</text>
     <circle cx="816.6666666666666" cy="565" r="2" fill="#8B5CF6"/>
     <path d="M816.6666666666666,193 L819.1666666666666,198.0 L814.1666666666666,198.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
     <path d="M816.6666666666666,565 L816.6666666666666,198" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>

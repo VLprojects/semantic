@@ -102,7 +102,7 @@ def backoff_map():
 def draw_backoff(a, m):
 	third, c = d.W / 3, m.c
 	m.up(a, c[0] + third, 1, 0, d.DECLARES, "api")
-	bypass(a, m, c[0] + 5 * third / 2, 2, c[0] + d.W + d.GAP / 2, c[0] + 5 * third / 2, 0, d.DECLARES, "api")
+	m.up(a, c[0] + third, 2, 1, d.DECLARES, "api")
 	m.up(a, c[1] + third, 3, 0, d.DECLARES, "api: Backoff")
 	m.up(a, c[2] + third, 3, 0, d.DECLARES, "api: Backoff")
 
