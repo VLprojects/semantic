@@ -15,6 +15,7 @@ pattern are agreed when that pattern is built.
 | --- | --- | --- |
 | `core` | `semantic-resilience` | `Policy` and how policies combine; depends on no pattern |
 | `backoff/core` | `semantic-resilience-backoff` | how long to wait between attempts |
+| `backoff/spring/core` | `semantic-resilience-backoff-spring` | `Backoff` as a Spring `BackOff` |
 | `retry/core` | `semantic-resilience-retry` | repeats a failed call |
 | `circuit-breaker/core` | `semantic-resilience-circuit-breaker` | stops calling a dependency that is down |
 | `deadline/core` | `semantic-resilience-deadline` | a limit in time on what it surrounds |

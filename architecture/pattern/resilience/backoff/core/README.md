@@ -28,3 +28,15 @@ ExponentialBackoff.of().jittered(jitter = 1.0)
 `jitter` is the largest share of the pause that can be taken away: with `0.5` a pause of 5 seconds becomes
 one between 2.5 and 5 seconds, with `1.0` one between 0 and 5 seconds. The default is `0.5`. Jitter never
 lengthens a pause, so the limit of `ExponentialBackoff` still holds.
+
+## In Spring
+
+`semantic-resilience-backoff-spring` passes a `Backoff` wherever Spring takes a `BackOff`:
+
+```kotlin
+RetryPolicy.builder().backOff(ExponentialBackoff.of().jittered().toSpring(maxAttempts = 3)).build()
+```
+
+`maxAttempts` is the number of pauses, after which Spring stops. Without it the `BackOff` never stops, which
+suits a listener container that reconnects until the broker is back. `RetryPolicy` refuses `maxRetries` next
+to a custom `BackOff`, so set `maxAttempts` there and in the error handler of Spring Kafka.
