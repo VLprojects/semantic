@@ -4,8 +4,8 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import pro.vlprojects.semantic.delivery.outbox.DeliveryStatus
 import pro.vlprojects.semantic.delivery.outbox.Outbox
-import pro.vlprojects.semantic.delivery.outbox.OutboxConfiguration
 import pro.vlprojects.semantic.delivery.outbox.OutboxId
+import pro.vlprojects.semantic.delivery.outbox.OutboxProperties
 import pro.vlprojects.semantic.delivery.outbox.OutboxRepository
 import pro.vlprojects.semantic.delivery.outbox.OutboxService
 import pro.vlprojects.semantic.resilience.backoff.FixedBackoff
@@ -44,9 +44,11 @@ class OutboxServiceTests {
     private val service = createService(maxAttempts = 2)
     private val started = createStartedOutbox(moment, moment.plus(lockDuration))
 
-    private fun createService(maxAttempts: Int) = OutboxConfiguration
-        .of(lockDuration = lockDuration, maxAttempts = maxAttempts, backoff = backoff)
-        .let { OutboxService(repository, it, clock) }
+    private fun createService(maxAttempts: Int) = OutboxProperties(
+        lockDuration = lockDuration,
+        maxAttempts = maxAttempts,
+        backoff = backoff,
+    ).let { OutboxService(repository, it, clock) }
 
     @Test
     fun `getting with a lock asks the repository to hold scheduled records`() {

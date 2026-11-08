@@ -4,13 +4,13 @@ import java.time.Clock
 
 public class OutboxService(
     private val repository: OutboxRepository,
-    private val configuration: OutboxConfiguration,
+    private val properties: OutboxProperties,
     private val clock: Clock,
 ) {
 
     public fun getAllWithLock(limit: Int): List<Outbox> {
         val now = clock.instant()
-        val lockedUntil = now.plus(configuration.lockDuration)
+        val lockedUntil = now.plus(properties.lockDuration)
 
         return repository.lockScheduledForDelivery(now, lockedUntil, limit)
     }
@@ -20,7 +20,7 @@ public class OutboxService(
         .let(outbox::complete)
         .let(repository::save)
 
-    public fun fail(outbox: Outbox, cause: Throwable): Outbox = configuration.errorPolicy
+    public fun fail(outbox: Outbox, cause: Throwable): Outbox = properties.errorPolicy
         .extract(cause)
         .let {
             when {
@@ -30,10 +30,10 @@ public class OutboxService(
         }
         .let(repository::save)
 
-    private fun hasAttemptsLeft(outbox: Outbox) = outbox.delivery.attempts < configuration.maxAttempts
+    private fun hasAttemptsLeft(outbox: Outbox) = outbox.delivery.attempts < properties.maxAttempts
 
     private fun reschedule(outbox: Outbox, error: String): Outbox {
-        val delay = configuration.backoff.calculate(outbox.delivery.attempts)
+        val delay = properties.backoff.calculate(outbox.delivery.attempts)
         val scheduledAt = clock.instant().plus(delay)
 
         return outbox.fail(scheduledAt, error)
