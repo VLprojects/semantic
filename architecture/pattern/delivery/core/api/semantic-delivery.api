@@ -86,7 +86,7 @@ public final class pro/vlprojects/semantic/delivery/outbox/OutboxService {
 	public final fun cancel (Lpro/vlprojects/semantic/delivery/outbox/Outbox;Ljava/lang/Throwable;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
 	public final fun complete (Lpro/vlprojects/semantic/delivery/outbox/Outbox;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
 	public final fun getAllWithLock (I)Ljava/util/List;
-	public final fun retry (Lpro/vlprojects/semantic/delivery/outbox/Outbox;Ljava/lang/Throwable;Ljava/time/Duration;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
+	public final fun reschedule (Lpro/vlprojects/semantic/delivery/outbox/Outbox;Ljava/lang/Throwable;Ljava/time/Duration;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/Payload {

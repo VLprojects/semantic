@@ -52,11 +52,11 @@ class OutboxServiceTests {
     }
 
     @Test
-    fun `retrying plans the next attempt after the delay`() {
-        val retried = service.retry(started, cause, Duration.ofSeconds(30))
+    fun `rescheduling plans the next attempt after the delay`() {
+        val rescheduled = service.reschedule(started, cause, Duration.ofSeconds(30))
 
-        assertEquals(DeliveryStatus.FAILED, retried.delivery.status)
-        assertEquals(moment.plusSeconds(30), retried.delivery.scheduledAt)
+        assertEquals(DeliveryStatus.FAILED, rescheduled.delivery.status)
+        assertEquals(moment.plusSeconds(30), rescheduled.delivery.scheduledAt)
     }
 
     @Test

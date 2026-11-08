@@ -18,6 +18,7 @@ public data class Delivery private constructor(
 
     internal fun completed(terminatedAt: Instant): Delivery {
         checkHasStartedStatus()
+
         return copy(status = DeliveryStatus.COMPLETED, lockedUntil = null, terminatedAt = terminatedAt, error = null)
     }
 
@@ -28,6 +29,7 @@ public data class Delivery private constructor(
             visibleLength = MAX_ERROR_LENGTH - 1,
             abbreviation = SuffixAbbreviation,
         )
+
         return copy(
             scheduledAt = scheduledAt,
             status = DeliveryStatus.FAILED,
@@ -38,6 +40,7 @@ public data class Delivery private constructor(
 
     internal fun canceled(terminatedAt: Instant): Delivery {
         checkHasFailedStatus()
+
         return copy(status = DeliveryStatus.CANCELED, terminatedAt = terminatedAt)
     }
 

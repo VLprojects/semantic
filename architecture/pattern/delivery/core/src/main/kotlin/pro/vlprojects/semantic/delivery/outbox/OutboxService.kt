@@ -13,6 +13,7 @@ public class OutboxService(
     public fun getAllWithLock(limit: Int): List<Outbox> {
         val now = clock.instant()
         val lockedUntil = now.plus(lockDuration)
+
         return repository.lockScheduledForDelivery(now, lockedUntil, limit)
     }
 
@@ -21,9 +22,10 @@ public class OutboxService(
         .let(outbox::complete)
         .let(repository::save)
 
-    public fun retry(outbox: Outbox, cause: Throwable, delay: Duration): Outbox {
+    public fun reschedule(outbox: Outbox, cause: Throwable, delay: Duration): Outbox {
         val scheduledAt = clock.instant().plus(delay)
         val error = errorPolicy.extract(cause)
+
         return outbox
             .fail(scheduledAt, error)
             .let(repository::save)
@@ -32,6 +34,7 @@ public class OutboxService(
     public fun cancel(outbox: Outbox, cause: Throwable): Outbox {
         val now = clock.instant()
         val error = errorPolicy.extract(cause)
+
         return outbox
             .fail(now, error)
             .cancel(now)
