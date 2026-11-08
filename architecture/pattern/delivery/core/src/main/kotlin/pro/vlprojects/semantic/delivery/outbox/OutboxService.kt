@@ -16,24 +16,24 @@ public class OutboxService(
 
     public fun completeDelivery(outbox: Outbox): Outbox = clock
         .instant()
-        .let(outbox::markCompleted)
+        .let(outbox::completed)
         .let(repository::save)
 
     public fun retryDelivery(outbox: Outbox, error: String, delay: Duration): Outbox = clock
         .instant()
         .plus(delay)
-        .let { outbox.markFailed(it, error) }
+        .let { outbox.failed(it, error) }
         .let(repository::save)
 
     public fun stopDelivery(outbox: Outbox, error: String): Outbox = error
-        .let(outbox::markAbandoned)
+        .let(outbox::abandoned)
         .let(repository::save)
 
     private fun tryLock(outbox: Outbox) = try {
         clock
             .instant()
             .plus(lockDuration)
-            .let(outbox::markInProgress)
+            .let(outbox::started)
             .let(repository::save)
     } catch (_: OutboxVersionConflictException) {
         null

@@ -14,20 +14,20 @@ public class Outbox private constructor(
     public val version: Long,
 ) {
 
-    internal fun markInProgress(lockedUntil: Instant) = lockedUntil
-        .let(delivery::markInProgress)
+    internal fun started(lockedUntil: Instant) = lockedUntil
+        .let(delivery::started)
         .let(::replaceDelivery)
 
-    internal fun markCompleted(completedAt: Instant) = completedAt
-        .let(delivery::markCompleted)
+    internal fun completed(completedAt: Instant) = completedAt
+        .let(delivery::completed)
         .let(::replaceDelivery)
 
-    internal fun markFailed(scheduledAt: Instant, error: String) = delivery
-        .markFailed(scheduledAt, error)
+    internal fun failed(scheduledAt: Instant, error: String) = delivery
+        .failed(scheduledAt, error)
         .let(::replaceDelivery)
 
-    internal fun markAbandoned(error: String) = error
-        .let(delivery::markAbandoned)
+    internal fun abandoned(error: String) = error
+        .let(delivery::abandoned)
         .let(::replaceDelivery)
 
     private fun replaceDelivery(delivery: Delivery) = Outbox(

@@ -25,7 +25,7 @@ class OutboxTests {
 
     @Test
     fun `starting a delivery counts the attempt and locks the record`() {
-        val delivery = createOutbox(moment).markInProgress(later).delivery
+        val delivery = createOutbox(moment).started(later).delivery
 
         assertEquals(DeliveryStatus.IN_PROGRESS, delivery.status)
         assertEquals(1, delivery.attempts)
@@ -35,8 +35,8 @@ class OutboxTests {
     @Test
     fun `a failed delivery is unlocked and scheduled again`() {
         val delivery = createOutbox(moment)
-            .markInProgress(later)
-            .markFailed(later, "timeout")
+            .started(later)
+            .failed(later, "timeout")
             .delivery
 
         assertEquals(DeliveryStatus.FAILED, delivery.status)
@@ -48,8 +48,8 @@ class OutboxTests {
     @Test
     fun `a long error is cut`() {
         val delivery = createOutbox(moment)
-            .markInProgress(later)
-            .markAbandoned("x".repeat(2000))
+            .started(later)
+            .abandoned("x".repeat(2000))
             .delivery
 
         assertEquals(1000, delivery.error?.length)
@@ -58,17 +58,17 @@ class OutboxTests {
     @Test
     fun `a completed delivery cannot start again`() {
         val outbox = createOutbox(moment)
-            .markInProgress(later)
-            .markCompleted(later)
+            .started(later)
+            .completed(later)
 
-        assertThrows<IllegalStateException> { outbox.markInProgress(later) }
+        assertThrows<IllegalStateException> { outbox.started(later) }
     }
 
     @Test
     fun `a delivery that is not in progress cannot complete`() {
         val outbox = createOutbox(moment)
 
-        assertThrows<IllegalStateException> { outbox.markCompleted(later) }
+        assertThrows<IllegalStateException> { outbox.completed(later) }
     }
 
     @Test

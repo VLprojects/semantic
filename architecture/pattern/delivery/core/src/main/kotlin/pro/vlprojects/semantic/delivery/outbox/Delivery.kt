@@ -13,24 +13,24 @@ public data class Delivery(
     public val error: String? = null,
 ) {
 
-    internal fun markInProgress(lockedUntil: Instant): Delivery {
+    internal fun started(lockedUntil: Instant): Delivery {
         check(!status.isTerminal) { "Delivery is already $status" }
         return copy(status = DeliveryStatus.IN_PROGRESS, attempts = attempts + 1, lockedUntil = lockedUntil)
     }
 
-    internal fun markCompleted(completedAt: Instant): Delivery {
+    internal fun completed(completedAt: Instant): Delivery {
         checkInProgress()
         return copy(status = DeliveryStatus.COMPLETED, lockedUntil = null, completedAt = completedAt, error = null)
     }
 
-    internal fun markFailed(scheduledAt: Instant, error: String): Delivery {
+    internal fun failed(scheduledAt: Instant, error: String): Delivery {
         checkInProgress()
         return error
             .let(::abbreviate)
             .let { copy(scheduledAt = scheduledAt, status = DeliveryStatus.FAILED, lockedUntil = null, error = it) }
     }
 
-    internal fun markAbandoned(error: String): Delivery {
+    internal fun abandoned(error: String): Delivery {
         checkInProgress()
         return error
             .let(::abbreviate)
