@@ -20,15 +20,14 @@ public class OutboxService(
         .let(outbox::complete)
         .let(repository::save)
 
-    public fun fail(outbox: Outbox, cause: Throwable): Outbox = properties.errorPolicy
-        .extract(cause)
-        .let {
-            when {
-                hasAttemptsLeft(outbox) -> reschedule(outbox, it)
-                else -> cancel(outbox, it)
-            }
-        }
-        .let(repository::save)
+    public fun fail(outbox: Outbox, cause: Throwable): Outbox {
+        val error = properties.errorPolicy.extract(cause)
+
+        return when {
+            hasAttemptsLeft(outbox) -> reschedule(outbox, error)
+            else -> cancel(outbox, error)
+        }.let(repository::save)
+    }
 
     private fun hasAttemptsLeft(outbox: Outbox) = outbox.delivery.attempts < properties.maxAttempts
 
