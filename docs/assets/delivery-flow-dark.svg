@@ -78,7 +78,7 @@
     <rect x="830.0" y="560.0" width="252.0" height="76.0" rx="6" fill="#29313C"/>
     <text x="842.0" y="584.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">@TransactionalInbox</text>
     <text x="842.0" y="604.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">the handler; what it sends goes through</text>
-    <text x="842.0" y="620.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">OutboxRepository.save</text>
+    <text x="842.0" y="620.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">OutboxService.create</text>
     <circle cx="779" cy="598.0" r="2" fill="#A78BFA"/>
     <path d="M827,598.0 L822.0,600.5 L822.0,595.5 Z" fill="#A78BFA" stroke="#A78BFA" stroke-width="0.5" stroke-linejoin="round"/>
     <path d="M779,598.0 L822,598.0" stroke="#A78BFA" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>

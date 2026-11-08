@@ -367,7 +367,7 @@ def flow(pal):
 	row(a, yc, (
 		("blue", "IdempotentReceiver", "opens the transaction through TransactionRunner"),
 		("blue", "Inbox.accept", "source, idempotency key, consumer; a duplicate stops here"),
-		("card", "@TransactionalInbox", "the handler; what it sends goes through OutboxRepository.save"),
+		("card", "@TransactionalInbox", "the handler; what it sends goes through OutboxService.create"),
 		("green", "commit, then ack", "a crash before ack brings a duplicate"),
 	))
 

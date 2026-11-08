@@ -1,12 +1,20 @@
 package pro.vlprojects.semantic.delivery.unit.outbox
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertSame
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
+import pro.vlprojects.semantic.delivery.observability.OutboxInstrumentation
+import pro.vlprojects.semantic.delivery.outbox.Outbox
+import pro.vlprojects.semantic.delivery.outbox.OutboxMetadata
 import pro.vlprojects.semantic.delivery.outbox.OutboxPayloadSerializer
+import pro.vlprojects.semantic.delivery.outbox.OutboxRepository
 import pro.vlprojects.semantic.delivery.outbox.OutboxService
 import pro.vlprojects.semantic.delivery.outbox.OutboxStatus
 import pro.vlprojects.semantic.delivery.outbox.annotation.IdempotencyKey
 import pro.vlprojects.semantic.delivery.outbox.context.OutboxContextProvider
+import java.lang.reflect.Proxy
 import java.time.Clock
 import java.time.Instant
 import java.time.ZoneOffset
@@ -31,11 +39,29 @@ class OutboxServiceTests {
     }
 
     private val moment = Instant.parse("2026-11-09T00:00:00Z")
-    private val service = OutboxService(
+    private val saved = mutableListOf<Outbox>()
+    private val scheduled = mutableListOf<OutboxMetadata>()
+    private val instrumentation = object : OutboxInstrumentation {
+
+        override fun onScheduled(record: OutboxMetadata) {
+            scheduled += record
+        }
+    }
+
+    private fun createRepository(save: (Outbox) -> Unit) = Proxy.newProxyInstance(
+        OutboxRepository::class.java.classLoader,
+        arrayOf(OutboxRepository::class.java),
+    ) { _, _, arguments -> save(arguments[0] as Outbox) } as OutboxRepository
+
+    private fun createService(repository: OutboxRepository) = OutboxService(
+        repository = repository,
         serializer = TextSerializer,
         contextProviders = listOf(OutboxContextProvider { mapOf("trace" to "provided", "tenant" to "acme") }),
+        instrumentation = instrumentation,
         clock = Clock.fixed(moment, ZoneOffset.UTC),
     )
+
+    private val service = createService(createRepository { saved += it })
 
     @Test
     fun `an outbox is new and due at once for its deliverer`() {
@@ -48,6 +74,22 @@ class OutboxServiceTests {
         assertEquals(OutboxStatus.NEW, outbox.status)
         assertEquals(moment, outbox.createdAt)
         assertEquals(moment, outbox.nextRetryAt)
+    }
+
+    @Test
+    fun `a created outbox is saved and reported as scheduled`() {
+        val outbox = service.create("payload", "order-1", "broker")
+
+        assertSame(outbox, saved.single())
+        assertEquals(outbox.id, scheduled.single().id)
+    }
+
+    @Test
+    fun `an outbox that failed to save is not reported`() {
+        val failing = createService(createRepository { error("no transaction") })
+
+        assertThrows<IllegalStateException> { failing.create("payload", "broker") }
+        assertTrue(scheduled.isEmpty())
     }
 
     @Test

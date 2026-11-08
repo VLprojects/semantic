@@ -17,7 +17,7 @@ Packages `delivery.outbox` and `delivery.observability` of `semantic-delivery`:
 | Type | What it is |
 | --- | --- |
 | `Outbox` | a record of one payload for one deliverer: `key`, `delivererId`, the text of the payload, status, lease |
-| `OutboxService` | creates an `Outbox`: the text of the payload, its context and idempotency key |
+| `OutboxService` | creates and saves an `Outbox`: the text of the payload, its context and idempotency key |
 | `OutboxRepository` | saves a record in the transaction of the change, claims a batch under a lease, closes a record by its lease token |
 | `OutboxAdministration` | counts records, returns `FAILED` to `NEW`, deletes |
 | `OutboxPayloadSerializer` | turns a payload into text and back |
