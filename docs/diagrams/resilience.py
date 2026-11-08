@@ -7,7 +7,7 @@ import delivery as d
 OVERVIEW_W, OVERVIEW_GAP = 250, 72
 PAIR, TRIO = 2, 3
 HUES = {"family": "card", "JVM": "blue", "Spring": "green", "Spring Boot": "amber", "used by": "card", "not built": "card"}
-POLICY = "resilience/core", ["Policy"], "What every pattern except backoff is, and how policies combine."
+POLICY = "resilience/core", ["Policy"], "The common type of the patterns, and how policies combine."
 CORE_ROW, MICROMETER_ROW, SPRING_ROW, AUTOCONFIGURE_ROW, STARTER_ROW, ACTUATOR_ROW = 1, 2, 3, 4, 5, 6
 
 
@@ -61,8 +61,9 @@ def overview(pal):
 	d.header(a, "RESILIENCE", "paths under architecture/pattern/resilience; a column per pattern, each one its own modules")
 	m.draw(a)
 	third, c = m.w / 3, m.c
-	for col in range(1, 6):
+	for col in range(1, 5):
 		m.up(a, c[col] + third, CORE_ROW, 0, d.BUILDS, "implements")
+	m.up(a, c[5] + third, CORE_ROW, 0, d.DECLARES, "api")
 	m.across(a, c[1], c[0] + m.w, m.top[CORE_ROW] + m.rh[CORE_ROW] / 2, d.DECLARES, "api")
 	for col in range(1, 5):
 		m.up(a, c[col] + third, MICROMETER_ROW, CORE_ROW, d.DECLARES, "api")
@@ -170,7 +171,7 @@ def breaker_map():
 
 
 def deadline_map():
-	return spring_boot_map((["Deadline"], "A limit in time on what it surrounds: one attempt inside retry, the whole operation outside. A virtual thread and an interrupt."),
+	return spring_boot_map((["Deadline"], "One limit in time on the whole operation, above retry. A virtual thread and an interrupt."),
 		"@Deadline", "The annotation and its aspect.", "Calls past the limit.")
 
 
@@ -208,13 +209,13 @@ def fallback_map():
 		HUES,
 		[
 			(0, [0], *POLICY),
-			(1, [0, 1], "core", ["Fallback"], "A spare answer on failure. Adapters are added when a service needs them."),
+			(1, [0, 1], "core", ["Fallback"], "A spare answer on failure, always outermost: it takes a ready Policy. Adapters are added when a service needs them."),
 		],
 	)
 
 
 def draw_fallback(a, m):
-	m.up(a, m.c[0] + d.W / 3, 1, 0, d.BUILDS, "implements Policy")
+	m.up(a, m.c[0] + d.W / 3, 1, 0, d.DECLARES, "api: Policy")
 
 
 PATTERNS = (
