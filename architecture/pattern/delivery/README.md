@@ -4,8 +4,8 @@ Transactional outbox and inbox for Kotlin and Java. A service calls `Outbox.sche
 transaction; after the commit `Relay` calls an `OutboxHandler` at least once. A broker is one more
 handler. The inbox drops the duplicates a consumer receives.
 
-The core holds the contract of the outbox so far: its record, storage and routes. The relay and the
-inbox come next; the other modules are still empty.
+The core holds the contract of the outbox so far: its record, storage and routes. Its processing and
+the inbox come next; the other modules are still empty.
 
 ![Modules of delivery and what each one holds](../../../docs/assets/delivery-light.svg#gh-light-mode-only)
 ![Modules of delivery and what each one holds](../../../docs/assets/delivery-dark.svg#gh-dark-mode-only)
