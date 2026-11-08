@@ -40,7 +40,7 @@ class ExponentialBackoffTests {
             initialDelay = Duration.ofSeconds(4),
             maxDelay = Duration.ofSeconds(60),
             jitter = 0.5,
-            random = half,
+            randomizer = half,
         )
 
         assertEquals(Duration.ofSeconds(3), backoff.delayAfter(1))

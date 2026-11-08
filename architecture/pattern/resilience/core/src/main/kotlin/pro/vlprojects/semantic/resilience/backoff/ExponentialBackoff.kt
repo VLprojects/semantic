@@ -9,7 +9,7 @@ public class ExponentialBackoff(
     private val maxDelay: Duration,
     private val multiplier: Double = 2.0,
     private val jitter: Double = 0.0,
-    private val random: Random = Random.Default,
+    private val randomizer: Random = Random.Default,
 ) : Backoff {
 
     init {
@@ -36,7 +36,7 @@ public class ExponentialBackoff(
 
     private fun limit(delay: Double) = delay.coerceAtMost(maxNanos)
 
-    private fun spread(delay: Double) = random
+    private fun spread(delay: Double) = randomizer
         .nextDouble()
         .times(jitter)
         .let { reduction -> delay * (1 - reduction) }
