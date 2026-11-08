@@ -180,7 +180,7 @@ MODULES = Map(
 	],
 	{"other families": "card", "JVM": "blue", "Spring": "green", "Spring Boot": "amber", "outside the release": "card"},
 	[
-		(0, [0], "resilience/core", ["Backoff"], "The delay for an attempt number."),
+		(0, [0], "resilience/backoff/core", ["Backoff"], "The delay for an attempt number."),
 		(1, [0, 1, 2], "core",
 			["Outbox", "OutboxHandler", "OutboxFallbackHandler", "OutboxRetryPolicy", "OutboxRouting", "OutboxPayloadSerializer",
 				"OutboxContextProvider", "OutboxInstrumentation", "OutboxMetricNames", "OutboxRecordRepository", "OutboxRecordAdministration", "Relay",
