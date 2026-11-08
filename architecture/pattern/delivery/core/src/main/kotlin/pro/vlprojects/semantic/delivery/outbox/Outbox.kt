@@ -24,10 +24,6 @@ public class Outbox private constructor(
         this.version = version
     }
 
-    internal fun start(lockedUntil: Instant) = apply {
-        delivery = delivery.started(lockedUntil)
-    }
-
     internal fun complete(terminatedAt: Instant) = apply {
         delivery = delivery.completed(terminatedAt)
     }

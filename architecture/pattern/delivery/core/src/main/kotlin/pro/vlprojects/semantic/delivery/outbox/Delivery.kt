@@ -16,11 +16,6 @@ public data class Delivery private constructor(
     public val error: String?,
 ) {
 
-    internal fun started(lockedUntil: Instant): Delivery {
-        checkHasNotTerminalStatus()
-        return copy(status = DeliveryStatus.STARTED, attempts = attempts + 1, lockedUntil = lockedUntil)
-    }
-
     internal fun completed(terminatedAt: Instant): Delivery {
         checkHasStartedStatus()
         return copy(status = DeliveryStatus.COMPLETED, lockedUntil = null, terminatedAt = terminatedAt, error = null)
@@ -45,8 +40,6 @@ public data class Delivery private constructor(
         checkHasFailedStatus()
         return copy(status = DeliveryStatus.CANCELED, terminatedAt = terminatedAt)
     }
-
-    private fun checkHasNotTerminalStatus() = check(!status.isTerminal) { "Delivery is already $status" }
 
     private fun checkHasStartedStatus() = check(status == DeliveryStatus.STARTED) { "Delivery is $status" }
 

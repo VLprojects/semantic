@@ -12,11 +12,11 @@ class OutboxTests {
 
     private val moment = Instant.parse("2026-11-09T00:00:00Z")
     private val later = moment.plusSeconds(60)
-    private val outbox = createOutbox(moment)
+    private val started = createStartedOutbox(moment, later)
 
     @Test
     fun `a new record is pending from its creation`() {
-        val delivery = outbox.delivery
+        val delivery = createOutbox(moment).delivery
 
         assertEquals(DeliveryStatus.PENDING, delivery.status)
         assertEquals(0, delivery.attempts)
@@ -25,71 +25,52 @@ class OutboxTests {
     }
 
     @Test
-    fun `starting counts the attempt and locks the record`() {
-        outbox.start(later)
-
-        assertEquals(DeliveryStatus.STARTED, outbox.delivery.status)
-        assertEquals(1, outbox.delivery.attempts)
-        assertEquals(later, outbox.delivery.lockedUntil)
-    }
-
-    @Test
     fun `failing unlocks the record and schedules it again`() {
-        outbox.start(later)
-        outbox.fail(later, "timeout")
+        val delivery = started.fail(later, "timeout").delivery
 
-        assertEquals(DeliveryStatus.FAILED, outbox.delivery.status)
-        assertEquals(later, outbox.delivery.scheduledAt)
-        assertEquals("timeout", outbox.delivery.error)
-        assertNull(outbox.delivery.lockedUntil)
+        assertEquals(DeliveryStatus.FAILED, delivery.status)
+        assertEquals(later, delivery.scheduledAt)
+        assertEquals("timeout", delivery.error)
+        assertNull(delivery.lockedUntil)
     }
 
     @Test
     fun `a long error is cut`() {
-        outbox.start(later)
-        outbox.fail(later, "x".repeat(2000))
+        val delivery = started.fail(later, "x".repeat(2000)).delivery
 
-        assertEquals(1000, outbox.delivery.error?.length)
+        assertEquals(1000, delivery.error?.length)
     }
 
     @Test
     fun `completing records the termination time`() {
-        outbox.start(later)
-        outbox.complete(later)
+        val delivery = started.complete(later).delivery
 
-        assertEquals(DeliveryStatus.COMPLETED, outbox.delivery.status)
-        assertEquals(later, outbox.delivery.terminatedAt)
+        assertEquals(DeliveryStatus.COMPLETED, delivery.status)
+        assertEquals(later, delivery.terminatedAt)
     }
 
     @Test
     fun `canceling keeps the last error and records the termination time`() {
-        outbox.start(later)
-        outbox.fail(later, "timeout")
-        outbox.cancel(later)
+        val delivery = started
+            .fail(later, "timeout")
+            .cancel(later)
+            .delivery
 
-        assertEquals(DeliveryStatus.CANCELED, outbox.delivery.status)
-        assertEquals("timeout", outbox.delivery.error)
-        assertEquals(later, outbox.delivery.terminatedAt)
+        assertEquals(DeliveryStatus.CANCELED, delivery.status)
+        assertEquals("timeout", delivery.error)
+        assertEquals(later, delivery.terminatedAt)
     }
 
     @Test
     fun `a delivery that has not failed cannot be canceled`() {
-        outbox.start(later)
-
-        assertThrows<IllegalStateException> { outbox.cancel(later) }
-    }
-
-    @Test
-    fun `a completed delivery cannot start again`() {
-        outbox.start(later)
-        outbox.complete(later)
-
-        assertThrows<IllegalStateException> { outbox.start(later) }
+        assertThrows<IllegalStateException> { started.cancel(later) }
     }
 
     @Test
     fun `a delivery that has not started cannot complete`() {
-        assertThrows<IllegalStateException> { outbox.complete(later) }
+        val pending = createOutbox(moment)
+
+        assertThrows<IllegalStateException> { pending.complete(later) }
     }
 
     @Test

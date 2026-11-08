@@ -10,10 +10,11 @@ public class OutboxService(
     private val errorPolicy: ErrorPolicy = RootCauseErrorPolicy,
 ) {
 
-    public fun getAllWithLock(limit: Int): List<Outbox> = clock
-        .instant()
-        .let { repository.findScheduledForDelivery(it, limit) }
-        .mapNotNull(::tryLock)
+    public fun getAllWithLock(limit: Int): List<Outbox> {
+        val now = clock.instant()
+        val lockedUntil = now.plus(lockDuration)
+        return repository.lockScheduledForDelivery(now, lockedUntil, limit)
+    }
 
     public fun complete(outbox: Outbox): Outbox = clock
         .instant()
@@ -35,15 +36,5 @@ public class OutboxService(
             .fail(now, error)
             .cancel(now)
             .let(repository::save)
-    }
-
-    private fun tryLock(outbox: Outbox) = try {
-        clock
-            .instant()
-            .plus(lockDuration)
-            .let(outbox::start)
-            .let(repository::save)
-    } catch (_: OutboxOptimisticLockException) {
-        null
     }
 }
