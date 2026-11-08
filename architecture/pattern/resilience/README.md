@@ -36,6 +36,38 @@ retry.around(breaker).execute { client.load() }
 A deadline covers what it surrounds: inside `retry` it limits one attempt, outside it limits the whole
 operation.
 
+## Modules of each pattern
+
+### Backoff
+
+![Modules of backoff](../../../docs/assets/resilience-backoff-light.svg#gh-light-mode-only)
+![Modules of backoff](../../../docs/assets/resilience-backoff-dark.svg#gh-dark-mode-only)
+
+### Retry
+
+![Modules of retry](../../../docs/assets/resilience-retry-light.svg#gh-light-mode-only)
+![Modules of retry](../../../docs/assets/resilience-retry-dark.svg#gh-dark-mode-only)
+
+### Circuit breaker
+
+![Modules of circuit-breaker](../../../docs/assets/resilience-circuit-breaker-light.svg#gh-light-mode-only)
+![Modules of circuit-breaker](../../../docs/assets/resilience-circuit-breaker-dark.svg#gh-dark-mode-only)
+
+### Deadline
+
+![Modules of deadline](../../../docs/assets/resilience-deadline-light.svg#gh-light-mode-only)
+![Modules of deadline](../../../docs/assets/resilience-deadline-dark.svg#gh-dark-mode-only)
+
+### Bulkhead
+
+![Modules of bulkhead](../../../docs/assets/resilience-bulkhead-light.svg#gh-light-mode-only)
+![Modules of bulkhead](../../../docs/assets/resilience-bulkhead-dark.svg#gh-dark-mode-only)
+
+### Fallback
+
+![Modules of fallback](../../../docs/assets/resilience-fallback-light.svg#gh-light-mode-only)
+![Modules of fallback](../../../docs/assets/resilience-fallback-dark.svg#gh-dark-mode-only)
+
 ## Elsewhere
 
 Rate limiting and load shedding are in `traffic`, a cache is in `caching`. `@Retryable` and

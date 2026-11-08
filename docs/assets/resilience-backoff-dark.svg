@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1618 562" width="1618" height="562" role="img">
+  <rect width="1618" height="562" rx="12" fill="#151B23"/>
+  <g transform="translate(12,12)">
+    <text x="24.0" y="46.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="16" font-weight="600" fill="#E6EDF3" text-anchor="start">BACKOFF</text>
+    <rect x="103.2" y="32.0" width="473.5" height="18" rx="4" fill="#9198A1" fill-opacity="0.2"/>
+    <text x="111.2" y="44.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#9198A1" text-anchor="start">how long to wait between attempts; paths under architecture/pattern/resilience/backoff</text>
+    <rect x="24" y="80" width="1546" height="126" rx="12" fill="none" stroke="#515B66" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
+    <text x="40.0" y="120.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#E6EDF3" text-anchor="start">JVM</text>
+    <text x="40.0" y="140.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6E7681" text-anchor="start">no Spring</text>
+    <rect x="24" y="246" width="1546" height="102" rx="12" fill="none" stroke="#515B66" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
+    <text x="40.0" y="286.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#E6EDF3" text-anchor="start">Spring</text>
+    <text x="40.0" y="306.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6E7681" text-anchor="start">Spring types</text>
+    <rect x="24" y="388" width="1546" height="126" rx="12" fill="none" stroke="#515B66" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
+    <text x="40.0" y="428.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#E6EDF3" text-anchor="start">used by</text>
+    <text x="40.0" y="448.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6E7681" text-anchor="start">other modules that wait</text>
+    <rect x="214.0" y="96.0" width="1332.0" height="94.0" rx="6" fill="#6E9BFF"/>
+    <text x="226.0" y="122.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#06173D" text-anchor="start">core</text>
+    <rect x="226.0" y="136.0" width="62.2" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
+    <text x="234.0" y="148.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">Backoff</text>
+    <rect x="294.2" y="136.0" width="95.2" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
+    <text x="302.2" y="148.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">FixedBackoff</text>
+    <rect x="395.4" y="136.0" width="134.8" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
+    <text x="403.4" y="148.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">ExponentialBackoff</text>
+    <text x="226.0" y="180.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1B3A80" text-anchor="start">The delay for an attempt number. Whoever calls it waits and repeats. Not a Policy: it runs nothing.</text>
+    <rect x="214.0" y="262.0" width="380.0" height="70.0" rx="6" fill="#5BF08A"/>
+    <text x="226.0" y="288.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#03240E" text-anchor="start">spring/core</text>
+    <text x="226.0" y="322.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">Backoff as a Spring BackOff.</text>
+    <rect x="690.0" y="404.0" width="380.0" height="94.0" rx="6" fill="#29313C"/>
+    <text x="702.0" y="430.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">resilience/retry/core</text>
+    <rect x="702.0" y="444.0" width="49.0" height="18" rx="4" fill="#E6EDF3" fill-opacity="0.2"/>
+    <text x="710.0" y="456.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#E6EDF3" text-anchor="start">Retry</text>
+    <text x="702.0" y="488.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">Pauses between attempts.</text>
+    <rect x="1166.0" y="404.0" width="380.0" height="94.0" rx="6" fill="#29313C"/>
+    <text x="1178.0" y="430.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">delivery/core</text>
+    <rect x="1178.0" y="444.0" width="128.2" height="18" rx="4" fill="#E6EDF3" fill-opacity="0.2"/>
+    <text x="1186.0" y="456.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#E6EDF3" text-anchor="start">OutboxRetryPolicy</text>
+    <text x="1178.0" y="488.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">Picks the next attempt of a record.</text>
+    <circle cx="340.6666666666667" cy="257" r="2" fill="#A78BFA"/>
+    <path d="M340.6666666666667,193 L343.1666666666667,198.0 L338.1666666666667,198.0 Z" fill="#A78BFA" stroke="#A78BFA" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M340.6666666666667,257 L340.6666666666667,198" stroke="#A78BFA" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <text x="352.7" y="230.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">api</text>
+    <circle cx="816.6666666666666" cy="399" r="2" fill="#A78BFA"/>
+    <path d="M816.6666666666666,193 L819.1666666666666,198.0 L814.1666666666666,198.0 Z" fill="#A78BFA" stroke="#A78BFA" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M816.6666666666666,399 L816.6666666666666,198" stroke="#A78BFA" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <text x="828.7" y="301.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">api: Backoff</text>
+    <circle cx="1292.6666666666667" cy="399" r="2" fill="#A78BFA"/>
+    <path d="M1292.6666666666667,193 L1295.1666666666667,198.0 L1290.1666666666667,198.0 Z" fill="#A78BFA" stroke="#A78BFA" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M1292.6666666666667,399 L1292.6666666666667,198" stroke="#A78BFA" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <text x="1304.7" y="301.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">api: Backoff</text>
+  </g>
+</svg>
