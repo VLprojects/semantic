@@ -8,9 +8,7 @@ public class FixedBackoff(private val delay: Duration) : Backoff {
         require(delay.isPositive) { "The delay must be positive: $delay" }
     }
 
-    override fun delayAfter(attempt: Int): Duration {
-        requirePositiveAttempt(attempt)
-
-        return delay
-    }
+    override fun delayAfter(attempt: Int): Duration = attempt
+        .also(::requirePositiveAttempt)
+        .let { delay }
 }
