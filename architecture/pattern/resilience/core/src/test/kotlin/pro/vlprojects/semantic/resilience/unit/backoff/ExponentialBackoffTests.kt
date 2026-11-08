@@ -35,11 +35,11 @@ class ExponentialBackoffTests {
     }
 
     @Test
-    fun `the randomization shortens the delay by its share of a random number`() {
+    fun `the jitter shortens the delay by its share of a random number`() {
         val backoff = ExponentialBackoff(
             initialDelay = Duration.ofSeconds(4),
             delayLimit = Duration.ofSeconds(60),
-            randomization = 0.5,
+            jitter = 0.5,
             randomizer = half,
         )
 
@@ -55,7 +55,7 @@ class ExponentialBackoffTests {
         assertThrows<IllegalArgumentException> { ExponentialBackoff(Duration.ZERO, minute) }
         assertThrows<IllegalArgumentException> { ExponentialBackoff(minute, second) }
         assertThrows<IllegalArgumentException> { ExponentialBackoff(second, minute, multiplier = 0.5) }
-        assertThrows<IllegalArgumentException> { ExponentialBackoff(second, minute, randomization = 1.5) }
+        assertThrows<IllegalArgumentException> { ExponentialBackoff(second, minute, jitter = 1.5) }
     }
 
     @Test
@@ -82,18 +82,18 @@ class ExponentialBackoffTests {
     }
 
     @Test
-    fun `by default the randomization takes away at most half of the delay`() {
+    fun `by default the jitter takes away at most half of the delay`() {
         val backoff = ExponentialBackoff.ofRandomized(randomizer = half)
 
         assertEquals(Duration.ofMillis(750), backoff.calculate(1))
     }
 
     @Test
-    fun `a given randomization replaces the default one`() {
+    fun `a given jitter replaces the default one`() {
         val backoff = ExponentialBackoff.ofRandomized(
             initialDelay = Duration.ofSeconds(4),
             delayLimit = Duration.ofSeconds(60),
-            randomization = 1.0,
+            jitter = 1.0,
             randomizer = half,
         )
 

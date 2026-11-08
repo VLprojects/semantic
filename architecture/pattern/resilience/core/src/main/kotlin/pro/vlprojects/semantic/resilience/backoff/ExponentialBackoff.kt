@@ -8,7 +8,7 @@ public class ExponentialBackoff(
     initialDelay: Duration,
     delayLimit: Duration,
     private val multiplier: Double = DEFAULT_MULTIPLIER,
-    private val randomization: Double = 0.0,
+    private val jitter: Double = 0.0,
     private val randomizer: Random = Random.Default,
 ) : Backoff {
 
@@ -18,7 +18,7 @@ public class ExponentialBackoff(
             "The delay limit $delayLimit is less than the initial delay $initialDelay"
         }
         require(multiplier >= 1.0) { "The multiplier must not be less than 1: $multiplier" }
-        require(randomization in 0.0..1.0) { "The randomization must be within 0..1: $randomization" }
+        require(jitter in 0.0..1.0) { "The jitter must be within 0..1: $jitter" }
     }
 
     private val initialNanos = initialDelay.toNanos().toDouble()
@@ -44,13 +44,13 @@ public class ExponentialBackoff(
 
     private fun spread(delay: Double) = randomizer
         .nextDouble()
-        .times(randomization)
+        .times(jitter)
         .let { reduction -> delay * (1 - reduction) }
 
     public companion object Factory {
 
         private const val DEFAULT_MULTIPLIER = 2.0
-        private const val DEFAULT_RANDOMIZATION = 0.5
+        private const val DEFAULT_JITTER = 0.5
         private val DEFAULT_INITIAL_DELAY = Duration.ofSeconds(1)
         private val DEFAULT_DELAY_LIMIT = Duration.ofMinutes(1)
 
@@ -64,8 +64,8 @@ public class ExponentialBackoff(
             initialDelay: Duration = DEFAULT_INITIAL_DELAY,
             delayLimit: Duration = DEFAULT_DELAY_LIMIT,
             multiplier: Double = DEFAULT_MULTIPLIER,
-            randomization: Double = DEFAULT_RANDOMIZATION,
+            jitter: Double = DEFAULT_JITTER,
             randomizer: Random = Random.Default,
-        ): ExponentialBackoff = ExponentialBackoff(initialDelay, delayLimit, multiplier, randomization, randomizer)
+        ): ExponentialBackoff = ExponentialBackoff(initialDelay, delayLimit, multiplier, jitter, randomizer)
     }
 }
