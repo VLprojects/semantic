@@ -6,7 +6,7 @@ Repeats a failed call. `Retry` is a `Policy`, so it combines with the other patt
 val retry = Retry.of(
     name = "profile",
     rule = RetryRule.of(
-        backoff = ExponentialBackoff.ofRandomized(),
+        backoff = ExponentialBackoff.of().jittered(),
         attemptLimit = 4,
         timeLimit = Duration.ofSeconds(10),
         condition = RetryCondition.including(IOException::class),

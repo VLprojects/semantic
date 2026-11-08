@@ -2,6 +2,7 @@ package pro.vlprojects.semantic.resilience.retry
 
 import pro.vlprojects.semantic.resilience.backoff.Backoff
 import pro.vlprojects.semantic.resilience.backoff.ExponentialBackoff
+import pro.vlprojects.semantic.resilience.backoff.extension.jittered
 import java.time.Duration
 import java.util.concurrent.CancellationException
 
@@ -49,7 +50,7 @@ public class RetryRule(
         private const val DEFAULT_ATTEMPT_LIMIT = 3
 
         public fun of(
-            backoff: Backoff = ExponentialBackoff.ofRandomized(),
+            backoff: Backoff = ExponentialBackoff.of().jittered(),
             attemptLimit: Int = DEFAULT_ATTEMPT_LIMIT,
             timeLimit: Duration? = null,
             condition: RetryCondition = RetryCondition.ofAny(),
