@@ -7,7 +7,7 @@ import kotlin.random.Random
 public class ExponentialBackoff(
     private val initialDelay: Duration,
     private val maxDelay: Duration,
-    private val multiplier: Double = 2.0,
+    private val multiplier: Double = DEFAULT_MULTIPLIER,
     private val jitter: Double = 0.0,
     private val randomizer: Random = Random.Default,
 ) : Backoff {
@@ -40,4 +40,31 @@ public class ExponentialBackoff(
         .nextDouble()
         .times(jitter)
         .let { reduction -> delay * (1 - reduction) }
+
+    public companion object {
+
+        private const val DEFAULT_MULTIPLIER = 2.0
+        private const val EQUAL_JITTER = 0.5
+        private const val FULL_JITTER = 1.0
+
+        public fun doubling(initialDelay: Duration, maxDelay: Duration): ExponentialBackoff =
+            ExponentialBackoff(initialDelay, maxDelay)
+
+        public fun growingBy(multiplier: Double, initialDelay: Duration, maxDelay: Duration): ExponentialBackoff =
+            ExponentialBackoff(initialDelay, maxDelay, multiplier)
+
+        public fun withEqualJitter(
+            initialDelay: Duration,
+            maxDelay: Duration,
+            multiplier: Double = DEFAULT_MULTIPLIER,
+            randomizer: Random = Random.Default,
+        ): ExponentialBackoff = ExponentialBackoff(initialDelay, maxDelay, multiplier, EQUAL_JITTER, randomizer)
+
+        public fun withFullJitter(
+            initialDelay: Duration,
+            maxDelay: Duration,
+            multiplier: Double = DEFAULT_MULTIPLIER,
+            randomizer: Random = Random.Default,
+        ): ExponentialBackoff = ExponentialBackoff(initialDelay, maxDelay, multiplier, FULL_JITTER, randomizer)
+    }
 }

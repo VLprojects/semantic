@@ -3,13 +3,31 @@ public abstract interface class pro/vlprojects/semantic/resilience/backoff/Backo
 }
 
 public final class pro/vlprojects/semantic/resilience/backoff/ExponentialBackoff : pro/vlprojects/semantic/resilience/backoff/Backoff {
+	public static final field Companion Lpro/vlprojects/semantic/resilience/backoff/ExponentialBackoff$Companion;
 	public fun <init> (Ljava/time/Duration;Ljava/time/Duration;DDLkotlin/random/Random;)V
 	public synthetic fun <init> (Ljava/time/Duration;Ljava/time/Duration;DDLkotlin/random/Random;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun delayAfter (I)Ljava/time/Duration;
 }
 
+public final class pro/vlprojects/semantic/resilience/backoff/ExponentialBackoff$Companion {
+	public final fun doubling (Ljava/time/Duration;Ljava/time/Duration;)Lpro/vlprojects/semantic/resilience/backoff/ExponentialBackoff;
+	public final fun growingBy (DLjava/time/Duration;Ljava/time/Duration;)Lpro/vlprojects/semantic/resilience/backoff/ExponentialBackoff;
+	public final fun withEqualJitter (Ljava/time/Duration;Ljava/time/Duration;DLkotlin/random/Random;)Lpro/vlprojects/semantic/resilience/backoff/ExponentialBackoff;
+	public static synthetic fun withEqualJitter$default (Lpro/vlprojects/semantic/resilience/backoff/ExponentialBackoff$Companion;Ljava/time/Duration;Ljava/time/Duration;DLkotlin/random/Random;ILjava/lang/Object;)Lpro/vlprojects/semantic/resilience/backoff/ExponentialBackoff;
+	public final fun withFullJitter (Ljava/time/Duration;Ljava/time/Duration;DLkotlin/random/Random;)Lpro/vlprojects/semantic/resilience/backoff/ExponentialBackoff;
+	public static synthetic fun withFullJitter$default (Lpro/vlprojects/semantic/resilience/backoff/ExponentialBackoff$Companion;Ljava/time/Duration;Ljava/time/Duration;DLkotlin/random/Random;ILjava/lang/Object;)Lpro/vlprojects/semantic/resilience/backoff/ExponentialBackoff;
+}
+
 public final class pro/vlprojects/semantic/resilience/backoff/FixedBackoff : pro/vlprojects/semantic/resilience/backoff/Backoff {
+	public static final field Companion Lpro/vlprojects/semantic/resilience/backoff/FixedBackoff$Companion;
 	public fun <init> (Ljava/time/Duration;)V
 	public fun delayAfter (I)Ljava/time/Duration;
+}
+
+public final class pro/vlprojects/semantic/resilience/backoff/FixedBackoff$Companion {
+	public final fun every (Ljava/time/Duration;)Lpro/vlprojects/semantic/resilience/backoff/FixedBackoff;
+	public final fun everyMillis (J)Lpro/vlprojects/semantic/resilience/backoff/FixedBackoff;
+	public final fun everyMinutes (J)Lpro/vlprojects/semantic/resilience/backoff/FixedBackoff;
+	public final fun everySeconds (J)Lpro/vlprojects/semantic/resilience/backoff/FixedBackoff;
 }
 

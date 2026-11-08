@@ -64,4 +64,40 @@ class ExponentialBackoffTests {
 
         assertThrows<IllegalArgumentException> { backoff.delayAfter(0) }
     }
+
+    @Test
+    fun `a doubling backoff multiplies the delay by two`() {
+        val backoff = ExponentialBackoff.doubling(Duration.ofSeconds(1), Duration.ofSeconds(60))
+
+        assertEquals(Duration.ofSeconds(4), backoff.delayAfter(3))
+    }
+
+    @Test
+    fun `a backoff growing by a multiplier applies that multiplier`() {
+        val backoff = ExponentialBackoff.growingBy(3.0, Duration.ofSeconds(1), Duration.ofSeconds(60))
+
+        assertEquals(Duration.ofSeconds(9), backoff.delayAfter(3))
+    }
+
+    @Test
+    fun `the equal jitter takes away at most half of the delay`() {
+        val backoff = ExponentialBackoff.withEqualJitter(
+            initialDelay = Duration.ofSeconds(4),
+            maxDelay = Duration.ofSeconds(60),
+            randomizer = half,
+        )
+
+        assertEquals(Duration.ofSeconds(3), backoff.delayAfter(1))
+    }
+
+    @Test
+    fun `the full jitter can take away the whole delay`() {
+        val backoff = ExponentialBackoff.withFullJitter(
+            initialDelay = Duration.ofSeconds(4),
+            maxDelay = Duration.ofSeconds(60),
+            randomizer = half,
+        )
+
+        assertEquals(Duration.ofSeconds(2), backoff.delayAfter(1))
+    }
 }
