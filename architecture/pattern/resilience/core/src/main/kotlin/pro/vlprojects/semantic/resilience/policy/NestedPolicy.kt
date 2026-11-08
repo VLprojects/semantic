@@ -1,4 +1,4 @@
-package pro.vlprojects.semantic.resilience
+package pro.vlprojects.semantic.resilience.policy
 
 internal class NestedPolicy(
     private val outer: Policy,
