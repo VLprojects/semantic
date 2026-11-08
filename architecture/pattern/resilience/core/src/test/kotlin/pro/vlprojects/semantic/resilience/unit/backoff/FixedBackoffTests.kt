@@ -20,4 +20,11 @@ class FixedBackoffTests {
     fun `a delay that is not positive is refused`() {
         assertThrows<IllegalArgumentException> { FixedBackoff(Duration.ZERO) }
     }
+
+    @Test
+    fun `an attempt that is not positive is refused`() {
+        val backoff = FixedBackoff(Duration.ofSeconds(5))
+
+        assertThrows<IllegalArgumentException> { backoff.delayAfter(0) }
+    }
 }

@@ -57,4 +57,11 @@ class ExponentialBackoffTests {
         assertThrows<IllegalArgumentException> { ExponentialBackoff(second, minute, multiplier = 0.5) }
         assertThrows<IllegalArgumentException> { ExponentialBackoff(second, minute, jitter = 1.5) }
     }
+
+    @Test
+    fun `an attempt that is not positive is refused`() {
+        val backoff = ExponentialBackoff(initialDelay = Duration.ofSeconds(1), maxDelay = Duration.ofSeconds(60))
+
+        assertThrows<IllegalArgumentException> { backoff.delayAfter(0) }
+    }
 }

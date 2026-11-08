@@ -21,10 +21,14 @@ public class ExponentialBackoff(
 
     private val maxFactor = maxDelay.toNanos() / initialDelay.toNanos().toDouble()
 
-    override fun delayAfter(attempt: Int): Duration = attempt
-        .let(::grow)
-        .let(::spread)
-        .let(::scale)
+    override fun delayAfter(attempt: Int): Duration {
+        require(attempt >= 1) { "The attempt must be positive: $attempt" }
+
+        return attempt
+            .let(::grow)
+            .let(::spread)
+            .let(::scale)
+    }
 
     private fun grow(attempt: Int) = multiplier
         .pow(attempt - 1)
