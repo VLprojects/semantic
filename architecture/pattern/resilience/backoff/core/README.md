@@ -34,7 +34,7 @@ lengthens a pause, so the limit of `ExponentialBackoff` still holds.
 `semantic-resilience-backoff-spring` passes a `Backoff` wherever Spring takes a `BackOff`:
 
 ```kotlin
-RetryPolicy.builder().backOff(ExponentialBackoff.of().jittered().toSpringBackOff(maxAttempts = 3)).build()
+RetryPolicy.builder().backOff(ExponentialBackoff.of().jittered().toSpring(maxAttempts = 3)).build()
 ```
 
 `maxAttempts` is the number of pauses, after which Spring stops. Without it the `BackOff` never stops, which

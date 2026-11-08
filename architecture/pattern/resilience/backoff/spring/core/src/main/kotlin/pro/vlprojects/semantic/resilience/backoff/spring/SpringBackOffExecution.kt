@@ -15,9 +15,8 @@ internal class SpringBackOffExecution(
         else -> calculateNextDelay()
     }
 
-    private fun calculateNextDelay() = attempt
-        .inc()
-        .also { next -> attempt = next }
-        .let(backoff::calculate)
-        .toMillis()
+    private fun calculateNextDelay(): Long {
+        attempt++
+        return backoff.calculate(attempt).toMillis()
+    }
 }

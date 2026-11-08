@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.util.backoff.BackOffExecution
 import pro.vlprojects.semantic.resilience.backoff.Backoff
-import pro.vlprojects.semantic.resilience.backoff.spring.extension.toSpringBackOff
+import pro.vlprojects.semantic.resilience.backoff.spring.extension.toSpring
 import java.time.Duration
 
 class SpringBackOffTests {
@@ -18,7 +18,7 @@ class SpringBackOffTests {
 
     @Test
     fun `the pauses follow the backoff from the first attempt`() {
-        val execution = secondsByAttempt.toSpringBackOff().start()
+        val execution = secondsByAttempt.toSpring().start()
 
         assertEquals(1_000, execution.nextBackOff())
         assertEquals(2_000, execution.nextBackOff())
@@ -27,7 +27,7 @@ class SpringBackOffTests {
 
     @Test
     fun `each start counts the attempts anew`() {
-        val backOff = secondsByAttempt.toSpringBackOff()
+        val backOff = secondsByAttempt.toSpring()
         val first = backOff.start()
         first.nextBackOff()
         first.nextBackOff()
@@ -38,14 +38,14 @@ class SpringBackOffTests {
 
     @Test
     fun `without a limit the pauses never stop`() {
-        val execution = secondsByAttempt.toSpringBackOff().start()
+        val execution = secondsByAttempt.toSpring().start()
 
         repeat(1_000) { index -> assertEquals((index + 1) * 1_000L, execution.nextBackOff()) }
     }
 
     @Test
     fun `with a limit the pauses stop once it is used up`() {
-        val execution = secondsByAttempt.toSpringBackOff(maxAttempts = 2).start()
+        val execution = secondsByAttempt.toSpring(maxAttempts = 2).start()
 
         assertEquals(1_000, execution.nextBackOff())
         assertEquals(2_000, execution.nextBackOff())
@@ -55,13 +55,13 @@ class SpringBackOffTests {
 
     @Test
     fun `a limit of zero allows no pause`() {
-        val execution = secondsByAttempt.toSpringBackOff(maxAttempts = 0).start()
+        val execution = secondsByAttempt.toSpring(maxAttempts = 0).start()
 
         assertEquals(BackOffExecution.STOP, execution.nextBackOff())
     }
 
     @Test
     fun `a negative limit is refused`() {
-        assertThrows<IllegalArgumentException> { secondsByAttempt.toSpringBackOff(maxAttempts = -1) }
+        assertThrows<IllegalArgumentException> { secondsByAttempt.toSpring(maxAttempts = -1) }
     }
 }
