@@ -2,7 +2,12 @@ package pro.vlprojects.semantic.resilience.backoff
 
 import java.time.Duration
 
-public fun interface Backoff {
+public interface Backoff {
 
-    public fun delayAfter(attempt: Int): Duration
+    public val maxAttempts: Int?
+
+    public val deadline: Duration?
+
+    @Throws(BackoffLimitExceededException::class)
+    public fun calculateDelay(attempt: Int): Duration
 }

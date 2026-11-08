@@ -2,32 +2,60 @@ package pro.vlprojects.semantic.resilience.backoff
 
 import java.time.Duration
 
-public class FixedBackoff(private val delay: Duration) : Backoff {
+public class FixedBackoff(
+    private val delay: Duration,
+    override val maxAttempts: Int? = null,
+    override val deadline: Duration? = null,
+) : Backoff {
 
     init {
         require(delay.isPositive) { "The delay must be positive: $delay" }
     }
 
-    override fun delayAfter(attempt: Int): Duration = attempt
+    private val delayNanos = delay.toNanos().toDouble()
+    private val limits = BackoffLimits(maxAttempts, deadline)
+
+    override fun calculateDelay(attempt: Int): Duration = attempt
         .also(::requirePositiveAttempt)
+        .also(::verifyLimitsNotExceeded)
         .let { delay }
+
+    private fun verifyLimitsNotExceeded(attempt: Int) = attempt
+        .times(delayNanos)
+        .let { totalDelayNanos -> limits.verifyNotExceededAfter(attempt, totalDelayNanos) }
 
     public companion object Factory {
 
         private val DEFAULT_DELAY = Duration.ofSeconds(1)
 
-        public fun of(delay: Duration = DEFAULT_DELAY): FixedBackoff = FixedBackoff(delay)
+        public fun of(
+            delay: Duration = DEFAULT_DELAY,
+            maxAttempts: Int? = null,
+            deadline: Duration? = null,
+        ): FixedBackoff = FixedBackoff(delay, maxAttempts, deadline)
 
-        public fun ofMillis(millis: Long): FixedBackoff = millis
+        public fun ofMillis(
+            millis: Long,
+            maxAttempts: Int? = null,
+            deadline: Duration? = null,
+        ): FixedBackoff = millis
             .let(Duration::ofMillis)
-            .let(::FixedBackoff)
+            .let { delay -> FixedBackoff(delay, maxAttempts, deadline) }
 
-        public fun ofSeconds(seconds: Long): FixedBackoff = seconds
+        public fun ofSeconds(
+            seconds: Long,
+            maxAttempts: Int? = null,
+            deadline: Duration? = null,
+        ): FixedBackoff = seconds
             .let(Duration::ofSeconds)
-            .let(::FixedBackoff)
+            .let { delay -> FixedBackoff(delay, maxAttempts, deadline) }
 
-        public fun ofMinutes(minutes: Long): FixedBackoff = minutes
+        public fun ofMinutes(
+            minutes: Long,
+            maxAttempts: Int? = null,
+            deadline: Duration? = null,
+        ): FixedBackoff = minutes
             .let(Duration::ofMinutes)
-            .let(::FixedBackoff)
+            .let { delay -> FixedBackoff(delay, maxAttempts, deadline) }
     }
 }

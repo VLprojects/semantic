@@ -3,6 +3,7 @@ package pro.vlprojects.semantic.resilience.unit.backoff
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import pro.vlprojects.semantic.resilience.backoff.BackoffLimitExceededException
 import pro.vlprojects.semantic.resilience.backoff.ExponentialBackoff
 import java.time.Duration
 import kotlin.random.Random
@@ -18,33 +19,33 @@ class ExponentialBackoffTests {
 
     @Test
     fun `the delay grows by the multiplier with each attempt`() {
-        val backoff = ExponentialBackoff(initialDelay = Duration.ofSeconds(1), maxDelay = Duration.ofSeconds(60))
+        val backoff = ExponentialBackoff(initialDelay = Duration.ofSeconds(1), delayLimit = Duration.ofSeconds(60))
 
-        assertEquals(Duration.ofSeconds(1), backoff.delayAfter(1))
-        assertEquals(Duration.ofSeconds(2), backoff.delayAfter(2))
-        assertEquals(Duration.ofSeconds(4), backoff.delayAfter(3))
-        assertEquals(Duration.ofSeconds(8), backoff.delayAfter(4))
+        assertEquals(Duration.ofSeconds(1), backoff.calculateDelay(1))
+        assertEquals(Duration.ofSeconds(2), backoff.calculateDelay(2))
+        assertEquals(Duration.ofSeconds(4), backoff.calculateDelay(3))
+        assertEquals(Duration.ofSeconds(8), backoff.calculateDelay(4))
     }
 
     @Test
     fun `the delay stops at the max one however many attempts were made`() {
-        val backoff = ExponentialBackoff(initialDelay = Duration.ofSeconds(1), maxDelay = Duration.ofSeconds(5))
+        val backoff = ExponentialBackoff(initialDelay = Duration.ofSeconds(1), delayLimit = Duration.ofSeconds(5))
 
-        assertEquals(Duration.ofSeconds(5), backoff.delayAfter(4))
-        assertEquals(Duration.ofSeconds(5), backoff.delayAfter(2000))
+        assertEquals(Duration.ofSeconds(5), backoff.calculateDelay(4))
+        assertEquals(Duration.ofSeconds(5), backoff.calculateDelay(2000))
     }
 
     @Test
     fun `the jitter shortens the delay by its share of a random number`() {
         val backoff = ExponentialBackoff(
             initialDelay = Duration.ofSeconds(4),
-            maxDelay = Duration.ofSeconds(60),
+            delayLimit = Duration.ofSeconds(60),
             jitter = 0.5,
             randomizer = half,
         )
 
-        assertEquals(Duration.ofSeconds(3), backoff.delayAfter(1))
-        assertEquals(Duration.ofSeconds(6), backoff.delayAfter(2))
+        assertEquals(Duration.ofSeconds(3), backoff.calculateDelay(1))
+        assertEquals(Duration.ofSeconds(6), backoff.calculateDelay(2))
     }
 
     @Test
@@ -60,43 +61,96 @@ class ExponentialBackoffTests {
 
     @Test
     fun `an attempt that is not positive is refused`() {
-        val backoff = ExponentialBackoff(initialDelay = Duration.ofSeconds(1), maxDelay = Duration.ofSeconds(60))
+        val backoff = ExponentialBackoff(initialDelay = Duration.ofSeconds(1), delayLimit = Duration.ofSeconds(60))
 
-        assertThrows<IllegalArgumentException> { backoff.delayAfter(0) }
+        assertThrows<IllegalArgumentException> { backoff.calculateDelay(0) }
     }
 
     @Test
     fun `by default the delay doubles from a second up to a minute`() {
         val backoff = ExponentialBackoff.of()
 
-        assertEquals(Duration.ofSeconds(1), backoff.delayAfter(1))
-        assertEquals(Duration.ofSeconds(4), backoff.delayAfter(3))
-        assertEquals(Duration.ofMinutes(1), backoff.delayAfter(100))
+        assertEquals(Duration.ofSeconds(1), backoff.calculateDelay(1))
+        assertEquals(Duration.ofSeconds(4), backoff.calculateDelay(3))
+        assertEquals(Duration.ofMinutes(1), backoff.calculateDelay(100))
     }
 
     @Test
     fun `a given multiplier replaces the default one`() {
         val backoff = ExponentialBackoff.of(Duration.ofSeconds(1), Duration.ofSeconds(60), multiplier = 3.0)
 
-        assertEquals(Duration.ofSeconds(9), backoff.delayAfter(3))
+        assertEquals(Duration.ofSeconds(9), backoff.calculateDelay(3))
     }
 
     @Test
     fun `by default the jitter takes away at most half of the delay`() {
         val backoff = ExponentialBackoff.withJitter(randomizer = half)
 
-        assertEquals(Duration.ofMillis(750), backoff.delayAfter(1))
+        assertEquals(Duration.ofMillis(750), backoff.calculateDelay(1))
     }
 
     @Test
     fun `a given jitter replaces the default one`() {
         val backoff = ExponentialBackoff.withJitter(
             initialDelay = Duration.ofSeconds(4),
-            maxDelay = Duration.ofSeconds(60),
+            delayLimit = Duration.ofSeconds(60),
             jitter = 1.0,
             randomizer = half,
         )
 
-        assertEquals(Duration.ofSeconds(2), backoff.delayAfter(1))
+        assertEquals(Duration.ofSeconds(2), backoff.calculateDelay(1))
+    }
+
+    @Test
+    fun `there is no delay after the last attempt`() {
+        val backoff = ExponentialBackoff.of(maxAttempts = 3)
+
+        assertEquals(Duration.ofSeconds(2), backoff.calculateDelay(2))
+        assertThrows<BackoffLimitExceededException> { backoff.calculateDelay(3) }
+    }
+
+    @Test
+    fun `there is no delay once the delays pass the deadline`() {
+        val backoff = ExponentialBackoff.of(
+            initialDelay = Duration.ofSeconds(1),
+            delayLimit = Duration.ofSeconds(8),
+            deadline = Duration.ofSeconds(20),
+        )
+
+        assertEquals(Duration.ofSeconds(8), backoff.calculateDelay(4))
+        assertThrows<BackoffLimitExceededException> { backoff.calculateDelay(5) }
+        assertThrows<BackoffLimitExceededException> { backoff.calculateDelay(Int.MAX_VALUE) }
+    }
+
+    @Test
+    fun `the deadline holds for delays that do not grow`() {
+        val backoff = ExponentialBackoff.of(
+            initialDelay = Duration.ofSeconds(1),
+            delayLimit = Duration.ofSeconds(8),
+            multiplier = 1.0,
+            deadline = Duration.ofSeconds(3),
+        )
+
+        assertEquals(Duration.ofSeconds(1), backoff.calculateDelay(3))
+        assertThrows<BackoffLimitExceededException> { backoff.calculateDelay(4) }
+    }
+
+    @Test
+    fun `the jitter does not move the deadline`() {
+        val backoff = ExponentialBackoff.withJitter(
+            initialDelay = Duration.ofSeconds(1),
+            delayLimit = Duration.ofSeconds(8),
+            randomizer = half,
+            deadline = Duration.ofSeconds(20),
+        )
+
+        assertEquals(Duration.ofSeconds(6), backoff.calculateDelay(4))
+        assertThrows<BackoffLimitExceededException> { backoff.calculateDelay(5) }
+    }
+
+    @Test
+    fun `limits that are not positive are refused`() {
+        assertThrows<IllegalArgumentException> { ExponentialBackoff.of(maxAttempts = 0) }
+        assertThrows<IllegalArgumentException> { ExponentialBackoff.of(deadline = Duration.ZERO) }
     }
 }
