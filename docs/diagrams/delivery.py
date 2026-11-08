@@ -62,10 +62,11 @@ def header(a, name, about):
 
 
 class Map:
-	def __init__(self, columns, levels, hues, blocks, lane=24):
-		self.c = [X0 + GUT + i * (W + GAP) for i in range(columns)]
+	def __init__(self, columns, levels, hues, blocks, lane=24, w=W, gap=GAP):
+		self.w = w
+		self.c = [X0 + GUT + i * (w + gap) for i in range(columns)]
 		self.levels, self.blocks = levels, blocks
-		self.width = self.c[-1] + W + lane + 24
+		self.width = self.c[-1] + w + lane + 24
 		heights = {}
 		for row, cols, _, chips, boundary, *_ in blocks:
 			heights[row] = max(heights.get(row, 0), self.plate_height(cols, chips, boundary))
@@ -86,7 +87,7 @@ class Map:
 		self.height = y - LEVELS_GAP + 24
 
 	def span(self, cols):
-		return self.c[cols[0]], self.c[cols[-1]] + W - self.c[cols[0]]
+		return self.c[cols[0]], self.c[cols[-1]] + self.w - self.c[cols[0]]
 
 	def chip_rows(self, chips, w):
 		rows, width = 0, None
@@ -179,7 +180,7 @@ MODULES = Map(
 	],
 	{"other families": "card", "JVM": "blue", "Spring": "green", "Spring Boot": "amber", "outside the release": "card"},
 	[
-		(0, [0], "resilience/core", ["Backoff"], "The delay for an attempt number."),
+		(0, [0], "resilience/backoff/core", ["Backoff"], "The delay for an attempt number."),
 		(1, [0, 1, 2], "core",
 			["Outbox", "OutboxHandler", "OutboxFallbackHandler", "OutboxRetryPolicy", "OutboxRouting", "OutboxPayloadSerializer",
 				"OutboxContextProvider", "OutboxInstrumentation", "OutboxMetricNames", "OutboxRecordRepository", "OutboxRecordAdministration", "Relay",

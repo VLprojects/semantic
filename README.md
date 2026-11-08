@@ -51,7 +51,7 @@ divided further has a table of its own under it.
 | [`delivery`](architecture/pattern/delivery/README.md) | transactional outbox (at-least-once sending) and inbox (at-most-once processing), together exactly-once; idempotency keys | core, jackson, observability, performance-test, spring, spring-boot, test | planned |
 | [`lifecycle`](architecture/pattern/lifecycle/core) | graceful startup and shutdown, warm-up, liveness and readiness checks | `startup`, `warmup`, `health`, `shutdown` | planned |
 | [`persistence`](#persistence) | how a service writes and reads its state | cqrs, event-sourcing, unit-of-work | |
-| [`resilience`](architecture/pattern/resilience/core) | circuit breaker, retries with backoff and jitter, timeout, bulkhead, fallback | `circuitbreaker`, `retry`, `backoff`, `timeout`, `bulkhead`, `fallback` | planned |
+| [`resilience`](architecture/pattern/resilience/README.md) | circuit breaker, retries with backoff and jitter, deadline, bulkhead, fallback | core, backoff, retry, circuit-breaker, deadline, bulkhead, fallback | planned |
 | [`rollout`](architecture/pattern/rollout/core) | feature flags, kill switch, canary release, dark launch, A/B experiments | `featureflag`, `killswitch`, `canary`, `darklaunch`, `experiment` | planned |
 | [`traffic`](architecture/pattern/traffic/core) | rate limiting, throttling, load shedding, back pressure | `ratelimit`, `throttling`, `shedding`, `backpressure` | planned |
 

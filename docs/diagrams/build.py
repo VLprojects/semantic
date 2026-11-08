@@ -256,7 +256,7 @@ TREE = [
 				("tracking", "new, dirty, removed"), ("commit", "one transaction"),
 			])), (1, ("blue", "architecture/pattern/resilience/core", "semantic-resilience", "survive a failing dependency", [
 				("circuitbreaker", "fail fast"), ("retry", "transient faults"), ("backoff", "exponential, jitter"),
-				("timeout", "bounded waits"), ("bulkhead", "isolated pools"), ("fallback", "degraded answer"),
+				("deadline", "bounded waits"), ("bulkhead", "isolated pools"), ("fallback", "degraded answer"),
 			]))],
 			[(1, ("blue", "architecture/pattern/rollout/core", "semantic-rollout", "features released in code", [
 				("featureflag", "on, off per user"), ("killswitch", "emergency off"), ("canary", "growing share"),
