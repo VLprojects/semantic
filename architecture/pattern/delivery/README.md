@@ -4,10 +4,35 @@ Transactional outbox and inbox for Kotlin and Java. A service calls `Outbox.sche
 transaction; after the commit `Relay` calls an `OutboxHandler` at least once. A broker is one more
 handler. The inbox drops the duplicates a consumer receives.
 
-The modules are empty so far: this is the layout the code will land in, module by module.
+The core holds the contract of the outbox so far: its record, storage and routes. The relay and the
+inbox come next; the other modules are still empty.
 
 ![Modules of delivery and what each one holds](../../../docs/assets/delivery-light.svg#gh-light-mode-only)
 ![Modules of delivery and what each one holds](../../../docs/assets/delivery-dark.svg#gh-dark-mode-only)
+
+## The outbox contract
+
+Packages `delivery.outbox` and `delivery.observability` of `semantic-delivery`:
+
+| Type | What it is |
+| --- | --- |
+| `Outbox` | takes a payload in the transaction of the change that caused it |
+| `OutboxRecord` | one payload for one handler: `key`, `handlerId`, the text of the payload, status, lease |
+| `OutboxRecordRepository` | adds a record, claims a batch under a lease, closes a record by its lease token |
+| `OutboxRecordAdministration` | counts records, returns `FAILED` to `NEW`, deletes |
+| `OutboxPayloadSerializer` | turns a payload into text and back |
+| `OutboxContextProvider` | adds context to a record, a trace or a tenant |
+| `OutboxRouting` | finds where a broker handler sends a payload: the first matching `OutboxRoute` |
+| `@TransactionalOutbox` | marks a payload that goes through the outbox, directly or on another annotation |
+| `@IdempotencyKey` | marks the property that names the operation of a payload |
+| `OutboxInstrumentation` | hears of a record scheduled, its handling started, handled and failed |
+
+`key` orders records and `idempotencyKey` names the operation: an inbox carries an operation out once.
+The latter is the key passed to `schedule`, else the `@IdempotencyKey` property, else the id of the record.
+A `schedule` without a key takes the id of the record as its `key`, so such a record has no order.
+
+`claim` takes one record per key, the earliest unfinished one, and order must hold for records with an
+equal `createdAt`. A method that takes a token changes nothing and returns `false` once the lease is lost.
 
 ## Modules
 

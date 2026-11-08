@@ -1,0 +1,125 @@
+public final class pro/vlprojects/semantic/delivery/observability/NoOpOutboxInstrumentation : pro/vlprojects/semantic/delivery/observability/OutboxInstrumentation {
+	public static final field INSTANCE Lpro/vlprojects/semantic/delivery/observability/NoOpOutboxInstrumentation;
+}
+
+public abstract interface class pro/vlprojects/semantic/delivery/observability/OutboxInstrumentation {
+	public fun onFailed (Lpro/vlprojects/semantic/delivery/outbox/OutboxRecordMetadata;Ljava/time/Duration;Ljava/lang/Throwable;)V
+	public fun onHandled (Lpro/vlprojects/semantic/delivery/outbox/OutboxRecordMetadata;Ljava/time/Duration;)V
+	public fun onHandlingStarted (Lpro/vlprojects/semantic/delivery/outbox/OutboxRecordMetadata;)V
+	public fun onScheduled (Lpro/vlprojects/semantic/delivery/outbox/OutboxRecordMetadata;)V
+}
+
+public final class pro/vlprojects/semantic/delivery/observability/OutboxMetricNames {
+	public static final field HANDLING Ljava/lang/String;
+	public static final field INSTANCE Lpro/vlprojects/semantic/delivery/observability/OutboxMetricNames;
+	public static final field SCHEDULED Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/delivery/observability/OutboxMetricTags {
+	public static final field EXCEPTION Ljava/lang/String;
+	public static final field HANDLER Ljava/lang/String;
+	public static final field INSTANCE Lpro/vlprojects/semantic/delivery/observability/OutboxMetricTags;
+	public static final field OUTCOME Ljava/lang/String;
+	public static final field OUTCOME_FAILURE Ljava/lang/String;
+	public static final field OUTCOME_SUCCESS Ljava/lang/String;
+	public static final field PAYLOAD_TYPE Ljava/lang/String;
+}
+
+public abstract interface class pro/vlprojects/semantic/delivery/outbox/Outbox {
+	public abstract fun schedule (Ljava/lang/Object;)V
+	public abstract fun schedule (Ljava/lang/Object;Ljava/lang/String;Ljava/util/Map;Ljava/lang/String;)V
+	public static synthetic fun schedule$default (Lpro/vlprojects/semantic/delivery/outbox/Outbox;Ljava/lang/Object;Ljava/lang/String;Ljava/util/Map;Ljava/lang/String;ILjava/lang/Object;)V
+}
+
+public abstract interface class pro/vlprojects/semantic/delivery/outbox/OutboxPayloadSerializer {
+	public abstract fun deserialize (Ljava/lang/String;Ljava/lang/Class;)Ljava/lang/Object;
+	public abstract fun serialize (Ljava/lang/Object;)Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/delivery/outbox/OutboxRecord {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/time/Instant;Ljava/time/Instant;Ljava/util/Map;Lpro/vlprojects/semantic/delivery/outbox/OutboxRecordStatus;ILjava/lang/String;Ljava/time/Instant;Ljava/time/Instant;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/time/Instant;Ljava/time/Instant;Ljava/util/Map;Lpro/vlprojects/semantic/delivery/outbox/OutboxRecordStatus;ILjava/lang/String;Ljava/time/Instant;Ljava/time/Instant;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getCompletedAt ()Ljava/time/Instant;
+	public final fun getContext ()Ljava/util/Map;
+	public final fun getCreatedAt ()Ljava/time/Instant;
+	public final fun getFailureCount ()I
+	public final fun getHandlerId ()Ljava/lang/String;
+	public final fun getId ()Ljava/lang/String;
+	public final fun getIdempotencyKey ()Ljava/lang/String;
+	public final fun getKey ()Ljava/lang/String;
+	public final fun getLastError ()Ljava/lang/String;
+	public final fun getLeaseExpiresAt ()Ljava/time/Instant;
+	public final fun getLeaseToken ()Ljava/lang/String;
+	public final fun getMetadata ()Lpro/vlprojects/semantic/delivery/outbox/OutboxRecordMetadata;
+	public final fun getNextRetryAt ()Ljava/time/Instant;
+	public final fun getPayload ()Ljava/lang/String;
+	public final fun getPayloadType ()Ljava/lang/String;
+	public final fun getStatus ()Lpro/vlprojects/semantic/delivery/outbox/OutboxRecordStatus;
+}
+
+public abstract interface class pro/vlprojects/semantic/delivery/outbox/OutboxRecordAdministration {
+	public abstract fun count (Lpro/vlprojects/semantic/delivery/outbox/OutboxRecordStatus;)J
+	public abstract fun delete (Lpro/vlprojects/semantic/delivery/outbox/OutboxRecordStatus;Ljava/lang/String;)I
+	public abstract fun retryFailed (Ljava/lang/String;)I
+}
+
+public final class pro/vlprojects/semantic/delivery/outbox/OutboxRecordMetadata {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/time/Instant;Ljava/util/Map;)V
+	public final fun getContext ()Ljava/util/Map;
+	public final fun getCreatedAt ()Ljava/time/Instant;
+	public final fun getFailureCount ()I
+	public final fun getHandlerId ()Ljava/lang/String;
+	public final fun getId ()Ljava/lang/String;
+	public final fun getIdempotencyKey ()Ljava/lang/String;
+	public final fun getKey ()Ljava/lang/String;
+	public final fun getPayloadType ()Ljava/lang/String;
+}
+
+public abstract interface class pro/vlprojects/semantic/delivery/outbox/OutboxRecordRepository {
+	public abstract fun add (Lpro/vlprojects/semantic/delivery/outbox/OutboxRecord;)V
+	public abstract fun claim (ILjava/time/Duration;Ljava/time/Instant;)Ljava/util/List;
+	public abstract fun complete (Ljava/lang/String;Ljava/lang/String;Ljava/time/Instant;)Z
+	public abstract fun fail (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Z
+	public abstract fun purge (Ljava/time/Instant;I)I
+	public abstract fun reschedule (Ljava/lang/String;Ljava/lang/String;ILjava/time/Instant;Ljava/lang/String;)Z
+}
+
+public final class pro/vlprojects/semantic/delivery/outbox/OutboxRecordStatus : java/lang/Enum {
+	public static final field COMPLETED Lpro/vlprojects/semantic/delivery/outbox/OutboxRecordStatus;
+	public static final field FAILED Lpro/vlprojects/semantic/delivery/outbox/OutboxRecordStatus;
+	public static final field NEW Lpro/vlprojects/semantic/delivery/outbox/OutboxRecordStatus;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lpro/vlprojects/semantic/delivery/outbox/OutboxRecordStatus;
+	public static fun values ()[Lpro/vlprojects/semantic/delivery/outbox/OutboxRecordStatus;
+}
+
+public abstract interface annotation class pro/vlprojects/semantic/delivery/outbox/annotation/IdempotencyKey : java/lang/annotation/Annotation {
+}
+
+public abstract interface annotation class pro/vlprojects/semantic/delivery/outbox/annotation/TransactionalOutbox : java/lang/annotation/Annotation {
+}
+
+public abstract interface class pro/vlprojects/semantic/delivery/outbox/context/OutboxContextProvider {
+	public abstract fun provide ()Ljava/util/Map;
+}
+
+public abstract interface class pro/vlprojects/semantic/delivery/outbox/routing/OutboxPayloadSelector {
+	public abstract fun matches (Ljava/lang/Object;Lpro/vlprojects/semantic/delivery/outbox/OutboxRecordMetadata;)Z
+}
+
+public final class pro/vlprojects/semantic/delivery/outbox/routing/OutboxPayloadTypeSelector : pro/vlprojects/semantic/delivery/outbox/routing/OutboxPayloadSelector {
+	public fun <init> (Ljava/lang/Class;)V
+	public fun matches (Ljava/lang/Object;Lpro/vlprojects/semantic/delivery/outbox/OutboxRecordMetadata;)Z
+}
+
+public final class pro/vlprojects/semantic/delivery/outbox/routing/OutboxRoute {
+	public fun <init> (Ljava/lang/String;Lpro/vlprojects/semantic/delivery/outbox/routing/OutboxPayloadSelector;)V
+	public final fun getTarget ()Ljava/lang/String;
+	public final fun matches (Ljava/lang/Object;Lpro/vlprojects/semantic/delivery/outbox/OutboxRecordMetadata;)Z
+}
+
+public final class pro/vlprojects/semantic/delivery/outbox/routing/OutboxRouting {
+	public fun <init> (Ljava/util/List;)V
+	public final fun findRoute (Ljava/lang/Object;Lpro/vlprojects/semantic/delivery/outbox/OutboxRecordMetadata;)Lpro/vlprojects/semantic/delivery/outbox/routing/OutboxRoute;
+}
+
