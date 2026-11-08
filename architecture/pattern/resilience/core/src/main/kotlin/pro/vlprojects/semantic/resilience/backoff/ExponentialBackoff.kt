@@ -41,7 +41,7 @@ public class ExponentialBackoff(
         .times(jitter)
         .let { reduction -> delay * (1 - reduction) }
 
-    public companion object {
+    public companion object Factory {
 
         private const val DEFAULT_MULTIPLIER = 2.0
         private const val EQUAL_JITTER = 0.5

@@ -12,7 +12,7 @@ public class FixedBackoff(private val delay: Duration) : Backoff {
         .also(::requirePositiveAttempt)
         .let { delay }
 
-    public companion object {
+    public companion object Factory {
 
         public fun every(delay: Duration): FixedBackoff = FixedBackoff(delay)
 
