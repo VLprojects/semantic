@@ -1,0 +1,25 @@
+public final class pro/vlprojects/semantic/resilience/deadline/Deadline : pro/vlprojects/semantic/resilience/policy/Policy {
+	public static final field Factory Lpro/vlprojects/semantic/resilience/deadline/Deadline$Factory;
+	public fun <init> (Ljava/time/Duration;Ljava/lang/String;Ljava/util/List;Ljava/util/concurrent/ThreadFactory;)V
+	public synthetic fun <init> (Ljava/time/Duration;Ljava/lang/String;Ljava/util/List;Ljava/util/concurrent/ThreadFactory;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun execute (Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
+}
+
+public final class pro/vlprojects/semantic/resilience/deadline/Deadline$Factory {
+	public final fun of (Ljava/lang/String;Ljava/time/Duration;)Lpro/vlprojects/semantic/resilience/deadline/Deadline;
+	public final fun of (Ljava/time/Duration;)Lpro/vlprojects/semantic/resilience/deadline/Deadline;
+}
+
+public final class pro/vlprojects/semantic/resilience/deadline/DeadlineExceededException : java/lang/RuntimeException {
+	public fun <init> (Ljava/lang/String;Ljava/time/Duration;)V
+	public final fun getLimit ()Ljava/time/Duration;
+	public final fun getName ()Ljava/lang/String;
+}
+
+public abstract interface class pro/vlprojects/semantic/resilience/deadline/DeadlineListener {
+	public fun onCompleted (Ljava/time/Duration;)V
+	public fun onExpired (Ljava/time/Duration;)V
+	public fun onFailed (Ljava/time/Duration;Ljava/lang/Throwable;)V
+	public fun onOverrun (Ljava/time/Duration;)V
+}
+
