@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1142 728" width="1142" height="728" role="img">
+  <rect width="1142" height="728" rx="12" fill="#F6F8FA"/>
+  <g transform="translate(12,12)">
+    <text x="24.0" y="46.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="16" font-weight="600" fill="#1F2328" text-anchor="start">RETRY</text>
+    <rect x="84.0" y="32.0" width="374.2" height="18" rx="4" fill="#59636E" fill-opacity="0.2"/>
+    <text x="92.0" y="44.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="start">repeats a failed call; paths under architecture/pattern/resilience/retry</text>
+    <rect x="24" y="80" width="1070" height="142" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
+    <text x="40.0" y="120.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1F2328" text-anchor="start">family</text>
+    <text x="40.0" y="140.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">what it builds on</text>
+    <rect x="24" y="262" width="1070" height="252" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
+    <text x="40.0" y="302.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1F2328" text-anchor="start">JVM</text>
+    <text x="40.0" y="322.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">no Spring</text>
+    <rect x="24" y="554" width="1070" height="126" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
+    <text x="40.0" y="594.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1F2328" text-anchor="start">not built</text>
+    <text x="40.0" y="614.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">and why</text>
+    <rect x="214.0" y="96.0" width="380.0" height="110.0" rx="6" fill="#E3E8ED"/>
+    <text x="226.0" y="122.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">resilience/core</text>
+    <rect x="226.0" y="136.0" width="55.6" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="234.0" y="148.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">Policy</text>
+    <text x="226.0" y="180.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">What every pattern except backoff is, and how policies</text>
+    <text x="226.0" y="196.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">combine.</text>
+    <rect x="690.0" y="96.0" width="380.0" height="110.0" rx="6" fill="#E3E8ED"/>
+    <text x="702.0" y="122.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">resilience/backoff/core</text>
+    <rect x="702.0" y="136.0" width="62.2" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="710.0" y="148.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">Backoff</text>
+    <text x="702.0" y="196.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">The pause between attempts.</text>
+    <rect x="214.0" y="278.0" width="856.0" height="94.0" rx="6" fill="#E3EFFF"/>
+    <text x="226.0" y="304.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">core</text>
+    <rect x="226.0" y="318.0" width="49.0" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="234.0" y="330.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">Retry</text>
+    <text x="226.0" y="362.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">Repeats a failed call. Stops when the attempts run out or the thread is interrupted.</text>
+    <rect x="214.0" y="428.0" width="380.0" height="70.0" rx="6" fill="#E3EFFF"/>
+    <text x="226.0" y="454.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">observability/micrometer</text>
+    <text x="226.0" y="488.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">Attempts and exhausted retries.</text>
+    <rect x="690.0" y="570.0" width="380.0" height="94.0" rx="6" fill="#E3E8ED"/>
+    <text x="702.0" y="596.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">spring/core</text>
+    <rect x="702.0" y="610.0" width="82.0" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="710.0" y="622.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">@Retryable</text>
+    <text x="702.0" y="654.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">Spring Framework 7 has it.</text>
+    <circle cx="340.6666666666667" cy="273" r="2" fill="#8B5CF6"/>
+    <path d="M340.6666666666667,209 L343.1666666666667,214.0 L338.1666666666667,214.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M340.6666666666667,273 L340.6666666666667,214" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="352.7" y="246.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">implements Policy</text>
+    <circle cx="816.6666666666666" cy="273" r="2" fill="#8B5CF6"/>
+    <path d="M816.6666666666666,209 L819.1666666666666,214.0 L814.1666666666666,214.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M816.6666666666666,273 L816.6666666666666,214" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <text x="828.7" y="246.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">api: Backoff</text>
+    <circle cx="340.6666666666667" cy="423" r="2" fill="#8B5CF6"/>
+    <path d="M340.6666666666667,375 L343.1666666666667,380.0 L338.1666666666667,380.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M340.6666666666667,423 L340.6666666666667,380" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <text x="352.7" y="404.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">api</text>
+  </g>
+</svg>

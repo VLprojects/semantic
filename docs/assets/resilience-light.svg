@@ -1,0 +1,174 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2146 1106" width="2146" height="1106" role="img">
+  <rect width="2146" height="1106" rx="12" fill="#F6F8FA"/>
+  <g transform="translate(12,12)">
+    <text x="24.0" y="46.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="16" font-weight="600" fill="#1F2328" text-anchor="start">RESILIENCE</text>
+    <rect x="132.0" y="32.0" width="496.0" height="18" rx="4" fill="#59636E" fill-opacity="0.2"/>
+    <text x="140.0" y="44.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="start">paths under architecture/pattern/resilience; a column per pattern, each one its own modules</text>
+    <rect x="24" y="80" width="2074" height="418" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
+    <text x="40.0" y="120.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1F2328" text-anchor="start">JVM</text>
+    <text x="40.0" y="140.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">no Spring</text>
+    <rect x="24" y="538" width="2074" height="126" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
+    <text x="40.0" y="578.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1F2328" text-anchor="start">Spring</text>
+    <text x="40.0" y="598.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">annotations, Spring types</text>
+    <rect x="24" y="704" width="2074" height="354" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
+    <text x="40.0" y="744.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1F2328" text-anchor="start">Spring Boot</text>
+    <text x="40.0" y="764.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">wiring only</text>
+    <rect x="536.0" y="96.0" width="1538.0" height="94.0" rx="6" fill="#E3EFFF"/>
+    <text x="548.0" y="122.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">core</text>
+    <rect x="548.0" y="136.0" width="55.6" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="556.0" y="148.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">Policy</text>
+    <text x="548.0" y="180.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">The common type and how policies combine. Knows no pattern, so a service pulls only the patterns it needs.</text>
+    <rect x="214.0" y="246.0" width="250.0" height="110.0" rx="6" fill="#E3EFFF"/>
+    <text x="226.0" y="272.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">backoff/core</text>
+    <rect x="226.0" y="286.0" width="62.2" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="234.0" y="298.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">Backoff</text>
+    <text x="226.0" y="346.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">How long to wait between attempts.</text>
+    <rect x="536.0" y="246.0" width="250.0" height="110.0" rx="6" fill="#E3EFFF"/>
+    <text x="548.0" y="272.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">retry/core</text>
+    <rect x="548.0" y="286.0" width="49.0" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="556.0" y="298.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">Retry</text>
+    <text x="548.0" y="346.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">Repeats a failed call.</text>
+    <rect x="858.0" y="246.0" width="250.0" height="110.0" rx="6" fill="#E3EFFF"/>
+    <text x="870.0" y="272.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">circuit-breaker/core</text>
+    <rect x="870.0" y="286.0" width="108.4" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="878.0" y="298.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">CircuitBreaker</text>
+    <text x="870.0" y="330.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">Stops calling a dependency that is</text>
+    <text x="870.0" y="346.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">down.</text>
+    <rect x="1180.0" y="246.0" width="250.0" height="110.0" rx="6" fill="#E3EFFF"/>
+    <text x="1192.0" y="272.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">deadline/core</text>
+    <rect x="1192.0" y="286.0" width="68.8" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="1200.0" y="298.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">Deadline</text>
+    <text x="1192.0" y="346.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">A limit in time on what it surrounds.</text>
+    <rect x="1502.0" y="246.0" width="250.0" height="110.0" rx="6" fill="#E3EFFF"/>
+    <text x="1514.0" y="272.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">bulkhead/core</text>
+    <rect x="1514.0" y="286.0" width="68.8" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="1522.0" y="298.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">Bulkhead</text>
+    <text x="1514.0" y="346.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">A compartment of concurrent calls.</text>
+    <rect x="1824.0" y="246.0" width="250.0" height="110.0" rx="6" fill="#E3EFFF"/>
+    <text x="1836.0" y="272.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">fallback/core</text>
+    <rect x="1836.0" y="286.0" width="68.8" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="1844.0" y="298.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">Fallback</text>
+    <text x="1836.0" y="346.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">A spare answer on failure.</text>
+    <rect x="536.0" y="412.0" width="250.0" height="70.0" rx="6" fill="#E3EFFF"/>
+    <text x="548.0" y="438.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">observability/micrometer</text>
+    <text x="548.0" y="472.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">Attempts, exhausted.</text>
+    <rect x="858.0" y="412.0" width="250.0" height="70.0" rx="6" fill="#E3EFFF"/>
+    <text x="870.0" y="438.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">observability/micrometer</text>
+    <text x="870.0" y="472.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">State, failure rate.</text>
+    <rect x="1180.0" y="412.0" width="250.0" height="70.0" rx="6" fill="#E3EFFF"/>
+    <text x="1192.0" y="438.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">observability/micrometer</text>
+    <text x="1192.0" y="472.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">Exceeded.</text>
+    <rect x="1502.0" y="412.0" width="250.0" height="70.0" rx="6" fill="#E3EFFF"/>
+    <text x="1514.0" y="438.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">observability/micrometer</text>
+    <text x="1514.0" y="472.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">In use, rejected.</text>
+    <rect x="214.0" y="554.0" width="250.0" height="94.0" rx="6" fill="#DDF7E7"/>
+    <text x="226.0" y="580.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">spring/core</text>
+    <text x="226.0" y="638.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">Backoff as a Spring BackOff.</text>
+    <rect x="858.0" y="554.0" width="250.0" height="94.0" rx="6" fill="#DDF7E7"/>
+    <text x="870.0" y="580.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">spring/core</text>
+    <rect x="870.0" y="594.0" width="115.0" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="878.0" y="606.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">@CircuitBreaker</text>
+    <text x="870.0" y="638.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">The annotation and its aspect.</text>
+    <rect x="1180.0" y="554.0" width="250.0" height="94.0" rx="6" fill="#DDF7E7"/>
+    <text x="1192.0" y="580.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">spring/core</text>
+    <rect x="1192.0" y="594.0" width="75.4" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="1200.0" y="606.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">@Deadline</text>
+    <text x="1192.0" y="638.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">The annotation and its aspect.</text>
+    <rect x="858.0" y="720.0" width="250.0" height="70.0" rx="6" fill="#FFEEDC"/>
+    <text x="870.0" y="746.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">spring-boot/autoconfigure</text>
+    <text x="870.0" y="780.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">Settings and beans.</text>
+    <rect x="1180.0" y="720.0" width="250.0" height="70.0" rx="6" fill="#FFEEDC"/>
+    <text x="1192.0" y="746.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">spring-boot/autoconfigure</text>
+    <text x="1192.0" y="780.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">Settings and beans.</text>
+    <rect x="858.0" y="846.0" width="250.0" height="70.0" rx="6" fill="#FFEEDC"/>
+    <text x="870.0" y="872.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">spring-boot/starter</text>
+    <text x="870.0" y="906.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">One dependency.</text>
+    <rect x="1180.0" y="846.0" width="250.0" height="70.0" rx="6" fill="#FFEEDC"/>
+    <text x="1192.0" y="872.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">spring-boot/starter</text>
+    <text x="1192.0" y="906.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">One dependency.</text>
+    <rect x="858.0" y="972.0" width="250.0" height="70.0" rx="6" fill="#FFEEDC"/>
+    <text x="870.0" y="998.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">spring-boot/actuator</text>
+    <text x="870.0" y="1032.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">Health and state.</text>
+    <circle cx="619.3333333333334" cy="241" r="2" fill="#8B5CF6"/>
+    <path d="M619.3333333333334,193 L621.8333333333334,198.0 L616.8333333333334,198.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M619.3333333333334,241 L619.3333333333334,198" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="631.3" y="222.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">implements</text>
+    <circle cx="941.3333333333334" cy="241" r="2" fill="#8B5CF6"/>
+    <path d="M941.3333333333334,193 L943.8333333333334,198.0 L938.8333333333334,198.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M941.3333333333334,241 L941.3333333333334,198" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="953.3" y="222.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">implements</text>
+    <circle cx="1263.3333333333333" cy="241" r="2" fill="#8B5CF6"/>
+    <path d="M1263.3333333333333,193 L1265.8333333333333,198.0 L1260.8333333333333,198.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M1263.3333333333333,241 L1263.3333333333333,198" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="1275.3" y="222.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">implements</text>
+    <circle cx="1585.3333333333333" cy="241" r="2" fill="#8B5CF6"/>
+    <path d="M1585.3333333333333,193 L1587.8333333333333,198.0 L1582.8333333333333,198.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M1585.3333333333333,241 L1585.3333333333333,198" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="1597.3" y="222.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">implements</text>
+    <circle cx="1907.3333333333333" cy="241" r="2" fill="#8B5CF6"/>
+    <path d="M1907.3333333333333,193 L1909.8333333333333,198.0 L1904.8333333333333,198.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M1907.3333333333333,241 L1907.3333333333333,198" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="1919.3" y="222.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">implements</text>
+    <circle cx="531" cy="301.0" r="2" fill="#8B5CF6"/>
+    <path d="M467,301.0 L472.0,298.5 L472.0,303.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M531,301.0 L472,301.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <text x="500.0" y="291.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">api</text>
+    <circle cx="619.3333333333334" cy="407" r="2" fill="#8B5CF6"/>
+    <path d="M619.3333333333334,359 L621.8333333333334,364.0 L616.8333333333334,364.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M619.3333333333334,407 L619.3333333333334,364" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <text x="631.3" y="388.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">api</text>
+    <circle cx="941.3333333333334" cy="407" r="2" fill="#8B5CF6"/>
+    <path d="M941.3333333333334,359 L943.8333333333334,364.0 L938.8333333333334,364.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M941.3333333333334,407 L941.3333333333334,364" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <text x="953.3" y="388.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">api</text>
+    <circle cx="1263.3333333333333" cy="407" r="2" fill="#8B5CF6"/>
+    <path d="M1263.3333333333333,359 L1265.8333333333333,364.0 L1260.8333333333333,364.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M1263.3333333333333,407 L1263.3333333333333,364" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <text x="1275.3" y="388.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">api</text>
+    <circle cx="1585.3333333333333" cy="407" r="2" fill="#8B5CF6"/>
+    <path d="M1585.3333333333333,359 L1587.8333333333333,364.0 L1582.8333333333333,364.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M1585.3333333333333,407 L1585.3333333333333,364" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <text x="1597.3" y="388.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">api</text>
+    <circle cx="297.3333333333333" cy="549" r="2" fill="#8B5CF6"/>
+    <path d="M297.3333333333333,359 L299.8333333333333,364.0 L294.8333333333333,364.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M297.3333333333333,549 L297.3333333333333,364" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <text x="309.3" y="459.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">api</text>
+    <circle cx="1066.3333333333333" cy="549" r="2" fill="#8B5CF6"/>
+    <path d="M1066.3333333333333,359 L1068.8333333333333,364.0 L1063.8333333333333,364.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M1066.3333333333333,549 L1066.3333333333333,534.0 Q1066.3333333333333,526.0 1074.3333333333333,526.0 L1136.0,526.0 Q1144.0,526.0 1144.0,518.0 L1144.0,392.0 Q1144.0,384.0 1136.0,384.0 L1074.3333333333333,384.0 Q1066.3333333333333,384.0 1066.3333333333333,376.0 L1066.3333333333333,364" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <g transform="rotate(-90 1134.0 455.0)">
+    <rect x="1117.8" y="443.0" width="32.4" height="16.0" rx="2" fill="#F6F8FA"/>
+    <text x="1134.0" y="455.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">api</text>
+    </g>
+    <circle cx="941.3333333333334" cy="715" r="2" fill="#8B5CF6"/>
+    <path d="M941.3333333333334,651 L943.8333333333334,656.0 L938.8333333333334,656.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M941.3333333333334,715 L941.3333333333334,656" stroke="#8B5CF6" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.01 3"/>
+    <text x="953.3" y="688.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">configures</text>
+    <circle cx="941.3333333333334" cy="841" r="2" fill="#8B5CF6"/>
+    <path d="M941.3333333333334,793 L943.8333333333334,798.0 L938.8333333333334,798.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M941.3333333333334,841 L941.3333333333334,798" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <text x="953.3" y="822.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">api</text>
+    <circle cx="1388.3333333333333" cy="549" r="2" fill="#8B5CF6"/>
+    <path d="M1388.3333333333333,359 L1390.8333333333333,364.0 L1385.8333333333333,364.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M1388.3333333333333,549 L1388.3333333333333,534.0 Q1388.3333333333333,526.0 1396.3333333333333,526.0 L1458.0,526.0 Q1466.0,526.0 1466.0,518.0 L1466.0,392.0 Q1466.0,384.0 1458.0,384.0 L1396.3333333333333,384.0 Q1388.3333333333333,384.0 1388.3333333333333,376.0 L1388.3333333333333,364" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <g transform="rotate(-90 1456.0 455.0)">
+    <rect x="1439.8" y="443.0" width="32.4" height="16.0" rx="2" fill="#F6F8FA"/>
+    <text x="1456.0" y="455.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">api</text>
+    </g>
+    <circle cx="1263.3333333333333" cy="715" r="2" fill="#8B5CF6"/>
+    <path d="M1263.3333333333333,651 L1265.8333333333333,656.0 L1260.8333333333333,656.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M1263.3333333333333,715 L1263.3333333333333,656" stroke="#8B5CF6" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.01 3"/>
+    <text x="1275.3" y="688.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">configures</text>
+    <circle cx="1263.3333333333333" cy="841" r="2" fill="#8B5CF6"/>
+    <path d="M1263.3333333333333,793 L1265.8333333333333,798.0 L1260.8333333333333,798.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M1263.3333333333333,841 L1263.3333333333333,798" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <text x="1275.3" y="822.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">api</text>
+    <circle cx="1066.3333333333333" cy="967" r="2" fill="#8B5CF6"/>
+    <path d="M1066.3333333333333,793 L1068.8333333333333,798.0 L1063.8333333333333,798.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M1066.3333333333333,967 L1066.3333333333333,952.0 Q1066.3333333333333,944.0 1074.3333333333333,944.0 L1136.0,944.0 Q1144.0,944.0 1144.0,936.0 L1144.0,826.0 Q1144.0,818.0 1136.0,818.0 L1074.3333333333333,818.0 Q1066.3333333333333,818.0 1066.3333333333333,810.0 L1066.3333333333333,798" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <g transform="rotate(-90 1134.0 881.0)">
+    <rect x="1117.8" y="869.0" width="32.4" height="16.0" rx="2" fill="#F6F8FA"/>
+    <text x="1134.0" y="881.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">api</text>
+    </g>
+  </g>
+</svg>
