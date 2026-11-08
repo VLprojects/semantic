@@ -1,0 +1,15 @@
+public abstract interface class pro/vlprojects/semantic/resilience/backoff/Backoff {
+	public abstract fun delayAfter (I)Ljava/time/Duration;
+}
+
+public final class pro/vlprojects/semantic/resilience/backoff/ExponentialBackoff : pro/vlprojects/semantic/resilience/backoff/Backoff {
+	public fun <init> (Ljava/time/Duration;Ljava/time/Duration;DDLkotlin/random/Random;)V
+	public synthetic fun <init> (Ljava/time/Duration;Ljava/time/Duration;DDLkotlin/random/Random;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun delayAfter (I)Ljava/time/Duration;
+}
+
+public final class pro/vlprojects/semantic/resilience/backoff/FixedBackoff : pro/vlprojects/semantic/resilience/backoff/Backoff {
+	public fun <init> (Ljava/time/Duration;)V
+	public fun delayAfter (I)Ljava/time/Duration;
+}
+
