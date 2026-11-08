@@ -12,8 +12,8 @@ public final class pro/vlprojects/semantic/resilience/backoff/ExponentialBackoff
 public final class pro/vlprojects/semantic/resilience/backoff/ExponentialBackoff$Factory {
 	public final fun of (Ljava/time/Duration;Ljava/time/Duration;D)Lpro/vlprojects/semantic/resilience/backoff/ExponentialBackoff;
 	public static synthetic fun of$default (Lpro/vlprojects/semantic/resilience/backoff/ExponentialBackoff$Factory;Ljava/time/Duration;Ljava/time/Duration;DILjava/lang/Object;)Lpro/vlprojects/semantic/resilience/backoff/ExponentialBackoff;
-	public final fun withJitter (Ljava/time/Duration;Ljava/time/Duration;DDLkotlin/random/Random;)Lpro/vlprojects/semantic/resilience/backoff/ExponentialBackoff;
-	public static synthetic fun withJitter$default (Lpro/vlprojects/semantic/resilience/backoff/ExponentialBackoff$Factory;Ljava/time/Duration;Ljava/time/Duration;DDLkotlin/random/Random;ILjava/lang/Object;)Lpro/vlprojects/semantic/resilience/backoff/ExponentialBackoff;
+	public final fun ofJitter (Ljava/time/Duration;Ljava/time/Duration;DDLkotlin/random/Random;)Lpro/vlprojects/semantic/resilience/backoff/ExponentialBackoff;
+	public static synthetic fun ofJitter$default (Lpro/vlprojects/semantic/resilience/backoff/ExponentialBackoff$Factory;Ljava/time/Duration;Ljava/time/Duration;DDLkotlin/random/Random;ILjava/lang/Object;)Lpro/vlprojects/semantic/resilience/backoff/ExponentialBackoff;
 }
 
 public final class pro/vlprojects/semantic/resilience/backoff/FixedBackoff : pro/vlprojects/semantic/resilience/backoff/Backoff {

@@ -83,14 +83,14 @@ class ExponentialBackoffTests {
 
     @Test
     fun `by default the jitter takes away at most half of the delay`() {
-        val backoff = ExponentialBackoff.withJitter(randomizer = half)
+        val backoff = ExponentialBackoff.ofJitter(randomizer = half)
 
         assertEquals(Duration.ofMillis(750), backoff.calculate(1))
     }
 
     @Test
     fun `a given jitter replaces the default one`() {
-        val backoff = ExponentialBackoff.withJitter(
+        val backoff = ExponentialBackoff.ofJitter(
             initialDelay = Duration.ofSeconds(4),
             delayLimit = Duration.ofSeconds(60),
             jitter = 1.0,

@@ -60,7 +60,7 @@ public class ExponentialBackoff(
             multiplier: Double = DEFAULT_MULTIPLIER,
         ): ExponentialBackoff = ExponentialBackoff(initialDelay, delayLimit, multiplier)
 
-        public fun withJitter(
+        public fun ofJitter(
             initialDelay: Duration = DEFAULT_INITIAL_DELAY,
             delayLimit: Duration = DEFAULT_DELAY_LIMIT,
             multiplier: Double = DEFAULT_MULTIPLIER,
