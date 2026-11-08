@@ -6,26 +6,30 @@ import java.time.Instant
 
 public data class Delivery(
     public val scheduledAt: Instant,
-    public val status: DeliveryStatus = DeliveryStatus.AWAITING,
+    public val status: DeliveryStatus = DeliveryStatus.PENDING,
     public val attempts: Int = 0,
     public val lockedUntil: Instant? = null,
-    public val completedAt: Instant? = null,
+    public val terminatedAt: Instant? = null,
     public val error: String? = null,
 ) {
 
     internal fun started(lockedUntil: Instant): Delivery {
         checkHasNotTerminalStatus()
-        return copy(status = DeliveryStatus.IN_PROGRESS, attempts = attempts + 1, lockedUntil = lockedUntil)
+        return copy(status = DeliveryStatus.STARTED, attempts = attempts + 1, lockedUntil = lockedUntil)
     }
 
-    internal fun completed(completedAt: Instant): Delivery {
-        checkHasInProgressStatus()
-        return copy(status = DeliveryStatus.COMPLETED, lockedUntil = null, completedAt = completedAt, error = null)
+    internal fun completed(terminatedAt: Instant): Delivery {
+        checkHasStartedStatus()
+        return copy(status = DeliveryStatus.COMPLETED, lockedUntil = null, terminatedAt = terminatedAt, error = null)
     }
 
-    internal fun failed(scheduledAt: Instant, error: String): Delivery {
-        checkHasInProgressStatus()
-        val abbreviatedError = abbreviate(error)
+    internal fun failed(scheduledAt: Instant, cause: Throwable): Delivery {
+        checkHasStartedStatus()
+        val abbreviatedError = cause.toString().abbreviated(
+            minLength = MAX_ERROR_LENGTH,
+            visibleLength = MAX_ERROR_LENGTH - 1,
+            abbreviation = SuffixAbbreviation,
+        )
         return copy(
             scheduledAt = scheduledAt,
             status = DeliveryStatus.FAILED,
@@ -34,21 +38,16 @@ public data class Delivery(
         )
     }
 
-    internal fun canceled(error: String): Delivery {
-        checkHasInProgressStatus()
-        val abbreviatedError = abbreviate(error)
-        return copy(status = DeliveryStatus.CANCELED, lockedUntil = null, error = abbreviatedError)
+    internal fun canceled(terminatedAt: Instant): Delivery {
+        checkHasFailedStatus()
+        return copy(status = DeliveryStatus.CANCELED, terminatedAt = terminatedAt)
     }
 
     private fun checkHasNotTerminalStatus() = check(!status.isTerminal) { "Delivery is already $status" }
 
-    private fun checkHasInProgressStatus() = check(status == DeliveryStatus.IN_PROGRESS) { "Delivery is $status" }
+    private fun checkHasStartedStatus() = check(status == DeliveryStatus.STARTED) { "Delivery is $status" }
 
-    private fun abbreviate(error: String) = error.abbreviated(
-        minLength = MAX_ERROR_LENGTH,
-        visibleLength = MAX_ERROR_LENGTH - 1,
-        abbreviation = SuffixAbbreviation,
-    )
+    private fun checkHasFailedStatus() = check(status == DeliveryStatus.FAILED) { "Delivery is $status" }
 
     private companion object {
 

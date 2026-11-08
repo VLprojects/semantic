@@ -12,12 +12,12 @@ public class Payload private constructor(
 
     override fun hashCode(): Int = content.contentHashCode().let { 31 * it + type.hashCode() }
 
-    public companion object {
+    public companion object Factory {
 
         public inline fun <reified T : Any> of(content: ByteArray): Payload = of(T::class, content)
 
-        public fun of(type: KClass<*>, content: ByteArray): Payload = Payload(type.javaObjectType.name, content)
+        public fun of(type: KClass<*>, content: ByteArray): Payload = of(type.javaObjectType.name, content)
 
-        public fun restore(type: String, content: ByteArray): Payload = Payload(type, content)
+        public fun of(type: String, content: ByteArray): Payload = Payload(type, content)
     }
 }

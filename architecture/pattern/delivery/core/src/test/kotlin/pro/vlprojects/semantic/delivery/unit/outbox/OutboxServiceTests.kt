@@ -18,6 +18,7 @@ class OutboxServiceTests {
     private val moment = Instant.parse("2026-11-09T00:00:00Z")
     private val clock = Clock.fixed(moment, ZoneOffset.UTC)
     private val lockDuration = Duration.ofMinutes(1)
+    private val cause = IllegalStateException("timeout")
     private val readyOutboxes = listOf(createOutbox(moment))
 
     private fun createRepository(ready: List<Outbox>, conflictingId: String? = null) = object : OutboxRepository {
@@ -29,9 +30,9 @@ class OutboxServiceTests {
 
         override fun findById(id: OutboxId) = ready.find { it.id == id }
 
-        override fun findReadyForDelivery(now: Instant, limit: Int) = ready.take(limit)
+        override fun findReadyForDelivery(until: Instant, limit: Int) = ready.take(limit)
 
-        override fun deleteAll(status: DeliveryStatus, createdBefore: Instant, limit: Int) = 0
+        override fun deleteAll(status: DeliveryStatus, terminatedBefore: Instant, limit: Int) = 0
     }
 
     private fun createService(ready: List<Outbox>, conflictingId: String? = null) = createRepository(
@@ -42,9 +43,9 @@ class OutboxServiceTests {
 
     @Test
     fun `locking holds ready records for the lock duration`() {
-        val locked = createService(ready = readyOutboxes).lockForDelivery(10).single()
+        val locked = createService(readyOutboxes).lockForDelivery(10).single()
 
-        assertEquals(DeliveryStatus.IN_PROGRESS, locked.delivery.status)
+        assertEquals(DeliveryStatus.STARTED, locked.delivery.status)
         assertEquals(moment.plus(lockDuration), locked.delivery.lockedUntil)
     }
 
@@ -59,10 +60,10 @@ class OutboxServiceTests {
 
     @Test
     fun `retrying plans the next attempt after the delay`() {
-        val service = createService(ready = readyOutboxes)
+        val service = createService(readyOutboxes)
         val locked = service.lockForDelivery(1).single()
 
-        val retried = service.retryDelivery(locked, "timeout", Duration.ofSeconds(30))
+        val retried = service.retryDelivery(locked, cause, Duration.ofSeconds(30))
 
         assertEquals(DeliveryStatus.FAILED, retried.delivery.status)
         assertEquals(moment.plusSeconds(30), retried.delivery.scheduledAt)
@@ -70,7 +71,7 @@ class OutboxServiceTests {
 
     @Test
     fun `completing records the current time`() {
-        val service = createService(ready = readyOutboxes)
+        val service = createService(readyOutboxes)
 
         val completed = service
             .lockForDelivery(1)
@@ -78,19 +79,20 @@ class OutboxServiceTests {
             .let(service::completeDelivery)
 
         assertEquals(DeliveryStatus.COMPLETED, completed.delivery.status)
-        assertEquals(moment, completed.delivery.completedAt)
+        assertEquals(moment, completed.delivery.terminatedAt)
     }
 
     @Test
-    fun `canceling keeps the reason`() {
-        val service = createService(ready = readyOutboxes)
+    fun `canceling stores the cause and terminates the delivery`() {
+        val service = createService(readyOutboxes)
 
         val canceled = service
             .lockForDelivery(1)
             .single()
-            .let { service.cancelDelivery(it, "exhausted") }
+            .let { service.cancelDelivery(it, cause) }
 
         assertEquals(DeliveryStatus.CANCELED, canceled.delivery.status)
-        assertEquals("exhausted", canceled.delivery.error)
+        assertEquals("java.lang.IllegalStateException: timeout", canceled.delivery.error)
+        assertEquals(moment, canceled.delivery.terminatedAt)
     }
 }

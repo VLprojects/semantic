@@ -5,12 +5,12 @@ import pro.vlprojects.semantic.delivery.outbox.OutboxId
 import pro.vlprojects.semantic.delivery.outbox.Payload
 import java.time.Instant
 
-internal fun createOutbox(createdAt: Instant, id: String = "record") = Outbox.create(
+internal fun createOutbox(createdAt: Instant, id: String = "record") = Outbox.of(
     id = OutboxId(id),
     orderingKey = "order-1",
     idempotencyKey = "operation",
     deliverer = "deliverer",
-    payload = Payload.restore("OrderPlaced", byteArrayOf(1)),
+    payload = Payload.of("OrderPlaced", byteArrayOf(1)),
     context = mapOf("trace" to "abc"),
     createdAt = createdAt,
 )

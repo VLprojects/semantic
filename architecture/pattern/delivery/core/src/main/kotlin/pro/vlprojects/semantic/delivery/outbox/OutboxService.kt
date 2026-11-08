@@ -16,25 +16,28 @@ public class OutboxService(
 
     public fun completeDelivery(outbox: Outbox): Outbox = clock
         .instant()
-        .let(outbox::completed)
-        .let(repository::save)
+        .let(outbox::complete)
+        .let { repository.save(outbox) }
 
-    public fun retryDelivery(outbox: Outbox, error: String, delay: Duration): Outbox = clock
+    public fun retryDelivery(outbox: Outbox, cause: Throwable, delay: Duration): Outbox = clock
         .instant()
         .plus(delay)
-        .let { outbox.failed(it, error) }
-        .let(repository::save)
+        .let { outbox.fail(it, cause) }
+        .let { repository.save(outbox) }
 
-    public fun cancelDelivery(outbox: Outbox, error: String): Outbox = error
-        .let(outbox::canceled)
-        .let(repository::save)
+    public fun cancelDelivery(outbox: Outbox, cause: Throwable): Outbox {
+        val now = clock.instant()
+        outbox.fail(now, cause)
+        outbox.cancel(now)
+        return repository.save(outbox)
+    }
 
     private fun tryLock(outbox: Outbox) = try {
         clock
             .instant()
             .plus(lockDuration)
-            .let(outbox::started)
-            .let(repository::save)
+            .let(outbox::start)
+            .let { repository.save(outbox) }
     } catch (_: OutboxVersionConflictException) {
         null
     }

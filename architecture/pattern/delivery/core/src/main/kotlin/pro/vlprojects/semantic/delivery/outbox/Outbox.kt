@@ -10,41 +10,32 @@ public class Outbox private constructor(
     public val payload: Payload,
     public val context: Map<String, String>,
     public val createdAt: Instant,
-    public val delivery: Delivery,
+    delivery: Delivery,
     public val version: Long,
 ) {
 
-    internal fun started(lockedUntil: Instant) = lockedUntil
-        .let(delivery::started)
-        .let(::replaceDelivery)
+    public var delivery: Delivery = delivery
+        private set
 
-    internal fun completed(completedAt: Instant) = completedAt
-        .let(delivery::completed)
-        .let(::replaceDelivery)
+    internal fun start(lockedUntil: Instant) {
+        delivery = delivery.started(lockedUntil)
+    }
 
-    internal fun failed(scheduledAt: Instant, error: String) = delivery
-        .failed(scheduledAt, error)
-        .let(::replaceDelivery)
+    internal fun complete(terminatedAt: Instant) {
+        delivery = delivery.completed(terminatedAt)
+    }
 
-    internal fun canceled(error: String) = error
-        .let(delivery::canceled)
-        .let(::replaceDelivery)
+    internal fun fail(scheduledAt: Instant, cause: Throwable) {
+        delivery = delivery.failed(scheduledAt, cause)
+    }
 
-    private fun replaceDelivery(delivery: Delivery) = Outbox(
-        id = id,
-        orderingKey = orderingKey,
-        idempotencyKey = idempotencyKey,
-        deliverer = deliverer,
-        payload = payload,
-        context = context,
-        createdAt = createdAt,
-        delivery = delivery,
-        version = version,
-    )
+    internal fun cancel(terminatedAt: Instant) {
+        delivery = delivery.canceled(terminatedAt)
+    }
 
-    public companion object {
+    public companion object Factory {
 
-        public fun create(
+        public fun of(
             id: OutboxId,
             orderingKey: String,
             idempotencyKey: String,
@@ -52,28 +43,8 @@ public class Outbox private constructor(
             payload: Payload,
             context: Map<String, String>,
             createdAt: Instant,
-        ): Outbox = Outbox(
-            id = id,
-            orderingKey = orderingKey,
-            idempotencyKey = idempotencyKey,
-            deliverer = deliverer,
-            payload = payload,
-            context = context,
-            createdAt = createdAt,
-            delivery = Delivery(scheduledAt = createdAt),
-            version = 0,
-        )
-
-        public fun restore(
-            id: OutboxId,
-            orderingKey: String,
-            idempotencyKey: String,
-            deliverer: String,
-            payload: Payload,
-            context: Map<String, String>,
-            createdAt: Instant,
-            delivery: Delivery,
-            version: Long,
+            delivery: Delivery = Delivery(scheduledAt = createdAt),
+            version: Long = 0,
         ): Outbox = Outbox(
             id = id,
             orderingKey = orderingKey,
