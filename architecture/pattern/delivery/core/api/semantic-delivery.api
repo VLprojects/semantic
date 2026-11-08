@@ -1,38 +1,79 @@
+public final class pro/vlprojects/semantic/delivery/outbox/DeliveryStatus : java/lang/Enum {
+	public static final field ABANDONED Lpro/vlprojects/semantic/delivery/outbox/DeliveryStatus;
+	public static final field AWAITING Lpro/vlprojects/semantic/delivery/outbox/DeliveryStatus;
+	public static final field COMPLETED Lpro/vlprojects/semantic/delivery/outbox/DeliveryStatus;
+	public static final field FAILED Lpro/vlprojects/semantic/delivery/outbox/DeliveryStatus;
+	public static final field IN_PROGRESS Lpro/vlprojects/semantic/delivery/outbox/DeliveryStatus;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun isTerminal ()Z
+	public static fun valueOf (Ljava/lang/String;)Lpro/vlprojects/semantic/delivery/outbox/DeliveryStatus;
+	public static fun values ()[Lpro/vlprojects/semantic/delivery/outbox/DeliveryStatus;
+}
+
 public final class pro/vlprojects/semantic/delivery/outbox/Outbox {
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/time/Instant;Ljava/time/Instant;Ljava/util/Map;Lpro/vlprojects/semantic/delivery/outbox/OutboxStatus;ILjava/lang/String;Ljava/time/Instant;Ljava/time/Instant;Ljava/lang/String;)V
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/time/Instant;Ljava/time/Instant;Ljava/util/Map;Lpro/vlprojects/semantic/delivery/outbox/OutboxStatus;ILjava/lang/String;Ljava/time/Instant;Ljava/time/Instant;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun getCompletedAt ()Ljava/time/Instant;
+	public static final field Companion Lpro/vlprojects/semantic/delivery/outbox/Outbox$Companion;
 	public final fun getContext ()Ljava/util/Map;
 	public final fun getCreatedAt ()Ljava/time/Instant;
-	public final fun getDelivererId ()Ljava/lang/String;
-	public final fun getFailureCount ()I
-	public final fun getId ()Ljava/lang/String;
+	public final fun getDelivererName ()Ljava/lang/String;
+	public final fun getDelivery ()Lpro/vlprojects/semantic/delivery/outbox/OutboxDelivery;
+	public final fun getId ()Lpro/vlprojects/semantic/delivery/outbox/OutboxId;
 	public final fun getIdempotencyKey ()Ljava/lang/String;
-	public final fun getKey ()Ljava/lang/String;
-	public final fun getLastError ()Ljava/lang/String;
-	public final fun getLeaseExpiresAt ()Ljava/time/Instant;
-	public final fun getLeaseToken ()Ljava/lang/String;
-	public final fun getNextRetryAt ()Ljava/time/Instant;
-	public final fun getPayload ()Ljava/lang/String;
-	public final fun getPayloadType ()Ljava/lang/String;
-	public final fun getStatus ()Lpro/vlprojects/semantic/delivery/outbox/OutboxStatus;
+	public final fun getOrderingKey ()Ljava/lang/String;
+	public final fun getPayload ()Lpro/vlprojects/semantic/delivery/outbox/OutboxPayload;
+	public final fun getVersion ()J
+}
+
+public final class pro/vlprojects/semantic/delivery/outbox/Outbox$Companion {
+	public final fun create (Lpro/vlprojects/semantic/delivery/outbox/OutboxId;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lpro/vlprojects/semantic/delivery/outbox/OutboxPayload;Ljava/util/Map;Ljava/time/Instant;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
+	public final fun restore (Lpro/vlprojects/semantic/delivery/outbox/OutboxId;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lpro/vlprojects/semantic/delivery/outbox/OutboxPayload;Ljava/util/Map;Ljava/time/Instant;Lpro/vlprojects/semantic/delivery/outbox/OutboxDelivery;J)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
+}
+
+public final class pro/vlprojects/semantic/delivery/outbox/OutboxDelivery {
+	public static final field Companion Lpro/vlprojects/semantic/delivery/outbox/OutboxDelivery$Companion;
+	public final fun getAttempts ()I
+	public final fun getCompletedAt ()Ljava/time/Instant;
+	public final fun getFailureReason ()Ljava/lang/String;
+	public final fun getLockedUntil ()Ljava/time/Instant;
+	public final fun getScheduledAt ()Ljava/time/Instant;
+	public final fun getStatus ()Lpro/vlprojects/semantic/delivery/outbox/DeliveryStatus;
+}
+
+public final class pro/vlprojects/semantic/delivery/outbox/OutboxDelivery$Companion {
+	public final fun restore (Lpro/vlprojects/semantic/delivery/outbox/DeliveryStatus;ILjava/time/Instant;Ljava/time/Instant;Ljava/time/Instant;Ljava/lang/String;)Lpro/vlprojects/semantic/delivery/outbox/OutboxDelivery;
+}
+
+public final class pro/vlprojects/semantic/delivery/outbox/OutboxId {
+	public fun <init> (Ljava/lang/String;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/delivery/outbox/OutboxPayload {
+	public fun <init> (Ljava/lang/String;[B)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getClassName ()Ljava/lang/String;
+	public final fun getContent ()[B
+	public fun hashCode ()I
 }
 
 public abstract interface class pro/vlprojects/semantic/delivery/outbox/OutboxRepository {
-	public abstract fun claim (ILjava/time/Duration;Ljava/time/Instant;)Ljava/util/List;
-	public abstract fun complete (Ljava/lang/String;Ljava/lang/String;Ljava/time/Instant;)Z
-	public abstract fun fail (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Z
-	public abstract fun purge (Ljava/time/Instant;I)I
-	public abstract fun reschedule (Ljava/lang/String;Ljava/lang/String;ILjava/time/Instant;Ljava/lang/String;)Z
-	public abstract fun save (Lpro/vlprojects/semantic/delivery/outbox/Outbox;)V
+	public abstract fun deleteCompletedBefore (Ljava/time/Instant;I)I
+	public abstract fun findById (Lpro/vlprojects/semantic/delivery/outbox/OutboxId;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
+	public abstract fun findDue (Ljava/time/Instant;I)Ljava/util/List;
+	public abstract fun save (Lpro/vlprojects/semantic/delivery/outbox/Outbox;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
 }
 
-public final class pro/vlprojects/semantic/delivery/outbox/OutboxStatus : java/lang/Enum {
-	public static final field COMPLETED Lpro/vlprojects/semantic/delivery/outbox/OutboxStatus;
-	public static final field FAILED Lpro/vlprojects/semantic/delivery/outbox/OutboxStatus;
-	public static final field NEW Lpro/vlprojects/semantic/delivery/outbox/OutboxStatus;
-	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lpro/vlprojects/semantic/delivery/outbox/OutboxStatus;
-	public static fun values ()[Lpro/vlprojects/semantic/delivery/outbox/OutboxStatus;
+public final class pro/vlprojects/semantic/delivery/outbox/OutboxService {
+	public fun <init> (Lpro/vlprojects/semantic/delivery/outbox/OutboxRepository;Ljava/time/Duration;Ljava/time/Clock;)V
+	public final fun abandon (Lpro/vlprojects/semantic/delivery/outbox/Outbox;Ljava/lang/String;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
+	public final fun claimDue (I)Ljava/util/List;
+	public final fun complete (Lpro/vlprojects/semantic/delivery/outbox/Outbox;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
+	public final fun reschedule (Lpro/vlprojects/semantic/delivery/outbox/Outbox;Ljava/lang/String;Ljava/time/Duration;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
+}
+
+public final class pro/vlprojects/semantic/delivery/outbox/OutboxVersionConflictException : java/lang/RuntimeException {
+	public fun <init> (Lpro/vlprojects/semantic/delivery/outbox/OutboxId;)V
 }
 

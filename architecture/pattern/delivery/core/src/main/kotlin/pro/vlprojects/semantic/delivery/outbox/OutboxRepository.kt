@@ -1,19 +1,14 @@
 package pro.vlprojects.semantic.delivery.outbox
 
-import java.time.Duration
 import java.time.Instant
 
 public interface OutboxRepository {
 
-    public fun save(outbox: Outbox)
+    public fun save(outbox: Outbox): Outbox
 
-    public fun claim(limit: Int, lease: Duration, now: Instant): List<Outbox>
+    public fun findById(id: OutboxId): Outbox?
 
-    public fun complete(id: String, token: String, now: Instant): Boolean
+    public fun findDue(now: Instant, limit: Int): List<Outbox>
 
-    public fun reschedule(id: String, token: String, failureCount: Int, nextRetryAt: Instant, error: String): Boolean
-
-    public fun fail(id: String, token: String, error: String): Boolean
-
-    public fun purge(completedBefore: Instant, limit: Int): Int
+    public fun deleteCompletedBefore(instant: Instant, limit: Int): Int
 }
