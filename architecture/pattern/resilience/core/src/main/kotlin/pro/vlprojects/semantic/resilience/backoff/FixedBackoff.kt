@@ -9,10 +9,12 @@ public class FixedBackoff(private val delay: Duration) : Backoff {
     }
 
     override fun calculate(attempt: Int): Duration = attempt
-        .also(::requirePositive)
+        .also(::checkAttemptIsPositive)
         .let { delay }
 
-    private fun requirePositive(attempt: Int) = require(attempt >= 1) { "The attempt must be positive: $attempt" }
+    private fun checkAttemptIsPositive(attempt: Int) = require(attempt >= 1) {
+        "The attempt must be positive: $attempt"
+    }
 
     public companion object Factory {
 

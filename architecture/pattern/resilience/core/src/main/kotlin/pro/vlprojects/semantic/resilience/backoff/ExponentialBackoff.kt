@@ -25,14 +25,16 @@ public class ExponentialBackoff(
     private val limitNanos = delayLimit.toNanos().toDouble()
 
     override fun calculate(attempt: Int): Duration = attempt
-        .also(::requirePositive)
+        .also(::checkAttemptIsPositive)
         .let(::grow)
         .let(::limit)
         .let(::spread)
         .let(Double::toLong)
         .let(Duration::ofNanos)
 
-    private fun requirePositive(attempt: Int) = require(attempt >= 1) { "The attempt must be positive: $attempt" }
+    private fun checkAttemptIsPositive(attempt: Int) = require(attempt >= 1) {
+        "The attempt must be positive: $attempt"
+    }
 
     private fun grow(attempt: Int) = multiplier
         .pow(attempt - 1)
