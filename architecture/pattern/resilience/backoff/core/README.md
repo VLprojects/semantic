@@ -28,3 +28,41 @@ ExponentialBackoff.of().jittered(jitter = 1.0)
 `jitter` is the largest share of the pause that can be taken away: with `0.5` a pause of 5 seconds becomes
 one between 2.5 and 5 seconds, with `1.0` one between 0 and 5 seconds. The default is `0.5`. Jitter never
 lengthens a pause, so the limit of `ExponentialBackoff` still holds.
+
+## Settings
+
+`semantic-resilience-backoff-spring-boot` builds pauses from `application.yml` and exposes them as the
+`Backoffs` bean:
+
+```yaml
+semantic.resilience.backoff:
+  default:
+    type: exponential
+    initial-delay: 1s
+    delay-limit: 1m
+    multiplier: 2
+    jitter: 0.5
+  instances:
+    payments:
+      type: fixed
+      delay: 5s
+      jitter: 0.3
+    orders:
+      initial-delay: 200ms
+```
+
+```kotlin
+backoffs["payments"]               // fails when the name is unknown
+backoffs.getOrDefault("inventory") // the default block for a name with no settings of its own
+backoffs.default
+```
+
+With nothing set, the `default` block has the values shown above, and `delay` is `1s`; `jitter: 0` turns the
+jitter off. An instance takes the fields it leaves out from `default`, including `type`. Any `Backoff` bean is
+available by its bean name and replaces the settings of an instance with that name; a bean named `default`
+replaces the default block.
+
+Wrong settings stop the application at start, with the name of the instance: an unknown field or type, a
+value `Backoff` refuses, a field of an instance that its type does not use, such as `delay` on an
+exponential one, and an instance named `default`. The `default` block may hold the fields of both types,
+since instances of either inherit them.

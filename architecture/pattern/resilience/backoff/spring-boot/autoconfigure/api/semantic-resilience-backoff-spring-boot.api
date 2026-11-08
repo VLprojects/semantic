@@ -1,3 +1,8 @@
+public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffAutoConfiguration {
+	public fun <init> ()V
+	public final fun backoffs (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffProperties;Lorg/springframework/beans/factory/ListableBeanFactory;)Lpro/vlprojects/semantic/resilience/backoff/spring/boot/Backoffs;
+}
+
 public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffProperties {
 	public fun <init> ()V
 	public fun <init> (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffSettings;Ljava/util/Map;)V
