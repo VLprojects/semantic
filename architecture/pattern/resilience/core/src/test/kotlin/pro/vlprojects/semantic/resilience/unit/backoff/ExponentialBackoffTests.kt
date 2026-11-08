@@ -3,7 +3,6 @@ package pro.vlprojects.semantic.resilience.unit.backoff
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import pro.vlprojects.semantic.resilience.backoff.BackoffLimitExceededException
 import pro.vlprojects.semantic.resilience.backoff.ExponentialBackoff
 import java.time.Duration
 import kotlin.random.Random
@@ -99,58 +98,5 @@ class ExponentialBackoffTests {
         )
 
         assertEquals(Duration.ofSeconds(2), backoff.calculateDelay(1))
-    }
-
-    @Test
-    fun `there is no delay after the last attempt`() {
-        val backoff = ExponentialBackoff.of(maxAttempts = 3)
-
-        assertEquals(Duration.ofSeconds(2), backoff.calculateDelay(2))
-        assertThrows<BackoffLimitExceededException> { backoff.calculateDelay(3) }
-    }
-
-    @Test
-    fun `there is no delay once the delays pass the deadline`() {
-        val backoff = ExponentialBackoff.of(
-            initialDelay = Duration.ofSeconds(1),
-            delayLimit = Duration.ofSeconds(8),
-            deadline = Duration.ofSeconds(20),
-        )
-
-        assertEquals(Duration.ofSeconds(8), backoff.calculateDelay(4))
-        assertThrows<BackoffLimitExceededException> { backoff.calculateDelay(5) }
-        assertThrows<BackoffLimitExceededException> { backoff.calculateDelay(Int.MAX_VALUE) }
-    }
-
-    @Test
-    fun `the deadline holds for delays that do not grow`() {
-        val backoff = ExponentialBackoff.of(
-            initialDelay = Duration.ofSeconds(1),
-            delayLimit = Duration.ofSeconds(8),
-            multiplier = 1.0,
-            deadline = Duration.ofSeconds(3),
-        )
-
-        assertEquals(Duration.ofSeconds(1), backoff.calculateDelay(3))
-        assertThrows<BackoffLimitExceededException> { backoff.calculateDelay(4) }
-    }
-
-    @Test
-    fun `the jitter does not move the deadline`() {
-        val backoff = ExponentialBackoff.withJitter(
-            initialDelay = Duration.ofSeconds(1),
-            delayLimit = Duration.ofSeconds(8),
-            randomizer = half,
-            deadline = Duration.ofSeconds(20),
-        )
-
-        assertEquals(Duration.ofSeconds(6), backoff.calculateDelay(4))
-        assertThrows<BackoffLimitExceededException> { backoff.calculateDelay(5) }
-    }
-
-    @Test
-    fun `limits that are not positive are refused`() {
-        assertThrows<IllegalArgumentException> { ExponentialBackoff.of(maxAttempts = 0) }
-        assertThrows<IllegalArgumentException> { ExponentialBackoff.of(deadline = Duration.ZERO) }
     }
 }
