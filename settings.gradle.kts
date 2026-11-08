@@ -65,3 +65,5 @@ module("semantic-caching", "architecture/pattern/caching/core")
 module("semantic-resilience", "architecture/pattern/resilience/core")
 module("semantic-traffic", "architecture/pattern/traffic/core")
 module("semantic-rollout", "architecture/pattern/rollout/core")
+
+module("semantic-messaging", "infrastructure/messaging/core")
