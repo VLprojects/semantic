@@ -59,7 +59,7 @@ public data class Delivery private constructor(
             error = null,
         )
 
-        public fun restore(
+        public fun of(
             scheduledAt: Instant,
             status: DeliveryStatus,
             attempts: Int,

@@ -64,7 +64,7 @@ public class Outbox private constructor(
             )
         }
 
-        public fun restore(
+        public fun of(
             id: OutboxId,
             orderingKey: String,
             idempotencyKey: String,

@@ -23,7 +23,7 @@ internal fun createOutbox(createdAt: Instant) = Outbox.of(
 )
 
 internal fun createStartedOutbox(createdAt: Instant, lockedUntil: Instant) = Delivery
-    .restore(
+    .of(
         scheduledAt = createdAt,
         status = DeliveryStatus.STARTED,
         attempts = 1,
@@ -32,7 +32,7 @@ internal fun createStartedOutbox(createdAt: Instant, lockedUntil: Instant) = Del
         error = null,
     )
     .let {
-        Outbox.restore(
+        Outbox.of(
             id = identifier,
             orderingKey = "order-1",
             idempotencyKey = "operation",
