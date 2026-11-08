@@ -44,7 +44,7 @@ to a custom `BackOff`, so set `maxAttempts` there and in the error handler of Sp
 ## Settings
 
 `semantic-resilience-backoff-spring-boot` builds pauses from `application.yml` and exposes them as the
-`Backoffs` bean:
+`BackoffRegistry` bean:
 
 ```yaml
 semantic.resilience.backoff:
@@ -64,9 +64,9 @@ semantic.resilience.backoff:
 ```
 
 ```kotlin
-backoffs["payments"]               // fails when the name is unknown
-backoffs.getOrDefault("inventory") // the default block for a name with no settings of its own
-backoffs.default
+registry["payments"]               // fails when the name is unknown
+registry.getOrDefault("inventory") // the default block for a name with no settings of its own
+registry.default
 ```
 
 With nothing set, the `default` block has the values shown above, and `delay` is `1s`; `jitter: 0` turns the

@@ -6,7 +6,7 @@ import pro.vlprojects.semantic.resilience.backoff.JitteredBackoff
 import pro.vlprojects.semantic.resilience.backoff.extension.jittered
 import java.time.Duration
 
-internal class ResolvedBackoffSettings(
+internal class ResolvedBackoffProperties(
     private val type: BackoffType = BackoffType.EXPONENTIAL,
     private val delay: Duration = Duration.ofSeconds(1),
     private val initialDelay: Duration = Duration.ofSeconds(1),
@@ -15,16 +15,16 @@ internal class ResolvedBackoffSettings(
     private val jitter: Double = JitteredBackoff.DEFAULT_JITTER,
 ) {
 
-    fun overrideWith(settings: BackoffSettings) = ResolvedBackoffSettings(
-        type = settings.type ?: type,
-        delay = settings.delay ?: delay,
-        initialDelay = settings.initialDelay ?: initialDelay,
-        delayLimit = settings.delayLimit ?: delayLimit,
-        multiplier = settings.multiplier ?: multiplier,
-        jitter = settings.jitter ?: jitter,
+    fun overrideWith(properties: BackoffInstanceProperties) = ResolvedBackoffProperties(
+        type = properties.type ?: type,
+        delay = properties.delay ?: delay,
+        initialDelay = properties.initialDelay ?: initialDelay,
+        delayLimit = properties.delayLimit ?: delayLimit,
+        multiplier = properties.multiplier ?: multiplier,
+        jitter = properties.jitter ?: jitter,
     )
 
-    fun checkAllFieldsAreUsed(settings: BackoffSettings) = settings
+    fun checkAllFieldsAreUsed(properties: BackoffInstanceProperties) = properties
         .findFieldsUnusedBy(type)
         .takeIf(List<String>::isNotEmpty)
         ?.let { unused -> throw IllegalArgumentException("The type $type does not use $unused") }

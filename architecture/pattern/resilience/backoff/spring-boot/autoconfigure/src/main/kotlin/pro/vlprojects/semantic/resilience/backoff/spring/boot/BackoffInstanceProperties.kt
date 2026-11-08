@@ -2,7 +2,7 @@ package pro.vlprojects.semantic.resilience.backoff.spring.boot
 
 import java.time.Duration
 
-public class BackoffSettings(
+public class BackoffInstanceProperties(
     public val type: BackoffType? = null,
     public val delay: Duration? = null,
     public val initialDelay: Duration? = null,

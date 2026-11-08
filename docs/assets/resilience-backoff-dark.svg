@@ -32,8 +32,8 @@
     <text x="226.0" y="322.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">Backoff as a Spring BackOff.</text>
     <rect x="214.0" y="404.0" width="380.0" height="94.0" rx="6" fill="#FFB46B"/>
     <text x="226.0" y="430.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F1206" text-anchor="start">spring-boot/autoconfigure</text>
-    <rect x="226.0" y="444.0" width="68.8" height="18" rx="4" fill="#1F1206" fill-opacity="0.2"/>
-    <text x="234.0" y="456.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F1206" text-anchor="start">Backoffs</text>
+    <rect x="226.0" y="444.0" width="115.0" height="18" rx="4" fill="#1F1206" fill-opacity="0.2"/>
+    <text x="234.0" y="456.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F1206" text-anchor="start">BackoffRegistry</text>
     <text x="226.0" y="488.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#4A2808" text-anchor="start">Backoffs by name from application.yml.</text>
     <rect x="690.0" y="570.0" width="380.0" height="94.0" rx="6" fill="#29313C"/>
     <text x="702.0" y="596.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">resilience/retry/core</text>

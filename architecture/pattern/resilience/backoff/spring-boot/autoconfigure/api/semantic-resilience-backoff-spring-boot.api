@@ -1,17 +1,9 @@
 public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffAutoConfiguration {
 	public fun <init> ()V
-	public final fun backoffs (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffProperties;Lorg/springframework/beans/factory/ListableBeanFactory;)Lpro/vlprojects/semantic/resilience/backoff/spring/boot/Backoffs;
+	public final fun backoffRegistry (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffProperties;Lorg/springframework/beans/factory/ListableBeanFactory;)Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffRegistry;
 }
 
-public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffProperties {
-	public fun <init> ()V
-	public fun <init> (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffSettings;Ljava/util/Map;)V
-	public synthetic fun <init> (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffSettings;Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun getDefault ()Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffSettings;
-	public final fun getInstances ()Ljava/util/Map;
-}
-
-public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffSettings {
+public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffInstanceProperties {
 	public fun <init> ()V
 	public fun <init> (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffType;Ljava/time/Duration;Ljava/time/Duration;Ljava/time/Duration;Ljava/lang/Double;Ljava/lang/Double;)V
 	public synthetic fun <init> (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffType;Ljava/time/Duration;Ljava/time/Duration;Ljava/time/Duration;Ljava/lang/Double;Ljava/lang/Double;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -23,18 +15,26 @@ public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/Backof
 	public final fun getType ()Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffType;
 }
 
+public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffProperties {
+	public fun <init> ()V
+	public fun <init> (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffInstanceProperties;Ljava/util/Map;)V
+	public synthetic fun <init> (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffInstanceProperties;Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getDefault ()Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffInstanceProperties;
+	public final fun getInstances ()Ljava/util/Map;
+}
+
+public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffRegistry {
+	public fun <init> (Lpro/vlprojects/semantic/resilience/backoff/Backoff;Ljava/util/Map;)V
+	public final fun get (Ljava/lang/String;)Lpro/vlprojects/semantic/resilience/backoff/Backoff;
+	public final fun getDefault ()Lpro/vlprojects/semantic/resilience/backoff/Backoff;
+	public final fun getOrDefault (Ljava/lang/String;)Lpro/vlprojects/semantic/resilience/backoff/Backoff;
+}
+
 public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffType : java/lang/Enum {
 	public static final field EXPONENTIAL Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffType;
 	public static final field FIXED Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffType;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffType;
 	public static fun values ()[Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffType;
-}
-
-public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/Backoffs {
-	public fun <init> (Lpro/vlprojects/semantic/resilience/backoff/Backoff;Ljava/util/Map;)V
-	public final fun get (Ljava/lang/String;)Lpro/vlprojects/semantic/resilience/backoff/Backoff;
-	public final fun getDefault ()Lpro/vlprojects/semantic/resilience/backoff/Backoff;
-	public final fun getOrDefault (Ljava/lang/String;)Lpro/vlprojects/semantic/resilience/backoff/Backoff;
 }
 

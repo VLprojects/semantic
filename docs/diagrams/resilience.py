@@ -92,7 +92,7 @@ def backoff_map():
 			(0, [0, 1, 2], "core", ["Backoff", "FixedBackoff", "ExponentialBackoff", "JitteredBackoff"],
 				"The delay for an attempt number. Whoever calls it waits and repeats. Not a Policy: it runs nothing."),
 			(1, [0], "spring/core", [], "Backoff as a Spring BackOff."),
-			(2, [0], "spring-boot/autoconfigure", ["Backoffs"], "Backoffs by name from application.yml."),
+			(2, [0], "spring-boot/autoconfigure", ["BackoffRegistry"], "Backoffs by name from application.yml."),
 			(3, [1], "resilience/retry/core", ["Retry"], "Pauses between attempts."),
 			(3, [2], "delivery/core", ["OutboxRetryPolicy"], "Picks the next attempt of a record."),
 		],

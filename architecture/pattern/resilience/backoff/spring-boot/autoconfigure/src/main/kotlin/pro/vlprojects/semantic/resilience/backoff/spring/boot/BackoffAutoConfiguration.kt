@@ -13,7 +13,10 @@ public class BackoffAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public fun backoffs(properties: BackoffProperties, beanFactory: ListableBeanFactory): Backoffs = beanFactory
+    public fun backoffRegistry(
+        properties: BackoffProperties,
+        beanFactory: ListableBeanFactory,
+    ): BackoffRegistry = beanFactory
         .getBeansOfType(Backoff::class.java)
-        .let(BackoffsFactory(properties)::create)
+        .let(BackoffRegistryAssembler(properties)::assemble)
 }

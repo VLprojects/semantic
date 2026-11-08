@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration
 import pro.vlprojects.semantic.resilience.backoff.Backoff
 import pro.vlprojects.semantic.resilience.backoff.FixedBackoff
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.BackoffAutoConfiguration
-import pro.vlprojects.semantic.resilience.backoff.spring.boot.Backoffs
+import pro.vlprojects.semantic.resilience.backoff.spring.boot.BackoffRegistry
 import java.time.Duration
 
 class BackoffAutoConfigurationTests {
@@ -31,9 +31,9 @@ class BackoffAutoConfigurationTests {
     }
 
     @Test
-    fun `backoffs start with no settings at all`() {
+    fun `the registry starts with no settings at all`() {
         runner.run { context ->
-            assertNotNull(context.getBackoffs().default)
+            assertNotNull(context.getRegistry().default)
         }
     }
 
@@ -50,11 +50,11 @@ class BackoffAutoConfigurationTests {
                 "$PREFIX.instances.payments.delay=5s",
                 "$PREFIX.instances.orders.initial-delay=200ms",
             ).run { context ->
-                val backoffs = context.getBackoffs()
+                val registry = context.getRegistry()
 
-                assertEquals(Duration.ofSeconds(6), backoffs.default.calculate(2))
-                assertEquals(Duration.ofSeconds(5), backoffs["payments"].calculate(2))
-                assertEquals(Duration.ofMillis(600), backoffs["orders"].calculate(2))
+                assertEquals(Duration.ofSeconds(6), registry.default.calculate(2))
+                assertEquals(Duration.ofSeconds(5), registry["payments"].calculate(2))
+                assertEquals(Duration.ofMillis(600), registry["orders"].calculate(2))
             }
     }
 
@@ -64,16 +64,16 @@ class BackoffAutoConfigurationTests {
             .withUserConfiguration(PaymentsBackoffConfiguration::class.java)
             .withPropertyValues("$PREFIX.instances.payments.initial-delay=1ms")
             .run { context ->
-                assertSame(context.getBean("payments"), context.getBackoffs()["payments"])
+                assertSame(context.getBean("payments"), context.getRegistry()["payments"])
             }
     }
 
     @Test
-    fun `an own Backoffs bean turns the auto-configuration off`() {
+    fun `an own BackoffRegistry bean turns the auto-configuration off`() {
         runner
             .withUserConfiguration(OwnBackoffsConfiguration::class.java)
             .run { context ->
-                assertSame(context.getBean("ownBackoffs"), context.getBackoffs())
+                assertSame(context.getBean("ownRegistry"), context.getRegistry())
             }
     }
 
@@ -98,7 +98,7 @@ class BackoffAutoConfigurationTests {
             .run { context -> assertTrue("'orders'" in context.readStartupFailureMessages()) }
     }
 
-    private fun AssertableApplicationContext.getBackoffs() = this.getBean(Backoffs::class.java)
+    private fun AssertableApplicationContext.getRegistry() = this.getBean(BackoffRegistry::class.java)
 
     private fun AssertableApplicationContext.readStartupFailureMessages() = this.startupFailure
         .let { failure -> generateSequence(failure, Throwable::cause) }
@@ -115,7 +115,7 @@ class BackoffAutoConfigurationTests {
     class OwnBackoffsConfiguration {
 
         @Bean
-        fun ownBackoffs() = Backoffs(FixedBackoff.ofSeconds(1), emptyMap())
+        fun ownRegistry() = BackoffRegistry(FixedBackoff.ofSeconds(1), emptyMap())
     }
 
     private companion object {
