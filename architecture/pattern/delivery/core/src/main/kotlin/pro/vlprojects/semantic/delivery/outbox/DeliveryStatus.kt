@@ -1,17 +1,9 @@
 package pro.vlprojects.semantic.delivery.outbox
 
-public enum class DeliveryStatus {
-    AWAITING,
-    IN_PROGRESS,
-    FAILED,
-    COMPLETED,
-    ABANDONED,
-    ;
-
-    public val isTerminal: Boolean
-        get() = when (this) {
-            COMPLETED -> true
-            ABANDONED -> true
-            else -> false
-        }
+public enum class DeliveryStatus(public val isTerminal: Boolean) {
+    AWAITING(isTerminal = false),
+    IN_PROGRESS(isTerminal = false),
+    FAILED(isTerminal = false),
+    COMPLETED(isTerminal = true),
+    ABANDONED(isTerminal = true),
 }

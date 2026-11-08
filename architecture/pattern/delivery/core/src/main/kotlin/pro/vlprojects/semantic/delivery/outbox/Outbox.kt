@@ -2,16 +2,16 @@ package pro.vlprojects.semantic.delivery.outbox
 
 import java.time.Instant
 
-public class Outbox private constructor(
+public class Outbox(
     public val id: OutboxId,
     public val orderingKey: String,
     public val idempotencyKey: String,
-    public val delivererName: String,
-    public val payload: OutboxPayload,
+    public val deliverer: String,
+    public val payload: Payload,
     public val context: Map<String, String>,
     public val createdAt: Instant,
-    public val delivery: OutboxDelivery,
-    public val version: Long,
+    public val delivery: Delivery = Delivery(scheduledAt = createdAt),
+    public val version: Long = 0,
 ) {
 
     internal fun startDelivery(lockedUntil: Instant) = lockedUntil
@@ -30,60 +30,15 @@ public class Outbox private constructor(
         .let(delivery::abandon)
         .let(::replaceDelivery)
 
-    private fun replaceDelivery(delivery: OutboxDelivery) = Outbox(
+    private fun replaceDelivery(delivery: Delivery) = Outbox(
         id = id,
         orderingKey = orderingKey,
         idempotencyKey = idempotencyKey,
-        delivererName = delivererName,
+        deliverer = deliverer,
         payload = payload,
         context = context,
         createdAt = createdAt,
         delivery = delivery,
         version = version,
     )
-
-    public companion object {
-
-        public fun create(
-            id: OutboxId,
-            orderingKey: String,
-            idempotencyKey: String,
-            delivererName: String,
-            payload: OutboxPayload,
-            context: Map<String, String>,
-            createdAt: Instant,
-        ): Outbox = Outbox(
-            id = id,
-            orderingKey = orderingKey,
-            idempotencyKey = idempotencyKey,
-            delivererName = delivererName,
-            payload = payload,
-            context = context,
-            createdAt = createdAt,
-            delivery = OutboxDelivery.schedule(createdAt),
-            version = 0,
-        )
-
-        public fun restore(
-            id: OutboxId,
-            orderingKey: String,
-            idempotencyKey: String,
-            delivererName: String,
-            payload: OutboxPayload,
-            context: Map<String, String>,
-            createdAt: Instant,
-            delivery: OutboxDelivery,
-            version: Long,
-        ): Outbox = Outbox(
-            id = id,
-            orderingKey = orderingKey,
-            idempotencyKey = idempotencyKey,
-            delivererName = delivererName,
-            payload = payload,
-            context = context,
-            createdAt = createdAt,
-            delivery = delivery,
-            version = version,
-        )
-    }
 }

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import pro.vlprojects.semantic.delivery.outbox.DeliveryStatus
-import pro.vlprojects.semantic.delivery.outbox.OutboxPayload
+import pro.vlprojects.semantic.delivery.outbox.Payload
 import java.time.Instant
 
 class OutboxTests {
@@ -73,8 +73,8 @@ class OutboxTests {
 
     @Test
     fun `payloads with equal bytes are equal`() {
-        val first = OutboxPayload("OrderPlaced", byteArrayOf(1, 2))
-        val second = OutboxPayload("OrderPlaced", byteArrayOf(1, 2))
+        val first = Payload("OrderPlaced", byteArrayOf(1, 2))
+        val second = Payload("OrderPlaced", byteArrayOf(1, 2))
 
         assertEquals(first, second)
         assertEquals(first.hashCode(), second.hashCode())
