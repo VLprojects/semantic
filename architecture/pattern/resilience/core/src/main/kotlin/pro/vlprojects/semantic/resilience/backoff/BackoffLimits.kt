@@ -11,14 +11,14 @@ internal class BackoffLimits(private val maxAttempts: Int?, deadline: Duration?)
 
     private val deadlineNanos = deadline?.toNanos()?.toDouble()
 
-    fun verifyNotExceededAfter(attempt: Int, totalDelayNanos: Double) {
+    fun check(attempt: Int, waitedNanos: Double) {
         when {
-            isOutOfAttempts(attempt) -> throw BackoffLimitExceededException(attempt)
-            isPastDeadline(totalDelayNanos) -> throw BackoffLimitExceededException(attempt)
+            isLastAttempt(attempt) -> throw BackoffLimitExceededException(attempt)
+            hasDeadlinePassed(waitedNanos) -> throw BackoffLimitExceededException(attempt)
         }
     }
 
-    private fun isOutOfAttempts(attempt: Int) = maxAttempts?.let { attempt >= it } == true
+    private fun isLastAttempt(attempt: Int) = maxAttempts != null && attempt >= maxAttempts
 
-    private fun isPastDeadline(totalDelayNanos: Double) = deadlineNanos?.let { totalDelayNanos > it } == true
+    private fun hasDeadlinePassed(waitedNanos: Double) = deadlineNanos != null && waitedNanos > deadlineNanos
 }

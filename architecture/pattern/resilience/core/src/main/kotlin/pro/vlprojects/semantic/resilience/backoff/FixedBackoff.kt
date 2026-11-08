@@ -17,12 +17,12 @@ public class FixedBackoff(
 
     override fun calculateDelay(attempt: Int): Duration = attempt
         .also(::requirePositiveAttempt)
-        .also(::verifyLimitsNotExceeded)
+        .also(::checkLimits)
         .let { delay }
 
-    private fun verifyLimitsNotExceeded(attempt: Int) = attempt
+    private fun checkLimits(attempt: Int) = attempt
         .times(delayNanos)
-        .let { totalDelayNanos -> limits.verifyNotExceededAfter(attempt, totalDelayNanos) }
+        .let { waitedNanos -> limits.check(attempt, waitedNanos) }
 
     public companion object Factory {
 

@@ -28,7 +28,7 @@ public class ExponentialBackoff(
     private val initialNanos = initialDelay.toNanos().toDouble()
     private val limitNanos = delayLimit.toNanos().toDouble()
     private val limits = BackoffLimits(maxAttempts, deadline)
-    private val growingAttempts = limitNanos
+    private val attemptsUntilLimit = limitNanos
         .div(initialNanos)
         .let(::ln)
         .div(ln(multiplier))
@@ -37,16 +37,16 @@ public class ExponentialBackoff(
 
     override fun calculateDelay(attempt: Int): Duration = attempt
         .also(::requirePositiveAttempt)
-        .also(::verifyLimitsNotExceeded)
+        .also(::checkLimits)
         .let(::grow)
         .let(::limit)
         .let(::spread)
         .let(Double::toLong)
         .let(Duration::ofNanos)
 
-    private fun verifyLimitsNotExceeded(attempt: Int) = attempt
+    private fun checkLimits(attempt: Int) = attempt
         .let(::sumDelays)
-        .let { totalDelayNanos -> limits.verifyNotExceededAfter(attempt, totalDelayNanos) }
+        .let { waitedNanos -> limits.check(attempt, waitedNanos) }
 
     // O(1) time and memory: a closed form of the geometric series up to the delay limit.
     private fun sumDelays(attempt: Int) = when (multiplier) {
@@ -55,13 +55,13 @@ public class ExponentialBackoff(
     }
 
     private fun sumGrowingDelays(attempt: Int) = attempt
-        .coerceAtMost(growingAttempts)
+        .coerceAtMost(attemptsUntilLimit)
         .let { multiplier.pow(it) - 1 }
         .div(multiplier - 1)
         .times(initialNanos)
 
     private fun sumLimitedDelays(attempt: Int) = attempt
-        .minus(growingAttempts)
+        .minus(attemptsUntilLimit)
         .coerceAtLeast(0)
         .times(limitNanos)
 
