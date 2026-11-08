@@ -4,9 +4,11 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import pro.vlprojects.semantic.delivery.outbox.DeliveryStatus
 import pro.vlprojects.semantic.delivery.outbox.Outbox
+import pro.vlprojects.semantic.delivery.outbox.OutboxConfiguration
 import pro.vlprojects.semantic.delivery.outbox.OutboxId
 import pro.vlprojects.semantic.delivery.outbox.OutboxRepository
 import pro.vlprojects.semantic.delivery.outbox.OutboxService
+import pro.vlprojects.semantic.resilience.backoff.FixedBackoff
 import java.time.Clock
 import java.time.Duration
 import java.time.Instant
@@ -38,8 +40,13 @@ class OutboxServiceTests {
         override fun deleteAll(status: DeliveryStatus, terminatedBefore: Instant, limit: Int) = 0
     }
 
-    private val service = OutboxService(repository, lockDuration, clock)
+    private val backoff = FixedBackoff.ofSeconds(30)
+    private val service = createService(maxAttempts = 2)
     private val started = createStartedOutbox(moment, moment.plus(lockDuration))
+
+    private fun createService(maxAttempts: Int) = OutboxConfiguration
+        .of(lockDuration = lockDuration, maxAttempts = maxAttempts, backoff = backoff)
+        .let { OutboxService(repository, it, clock) }
 
     @Test
     fun `getting with a lock asks the repository to hold scheduled records`() {
@@ -52,11 +59,11 @@ class OutboxServiceTests {
     }
 
     @Test
-    fun `rescheduling plans the next attempt after the delay`() {
-        val rescheduled = service.reschedule(started, cause, Duration.ofSeconds(30))
+    fun `failing with attempts left plans the next attempt after the backoff`() {
+        val failed = service.fail(started, cause)
 
-        assertEquals(DeliveryStatus.FAILED, rescheduled.delivery.status)
-        assertEquals(moment.plusSeconds(30), rescheduled.delivery.scheduledAt)
+        assertEquals(DeliveryStatus.FAILED, failed.delivery.status)
+        assertEquals(moment.plusSeconds(30), failed.delivery.scheduledAt)
     }
 
     @Test
@@ -68,8 +75,8 @@ class OutboxServiceTests {
     }
 
     @Test
-    fun `canceling stores the cause and terminates the delivery`() {
-        val canceled = service.cancel(started, cause)
+    fun `failing without attempts left cancels the delivery and stores the cause`() {
+        val canceled = createService(maxAttempts = 1).fail(started, cause)
 
         assertEquals(DeliveryStatus.CANCELED, canceled.delivery.status)
         assertEquals("java.lang.IllegalStateException: timeout", canceled.delivery.error)

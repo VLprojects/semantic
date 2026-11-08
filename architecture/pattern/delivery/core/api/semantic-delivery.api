@@ -58,6 +58,19 @@ public final class pro/vlprojects/semantic/delivery/outbox/Outbox$Factory {
 	public final fun restore (Lpro/vlprojects/semantic/delivery/outbox/OutboxId;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lpro/vlprojects/semantic/delivery/outbox/Payload;Ljava/util/Map;Ljava/time/Instant;Lpro/vlprojects/semantic/delivery/outbox/Delivery;J)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
 }
 
+public final class pro/vlprojects/semantic/delivery/outbox/OutboxConfiguration {
+	public static final field Factory Lpro/vlprojects/semantic/delivery/outbox/OutboxConfiguration$Factory;
+	public final fun getBackoff ()Lpro/vlprojects/semantic/resilience/backoff/Backoff;
+	public final fun getErrorPolicy ()Lpro/vlprojects/semantic/delivery/outbox/ErrorPolicy;
+	public final fun getLockDuration ()Ljava/time/Duration;
+	public final fun getMaxAttempts ()I
+}
+
+public final class pro/vlprojects/semantic/delivery/outbox/OutboxConfiguration$Factory {
+	public final fun of (Ljava/time/Duration;ILpro/vlprojects/semantic/resilience/backoff/Backoff;Lpro/vlprojects/semantic/delivery/outbox/ErrorPolicy;)Lpro/vlprojects/semantic/delivery/outbox/OutboxConfiguration;
+	public static synthetic fun of$default (Lpro/vlprojects/semantic/delivery/outbox/OutboxConfiguration$Factory;Ljava/time/Duration;ILpro/vlprojects/semantic/resilience/backoff/Backoff;Lpro/vlprojects/semantic/delivery/outbox/ErrorPolicy;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/OutboxConfiguration;
+}
+
 public final class pro/vlprojects/semantic/delivery/outbox/OutboxId {
 	public static final field Factory Lpro/vlprojects/semantic/delivery/outbox/OutboxId$Factory;
 	public fun equals (Ljava/lang/Object;)Z
@@ -82,12 +95,10 @@ public abstract interface class pro/vlprojects/semantic/delivery/outbox/OutboxRe
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/OutboxService {
-	public fun <init> (Lpro/vlprojects/semantic/delivery/outbox/OutboxRepository;Ljava/time/Duration;Ljava/time/Clock;Lpro/vlprojects/semantic/delivery/outbox/ErrorPolicy;)V
-	public synthetic fun <init> (Lpro/vlprojects/semantic/delivery/outbox/OutboxRepository;Ljava/time/Duration;Ljava/time/Clock;Lpro/vlprojects/semantic/delivery/outbox/ErrorPolicy;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun cancel (Lpro/vlprojects/semantic/delivery/outbox/Outbox;Ljava/lang/Throwable;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
+	public fun <init> (Lpro/vlprojects/semantic/delivery/outbox/OutboxRepository;Lpro/vlprojects/semantic/delivery/outbox/OutboxConfiguration;Ljava/time/Clock;)V
 	public final fun complete (Lpro/vlprojects/semantic/delivery/outbox/Outbox;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
+	public final fun fail (Lpro/vlprojects/semantic/delivery/outbox/Outbox;Ljava/lang/Throwable;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
 	public final fun getAllWithLock (I)Ljava/util/List;
-	public final fun reschedule (Lpro/vlprojects/semantic/delivery/outbox/Outbox;Ljava/lang/Throwable;Ljava/time/Duration;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/Payload {
