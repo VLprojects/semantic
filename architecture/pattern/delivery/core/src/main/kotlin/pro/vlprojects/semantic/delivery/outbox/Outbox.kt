@@ -12,18 +12,11 @@ public class Outbox private constructor(
     public val context: Map<String, String>,
     public val createdAt: Instant,
     delivery: Delivery,
-    version: Long,
+    public val version: Long,
 ) {
 
     public var delivery: Delivery = delivery
         private set
-
-    public var version: Long = version
-        private set
-
-    public fun updateVersion(version: Long): Outbox = apply {
-        this.version = version
-    }
 
     internal fun complete(terminatedAt: Instant) = apply {
         delivery = delivery.completed(terminatedAt)
