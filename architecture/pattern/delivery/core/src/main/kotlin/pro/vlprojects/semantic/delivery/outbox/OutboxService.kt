@@ -9,31 +9,31 @@ public class OutboxService(
     private val clock: Clock,
 ) {
 
-    public fun claimDue(limit: Int): List<Outbox> = clock
+    public fun lockForDelivery(limit: Int): List<Outbox> = clock
         .instant()
-        .let { repository.findDue(it, limit) }
-        .mapNotNull(::claimOrSkip)
+        .let { repository.findReadyForDelivery(it, limit) }
+        .mapNotNull(::tryLock)
 
-    public fun complete(outbox: Outbox): Outbox = clock
+    public fun completeDelivery(outbox: Outbox): Outbox = clock
         .instant()
-        .let(outbox::completeDelivery)
+        .let(outbox::markCompleted)
         .let(repository::save)
 
-    public fun reschedule(outbox: Outbox, reason: String, delay: Duration): Outbox = clock
+    public fun retryDelivery(outbox: Outbox, error: String, delay: Duration): Outbox = clock
         .instant()
         .plus(delay)
-        .let { outbox.failDelivery(it, reason) }
+        .let { outbox.markFailed(it, error) }
         .let(repository::save)
 
-    public fun abandon(outbox: Outbox, reason: String): Outbox = reason
-        .let(outbox::abandonDelivery)
+    public fun stopDelivery(outbox: Outbox, error: String): Outbox = error
+        .let(outbox::markAbandoned)
         .let(repository::save)
 
-    private fun claimOrSkip(outbox: Outbox) = try {
+    private fun tryLock(outbox: Outbox) = try {
         clock
             .instant()
             .plus(lockDuration)
-            .let(outbox::startDelivery)
+            .let(outbox::markInProgress)
             .let(repository::save)
     } catch (_: OutboxVersionConflictException) {
         null

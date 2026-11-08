@@ -25,7 +25,7 @@ class OutboxTests {
 
     @Test
     fun `starting a delivery counts the attempt and locks the record`() {
-        val delivery = createOutbox(moment).startDelivery(later).delivery
+        val delivery = createOutbox(moment).markInProgress(later).delivery
 
         assertEquals(DeliveryStatus.IN_PROGRESS, delivery.status)
         assertEquals(1, delivery.attempts)
@@ -35,48 +35,53 @@ class OutboxTests {
     @Test
     fun `a failed delivery is unlocked and scheduled again`() {
         val delivery = createOutbox(moment)
-            .startDelivery(later)
-            .failDelivery(later, "timeout")
+            .markInProgress(later)
+            .markFailed(later, "timeout")
             .delivery
 
         assertEquals(DeliveryStatus.FAILED, delivery.status)
         assertEquals(later, delivery.scheduledAt)
-        assertEquals("timeout", delivery.failureReason)
+        assertEquals("timeout", delivery.error)
         assertNull(delivery.lockedUntil)
     }
 
     @Test
-    fun `a long failure reason is cut`() {
+    fun `a long error is cut`() {
         val delivery = createOutbox(moment)
-            .startDelivery(later)
-            .abandonDelivery("x".repeat(2000))
+            .markInProgress(later)
+            .markAbandoned("x".repeat(2000))
             .delivery
 
-        assertEquals(1000, delivery.failureReason?.length)
+        assertEquals(1000, delivery.error?.length)
     }
 
     @Test
     fun `a completed delivery cannot start again`() {
         val outbox = createOutbox(moment)
-            .startDelivery(later)
-            .completeDelivery(later)
+            .markInProgress(later)
+            .markCompleted(later)
 
-        assertThrows<IllegalStateException> { outbox.startDelivery(later) }
+        assertThrows<IllegalStateException> { outbox.markInProgress(later) }
     }
 
     @Test
     fun `a delivery that is not in progress cannot complete`() {
         val outbox = createOutbox(moment)
 
-        assertThrows<IllegalStateException> { outbox.completeDelivery(later) }
+        assertThrows<IllegalStateException> { outbox.markCompleted(later) }
     }
 
     @Test
     fun `payloads with equal bytes are equal`() {
-        val first = Payload("OrderPlaced", byteArrayOf(1, 2))
-        val second = Payload("OrderPlaced", byteArrayOf(1, 2))
+        val first = Payload.restore("OrderPlaced", byteArrayOf(1, 2))
+        val second = Payload.restore("OrderPlaced", byteArrayOf(1, 2))
 
         assertEquals(first, second)
         assertEquals(first.hashCode(), second.hashCode())
+    }
+
+    @Test
+    fun `a typed payload takes its type from the class`() {
+        assertEquals("java.lang.String", Payload.of<String>(byteArrayOf(1)).type)
     }
 }
