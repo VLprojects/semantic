@@ -18,21 +18,23 @@ public class OutboxService(
     public fun complete(outbox: Outbox): Outbox = clock
         .instant()
         .let(outbox::complete)
-        .let { repository.save(outbox) }
+        .let(repository::save)
 
     public fun retry(outbox: Outbox, cause: Throwable, delay: Duration): Outbox {
         val scheduledAt = clock.instant().plus(delay)
         val error = errorPolicy.extract(cause)
-        outbox.fail(scheduledAt, error)
-        return repository.save(outbox)
+        return outbox
+            .fail(scheduledAt, error)
+            .let(repository::save)
     }
 
     public fun cancel(outbox: Outbox, cause: Throwable): Outbox {
         val now = clock.instant()
         val error = errorPolicy.extract(cause)
-        outbox.fail(now, error)
-        outbox.cancel(now)
-        return repository.save(outbox)
+        return outbox
+            .fail(now, error)
+            .cancel(now)
+            .let(repository::save)
     }
 
     private fun tryLock(outbox: Outbox) = try {
@@ -40,7 +42,7 @@ public class OutboxService(
             .instant()
             .plus(lockDuration)
             .let(outbox::start)
-            .let { repository.save(outbox) }
+            .let(repository::save)
     } catch (_: OutboxOptimisticLockException) {
         null
     }

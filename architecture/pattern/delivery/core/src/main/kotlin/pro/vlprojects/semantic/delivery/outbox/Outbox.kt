@@ -20,23 +20,23 @@ public class Outbox private constructor(
     public var version: Long = version
         private set
 
-    public fun updateVersion(version: Long) {
+    public fun updateVersion(version: Long): Outbox = apply {
         this.version = version
     }
 
-    internal fun start(lockedUntil: Instant) {
+    internal fun start(lockedUntil: Instant) = apply {
         delivery = delivery.started(lockedUntil)
     }
 
-    internal fun complete(terminatedAt: Instant) {
+    internal fun complete(terminatedAt: Instant) = apply {
         delivery = delivery.completed(terminatedAt)
     }
 
-    internal fun fail(scheduledAt: Instant, error: String) {
+    internal fun fail(scheduledAt: Instant, error: String) = apply {
         delivery = delivery.failed(scheduledAt, error)
     }
 
-    internal fun cancel(terminatedAt: Instant) {
+    internal fun cancel(terminatedAt: Instant) = apply {
         delivery = delivery.canceled(terminatedAt)
     }
 
