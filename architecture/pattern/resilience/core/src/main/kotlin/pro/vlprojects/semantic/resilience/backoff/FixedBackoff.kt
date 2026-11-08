@@ -14,18 +14,20 @@ public class FixedBackoff(private val delay: Duration) : Backoff {
 
     public companion object Factory {
 
-        public fun every(delay: Duration): FixedBackoff = FixedBackoff(delay)
+        private val DEFAULT_DELAY = Duration.ofSeconds(1)
 
-        public fun everyMillis(millis: Long): FixedBackoff = millis
+        public fun of(delay: Duration = DEFAULT_DELAY): FixedBackoff = FixedBackoff(delay)
+
+        public fun ofMillis(millis: Long): FixedBackoff = millis
             .let(Duration::ofMillis)
-            .let(::every)
+            .let(::FixedBackoff)
 
-        public fun everySeconds(seconds: Long): FixedBackoff = seconds
+        public fun ofSeconds(seconds: Long): FixedBackoff = seconds
             .let(Duration::ofSeconds)
-            .let(::every)
+            .let(::FixedBackoff)
 
-        public fun everyMinutes(minutes: Long): FixedBackoff = minutes
+        public fun ofMinutes(minutes: Long): FixedBackoff = minutes
             .let(Duration::ofMinutes)
-            .let(::every)
+            .let(::FixedBackoff)
     }
 }

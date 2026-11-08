@@ -44,27 +44,22 @@ public class ExponentialBackoff(
     public companion object Factory {
 
         private const val DEFAULT_MULTIPLIER = 2.0
-        private const val EQUAL_JITTER = 0.5
-        private const val FULL_JITTER = 1.0
+        private const val DEFAULT_JITTER = 0.5
+        private val DEFAULT_INITIAL_DELAY = Duration.ofSeconds(1)
+        private val DEFAULT_MAX_DELAY = Duration.ofMinutes(1)
 
-        public fun doubling(initialDelay: Duration, maxDelay: Duration): ExponentialBackoff =
-            ExponentialBackoff(initialDelay, maxDelay)
-
-        public fun growingBy(multiplier: Double, initialDelay: Duration, maxDelay: Duration): ExponentialBackoff =
-            ExponentialBackoff(initialDelay, maxDelay, multiplier)
-
-        public fun withEqualJitter(
-            initialDelay: Duration,
-            maxDelay: Duration,
+        public fun of(
+            initialDelay: Duration = DEFAULT_INITIAL_DELAY,
+            maxDelay: Duration = DEFAULT_MAX_DELAY,
             multiplier: Double = DEFAULT_MULTIPLIER,
-            randomizer: Random = Random.Default,
-        ): ExponentialBackoff = ExponentialBackoff(initialDelay, maxDelay, multiplier, EQUAL_JITTER, randomizer)
+        ): ExponentialBackoff = ExponentialBackoff(initialDelay, maxDelay, multiplier)
 
-        public fun withFullJitter(
-            initialDelay: Duration,
-            maxDelay: Duration,
+        public fun withJitter(
+            initialDelay: Duration = DEFAULT_INITIAL_DELAY,
+            maxDelay: Duration = DEFAULT_MAX_DELAY,
             multiplier: Double = DEFAULT_MULTIPLIER,
+            jitter: Double = DEFAULT_JITTER,
             randomizer: Random = Random.Default,
-        ): ExponentialBackoff = ExponentialBackoff(initialDelay, maxDelay, multiplier, FULL_JITTER, randomizer)
+        ): ExponentialBackoff = ExponentialBackoff(initialDelay, maxDelay, multiplier, jitter, randomizer)
     }
 }

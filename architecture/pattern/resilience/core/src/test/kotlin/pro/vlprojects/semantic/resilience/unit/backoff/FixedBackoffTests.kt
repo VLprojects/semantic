@@ -23,10 +23,15 @@ class FixedBackoffTests {
 
     @Test
     fun `the factories build the delay from their units`() {
-        assertEquals(Duration.ofSeconds(5), FixedBackoff.every(Duration.ofSeconds(5)).delayAfter(1))
-        assertEquals(Duration.ofMillis(250), FixedBackoff.everyMillis(250).delayAfter(1))
-        assertEquals(Duration.ofSeconds(5), FixedBackoff.everySeconds(5).delayAfter(1))
-        assertEquals(Duration.ofMinutes(2), FixedBackoff.everyMinutes(2).delayAfter(1))
+        assertEquals(Duration.ofSeconds(5), FixedBackoff.of(Duration.ofSeconds(5)).delayAfter(1))
+        assertEquals(Duration.ofMillis(250), FixedBackoff.ofMillis(250).delayAfter(1))
+        assertEquals(Duration.ofSeconds(5), FixedBackoff.ofSeconds(5).delayAfter(1))
+        assertEquals(Duration.ofMinutes(2), FixedBackoff.ofMinutes(2).delayAfter(1))
+    }
+
+    @Test
+    fun `the default delay is one second`() {
+        assertEquals(Duration.ofSeconds(1), FixedBackoff.of().delayAfter(1))
     }
 
     @Test

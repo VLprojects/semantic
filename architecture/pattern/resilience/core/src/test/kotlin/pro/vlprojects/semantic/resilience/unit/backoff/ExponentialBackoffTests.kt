@@ -66,35 +66,34 @@ class ExponentialBackoffTests {
     }
 
     @Test
-    fun `a doubling backoff multiplies the delay by two`() {
-        val backoff = ExponentialBackoff.doubling(Duration.ofSeconds(1), Duration.ofSeconds(60))
+    fun `by default the delay doubles from a second up to a minute`() {
+        val backoff = ExponentialBackoff.of()
 
+        assertEquals(Duration.ofSeconds(1), backoff.delayAfter(1))
         assertEquals(Duration.ofSeconds(4), backoff.delayAfter(3))
+        assertEquals(Duration.ofMinutes(1), backoff.delayAfter(100))
     }
 
     @Test
-    fun `a backoff growing by a multiplier applies that multiplier`() {
-        val backoff = ExponentialBackoff.growingBy(3.0, Duration.ofSeconds(1), Duration.ofSeconds(60))
+    fun `a given multiplier replaces the default one`() {
+        val backoff = ExponentialBackoff.of(Duration.ofSeconds(1), Duration.ofSeconds(60), multiplier = 3.0)
 
         assertEquals(Duration.ofSeconds(9), backoff.delayAfter(3))
     }
 
     @Test
-    fun `the equal jitter takes away at most half of the delay`() {
-        val backoff = ExponentialBackoff.withEqualJitter(
-            initialDelay = Duration.ofSeconds(4),
-            maxDelay = Duration.ofSeconds(60),
-            randomizer = half,
-        )
+    fun `by default the jitter takes away at most half of the delay`() {
+        val backoff = ExponentialBackoff.withJitter(randomizer = half)
 
-        assertEquals(Duration.ofSeconds(3), backoff.delayAfter(1))
+        assertEquals(Duration.ofMillis(750), backoff.delayAfter(1))
     }
 
     @Test
-    fun `the full jitter can take away the whole delay`() {
-        val backoff = ExponentialBackoff.withFullJitter(
+    fun `a given jitter replaces the default one`() {
+        val backoff = ExponentialBackoff.withJitter(
             initialDelay = Duration.ofSeconds(4),
             maxDelay = Duration.ofSeconds(60),
+            jitter = 1.0,
             randomizer = half,
         )
 
