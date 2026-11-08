@@ -15,9 +15,9 @@ public class JitteredBackoff(
 
     override fun calculate(attempt: Int): Duration = attempt
         .let(backoff::calculate)
-        .let(::applyJitter)
+        .let(::randomize)
 
-    private fun applyJitter(delay: Duration) = randomizer
+    private fun randomize(delay: Duration) = randomizer
         .nextDouble()
         .times(jitter)
         .let { reduction -> delay.toNanos() * (1 - reduction) }
