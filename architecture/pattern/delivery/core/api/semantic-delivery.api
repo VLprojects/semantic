@@ -62,14 +62,6 @@ public abstract interface class pro/vlprojects/semantic/delivery/outbox/OutboxAd
 	public abstract fun retryFailed (Ljava/lang/String;)I
 }
 
-public final class pro/vlprojects/semantic/delivery/outbox/OutboxFactory {
-	public fun <init> (Lpro/vlprojects/semantic/delivery/outbox/OutboxPayloadSerializer;Ljava/util/List;Ljava/time/Clock;)V
-	public synthetic fun <init> (Lpro/vlprojects/semantic/delivery/outbox/OutboxPayloadSerializer;Ljava/util/List;Ljava/time/Clock;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun create (Ljava/lang/Object;Ljava/lang/String;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
-	public final fun create (Ljava/lang/Object;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljava/lang/String;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
-	public static synthetic fun create$default (Lpro/vlprojects/semantic/delivery/outbox/OutboxFactory;Ljava/lang/Object;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljava/lang/String;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
-}
-
 public final class pro/vlprojects/semantic/delivery/outbox/OutboxMetadata {
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/time/Instant;Ljava/util/Map;)V
 	public final fun getContext ()Ljava/util/Map;
@@ -94,6 +86,14 @@ public abstract interface class pro/vlprojects/semantic/delivery/outbox/OutboxRe
 	public abstract fun purge (Ljava/time/Instant;I)I
 	public abstract fun reschedule (Ljava/lang/String;Ljava/lang/String;ILjava/time/Instant;Ljava/lang/String;)Z
 	public abstract fun save (Lpro/vlprojects/semantic/delivery/outbox/Outbox;)V
+}
+
+public final class pro/vlprojects/semantic/delivery/outbox/OutboxService {
+	public fun <init> (Lpro/vlprojects/semantic/delivery/outbox/OutboxPayloadSerializer;Ljava/util/List;Ljava/time/Clock;)V
+	public synthetic fun <init> (Lpro/vlprojects/semantic/delivery/outbox/OutboxPayloadSerializer;Ljava/util/List;Ljava/time/Clock;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun create (Ljava/lang/Object;Ljava/lang/String;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
+	public final fun create (Ljava/lang/Object;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljava/lang/String;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
+	public static synthetic fun create$default (Lpro/vlprojects/semantic/delivery/outbox/OutboxService;Ljava/lang/Object;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljava/lang/String;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/OutboxStatus : java/lang/Enum {

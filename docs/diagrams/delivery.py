@@ -182,7 +182,7 @@ MODULES = Map(
 		(0, [0], "resilience/core", ["Backoff"], "The delay for an attempt number."),
 		(1, [0, 1, 2], "core",
 			["Outbox", "OutboxDeliverer", "OutboxDeliveryFallback", "OutboxRetryPolicy", "OutboxRouting", "OutboxPayloadSerializer",
-				"OutboxContextProvider", "OutboxInstrumentation", "InboxInstrumentation", "OutboxMetricNames", "OutboxFactory", "OutboxRepository", "OutboxAdministration", "OutboxDispatcher",
+				"OutboxContextProvider", "OutboxInstrumentation", "InboxInstrumentation", "OutboxMetricNames", "OutboxService", "OutboxRepository", "OutboxAdministration", "OutboxDispatcher",
 				"InboxRepository", "IdempotentReceiver", "TransactionRunner"],
 			"The model, the SPI and the processing. A payload is opaque. Instrumentation does nothing by default."),
 		(2, [0], "jackson", ["JacksonOutboxPayloadSerializer"], "A payload as JSON."),
@@ -332,7 +332,7 @@ def flow(pal):
 
 	ya = top_a + FRAME
 	row(a, ya, (
-		("blue", "OutboxFactory.create", "payload, key and deliverer; the context and idempotency key"),
+		("blue", "OutboxService.create", "payload, key and deliverer; the context and idempotency key"),
 		("blue", "OutboxRepository.save", "one record, NEW; outside a transaction it throws"),
 		("green", "commit", "the change and the record exist together"),
 	))

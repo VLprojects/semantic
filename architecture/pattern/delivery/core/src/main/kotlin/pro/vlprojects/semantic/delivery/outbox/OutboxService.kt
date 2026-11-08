@@ -5,7 +5,7 @@ import pro.vlprojects.semantic.delivery.outbox.context.OutboxContextProvider
 import java.time.Clock
 import java.util.UUID
 
-public class OutboxFactory(
+public class OutboxService(
     private val serializer: OutboxPayloadSerializer,
     private val contextProviders: List<OutboxContextProvider> = emptyList(),
     private val clock: Clock = Clock.systemUTC(),

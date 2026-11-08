@@ -17,7 +17,7 @@ Packages `delivery.outbox` and `delivery.observability` of `semantic-delivery`:
 | Type | What it is |
 | --- | --- |
 | `Outbox` | a record of one payload for one deliverer: `key`, `delivererId`, the text of the payload, status, lease |
-| `OutboxFactory` | creates an `Outbox`: the text of the payload, its context and idempotency key |
+| `OutboxService` | creates an `Outbox`: the text of the payload, its context and idempotency key |
 | `OutboxRepository` | saves a record in the transaction of the change, claims a batch under a lease, closes a record by its lease token |
 | `OutboxAdministration` | counts records, returns `FAILED` to `NEW`, deletes |
 | `OutboxPayloadSerializer` | turns a payload into text and back |
@@ -28,7 +28,7 @@ Packages `delivery.outbox` and `delivery.observability` of `semantic-delivery`:
 | `OutboxInstrumentation` | hears of a record scheduled, its handling started, handled and failed |
 
 `key` orders records and `idempotencyKey` names the operation: an inbox carries an operation out once.
-The latter is the key passed to `OutboxFactory`, else the `@IdempotencyKey` property, else the id of the record.
+The latter is the key passed to `OutboxService`, else the `@IdempotencyKey` property, else the id of the record.
 A record created without a key takes the id of the record as its `key`, so such a record has no order.
 Two deliverers take two records, so the failure of one does not repeat the other.
 

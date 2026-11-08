@@ -47,7 +47,7 @@
     <rect x="226.0" y="326.0" width="128.2" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
     <text x="234.0" y="338.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">OutboxMetricNames</text>
     <rect x="360.2" y="326.0" width="101.8" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
-    <text x="368.2" y="338.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">OutboxFactory</text>
+    <text x="368.2" y="338.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">OutboxService</text>
     <rect x="468.0" y="326.0" width="121.6" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
     <text x="476.0" y="338.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">OutboxRepository</text>
     <rect x="595.6" y="326.0" width="148.0" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
