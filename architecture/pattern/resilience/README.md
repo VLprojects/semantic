@@ -3,8 +3,8 @@
 Patterns that keep a service working when a dependency fails. Each pattern is a module of its own with
 its own adapters, and a service declares only the patterns it uses.
 
-This is the planned layout. So far only `Backoff` has code, still in `core`, and the adapters of each
-pattern are agreed when that pattern is built.
+This is the planned layout. So far only `Backoff`, still in `core`, and the windows of the circuit breaker
+have code, and the adapters of each pattern are agreed when that pattern is built.
 
 ![Patterns of resilience and the adapters of each one](../../../docs/assets/resilience-light.svg#gh-light-mode-only)
 ![Patterns of resilience and the adapters of each one](../../../docs/assets/resilience-dark.svg#gh-dark-mode-only)
