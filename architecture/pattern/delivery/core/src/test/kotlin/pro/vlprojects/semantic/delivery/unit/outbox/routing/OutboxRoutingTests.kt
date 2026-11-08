@@ -15,7 +15,7 @@ class OutboxRoutingTests {
     private val metadata = OutboxRecordMetadata(
         id = "record",
         key = "order-1",
-        handlerId = "handler",
+        delivererId = "deliverer",
         payloadType = "String",
         idempotencyKey = "operation",
         failureCount = 0,

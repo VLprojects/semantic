@@ -14,7 +14,7 @@ class OutboxRecordTests {
     private fun createRecord() = OutboxRecord(
         id = "record",
         key = "order-1",
-        handlerId = "handler",
+        delivererId = "deliverer",
         payloadType = "OrderPlaced",
         payload = "{}",
         idempotencyKey = "operation",
@@ -41,7 +41,7 @@ class OutboxRecordTests {
 
         assertEquals("record", metadata.id)
         assertEquals("order-1", metadata.key)
-        assertEquals("handler", metadata.handlerId)
+        assertEquals("deliverer", metadata.delivererId)
         assertEquals("OrderPlaced", metadata.payloadType)
         assertEquals("operation", metadata.idempotencyKey)
         assertEquals(0, metadata.failureCount)

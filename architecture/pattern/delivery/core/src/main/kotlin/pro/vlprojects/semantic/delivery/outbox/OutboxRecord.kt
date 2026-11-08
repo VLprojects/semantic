@@ -5,7 +5,7 @@ import java.time.Instant
 public class OutboxRecord(
     public val id: String,
     public val key: String,
-    public val handlerId: String,
+    public val delivererId: String,
     public val payloadType: String,
     public val payload: String,
     public val idempotencyKey: String,
@@ -24,7 +24,7 @@ public class OutboxRecord(
         get() = OutboxRecordMetadata(
             id = id,
             key = key,
-            handlerId = handlerId,
+            delivererId = delivererId,
             payloadType = payloadType,
             idempotencyKey = idempotencyKey,
             failureCount = failureCount,

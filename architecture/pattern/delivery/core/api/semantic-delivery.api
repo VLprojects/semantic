@@ -16,8 +16,8 @@ public final class pro/vlprojects/semantic/delivery/observability/OutboxMetricNa
 }
 
 public final class pro/vlprojects/semantic/delivery/observability/OutboxMetricTags {
+	public static final field DELIVERER Ljava/lang/String;
 	public static final field EXCEPTION Ljava/lang/String;
-	public static final field HANDLER Ljava/lang/String;
 	public static final field INSTANCE Lpro/vlprojects/semantic/delivery/observability/OutboxMetricTags;
 	public static final field OUTCOME Ljava/lang/String;
 	public static final field OUTCOME_FAILURE Ljava/lang/String;
@@ -42,8 +42,8 @@ public final class pro/vlprojects/semantic/delivery/outbox/OutboxRecord {
 	public final fun getCompletedAt ()Ljava/time/Instant;
 	public final fun getContext ()Ljava/util/Map;
 	public final fun getCreatedAt ()Ljava/time/Instant;
+	public final fun getDelivererId ()Ljava/lang/String;
 	public final fun getFailureCount ()I
-	public final fun getHandlerId ()Ljava/lang/String;
 	public final fun getId ()Ljava/lang/String;
 	public final fun getIdempotencyKey ()Ljava/lang/String;
 	public final fun getKey ()Ljava/lang/String;
@@ -67,8 +67,8 @@ public final class pro/vlprojects/semantic/delivery/outbox/OutboxRecordMetadata 
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/time/Instant;Ljava/util/Map;)V
 	public final fun getContext ()Ljava/util/Map;
 	public final fun getCreatedAt ()Ljava/time/Instant;
+	public final fun getDelivererId ()Ljava/lang/String;
 	public final fun getFailureCount ()I
-	public final fun getHandlerId ()Ljava/lang/String;
 	public final fun getId ()Ljava/lang/String;
 	public final fun getIdempotencyKey ()Ljava/lang/String;
 	public final fun getKey ()Ljava/lang/String;
