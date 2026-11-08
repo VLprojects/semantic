@@ -4,5 +4,5 @@ import java.time.Duration
 
 public fun interface Backoff {
 
-    public fun calculateDelay(attempt: Int): Duration
+    public fun calculate(attempt: Int): Duration
 }

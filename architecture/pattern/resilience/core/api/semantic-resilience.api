@@ -1,12 +1,12 @@
 public abstract interface class pro/vlprojects/semantic/resilience/backoff/Backoff {
-	public abstract fun calculateDelay (I)Ljava/time/Duration;
+	public abstract fun calculate (I)Ljava/time/Duration;
 }
 
 public final class pro/vlprojects/semantic/resilience/backoff/ExponentialBackoff : pro/vlprojects/semantic/resilience/backoff/Backoff {
 	public static final field Factory Lpro/vlprojects/semantic/resilience/backoff/ExponentialBackoff$Factory;
 	public fun <init> (Ljava/time/Duration;Ljava/time/Duration;DDLkotlin/random/Random;)V
 	public synthetic fun <init> (Ljava/time/Duration;Ljava/time/Duration;DDLkotlin/random/Random;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun calculateDelay (I)Ljava/time/Duration;
+	public fun calculate (I)Ljava/time/Duration;
 }
 
 public final class pro/vlprojects/semantic/resilience/backoff/ExponentialBackoff$Factory {
@@ -19,7 +19,7 @@ public final class pro/vlprojects/semantic/resilience/backoff/ExponentialBackoff
 public final class pro/vlprojects/semantic/resilience/backoff/FixedBackoff : pro/vlprojects/semantic/resilience/backoff/Backoff {
 	public static final field Factory Lpro/vlprojects/semantic/resilience/backoff/FixedBackoff$Factory;
 	public fun <init> (Ljava/time/Duration;)V
-	public fun calculateDelay (I)Ljava/time/Duration;
+	public fun calculate (I)Ljava/time/Duration;
 }
 
 public final class pro/vlprojects/semantic/resilience/backoff/FixedBackoff$Factory {
