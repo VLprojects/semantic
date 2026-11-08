@@ -53,8 +53,9 @@ public final class pro/vlprojects/semantic/delivery/outbox/Outbox {
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/Outbox$Factory {
-	public final fun of (Lpro/vlprojects/semantic/delivery/outbox/OutboxId;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lpro/vlprojects/semantic/delivery/outbox/Payload;Ljava/util/Map;Ljava/time/Instant;Lpro/vlprojects/semantic/delivery/outbox/Delivery;J)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
-	public static synthetic fun of$default (Lpro/vlprojects/semantic/delivery/outbox/Outbox$Factory;Lpro/vlprojects/semantic/delivery/outbox/OutboxId;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lpro/vlprojects/semantic/delivery/outbox/Payload;Ljava/util/Map;Ljava/time/Instant;Lpro/vlprojects/semantic/delivery/outbox/Delivery;JILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
+	public final fun of (Lpro/vlprojects/semantic/delivery/outbox/OutboxId;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lpro/vlprojects/semantic/delivery/outbox/Payload;Ljava/util/Map;Ljava/time/Clock;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
+	public static synthetic fun of$default (Lpro/vlprojects/semantic/delivery/outbox/Outbox$Factory;Lpro/vlprojects/semantic/delivery/outbox/OutboxId;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lpro/vlprojects/semantic/delivery/outbox/Payload;Ljava/util/Map;Ljava/time/Clock;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
+	public final fun restore (Lpro/vlprojects/semantic/delivery/outbox/OutboxId;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lpro/vlprojects/semantic/delivery/outbox/Payload;Ljava/util/Map;Ljava/time/Instant;Lpro/vlprojects/semantic/delivery/outbox/Delivery;J)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/OutboxId {

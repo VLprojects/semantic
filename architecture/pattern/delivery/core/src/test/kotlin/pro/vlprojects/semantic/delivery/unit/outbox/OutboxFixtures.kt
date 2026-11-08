@@ -5,20 +5,21 @@ import pro.vlprojects.semantic.delivery.outbox.DeliveryStatus
 import pro.vlprojects.semantic.delivery.outbox.Outbox
 import pro.vlprojects.semantic.delivery.outbox.OutboxId
 import pro.vlprojects.semantic.delivery.outbox.Payload
+import java.time.Clock
 import java.time.Instant
+import java.time.ZoneOffset
 
-internal fun createOutbox(
-    createdAt: Instant,
-    delivery: Delivery = Delivery.of(createdAt),
-) = Outbox.of(
-    id = OutboxId.of("record"),
+private val identifier = OutboxId.of("record")
+private val payload = Payload.of("OrderPlaced", byteArrayOf(1))
+
+internal fun createOutbox(createdAt: Instant) = Outbox.of(
+    id = identifier,
     orderingKey = "order-1",
     idempotencyKey = "operation",
     deliverer = "deliverer",
-    payload = Payload.of("OrderPlaced", byteArrayOf(1)),
+    payload = payload,
     context = mapOf("trace" to "abc"),
-    createdAt = createdAt,
-    delivery = delivery,
+    clock = Clock.fixed(createdAt, ZoneOffset.UTC),
 )
 
 internal fun createStartedOutbox(createdAt: Instant, lockedUntil: Instant) = Delivery
@@ -30,4 +31,16 @@ internal fun createStartedOutbox(createdAt: Instant, lockedUntil: Instant) = Del
         terminatedAt = null,
         error = null,
     )
-    .let { createOutbox(createdAt, it) }
+    .let {
+        Outbox.restore(
+            id = identifier,
+            orderingKey = "order-1",
+            idempotencyKey = "operation",
+            deliverer = "deliverer",
+            payload = payload,
+            context = mapOf("trace" to "abc"),
+            createdAt = createdAt,
+            delivery = it,
+            version = 1,
+        )
+    }

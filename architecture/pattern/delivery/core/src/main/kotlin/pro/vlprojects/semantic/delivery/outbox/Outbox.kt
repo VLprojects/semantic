@@ -1,5 +1,6 @@
 package pro.vlprojects.semantic.delivery.outbox
 
+import java.time.Clock
 import java.time.Instant
 
 public class Outbox private constructor(
@@ -45,9 +46,34 @@ public class Outbox private constructor(
             deliverer: String,
             payload: Payload,
             context: Map<String, String>,
+            clock: Clock = Clock.systemUTC(),
+        ): Outbox {
+            val createdAt = clock.instant()
+            val delivery = Delivery.of(createdAt)
+
+            return Outbox(
+                id = id,
+                orderingKey = orderingKey,
+                idempotencyKey = idempotencyKey,
+                deliverer = deliverer,
+                payload = payload,
+                context = context,
+                createdAt = createdAt,
+                delivery = delivery,
+                version = 0,
+            )
+        }
+
+        public fun restore(
+            id: OutboxId,
+            orderingKey: String,
+            idempotencyKey: String,
+            deliverer: String,
+            payload: Payload,
+            context: Map<String, String>,
             createdAt: Instant,
-            delivery: Delivery = Delivery.of(createdAt),
-            version: Long = 0,
+            delivery: Delivery,
+            version: Long,
         ): Outbox = Outbox(
             id = id,
             orderingKey = orderingKey,
