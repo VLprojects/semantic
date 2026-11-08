@@ -30,3 +30,21 @@ public final class pro/vlprojects/semantic/resilience/backoff/FixedBackoff$Facto
 	public final fun ofSeconds (J)Lpro/vlprojects/semantic/resilience/backoff/FixedBackoff;
 }
 
+public final class pro/vlprojects/semantic/resilience/dsl/PoliciesKt {
+	public static final fun then (Lpro/vlprojects/semantic/resilience/policy/Policy;Lpro/vlprojects/semantic/resilience/policy/Policy;)Lpro/vlprojects/semantic/resilience/policy/Policy;
+}
+
+public final class pro/vlprojects/semantic/resilience/extension/PolicyExtensionsKt {
+	public static final fun invoke (Lpro/vlprojects/semantic/resilience/policy/Policy;Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
+	public static final fun plus (Lpro/vlprojects/semantic/resilience/policy/Policy;Lpro/vlprojects/semantic/resilience/policy/Policy;)Lpro/vlprojects/semantic/resilience/policy/Policy;
+}
+
+public abstract interface class pro/vlprojects/semantic/resilience/policy/Policy {
+	public static final field Factory Lpro/vlprojects/semantic/resilience/policy/Policy$Factory;
+	public abstract fun execute (Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
+}
+
+public final class pro/vlprojects/semantic/resilience/policy/Policy$Factory {
+	public final fun of (Lpro/vlprojects/semantic/resilience/policy/Policy;[Lpro/vlprojects/semantic/resilience/policy/Policy;)Lpro/vlprojects/semantic/resilience/policy/Policy;
+}
+
