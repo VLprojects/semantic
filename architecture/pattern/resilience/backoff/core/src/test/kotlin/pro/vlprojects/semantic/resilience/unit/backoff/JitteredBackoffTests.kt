@@ -6,6 +6,7 @@ import org.junit.jupiter.api.assertThrows
 import pro.vlprojects.semantic.resilience.backoff.ExponentialBackoff
 import pro.vlprojects.semantic.resilience.backoff.FixedBackoff
 import pro.vlprojects.semantic.resilience.backoff.JitteredBackoff
+import pro.vlprojects.semantic.resilience.backoff.extension.jittered
 import java.time.Duration
 import kotlin.random.Random
 
@@ -66,6 +67,13 @@ class JitteredBackoffTests {
     @Test
     fun `a given jitter replaces the default one`() {
         val backoff = JitteredBackoff.of(fixed, jitter = 1.0, randomizer = half)
+
+        assertEquals(Duration.ofSeconds(2), backoff.calculate(1))
+    }
+
+    @Test
+    fun `any backoff can be jittered in place`() {
+        val backoff = fixed.jittered(jitter = 1.0, randomizer = half)
 
         assertEquals(Duration.ofSeconds(2), backoff.calculate(1))
     }

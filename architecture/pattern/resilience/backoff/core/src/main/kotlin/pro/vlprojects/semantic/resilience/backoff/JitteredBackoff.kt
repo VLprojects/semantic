@@ -15,9 +15,9 @@ public class JitteredBackoff(
 
     override fun calculate(attempt: Int): Duration = attempt
         .let(backoff::calculate)
-        .let(::shorten)
+        .let(::applyJitter)
 
-    private fun shorten(delay: Duration) = randomizer
+    private fun applyJitter(delay: Duration) = randomizer
         .nextDouble()
         .times(jitter)
         .let { reduction -> delay.toNanos() * (1 - reduction) }
@@ -26,7 +26,7 @@ public class JitteredBackoff(
 
     public companion object Factory {
 
-        private const val DEFAULT_JITTER = 0.5
+        public const val DEFAULT_JITTER: Double = 0.5
 
         public fun of(
             backoff: Backoff,

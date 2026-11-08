@@ -29,6 +29,7 @@ public final class pro/vlprojects/semantic/resilience/backoff/FixedBackoff$Facto
 }
 
 public final class pro/vlprojects/semantic/resilience/backoff/JitteredBackoff : pro/vlprojects/semantic/resilience/backoff/Backoff {
+	public static final field DEFAULT_JITTER D
 	public static final field Factory Lpro/vlprojects/semantic/resilience/backoff/JitteredBackoff$Factory;
 	public fun <init> (Lpro/vlprojects/semantic/resilience/backoff/Backoff;DLkotlin/random/Random;)V
 	public synthetic fun <init> (Lpro/vlprojects/semantic/resilience/backoff/Backoff;DLkotlin/random/Random;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -38,5 +39,10 @@ public final class pro/vlprojects/semantic/resilience/backoff/JitteredBackoff : 
 public final class pro/vlprojects/semantic/resilience/backoff/JitteredBackoff$Factory {
 	public final fun of (Lpro/vlprojects/semantic/resilience/backoff/Backoff;DLkotlin/random/Random;)Lpro/vlprojects/semantic/resilience/backoff/JitteredBackoff;
 	public static synthetic fun of$default (Lpro/vlprojects/semantic/resilience/backoff/JitteredBackoff$Factory;Lpro/vlprojects/semantic/resilience/backoff/Backoff;DLkotlin/random/Random;ILjava/lang/Object;)Lpro/vlprojects/semantic/resilience/backoff/JitteredBackoff;
+}
+
+public final class pro/vlprojects/semantic/resilience/backoff/extension/BackoffExtensionsKt {
+	public static final fun jittered (Lpro/vlprojects/semantic/resilience/backoff/Backoff;DLkotlin/random/Random;)Lpro/vlprojects/semantic/resilience/backoff/Backoff;
+	public static synthetic fun jittered$default (Lpro/vlprojects/semantic/resilience/backoff/Backoff;DLkotlin/random/Random;ILjava/lang/Object;)Lpro/vlprojects/semantic/resilience/backoff/Backoff;
 }
 
