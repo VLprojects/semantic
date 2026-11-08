@@ -18,17 +18,4 @@ public class Outbox(
     public val leaseExpiresAt: Instant? = null,
     public val completedAt: Instant? = null,
     public val lastError: String? = null,
-) {
-
-    public val metadata: OutboxMetadata
-        get() = OutboxMetadata(
-            id = id,
-            key = key,
-            delivererId = delivererId,
-            payloadType = payloadType,
-            idempotencyKey = idempotencyKey,
-            failureCount = failureCount,
-            createdAt = createdAt,
-            context = context,
-        )
-}
+)

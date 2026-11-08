@@ -28,38 +28,34 @@
     <text x="226.0" y="288.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#06173D" text-anchor="start">core</text>
     <rect x="226.0" y="302.0" width="55.6" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
     <text x="234.0" y="314.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">Outbox</text>
-    <rect x="287.6" y="302.0" width="115.0" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
-    <text x="295.6" y="314.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">OutboxDeliverer</text>
-    <rect x="408.6" y="302.0" width="161.2" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
-    <text x="416.6" y="314.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">OutboxDeliveryFallback</text>
-    <rect x="575.8" y="302.0" width="128.2" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
-    <text x="583.8" y="314.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">OutboxRetryPolicy</text>
-    <rect x="710.0" y="302.0" width="101.8" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
-    <text x="718.0" y="314.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">OutboxRouting</text>
-    <rect x="817.8" y="302.0" width="167.8" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
-    <text x="825.8" y="314.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">OutboxPayloadSerializer</text>
-    <rect x="991.6" y="302.0" width="154.6" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
-    <text x="999.6" y="314.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">OutboxContextProvider</text>
-    <rect x="1152.2" y="302.0" width="154.6" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
-    <text x="1160.2" y="314.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">OutboxInstrumentation</text>
-    <rect x="1312.8" y="302.0" width="148.0" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
-    <text x="1320.8" y="314.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">InboxInstrumentation</text>
-    <rect x="226.0" y="326.0" width="128.2" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
-    <text x="234.0" y="338.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">OutboxMetricNames</text>
-    <rect x="360.2" y="326.0" width="101.8" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
-    <text x="368.2" y="338.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">OutboxService</text>
-    <rect x="468.0" y="326.0" width="121.6" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
-    <text x="476.0" y="338.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">OutboxRepository</text>
-    <rect x="595.6" y="326.0" width="148.0" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
-    <text x="603.6" y="338.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">OutboxAdministration</text>
-    <rect x="749.6" y="326.0" width="121.6" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
-    <text x="757.6" y="338.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">OutboxDispatcher</text>
-    <rect x="877.2" y="326.0" width="115.0" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
-    <text x="885.2" y="338.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">InboxRepository</text>
-    <rect x="998.2" y="326.0" width="134.8" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
-    <text x="1006.2" y="338.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">IdempotentReceiver</text>
-    <rect x="1139.0" y="326.0" width="128.2" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
-    <text x="1147.0" y="338.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">TransactionRunner</text>
+    <rect x="287.6" y="302.0" width="101.8" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
+    <text x="295.6" y="314.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">OutboxHandler</text>
+    <rect x="395.4" y="302.0" width="154.6" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
+    <text x="403.4" y="314.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">OutboxFallbackHandler</text>
+    <rect x="556.0" y="302.0" width="128.2" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
+    <text x="564.0" y="314.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">OutboxRetryPolicy</text>
+    <rect x="690.2" y="302.0" width="101.8" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
+    <text x="698.2" y="314.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">OutboxRouting</text>
+    <rect x="798.0" y="302.0" width="167.8" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
+    <text x="806.0" y="314.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">OutboxPayloadSerializer</text>
+    <rect x="971.8" y="302.0" width="154.6" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
+    <text x="979.8" y="314.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">OutboxContextProvider</text>
+    <rect x="1132.4" y="302.0" width="154.6" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
+    <text x="1140.4" y="314.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">OutboxInstrumentation</text>
+    <rect x="1293.0" y="302.0" width="128.2" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
+    <text x="1301.0" y="314.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">OutboxMetricNames</text>
+    <rect x="226.0" y="326.0" width="161.2" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
+    <text x="234.0" y="338.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">OutboxRecordRepository</text>
+    <rect x="393.2" y="326.0" width="187.6" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
+    <text x="401.2" y="338.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">OutboxRecordAdministration</text>
+    <rect x="586.8" y="326.0" width="49.0" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
+    <text x="594.8" y="338.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">Relay</text>
+    <rect x="641.8" y="326.0" width="115.0" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
+    <text x="649.8" y="338.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">InboxRepository</text>
+    <rect x="762.8" y="326.0" width="134.8" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
+    <text x="770.8" y="338.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">IdempotentReceiver</text>
+    <rect x="903.6" y="326.0" width="128.2" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
+    <text x="911.6" y="338.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">TransactionRunner</text>
     <text x="226.0" y="370.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1B3A80" text-anchor="start">The model, the SPI and the processing. A payload is opaque. Instrumentation does nothing by default.</text>
     <rect x="214.0" y="436.0" width="380.0" height="142.0" rx="6" fill="#6E9BFF"/>
     <text x="226.0" y="462.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#06173D" text-anchor="start">jackson</text>
@@ -77,33 +73,33 @@
     <text x="702.0" y="568.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1B3A80" text-anchor="start">Turns the events of the core into timers and spans. Optional.</text>
     <rect x="1166.0" y="436.0" width="380.0" height="142.0" rx="6" fill="#6E9BFF"/>
     <text x="1178.0" y="462.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#06173D" text-anchor="start">test</text>
-    <rect x="1178.0" y="476.0" width="174.4" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
-    <text x="1186.0" y="488.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">OutboxRepositoryContract</text>
-    <rect x="1358.4" y="476.0" width="167.8" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
-    <text x="1366.4" y="488.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">InboxRepositoryContract</text>
+    <rect x="1178.0" y="476.0" width="214.0" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
+    <text x="1186.0" y="488.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">OutboxRecordRepositoryContract</text>
+    <rect x="1178.0" y="500.0" width="167.8" height="18" rx="4" fill="#06173D" fill-opacity="0.2"/>
+    <text x="1186.0" y="512.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#06173D" text-anchor="start">InboxRepositoryContract</text>
     <text x="1178.0" y="568.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1B3A80" text-anchor="start">Every storage adapter runs this contract.</text>
     <rect x="214.0" y="650.0" width="856.0" height="94.0" rx="6" fill="#5BF08A"/>
     <text x="226.0" y="676.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#03240E" text-anchor="start">spring/core</text>
-    <rect x="226.0" y="690.0" width="227.2" height="18" rx="4" fill="#03240E" fill-opacity="0.2"/>
-    <text x="234.0" y="702.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#03240E" text-anchor="start">OutboxDelivererBeanPostProcessor</text>
-    <rect x="459.2" y="690.0" width="167.8" height="18" rx="4" fill="#03240E" fill-opacity="0.2"/>
-    <text x="467.2" y="702.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#03240E" text-anchor="start">SpringTransactionRunner</text>
-    <rect x="633.0" y="690.0" width="148.0" height="18" rx="4" fill="#03240E" fill-opacity="0.2"/>
-    <text x="641.0" y="702.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#03240E" text-anchor="start">DeliveryStartupCheck</text>
-    <text x="226.0" y="734.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">Finds deliverers, joins the transaction, fails on start when a deliverer, a route or a table is missing.</text>
+    <rect x="226.0" y="690.0" width="214.0" height="18" rx="4" fill="#03240E" fill-opacity="0.2"/>
+    <text x="234.0" y="702.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#03240E" text-anchor="start">OutboxHandlerBeanPostProcessor</text>
+    <rect x="446.0" y="690.0" width="167.8" height="18" rx="4" fill="#03240E" fill-opacity="0.2"/>
+    <text x="454.0" y="702.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#03240E" text-anchor="start">SpringTransactionRunner</text>
+    <rect x="619.8" y="690.0" width="148.0" height="18" rx="4" fill="#03240E" fill-opacity="0.2"/>
+    <text x="627.8" y="702.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#03240E" text-anchor="start">DeliveryStartupCheck</text>
+    <text x="226.0" y="734.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">Finds handlers, joins the transaction, fails on start when a handler, a route or a table is missing.</text>
     <rect x="1166.0" y="650.0" width="380.0" height="94.0" rx="6" fill="#5BF08A"/>
     <text x="1178.0" y="676.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#03240E" text-anchor="start">spring/rabbitmq</text>
-    <rect x="1178.0" y="690.0" width="154.6" height="18" rx="4" fill="#03240E" fill-opacity="0.2"/>
-    <text x="1186.0" y="702.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#03240E" text-anchor="start">RabbitOutboxDeliverer</text>
-    <rect x="1338.6" y="690.0" width="141.4" height="18" rx="4" fill="#03240E" fill-opacity="0.2"/>
-    <text x="1346.6" y="702.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#03240E" text-anchor="start">RabbitOutboxRouting</text>
-    <text x="1178.0" y="734.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">One more deliverer: done on a publisher confirm.</text>
+    <rect x="1178.0" y="690.0" width="141.4" height="18" rx="4" fill="#03240E" fill-opacity="0.2"/>
+    <text x="1186.0" y="702.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#03240E" text-anchor="start">RabbitOutboxHandler</text>
+    <rect x="1325.4" y="690.0" width="141.4" height="18" rx="4" fill="#03240E" fill-opacity="0.2"/>
+    <text x="1333.4" y="702.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#03240E" text-anchor="start">RabbitOutboxRouting</text>
+    <text x="1178.0" y="734.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">One more handler: done on a publisher confirm.</text>
     <rect x="214.0" y="800.0" width="856.0" height="94.0" rx="6" fill="#5BF08A"/>
     <text x="226.0" y="826.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#03240E" text-anchor="start">spring/jdbc, spring/data/jpa, spring/data/mongodb</text>
-    <rect x="226.0" y="840.0" width="128.2" height="18" rx="4" fill="#03240E" fill-opacity="0.2"/>
-    <text x="234.0" y="852.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#03240E" text-anchor="start">*OutboxRepository</text>
-    <rect x="360.2" y="840.0" width="121.6" height="18" rx="4" fill="#03240E" fill-opacity="0.2"/>
-    <text x="368.2" y="852.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#03240E" text-anchor="start">*InboxRepository</text>
+    <rect x="226.0" y="840.0" width="167.8" height="18" rx="4" fill="#03240E" fill-opacity="0.2"/>
+    <text x="234.0" y="852.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#03240E" text-anchor="start">*OutboxRecordRepository</text>
+    <rect x="399.8" y="840.0" width="121.6" height="18" rx="4" fill="#03240E" fill-opacity="0.2"/>
+    <text x="407.8" y="852.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#03240E" text-anchor="start">*InboxRepository</text>
     <text x="226.0" y="884.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">Three adapters of storage. SKIP LOCKED with a lease; findAndModify on MongoDB.</text>
     <rect x="214.0" y="966.0" width="856.0" height="94.0" rx="6" fill="#FFB46B"/>
     <text x="226.0" y="992.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F1206" text-anchor="start">spring-boot/autoconfigure</text>
@@ -111,9 +107,9 @@
     <text x="234.0" y="1018.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F1206" text-anchor="start">DeliveryAutoConfiguration</text>
     <rect x="413.0" y="1006.0" width="134.8" height="18" rx="4" fill="#1F1206" fill-opacity="0.2"/>
     <text x="421.0" y="1018.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F1206" text-anchor="start">DeliveryProperties</text>
-    <rect x="553.8" y="1006.0" width="167.8" height="18" rx="4" fill="#1F1206" fill-opacity="0.2"/>
-    <text x="561.8" y="1018.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F1206" text-anchor="start">OutboxDispatchScheduler</text>
-    <text x="226.0" y="1050.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#4A2808" text-anchor="start">semantic.delivery settings, the lifecycle of OutboxDispatcher on a schedule.</text>
+    <rect x="553.8" y="1006.0" width="108.4" height="18" rx="4" fill="#1F1206" fill-opacity="0.2"/>
+    <text x="561.8" y="1018.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F1206" text-anchor="start">RelayScheduler</text>
+    <text x="226.0" y="1050.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#4A2808" text-anchor="start">semantic.delivery settings, the lifecycle of Relay on a schedule.</text>
     <rect x="1166.0" y="966.0" width="380.0" height="94.0" rx="6" fill="#FFB46B"/>
     <text x="1178.0" y="992.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F1206" text-anchor="start">spring-boot/actuator</text>
     <rect x="1178.0" y="1006.0" width="121.6" height="18" rx="4" fill="#1F1206" fill-opacity="0.2"/>
@@ -133,7 +129,7 @@
     <rect x="690.8" y="1258.8" width="378.5" height="68.5" rx="6" fill="none" stroke="#9198A1" stroke-width="1.5" stroke-dasharray="2 3" stroke-linecap="round"/>
     <rect x="1166.0" y="1258.0" width="380.0" height="70.0" rx="6" fill="#29313C"/>
     <text x="1178.0" y="1284.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">spring/{kafka, sns}</text>
-    <text x="1178.0" y="1318.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">One more deliverer per broker.</text>
+    <text x="1178.0" y="1318.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">One more handler per broker.</text>
     <rect x="1166.8" y="1258.8" width="378.5" height="68.5" rx="6" fill="none" stroke="#9198A1" stroke-width="1.5" stroke-dasharray="2 3" stroke-linecap="round"/>
     <circle cx="340.6666666666667" cy="257" r="2" fill="#A78BFA"/>
     <path d="M340.6666666666667,193 L343.1666666666667,198.0 L338.1666666666667,198.0 Z" fill="#A78BFA" stroke="#A78BFA" stroke-width="0.5" stroke-linejoin="round"/>
@@ -163,8 +159,8 @@
     <path d="M1292.6666666666667,645 L1292.6666666666667,630.0 Q1292.6666666666667,622.0 1284.6666666666667,622.0 L1126.0,622.0 Q1118.0,622.0 1118.0,614.0 L1118.0,388" stroke="#A78BFA" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
     <text x="1130.0" y="398.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start"></text>
     <g transform="rotate(-90 1108.0 507.0)">
-    <rect x="1034.0" y="495.0" width="148.0" height="16.0" rx="2" fill="#151B23"/>
-    <text x="1108.0" y="507.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="middle">implements deliverer</text>
+    <rect x="1040.8" y="495.0" width="134.4" height="16.0" rx="2" fill="#151B23"/>
+    <text x="1108.0" y="507.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="middle">implements handler</text>
     </g>
     <circle cx="340.6666666666667" cy="795" r="2" fill="#A78BFA"/>
     <path d="M340.6666666666667,747 L343.1666666666667,752.0 L338.1666666666667,752.0 Z" fill="#A78BFA" stroke="#A78BFA" stroke-width="0.5" stroke-linejoin="round"/>

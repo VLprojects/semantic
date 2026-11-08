@@ -181,26 +181,26 @@ MODULES = Map(
 	[
 		(0, [0], "resilience/core", ["Backoff"], "The delay for an attempt number."),
 		(1, [0, 1, 2], "core",
-			["Outbox", "OutboxDeliverer", "OutboxDeliveryFallback", "OutboxRetryPolicy", "OutboxRouting", "OutboxPayloadSerializer",
-				"OutboxContextProvider", "OutboxInstrumentation", "InboxInstrumentation", "OutboxMetricNames", "OutboxService", "OutboxRepository", "OutboxAdministration", "OutboxDispatcher",
+			["Outbox", "OutboxHandler", "OutboxFallbackHandler", "OutboxRetryPolicy", "OutboxRouting", "OutboxPayloadSerializer",
+				"OutboxContextProvider", "OutboxInstrumentation", "OutboxMetricNames", "OutboxRecordRepository", "OutboxRecordAdministration", "Relay",
 				"InboxRepository", "IdempotentReceiver", "TransactionRunner"],
 			"The model, the SPI and the processing. A payload is opaque. Instrumentation does nothing by default."),
 		(2, [0], "jackson", ["JacksonOutboxPayloadSerializer"], "A payload as JSON."),
 		(2, [1], "observability/micrometer", ["MicrometerOutboxInstrumentation", "OutboxObservationDocumentation", "OutboxObservationConvention"],
 			"Turns the events of the core into timers and spans. Optional."),
-		(2, [2], "test", ["OutboxRepositoryContract", "InboxRepositoryContract"], "Every storage adapter runs this contract."),
-		(3, [0, 1], "spring/core", ["OutboxDelivererBeanPostProcessor", "SpringTransactionRunner", "DeliveryStartupCheck"],
-			"Finds deliverers, joins the transaction, fails on start when a deliverer, a route or a table is missing."),
-		(3, [2], "spring/rabbitmq", ["RabbitOutboxDeliverer", "RabbitOutboxRouting"], "One more deliverer: done on a publisher confirm."),
-		(4, [0, 1], "spring/jdbc, spring/data/jpa, spring/data/mongodb", ["*OutboxRepository", "*InboxRepository"],
+		(2, [2], "test", ["OutboxRecordRepositoryContract", "InboxRepositoryContract"], "Every storage adapter runs this contract."),
+		(3, [0, 1], "spring/core", ["OutboxHandlerBeanPostProcessor", "SpringTransactionRunner", "DeliveryStartupCheck"],
+			"Finds handlers, joins the transaction, fails on start when a handler, a route or a table is missing."),
+		(3, [2], "spring/rabbitmq", ["RabbitOutboxHandler", "RabbitOutboxRouting"], "One more handler: done on a publisher confirm."),
+		(4, [0, 1], "spring/jdbc, spring/data/jpa, spring/data/mongodb", ["*OutboxRecordRepository", "*InboxRepository"],
 			"Three adapters of storage. SKIP LOCKED with a lease; findAndModify on MongoDB."),
-		(5, [0, 1], "spring-boot/autoconfigure", ["DeliveryAutoConfiguration", "DeliveryProperties", "OutboxDispatchScheduler"],
-			"semantic.delivery settings, the lifecycle of OutboxDispatcher on a schedule."),
+		(5, [0, 1], "spring-boot/autoconfigure", ["DeliveryAutoConfiguration", "DeliveryProperties", "RelayScheduler"],
+			"semantic.delivery settings, the lifecycle of Relay on a schedule."),
 		(5, [2], "spring-boot/actuator", ["DeliveryEndpoint", "DeliveryHealthIndicator"], "Counts, pause and resume, retry of FAILED, delete."),
 		(6, [0, 1], "spring-boot/starter/{jdbc, jpa, mongodb}", [], "One dependency per storage: adapter, Jackson, observability, auto-configuration."),
 		(7, [0], "performance-test", [], "Throughput of the lease and of order by key."),
 		(7, [1], "bom", [], "One version for the family.", True),
-		(7, [2], "spring/{kafka, sns}", [], "One more deliverer per broker.", True),
+		(7, [2], "spring/{kafka, sns}", [], "One more handler per broker.", True),
 	],
 )
 
@@ -236,7 +236,7 @@ def modules(pal):
 	line(a, f"M{lane_left},{start} L{lane_left},{by}", DECLARES)
 	along(a, lane_left - 10, (m.top[2] + m.bottom(2)) / 2, "api")
 	m.bend(a, c[2] + third, 3, lane_right, 1, BUILDS, "")
-	along(a, lane_right - 10, (m.top[2] + m.bottom(2)) / 2, "implements deliverer")
+	along(a, lane_right - 10, (m.top[2] + m.bottom(2)) / 2, "implements handler")
 	m.up(a, c[0] + third, 4, 3, DECLARES, "api")
 	m.up(a, c[0] + third, 5, 4, CONFIGURES, "configures")
 	m.bend(a, c[1] + 5 * W / 6, 5, c[2] + third, 3, CONFIGURES, "configures")
@@ -325,23 +325,23 @@ def flow(pal):
 	inner_b = stack + 2 * FRAME
 	top_c = top_b + inner_b + FG
 	a = b.Art(FW, top_c + inner_a + 24, pal)
-	header(a, "THE PATH OF A RECORD", "two transactions with a dispatcher and a channel between them")
+	header(a, "THE PATH OF A RECORD", "two transactions with a relay and a channel between them")
 	frame(a, FW, "writing", "one transaction of the service", top_a, inner_a)
-	frame(a, FW, "dispatching", "after commit, on any instance", top_b, inner_b)
+	frame(a, FW, "relaying", "after commit, on any instance", top_b, inner_b)
 	frame(a, FW, "receiving", "one transaction of the consumer", top_c, inner_a)
 
 	ya = top_a + FRAME
 	row(a, ya, (
-		("blue", "OutboxService.create", "payload, key and deliverer; the context and idempotency key"),
-		("blue", "OutboxRepository.save", "one record, NEW; outside a transaction it throws"),
+		("blue", "Outbox.schedule", "payload and key; outside a transaction it throws"),
+		("blue", "repository.add", "a record per handler, NEW, with the context"),
 		("green", "commit", "the change and the record exist together"),
 	))
 
 	yb = top_b + FRAME
 	mid_b = yb + stack / 2 - CH / 2
 	row(a, mid_b, (
-		("blue", "OutboxDispatcher.dispatch", "claims a batch: SKIP LOCKED, a lease, a token"),
-		("blue", "OutboxDeliverer.deliver", "your code or RabbitOutboxDeliverer"),
+		("blue", "Relay.relay", "claims a batch: SKIP LOCKED, a lease, a token"),
+		("blue", "OutboxHandler.handle", "your code or RabbitOutboxHandler"),
 	))
 	wide = FX[3] + CW - FX[2]
 	lane = FX[1] + CW + CGAP / 2
@@ -351,7 +351,7 @@ def flow(pal):
 	for i, (hue, name, note) in enumerate((
 		("green", "complete", "COMPLETED; a stale token changes nothing"),
 		("amber", "reschedule", "OutboxRetryPolicy with Backoff picks the next attempt"),
-		("red", "OutboxDeliveryFallback, else FAILED", "attempts are spent"),
+		("red", "OutboxFallbackHandler, else FAILED", "attempts are spent"),
 	)):
 		y = yb + i * (OUTCOME + OGAP)
 		ink = "red" if hue == "red" else f"{hue}-ink"
@@ -367,11 +367,11 @@ def flow(pal):
 	row(a, yc, (
 		("blue", "IdempotentReceiver", "opens the transaction through TransactionRunner"),
 		("blue", "Inbox.accept", "source, idempotency key, consumer; a duplicate stops here"),
-		("card", "@TransactionalInbox", "the handler; what it sends goes through OutboxService.create"),
+		("card", "@TransactionalInbox", "the handler; what it sends goes through Outbox.schedule"),
 		("green", "commit, then ack", "a crash before ack brings a duplicate"),
 	))
 
-	turn(a, FX[2] + CW / 2, ya + CH, FX[0] + CW / 2, mid_b, top_b - FG / 2, "commit makes the record visible to OutboxDispatcher")
+	turn(a, FX[2] + CW / 2, ya + CH, FX[0] + CW / 2, mid_b, top_b - FG / 2, "commit makes the record visible to Relay")
 	turn(a, FX[1] + CW / 2, mid_b + CH, FX[0] + CW / 2, yc, top_c - FG / 2, "at least once")
 	return a
 

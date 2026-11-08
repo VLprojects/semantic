@@ -34,18 +34,4 @@ class OutboxTests {
         assertNull(record.completedAt)
         assertNull(record.lastError)
     }
-
-    @Test
-    fun `the metadata repeats what a record says about itself`() {
-        val metadata = createOutbox().metadata
-
-        assertEquals("record", metadata.id)
-        assertEquals("order-1", metadata.key)
-        assertEquals("deliverer", metadata.delivererId)
-        assertEquals("OrderPlaced", metadata.payloadType)
-        assertEquals("operation", metadata.idempotencyKey)
-        assertEquals(0, metadata.failureCount)
-        assertEquals(moment, metadata.createdAt)
-        assertEquals(mapOf("trace" to "abc"), metadata.context)
-    }
 }
