@@ -1,29 +1,28 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1142 436" width="1142" height="436" role="img">
-  <rect width="1142" height="436" rx="12" fill="#F6F8FA"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1142 420" width="1142" height="420" role="img">
+  <rect width="1142" height="420" rx="12" fill="#F6F8FA"/>
   <g transform="translate(12,12)">
     <text x="24.0" y="46.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="16" font-weight="600" fill="#1F2328" text-anchor="start">FALLBACK</text>
     <rect x="112.8" y="32.0" width="420.9" height="18" rx="4" fill="#59636E" fill-opacity="0.2"/>
     <text x="120.8" y="44.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="start">a spare answer on failure; paths under architecture/pattern/resilience/fallback</text>
-    <rect x="24" y="80" width="1070" height="142" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
+    <rect x="24" y="80" width="1070" height="126" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
     <text x="40.0" y="120.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1F2328" text-anchor="start">family</text>
     <text x="40.0" y="140.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">what it builds on</text>
-    <rect x="24" y="262" width="1070" height="126" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
-    <text x="40.0" y="302.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1F2328" text-anchor="start">JVM</text>
-    <text x="40.0" y="322.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">no Spring</text>
-    <rect x="214.0" y="96.0" width="380.0" height="110.0" rx="6" fill="#E3E8ED"/>
+    <rect x="24" y="246" width="1070" height="126" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
+    <text x="40.0" y="286.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1F2328" text-anchor="start">JVM</text>
+    <text x="40.0" y="306.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">no Spring</text>
+    <rect x="214.0" y="96.0" width="380.0" height="94.0" rx="6" fill="#E3E8ED"/>
     <text x="226.0" y="122.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">resilience/core</text>
     <rect x="226.0" y="136.0" width="55.6" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
     <text x="234.0" y="148.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">Policy</text>
-    <text x="226.0" y="180.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">What every pattern except backoff is, and how policies</text>
-    <text x="226.0" y="196.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">combine.</text>
-    <rect x="214.0" y="278.0" width="856.0" height="94.0" rx="6" fill="#E3EFFF"/>
-    <text x="226.0" y="304.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">core</text>
-    <rect x="226.0" y="318.0" width="68.8" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="234.0" y="330.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">Fallback</text>
-    <text x="226.0" y="362.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">A spare answer on failure. Adapters are added when a service needs them.</text>
-    <circle cx="340.6666666666667" cy="273" r="2" fill="#8B5CF6"/>
-    <path d="M340.6666666666667,209 L343.1666666666667,214.0 L338.1666666666667,214.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <path d="M340.6666666666667,273 L340.6666666666667,214" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <text x="352.7" y="246.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">implements Policy</text>
+    <text x="226.0" y="180.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">The common type of the patterns, and how policies combine.</text>
+    <rect x="214.0" y="262.0" width="856.0" height="94.0" rx="6" fill="#E3EFFF"/>
+    <text x="226.0" y="288.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">core</text>
+    <rect x="226.0" y="302.0" width="68.8" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="234.0" y="314.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">Fallback</text>
+    <text x="226.0" y="346.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">A spare answer on failure, always outermost: it takes a ready Policy. Adapters are added when a service needs them.</text>
+    <circle cx="340.6666666666667" cy="257" r="2" fill="#8B5CF6"/>
+    <path d="M340.6666666666667,193 L343.1666666666667,198.0 L338.1666666666667,198.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M340.6666666666667,257 L340.6666666666667,198" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <text x="352.7" y="230.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">api: Policy</text>
   </g>
 </svg>
