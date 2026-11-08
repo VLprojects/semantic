@@ -15,6 +15,7 @@ pattern are agreed when that pattern is built.
 | --- | --- | --- |
 | `core` | `semantic-resilience` | `Policy` and how policies combine; depends on no pattern |
 | `backoff/core` | `semantic-resilience-backoff` | how long to wait between attempts |
+| `backoff/spring/core` | `semantic-resilience-backoff-spring` | `Backoff` as a Spring `BackOff` |
 | `retry/core` | `semantic-resilience-retry` | repeats a failed call |
 | `circuit-breaker/core` | `semantic-resilience-circuit-breaker` | stops calling a dependency that is down |
 | `deadline/core` | `semantic-resilience-deadline` | a limit in time on what it surrounds |
@@ -61,6 +62,13 @@ The other forms of combining and the reasons for this order are in the [README o
 
 ![Modules of backoff](../../../docs/assets/resilience-backoff-light.svg#gh-light-mode-only)
 ![Modules of backoff](../../../docs/assets/resilience-backoff-dark.svg#gh-dark-mode-only)
+
+Clients that fail together and wait the same pause come back together and bring the dependency down again.
+`jittered()` shortens each pause by a random share, so the retries spread out. See
+[the module](backoff/core/README.md).
+
+![Retries with the same pause and with a shortened pause](../../../docs/assets/resilience-jitter-light.svg#gh-light-mode-only)
+![Retries with the same pause and with a shortened pause](../../../docs/assets/resilience-jitter-dark.svg#gh-dark-mode-only)
 
 ### Retry
 
