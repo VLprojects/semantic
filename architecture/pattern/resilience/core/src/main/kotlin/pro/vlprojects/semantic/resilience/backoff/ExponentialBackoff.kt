@@ -19,29 +19,26 @@ public class ExponentialBackoff(
         require(jitter in 0.0..1.0) { "The jitter must be within 0..1: $jitter" }
     }
 
-    private val maxFactor = maxDelay.toNanos() / initialDelay.toNanos().toDouble()
+    private val maxGrowthFactor = maxDelay.toNanos() / initialDelay.toNanos().toDouble()
 
-    override fun delayAfter(attempt: Int): Duration {
-        require(attempt >= 1) { "The attempt must be positive: $attempt" }
+    override fun delayAfter(attempt: Int): Duration = attempt
+        .also(::requirePositiveAttempt)
+        .let(::calculateCappedGrowthFactor)
+        .let(::shortenByRandomJitter)
+        .let(::multiplyInitialDelayBy)
 
-        return attempt
-            .let(::grow)
-            .let(::spread)
-            .let(::scale)
-    }
-
-    private fun grow(attempt: Int) = multiplier
+    private fun calculateCappedGrowthFactor(attempt: Int) = multiplier
         .pow(attempt - 1)
-        .coerceAtMost(maxFactor)
+        .coerceAtMost(maxGrowthFactor)
 
-    private fun spread(factor: Double) = random
+    private fun shortenByRandomJitter(growthFactor: Double) = random
         .nextDouble()
         .times(jitter)
-        .let { factor * (1 - it) }
+        .let { shortenedShare -> growthFactor * (1 - shortenedShare) }
 
-    private fun scale(factor: Double) = initialDelay
+    private fun multiplyInitialDelayBy(growthFactor: Double) = initialDelay
         .toNanos()
-        .times(factor)
+        .times(growthFactor)
         .toLong()
         .let(Duration::ofNanos)
 }

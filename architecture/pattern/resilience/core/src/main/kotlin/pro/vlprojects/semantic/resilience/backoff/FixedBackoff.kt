@@ -9,7 +9,7 @@ public class FixedBackoff(private val delay: Duration) : Backoff {
     }
 
     override fun delayAfter(attempt: Int): Duration {
-        require(attempt >= 1) { "The attempt must be positive: $attempt" }
+        requirePositiveAttempt(attempt)
 
         return delay
     }
