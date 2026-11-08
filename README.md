@@ -48,7 +48,7 @@ divided further has a table of its own under it.
 | --- | --- | --- | --- |
 | [`caching`](architecture/pattern/caching/core) | cache-aside, read-through, write-through, write-behind, refresh-ahead | | planned |
 | [`coordination`](architecture/pattern/coordination/core) | sagas with compensating steps; a distributed lock with a lease and a fencing token | `saga`, `lock` | planned |
-| [`delivery`](architecture/pattern/delivery/core) | transactional outbox (at-least-once sending) and inbox (at-most-once processing), together exactly-once; idempotency keys | `outbox`, `inbox`, `idempotency` | planned |
+| [`delivery`](architecture/pattern/delivery/README.md) | transactional outbox (at-least-once sending) and inbox (at-most-once processing), together exactly-once; idempotency keys | `outbox`, `inbox`, `idempotency` | design |
 | [`lifecycle`](architecture/pattern/lifecycle/core) | graceful startup and shutdown, warm-up, liveness and readiness checks | `startup`, `warmup`, `health`, `shutdown` | planned |
 | [`persistence`](#persistence) | how a service writes and reads its state | cqrs, event-sourcing, unit-of-work | |
 | [`resilience`](architecture/pattern/resilience/core) | circuit breaker, retries with backoff and jitter, timeout, bulkhead, fallback | `circuitbreaker`, `retry`, `backoff`, `timeout`, `bulkhead`, `fallback` | planned |
