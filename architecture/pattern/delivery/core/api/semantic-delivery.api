@@ -18,8 +18,8 @@ public final class pro/vlprojects/semantic/delivery/outbox/Delivery {
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/Delivery$Factory {
-	public final fun of (Ljava/time/Instant;Lpro/vlprojects/semantic/delivery/outbox/DeliveryStatus;ILjava/time/Instant;Ljava/time/Instant;Ljava/lang/String;)Lpro/vlprojects/semantic/delivery/outbox/Delivery;
-	public static synthetic fun of$default (Lpro/vlprojects/semantic/delivery/outbox/Delivery$Factory;Ljava/time/Instant;Lpro/vlprojects/semantic/delivery/outbox/DeliveryStatus;ILjava/time/Instant;Ljava/time/Instant;Ljava/lang/String;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/Delivery;
+	public final fun of (Ljava/time/Instant;)Lpro/vlprojects/semantic/delivery/outbox/Delivery;
+	public final fun restore (Ljava/time/Instant;Lpro/vlprojects/semantic/delivery/outbox/DeliveryStatus;ILjava/time/Instant;Ljava/time/Instant;Ljava/lang/String;)Lpro/vlprojects/semantic/delivery/outbox/Delivery;
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/DeliveryStatus : java/lang/Enum {

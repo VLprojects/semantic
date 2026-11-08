@@ -50,13 +50,22 @@ public data class Delivery private constructor(
 
     public companion object Factory {
 
-        public fun of(
+        public fun of(scheduledAt: Instant): Delivery = Delivery(
+            scheduledAt = scheduledAt,
+            status = DeliveryStatus.PENDING,
+            attempts = 0,
+            lockedUntil = null,
+            terminatedAt = null,
+            error = null,
+        )
+
+        public fun restore(
             scheduledAt: Instant,
-            status: DeliveryStatus = DeliveryStatus.PENDING,
-            attempts: Int = 0,
-            lockedUntil: Instant? = null,
-            terminatedAt: Instant? = null,
-            error: String? = null,
+            status: DeliveryStatus,
+            attempts: Int,
+            lockedUntil: Instant?,
+            terminatedAt: Instant?,
+            error: String?,
         ): Delivery = Delivery(scheduledAt, status, attempts, lockedUntil, terminatedAt, error)
     }
 }

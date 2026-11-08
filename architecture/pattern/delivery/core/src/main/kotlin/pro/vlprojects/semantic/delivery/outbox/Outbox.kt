@@ -46,7 +46,7 @@ public class Outbox private constructor(
             payload: Payload,
             context: Map<String, String>,
             createdAt: Instant,
-            delivery: Delivery = Delivery.of(scheduledAt = createdAt),
+            delivery: Delivery = Delivery.of(createdAt),
             version: Long = 0,
         ): Outbox = Outbox(
             id = id,

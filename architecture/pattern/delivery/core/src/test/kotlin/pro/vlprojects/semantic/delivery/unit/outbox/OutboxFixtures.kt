@@ -9,7 +9,7 @@ import java.time.Instant
 
 internal fun createOutbox(
     createdAt: Instant,
-    delivery: Delivery = Delivery.of(scheduledAt = createdAt),
+    delivery: Delivery = Delivery.of(createdAt),
 ) = Outbox.of(
     id = OutboxId.of("record"),
     orderingKey = "order-1",
@@ -22,5 +22,12 @@ internal fun createOutbox(
 )
 
 internal fun createStartedOutbox(createdAt: Instant, lockedUntil: Instant) = Delivery
-    .of(scheduledAt = createdAt, status = DeliveryStatus.STARTED, attempts = 1, lockedUntil = lockedUntil)
+    .restore(
+        scheduledAt = createdAt,
+        status = DeliveryStatus.STARTED,
+        attempts = 1,
+        lockedUntil = lockedUntil,
+        terminatedAt = null,
+        error = null,
+    )
     .let { createOutbox(createdAt, it) }
