@@ -7,7 +7,7 @@ import delivery as d
 OVERVIEW_W, OVERVIEW_GAP = 250, 72
 PAIR, TRIO = 2, 3
 HUES = {"family": "card", "JVM": "blue", "Spring": "green", "Spring Boot": "amber", "used by": "card", "not built": "card"}
-POLICY = "resilience/core", ["Policy"], "What every pattern except backoff is, and how policies combine."
+POLICY = "resilience/core", ["Policy"], "The common type of the patterns, and how policies combine."
 CORE_ROW, MICROMETER_ROW, SPRING_ROW, AUTOCONFIGURE_ROW, STARTER_ROW, ACTUATOR_ROW = 1, 2, 3, 4, 5, 6
 
 
@@ -61,8 +61,9 @@ def overview(pal):
 	d.header(a, "RESILIENCE", "paths under architecture/pattern/resilience; a column per pattern, each one its own modules")
 	m.draw(a)
 	third, c = m.w / 3, m.c
-	for col in range(1, 6):
+	for col in range(1, 5):
 		m.up(a, c[col] + third, CORE_ROW, 0, d.BUILDS, "implements")
+	m.up(a, c[5] + third, CORE_ROW, 0, d.DECLARES, "api")
 	m.across(a, c[1], c[0] + m.w, m.top[CORE_ROW] + m.rh[CORE_ROW] / 2, d.DECLARES, "api")
 	for col in range(1, 5):
 		m.up(a, c[col] + third, MICROMETER_ROW, CORE_ROW, d.DECLARES, "api")
@@ -87,7 +88,7 @@ def backoff_map():
 		],
 		HUES,
 		[
-			(0, [0, 1, 2], "core", ["Backoff", "FixedBackoff", "ExponentialBackoff"],
+			(0, [0, 1, 2], "core", ["Backoff", "FixedBackoff", "ExponentialBackoff", "JitteredBackoff"],
 				"The delay for an attempt number. Whoever calls it waits and repeats. Not a Policy: it runs nothing."),
 			(1, [0], "spring/core", [], "Backoff as a Spring BackOff."),
 			(2, [1], "resilience/retry/core", ["Retry"], "Pauses between attempts."),
@@ -170,7 +171,7 @@ def breaker_map():
 
 
 def deadline_map():
-	return spring_boot_map((["Deadline"], "A limit in time on what it surrounds: one attempt inside retry, the whole operation outside. A virtual thread and an interrupt."),
+	return spring_boot_map((["Deadline"], "One limit in time on the whole operation, above retry. A virtual thread and an interrupt."),
 		"@Deadline", "The annotation and its aspect.", "Calls past the limit.")
 
 
@@ -208,13 +209,55 @@ def fallback_map():
 		HUES,
 		[
 			(0, [0], *POLICY),
-			(1, [0, 1], "core", ["Fallback"], "A spare answer on failure. Adapters are added when a service needs them."),
+			(1, [0, 1], "core", ["Fallback"], "A spare answer on failure, always outermost: it takes a ready Policy. Adapters are added when a service needs them."),
 		],
 	)
 
 
 def draw_fallback(a, m):
-	m.up(a, m.c[0] + d.W / 3, 1, 0, d.BUILDS, "implements Policy")
+	m.up(a, m.c[0] + d.W / 3, 1, 0, d.DECLARES, "api: Policy")
+
+
+JITTER_PANEL, JITTER_GAP, JITTER_TOP, JITTER_H = 360, 32, 72, 272
+SECOND, ROW, TRACK, BAR, RETRIES_UNIT = 48, 24, 96, 12, 12
+CLIENTS = "A", "B", "C", "D"
+PAUSE, SHORTEST = 5, 2.5
+
+
+def jitter_panel(a, x, title, note, pauses, hue):
+	"""Clients that failed together, each waiting its pause, and the retries that reach the dependency."""
+	y = JITTER_TOP
+	a.plate(x, y, JITTER_PANEL, JITTER_H)
+	a.t(x + 16, y + 28, title, size=b.NAME, color="ink", weight="600")
+	a.t(x + 16, y + 48, note)
+	track, top = x + TRACK, y + 72
+	if len(set(pauses)) > 1:
+		a.rect(track + SHORTEST * SECOND, top - 4, (PAUSE - SHORTEST) * SECOND, len(pauses) * ROW + 4, "card", r=4)
+	for i, (client, pause) in enumerate(zip(CLIENTS, pauses)):
+		cy = top + i * ROW + ROW / 2 - 2
+		a.t(x + 16, cy + 4, f"client {client}")
+		a.add(f'<circle cx="{track}" cy="{cy}" r="4" fill="{a.p["red"]}"/>')
+		a.rect(track + 8, cy - 1, pause * SECOND - 12, 2, "amber", r=1)
+		a.rect(track + pause * SECOND - 5, cy - 5, 10, 10, "blue", r=2)
+	base = top + len(pauses) * ROW + 16 + len(pauses) * RETRIES_UNIT
+	a.t(x + 16, base, "dependency")
+	a.path(f"M{track},{base} H{track + PAUSE * SECOND + 8}")
+	for pause in sorted(set(pauses)):
+		height = pauses.count(pause) * RETRIES_UNIT
+		a.rect(track + pause * SECOND - BAR / 2, base - height, BAR, height, hue, r=2)
+	a.t(track, base + 20, "0 s", anchor="middle")
+	if len(set(pauses)) > 1:
+		a.t(track + SHORTEST * SECOND, base + 20, f"{SHORTEST} s", anchor="middle")
+	a.t(track + PAUSE * SECOND, base + 20, f"{PAUSE} s", anchor="middle")
+
+
+def jitter(pal):
+	x1 = d.X0 + JITTER_PANEL + JITTER_GAP
+	a = b.Art(x1 + JITTER_PANEL + d.X0, JITTER_TOP + JITTER_H + 24, pal)
+	d.header(a, "JITTER", "four clients fail together; a pause of 5 s, a jitter of 0.5")
+	jitter_panel(a, d.X0, "the same pause", "every retry lands at once and fails again", [PAUSE] * 4, "red")
+	jitter_panel(a, x1, "a shortened pause", "the retries spread out and the dependency recovers", [3.3, 4.6, 2.7, 3.9], "green")
+	return a
 
 
 PATTERNS = (
@@ -239,5 +282,6 @@ def pattern(pal, name, build, draw, about):
 if __name__ == "__main__":
 	for theme, pal in b.PALETTE.items():
 		(b.OUT / f"resilience-{theme}.svg").write_text(overview(pal).svg())
+		(b.OUT / f"resilience-jitter-{theme}.svg").write_text(jitter(pal).svg())
 		for name, build, draw, about in PATTERNS:
 			(b.OUT / f"resilience-{name}-{theme}.svg").write_text(pattern(pal, name, build, draw, about).svg())

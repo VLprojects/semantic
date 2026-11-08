@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 824 392" width="824" height="392" role="img">
+  <rect width="824" height="392" rx="12" fill="#F6F8FA"/>
+  <g transform="translate(12,12)">
+    <text x="24.0" y="46.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="16" font-weight="600" fill="#1F2328" text-anchor="start">JITTER</text>
+    <rect x="93.6" y="32.0" width="288.9" height="18" rx="4" fill="#59636E" fill-opacity="0.2"/>
+    <text x="101.6" y="44.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="start">four clients fail together; a pause of 5 s, a jitter of 0.5</text>
+    <rect x="24.0" y="72.0" width="360.0" height="272.0" rx="6" fill="#FFFFFF"/>
+    <text x="40.0" y="100.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="14" font-weight="600" fill="#1F2328" text-anchor="start">the same pause</text>
+    <text x="40.0" y="120.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">every retry lands at once and fails again</text>
+    <text x="40.0" y="158.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">client A</text>
+    <circle cx="120" cy="154.0" r="4" fill="#EE2D62"/>
+    <rect x="128.0" y="153.0" width="228.0" height="2.0" rx="1" fill="#FF9F2E"/>
+    <rect x="355.0" y="149.0" width="10.0" height="10.0" rx="2" fill="#1A7CFF"/>
+    <text x="40.0" y="182.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">client B</text>
+    <circle cx="120" cy="178.0" r="4" fill="#EE2D62"/>
+    <rect x="128.0" y="177.0" width="228.0" height="2.0" rx="1" fill="#FF9F2E"/>
+    <rect x="355.0" y="173.0" width="10.0" height="10.0" rx="2" fill="#1A7CFF"/>
+    <text x="40.0" y="206.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">client C</text>
+    <circle cx="120" cy="202.0" r="4" fill="#EE2D62"/>
+    <rect x="128.0" y="201.0" width="228.0" height="2.0" rx="1" fill="#FF9F2E"/>
+    <rect x="355.0" y="197.0" width="10.0" height="10.0" rx="2" fill="#1A7CFF"/>
+    <text x="40.0" y="230.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">client D</text>
+    <circle cx="120" cy="226.0" r="4" fill="#EE2D62"/>
+    <rect x="128.0" y="225.0" width="228.0" height="2.0" rx="1" fill="#FF9F2E"/>
+    <rect x="355.0" y="221.0" width="10.0" height="10.0" rx="2" fill="#1A7CFF"/>
+    <text x="40.0" y="304.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">dependency</text>
+    <path d="M120,304 H368" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="354.0" y="256.0" width="12.0" height="48.0" rx="2" fill="#EE2D62"/>
+    <text x="120.0" y="324.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">0 s</text>
+    <text x="360.0" y="324.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">5 s</text>
+    <rect x="416.0" y="72.0" width="360.0" height="272.0" rx="6" fill="#FFFFFF"/>
+    <text x="432.0" y="100.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="14" font-weight="600" fill="#1F2328" text-anchor="start">a shortened pause</text>
+    <text x="432.0" y="120.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">the retries spread out and the dependency recovers</text>
+    <rect x="632.0" y="140.0" width="120.0" height="100.0" rx="4" fill="#E3E8ED"/>
+    <text x="432.0" y="158.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">client A</text>
+    <circle cx="512" cy="154.0" r="4" fill="#EE2D62"/>
+    <rect x="520.0" y="153.0" width="146.4" height="2.0" rx="1" fill="#FF9F2E"/>
+    <rect x="665.4" y="149.0" width="10.0" height="10.0" rx="2" fill="#1A7CFF"/>
+    <text x="432.0" y="182.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">client B</text>
+    <circle cx="512" cy="178.0" r="4" fill="#EE2D62"/>
+    <rect x="520.0" y="177.0" width="208.8" height="2.0" rx="1" fill="#FF9F2E"/>
+    <rect x="727.8" y="173.0" width="10.0" height="10.0" rx="2" fill="#1A7CFF"/>
+    <text x="432.0" y="206.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">client C</text>
+    <circle cx="512" cy="202.0" r="4" fill="#EE2D62"/>
+    <rect x="520.0" y="201.0" width="117.6" height="2.0" rx="1" fill="#FF9F2E"/>
+    <rect x="636.6" y="197.0" width="10.0" height="10.0" rx="2" fill="#1A7CFF"/>
+    <text x="432.0" y="230.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">client D</text>
+    <circle cx="512" cy="226.0" r="4" fill="#EE2D62"/>
+    <rect x="520.0" y="225.0" width="175.2" height="2.0" rx="1" fill="#FF9F2E"/>
+    <rect x="694.2" y="221.0" width="10.0" height="10.0" rx="2" fill="#1A7CFF"/>
+    <text x="432.0" y="304.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">dependency</text>
+    <path d="M512,304 H760" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="635.6" y="292.0" width="12.0" height="12.0" rx="2" fill="#22C063"/>
+    <rect x="664.4" y="292.0" width="12.0" height="12.0" rx="2" fill="#22C063"/>
+    <rect x="693.2" y="292.0" width="12.0" height="12.0" rx="2" fill="#22C063"/>
+    <rect x="726.8" y="292.0" width="12.0" height="12.0" rx="2" fill="#22C063"/>
+    <text x="512.0" y="324.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">0 s</text>
+    <text x="632.0" y="324.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">2.5 s</text>
+    <text x="752.0" y="324.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">5 s</text>
+  </g>
+</svg>

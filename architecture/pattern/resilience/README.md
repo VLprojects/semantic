@@ -3,8 +3,8 @@
 Patterns that keep a service working when a dependency fails. Each pattern is a module of its own with
 its own adapters, and a service declares only the patterns it uses.
 
-This is the planned layout. So far only `Backoff` has code, and the adapters of each pattern are
-agreed when that pattern is built.
+This is the planned layout. So far only `Policy` and `Backoff` have code, and the adapters of each
+pattern are agreed when that pattern is built.
 
 ![Patterns of resilience and the adapters of each one](../../../docs/assets/resilience-light.svg#gh-light-mode-only)
 ![Patterns of resilience and the adapters of each one](../../../docs/assets/resilience-dark.svg#gh-dark-mode-only)
@@ -15,6 +15,7 @@ agreed when that pattern is built.
 | --- | --- | --- |
 | `core` | `semantic-resilience` | `Policy` and how policies combine; depends on no pattern |
 | `backoff/core` | `semantic-resilience-backoff` | how long to wait between attempts |
+| `backoff/spring/core` | `semantic-resilience-backoff-spring` | `Backoff` as a Spring `BackOff` |
 | `retry/core` | `semantic-resilience-retry` | repeats a failed call |
 | `circuit-breaker/core` | `semantic-resilience-circuit-breaker` | stops calling a dependency that is down |
 | `deadline/core` | `semantic-resilience-deadline` | a limit in time on what it surrounds |
@@ -26,15 +27,34 @@ An adapter lives under its pattern: `<pattern>/observability/micrometer`, `<patt
 
 ## Combining patterns
 
-Every pattern except `backoff` is a `Policy`, and a combination of policies is a `Policy` too. The order
-is what the calling code writes:
+`Retry`, `CircuitBreaker`, `Deadline` and `Bulkhead` are each a `Policy`, and a combination of policies is
+a `Policy` too. The first policy is the outermost:
 
 ```kotlin
-retry.around(breaker).execute { client.load() }
+val resilient = Policy.of(deadline, breaker, retry, bulkhead)
+
+resilient.execute { client.load() }
 ```
 
-A deadline covers what it surrounds: inside `retry` it limits one attempt, outside it limits the whole
-operation.
+The library does not enforce an order. This is the recommended one, from the outermost:
+
+```text
+fallback
+└─ deadline          one limit on the whole operation
+   └─ circuit breaker
+      └─ retry
+         └─ bulkhead
+            └─ the call
+```
+
+`backoff` runs nothing, so it is not a `Policy`. `Fallback` is not one either: its spare answer has a type
+of its own. It takes a ready policy and so always stays the outermost:
+
+```kotlin
+Fallback(Profile.EMPTY, resilient).execute { client.load() }
+```
+
+The other forms of combining and the reasons for this order are in the [README of `core`](core/README.md).
 
 ## Modules of each pattern
 
@@ -42,6 +62,13 @@ operation.
 
 ![Modules of backoff](../../../docs/assets/resilience-backoff-light.svg#gh-light-mode-only)
 ![Modules of backoff](../../../docs/assets/resilience-backoff-dark.svg#gh-dark-mode-only)
+
+Clients that fail together and wait the same pause come back together and bring the dependency down again.
+`jittered()` shortens each pause by a random share, so the retries spread out. See
+[the module](backoff/core/README.md).
+
+![Retries with the same pause and with a shortened pause](../../../docs/assets/resilience-jitter-light.svg#gh-light-mode-only)
+![Retries with the same pause and with a shortened pause](../../../docs/assets/resilience-jitter-dark.svg#gh-dark-mode-only)
 
 ### Retry
 
