@@ -1,13 +1,34 @@
 package pro.vlprojects.semantic.delivery.outbox
 
-public interface Outbox {
+import java.time.Instant
 
-    public fun schedule(
-        payload: Any,
-        key: String,
-        context: Map<String, String> = emptyMap(),
-        idempotencyKey: String? = null,
-    )
+public class Outbox(
+    public val id: String,
+    public val key: String,
+    public val delivererId: String,
+    public val payloadType: String,
+    public val payload: String,
+    public val idempotencyKey: String,
+    public val createdAt: Instant,
+    public val nextRetryAt: Instant,
+    public val context: Map<String, String> = emptyMap(),
+    public val status: OutboxStatus = OutboxStatus.NEW,
+    public val failureCount: Int = 0,
+    public val leaseToken: String? = null,
+    public val leaseExpiresAt: Instant? = null,
+    public val completedAt: Instant? = null,
+    public val lastError: String? = null,
+) {
 
-    public fun schedule(payload: Any)
+    public val metadata: OutboxMetadata
+        get() = OutboxMetadata(
+            id = id,
+            key = key,
+            delivererId = delivererId,
+            payloadType = payloadType,
+            idempotencyKey = idempotencyKey,
+            failureCount = failureCount,
+            createdAt = createdAt,
+            context = context,
+        )
 }

@@ -3,15 +3,15 @@ package pro.vlprojects.semantic.delivery.unit.outbox
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import pro.vlprojects.semantic.delivery.outbox.OutboxRecord
-import pro.vlprojects.semantic.delivery.outbox.OutboxRecordStatus
+import pro.vlprojects.semantic.delivery.outbox.Outbox
+import pro.vlprojects.semantic.delivery.outbox.OutboxStatus
 import java.time.Instant
 
-class OutboxRecordTests {
+class OutboxTests {
 
     private val moment = Instant.parse("2026-11-09T00:00:00Z")
 
-    private fun createRecord() = OutboxRecord(
+    private fun createOutbox() = Outbox(
         id = "record",
         key = "order-1",
         delivererId = "deliverer",
@@ -25,9 +25,9 @@ class OutboxRecordTests {
 
     @Test
     fun `a new record has no failures and no lease`() {
-        val record = createRecord()
+        val record = createOutbox()
 
-        assertEquals(OutboxRecordStatus.NEW, record.status)
+        assertEquals(OutboxStatus.NEW, record.status)
         assertEquals(0, record.failureCount)
         assertNull(record.leaseToken)
         assertNull(record.leaseExpiresAt)
@@ -37,7 +37,7 @@ class OutboxRecordTests {
 
     @Test
     fun `the metadata repeats what a record says about itself`() {
-        val metadata = createRecord().metadata
+        val metadata = createOutbox().metadata
 
         assertEquals("record", metadata.id)
         assertEquals("order-1", metadata.key)

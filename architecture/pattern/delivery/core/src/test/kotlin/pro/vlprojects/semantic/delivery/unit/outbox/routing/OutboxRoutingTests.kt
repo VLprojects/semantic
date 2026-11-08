@@ -3,7 +3,7 @@ package pro.vlprojects.semantic.delivery.unit.outbox.routing
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import pro.vlprojects.semantic.delivery.outbox.OutboxRecordMetadata
+import pro.vlprojects.semantic.delivery.outbox.OutboxMetadata
 import pro.vlprojects.semantic.delivery.outbox.routing.OutboxPayloadSelector
 import pro.vlprojects.semantic.delivery.outbox.routing.OutboxPayloadTypeSelector
 import pro.vlprojects.semantic.delivery.outbox.routing.OutboxRoute
@@ -12,7 +12,7 @@ import java.time.Instant
 
 class OutboxRoutingTests {
 
-    private val metadata = OutboxRecordMetadata(
+    private val metadata = OutboxMetadata(
         id = "record",
         key = "order-1",
         delivererId = "deliverer",

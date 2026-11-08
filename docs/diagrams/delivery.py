@@ -182,17 +182,17 @@ MODULES = Map(
 		(0, [0], "resilience/core", ["Backoff"], "The delay for an attempt number."),
 		(1, [0, 1, 2], "core",
 			["Outbox", "OutboxDeliverer", "OutboxDeliveryFallback", "OutboxRetryPolicy", "OutboxRouting", "OutboxPayloadSerializer",
-				"OutboxContextProvider", "OutboxInstrumentation", "InboxInstrumentation", "OutboxMetricNames", "OutboxRecordRepository", "OutboxRecordAdministration", "OutboxDispatcher",
+				"OutboxContextProvider", "OutboxInstrumentation", "InboxInstrumentation", "OutboxMetricNames", "OutboxFactory", "OutboxRepository", "OutboxAdministration", "OutboxDispatcher",
 				"InboxRepository", "IdempotentReceiver", "TransactionRunner"],
 			"The model, the SPI and the processing. A payload is opaque. Instrumentation does nothing by default."),
 		(2, [0], "jackson", ["JacksonOutboxPayloadSerializer"], "A payload as JSON."),
 		(2, [1], "observability/micrometer", ["MicrometerOutboxInstrumentation", "OutboxObservationDocumentation", "OutboxObservationConvention"],
 			"Turns the events of the core into timers and spans. Optional."),
-		(2, [2], "test", ["OutboxRecordRepositoryContract", "InboxRepositoryContract"], "Every storage adapter runs this contract."),
+		(2, [2], "test", ["OutboxRepositoryContract", "InboxRepositoryContract"], "Every storage adapter runs this contract."),
 		(3, [0, 1], "spring/core", ["OutboxDelivererBeanPostProcessor", "SpringTransactionRunner", "DeliveryStartupCheck"],
 			"Finds deliverers, joins the transaction, fails on start when a deliverer, a route or a table is missing."),
 		(3, [2], "spring/rabbitmq", ["RabbitOutboxDeliverer", "RabbitOutboxRouting"], "One more deliverer: done on a publisher confirm."),
-		(4, [0, 1], "spring/jdbc, spring/data/jpa, spring/data/mongodb", ["*OutboxRecordRepository", "*InboxRepository"],
+		(4, [0, 1], "spring/jdbc, spring/data/jpa, spring/data/mongodb", ["*OutboxRepository", "*InboxRepository"],
 			"Three adapters of storage. SKIP LOCKED with a lease; findAndModify on MongoDB."),
 		(5, [0, 1], "spring-boot/autoconfigure", ["DeliveryAutoConfiguration", "DeliveryProperties", "OutboxDispatchScheduler"],
 			"semantic.delivery settings, the lifecycle of OutboxDispatcher on a schedule."),
@@ -332,8 +332,8 @@ def flow(pal):
 
 	ya = top_a + FRAME
 	row(a, ya, (
-		("blue", "Outbox.schedule", "payload and key; outside a transaction it throws"),
-		("blue", "repository.add", "a record per deliverer, NEW, with the context"),
+		("blue", "OutboxFactory.create", "payload, key and deliverer; the context and idempotency key"),
+		("blue", "OutboxRepository.save", "one record, NEW; outside a transaction it throws"),
 		("green", "commit", "the change and the record exist together"),
 	))
 
@@ -367,7 +367,7 @@ def flow(pal):
 	row(a, yc, (
 		("blue", "IdempotentReceiver", "opens the transaction through TransactionRunner"),
 		("blue", "Inbox.accept", "source, idempotency key, consumer; a duplicate stops here"),
-		("card", "@TransactionalInbox", "the handler; what it sends goes through Outbox.schedule"),
+		("card", "@TransactionalInbox", "the handler; what it sends goes through OutboxRepository.save"),
 		("green", "commit, then ack", "a crash before ack brings a duplicate"),
 	))
 

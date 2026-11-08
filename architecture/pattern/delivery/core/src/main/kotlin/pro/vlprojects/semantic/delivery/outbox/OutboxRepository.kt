@@ -3,11 +3,11 @@ package pro.vlprojects.semantic.delivery.outbox
 import java.time.Duration
 import java.time.Instant
 
-public interface OutboxRecordRepository {
+public interface OutboxRepository {
 
-    public fun add(record: OutboxRecord)
+    public fun save(outbox: Outbox)
 
-    public fun claim(limit: Int, lease: Duration, now: Instant): List<OutboxRecord>
+    public fun claim(limit: Int, lease: Duration, now: Instant): List<Outbox>
 
     public fun complete(id: String, token: String, now: Instant): Boolean
 

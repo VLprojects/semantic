@@ -2,7 +2,7 @@ package pro.vlprojects.semantic.delivery.outbox
 
 import java.time.Instant
 
-public class OutboxRecordMetadata(
+public class OutboxMetadata(
     public val id: String,
     public val key: String,
     public val delivererId: String,

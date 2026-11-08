@@ -1,6 +1,6 @@
 # semantic-delivery
 
-Transactional outbox and inbox for Kotlin and Java. A service calls `Outbox.schedule` in its own
+Transactional outbox and inbox for Kotlin and Java. A service creates an `Outbox` and saves it in its own
 transaction; after the commit `OutboxDispatcher` calls an `OutboxDeliverer` at least once. A broker is one more
 deliverer. The inbox drops the duplicates a consumer receives.
 
@@ -16,10 +16,10 @@ Packages `delivery.outbox` and `delivery.observability` of `semantic-delivery`:
 
 | Type | What it is |
 | --- | --- |
-| `Outbox` | takes a payload in the transaction of the change that caused it |
-| `OutboxRecord` | one payload for one deliverer: `key`, `delivererId`, the text of the payload, status, lease |
-| `OutboxRecordRepository` | adds a record, claims a batch under a lease, closes a record by its lease token |
-| `OutboxRecordAdministration` | counts records, returns `FAILED` to `NEW`, deletes |
+| `Outbox` | a record of one payload for one deliverer: `key`, `delivererId`, the text of the payload, status, lease |
+| `OutboxFactory` | creates an `Outbox`: the text of the payload, its context and idempotency key |
+| `OutboxRepository` | saves a record in the transaction of the change, claims a batch under a lease, closes a record by its lease token |
+| `OutboxAdministration` | counts records, returns `FAILED` to `NEW`, deletes |
 | `OutboxPayloadSerializer` | turns a payload into text and back |
 | `OutboxContextProvider` | adds context to a record, a trace or a tenant |
 | `OutboxRouting` | finds where a broker deliverer sends a payload: the first matching `OutboxRoute` |
@@ -28,8 +28,9 @@ Packages `delivery.outbox` and `delivery.observability` of `semantic-delivery`:
 | `OutboxInstrumentation` | hears of a record scheduled, its handling started, handled and failed |
 
 `key` orders records and `idempotencyKey` names the operation: an inbox carries an operation out once.
-The latter is the key passed to `schedule`, else the `@IdempotencyKey` property, else the id of the record.
-A `schedule` without a key takes the id of the record as its `key`, so such a record has no order.
+The latter is the key passed to `OutboxFactory`, else the `@IdempotencyKey` property, else the id of the record.
+A record created without a key takes the id of the record as its `key`, so such a record has no order.
+Two deliverers take two records, so the failure of one does not repeat the other.
 
 `claim` takes one record per key, the earliest unfinished one, and order must hold for records with an
 equal `createdAt`. A method that takes a token changes nothing and returns `false` once the lease is lost.

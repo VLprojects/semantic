@@ -17,13 +17,13 @@
     <text x="40.0" y="604.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6E7681" text-anchor="start">one transaction of the</text>
     <text x="40.0" y="618.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6E7681" text-anchor="start">consumer</text>
     <rect x="214.0" y="96.0" width="252.0" height="76.0" rx="6" fill="#6E9BFF"/>
-    <text x="226.0" y="120.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#06173D" text-anchor="start">Outbox.schedule</text>
-    <text x="226.0" y="140.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1B3A80" text-anchor="start">payload and key; outside a transaction</text>
-    <text x="226.0" y="156.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1B3A80" text-anchor="start">it throws</text>
+    <text x="226.0" y="120.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#06173D" text-anchor="start">OutboxFactory.create</text>
+    <text x="226.0" y="140.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1B3A80" text-anchor="start">payload, key and deliverer; the context</text>
+    <text x="226.0" y="156.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1B3A80" text-anchor="start">and idempotency key</text>
     <rect x="522.0" y="96.0" width="252.0" height="76.0" rx="6" fill="#6E9BFF"/>
-    <text x="534.0" y="120.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#06173D" text-anchor="start">repository.add</text>
-    <text x="534.0" y="140.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1B3A80" text-anchor="start">a record per deliverer, NEW, with the</text>
-    <text x="534.0" y="156.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1B3A80" text-anchor="start">context</text>
+    <text x="534.0" y="120.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#06173D" text-anchor="start">OutboxRepository.save</text>
+    <text x="534.0" y="140.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1B3A80" text-anchor="start">one record, NEW; outside a transaction</text>
+    <text x="534.0" y="156.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1B3A80" text-anchor="start">it throws</text>
     <circle cx="471" cy="134.0" r="2" fill="#A78BFA"/>
     <path d="M519,134.0 L514.0,136.5 L514.0,131.5 Z" fill="#A78BFA" stroke="#A78BFA" stroke-width="0.5" stroke-linejoin="round"/>
     <path d="M471,134.0 L514,134.0" stroke="#A78BFA" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
@@ -78,7 +78,7 @@
     <rect x="830.0" y="560.0" width="252.0" height="76.0" rx="6" fill="#29313C"/>
     <text x="842.0" y="584.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">@TransactionalInbox</text>
     <text x="842.0" y="604.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">the handler; what it sends goes through</text>
-    <text x="842.0" y="620.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">Outbox.schedule</text>
+    <text x="842.0" y="620.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">OutboxRepository.save</text>
     <circle cx="779" cy="598.0" r="2" fill="#A78BFA"/>
     <path d="M827,598.0 L822.0,600.5 L822.0,595.5 Z" fill="#A78BFA" stroke="#A78BFA" stroke-width="0.5" stroke-linejoin="round"/>
     <path d="M779,598.0 L822,598.0" stroke="#A78BFA" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
