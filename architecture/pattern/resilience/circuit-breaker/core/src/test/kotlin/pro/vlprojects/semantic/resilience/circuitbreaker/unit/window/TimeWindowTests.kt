@@ -71,6 +71,7 @@ class TimeWindowTests {
     fun `buckets expire again after a clock moved back`() {
         window.record(FAILURE)
         clock.move(Duration.ofDays(-1))
+        window.summarize()
         clock.move(Duration.ofSeconds(3))
 
         assertEquals(CallStatistics(total = 0, failed = 0, slow = 0), window.summarize())
