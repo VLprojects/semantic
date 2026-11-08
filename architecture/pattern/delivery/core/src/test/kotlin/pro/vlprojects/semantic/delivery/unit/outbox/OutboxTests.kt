@@ -36,18 +36,18 @@ class OutboxTests {
     @Test
     fun `failing unlocks the record and schedules it again`() {
         outbox.start(later)
-        outbox.fail(later, IllegalStateException("timeout"))
+        outbox.fail(later, "timeout")
 
         assertEquals(DeliveryStatus.FAILED, outbox.delivery.status)
         assertEquals(later, outbox.delivery.scheduledAt)
-        assertEquals("java.lang.IllegalStateException: timeout", outbox.delivery.error)
+        assertEquals("timeout", outbox.delivery.error)
         assertNull(outbox.delivery.lockedUntil)
     }
 
     @Test
     fun `a long error is cut`() {
         outbox.start(later)
-        outbox.fail(later, IllegalStateException("x".repeat(2000)))
+        outbox.fail(later, "x".repeat(2000))
 
         assertEquals(1000, outbox.delivery.error?.length)
     }
@@ -64,11 +64,11 @@ class OutboxTests {
     @Test
     fun `canceling keeps the last error and records the termination time`() {
         outbox.start(later)
-        outbox.fail(later, IllegalStateException("timeout"))
+        outbox.fail(later, "timeout")
         outbox.cancel(later)
 
         assertEquals(DeliveryStatus.CANCELED, outbox.delivery.status)
-        assertEquals("java.lang.IllegalStateException: timeout", outbox.delivery.error)
+        assertEquals("timeout", outbox.delivery.error)
         assertEquals(later, outbox.delivery.terminatedAt)
     }
 

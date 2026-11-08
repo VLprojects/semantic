@@ -7,27 +7,30 @@ public class OutboxService(
     private val repository: OutboxRepository,
     private val lockDuration: Duration,
     private val clock: Clock,
+    private val errorPolicy: ErrorPolicy = RootCauseErrorPolicy,
 ) {
 
-    public fun lockForDelivery(limit: Int): List<Outbox> = clock
+    public fun getAllWithLock(limit: Int): List<Outbox> = clock
         .instant()
-        .let { repository.findReadyForDelivery(it, limit) }
+        .let { repository.findScheduledForDelivery(it, limit) }
         .mapNotNull(::tryLock)
 
-    public fun completeDelivery(outbox: Outbox): Outbox = clock
+    public fun complete(outbox: Outbox): Outbox = clock
         .instant()
         .let(outbox::complete)
         .let { repository.save(outbox) }
 
-    public fun retryDelivery(outbox: Outbox, cause: Throwable, delay: Duration): Outbox = clock
-        .instant()
-        .plus(delay)
-        .let { outbox.fail(it, cause) }
-        .let { repository.save(outbox) }
+    public fun retry(outbox: Outbox, cause: Throwable, delay: Duration): Outbox {
+        val scheduledAt = clock.instant().plus(delay)
+        val error = errorPolicy.extract(cause)
+        outbox.fail(scheduledAt, error)
+        return repository.save(outbox)
+    }
 
-    public fun cancelDelivery(outbox: Outbox, cause: Throwable): Outbox {
+    public fun cancel(outbox: Outbox, cause: Throwable): Outbox {
         val now = clock.instant()
-        outbox.fail(now, cause)
+        val error = errorPolicy.extract(cause)
+        outbox.fail(now, error)
         outbox.cancel(now)
         return repository.save(outbox)
     }
@@ -38,7 +41,7 @@ public class OutboxService(
             .plus(lockDuration)
             .let(outbox::start)
             .let { repository.save(outbox) }
-    } catch (_: OutboxVersionConflictException) {
+    } catch (_: OutboxOptimisticLockException) {
         null
     }
 }

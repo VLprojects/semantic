@@ -8,7 +8,7 @@ public interface OutboxRepository {
 
     public fun findById(id: OutboxId): Outbox?
 
-    public fun findReadyForDelivery(until: Instant, limit: Int): List<Outbox>
+    public fun findScheduledForDelivery(until: Instant, limit: Int): List<Outbox>
 
     public fun deleteAll(status: DeliveryStatus, terminatedBefore: Instant, limit: Int): Int
 }

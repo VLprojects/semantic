@@ -6,7 +6,7 @@ import pro.vlprojects.semantic.delivery.outbox.Payload
 import java.time.Instant
 
 internal fun createOutbox(createdAt: Instant, id: String = "record") = Outbox.of(
-    id = OutboxId(id),
+    id = OutboxId.of(id),
     orderingKey = "order-1",
     idempotencyKey = "operation",
     deliverer = "deliverer",

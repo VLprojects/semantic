@@ -4,13 +4,16 @@ import pro.vlprojects.semantic.format.abbreviation.SuffixAbbreviation
 import pro.vlprojects.semantic.format.abbreviation.abbreviated
 import java.time.Instant
 
-public data class Delivery(
+private const val MAX_ERROR_LENGTH = 1000
+
+@ConsistentCopyVisibility
+public data class Delivery private constructor(
     public val scheduledAt: Instant,
-    public val status: DeliveryStatus = DeliveryStatus.PENDING,
-    public val attempts: Int = 0,
-    public val lockedUntil: Instant? = null,
-    public val terminatedAt: Instant? = null,
-    public val error: String? = null,
+    public val status: DeliveryStatus,
+    public val attempts: Int,
+    public val lockedUntil: Instant?,
+    public val terminatedAt: Instant?,
+    public val error: String?,
 ) {
 
     internal fun started(lockedUntil: Instant): Delivery {
@@ -23,9 +26,9 @@ public data class Delivery(
         return copy(status = DeliveryStatus.COMPLETED, lockedUntil = null, terminatedAt = terminatedAt, error = null)
     }
 
-    internal fun failed(scheduledAt: Instant, cause: Throwable): Delivery {
+    internal fun failed(scheduledAt: Instant, error: String): Delivery {
         checkHasStartedStatus()
-        val abbreviatedError = cause.toString().abbreviated(
+        val abbreviatedError = error.abbreviated(
             minLength = MAX_ERROR_LENGTH,
             visibleLength = MAX_ERROR_LENGTH - 1,
             abbreviation = SuffixAbbreviation,
@@ -49,8 +52,15 @@ public data class Delivery(
 
     private fun checkHasFailedStatus() = check(status == DeliveryStatus.FAILED) { "Delivery is $status" }
 
-    private companion object {
+    public companion object Factory {
 
-        const val MAX_ERROR_LENGTH = 1000
+        public fun of(
+            scheduledAt: Instant,
+            status: DeliveryStatus = DeliveryStatus.PENDING,
+            attempts: Int = 0,
+            lockedUntil: Instant? = null,
+            terminatedAt: Instant? = null,
+            error: String? = null,
+        ): Delivery = Delivery(scheduledAt, status, attempts, lockedUntil, terminatedAt, error)
     }
 }
