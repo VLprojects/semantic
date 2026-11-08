@@ -26,8 +26,8 @@ public class Outbox private constructor(
         .failed(scheduledAt, error)
         .let(::replaceDelivery)
 
-    internal fun abandoned(error: String) = error
-        .let(delivery::abandoned)
+    internal fun canceled(error: String) = error
+        .let(delivery::canceled)
         .let(::replaceDelivery)
 
     private fun replaceDelivery(delivery: Delivery) = Outbox(

@@ -82,15 +82,15 @@ class OutboxServiceTests {
     }
 
     @Test
-    fun `stopping keeps the reason`() {
+    fun `canceling keeps the reason`() {
         val service = createService(ready = readyOutboxes)
 
-        val abandoned = service
+        val canceled = service
             .lockForDelivery(1)
             .single()
-            .let { service.stopDelivery(it, "exhausted") }
+            .let { service.cancelDelivery(it, "exhausted") }
 
-        assertEquals(DeliveryStatus.ABANDONED, abandoned.delivery.status)
-        assertEquals("exhausted", abandoned.delivery.error)
+        assertEquals(DeliveryStatus.CANCELED, canceled.delivery.status)
+        assertEquals("exhausted", canceled.delivery.error)
     }
 }

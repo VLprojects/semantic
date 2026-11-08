@@ -25,8 +25,8 @@ public class OutboxService(
         .let { outbox.failed(it, error) }
         .let(repository::save)
 
-    public fun stopDelivery(outbox: Outbox, error: String): Outbox = error
-        .let(outbox::abandoned)
+    public fun cancelDelivery(outbox: Outbox, error: String): Outbox = error
+        .let(outbox::canceled)
         .let(repository::save)
 
     private fun tryLock(outbox: Outbox) = try {

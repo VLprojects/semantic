@@ -5,5 +5,5 @@ public enum class DeliveryStatus(public val isTerminal: Boolean) {
     IN_PROGRESS(isTerminal = false),
     FAILED(isTerminal = false),
     COMPLETED(isTerminal = true),
-    ABANDONED(isTerminal = true),
+    CANCELED(isTerminal = true),
 }

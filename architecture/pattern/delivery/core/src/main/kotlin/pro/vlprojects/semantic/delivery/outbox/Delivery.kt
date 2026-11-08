@@ -14,30 +14,35 @@ public data class Delivery(
 ) {
 
     internal fun started(lockedUntil: Instant): Delivery {
-        check(!status.isTerminal) { "Delivery is already $status" }
+        checkHasNotTerminalStatus()
         return copy(status = DeliveryStatus.IN_PROGRESS, attempts = attempts + 1, lockedUntil = lockedUntil)
     }
 
     internal fun completed(completedAt: Instant): Delivery {
-        checkInProgress()
+        checkHasInProgressStatus()
         return copy(status = DeliveryStatus.COMPLETED, lockedUntil = null, completedAt = completedAt, error = null)
     }
 
     internal fun failed(scheduledAt: Instant, error: String): Delivery {
-        checkInProgress()
-        return error
-            .let(::abbreviate)
-            .let { copy(scheduledAt = scheduledAt, status = DeliveryStatus.FAILED, lockedUntil = null, error = it) }
+        checkHasInProgressStatus()
+        val abbreviatedError = abbreviate(error)
+        return copy(
+            scheduledAt = scheduledAt,
+            status = DeliveryStatus.FAILED,
+            lockedUntil = null,
+            error = abbreviatedError,
+        )
     }
 
-    internal fun abandoned(error: String): Delivery {
-        checkInProgress()
-        return error
-            .let(::abbreviate)
-            .let { copy(status = DeliveryStatus.ABANDONED, lockedUntil = null, error = it) }
+    internal fun canceled(error: String): Delivery {
+        checkHasInProgressStatus()
+        val abbreviatedError = abbreviate(error)
+        return copy(status = DeliveryStatus.CANCELED, lockedUntil = null, error = abbreviatedError)
     }
 
-    private fun checkInProgress() = check(status == DeliveryStatus.IN_PROGRESS) { "Delivery is $status" }
+    private fun checkHasNotTerminalStatus() = check(!status.isTerminal) { "Delivery is already $status" }
+
+    private fun checkHasInProgressStatus() = check(status == DeliveryStatus.IN_PROGRESS) { "Delivery is $status" }
 
     private fun abbreviate(error: String) = error.abbreviated(
         minLength = MAX_ERROR_LENGTH,

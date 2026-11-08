@@ -21,8 +21,8 @@ public final class pro/vlprojects/semantic/delivery/outbox/Delivery {
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/DeliveryStatus : java/lang/Enum {
-	public static final field ABANDONED Lpro/vlprojects/semantic/delivery/outbox/DeliveryStatus;
 	public static final field AWAITING Lpro/vlprojects/semantic/delivery/outbox/DeliveryStatus;
+	public static final field CANCELED Lpro/vlprojects/semantic/delivery/outbox/DeliveryStatus;
 	public static final field COMPLETED Lpro/vlprojects/semantic/delivery/outbox/DeliveryStatus;
 	public static final field FAILED Lpro/vlprojects/semantic/delivery/outbox/DeliveryStatus;
 	public static final field IN_PROGRESS Lpro/vlprojects/semantic/delivery/outbox/DeliveryStatus;
@@ -67,10 +67,10 @@ public abstract interface class pro/vlprojects/semantic/delivery/outbox/OutboxRe
 
 public final class pro/vlprojects/semantic/delivery/outbox/OutboxService {
 	public fun <init> (Lpro/vlprojects/semantic/delivery/outbox/OutboxRepository;Ljava/time/Duration;Ljava/time/Clock;)V
+	public final fun cancelDelivery (Lpro/vlprojects/semantic/delivery/outbox/Outbox;Ljava/lang/String;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
 	public final fun completeDelivery (Lpro/vlprojects/semantic/delivery/outbox/Outbox;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
 	public final fun lockForDelivery (I)Ljava/util/List;
 	public final fun retryDelivery (Lpro/vlprojects/semantic/delivery/outbox/Outbox;Ljava/lang/String;Ljava/time/Duration;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
-	public final fun stopDelivery (Lpro/vlprojects/semantic/delivery/outbox/Outbox;Ljava/lang/String;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/OutboxVersionConflictException : java/lang/RuntimeException {

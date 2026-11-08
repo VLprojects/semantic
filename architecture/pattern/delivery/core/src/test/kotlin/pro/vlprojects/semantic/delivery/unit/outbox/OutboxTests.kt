@@ -49,7 +49,7 @@ class OutboxTests {
     fun `a long error is cut`() {
         val delivery = createOutbox(moment)
             .started(later)
-            .abandoned("x".repeat(2000))
+            .canceled("x".repeat(2000))
             .delivery
 
         assertEquals(1000, delivery.error?.length)
