@@ -1,12 +1,10 @@
 package pro.vlprojects.semantic.delivery.outbox.context
 
-import java.util.UUID
-
 @ConsistentCopyVisibility
 public data class Context private constructor(
     public val target: String,
-    public val orderingKey: String,
-    public val idempotencyKey: String,
+    public val orderingKey: String?,
+    public val idempotencyKey: String?,
     public val attributes: Map<String, String>,
 ) {
 
@@ -44,13 +42,9 @@ public data class Context private constructor(
             attributes: Map<String, String> = emptyMap(),
         ): Context = Context(
             target = target,
-            orderingKey = orderingKey ?: generateKey(),
-            idempotencyKey = idempotencyKey ?: generateKey(),
+            orderingKey = orderingKey,
+            idempotencyKey = idempotencyKey,
             attributes = attributes,
         )
-
-        private fun generateKey() = UUID
-            .randomUUID()
-            .toString()
     }
 }

@@ -1,17 +1,18 @@
 package pro.vlprojects.semantic.delivery.unit.outbox.context
 
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import pro.vlprojects.semantic.delivery.outbox.context.Context
 
 class ContextTests {
 
     @Test
-    fun `creating without keys generates different ones`() {
+    fun `creating without keys leaves them empty`() {
         val context = Context.of("rabbit")
 
-        assertNotEquals(context.orderingKey, context.idempotencyKey)
+        assertNull(context.orderingKey)
+        assertNull(context.idempotencyKey)
     }
 
     @Test
