@@ -2,12 +2,17 @@ package pro.vlprojects.semantic.delivery.unit.outbox
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import pro.vlprojects.semantic.delivery.outbox.DeliveryOptions
 import pro.vlprojects.semantic.delivery.outbox.DeliveryStatus
 import pro.vlprojects.semantic.delivery.outbox.Outbox
 import pro.vlprojects.semantic.delivery.outbox.OutboxId
 import pro.vlprojects.semantic.delivery.outbox.OutboxProperties
 import pro.vlprojects.semantic.delivery.outbox.OutboxRepository
 import pro.vlprojects.semantic.delivery.outbox.OutboxService
+import pro.vlprojects.semantic.delivery.outbox.Payload
+import pro.vlprojects.semantic.delivery.outbox.PayloadSerializer
+import pro.vlprojects.semantic.delivery.outbox.context.OutboxContextCollector
+import pro.vlprojects.semantic.delivery.outbox.context.OutboxContextProvider
 import pro.vlprojects.semantic.resilience.backoff.FixedBackoff
 import java.time.Clock
 import java.time.Duration
@@ -22,10 +27,17 @@ class OutboxServiceTests {
     private val cause = IllegalStateException("timeout")
     private val lockedOutboxes = mutableListOf<Outbox>()
     private val lockRequests = mutableListOf<Pair<Instant, Instant>>()
+    private val savedOutboxes = mutableListOf<Outbox>()
+    private val generatedId = OutboxId.of("generated")
+    private val payload = Payload.of("order", byteArrayOf(1))
+    private val serializer = PayloadSerializer { payload }
+    private val contextCollector = OutboxContextProvider { mapOf("tenant" to "collected", "trace" to "abc") }
+        .let(::listOf)
+        .let(::OutboxContextCollector)
 
     private val repository = object : OutboxRepository {
 
-        override fun save(outbox: Outbox) = outbox
+        override fun save(outbox: Outbox) = outbox.also(savedOutboxes::add)
 
         override fun findById(id: OutboxId) = lockedOutboxes.find { it.id == id }
 
@@ -48,7 +60,46 @@ class OutboxServiceTests {
         lockDuration = lockDuration,
         maxAttempts = maxAttempts,
         backoff = backoff,
-    ).let { OutboxService(repository, it, clock) }
+    ).let { OutboxService(repository, serializer, contextCollector, { generatedId }, it, clock) }
+
+    @Test
+    fun `creating saves a pending record scheduled for now`() {
+        val created = service.create("order", "rabbit")
+
+        assertEquals(listOf(created), savedOutboxes)
+        assertEquals(generatedId, created.id)
+        assertEquals("rabbit", created.deliverer)
+        assertEquals(payload, created.payload)
+        assertEquals(DeliveryStatus.PENDING, created.delivery.status)
+        assertEquals(moment, created.delivery.scheduledAt)
+    }
+
+    @Test
+    fun `creating without keys uses the identifier for both`() {
+        val created = service.create("order", "rabbit")
+
+        assertEquals(generatedId.value, created.orderingKey)
+        assertEquals(generatedId.value, created.idempotencyKey)
+    }
+
+    @Test
+    fun `creating keeps the given keys`() {
+        val options = DeliveryOptions(orderingKey = "order-1", idempotencyKey = "request-1")
+
+        val created = service.create("order", "rabbit", options)
+
+        assertEquals("order-1", created.orderingKey)
+        assertEquals("request-1", created.idempotencyKey)
+    }
+
+    @Test
+    fun `creating prefers the given context to the collected one`() {
+        val options = DeliveryOptions(context = mapOf("tenant" to "given"))
+
+        val created = service.create("order", "rabbit", options)
+
+        assertEquals(mapOf("tenant" to "given", "trace" to "abc"), created.context)
+    }
 
     @Test
     fun `getting with a lock asks the repository to hold scheduled records`() {
