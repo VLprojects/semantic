@@ -16,17 +16,19 @@ internal class BackoffFactory(private val defaults: DefaultBackoffProperties) {
 
     private fun rejectFieldsOfOtherType(type: BackoffType, instance: BackoffProperties) =
         findFieldsOfOtherType(type, instance)
-            .takeIf(List<String>::isNotEmpty)
+            .filterValues { value -> value != null }
+            .keys
+            .takeIf(Set<String>::isNotEmpty)
             ?.let { fields -> throw IllegalArgumentException("The type $type does not use $fields") }
 
     private fun findFieldsOfOtherType(type: BackoffType, instance: BackoffProperties) = when (type) {
-        BackoffType.FIXED -> listOfNotNull(
-            instance.initialDelay?.let { "initial-delay" },
-            instance.delayLimit?.let { "delay-limit" },
-            instance.multiplier?.let { "multiplier" },
+        BackoffType.FIXED -> mapOf(
+            "initial-delay" to instance.initialDelay,
+            "delay-limit" to instance.delayLimit,
+            "multiplier" to instance.multiplier,
         )
 
-        BackoffType.EXPONENTIAL -> listOfNotNull(instance.delay?.let { "delay" })
+        BackoffType.EXPONENTIAL -> mapOf("delay" to instance.delay)
     }
 
     private fun createUnjitteredBackoff(type: BackoffType, instance: BackoffProperties) = when (type) {

@@ -117,8 +117,17 @@ class BackoffPropertiesMapperTests {
     }
 
     @Test
+    fun `an invalid field of the type the default does not use fails too`() {
+        val failure = assertThrows<IllegalArgumentException> {
+            createRegistry(default = DefaultBackoffProperties(delay = Duration.ofSeconds(-1)))
+        }
+
+        assertTrue("default" in failure.message.orEmpty())
+    }
+
+    @Test
     fun `an instance named default fails`() {
-        val failure = assertThrows<IllegalStateException> {
+        val failure = assertThrows<IllegalArgumentException> {
             createRegistry(instances = mapOf("default" to BackoffProperties()))
         }
 
