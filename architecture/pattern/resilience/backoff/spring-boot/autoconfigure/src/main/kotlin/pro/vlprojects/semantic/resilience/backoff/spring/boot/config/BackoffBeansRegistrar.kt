@@ -7,6 +7,10 @@ import pro.vlprojects.semantic.resilience.backoff.spring.boot.BackoffRegistry
 internal class BackoffBeansRegistrar(private val beanFactory: ListableBeanFactory) : BackoffRegistrar {
 
     override fun register(registry: BackoffRegistry) = beanFactory
-        .getBeansOfType(Backoff::class.java)
-        .forEach(registry::replace)
+        .getBeanNamesForType(Backoff::class.java)
+        .forEach { name ->
+            beanFactory
+                .getBean(name, Backoff::class.java)
+                .let { backoff -> registry.replace(name, backoff) }
+        }
 }

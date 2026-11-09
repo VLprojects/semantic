@@ -1,6 +1,5 @@
 package pro.vlprojects.semantic.resilience.backoff.spring.boot.config
 
-import pro.vlprojects.semantic.resilience.backoff.Backoff
 import pro.vlprojects.semantic.resilience.backoff.ExponentialBackoff
 import pro.vlprojects.semantic.resilience.backoff.FixedBackoff
 import pro.vlprojects.semantic.resilience.backoff.extension.jittered
@@ -30,7 +29,7 @@ internal class BackoffFactory(private val defaults: DefaultBackoffProperties) {
         BackoffType.EXPONENTIAL -> listOfNotNull(instance.delay?.let { "delay" })
     }
 
-    private fun createUnjitteredBackoff(type: BackoffType, instance: BackoffProperties): Backoff = when (type) {
+    private fun createUnjitteredBackoff(type: BackoffType, instance: BackoffProperties) = when (type) {
         BackoffType.FIXED -> FixedBackoff(instance.delay ?: defaults.delay)
 
         BackoffType.EXPONENTIAL -> ExponentialBackoff(
