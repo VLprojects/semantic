@@ -18,6 +18,7 @@ import pro.vlprojects.semantic.resilience.backoff.spring.boot.BackoffRegistry
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.DEFAULT_BACKOFF_NAME
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.BackoffAutoConfiguration
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.BackoffRegistryCustomizer
+import pro.vlprojects.semantic.resilience.backoff.spring.boot.factory.BackoffFactory
 import java.time.Duration
 
 class BackoffAutoConfigurationTests {
@@ -44,12 +45,12 @@ class BackoffAutoConfigurationTests {
         runner
             .withPropertyValues(
                 "$PREFIX.default.type=exponential",
-                "$PREFIX.default.initial-delay=2s",
-                "$PREFIX.default.delay-limit=1m",
-                "$PREFIX.default.multiplier=3",
+                "$PREFIX.default.args.initial-delay=2s",
+                "$PREFIX.default.args.delay-limit=1m",
+                "$PREFIX.default.args.multiplier=3",
                 "$PREFIX.instances.payments.type=fixed",
-                "$PREFIX.instances.payments.delay=5s",
-                "$PREFIX.instances.orders.initial-delay=200ms",
+                "$PREFIX.instances.payments.args.delay=5s",
+                "$PREFIX.instances.orders.args.initial-delay=200ms",
             ).run { context ->
                 val registry = context.getRegistry()
 
@@ -63,7 +64,7 @@ class BackoffAutoConfigurationTests {
     fun `a backoff bean is more important than the settings`() {
         runner
             .withUserConfiguration(PaymentsBackoffConfiguration::class.java)
-            .withPropertyValues("$PREFIX.instances.payments.initial-delay=1ms")
+            .withPropertyValues("$PREFIX.instances.payments.args.initial-delay=1ms")
             .run { context ->
                 assertSame(context.getBean("payments"), context.getRegistry()["payments"])
             }
@@ -111,7 +112,7 @@ class BackoffAutoConfigurationTests {
                 PaymentsBackoffConfiguration::class.java,
                 ReplacingCustomizerConfiguration::class.java,
             )
-            .withPropertyValues("$PREFIX.instances.orders.initial-delay=1ms")
+            .withPropertyValues("$PREFIX.instances.orders.args.initial-delay=1ms")
             .run { context ->
                 val registry = context.getRegistry()
 
@@ -137,6 +138,18 @@ class BackoffAutoConfigurationTests {
     }
 
     @Test
+    fun `a factory bean adds a type`() {
+        runner
+            .withUserConfiguration(OnceBackoffFactoryConfiguration::class.java)
+            .withPropertyValues(
+                "$PREFIX.instances.orders.type=once",
+                "$PREFIX.instances.orders.args.delay=7s",
+            ).run { context ->
+                assertEquals(Duration.ofSeconds(7), context.getRegistry()["orders"].calculate(1))
+            }
+    }
+
+    @Test
     fun `an unknown field stops the start`() {
         runner
             .withPropertyValues("$PREFIX.instances.payments.delya=5s")
@@ -153,21 +166,14 @@ class BackoffAutoConfigurationTests {
     @Test
     fun `an invalid default stops the start and names it`() {
         runner
-            .withPropertyValues("$PREFIX.default.multiplier=0.5")
+            .withPropertyValues("$PREFIX.default.args.multiplier=0.5")
             .run { context -> assertTrue("'default'" in context.readStartupFailureMessages()) }
     }
 
     @Test
-    fun `an invalid default field of the type in no use stops the start`() {
+    fun `an arg the type of an instance does not have stops the start and names the instance`() {
         runner
-            .withPropertyValues("$PREFIX.default.delay=-1s")
-            .run { context -> assertTrue("'default'" in context.readStartupFailureMessages()) }
-    }
-
-    @Test
-    fun `a field the type of an instance does not use stops the start and names the instance`() {
-        runner
-            .withPropertyValues("$PREFIX.instances.payments.delay=5s")
+            .withPropertyValues("$PREFIX.instances.payments.args.delay=5s")
             .run { context -> assertTrue("'payments'" in context.readStartupFailureMessages()) }
     }
 
@@ -251,6 +257,24 @@ class BackoffAutoConfigurationTests {
 
         @Bean
         fun payments(registry: BackoffRegistry) = registry.default
+    }
+
+    @Configuration(proxyBeanMethods = false)
+    class OnceBackoffFactoryConfiguration {
+
+        @Bean
+        fun onceBackoffFactory() = OnceBackoffFactory()
+    }
+
+    class OnceBackoffFactory : BackoffFactory<OnceBackoffFactory.Config> {
+
+        override val type = "once"
+
+        override val configClass = Config::class.java
+
+        override fun create(config: Config) = FixedBackoff(config.delay)
+
+        data class Config(val delay: Duration = Duration.ofSeconds(1))
     }
 
     private companion object {

@@ -50,17 +50,20 @@ to a custom `BackOff`, so set `maxAttempts` there and in the error handler of Sp
 semantic.resilience.backoff:
   default:
     type: exponential
-    initial-delay: 1s
-    delay-limit: 1m
-    multiplier: 2
+    args:
+      initial-delay: 1s
+      delay-limit: 1m
+      multiplier: 2
     jitter: 0.5
   instances:
     payments:
       type: fixed
-      delay: 5s
+      args:
+        delay: 5s
       jitter: 0.3
     orders:
-      initial-delay: 200ms
+      args:
+        initial-delay: 200ms
 ```
 
 ```kotlin
@@ -69,15 +72,19 @@ registry.getOrDefault("inventory") // the default block for a name with no setti
 registry.default
 ```
 
-With nothing set, the `default` block has the values shown above except `jitter`, and `delay` is `1s`. Jitter
-applies only where `jitter` is set; `jitter: 0` on an instance turns off the jitter of `default`. An instance
-takes the fields it leaves out from `default`, including `type`. Any `Backoff` bean is available by its bean
-name and replaces the settings of an instance with that name; a bean named `default` replaces the default
-block. To change the registry from code, declare a `BackoffRegistryCustomizer` bean: it gets the filled
-registry, settings and beans alike, and may go through `names`, `register` and `replace`. Customizers run in
-`@Order`.
+`type` picks a `BackoffFactory` bean and `args` bind to its config class. `fixed` takes `delay` (`1s`) and
+`exponential` takes `initial-delay` (`1s`), `delay-limit` (`1m`) and `multiplier` (`2`). To add an algorithm,
+declare a `BackoffFactory` bean with its own `type`.
 
-Wrong settings stop the application at start, with the name of the instance, even when a bean replaces it:
-an unknown field or type, a value the `Backoff` being built refuses, a field of an instance that its type does
-not use, such as `delay` on an exponential one, and an instance named `default`. The `default` block may hold
-the fields of both types, since instances of either inherit them.
+With nothing set, `type` is `exponential` and there is no jitter. An instance takes `type` and `jitter` from
+`default` when it leaves them out, and the `args` of `default` when its type is the same as the type of
+`default`. `jitter: 0` on an instance turns off the jitter of `default`.
+
+Any `Backoff` bean is available by its bean name and replaces the settings of an instance with that name; a bean
+named `default` replaces the default block. To change the registry from code, declare a
+`BackoffRegistryCustomizer` bean: it gets the filled registry, settings and beans alike, and may go through
+`names`, `register` and `replace`. Customizers run in `@Order`.
+
+Wrong settings stop the application at start, with the name of the instance, even when a bean replaces it: an
+unknown `type` or arg, a value that cannot be converted or that the `Backoff` being built refuses, and an
+instance named `default`. An unknown field outside `args` stops it as well.

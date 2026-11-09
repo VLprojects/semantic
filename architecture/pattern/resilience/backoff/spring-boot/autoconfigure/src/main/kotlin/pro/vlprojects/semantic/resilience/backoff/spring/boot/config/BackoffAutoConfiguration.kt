@@ -10,7 +10,9 @@ import pro.vlprojects.semantic.resilience.backoff.spring.boot.BackoffRegistry
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.DEFAULT_BACKOFF_NAME
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.properties.BackoffConfigurationProperties
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.properties.BackoffProperties
-import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.properties.BackoffType
+import pro.vlprojects.semantic.resilience.backoff.spring.boot.factory.BackoffFactory
+import pro.vlprojects.semantic.resilience.backoff.spring.boot.factory.ExponentialBackoffFactory
+import pro.vlprojects.semantic.resilience.backoff.spring.boot.factory.FixedBackoffFactory
 
 @AutoConfiguration
 @EnableConfigurationProperties(BackoffConfigurationProperties::class)
@@ -18,14 +20,23 @@ public class BackoffAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
+    public fun fixedBackoffFactory(): FixedBackoffFactory = FixedBackoffFactory()
+
+    @Bean
+    @ConditionalOnMissingBean
+    public fun exponentialBackoffFactory(): ExponentialBackoffFactory = ExponentialBackoffFactory()
+
+    @Bean
+    @ConditionalOnMissingBean
     public fun backoffRegistry(
         properties: BackoffConfigurationProperties,
+        factories: List<BackoffFactory<*>>,
         backoffs: Map<String, Backoff>,
         customizers: ObjectProvider<BackoffRegistryCustomizer>,
     ): BackoffRegistry {
         val registry = BackoffRegistry()
 
-        initBackoffRegistry(registry, properties)
+        initBackoffRegistry(registry, properties, factories)
         backoffs.forEach { (name, backoff) -> registry.replace(name, backoff) }
         customizers
             .orderedStream()
@@ -34,29 +45,23 @@ public class BackoffAutoConfiguration {
         return registry
     }
 
-    private fun initBackoffRegistry(registry: BackoffRegistry, properties: BackoffConfigurationProperties) {
-        val factory = BackoffFactory(properties.default)
+    private fun initBackoffRegistry(
+        registry: BackoffRegistry,
+        properties: BackoffConfigurationProperties,
+        factories: List<BackoffFactory<*>>,
+    ) {
+        val service = BackoffConfigurationService(properties.default, factories)
 
-        validateDefault(factory)
-        properties.instances.forEach { (name, instance) -> registerBackoff(registry, factory, name, instance) }
-        registerBackoff(registry, factory, DEFAULT_BACKOFF_NAME, BackoffProperties())
+        properties.instances.forEach { (name, instance) -> registerBackoff(registry, service, name, instance) }
+        registerBackoff(registry, service, DEFAULT_BACKOFF_NAME, BackoffProperties())
     }
-
-    private fun validateDefault(factory: BackoffFactory) = BackoffType.entries
-        .map { type -> BackoffProperties(type = type) }
-        .forEach { instance -> createBackoff(factory, DEFAULT_BACKOFF_NAME, instance) }
 
     private fun registerBackoff(
         registry: BackoffRegistry,
-        factory: BackoffFactory,
+        service: BackoffConfigurationService,
         name: String,
         properties: BackoffProperties,
-    ) = createBackoff(factory, name, properties)
+    ) = service
+        .create(name, properties)
         .let { backoff -> registry.register(name, backoff) }
-
-    private fun createBackoff(factory: BackoffFactory, name: String, properties: BackoffProperties) = try {
-        factory.create(properties)
-    } catch (failure: IllegalArgumentException) {
-        throw IllegalArgumentException("The backoff '$name' is misconfigured: ${failure.message}", failure)
-    }
 }
