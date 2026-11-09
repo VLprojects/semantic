@@ -26,19 +26,22 @@ internal class BackoffConfigurationService(
     fun create(name: String, properties: BackoffProperties): Backoff = try {
         createBackoff(properties)
     } catch (failure: BindException) {
-        throw IllegalArgumentException(createMisconfiguredMessage(name, failure.cause))
+        throw createMisconfiguredFailure(name, "${failure.message}: ${failure.cause?.message}", failure.cause)
     } catch (failure: RuntimeException) {
-        throw IllegalArgumentException(createMisconfiguredMessage(name, failure), failure)
+        throw createMisconfiguredFailure(name, failure.message, failure)
     }
 
-    private fun requireSingleFactory(type: String, candidates: List<BackoffFactory<*>>) = candidates.singleOrNull()
-        ?: throw IllegalArgumentException(
-            "Several backoff factories declare the type '$type': ${candidates.map { it.javaClass.name }}",
-        )
+    private fun requireSingleFactory(type: String, candidates: List<BackoffFactory<*>>): BackoffFactory<*> {
+        val names = candidates.map { factory -> factory.javaClass.name }
+
+        return candidates.singleOrNull()
+            ?: throw IllegalArgumentException("Several backoff factories declare the type '$type': $names")
+    }
 
     private fun createBackoff(properties: BackoffProperties): Backoff {
         val type = properties.type ?: defaults.type
-        val backoff = findFactory(type).let { factory -> createBackoff(factory, findArgs(type, properties)) }
+        val args = findArgs(type, properties)
+        val backoff = findFactory(type).let { factory -> createBackoff(factory, args) }
         val jitter = properties.jitter ?: defaults.jitter
 
         return if (jitter == null) backoff else backoff.jittered(jitter)
@@ -58,7 +61,7 @@ internal class BackoffConfigurationService(
         return factory.create(config)
     }
 
-    // Each map stays a separate source: Binder treats initial-delay and initialDelay as one name, a merged map does not.
+    // Separate sources: Binder treats initial-delay and initialDelay as one name, a merged map does not.
     private fun <C : Any> bindConfig(configClass: Class<C>, args: List<Map<String, String>>): C {
         val sources = args.map { values -> MapConfigurationPropertySource(values) }
         val target = Bindable.of(configClass)
@@ -67,6 +70,6 @@ internal class BackoffConfigurationService(
         return Binder(sources).bindOrCreate(ROOT_NAME, target, handler)
     }
 
-    private fun createMisconfiguredMessage(name: String, cause: Throwable?) =
-        "The backoff '$name' is misconfigured: ${cause?.message}"
+    private fun createMisconfiguredFailure(name: String, message: String?, cause: Throwable?) =
+        IllegalArgumentException("The backoff '$name' is misconfigured: $message", cause)
 }

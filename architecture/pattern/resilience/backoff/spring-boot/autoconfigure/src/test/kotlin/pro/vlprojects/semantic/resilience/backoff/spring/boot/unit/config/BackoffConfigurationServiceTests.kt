@@ -118,7 +118,7 @@ class BackoffConfigurationServiceTests {
             )
         }
 
-        assertTrue("FixedBackoffFactory" in failure.message.orEmpty())
+        assertTrue(FixedBackoffFactory::class.java.name in failure.message.orEmpty())
         assertTrue("RivalFixedBackoffFactory" in failure.message.orEmpty())
     }
 
@@ -148,6 +148,7 @@ class BackoffConfigurationServiceTests {
         }
 
         assertTrue("orders" in failure.message.orEmpty())
+        assertTrue("multiplier" in failure.message.orEmpty())
     }
 
     @Test
