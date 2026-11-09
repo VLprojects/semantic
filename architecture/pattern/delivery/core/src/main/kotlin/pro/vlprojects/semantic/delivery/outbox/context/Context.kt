@@ -10,12 +10,22 @@ public data class Context private constructor(
     public val attributes: Map<String, String>,
 ) {
 
-    internal fun withDefaultAttributes(defaults: Map<String, String>) = copy(attributes = defaults + attributes)
+    public fun hasTarget(): Boolean = target != NO_TARGET
+
+    public fun withTarget(target: String): Context = copy(target = target)
+
+    public fun withOrderingKey(orderingKey: String): Context = copy(orderingKey = orderingKey)
+
+    public fun withIdempotencyKey(idempotencyKey: String): Context = copy(idempotencyKey = idempotencyKey)
+
+    public fun withDefaultAttributes(defaults: Map<String, String>): Context = copy(attributes = defaults + attributes)
 
     public companion object Factory {
 
+        private const val NO_TARGET = ""
+
         public fun of(
-            target: String,
+            target: String = NO_TARGET,
             orderingKey: String? = null,
             idempotencyKey: String? = null,
             attributes: Map<String, String> = emptyMap(),

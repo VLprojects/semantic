@@ -9,9 +9,9 @@ import pro.vlprojects.semantic.delivery.outbox.OutboxRepository
 import pro.vlprojects.semantic.delivery.outbox.OutboxService
 import pro.vlprojects.semantic.delivery.outbox.Payload
 import pro.vlprojects.semantic.delivery.outbox.PayloadSerializer
-import pro.vlprojects.semantic.delivery.outbox.context.AttributeCollector
 import pro.vlprojects.semantic.delivery.outbox.context.AttributeProvider
 import pro.vlprojects.semantic.delivery.outbox.context.Context
+import pro.vlprojects.semantic.delivery.outbox.context.ContextCollector
 import pro.vlprojects.semantic.delivery.outbox.context.ContextProvider
 import pro.vlprojects.semantic.delivery.outbox.id.OutboxId
 import pro.vlprojects.semantic.resilience.backoff.FixedBackoff
@@ -31,14 +31,14 @@ class OutboxServiceTests {
     private val savedOutboxes = mutableListOf<Outbox>()
     private val generatedId = OutboxId.of("generated")
     private val context = Context.of("rabbit")
-    private val contextProvider = ContextProvider { Context.of("provided") }
+    private val attributeProvider = AttributeProvider { mapOf("tenant" to "collected", "trace" to "abc") }
+    private val targetProvider = ContextProvider { _, context ->
+        context.takeIf(Context::hasTarget) ?: context.withTarget("provided")
+    }
+    private val contextCollector = listOf(targetProvider, attributeProvider).let(::ContextCollector)
     private val serialized = byteArrayOf(1)
 
     private val serializer = PayloadSerializer { serialized }
-
-    private val attributeCollector = AttributeProvider { mapOf("tenant" to "collected", "trace" to "abc") }
-        .let(::listOf)
-        .let(::AttributeCollector)
 
     private val repository = object : OutboxRepository {
 
@@ -65,7 +65,7 @@ class OutboxServiceTests {
         lockDuration = lockDuration,
         maxAttempts = maxAttempts,
         backoff = backoff,
-    ).let { OutboxService(repository, serializer, contextProvider, attributeCollector, { generatedId }, it, clock) }
+    ).let { OutboxService(repository, serializer, contextCollector, { generatedId }, it, clock) }
 
     @Test
     fun `creating saves a pending record scheduled for now`() {
