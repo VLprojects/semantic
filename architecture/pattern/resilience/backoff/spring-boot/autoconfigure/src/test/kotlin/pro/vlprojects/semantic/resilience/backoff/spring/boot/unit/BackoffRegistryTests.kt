@@ -11,9 +11,9 @@ class BackoffRegistryTests {
 
     private val default = FixedBackoff.ofSeconds(1)
     private val payments = FixedBackoff.ofSeconds(5)
-    private val registry = BackoffRegistry().apply {
-        register(BackoffRegistry.DEFAULT_NAME, default)
-        register("payments", payments)
+    private val registry = BackoffRegistry().also { registry ->
+        registry.register(BackoffRegistry.DEFAULT_NAME, default)
+        registry.register("payments", payments)
     }
 
     @Test
