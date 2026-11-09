@@ -50,14 +50,6 @@ public final class pro/vlprojects/semantic/delivery/outbox/Outbox$Factory {
 	public static synthetic fun of$default (Lpro/vlprojects/semantic/delivery/outbox/Outbox$Factory;Lpro/vlprojects/semantic/delivery/outbox/id/OutboxId;Lpro/vlprojects/semantic/delivery/outbox/Payload;Lpro/vlprojects/semantic/delivery/outbox/context/Context;Ljava/time/Clock;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
 }
 
-public final class pro/vlprojects/semantic/delivery/outbox/OutboxAlreadyExistsException : java/lang/IllegalStateException {
-	public fun <init> (Lpro/vlprojects/semantic/delivery/outbox/id/OutboxId;)V
-}
-
-public final class pro/vlprojects/semantic/delivery/outbox/OutboxOptimisticLockException : java/util/ConcurrentModificationException {
-	public fun <init> (Lpro/vlprojects/semantic/delivery/outbox/id/OutboxId;)V
-}
-
 public final class pro/vlprojects/semantic/delivery/outbox/OutboxProperties {
 	public fun <init> ()V
 	public fun <init> (Ljava/time/Duration;ILpro/vlprojects/semantic/resilience/backoff/Backoff;Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;)V
@@ -115,7 +107,7 @@ public abstract interface class pro/vlprojects/semantic/delivery/outbox/PayloadS
 }
 
 public abstract interface class pro/vlprojects/semantic/delivery/outbox/context/AttributeProvider : pro/vlprojects/semantic/delivery/outbox/context/ContextProvider {
-	public fun provide (Ljava/lang/Object;Lpro/vlprojects/semantic/delivery/outbox/context/ContextBuilder;)V
+	public fun provide (Ljava/lang/Object;Lpro/vlprojects/semantic/delivery/outbox/context/Context$Builder;)V
 	public abstract fun provideAttributes ()Ljava/util/Map;
 }
 
@@ -134,18 +126,18 @@ public final class pro/vlprojects/semantic/delivery/outbox/context/Context {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class pro/vlprojects/semantic/delivery/outbox/context/Context$Factory {
-	public final fun of (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;)Lpro/vlprojects/semantic/delivery/outbox/context/Context;
-	public static synthetic fun of$default (Lpro/vlprojects/semantic/delivery/outbox/context/Context$Factory;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/context/Context;
+public final class pro/vlprojects/semantic/delivery/outbox/context/Context$Builder {
+	public final fun addAllAttributes (Ljava/util/Map;)Lpro/vlprojects/semantic/delivery/outbox/context/Context$Builder;
+	public final fun build ()Lpro/vlprojects/semantic/delivery/outbox/context/Context;
+	public final fun setIdempotencyKey (Ljava/lang/String;)Lpro/vlprojects/semantic/delivery/outbox/context/Context$Builder;
+	public final fun setOrderingKey (Ljava/lang/String;)Lpro/vlprojects/semantic/delivery/outbox/context/Context$Builder;
+	public final fun setTarget (Ljava/lang/String;)Lpro/vlprojects/semantic/delivery/outbox/context/Context$Builder;
 }
 
-public final class pro/vlprojects/semantic/delivery/outbox/context/ContextBuilder {
-	public fun <init> ()V
-	public final fun attributes (Ljava/util/Map;)Lpro/vlprojects/semantic/delivery/outbox/context/ContextBuilder;
-	public final fun build ()Lpro/vlprojects/semantic/delivery/outbox/context/Context;
-	public final fun idempotencyKey (Ljava/lang/String;)Lpro/vlprojects/semantic/delivery/outbox/context/ContextBuilder;
-	public final fun orderingKey (Ljava/lang/String;)Lpro/vlprojects/semantic/delivery/outbox/context/ContextBuilder;
-	public final fun target (Ljava/lang/String;)Lpro/vlprojects/semantic/delivery/outbox/context/ContextBuilder;
+public final class pro/vlprojects/semantic/delivery/outbox/context/Context$Factory {
+	public final fun builder ()Lpro/vlprojects/semantic/delivery/outbox/context/Context$Builder;
+	public final fun of (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;)Lpro/vlprojects/semantic/delivery/outbox/context/Context;
+	public static synthetic fun of$default (Lpro/vlprojects/semantic/delivery/outbox/context/Context$Factory;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/context/Context;
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/context/ContextCollector {
@@ -155,11 +147,19 @@ public final class pro/vlprojects/semantic/delivery/outbox/context/ContextCollec
 }
 
 public abstract interface class pro/vlprojects/semantic/delivery/outbox/context/ContextProvider {
-	public abstract fun provide (Ljava/lang/Object;Lpro/vlprojects/semantic/delivery/outbox/context/ContextBuilder;)V
+	public abstract fun provide (Ljava/lang/Object;Lpro/vlprojects/semantic/delivery/outbox/context/Context$Builder;)V
 }
 
 public abstract interface class pro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy {
 	public abstract fun extract (Ljava/lang/Throwable;)Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/delivery/outbox/error/OutboxConflictException : java/lang/IllegalStateException {
+	public fun <init> (Lpro/vlprojects/semantic/delivery/outbox/id/OutboxId;)V
+}
+
+public final class pro/vlprojects/semantic/delivery/outbox/error/OutboxOptimisticLockException : java/util/ConcurrentModificationException {
+	public fun <init> (Lpro/vlprojects/semantic/delivery/outbox/id/OutboxId;)V
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/error/RootCauseErrorPolicy : pro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy {

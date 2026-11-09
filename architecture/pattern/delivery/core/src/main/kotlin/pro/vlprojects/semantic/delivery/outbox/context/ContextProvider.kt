@@ -2,5 +2,5 @@ package pro.vlprojects.semantic.delivery.outbox.context
 
 public fun interface ContextProvider {
 
-    public fun provide(payload: Any, builder: ContextBuilder)
+    public fun provide(payload: Any, builder: Context.Builder)
 }

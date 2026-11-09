@@ -1,7 +1,8 @@
 package pro.vlprojects.semantic.delivery.outbox
 
-import pro.vlprojects.semantic.delivery.outbox.context.ContextBuilder
+import pro.vlprojects.semantic.delivery.outbox.context.Context
 import pro.vlprojects.semantic.delivery.outbox.context.ContextCollector
+import pro.vlprojects.semantic.delivery.outbox.error.OutboxConflictException
 import pro.vlprojects.semantic.delivery.outbox.id.OutboxIdGenerator
 import java.time.Clock
 
@@ -14,15 +15,15 @@ public class OutboxService(
     private val clock: Clock,
 ) {
 
-    @Throws(OutboxAlreadyExistsException::class)
-    public fun create(payload: Any, context: ContextBuilder.() -> Unit = {}): Outbox {
+    @Throws(OutboxConflictException::class)
+    public fun create(payload: Any, builderAction: Context.Builder.() -> Unit = {}): Outbox {
         val body = serializer.serialize(payload)
 
         return Outbox
             .of(
                 id = idGenerator.generate(),
                 payload = Payload.of(payload::class, body),
-                context = contextCollector.collect(payload, context),
+                context = contextCollector.collect(payload, builderAction),
                 clock = clock,
             )
             .let(repository::save)

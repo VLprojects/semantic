@@ -9,8 +9,8 @@ import pro.vlprojects.semantic.delivery.outbox.context.ContextProvider
 
 class ContextCollectorTests {
 
-    private val targetProvider = ContextProvider { _, builder -> builder.target("first") }
-    private val laterTargetProvider = ContextProvider { _, builder -> builder.target("second") }
+    private val targetProvider = ContextProvider { _, builder -> builder.setTarget("first") }
+    private val laterTargetProvider = ContextProvider { _, builder -> builder.setTarget("second") }
     private val attributeProvider = AttributeProvider { mapOf("trace" to "abc", "tenant" to "provided") }
 
     @Test
@@ -26,7 +26,7 @@ class ContextCollectorTests {
     fun `collecting prefers the explicit values`() {
         val context = listOf(targetProvider)
             .let(::ContextCollector)
-            .collect("order") { target("explicit") }
+            .collect("order") { setTarget("explicit") }
 
         assertEquals("explicit", context.target)
     }
@@ -35,7 +35,7 @@ class ContextCollectorTests {
     fun `collecting prefers the explicit attributes to the provided ones`() {
         val context = listOf(targetProvider, attributeProvider)
             .let(::ContextCollector)
-            .collect("order") { attributes(mapOf("tenant" to "given")) }
+            .collect("order") { addAllAttributes(mapOf("tenant" to "given")) }
 
         assertEquals(mapOf("trace" to "abc", "tenant" to "given"), context.attributes)
     }

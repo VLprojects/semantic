@@ -4,7 +4,7 @@ public fun interface AttributeProvider : ContextProvider {
 
     public fun provideAttributes(): Map<String, String>
 
-    override fun provide(payload: Any, builder: ContextBuilder) {
-        builder.attributes(provideAttributes())
+    override fun provide(payload: Any, builder: Context.Builder) {
+        builder.addAllAttributes(provideAttributes())
     }
 }
