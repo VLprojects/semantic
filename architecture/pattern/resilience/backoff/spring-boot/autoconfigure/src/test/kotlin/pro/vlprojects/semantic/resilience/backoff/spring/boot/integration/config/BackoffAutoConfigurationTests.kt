@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.core.annotation.Order
 import pro.vlprojects.semantic.resilience.backoff.FixedBackoff
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.BackoffRegistry
+import pro.vlprojects.semantic.resilience.backoff.spring.boot.DEFAULT_BACKOFF_NAME
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.BackoffAutoConfiguration
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.BackoffRegistryCustomizer
 import java.time.Duration
@@ -207,13 +208,13 @@ class BackoffAutoConfigurationTests {
         @Bean
         @Order(2)
         fun lastCustomizer() = BackoffRegistryCustomizer { registry ->
-            registry.replace(BackoffRegistry.DEFAULT_NAME, FixedBackoff.ofSeconds(2))
+            registry.replace(DEFAULT_BACKOFF_NAME, FixedBackoff.ofSeconds(2))
         }
 
         @Bean
         @Order(1)
         fun firstCustomizer() = BackoffRegistryCustomizer { registry ->
-            registry.replace(BackoffRegistry.DEFAULT_NAME, FixedBackoff.ofSeconds(1))
+            registry.replace(DEFAULT_BACKOFF_NAME, FixedBackoff.ofSeconds(1))
         }
     }
 
