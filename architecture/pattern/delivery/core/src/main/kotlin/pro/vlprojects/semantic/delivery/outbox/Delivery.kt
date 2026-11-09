@@ -38,10 +38,10 @@ public data class Delivery private constructor(
         )
     }
 
-    internal fun canceled(terminatedAt: Instant): Delivery {
+    internal fun canceled(canceledAt: Instant): Delivery {
         checkHasFailedStatus()
 
-        return copy(status = DeliveryStatus.CANCELED, terminatedAt = terminatedAt)
+        return copy(status = DeliveryStatus.CANCELED, terminatedAt = canceledAt)
     }
 
     private fun checkHasStartedStatus() = check(status == DeliveryStatus.STARTED) { "Delivery is $status" }

@@ -26,8 +26,8 @@ public class Outbox private constructor(
         delivery = delivery.failed(scheduledAt, error)
     }
 
-    internal fun cancel(terminatedAt: Instant) = apply {
-        delivery = delivery.canceled(terminatedAt)
+    internal fun cancel(canceledAt: Instant) = apply {
+        delivery = delivery.canceled(canceledAt)
     }
 
     public companion object Factory {
