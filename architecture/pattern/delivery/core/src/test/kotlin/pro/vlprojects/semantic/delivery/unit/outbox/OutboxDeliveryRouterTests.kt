@@ -5,8 +5,10 @@ import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import pro.vlprojects.semantic.delivery.outbox.BroadcastDeliveryRoutingPolicy
 import pro.vlprojects.semantic.delivery.outbox.DeliveryDestination
 import pro.vlprojects.semantic.delivery.outbox.DeliveryDestinationDeserializer
+import pro.vlprojects.semantic.delivery.outbox.DeliveryRoutingPolicy
 import pro.vlprojects.semantic.delivery.outbox.Outbox
 import pro.vlprojects.semantic.delivery.outbox.OutboxDeliverer
 import pro.vlprojects.semantic.delivery.outbox.OutboxDeliveryRouter
@@ -60,6 +62,30 @@ class OutboxDeliveryRouterTests {
         val router = OutboxDeliveryRouter({ brokerDestination }, listOf(localDeliverer))
 
         assertThrows(OutboxDelivererNotFoundException::class.java) { router.route(outbox) }
+    }
+
+    @Test
+    fun `route sends the outbox only through the routes the policy selects`() {
+        val policy = DeliveryRoutingPolicy { _, _ -> emptyList() }
+
+        OutboxDeliveryRouter({ brokerDestination }, listOf(brokerDeliverer), policy).route(outbox)
+
+        assertTrue(brokerDeliverer.delivered.isEmpty())
+    }
+
+    @Test
+    fun `route sends the outbox through every selected route`() {
+        val second = BrokerDeliverer()
+        val router = OutboxDeliveryRouter(
+            { brokerDestination },
+            listOf(brokerDeliverer, second),
+            BroadcastDeliveryRoutingPolicy(),
+        )
+
+        router.route(outbox)
+
+        assertEquals(1, brokerDeliverer.delivered.size)
+        assertEquals(1, second.delivered.size)
     }
 
     @Test

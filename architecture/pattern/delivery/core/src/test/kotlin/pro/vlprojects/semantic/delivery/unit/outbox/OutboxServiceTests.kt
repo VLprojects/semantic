@@ -3,7 +3,6 @@ package pro.vlprojects.semantic.delivery.unit.outbox
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import pro.vlprojects.semantic.delivery.outbox.DeliveryDestination
-import pro.vlprojects.semantic.delivery.outbox.DeliveryDestinationResolver
 import pro.vlprojects.semantic.delivery.outbox.DeliveryDestinationSerializer
 import pro.vlprojects.semantic.delivery.outbox.DeliveryStatus
 import pro.vlprojects.semantic.delivery.outbox.Outbox
@@ -13,7 +12,6 @@ import pro.vlprojects.semantic.delivery.outbox.OutboxService
 import pro.vlprojects.semantic.delivery.outbox.Payload
 import pro.vlprojects.semantic.delivery.outbox.PayloadSerializer
 import pro.vlprojects.semantic.delivery.outbox.context.AttributeProvider
-import pro.vlprojects.semantic.delivery.outbox.context.Context
 import pro.vlprojects.semantic.delivery.outbox.context.ContextCollector
 import pro.vlprojects.semantic.delivery.outbox.context.ContextProvider
 import pro.vlprojects.semantic.delivery.outbox.id.OutboxId
@@ -36,13 +34,12 @@ class OutboxServiceTests {
     private val attributeProvider = AttributeProvider { mapOf("tenant" to "collected", "trace" to "abc") }
     private val keyProvider = ContextProvider { _, builder -> builder.setOrderingKey("provided") }
     private val contextCollector = listOf(keyProvider, attributeProvider).let(::ContextCollector)
-    private val resolvedDestinations = mutableListOf<Pair<Any, Context>>()
     private val destination = object : DeliveryDestination {}
-    private val destinationResolver = DeliveryDestinationResolver { payload, context ->
-        resolvedDestinations += payload to context
-        destination
+    private val serializedDestinations = mutableListOf<DeliveryDestination>()
+    private val destinationSerializer = DeliveryDestinationSerializer {
+        serializedDestinations += it
+        "orders"
     }
-    private val destinationSerializer = DeliveryDestinationSerializer { "orders" }
     private val serialized = byteArrayOf(1)
 
     private val serializer = PayloadSerializer { serialized }
@@ -77,7 +74,6 @@ class OutboxServiceTests {
             repository,
             serializer,
             contextCollector,
-            destinationResolver,
             destinationSerializer,
             { generatedId },
             it,
@@ -87,12 +83,12 @@ class OutboxServiceTests {
 
     @Test
     fun `creating saves a pending record scheduled for now`() {
-        val created = service.create("order")
+        val created = service.create("order", destination)
 
         assertEquals(listOf(created), savedOutboxes)
         assertEquals(generatedId, created.id)
         assertEquals("orders", created.destination)
-        assertEquals(listOf<Pair<Any, Context>>("order" to created.context), resolvedDestinations)
+        assertEquals(listOf(destination), serializedDestinations)
         assertEquals("provided", created.context.orderingKey)
         assertEquals(mapOf("tenant" to "collected", "trace" to "abc"), created.context.attributes)
         assertEquals(Payload.of(String::class, serialized), created.payload)
