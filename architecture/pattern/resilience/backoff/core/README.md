@@ -69,12 +69,13 @@ registry.getOrDefault("inventory") // the default block for a name with no setti
 registry.default
 ```
 
-With nothing set, the `default` block has the values shown above, `delay` is `1s` and there is no jitter: it
-applies only where `jitter` is set. `jitter: 0` on an instance turns off the jitter of `default`. An instance takes the fields it leaves out from `default`, including `type`. Any `Backoff` bean is
-available by its bean name and replaces the settings of an instance with that name; a bean named `default`
-replaces the default block. To change the registry from code, declare a `BackoffRegistryCustomizer` bean: it gets
-the filled registry, settings and beans alike, and may go through `names`, `register` and `replace`.
-Customizers run in `@Order`.
+With nothing set, the `default` block has the values shown above except `jitter`, and `delay` is `1s`. Jitter
+applies only where `jitter` is set; `jitter: 0` on an instance turns off the jitter of `default`. An instance
+takes the fields it leaves out from `default`, including `type`. Any `Backoff` bean is available by its bean
+name and replaces the settings of an instance with that name; a bean named `default` replaces the default
+block. To change the registry from code, declare a `BackoffRegistryCustomizer` bean: it gets the filled
+registry, settings and beans alike, and may go through `names`, `register` and `replace`. Customizers run in
+`@Order`.
 
 Wrong settings stop the application at start, with the name of the instance, even when a bean replaces it:
 an unknown field or type, a value the `Backoff` being built refuses, a field of an instance that its type does

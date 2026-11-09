@@ -37,12 +37,14 @@ public class BackoffAutoConfiguration {
     private fun initBackoffRegistry(registry: BackoffRegistry, properties: BackoffConfigurationProperties) {
         val factory = BackoffFactory(properties.default)
 
-        BackoffType.entries
-            .map { type -> BackoffProperties(type = type) }
-            .forEach { instance -> createBackoff(factory, DEFAULT_BACKOFF_NAME, instance) }
+        validateDefault(factory)
         properties.instances.forEach { (name, instance) -> registerBackoff(registry, factory, name, instance) }
         registerBackoff(registry, factory, DEFAULT_BACKOFF_NAME, BackoffProperties())
     }
+
+    private fun validateDefault(factory: BackoffFactory) = BackoffType.entries
+        .map { type -> BackoffProperties(type = type) }
+        .forEach { instance -> createBackoff(factory, DEFAULT_BACKOFF_NAME, instance) }
 
     private fun registerBackoff(
         registry: BackoffRegistry,
