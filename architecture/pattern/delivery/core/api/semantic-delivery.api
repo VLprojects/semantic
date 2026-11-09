@@ -81,8 +81,9 @@ public abstract interface class pro/vlprojects/semantic/delivery/outbox/OutboxRe
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/OutboxService {
-	public fun <init> (Lpro/vlprojects/semantic/delivery/outbox/OutboxRepository;Lpro/vlprojects/semantic/delivery/outbox/PayloadSerializer;Lpro/vlprojects/semantic/delivery/outbox/context/AttributeCollector;Lpro/vlprojects/semantic/delivery/outbox/id/OutboxIdGenerator;Lpro/vlprojects/semantic/delivery/outbox/OutboxProperties;Ljava/time/Clock;)V
+	public fun <init> (Lpro/vlprojects/semantic/delivery/outbox/OutboxRepository;Lpro/vlprojects/semantic/delivery/outbox/PayloadSerializer;Lpro/vlprojects/semantic/delivery/outbox/context/ContextProvider;Lpro/vlprojects/semantic/delivery/outbox/context/AttributeCollector;Lpro/vlprojects/semantic/delivery/outbox/id/OutboxIdGenerator;Lpro/vlprojects/semantic/delivery/outbox/OutboxProperties;Ljava/time/Clock;)V
 	public final fun complete (Lpro/vlprojects/semantic/delivery/outbox/Outbox;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
+	public final fun create (Ljava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
 	public final fun create (Ljava/lang/Object;Lpro/vlprojects/semantic/delivery/outbox/context/Context;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
 	public final fun fail (Lpro/vlprojects/semantic/delivery/outbox/Outbox;Ljava/lang/Throwable;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
 	public final fun getAllWithLock (I)Ljava/util/List;
@@ -136,6 +137,10 @@ public final class pro/vlprojects/semantic/delivery/outbox/context/Context {
 public final class pro/vlprojects/semantic/delivery/outbox/context/Context$Factory {
 	public final fun of (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;)Lpro/vlprojects/semantic/delivery/outbox/context/Context;
 	public static synthetic fun of$default (Lpro/vlprojects/semantic/delivery/outbox/context/Context$Factory;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/context/Context;
+}
+
+public abstract interface class pro/vlprojects/semantic/delivery/outbox/context/ContextProvider {
+	public abstract fun provide (Ljava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/context/Context;
 }
 
 public abstract interface class pro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy {

@@ -12,6 +12,7 @@ import pro.vlprojects.semantic.delivery.outbox.PayloadSerializer
 import pro.vlprojects.semantic.delivery.outbox.context.AttributeCollector
 import pro.vlprojects.semantic.delivery.outbox.context.AttributeProvider
 import pro.vlprojects.semantic.delivery.outbox.context.Context
+import pro.vlprojects.semantic.delivery.outbox.context.ContextProvider
 import pro.vlprojects.semantic.delivery.outbox.id.OutboxId
 import pro.vlprojects.semantic.resilience.backoff.FixedBackoff
 import java.time.Clock
@@ -30,6 +31,7 @@ class OutboxServiceTests {
     private val savedOutboxes = mutableListOf<Outbox>()
     private val generatedId = OutboxId.of("generated")
     private val context = Context.of("rabbit")
+    private val contextProvider = ContextProvider { Context.of("provided") }
     private val serialized = byteArrayOf(1)
 
     private val serializer = PayloadSerializer { serialized }
@@ -63,7 +65,7 @@ class OutboxServiceTests {
         lockDuration = lockDuration,
         maxAttempts = maxAttempts,
         backoff = backoff,
-    ).let { OutboxService(repository, serializer, attributeCollector, { generatedId }, it, clock) }
+    ).let { OutboxService(repository, serializer, contextProvider, attributeCollector, { generatedId }, it, clock) }
 
     @Test
     fun `creating saves a pending record scheduled for now`() {
@@ -75,6 +77,13 @@ class OutboxServiceTests {
         assertEquals(Payload.of(String::class, serialized), created.payload)
         assertEquals(DeliveryStatus.PENDING, created.delivery.status)
         assertEquals(moment, created.delivery.scheduledAt)
+    }
+
+    @Test
+    fun `creating without a context asks the provider`() {
+        val created = service.create("order")
+
+        assertEquals("provided", created.context.target)
     }
 
     @Test
