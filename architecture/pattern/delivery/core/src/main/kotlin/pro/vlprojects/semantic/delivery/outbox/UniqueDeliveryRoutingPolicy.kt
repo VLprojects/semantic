@@ -1,7 +1,7 @@
 package pro.vlprojects.semantic.delivery.outbox
 
-import pro.vlprojects.semantic.delivery.outbox.error.NoUniqueOutboxDelivererException
-import pro.vlprojects.semantic.delivery.outbox.error.OutboxDelivererNotFoundException
+import pro.vlprojects.semantic.delivery.outbox.error.MultipleOutboxDeliverersException
+import pro.vlprojects.semantic.delivery.outbox.error.OutboxDelivererNotResolvedException
 
 public class UniqueDeliveryRoutingPolicy : DeliveryRoutingPolicy {
 
@@ -9,8 +9,8 @@ public class UniqueDeliveryRoutingPolicy : DeliveryRoutingPolicy {
         destination: DeliveryDestination,
         deliverers: List<OutboxDeliverer<*>>,
     ): List<OutboxDeliverer<*>> = when (deliverers.size) {
-        0 -> throw OutboxDelivererNotFoundException(destination)
+        0 -> throw OutboxDelivererNotResolvedException(destination)
         1 -> deliverers
-        else -> throw NoUniqueOutboxDelivererException(destination)
+        else -> throw MultipleOutboxDeliverersException(destination)
     }
 }

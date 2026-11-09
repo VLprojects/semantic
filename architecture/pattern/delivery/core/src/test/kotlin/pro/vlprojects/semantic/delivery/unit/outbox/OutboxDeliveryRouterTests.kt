@@ -13,8 +13,8 @@ import pro.vlprojects.semantic.delivery.outbox.FallbackDeliveryRoutingPolicy
 import pro.vlprojects.semantic.delivery.outbox.Outbox
 import pro.vlprojects.semantic.delivery.outbox.OutboxDeliverer
 import pro.vlprojects.semantic.delivery.outbox.OutboxDeliveryRouter
-import pro.vlprojects.semantic.delivery.outbox.error.NoUniqueOutboxDelivererException
-import pro.vlprojects.semantic.delivery.outbox.error.OutboxDelivererNotFoundException
+import pro.vlprojects.semantic.delivery.outbox.error.MultipleOutboxDeliverersException
+import pro.vlprojects.semantic.delivery.outbox.error.OutboxDelivererNotResolvedException
 import pro.vlprojects.semantic.delivery.outbox.error.OutboxDeliveryException
 import java.time.Instant
 
@@ -54,7 +54,7 @@ class OutboxDeliveryRouterTests {
     fun `route fails when several deliverers support the destination`() {
         val router = OutboxDeliveryRouter({ brokerDestination }, listOf(brokerDeliverer, BrokerDeliverer()))
 
-        assertThrows(NoUniqueOutboxDelivererException::class.java) { router.route(outbox) }
+        assertThrows(MultipleOutboxDeliverersException::class.java) { router.route(outbox) }
         assertTrue(brokerDeliverer.delivered.isEmpty())
     }
 
@@ -62,7 +62,7 @@ class OutboxDeliveryRouterTests {
     fun `route fails when no deliverer supports the destination`() {
         val router = OutboxDeliveryRouter({ brokerDestination }, listOf(localDeliverer))
 
-        assertThrows(OutboxDelivererNotFoundException::class.java) { router.route(outbox) }
+        assertThrows(OutboxDelivererNotResolvedException::class.java) { router.route(outbox) }
     }
 
     @Test

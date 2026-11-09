@@ -9,8 +9,8 @@ import pro.vlprojects.semantic.delivery.outbox.FallbackDeliveryRoutingPolicy
 import pro.vlprojects.semantic.delivery.outbox.Outbox
 import pro.vlprojects.semantic.delivery.outbox.OutboxDeliverer
 import pro.vlprojects.semantic.delivery.outbox.UniqueDeliveryRoutingPolicy
-import pro.vlprojects.semantic.delivery.outbox.error.NoUniqueOutboxDelivererException
-import pro.vlprojects.semantic.delivery.outbox.error.OutboxDelivererNotFoundException
+import pro.vlprojects.semantic.delivery.outbox.error.MultipleOutboxDeliverersException
+import pro.vlprojects.semantic.delivery.outbox.error.OutboxDelivererNotResolvedException
 
 class DeliveryRoutingPolicyTests {
 
@@ -24,14 +24,14 @@ class DeliveryRoutingPolicyTests {
 
     @Test
     fun `unique fails without deliverers`() {
-        assertThrows(OutboxDelivererNotFoundException::class.java) {
+        assertThrows(OutboxDelivererNotResolvedException::class.java) {
             UniqueDeliveryRoutingPolicy().select(TestDestination, emptyList())
         }
     }
 
     @Test
     fun `unique fails with several deliverers`() {
-        assertThrows(NoUniqueOutboxDelivererException::class.java) {
+        assertThrows(MultipleOutboxDeliverersException::class.java) {
             UniqueDeliveryRoutingPolicy().select(TestDestination, listOf(deliverer, otherDeliverer))
         }
     }
@@ -45,7 +45,7 @@ class DeliveryRoutingPolicyTests {
 
     @Test
     fun `broadcast fails without deliverers`() {
-        assertThrows(OutboxDelivererNotFoundException::class.java) {
+        assertThrows(OutboxDelivererNotResolvedException::class.java) {
             BroadcastDeliveryRoutingPolicy().select(TestDestination, emptyList())
         }
     }
