@@ -1,4 +1,4 @@
-package pro.vlprojects.semantic.delivery.outbox
+package pro.vlprojects.semantic.delivery.outbox.delivery
 
 import pro.vlprojects.semantic.format.abbreviation.SuffixAbbreviation
 import pro.vlprojects.semantic.format.abbreviation.abbreviated

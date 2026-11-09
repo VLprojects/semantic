@@ -1,5 +1,6 @@
 package pro.vlprojects.semantic.delivery.outbox
 
+import pro.vlprojects.semantic.delivery.outbox.delivery.DeliveryStatus
 import pro.vlprojects.semantic.delivery.outbox.error.OutboxConflictException
 import pro.vlprojects.semantic.delivery.outbox.error.OutboxOptimisticLockException
 import pro.vlprojects.semantic.delivery.outbox.id.OutboxId
