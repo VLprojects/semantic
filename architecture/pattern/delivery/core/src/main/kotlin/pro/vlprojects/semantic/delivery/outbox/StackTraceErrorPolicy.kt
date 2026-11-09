@@ -1,6 +1,6 @@
 package pro.vlprojects.semantic.delivery.outbox
 
-public data object StackTraceErrorPolicy : ErrorPolicy {
+public class StackTraceErrorPolicy : ErrorPolicy {
 
     override fun extract(cause: Throwable): String = cause.stackTraceToString()
 }

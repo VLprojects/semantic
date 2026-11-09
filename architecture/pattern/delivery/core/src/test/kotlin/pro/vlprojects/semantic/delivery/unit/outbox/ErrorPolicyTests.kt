@@ -13,12 +13,12 @@ class ErrorPolicyTests {
 
     @Test
     fun `the root cause policy describes the deepest cause`() {
-        assertEquals("java.lang.IllegalArgumentException: root", RootCauseErrorPolicy.extract(cause))
+        assertEquals("java.lang.IllegalArgumentException: root", RootCauseErrorPolicy().extract(cause))
     }
 
     @Test
     fun `the stack trace policy keeps the whole chain`() {
-        val error = StackTraceErrorPolicy.extract(cause)
+        val error = StackTraceErrorPolicy().extract(cause)
 
         assertTrue(error.contains("wrapper"))
         assertTrue(error.contains("root"))

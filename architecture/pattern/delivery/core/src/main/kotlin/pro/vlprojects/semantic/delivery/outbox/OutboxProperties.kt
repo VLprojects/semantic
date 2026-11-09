@@ -8,7 +8,7 @@ public data class OutboxProperties(
     public val lockDuration: Duration = Duration.ofMinutes(1),
     public val maxAttempts: Int = 5,
     public val backoff: Backoff = ExponentialBackoff.of(),
-    public val errorPolicy: ErrorPolicy = RootCauseErrorPolicy,
+    public val errorPolicy: ErrorPolicy = RootCauseErrorPolicy(),
 ) {
 
     init {

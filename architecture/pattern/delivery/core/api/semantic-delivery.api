@@ -120,18 +120,12 @@ public final class pro/vlprojects/semantic/delivery/outbox/Payload$Factory {
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/RootCauseErrorPolicy : pro/vlprojects/semantic/delivery/outbox/ErrorPolicy {
-	public static final field INSTANCE Lpro/vlprojects/semantic/delivery/outbox/RootCauseErrorPolicy;
-	public fun equals (Ljava/lang/Object;)Z
+	public fun <init> ()V
 	public fun extract (Ljava/lang/Throwable;)Ljava/lang/String;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/StackTraceErrorPolicy : pro/vlprojects/semantic/delivery/outbox/ErrorPolicy {
-	public static final field INSTANCE Lpro/vlprojects/semantic/delivery/outbox/StackTraceErrorPolicy;
-	public fun equals (Ljava/lang/Object;)Z
+	public fun <init> ()V
 	public fun extract (Ljava/lang/Throwable;)Ljava/lang/String;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
