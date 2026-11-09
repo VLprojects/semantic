@@ -7,10 +7,10 @@ public class UniqueDeliveryRoutingPolicy : DeliveryRoutingPolicy {
 
     override fun select(
         destination: DeliveryDestination,
-        routes: List<DeliveryRoute<*>>,
-    ): List<DeliveryRoute<*>> = when (routes.size) {
+        deliverers: List<OutboxDeliverer<*>>,
+    ): List<OutboxDeliverer<*>> = when (deliverers.size) {
         0 -> throw OutboxDelivererNotFoundException(destination)
-        1 -> routes
+        1 -> deliverers
         else -> throw NoUniqueOutboxDelivererException(destination)
     }
 }

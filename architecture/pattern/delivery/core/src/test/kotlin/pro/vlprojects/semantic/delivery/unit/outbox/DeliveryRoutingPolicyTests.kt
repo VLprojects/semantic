@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import pro.vlprojects.semantic.delivery.outbox.BroadcastDeliveryRoutingPolicy
 import pro.vlprojects.semantic.delivery.outbox.DeliveryDestination
-import pro.vlprojects.semantic.delivery.outbox.DeliveryRoute
 import pro.vlprojects.semantic.delivery.outbox.FallbackDeliveryRoutingPolicy
 import pro.vlprojects.semantic.delivery.outbox.Outbox
 import pro.vlprojects.semantic.delivery.outbox.OutboxDeliverer
@@ -15,60 +14,60 @@ import pro.vlprojects.semantic.delivery.outbox.error.OutboxDelivererNotFoundExce
 
 class DeliveryRoutingPolicyTests {
 
-    private val deliverer = object : OutboxDeliverer<TestDestination> {
-
-        override fun supports(destination: DeliveryDestination) = destination is TestDestination
-
-        override fun send(outbox: Outbox, destination: TestDestination) = Unit
-    }
-    private val route = DeliveryRoute.of(deliverer, TestDestination)
-    private val otherRoute = DeliveryRoute.of(deliverer, TestDestination)
+    private val deliverer = AnyDeliverer()
+    private val otherDeliverer = AnyDeliverer()
 
     @Test
-    fun `unique keeps the only route`() {
-        assertEquals(listOf(route), UniqueDeliveryRoutingPolicy().select(TestDestination, listOf(route)))
+    fun `unique keeps the only deliverer`() {
+        assertEquals(listOf(deliverer), UniqueDeliveryRoutingPolicy().select(TestDestination, listOf(deliverer)))
     }
 
     @Test
-    fun `unique fails without routes`() {
+    fun `unique fails without deliverers`() {
         assertThrows(OutboxDelivererNotFoundException::class.java) {
             UniqueDeliveryRoutingPolicy().select(TestDestination, emptyList())
         }
     }
 
     @Test
-    fun `unique fails with several routes`() {
+    fun `unique fails with several deliverers`() {
         assertThrows(NoUniqueOutboxDelivererException::class.java) {
-            UniqueDeliveryRoutingPolicy().select(TestDestination, listOf(route, otherRoute))
+            UniqueDeliveryRoutingPolicy().select(TestDestination, listOf(deliverer, otherDeliverer))
         }
     }
 
     @Test
-    fun `broadcast keeps every route`() {
-        val routes = listOf(route, otherRoute)
+    fun `broadcast keeps every deliverer`() {
+        val deliverers = listOf(deliverer, otherDeliverer)
 
-        assertEquals(routes, BroadcastDeliveryRoutingPolicy().select(TestDestination, routes))
+        assertEquals(deliverers, BroadcastDeliveryRoutingPolicy().select(TestDestination, deliverers))
     }
 
     @Test
-    fun `broadcast fails without routes`() {
+    fun `broadcast fails without deliverers`() {
         assertThrows(OutboxDelivererNotFoundException::class.java) {
             BroadcastDeliveryRoutingPolicy().select(TestDestination, emptyList())
         }
     }
 
     @Test
-    fun `fallback gives its route when there are no routes`() {
-        assertEquals(listOf(route), FallbackDeliveryRoutingPolicy(route).select(TestDestination, emptyList()))
+    fun `fallback gives its deliverer when none was found`() {
+        assertEquals(listOf(deliverer), FallbackDeliveryRoutingPolicy(deliverer).select(TestDestination, emptyList()))
     }
 
     @Test
-    fun `fallback keeps the found routes`() {
-        assertEquals(
-            listOf(otherRoute),
-            FallbackDeliveryRoutingPolicy(route).select(TestDestination, listOf(otherRoute)),
-        )
+    fun `fallback keeps the found deliverers`() {
+        val deliverers = listOf(otherDeliverer)
+
+        assertEquals(deliverers, FallbackDeliveryRoutingPolicy(deliverer).select(TestDestination, deliverers))
     }
 
     private data object TestDestination : DeliveryDestination
+
+    private class AnyDeliverer : OutboxDeliverer<DeliveryDestination> {
+
+        override fun supports(destination: DeliveryDestination) = true
+
+        override fun send(outbox: Outbox, destination: DeliveryDestination) = Unit
+    }
 }

@@ -9,6 +9,7 @@ import pro.vlprojects.semantic.delivery.outbox.BroadcastDeliveryRoutingPolicy
 import pro.vlprojects.semantic.delivery.outbox.DeliveryDestination
 import pro.vlprojects.semantic.delivery.outbox.DeliveryDestinationDeserializer
 import pro.vlprojects.semantic.delivery.outbox.DeliveryRoutingPolicy
+import pro.vlprojects.semantic.delivery.outbox.FallbackDeliveryRoutingPolicy
 import pro.vlprojects.semantic.delivery.outbox.Outbox
 import pro.vlprojects.semantic.delivery.outbox.OutboxDeliverer
 import pro.vlprojects.semantic.delivery.outbox.OutboxDeliveryRouter
@@ -86,6 +87,24 @@ class OutboxDeliveryRouterTests {
 
         assertEquals(1, brokerDeliverer.delivered.size)
         assertEquals(1, second.delivered.size)
+    }
+
+    @Test
+    fun `route hands an unsupported destination to the fallback deliverer`() {
+        val delivered = mutableListOf<DeliveryDestination>()
+        val fallback = object : OutboxDeliverer<DeliveryDestination> {
+
+            override fun supports(destination: DeliveryDestination) = false
+
+            override fun send(outbox: Outbox, destination: DeliveryDestination) {
+                delivered += destination
+            }
+        }
+        val policy = FallbackDeliveryRoutingPolicy(fallback)
+
+        OutboxDeliveryRouter({ brokerDestination }, listOf(localDeliverer), policy).route(outbox)
+
+        assertEquals(listOf<DeliveryDestination>(brokerDestination), delivered)
     }
 
     @Test

@@ -38,15 +38,6 @@ public abstract interface class pro/vlprojects/semantic/delivery/outbox/Delivery
 	public abstract fun serialize (Lpro/vlprojects/semantic/delivery/outbox/DeliveryDestination;)Ljava/lang/String;
 }
 
-public final class pro/vlprojects/semantic/delivery/outbox/DeliveryRoute {
-	public static final field Factory Lpro/vlprojects/semantic/delivery/outbox/DeliveryRoute$Factory;
-	public final fun send (Lpro/vlprojects/semantic/delivery/outbox/Outbox;)V
-}
-
-public final class pro/vlprojects/semantic/delivery/outbox/DeliveryRoute$Factory {
-	public final fun of (Lpro/vlprojects/semantic/delivery/outbox/OutboxDeliverer;Lpro/vlprojects/semantic/delivery/outbox/DeliveryDestination;)Lpro/vlprojects/semantic/delivery/outbox/DeliveryRoute;
-}
-
 public abstract interface class pro/vlprojects/semantic/delivery/outbox/DeliveryRoutingPolicy {
 	public abstract fun select (Lpro/vlprojects/semantic/delivery/outbox/DeliveryDestination;Ljava/util/List;)Ljava/util/List;
 }
@@ -64,7 +55,7 @@ public final class pro/vlprojects/semantic/delivery/outbox/DeliveryStatus : java
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/FallbackDeliveryRoutingPolicy : pro/vlprojects/semantic/delivery/outbox/DeliveryRoutingPolicy {
-	public fun <init> (Lpro/vlprojects/semantic/delivery/outbox/DeliveryRoute;)V
+	public fun <init> (Lpro/vlprojects/semantic/delivery/outbox/OutboxDeliverer;)V
 	public fun select (Lpro/vlprojects/semantic/delivery/outbox/DeliveryDestination;Ljava/util/List;)Ljava/util/List;
 }
 

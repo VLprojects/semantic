@@ -6,6 +6,6 @@ public class BroadcastDeliveryRoutingPolicy : DeliveryRoutingPolicy {
 
     override fun select(
         destination: DeliveryDestination,
-        routes: List<DeliveryRoute<*>>,
-    ): List<DeliveryRoute<*>> = routes.ifEmpty { throw OutboxDelivererNotFoundException(destination) }
+        deliverers: List<OutboxDeliverer<*>>,
+    ): List<OutboxDeliverer<*>> = deliverers.ifEmpty { throw OutboxDelivererNotFoundException(destination) }
 }

@@ -12,14 +12,14 @@ public class OutboxDeliveryRouter(
     public fun route(outbox: Outbox) {
         val destination = deserializer.deserialize(outbox.destination)
 
-        resolveRoutes(destination)
+        deliverers
+            .filter { it.supports(destination) }
             .let { policy.select(destination, it) }
-            .forEach { it.send(outbox) }
+            .map(::castDeliverer)
+            .forEach { it.send(outbox, destination) }
     }
 
-    // supports() guards the cast
+    // A selected deliverer either supports the destination or accepts any
     @Suppress("UNCHECKED_CAST")
-    private fun resolveRoutes(destination: DeliveryDestination) = deliverers
-        .filter { it.supports(destination) }
-        .map { DeliveryRoute.of(it as OutboxDeliverer<DeliveryDestination>, destination) }
+    private fun castDeliverer(deliverer: OutboxDeliverer<*>) = deliverer as OutboxDeliverer<DeliveryDestination>
 }
