@@ -1,26 +1,33 @@
 package pro.vlprojects.semantic.resilience.backoff.spring.boot.config
 
+import org.springframework.core.Ordered
+import pro.vlprojects.semantic.resilience.backoff.Backoff
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.BackoffRegistry
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.properties.BackoffConfigurationProperties
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.properties.BackoffProperties
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.properties.BackoffType
 
-internal class BackoffPropertiesMapper(private val properties: BackoffConfigurationProperties) {
+internal class StandardBackoffRegistryCustomizer(
+    private val properties: BackoffConfigurationProperties,
+    private val backoffs: Map<String, Backoff>,
+) : BackoffRegistryCustomizer, Ordered {
 
     private val factory = BackoffFactory(properties.default)
 
-    fun asBackoffs() = properties.instances
-        .also(::rejectReservedName)
-        .also { rejectInvalidDefault() }
-        .plus(BackoffRegistry.DEFAULT_NAME to BackoffProperties())
-        .mapValues { (name, instance) -> createBackoff(name, instance) }
+    override fun customize(registry: BackoffRegistry) {
+        validateDefault()
+        properties.instances
+            .toList()
+            .plus(BackoffRegistry.DEFAULT_NAME to BackoffProperties())
+            .forEach { (name, instance) ->
+                createBackoff(name, instance).let { backoff -> registry.register(name, backoff) }
+            }
+        backoffs.forEach { (name, backoff) -> registry.replace(name, backoff) }
+    }
 
-    private fun rejectReservedName(instances: Map<String, BackoffProperties>) =
-        require(BackoffRegistry.DEFAULT_NAME !in instances) {
-            "The backoff '${BackoffRegistry.DEFAULT_NAME}' is set by the default block and cannot be an instance"
-        }
+    override fun getOrder() = 0
 
-    private fun rejectInvalidDefault() = BackoffType.entries
+    private fun validateDefault() = BackoffType.entries
         .forEach { type -> createBackoff(BackoffRegistry.DEFAULT_NAME, BackoffProperties(type = type)) }
 
     private fun createBackoff(name: String, instance: BackoffProperties) = try {

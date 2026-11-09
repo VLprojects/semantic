@@ -1,43 +1,45 @@
 package pro.vlprojects.semantic.resilience.backoff.spring.boot.config
 
+import pro.vlprojects.semantic.resilience.backoff.Backoff
 import pro.vlprojects.semantic.resilience.backoff.ExponentialBackoff
 import pro.vlprojects.semantic.resilience.backoff.FixedBackoff
 import pro.vlprojects.semantic.resilience.backoff.extension.jittered
+import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.properties.BackoffDefaultProperties
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.properties.BackoffProperties
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.properties.BackoffType
-import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.properties.DefaultBackoffProperties
 
-internal class BackoffFactory(private val defaults: DefaultBackoffProperties) {
+internal class BackoffFactory(private val defaults: BackoffDefaultProperties) {
 
-    fun create(instance: BackoffProperties) = (instance.type ?: defaults.type)
-        .also { type -> rejectFieldsOfOtherType(type, instance) }
-        .let { type -> createUnjitteredBackoff(type, instance) }
-        .jittered(instance.jitter ?: defaults.jitter)
+    fun create(properties: BackoffProperties) = when (properties.type ?: defaults.type) {
+        BackoffType.FIXED -> createFixedBackoff(properties)
+        BackoffType.EXPONENTIAL -> createExponentialBackoff(properties)
+    }.let { backoff -> applyJitter(backoff, properties) }
 
-    private fun rejectFieldsOfOtherType(type: BackoffType, instance: BackoffProperties) =
-        findFieldsOfOtherType(type, instance)
-            .filterValues { value -> value != null }
-            .keys
-            .takeIf(Set<String>::isNotEmpty)
-            ?.let { fields -> throw IllegalArgumentException("The type $type does not use $fields") }
+    private fun createFixedBackoff(properties: BackoffProperties) = properties
+        .also(::validateFixedBackoff)
+        .let { FixedBackoff(properties.delay ?: defaults.delay) }
 
-    private fun findFieldsOfOtherType(type: BackoffType, instance: BackoffProperties) = when (type) {
-        BackoffType.FIXED -> mapOf(
-            "initial-delay" to instance.initialDelay,
-            "delay-limit" to instance.delayLimit,
-            "multiplier" to instance.multiplier,
-        )
+    private fun createExponentialBackoff(properties: BackoffProperties) = properties
+        .also(::validateExponentialBackoff)
+        .let {
+            ExponentialBackoff(
+                properties.initialDelay ?: defaults.initialDelay,
+                properties.delayLimit ?: defaults.delayLimit,
+                properties.multiplier ?: defaults.multiplier,
+            )
+        }
 
-        BackoffType.EXPONENTIAL -> mapOf("delay" to instance.delay)
-    }
+    private fun validateFixedBackoff(properties: BackoffProperties) =
+        listOfNotNull(properties.initialDelay, properties.delayLimit, properties.multiplier)
+            .isEmpty()
+            .let { isValid ->
+                require(isValid) { "A fixed backoff does not use initial-delay, delay-limit or multiplier" }
+            }
 
-    private fun createUnjitteredBackoff(type: BackoffType, instance: BackoffProperties) = when (type) {
-        BackoffType.FIXED -> FixedBackoff(instance.delay ?: defaults.delay)
+    private fun validateExponentialBackoff(properties: BackoffProperties) =
+        require(properties.delay == null) { "An exponential backoff does not use delay" }
 
-        BackoffType.EXPONENTIAL -> ExponentialBackoff(
-            instance.initialDelay ?: defaults.initialDelay,
-            instance.delayLimit ?: defaults.delayLimit,
-            instance.multiplier ?: defaults.multiplier,
-        )
-    }
+    private fun applyJitter(backoff: Backoff, properties: BackoffProperties) = (properties.jitter ?: defaults.jitter)
+        ?.let { jitter -> backoff.jittered(jitter) }
+        ?: backoff
 }
