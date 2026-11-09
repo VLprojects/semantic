@@ -1,4 +1,4 @@
-package pro.vlprojects.semantic.resilience.backoff.spring.boot.integration
+package pro.vlprojects.semantic.resilience.backoff.spring.boot.integration.config
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -14,8 +14,8 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import pro.vlprojects.semantic.resilience.backoff.Backoff
 import pro.vlprojects.semantic.resilience.backoff.FixedBackoff
-import pro.vlprojects.semantic.resilience.backoff.spring.boot.BackoffAutoConfiguration
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.BackoffRegistry
+import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.BackoffAutoConfiguration
 import java.time.Duration
 
 class BackoffAutoConfigurationTests {
