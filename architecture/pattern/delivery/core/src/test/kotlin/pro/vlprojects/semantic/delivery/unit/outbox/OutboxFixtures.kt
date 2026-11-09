@@ -13,7 +13,7 @@ import java.time.ZoneOffset
 private val identifier = OutboxId.of("record")
 private val payload = Payload.of("OrderPlaced", byteArrayOf(1))
 private val context = Context.of(
-    deliverer = "deliverer",
+    target = "deliverer",
     orderingKey = "order-1",
     idempotencyKey = "operation",
     attributes = mapOf("trace" to "abc"),

@@ -91,7 +91,7 @@ public final class pro/vlprojects/semantic/delivery/outbox/OutboxService {
 public final class pro/vlprojects/semantic/delivery/outbox/Payload {
 	public static final field Factory Lpro/vlprojects/semantic/delivery/outbox/Payload$Factory;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getContent ()[B
+	public final fun getBody ()[B
 	public final fun getType ()Ljava/lang/String;
 	public fun hashCode ()I
 }
@@ -101,8 +101,11 @@ public final class pro/vlprojects/semantic/delivery/outbox/Payload$Factory {
 	public final fun of (Lkotlin/reflect/KClass;[B)Lpro/vlprojects/semantic/delivery/outbox/Payload;
 }
 
-public abstract interface class pro/vlprojects/semantic/delivery/outbox/PayloadSerializer {
+public abstract interface class pro/vlprojects/semantic/delivery/outbox/PayloadDeserializer {
 	public abstract fun deserialize ([BLkotlin/reflect/KClass;)Ljava/lang/Object;
+}
+
+public abstract interface class pro/vlprojects/semantic/delivery/outbox/PayloadSerializer {
 	public abstract fun serialize (Ljava/lang/Object;)[B
 }
 
@@ -123,9 +126,9 @@ public final class pro/vlprojects/semantic/delivery/outbox/context/Context {
 	public final fun component4 ()Ljava/util/Map;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAttributes ()Ljava/util/Map;
-	public final fun getDeliverer ()Ljava/lang/String;
 	public final fun getIdempotencyKey ()Ljava/lang/String;
 	public final fun getOrderingKey ()Ljava/lang/String;
+	public final fun getTarget ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }

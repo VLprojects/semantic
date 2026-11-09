@@ -18,7 +18,6 @@ import java.time.Clock
 import java.time.Duration
 import java.time.Instant
 import java.time.ZoneOffset
-import kotlin.reflect.KClass
 
 class OutboxServiceTests {
 
@@ -33,12 +32,7 @@ class OutboxServiceTests {
     private val context = Context.of("rabbit")
     private val serialized = byteArrayOf(1)
 
-    private val serializer = object : PayloadSerializer {
-
-        override fun serialize(payload: Any) = serialized
-
-        override fun <T : Any> deserialize(content: ByteArray, type: KClass<T>) = throw UnsupportedOperationException()
-    }
+    private val serializer = PayloadSerializer { serialized }
 
     private val attributeCollector = AttributeProvider { mapOf("tenant" to "collected", "trace" to "abc") }
         .let(::listOf)
@@ -77,7 +71,7 @@ class OutboxServiceTests {
 
         assertEquals(listOf(created), savedOutboxes)
         assertEquals(generatedId, created.id)
-        assertEquals("rabbit", created.context.deliverer)
+        assertEquals("rabbit", created.context.target)
         assertEquals(Payload.of(String::class, serialized), created.payload)
         assertEquals(DeliveryStatus.PENDING, created.delivery.status)
         assertEquals(moment, created.delivery.scheduledAt)

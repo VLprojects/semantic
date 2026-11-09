@@ -15,12 +15,12 @@ public class OutboxService(
 ) {
 
     public fun create(payload: Any, context: Context): Outbox {
-        val content = serializer.serialize(payload)
+        val body = serializer.serialize(payload)
         val attributes = attributeCollector.collect()
 
         return Outbox.of(
             id = idGenerator.generate(),
-            payload = Payload.of(payload::class, content),
+            payload = Payload.of(payload::class, body),
             context = context.withDefaultAttributes(attributes),
             clock = clock,
         ).let(repository::save)
