@@ -75,6 +75,6 @@ available by its bean name and replaces the settings of an instance with that na
 replaces the default block. To add backoffs from code, declare a `BackoffRegistrar` bean.
 
 Wrong settings stop the application at start, with the name of the instance, even when a bean replaces it:
-an unknown field or type, a value `Backoff` refuses, a field of an instance that its type does not use, such
+an unknown field or type, a value the `Backoff` being built refuses, a field of an instance that its type does not use, such
 as `delay` on an exponential one, and an instance named `default`. The `default` block may hold the fields of
 both types, since instances of either inherit them.

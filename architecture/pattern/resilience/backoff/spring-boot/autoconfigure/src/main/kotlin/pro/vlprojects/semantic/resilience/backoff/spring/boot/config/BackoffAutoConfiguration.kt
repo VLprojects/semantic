@@ -21,16 +21,15 @@ public class BackoffAutoConfiguration {
         BackoffPropertiesRegistrar(properties)
 
     @Bean
-    @Order(Ordered.LOWEST_PRECEDENCE)
-    public fun backoffBeansRegistrar(beanFactory: ListableBeanFactory): BackoffRegistrar =
-        BackoffBeansRegistrar(beanFactory)
-
-    @Bean
     @ConditionalOnMissingBean
-    public fun backoffRegistry(registrars: ObjectProvider<BackoffRegistrar>): BackoffRegistry = BackoffRegistry()
+    public fun backoffRegistry(
+        registrars: ObjectProvider<BackoffRegistrar>,
+        beanFactory: ListableBeanFactory,
+    ): BackoffRegistry = BackoffRegistry()
         .also { registry ->
             registrars
                 .orderedStream()
                 .forEach { registrar -> registrar.register(registry) }
         }
+        .also(BackoffBeansRegistrar(beanFactory)::register)
 }
