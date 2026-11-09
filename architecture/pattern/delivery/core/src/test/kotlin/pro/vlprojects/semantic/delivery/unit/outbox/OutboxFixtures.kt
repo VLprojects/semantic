@@ -18,7 +18,7 @@ internal fun createOutbox(createdAt: Instant) = Outbox.of(
     idempotencyKey = "operation",
     deliverer = "deliverer",
     payload = payload,
-    context = mapOf("trace" to "abc"),
+    attributes = mapOf("trace" to "abc"),
     clock = Clock.fixed(createdAt, ZoneOffset.UTC),
 )
 
@@ -38,7 +38,7 @@ internal fun createStartedOutbox(createdAt: Instant, lockedUntil: Instant) = Del
             idempotencyKey = "operation",
             deliverer = "deliverer",
             payload = payload,
-            context = mapOf("trace" to "abc"),
+            attributes = mapOf("trace" to "abc"),
             createdAt = createdAt,
             delivery = it,
             version = 1,

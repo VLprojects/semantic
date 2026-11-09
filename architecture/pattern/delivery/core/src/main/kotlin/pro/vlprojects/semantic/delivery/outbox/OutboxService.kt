@@ -1,30 +1,31 @@
 package pro.vlprojects.semantic.delivery.outbox
 
-import pro.vlprojects.semantic.delivery.outbox.context.OutboxContextCollector
+import pro.vlprojects.semantic.delivery.outbox.context.AttributeCollector
+import pro.vlprojects.semantic.delivery.outbox.context.Context
 import pro.vlprojects.semantic.delivery.outbox.id.OutboxIdGenerator
 import java.time.Clock
 
 public class OutboxService(
     private val repository: OutboxRepository,
     private val serializer: PayloadSerializer,
-    private val contextCollector: OutboxContextCollector,
+    private val attributeCollector: AttributeCollector,
     private val idGenerator: OutboxIdGenerator,
     private val config: OutboxProperties,
     private val clock: Clock,
 ) {
 
-    public fun create(payload: Any, deliverer: String, metadata: OutboxMetadata = OutboxMetadata()): Outbox {
+    public fun create(payload: Any, context: Context): Outbox {
         val id = idGenerator.generate()
         val content = serializer.serialize(payload)
-        val context = contextCollector.collect() + metadata.context
+        val attributes = attributeCollector.collect() + context.attributes
 
         return Outbox.of(
             id = id,
-            orderingKey = metadata.orderingKey ?: id.value,
-            idempotencyKey = metadata.idempotencyKey ?: id.value,
-            deliverer = deliverer,
+            orderingKey = context.orderingKey ?: id.value,
+            idempotencyKey = context.idempotencyKey ?: id.value,
+            deliverer = context.deliverer,
             payload = Payload.of(payload::class, content),
-            context = context,
+            attributes = attributes,
             clock = clock,
         ).let(repository::save)
     }
