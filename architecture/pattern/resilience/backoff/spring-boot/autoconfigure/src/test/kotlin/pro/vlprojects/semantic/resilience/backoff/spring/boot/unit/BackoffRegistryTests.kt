@@ -8,13 +8,14 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import pro.vlprojects.semantic.resilience.backoff.FixedBackoff
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.BackoffRegistry
+import pro.vlprojects.semantic.resilience.backoff.spring.boot.DEFAULT_BACKOFF_NAME
 
 class BackoffRegistryTests {
 
     private val default = FixedBackoff.ofSeconds(1)
     private val payments = FixedBackoff.ofSeconds(5)
     private val registry = BackoffRegistry().also { registry ->
-        registry.register(BackoffRegistry.DEFAULT_NAME, default)
+        registry.register(DEFAULT_BACKOFF_NAME, default)
         registry.register("payments", payments)
     }
 
@@ -27,7 +28,7 @@ class BackoffRegistryTests {
     @Test
     fun `the default is found by its name`() {
         assertSame(default, registry.default)
-        assertSame(default, registry[BackoffRegistry.DEFAULT_NAME])
+        assertSame(default, registry[DEFAULT_BACKOFF_NAME])
     }
 
     @Test
@@ -45,7 +46,7 @@ class BackoffRegistryTests {
 
     @Test
     fun `the names list every backoff`() {
-        assertEquals(setOf(BackoffRegistry.DEFAULT_NAME, "payments"), registry.names)
+        assertEquals(setOf(DEFAULT_BACKOFF_NAME, "payments"), registry.names)
     }
 
     @Test
