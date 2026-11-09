@@ -25,10 +25,11 @@ internal class StandardBackoffRegistryCustomizer(
         backoffs.forEach { (name, backoff) -> registry.replace(name, backoff) }
     }
 
-    override fun getOrder() = 0
+    override fun getOrder() = Ordered.HIGHEST_PRECEDENCE
 
     private fun validateDefault() = BackoffType.entries
-        .forEach { type -> createBackoff(BackoffRegistry.DEFAULT_NAME, BackoffProperties(type = type)) }
+        .map { type -> BackoffProperties(type = type) }
+        .forEach { instance -> createBackoff(BackoffRegistry.DEFAULT_NAME, instance) }
 
     private fun createBackoff(name: String, instance: BackoffProperties) = try {
         factory.create(instance)
