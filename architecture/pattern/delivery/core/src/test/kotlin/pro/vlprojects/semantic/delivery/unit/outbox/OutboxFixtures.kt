@@ -12,8 +12,8 @@ import java.time.ZoneOffset
 
 private val identifier = OutboxId.of("record")
 private val payload = Payload.of("OrderPlaced", byteArrayOf(1))
+private const val DESTINATION = "orders"
 private val context = Context.of(
-    target = "deliverer",
     orderingKey = "order-1",
     idempotencyKey = "operation",
     attributes = mapOf("trace" to "abc"),
@@ -22,6 +22,7 @@ private val context = Context.of(
 internal fun createOutbox(createdAt: Instant) = Outbox.of(
     id = identifier,
     payload = payload,
+    destination = DESTINATION,
     context = context,
     clock = Clock.fixed(createdAt, ZoneOffset.UTC),
 )
@@ -39,6 +40,7 @@ internal fun createStartedOutbox(createdAt: Instant, lockedUntil: Instant) = Del
         Outbox.of(
             id = identifier,
             payload = payload,
+            destination = DESTINATION,
             context = context,
             createdAt = createdAt,
             delivery = it,

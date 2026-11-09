@@ -9,7 +9,7 @@ class ContextTests {
 
     @Test
     fun `creating without keys leaves them empty`() {
-        val context = Context.of("rabbit")
+        val context = Context.of()
 
         assertNull(context.orderingKey)
         assertNull(context.idempotencyKey)
@@ -17,7 +17,7 @@ class ContextTests {
 
     @Test
     fun `creating keeps the given keys`() {
-        val context = Context.of("rabbit", orderingKey = "order-1", idempotencyKey = "request-1")
+        val context = Context.of(orderingKey = "order-1", idempotencyKey = "request-1")
 
         assertEquals("order-1", context.orderingKey)
         assertEquals("request-1", context.idempotencyKey)

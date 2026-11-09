@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import pro.vlprojects.semantic.delivery.outbox.DeliveryDestination
-import pro.vlprojects.semantic.delivery.outbox.DeliveryDestinationResolver
+import pro.vlprojects.semantic.delivery.outbox.DeliveryDestinationDeserializer
 import pro.vlprojects.semantic.delivery.outbox.Outbox
 import pro.vlprojects.semantic.delivery.outbox.OutboxDeliverer
 import pro.vlprojects.semantic.delivery.outbox.OutboxDeliveryRouter
@@ -33,16 +33,16 @@ class OutboxDeliveryRouterTests {
     }
 
     @Test
-    fun `route resolves the destination from the context of the outbox`() {
-        val contexts = mutableListOf<Any>()
-        val resolver = DeliveryDestinationResolver { context ->
-            contexts += context
+    fun `route deserializes the destination stored in the outbox`() {
+        val stored = mutableListOf<String>()
+        val deserializer = DeliveryDestinationDeserializer { destination ->
+            stored += destination
             brokerDestination
         }
 
-        OutboxDeliveryRouter(resolver, listOf(brokerDeliverer)).route(outbox)
+        OutboxDeliveryRouter(deserializer, listOf(brokerDeliverer)).route(outbox)
 
-        assertSame(outbox.context, contexts.single())
+        assertEquals(listOf(outbox.destination), stored)
     }
 
     @Test

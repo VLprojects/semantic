@@ -9,6 +9,8 @@ public class OutboxService(
     private val repository: OutboxRepository,
     private val serializer: PayloadSerializer,
     private val contextCollector: ContextCollector,
+    private val destinationResolver: DeliveryDestinationResolver,
+    private val destinationSerializer: DeliveryDestinationSerializer,
     private val idGenerator: OutboxIdGenerator,
     private val config: OutboxProperties,
     private val clock: Clock,
@@ -17,12 +19,17 @@ public class OutboxService(
     @Throws(OutboxConflictException::class)
     public fun create(payload: Any): Outbox {
         val body = serializer.serialize(payload)
+        val context = contextCollector.collect(payload)
+        val destination = destinationResolver
+            .resolve(payload, context)
+            .let(destinationSerializer::serialize)
 
         return Outbox
             .of(
                 id = idGenerator.generate(),
                 payload = Payload.of(payload::class, body),
-                context = contextCollector.collect(payload),
+                destination = destination,
+                context = context,
                 clock = clock,
             )
             .let(repository::save)

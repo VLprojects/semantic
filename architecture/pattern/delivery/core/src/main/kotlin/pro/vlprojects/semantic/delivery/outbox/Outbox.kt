@@ -8,6 +8,7 @@ import java.time.Instant
 public class Outbox private constructor(
     public val id: OutboxId,
     public val payload: Payload,
+    public val destination: String,
     public val context: Context,
     public val createdAt: Instant,
     delivery: Delivery,
@@ -34,6 +35,7 @@ public class Outbox private constructor(
         public fun of(
             id: OutboxId,
             payload: Payload,
+            destination: String,
             context: Context,
             clock: Clock = Clock.systemUTC(),
         ): Outbox {
@@ -43,6 +45,7 @@ public class Outbox private constructor(
             return Outbox(
                 id = id,
                 payload = payload,
+                destination = destination,
                 context = context,
                 createdAt = createdAt,
                 delivery = delivery,
@@ -53,6 +56,7 @@ public class Outbox private constructor(
         public fun of(
             id: OutboxId,
             payload: Payload,
+            destination: String,
             context: Context,
             createdAt: Instant,
             delivery: Delivery,
@@ -60,6 +64,7 @@ public class Outbox private constructor(
         ): Outbox = Outbox(
             id = id,
             payload = payload,
+            destination = destination,
             context = context,
             createdAt = createdAt,
             delivery = delivery,

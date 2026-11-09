@@ -3,13 +3,13 @@ package pro.vlprojects.semantic.delivery.outbox
 import pro.vlprojects.semantic.delivery.outbox.error.OutboxDeliveryException
 
 public class OutboxDeliveryRouter(
-    private val resolver: DeliveryDestinationResolver,
+    private val deserializer: DeliveryDestinationDeserializer,
     private val deliverers: List<OutboxDeliverer<*>>,
 ) {
 
     @Throws(OutboxDeliveryException::class)
     public fun route(outbox: Outbox) {
-        val destination = resolver.resolve(outbox.context)
+        val destination = deserializer.deserialize(outbox.destination)
 
         findDeliverer(destination).deliver(outbox, destination)
     }

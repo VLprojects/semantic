@@ -25,8 +25,16 @@ public final class pro/vlprojects/semantic/delivery/outbox/Delivery$Factory {
 public abstract interface class pro/vlprojects/semantic/delivery/outbox/DeliveryDestination {
 }
 
+public abstract interface class pro/vlprojects/semantic/delivery/outbox/DeliveryDestinationDeserializer {
+	public abstract fun deserialize (Ljava/lang/String;)Lpro/vlprojects/semantic/delivery/outbox/DeliveryDestination;
+}
+
 public abstract interface class pro/vlprojects/semantic/delivery/outbox/DeliveryDestinationResolver {
-	public abstract fun resolve (Lpro/vlprojects/semantic/delivery/outbox/context/Context;)Lpro/vlprojects/semantic/delivery/outbox/DeliveryDestination;
+	public abstract fun resolve (Ljava/lang/Object;Lpro/vlprojects/semantic/delivery/outbox/context/Context;)Lpro/vlprojects/semantic/delivery/outbox/DeliveryDestination;
+}
+
+public abstract interface class pro/vlprojects/semantic/delivery/outbox/DeliveryDestinationSerializer {
+	public abstract fun serialize (Lpro/vlprojects/semantic/delivery/outbox/DeliveryDestination;)Ljava/lang/String;
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/DeliveryStatus : java/lang/Enum {
@@ -46,15 +54,16 @@ public final class pro/vlprojects/semantic/delivery/outbox/Outbox {
 	public final fun getContext ()Lpro/vlprojects/semantic/delivery/outbox/context/Context;
 	public final fun getCreatedAt ()Ljava/time/Instant;
 	public final fun getDelivery ()Lpro/vlprojects/semantic/delivery/outbox/Delivery;
+	public final fun getDestination ()Ljava/lang/String;
 	public final fun getId ()Lpro/vlprojects/semantic/delivery/outbox/id/OutboxId;
 	public final fun getPayload ()Lpro/vlprojects/semantic/delivery/outbox/Payload;
 	public final fun getVersion ()J
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/Outbox$Factory {
-	public final fun of (Lpro/vlprojects/semantic/delivery/outbox/id/OutboxId;Lpro/vlprojects/semantic/delivery/outbox/Payload;Lpro/vlprojects/semantic/delivery/outbox/context/Context;Ljava/time/Clock;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
-	public final fun of (Lpro/vlprojects/semantic/delivery/outbox/id/OutboxId;Lpro/vlprojects/semantic/delivery/outbox/Payload;Lpro/vlprojects/semantic/delivery/outbox/context/Context;Ljava/time/Instant;Lpro/vlprojects/semantic/delivery/outbox/Delivery;J)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
-	public static synthetic fun of$default (Lpro/vlprojects/semantic/delivery/outbox/Outbox$Factory;Lpro/vlprojects/semantic/delivery/outbox/id/OutboxId;Lpro/vlprojects/semantic/delivery/outbox/Payload;Lpro/vlprojects/semantic/delivery/outbox/context/Context;Ljava/time/Clock;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
+	public final fun of (Lpro/vlprojects/semantic/delivery/outbox/id/OutboxId;Lpro/vlprojects/semantic/delivery/outbox/Payload;Ljava/lang/String;Lpro/vlprojects/semantic/delivery/outbox/context/Context;Ljava/time/Clock;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
+	public final fun of (Lpro/vlprojects/semantic/delivery/outbox/id/OutboxId;Lpro/vlprojects/semantic/delivery/outbox/Payload;Ljava/lang/String;Lpro/vlprojects/semantic/delivery/outbox/context/Context;Ljava/time/Instant;Lpro/vlprojects/semantic/delivery/outbox/Delivery;J)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
+	public static synthetic fun of$default (Lpro/vlprojects/semantic/delivery/outbox/Outbox$Factory;Lpro/vlprojects/semantic/delivery/outbox/id/OutboxId;Lpro/vlprojects/semantic/delivery/outbox/Payload;Ljava/lang/String;Lpro/vlprojects/semantic/delivery/outbox/context/Context;Ljava/time/Clock;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
 }
 
 public abstract interface class pro/vlprojects/semantic/delivery/outbox/OutboxDeliverer {
@@ -63,7 +72,7 @@ public abstract interface class pro/vlprojects/semantic/delivery/outbox/OutboxDe
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/OutboxDeliveryRouter {
-	public fun <init> (Lpro/vlprojects/semantic/delivery/outbox/DeliveryDestinationResolver;Ljava/util/List;)V
+	public fun <init> (Lpro/vlprojects/semantic/delivery/outbox/DeliveryDestinationDeserializer;Ljava/util/List;)V
 	public final fun route (Lpro/vlprojects/semantic/delivery/outbox/Outbox;)V
 }
 
@@ -94,7 +103,7 @@ public abstract interface class pro/vlprojects/semantic/delivery/outbox/OutboxRe
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/OutboxService {
-	public fun <init> (Lpro/vlprojects/semantic/delivery/outbox/OutboxRepository;Lpro/vlprojects/semantic/delivery/outbox/PayloadSerializer;Lpro/vlprojects/semantic/delivery/outbox/context/ContextCollector;Lpro/vlprojects/semantic/delivery/outbox/id/OutboxIdGenerator;Lpro/vlprojects/semantic/delivery/outbox/OutboxProperties;Ljava/time/Clock;)V
+	public fun <init> (Lpro/vlprojects/semantic/delivery/outbox/OutboxRepository;Lpro/vlprojects/semantic/delivery/outbox/PayloadSerializer;Lpro/vlprojects/semantic/delivery/outbox/context/ContextCollector;Lpro/vlprojects/semantic/delivery/outbox/DeliveryDestinationResolver;Lpro/vlprojects/semantic/delivery/outbox/DeliveryDestinationSerializer;Lpro/vlprojects/semantic/delivery/outbox/id/OutboxIdGenerator;Lpro/vlprojects/semantic/delivery/outbox/OutboxProperties;Ljava/time/Clock;)V
 	public final fun complete (Lpro/vlprojects/semantic/delivery/outbox/Outbox;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
 	public final fun create (Ljava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
 	public final fun fail (Lpro/vlprojects/semantic/delivery/outbox/Outbox;Ljava/lang/Throwable;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
@@ -131,13 +140,11 @@ public final class pro/vlprojects/semantic/delivery/outbox/context/Context {
 	public static final field Factory Lpro/vlprojects/semantic/delivery/outbox/context/Context$Factory;
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Ljava/lang/String;
-	public final fun component3 ()Ljava/lang/String;
-	public final fun component4 ()Ljava/util/Map;
+	public final fun component3 ()Ljava/util/Map;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAttributes ()Ljava/util/Map;
 	public final fun getIdempotencyKey ()Ljava/lang/String;
 	public final fun getOrderingKey ()Ljava/lang/String;
-	public final fun getTarget ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
@@ -147,13 +154,12 @@ public final class pro/vlprojects/semantic/delivery/outbox/context/Context$Build
 	public final fun build ()Lpro/vlprojects/semantic/delivery/outbox/context/Context;
 	public final fun setIdempotencyKey (Ljava/lang/String;)Lpro/vlprojects/semantic/delivery/outbox/context/Context$Builder;
 	public final fun setOrderingKey (Ljava/lang/String;)Lpro/vlprojects/semantic/delivery/outbox/context/Context$Builder;
-	public final fun setTarget (Ljava/lang/String;)Lpro/vlprojects/semantic/delivery/outbox/context/Context$Builder;
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/context/Context$Factory {
 	public final fun builder ()Lpro/vlprojects/semantic/delivery/outbox/context/Context$Builder;
-	public final fun of (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;)Lpro/vlprojects/semantic/delivery/outbox/context/Context;
-	public static synthetic fun of$default (Lpro/vlprojects/semantic/delivery/outbox/context/Context$Factory;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/context/Context;
+	public final fun of (Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;)Lpro/vlprojects/semantic/delivery/outbox/context/Context;
+	public static synthetic fun of$default (Lpro/vlprojects/semantic/delivery/outbox/context/Context$Factory;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/context/Context;
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/context/ContextCollector {
