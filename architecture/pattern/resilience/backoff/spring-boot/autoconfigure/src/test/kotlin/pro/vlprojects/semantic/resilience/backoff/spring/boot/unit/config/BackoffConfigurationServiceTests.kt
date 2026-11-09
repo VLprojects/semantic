@@ -81,6 +81,16 @@ class BackoffConfigurationServiceTests {
     }
 
     @Test
+    fun `an arg of an instance beats the arg of the default written in another form`() {
+        val backoff = createBackoff(
+            BackoffProperties(args = mapOf("initialDelay" to "200ms")),
+            BackoffDefaultProperties(args = mapOf("initial-delay" to "5s")),
+        )
+
+        assertEquals(Duration.ofMillis(200), backoff.calculate(1))
+    }
+
+    @Test
     fun `an instance of another type ignores the args of the default`() {
         val backoff = createBackoff(
             BackoffProperties(type = "fixed"),
@@ -100,6 +110,19 @@ class BackoffConfigurationServiceTests {
     }
 
     @Test
+    fun `two factories of one type fail and name both`() {
+        val failure = assertThrows<IllegalArgumentException> {
+            BackoffConfigurationService(
+                BackoffDefaultProperties(),
+                listOf(FixedBackoffFactory(), RivalFixedBackoffFactory()),
+            )
+        }
+
+        assertTrue("FixedBackoffFactory" in failure.message.orEmpty())
+        assertTrue("RivalFixedBackoffFactory" in failure.message.orEmpty())
+    }
+
+    @Test
     fun `an unknown type fails and lists the available ones`() {
         val failure = assertThrows<IllegalArgumentException> { createBackoff(BackoffProperties(type = "linear")) }
 
@@ -115,6 +138,7 @@ class BackoffConfigurationServiceTests {
         }
 
         assertTrue("orders" in failure.message.orEmpty())
+        assertTrue("delay" in failure.message.orEmpty())
     }
 
     @Test
@@ -143,6 +167,15 @@ class BackoffConfigurationServiceTests {
     private fun sampleDelays(backoff: Backoff) = (1..200)
         .map { backoff.calculate(1) }
         .toSet()
+
+    private class RivalFixedBackoffFactory : BackoffFactory<FixedBackoffFactory.Config> {
+
+        override val type = "fixed"
+
+        override val configClass = FixedBackoffFactory.Config::class.java
+
+        override fun create(config: FixedBackoffFactory.Config) = FixedBackoff(config.delay)
+    }
 
     private class OnceBackoffFactory : BackoffFactory<OnceBackoffFactory.Config> {
 
