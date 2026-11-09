@@ -1,0 +1,87 @@
+package pro.vlprojects.semantic.delivery.unit.outbox
+
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
+import pro.vlprojects.semantic.delivery.outbox.DeliveryStatus
+import pro.vlprojects.semantic.delivery.outbox.Outbox
+import pro.vlprojects.semantic.delivery.outbox.OutboxId
+import pro.vlprojects.semantic.delivery.outbox.OutboxProperties
+import pro.vlprojects.semantic.delivery.outbox.OutboxRepository
+import pro.vlprojects.semantic.delivery.outbox.OutboxService
+import pro.vlprojects.semantic.resilience.backoff.FixedBackoff
+import java.time.Clock
+import java.time.Duration
+import java.time.Instant
+import java.time.ZoneOffset
+
+class OutboxServiceTests {
+
+    private val moment = Instant.parse("2026-11-09T00:00:00Z")
+    private val clock = Clock.fixed(moment, ZoneOffset.UTC)
+    private val lockDuration = Duration.ofMinutes(1)
+    private val cause = IllegalStateException("timeout")
+    private val lockedOutboxes = mutableListOf<Outbox>()
+    private val lockRequests = mutableListOf<Pair<Instant, Instant>>()
+
+    private val repository = object : OutboxRepository {
+
+        override fun save(outbox: Outbox) = outbox
+
+        override fun findById(id: OutboxId) = lockedOutboxes.find { it.id == id }
+
+        override fun lockScheduledForDelivery(
+            scheduledUntil: Instant,
+            lockedUntil: Instant,
+            limit: Int,
+        ) = lockedOutboxes
+            .take(limit)
+            .also { lockRequests += scheduledUntil to lockedUntil }
+
+        override fun deleteAll(status: DeliveryStatus, terminatedBefore: Instant, limit: Int) = 0
+    }
+
+    private val backoff = FixedBackoff.ofSeconds(30)
+    private val service = createService(maxAttempts = 2)
+    private val started = createStartedOutbox(moment, moment.plus(lockDuration))
+
+    private fun createService(maxAttempts: Int) = OutboxProperties(
+        lockDuration = lockDuration,
+        maxAttempts = maxAttempts,
+        backoff = backoff,
+    ).let { OutboxService(repository, it, clock) }
+
+    @Test
+    fun `getting with a lock asks the repository to hold scheduled records`() {
+        lockedOutboxes += started
+
+        val locked = service.getAllWithLock(10)
+
+        assertEquals(listOf(started), locked)
+        assertEquals(listOf(moment to moment.plus(lockDuration)), lockRequests)
+    }
+
+    @Test
+    fun `failing with attempts left plans the next attempt after the backoff`() {
+        val failed = service.fail(started, cause)
+
+        assertEquals(DeliveryStatus.FAILED, failed.delivery.status)
+        assertEquals(moment.plusSeconds(30), failed.delivery.scheduledAt)
+    }
+
+    @Test
+    fun `completing records the current time`() {
+        val completed = service.complete(started)
+
+        assertEquals(DeliveryStatus.COMPLETED, completed.delivery.status)
+        assertEquals(moment, completed.delivery.terminatedAt)
+    }
+
+    @Test
+    fun `failing without attempts left cancels the delivery and stores the cause`() {
+        val canceled = createService(maxAttempts = 1).fail(started, cause)
+
+        assertEquals(DeliveryStatus.CANCELED, canceled.delivery.status)
+        assertEquals("java.lang.IllegalStateException: timeout", canceled.delivery.error)
+        assertEquals(moment, canceled.delivery.terminatedAt)
+    }
+}
