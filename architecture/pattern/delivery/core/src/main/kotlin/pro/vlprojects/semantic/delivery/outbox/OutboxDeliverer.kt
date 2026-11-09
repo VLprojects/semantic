@@ -7,5 +7,5 @@ public interface OutboxDeliverer<D : DeliveryDestination> {
     public fun supports(destination: DeliveryDestination): Boolean
 
     @Throws(OutboxDeliveryException::class)
-    public fun deliver(outbox: Outbox, destination: D)
+    public fun send(outbox: Outbox, destination: D)
 }

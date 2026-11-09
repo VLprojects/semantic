@@ -10,6 +10,8 @@ import pro.vlprojects.semantic.delivery.outbox.DeliveryDestinationDeserializer
 import pro.vlprojects.semantic.delivery.outbox.Outbox
 import pro.vlprojects.semantic.delivery.outbox.OutboxDeliverer
 import pro.vlprojects.semantic.delivery.outbox.OutboxDeliveryRouter
+import pro.vlprojects.semantic.delivery.outbox.error.NoUniqueOutboxDelivererException
+import pro.vlprojects.semantic.delivery.outbox.error.OutboxDelivererNotFoundException
 import pro.vlprojects.semantic.delivery.outbox.error.OutboxDeliveryException
 import java.time.Instant
 
@@ -46,20 +48,18 @@ class OutboxDeliveryRouterTests {
     }
 
     @Test
-    fun `route uses the first deliverer that supports the destination`() {
-        val second = BrokerDeliverer()
+    fun `route fails when several deliverers support the destination`() {
+        val router = OutboxDeliveryRouter({ brokerDestination }, listOf(brokerDeliverer, BrokerDeliverer()))
 
-        OutboxDeliveryRouter({ brokerDestination }, listOf(brokerDeliverer, second)).route(outbox)
-
-        assertEquals(1, brokerDeliverer.delivered.size)
-        assertTrue(second.delivered.isEmpty())
+        assertThrows(NoUniqueOutboxDelivererException::class.java) { router.route(outbox) }
+        assertTrue(brokerDeliverer.delivered.isEmpty())
     }
 
     @Test
     fun `route fails when no deliverer supports the destination`() {
         val router = OutboxDeliveryRouter({ brokerDestination }, listOf(localDeliverer))
 
-        assertThrows(IllegalStateException::class.java) { router.route(outbox) }
+        assertThrows(OutboxDelivererNotFoundException::class.java) { router.route(outbox) }
     }
 
     @Test
@@ -69,7 +69,7 @@ class OutboxDeliveryRouterTests {
 
             override fun supports(destination: DeliveryDestination) = destination is BrokerDestination
 
-            override fun deliver(outbox: Outbox, destination: BrokerDestination) = throw failure
+            override fun send(outbox: Outbox, destination: BrokerDestination) = throw failure
         }
         val router = OutboxDeliveryRouter({ brokerDestination }, listOf(deliverer))
 
@@ -86,7 +86,7 @@ class OutboxDeliveryRouterTests {
 
         override fun supports(destination: DeliveryDestination) = destination is BrokerDestination
 
-        override fun deliver(outbox: Outbox, destination: BrokerDestination) {
+        override fun send(outbox: Outbox, destination: BrokerDestination) {
             delivered += outbox to destination
         }
     }
@@ -97,7 +97,7 @@ class OutboxDeliveryRouterTests {
 
         override fun supports(destination: DeliveryDestination) = destination is LocalDestination
 
-        override fun deliver(outbox: Outbox, destination: LocalDestination) {
+        override fun send(outbox: Outbox, destination: LocalDestination) {
             delivered += outbox
         }
     }
