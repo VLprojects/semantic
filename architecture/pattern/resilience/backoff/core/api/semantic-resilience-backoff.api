@@ -4,16 +4,14 @@ public abstract interface class pro/vlprojects/semantic/resilience/backoff/Backo
 
 public final class pro/vlprojects/semantic/resilience/backoff/ExponentialBackoff : pro/vlprojects/semantic/resilience/backoff/Backoff {
 	public static final field Factory Lpro/vlprojects/semantic/resilience/backoff/ExponentialBackoff$Factory;
-	public fun <init> (Ljava/time/Duration;Ljava/time/Duration;DDLkotlin/random/Random;)V
-	public synthetic fun <init> (Ljava/time/Duration;Ljava/time/Duration;DDLkotlin/random/Random;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/time/Duration;Ljava/time/Duration;D)V
+	public synthetic fun <init> (Ljava/time/Duration;Ljava/time/Duration;DILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun calculate (I)Ljava/time/Duration;
 }
 
 public final class pro/vlprojects/semantic/resilience/backoff/ExponentialBackoff$Factory {
 	public final fun of (Ljava/time/Duration;Ljava/time/Duration;D)Lpro/vlprojects/semantic/resilience/backoff/ExponentialBackoff;
 	public static synthetic fun of$default (Lpro/vlprojects/semantic/resilience/backoff/ExponentialBackoff$Factory;Ljava/time/Duration;Ljava/time/Duration;DILjava/lang/Object;)Lpro/vlprojects/semantic/resilience/backoff/ExponentialBackoff;
-	public final fun ofRandomized (Ljava/time/Duration;Ljava/time/Duration;DDLkotlin/random/Random;)Lpro/vlprojects/semantic/resilience/backoff/ExponentialBackoff;
-	public static synthetic fun ofRandomized$default (Lpro/vlprojects/semantic/resilience/backoff/ExponentialBackoff$Factory;Ljava/time/Duration;Ljava/time/Duration;DDLkotlin/random/Random;ILjava/lang/Object;)Lpro/vlprojects/semantic/resilience/backoff/ExponentialBackoff;
 }
 
 public final class pro/vlprojects/semantic/resilience/backoff/FixedBackoff : pro/vlprojects/semantic/resilience/backoff/Backoff {
@@ -28,5 +26,23 @@ public final class pro/vlprojects/semantic/resilience/backoff/FixedBackoff$Facto
 	public final fun ofMillis (J)Lpro/vlprojects/semantic/resilience/backoff/FixedBackoff;
 	public final fun ofMinutes (J)Lpro/vlprojects/semantic/resilience/backoff/FixedBackoff;
 	public final fun ofSeconds (J)Lpro/vlprojects/semantic/resilience/backoff/FixedBackoff;
+}
+
+public final class pro/vlprojects/semantic/resilience/backoff/JitteredBackoff : pro/vlprojects/semantic/resilience/backoff/Backoff {
+	public static final field DEFAULT_JITTER D
+	public static final field Factory Lpro/vlprojects/semantic/resilience/backoff/JitteredBackoff$Factory;
+	public fun <init> (Lpro/vlprojects/semantic/resilience/backoff/Backoff;DLkotlin/random/Random;)V
+	public synthetic fun <init> (Lpro/vlprojects/semantic/resilience/backoff/Backoff;DLkotlin/random/Random;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun calculate (I)Ljava/time/Duration;
+}
+
+public final class pro/vlprojects/semantic/resilience/backoff/JitteredBackoff$Factory {
+	public final fun of (Lpro/vlprojects/semantic/resilience/backoff/Backoff;DLkotlin/random/Random;)Lpro/vlprojects/semantic/resilience/backoff/JitteredBackoff;
+	public static synthetic fun of$default (Lpro/vlprojects/semantic/resilience/backoff/JitteredBackoff$Factory;Lpro/vlprojects/semantic/resilience/backoff/Backoff;DLkotlin/random/Random;ILjava/lang/Object;)Lpro/vlprojects/semantic/resilience/backoff/JitteredBackoff;
+}
+
+public final class pro/vlprojects/semantic/resilience/backoff/extension/BackoffExtensionsKt {
+	public static final fun jittered (Lpro/vlprojects/semantic/resilience/backoff/Backoff;DLkotlin/random/Random;)Lpro/vlprojects/semantic/resilience/backoff/Backoff;
+	public static synthetic fun jittered$default (Lpro/vlprojects/semantic/resilience/backoff/Backoff;DLkotlin/random/Random;ILjava/lang/Object;)Lpro/vlprojects/semantic/resilience/backoff/Backoff;
 }
 
