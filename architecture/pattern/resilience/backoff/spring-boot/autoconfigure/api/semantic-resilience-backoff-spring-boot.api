@@ -12,10 +12,6 @@ public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/Backof
 	public static final field DEFAULT_BACKOFF_NAME Ljava/lang/String;
 }
 
-public abstract interface class pro/vlprojects/semantic/resilience/backoff/spring/boot/config/BackoffRegistryCustomizer {
-	public abstract fun customize (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffRegistry;)V
-}
-
 public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/BackoffConfigurationProperties {
 	public fun <init> ()V
 	public fun <init> (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/BackoffDefaultProperties;Ljava/util/Map;)V
