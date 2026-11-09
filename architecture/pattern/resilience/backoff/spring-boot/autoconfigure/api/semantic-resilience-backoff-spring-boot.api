@@ -1,8 +1,19 @@
 public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffRegistry {
-	public fun <init> (Lpro/vlprojects/semantic/resilience/backoff/Backoff;Ljava/util/Map;)V
+	public static final field Companion Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffRegistry$Companion;
+	public static final field DEFAULT_NAME Ljava/lang/String;
+	public fun <init> ()V
 	public final fun get (Ljava/lang/String;)Lpro/vlprojects/semantic/resilience/backoff/Backoff;
 	public final fun getDefault ()Lpro/vlprojects/semantic/resilience/backoff/Backoff;
 	public final fun getOrDefault (Ljava/lang/String;)Lpro/vlprojects/semantic/resilience/backoff/Backoff;
+	public final fun register (Ljava/lang/String;Lpro/vlprojects/semantic/resilience/backoff/Backoff;)V
+	public final fun replace (Ljava/lang/String;Lpro/vlprojects/semantic/resilience/backoff/Backoff;)V
+}
+
+public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffRegistry$Companion {
+}
+
+public abstract interface class pro/vlprojects/semantic/resilience/backoff/spring/boot/config/BackoffRegistrar {
+	public abstract fun register (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffRegistry;)V
 }
 
 public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/config/BackoffAutoConfiguration {
@@ -14,20 +25,38 @@ public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/config
 	public fun <init> ()V
 	public fun <init> (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/DefaultBackoffProperties;Ljava/util/Map;)V
 	public synthetic fun <init> (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/DefaultBackoffProperties;Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/DefaultBackoffProperties;
+	public final fun component2 ()Ljava/util/Map;
+	public final fun copy (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/DefaultBackoffProperties;Ljava/util/Map;)Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/BackoffConfigurationProperties;
+	public static synthetic fun copy$default (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/BackoffConfigurationProperties;Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/DefaultBackoffProperties;Ljava/util/Map;ILjava/lang/Object;)Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/BackoffConfigurationProperties;
+	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDefault ()Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/DefaultBackoffProperties;
 	public final fun getInstances ()Ljava/util/Map;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/BackoffProperties {
 	public fun <init> ()V
 	public fun <init> (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/BackoffType;Ljava/time/Duration;Ljava/time/Duration;Ljava/time/Duration;Ljava/lang/Double;Ljava/lang/Double;)V
 	public synthetic fun <init> (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/BackoffType;Ljava/time/Duration;Ljava/time/Duration;Ljava/time/Duration;Ljava/lang/Double;Ljava/lang/Double;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/BackoffType;
+	public final fun component2 ()Ljava/time/Duration;
+	public final fun component3 ()Ljava/time/Duration;
+	public final fun component4 ()Ljava/time/Duration;
+	public final fun component5 ()Ljava/lang/Double;
+	public final fun component6 ()Ljava/lang/Double;
+	public final fun copy (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/BackoffType;Ljava/time/Duration;Ljava/time/Duration;Ljava/time/Duration;Ljava/lang/Double;Ljava/lang/Double;)Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/BackoffProperties;
+	public static synthetic fun copy$default (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/BackoffProperties;Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/BackoffType;Ljava/time/Duration;Ljava/time/Duration;Ljava/time/Duration;Ljava/lang/Double;Ljava/lang/Double;ILjava/lang/Object;)Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/BackoffProperties;
+	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDelay ()Ljava/time/Duration;
 	public final fun getDelayLimit ()Ljava/time/Duration;
 	public final fun getInitialDelay ()Ljava/time/Duration;
 	public final fun getJitter ()Ljava/lang/Double;
 	public final fun getMultiplier ()Ljava/lang/Double;
 	public final fun getType ()Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/BackoffType;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/BackoffType : java/lang/Enum {
@@ -42,11 +71,22 @@ public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/config
 	public fun <init> ()V
 	public fun <init> (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/BackoffType;Ljava/time/Duration;Ljava/time/Duration;Ljava/time/Duration;DD)V
 	public synthetic fun <init> (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/BackoffType;Ljava/time/Duration;Ljava/time/Duration;Ljava/time/Duration;DDILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/BackoffType;
+	public final fun component2 ()Ljava/time/Duration;
+	public final fun component3 ()Ljava/time/Duration;
+	public final fun component4 ()Ljava/time/Duration;
+	public final fun component5 ()D
+	public final fun component6 ()D
+	public final fun copy (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/BackoffType;Ljava/time/Duration;Ljava/time/Duration;Ljava/time/Duration;DD)Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/DefaultBackoffProperties;
+	public static synthetic fun copy$default (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/DefaultBackoffProperties;Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/BackoffType;Ljava/time/Duration;Ljava/time/Duration;Ljava/time/Duration;DDILjava/lang/Object;)Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/DefaultBackoffProperties;
+	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDelay ()Ljava/time/Duration;
 	public final fun getDelayLimit ()Ljava/time/Duration;
 	public final fun getInitialDelay ()Ljava/time/Duration;
 	public final fun getJitter ()D
 	public final fun getMultiplier ()D
 	public final fun getType ()Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/BackoffType;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 

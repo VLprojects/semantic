@@ -11,12 +11,21 @@ class BackoffRegistryTests {
 
     private val default = FixedBackoff.ofSeconds(1)
     private val payments = FixedBackoff.ofSeconds(5)
-    private val registry = BackoffRegistry(default, mapOf("payments" to payments))
+    private val registry = BackoffRegistry().apply {
+        register(BackoffRegistry.DEFAULT_NAME, default)
+        register("payments", payments)
+    }
 
     @Test
     fun `a backoff is found by its name`() {
         assertSame(payments, registry["payments"])
         assertSame(payments, registry.getOrDefault("payments"))
+    }
+
+    @Test
+    fun `the default is found by its name`() {
+        assertSame(default, registry.default)
+        assertSame(default, registry[BackoffRegistry.DEFAULT_NAME])
     }
 
     @Test
@@ -30,5 +39,26 @@ class BackoffRegistryTests {
     @Test
     fun `an unknown name can take the default instead`() {
         assertSame(default, registry.getOrDefault("orders"))
+    }
+
+    @Test
+    fun `registering a taken name fails`() {
+        val failure = assertThrows<IllegalStateException> { registry.register("payments", default) }
+
+        assertTrue("payments" in failure.message.orEmpty())
+    }
+
+    @Test
+    fun `replacing takes a taken name`() {
+        registry.replace("payments", default)
+
+        assertSame(default, registry["payments"])
+    }
+
+    @Test
+    fun `replacing adds a free name`() {
+        registry.replace("orders", payments)
+
+        assertSame(payments, registry["orders"])
     }
 }
