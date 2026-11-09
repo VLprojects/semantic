@@ -10,7 +10,6 @@ import pro.vlprojects.semantic.delivery.outbox.OutboxService
 import pro.vlprojects.semantic.delivery.outbox.Payload
 import pro.vlprojects.semantic.delivery.outbox.PayloadSerializer
 import pro.vlprojects.semantic.delivery.outbox.context.AttributeProvider
-import pro.vlprojects.semantic.delivery.outbox.context.Context
 import pro.vlprojects.semantic.delivery.outbox.context.ContextCollector
 import pro.vlprojects.semantic.delivery.outbox.context.ContextProvider
 import pro.vlprojects.semantic.delivery.outbox.id.OutboxId
@@ -30,7 +29,6 @@ class OutboxServiceTests {
     private val lockRequests = mutableListOf<Pair<Instant, Instant>>()
     private val savedOutboxes = mutableListOf<Outbox>()
     private val generatedId = OutboxId.of("generated")
-    private val context: Context.Builder.() -> Unit = { setTarget("rabbit") }
     private val attributeProvider = AttributeProvider { mapOf("tenant" to "collected", "trace" to "abc") }
     private val targetProvider = ContextProvider { _, builder -> builder.setTarget("provided") }
     private val contextCollector = listOf(targetProvider, attributeProvider).let(::ContextCollector)
@@ -67,31 +65,15 @@ class OutboxServiceTests {
 
     @Test
     fun `creating saves a pending record scheduled for now`() {
-        val created = service.create("order", context)
+        val created = service.create("order")
 
         assertEquals(listOf(created), savedOutboxes)
         assertEquals(generatedId, created.id)
-        assertEquals("rabbit", created.context.target)
+        assertEquals("provided", created.context.target)
+        assertEquals(mapOf("tenant" to "collected", "trace" to "abc"), created.context.attributes)
         assertEquals(Payload.of(String::class, serialized), created.payload)
         assertEquals(DeliveryStatus.PENDING, created.delivery.status)
         assertEquals(moment, created.delivery.scheduledAt)
-    }
-
-    @Test
-    fun `creating without a context asks the provider`() {
-        val created = service.create("order")
-
-        assertEquals("provided", created.context.target)
-    }
-
-    @Test
-    fun `creating prefers the given attributes to the collected ones`() {
-        val created = service.create("order") {
-            setTarget("rabbit")
-            addAllAttributes(mapOf("tenant" to "given"))
-        }
-
-        assertEquals(mapOf("tenant" to "given", "trace" to "abc"), created.context.attributes)
     }
 
     @Test

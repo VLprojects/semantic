@@ -79,8 +79,7 @@ public abstract interface class pro/vlprojects/semantic/delivery/outbox/OutboxRe
 public final class pro/vlprojects/semantic/delivery/outbox/OutboxService {
 	public fun <init> (Lpro/vlprojects/semantic/delivery/outbox/OutboxRepository;Lpro/vlprojects/semantic/delivery/outbox/PayloadSerializer;Lpro/vlprojects/semantic/delivery/outbox/context/ContextCollector;Lpro/vlprojects/semantic/delivery/outbox/id/OutboxIdGenerator;Lpro/vlprojects/semantic/delivery/outbox/OutboxProperties;Ljava/time/Clock;)V
 	public final fun complete (Lpro/vlprojects/semantic/delivery/outbox/Outbox;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
-	public final fun create (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
-	public static synthetic fun create$default (Lpro/vlprojects/semantic/delivery/outbox/OutboxService;Ljava/lang/Object;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
+	public final fun create (Ljava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
 	public final fun fail (Lpro/vlprojects/semantic/delivery/outbox/Outbox;Ljava/lang/Throwable;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
 	public final fun getAllWithLock (I)Ljava/util/List;
 }
@@ -142,8 +141,7 @@ public final class pro/vlprojects/semantic/delivery/outbox/context/Context$Facto
 
 public final class pro/vlprojects/semantic/delivery/outbox/context/ContextCollector {
 	public fun <init> (Ljava/util/List;)V
-	public final fun collect (Ljava/lang/Object;Lkotlin/jvm/functions/Function1;)Lpro/vlprojects/semantic/delivery/outbox/context/Context;
-	public static synthetic fun collect$default (Lpro/vlprojects/semantic/delivery/outbox/context/ContextCollector;Ljava/lang/Object;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/context/Context;
+	public final fun collect (Ljava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/context/Context;
 }
 
 public abstract interface class pro/vlprojects/semantic/delivery/outbox/context/ContextProvider {

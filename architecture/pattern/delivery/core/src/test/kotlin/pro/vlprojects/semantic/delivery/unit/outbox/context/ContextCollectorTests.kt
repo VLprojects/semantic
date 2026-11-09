@@ -23,21 +23,14 @@ class ContextCollectorTests {
     }
 
     @Test
-    fun `collecting prefers the explicit values`() {
-        val context = listOf(targetProvider)
+    fun `collecting gives the attribute of the last provider`() {
+        val laterAttributeProvider = AttributeProvider { mapOf("tenant" to "later") }
+
+        val context = listOf(targetProvider, attributeProvider, laterAttributeProvider)
             .let(::ContextCollector)
-            .collect("order") { setTarget("explicit") }
+            .collect("order")
 
-        assertEquals("explicit", context.target)
-    }
-
-    @Test
-    fun `collecting prefers the explicit attributes to the provided ones`() {
-        val context = listOf(targetProvider, attributeProvider)
-            .let(::ContextCollector)
-            .collect("order") { addAllAttributes(mapOf("tenant" to "given")) }
-
-        assertEquals(mapOf("trace" to "abc", "tenant" to "given"), context.attributes)
+        assertEquals(mapOf("trace" to "abc", "tenant" to "later"), context.attributes)
     }
 
     @Test
