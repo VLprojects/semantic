@@ -59,6 +59,16 @@ public final class pro/vlprojects/semantic/delivery/outbox/FallbackDeliveryRouti
 	public fun select (Lpro/vlprojects/semantic/delivery/outbox/DeliveryDestination;Ljava/util/List;)Ljava/util/List;
 }
 
+public final class pro/vlprojects/semantic/delivery/outbox/FirstDeliveryRoutingPolicy : pro/vlprojects/semantic/delivery/outbox/DeliveryRoutingPolicy {
+	public fun <init> ()V
+	public fun select (Lpro/vlprojects/semantic/delivery/outbox/DeliveryDestination;Ljava/util/List;)Ljava/util/List;
+}
+
+public final class pro/vlprojects/semantic/delivery/outbox/LastDeliveryRoutingPolicy : pro/vlprojects/semantic/delivery/outbox/DeliveryRoutingPolicy {
+	public fun <init> ()V
+	public fun select (Lpro/vlprojects/semantic/delivery/outbox/DeliveryDestination;Ljava/util/List;)Ljava/util/List;
+}
+
 public final class pro/vlprojects/semantic/delivery/outbox/Outbox {
 	public static final field Factory Lpro/vlprojects/semantic/delivery/outbox/Outbox$Factory;
 	public final fun getContext ()Lpro/vlprojects/semantic/delivery/outbox/context/Context;
