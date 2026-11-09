@@ -4,6 +4,7 @@ public fun interface AttributeProvider : ContextProvider {
 
     public fun provideAttributes(): Map<String, String>
 
-    override fun provide(payload: Any, context: Context): Context = provideAttributes()
-        .let(context::withDefaultAttributes)
+    override fun provide(payload: Any, builder: ContextBuilder) {
+        builder.attributes(provideAttributes())
+    }
 }

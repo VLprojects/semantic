@@ -1,6 +1,6 @@
 package pro.vlprojects.semantic.delivery.outbox
 
-import pro.vlprojects.semantic.delivery.outbox.context.Context
+import pro.vlprojects.semantic.delivery.outbox.context.ContextBuilder
 import pro.vlprojects.semantic.delivery.outbox.context.ContextCollector
 import pro.vlprojects.semantic.delivery.outbox.id.OutboxIdGenerator
 import java.time.Clock
@@ -14,15 +14,18 @@ public class OutboxService(
     private val clock: Clock,
 ) {
 
-    public fun create(payload: Any, context: Context = Context.of()): Outbox {
+    @Throws(OutboxAlreadyExistsException::class)
+    public fun create(payload: Any, context: ContextBuilder.() -> Unit = {}): Outbox {
         val body = serializer.serialize(payload)
 
-        return Outbox.of(
-            id = idGenerator.generate(),
-            payload = Payload.of(payload::class, body),
-            context = contextCollector.collect(payload, context),
-            clock = clock,
-        ).let(repository::save)
+        return Outbox
+            .of(
+                id = idGenerator.generate(),
+                payload = Payload.of(payload::class, body),
+                context = contextCollector.collect(payload, context),
+                clock = clock,
+            )
+            .let(repository::save)
     }
 
     public fun getAllWithLock(limit: Int): List<Outbox> {

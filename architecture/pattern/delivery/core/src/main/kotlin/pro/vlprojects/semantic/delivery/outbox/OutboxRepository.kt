@@ -5,6 +5,7 @@ import java.time.Instant
 
 public interface OutboxRepository {
 
+    @Throws(OutboxAlreadyExistsException::class, OutboxOptimisticLockException::class)
     public fun save(outbox: Outbox): Outbox
 
     public fun findById(id: OutboxId): Outbox?

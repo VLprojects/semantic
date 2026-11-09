@@ -4,18 +4,17 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import pro.vlprojects.semantic.delivery.outbox.context.AttributeProvider
-import pro.vlprojects.semantic.delivery.outbox.context.Context
 import pro.vlprojects.semantic.delivery.outbox.context.ContextCollector
 import pro.vlprojects.semantic.delivery.outbox.context.ContextProvider
 
 class ContextCollectorTests {
 
-    private val targetProvider = ContextProvider { _, context -> context.withTarget("first") }
-    private val laterTargetProvider = ContextProvider { _, context -> context.withTarget("second") }
+    private val targetProvider = ContextProvider { _, builder -> builder.target("first") }
+    private val laterTargetProvider = ContextProvider { _, builder -> builder.target("second") }
     private val attributeProvider = AttributeProvider { mapOf("trace" to "abc", "tenant" to "provided") }
 
     @Test
-    fun `collecting passes the result of a provider to the next one`() {
+    fun `collecting gives the value of the last provider`() {
         val context = listOf(targetProvider, laterTargetProvider)
             .let(::ContextCollector)
             .collect("order")
@@ -24,21 +23,19 @@ class ContextCollectorTests {
     }
 
     @Test
-    fun `collecting keeps the given context when providers add nothing`() {
-        val context = emptyList<ContextProvider>()
+    fun `collecting prefers the explicit values`() {
+        val context = listOf(targetProvider)
             .let(::ContextCollector)
-            .collect("order", Context.of("given"))
+            .collect("order") { target("explicit") }
 
-        assertEquals("given", context.target)
+        assertEquals("explicit", context.target)
     }
 
     @Test
-    fun `collecting prefers the given attributes to the provided ones`() {
-        val given = Context.of("given", attributes = mapOf("tenant" to "given"))
-
-        val context = listOf(attributeProvider)
+    fun `collecting prefers the explicit attributes to the provided ones`() {
+        val context = listOf(targetProvider, attributeProvider)
             .let(::ContextCollector)
-            .collect("order", given)
+            .collect("order") { attributes(mapOf("tenant" to "given")) }
 
         assertEquals(mapOf("trace" to "abc", "tenant" to "given"), context.attributes)
     }

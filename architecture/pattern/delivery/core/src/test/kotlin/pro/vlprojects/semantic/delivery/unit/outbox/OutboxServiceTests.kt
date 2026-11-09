@@ -10,7 +10,7 @@ import pro.vlprojects.semantic.delivery.outbox.OutboxService
 import pro.vlprojects.semantic.delivery.outbox.Payload
 import pro.vlprojects.semantic.delivery.outbox.PayloadSerializer
 import pro.vlprojects.semantic.delivery.outbox.context.AttributeProvider
-import pro.vlprojects.semantic.delivery.outbox.context.Context
+import pro.vlprojects.semantic.delivery.outbox.context.ContextBuilder
 import pro.vlprojects.semantic.delivery.outbox.context.ContextCollector
 import pro.vlprojects.semantic.delivery.outbox.context.ContextProvider
 import pro.vlprojects.semantic.delivery.outbox.id.OutboxId
@@ -30,11 +30,9 @@ class OutboxServiceTests {
     private val lockRequests = mutableListOf<Pair<Instant, Instant>>()
     private val savedOutboxes = mutableListOf<Outbox>()
     private val generatedId = OutboxId.of("generated")
-    private val context = Context.of("rabbit")
+    private val context: ContextBuilder.() -> Unit = { target("rabbit") }
     private val attributeProvider = AttributeProvider { mapOf("tenant" to "collected", "trace" to "abc") }
-    private val targetProvider = ContextProvider { _, context ->
-        context.takeIf(Context::hasTarget) ?: context.withTarget("provided")
-    }
+    private val targetProvider = ContextProvider { _, builder -> builder.target("provided") }
     private val contextCollector = listOf(targetProvider, attributeProvider).let(::ContextCollector)
     private val serialized = byteArrayOf(1)
 
@@ -88,9 +86,10 @@ class OutboxServiceTests {
 
     @Test
     fun `creating prefers the given attributes to the collected ones`() {
-        val attributed = Context.of("rabbit", attributes = mapOf("tenant" to "given"))
-
-        val created = service.create("order", attributed)
+        val created = service.create("order") {
+            target("rabbit")
+            attributes(mapOf("tenant" to "given"))
+        }
 
         assertEquals(mapOf("tenant" to "given", "trace" to "abc"), created.context.attributes)
     }
