@@ -148,12 +148,21 @@ public abstract interface class pro/vlprojects/semantic/delivery/outbox/context/
 	public abstract fun provide (Ljava/lang/Object;Lpro/vlprojects/semantic/delivery/outbox/context/Context$Builder;)V
 }
 
-public abstract interface class pro/vlprojects/semantic/delivery/outbox/dispatch/OutboxDeliverer {
-	public abstract fun deliver (Lpro/vlprojects/semantic/delivery/outbox/Outbox;)V
+public abstract interface class pro/vlprojects/semantic/delivery/outbox/dispatch/DeliveryDestination {
 }
 
-public abstract interface class pro/vlprojects/semantic/delivery/outbox/dispatch/OutboxDelivererResolver {
-	public abstract fun resolve (Lpro/vlprojects/semantic/delivery/outbox/context/Context;)Lpro/vlprojects/semantic/delivery/outbox/dispatch/OutboxDeliverer;
+public abstract interface class pro/vlprojects/semantic/delivery/outbox/dispatch/DeliveryDestinationResolver {
+	public abstract fun resolve (Lpro/vlprojects/semantic/delivery/outbox/context/Context;)Lpro/vlprojects/semantic/delivery/outbox/dispatch/DeliveryDestination;
+}
+
+public abstract interface class pro/vlprojects/semantic/delivery/outbox/dispatch/OutboxDeliverer {
+	public abstract fun deliver (Lpro/vlprojects/semantic/delivery/outbox/Outbox;Lpro/vlprojects/semantic/delivery/outbox/dispatch/DeliveryDestination;)V
+	public abstract fun supports (Lpro/vlprojects/semantic/delivery/outbox/dispatch/DeliveryDestination;)Z
+}
+
+public final class pro/vlprojects/semantic/delivery/outbox/dispatch/OutboxDeliveryRouter {
+	public fun <init> (Lpro/vlprojects/semantic/delivery/outbox/dispatch/DeliveryDestinationResolver;Ljava/util/List;)V
+	public final fun route (Lpro/vlprojects/semantic/delivery/outbox/Outbox;)V
 }
 
 public abstract interface class pro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy {

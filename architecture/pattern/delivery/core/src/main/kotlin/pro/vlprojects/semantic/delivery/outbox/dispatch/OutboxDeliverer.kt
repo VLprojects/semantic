@@ -2,7 +2,9 @@ package pro.vlprojects.semantic.delivery.outbox.dispatch
 
 import pro.vlprojects.semantic.delivery.outbox.Outbox
 
-public fun interface OutboxDeliverer {
+public interface OutboxDeliverer<D : DeliveryDestination> {
 
-    public fun deliver(outbox: Outbox)
+    public fun supports(destination: DeliveryDestination): Boolean
+
+    public fun deliver(outbox: Outbox, destination: D)
 }
