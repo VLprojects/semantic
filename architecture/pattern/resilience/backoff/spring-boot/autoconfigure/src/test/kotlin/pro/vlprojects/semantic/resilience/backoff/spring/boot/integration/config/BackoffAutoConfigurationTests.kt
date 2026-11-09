@@ -16,6 +16,7 @@ import pro.vlprojects.semantic.resilience.backoff.Backoff
 import pro.vlprojects.semantic.resilience.backoff.FixedBackoff
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.BackoffRegistry
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.BackoffAutoConfiguration
+import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.BackoffRegistrar
 import java.time.Duration
 
 class BackoffAutoConfigurationTests {
@@ -78,6 +79,15 @@ class BackoffAutoConfigurationTests {
     }
 
     @Test
+    fun `an own registrar adds to the registry`() {
+        runner
+            .withUserConfiguration(OwnRegistrarConfiguration::class.java)
+            .run { context ->
+                assertEquals(Duration.ofSeconds(9), context.getRegistry()["orders"].calculate(1))
+            }
+    }
+
+    @Test
     fun `an unknown field stops the start`() {
         runner
             .withPropertyValues("$PREFIX.instances.payments.delya=5s")
@@ -115,7 +125,16 @@ class BackoffAutoConfigurationTests {
     class OwnBackoffsConfiguration {
 
         @Bean
-        fun ownRegistry() = BackoffRegistry(FixedBackoff.ofSeconds(1), emptyMap())
+        fun ownRegistry() = BackoffRegistry()
+    }
+
+    @Configuration(proxyBeanMethods = false)
+    class OwnRegistrarConfiguration {
+
+        @Bean
+        fun ownRegistrar() = BackoffRegistrar { registry ->
+            registry.register("orders", FixedBackoff.ofSeconds(9))
+        }
     }
 
     private companion object {

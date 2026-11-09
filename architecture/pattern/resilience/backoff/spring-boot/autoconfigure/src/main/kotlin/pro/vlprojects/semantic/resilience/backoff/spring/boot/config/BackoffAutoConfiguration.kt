@@ -1,11 +1,13 @@
 package pro.vlprojects.semantic.resilience.backoff.spring.boot.config
 
 import org.springframework.beans.factory.ListableBeanFactory
+import org.springframework.beans.factory.ObjectProvider
 import org.springframework.boot.autoconfigure.AutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
-import pro.vlprojects.semantic.resilience.backoff.Backoff
+import org.springframework.core.Ordered
+import org.springframework.core.annotation.Order
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.BackoffRegistry
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.properties.BackoffConfigurationProperties
 
@@ -14,11 +16,21 @@ import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.properties.
 public class BackoffAutoConfiguration {
 
     @Bean
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    public fun backoffPropertiesRegistrar(properties: BackoffConfigurationProperties): BackoffRegistrar =
+        BackoffPropertiesRegistrar(properties)
+
+    @Bean
+    @Order(Ordered.LOWEST_PRECEDENCE)
+    public fun backoffBeansRegistrar(beanFactory: ListableBeanFactory): BackoffRegistrar =
+        BackoffBeansRegistrar(beanFactory)
+
+    @Bean
     @ConditionalOnMissingBean
-    public fun backoffRegistry(
-        properties: BackoffConfigurationProperties,
-        beanFactory: ListableBeanFactory,
-    ): BackoffRegistry = beanFactory
-        .getBeansOfType(Backoff::class.java)
-        .let(BackoffPropertiesMapper(properties)::mapToRegistry)
+    public fun backoffRegistry(registrars: ObjectProvider<BackoffRegistrar>): BackoffRegistry = BackoffRegistry()
+        .also { registry ->
+            registrars
+                .orderedStream()
+                .forEach { registrar -> registrar.register(registry) }
+        }
 }

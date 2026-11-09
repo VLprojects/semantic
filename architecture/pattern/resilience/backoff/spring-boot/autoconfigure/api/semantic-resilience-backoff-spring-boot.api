@@ -12,13 +12,15 @@ public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/Backof
 public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffRegistry$Companion {
 }
 
-public abstract interface class pro/vlprojects/semantic/resilience/backoff/spring/boot/config/BackoffRegistrar {
-	public abstract fun register (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffRegistry;)V
-}
-
 public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/config/BackoffAutoConfiguration {
 	public fun <init> ()V
-	public final fun backoffRegistry (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/BackoffConfigurationProperties;Lorg/springframework/beans/factory/ListableBeanFactory;)Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffRegistry;
+	public final fun backoffBeansRegistrar (Lorg/springframework/beans/factory/ListableBeanFactory;)Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/BackoffRegistrar;
+	public final fun backoffPropertiesRegistrar (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/BackoffConfigurationProperties;)Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/BackoffRegistrar;
+	public final fun backoffRegistry (Lorg/springframework/beans/factory/ObjectProvider;)Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffRegistry;
+}
+
+public abstract interface class pro/vlprojects/semantic/resilience/backoff/spring/boot/config/BackoffRegistrar {
+	public abstract fun register (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffRegistry;)V
 }
 
 public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/BackoffConfigurationProperties {
