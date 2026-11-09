@@ -151,6 +151,34 @@ class BackoffAutoConfigurationTests {
     }
 
     @Test
+    fun `an invalid default stops the start and names it`() {
+        runner
+            .withPropertyValues("$PREFIX.default.multiplier=0.5")
+            .run { context -> assertTrue("'default'" in context.readStartupFailureMessages()) }
+    }
+
+    @Test
+    fun `an invalid default field of the type in no use stops the start`() {
+        runner
+            .withPropertyValues("$PREFIX.default.delay=-1s")
+            .run { context -> assertTrue("'default'" in context.readStartupFailureMessages()) }
+    }
+
+    @Test
+    fun `a field the type of an instance does not use stops the start and names the instance`() {
+        runner
+            .withPropertyValues("$PREFIX.instances.payments.delay=5s")
+            .run { context -> assertTrue("'payments'" in context.readStartupFailureMessages()) }
+    }
+
+    @Test
+    fun `an instance named default stops the start`() {
+        runner
+            .withPropertyValues("$PREFIX.instances.default.jitter=0.5")
+            .run { context -> assertTrue("'default'" in context.readStartupFailureMessages()) }
+    }
+
+    @Test
     fun `an invalid value stops the start and names the instance`() {
         runner
             .withPropertyValues("$PREFIX.instances.orders.jitter=1.5")

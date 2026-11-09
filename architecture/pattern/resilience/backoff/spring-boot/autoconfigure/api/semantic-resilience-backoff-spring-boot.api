@@ -14,8 +14,7 @@ public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/Backof
 
 public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/config/BackoffAutoConfiguration {
 	public fun <init> ()V
-	public final fun backoffRegistry (Lorg/springframework/beans/factory/ObjectProvider;)Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffRegistry;
-	public final fun standardBackoffRegistryCustomizer (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/BackoffConfigurationProperties;Ljava/util/Map;)Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/BackoffRegistryCustomizer;
+	public final fun backoffRegistry (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/BackoffConfigurationProperties;Ljava/util/Map;Lorg/springframework/beans/factory/ObjectProvider;)Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffRegistry;
 }
 
 public abstract interface class pro/vlprojects/semantic/resilience/backoff/spring/boot/config/BackoffRegistryCustomizer {
