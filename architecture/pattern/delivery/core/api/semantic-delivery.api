@@ -97,18 +97,25 @@ public final class pro/vlprojects/semantic/delivery/outbox/OutboxDeliveryRouter 
 	public final fun route (Lpro/vlprojects/semantic/delivery/outbox/Outbox;)V
 }
 
+public final class pro/vlprojects/semantic/delivery/outbox/OutboxDispatcher {
+	public fun <init> (Lpro/vlprojects/semantic/delivery/outbox/OutboxService;Lpro/vlprojects/semantic/delivery/outbox/OutboxDeliveryRouter;Lpro/vlprojects/semantic/delivery/outbox/OutboxProperties;)V
+	public final fun dispatch ()I
+}
+
 public final class pro/vlprojects/semantic/delivery/outbox/OutboxProperties {
 	public fun <init> ()V
-	public fun <init> (Ljava/time/Duration;ILpro/vlprojects/semantic/resilience/backoff/Backoff;Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;)V
-	public synthetic fun <init> (Ljava/time/Duration;ILpro/vlprojects/semantic/resilience/backoff/Backoff;Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/time/Duration;ILpro/vlprojects/semantic/resilience/backoff/Backoff;Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;I)V
+	public synthetic fun <init> (Ljava/time/Duration;ILpro/vlprojects/semantic/resilience/backoff/Backoff;Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;IILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/time/Duration;
 	public final fun component2 ()I
 	public final fun component3 ()Lpro/vlprojects/semantic/resilience/backoff/Backoff;
 	public final fun component4 ()Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;
-	public final fun copy (Ljava/time/Duration;ILpro/vlprojects/semantic/resilience/backoff/Backoff;Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;)Lpro/vlprojects/semantic/delivery/outbox/OutboxProperties;
-	public static synthetic fun copy$default (Lpro/vlprojects/semantic/delivery/outbox/OutboxProperties;Ljava/time/Duration;ILpro/vlprojects/semantic/resilience/backoff/Backoff;Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/OutboxProperties;
+	public final fun component5 ()I
+	public final fun copy (Ljava/time/Duration;ILpro/vlprojects/semantic/resilience/backoff/Backoff;Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;I)Lpro/vlprojects/semantic/delivery/outbox/OutboxProperties;
+	public static synthetic fun copy$default (Lpro/vlprojects/semantic/delivery/outbox/OutboxProperties;Ljava/time/Duration;ILpro/vlprojects/semantic/resilience/backoff/Backoff;Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;IILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/OutboxProperties;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBackoff ()Lpro/vlprojects/semantic/resilience/backoff/Backoff;
+	public final fun getBatchSize ()I
 	public final fun getErrorPolicy ()Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;
 	public final fun getLockDuration ()Ljava/time/Duration;
 	public final fun getMaxAttempts ()I
