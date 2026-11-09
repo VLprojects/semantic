@@ -1,4 +1,4 @@
-package pro.vlprojects.semantic.delivery.outbox
+package pro.vlprojects.semantic.delivery.outbox.error
 
 public class StackTraceErrorPolicy : ErrorPolicy {
 

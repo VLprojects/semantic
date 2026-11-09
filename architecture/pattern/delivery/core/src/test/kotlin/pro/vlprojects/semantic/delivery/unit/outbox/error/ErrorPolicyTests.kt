@@ -1,10 +1,10 @@
-package pro.vlprojects.semantic.delivery.unit.outbox
+package pro.vlprojects.semantic.delivery.unit.outbox.error
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import pro.vlprojects.semantic.delivery.outbox.RootCauseErrorPolicy
-import pro.vlprojects.semantic.delivery.outbox.StackTraceErrorPolicy
+import pro.vlprojects.semantic.delivery.outbox.error.RootCauseErrorPolicy
+import pro.vlprojects.semantic.delivery.outbox.error.StackTraceErrorPolicy
 
 class ErrorPolicyTests {
 

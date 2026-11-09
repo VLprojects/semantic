@@ -1,5 +1,7 @@
 package pro.vlprojects.semantic.delivery.outbox
 
+import pro.vlprojects.semantic.delivery.outbox.error.ErrorPolicy
+import pro.vlprojects.semantic.delivery.outbox.error.RootCauseErrorPolicy
 import pro.vlprojects.semantic.resilience.backoff.Backoff
 import pro.vlprojects.semantic.resilience.backoff.ExponentialBackoff
 import java.time.Duration

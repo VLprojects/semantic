@@ -23,12 +23,12 @@ public class OutboxService(
         val error = config.errorPolicy.extract(cause)
 
         return when {
-            hasAttemptsLeft(outbox) -> reschedule(outbox, error)
+            isRetryable(outbox) -> reschedule(outbox, error)
             else -> cancel(outbox, error)
         }
     }
 
-    private fun hasAttemptsLeft(outbox: Outbox) = outbox.delivery.attempts < config.maxAttempts
+    private fun isRetryable(outbox: Outbox) = outbox.delivery.attempts < config.maxAttempts
 
     private fun reschedule(outbox: Outbox, error: String): Outbox {
         val delay = config.backoff.calculate(outbox.delivery.attempts)
