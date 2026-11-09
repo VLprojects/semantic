@@ -1,7 +1,6 @@
 package pro.vlprojects.semantic.delivery.outbox
 
 import pro.vlprojects.semantic.delivery.outbox.context.Context
-import pro.vlprojects.semantic.delivery.outbox.delivery.Delivery
 import pro.vlprojects.semantic.delivery.outbox.id.OutboxId
 import java.time.Clock
 import java.time.Instant

@@ -2,6 +2,7 @@ package pro.vlprojects.semantic.delivery.unit.outbox
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import pro.vlprojects.semantic.delivery.outbox.DeliveryStatus
 import pro.vlprojects.semantic.delivery.outbox.Outbox
 import pro.vlprojects.semantic.delivery.outbox.OutboxProperties
 import pro.vlprojects.semantic.delivery.outbox.OutboxRepository
@@ -11,7 +12,6 @@ import pro.vlprojects.semantic.delivery.outbox.PayloadSerializer
 import pro.vlprojects.semantic.delivery.outbox.context.AttributeProvider
 import pro.vlprojects.semantic.delivery.outbox.context.ContextCollector
 import pro.vlprojects.semantic.delivery.outbox.context.ContextProvider
-import pro.vlprojects.semantic.delivery.outbox.delivery.DeliveryStatus
 import pro.vlprojects.semantic.delivery.outbox.id.OutboxId
 import pro.vlprojects.semantic.resilience.backoff.FixedBackoff
 import java.time.Clock

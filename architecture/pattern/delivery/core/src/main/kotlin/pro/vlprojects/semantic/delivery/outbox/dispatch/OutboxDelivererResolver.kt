@@ -1,4 +1,4 @@
-package pro.vlprojects.semantic.delivery.outbox.delivery
+package pro.vlprojects.semantic.delivery.outbox.dispatch
 
 import pro.vlprojects.semantic.delivery.outbox.context.Context
 

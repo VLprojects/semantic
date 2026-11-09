@@ -1,4 +1,4 @@
-package pro.vlprojects.semantic.delivery.outbox.delivery
+package pro.vlprojects.semantic.delivery.outbox
 
 public enum class DeliveryStatus(public val isTerminal: Boolean) {
     PENDING(isTerminal = false),
