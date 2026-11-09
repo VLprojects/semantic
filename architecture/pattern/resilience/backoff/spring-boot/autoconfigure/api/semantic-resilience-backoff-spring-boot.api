@@ -1,6 +1,4 @@
 public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffRegistry {
-	public static final field Companion Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffRegistry$Companion;
-	public static final field DEFAULT_NAME Ljava/lang/String;
 	public fun <init> ()V
 	public final fun get (Ljava/lang/String;)Lpro/vlprojects/semantic/resilience/backoff/Backoff;
 	public final fun getDefault ()Lpro/vlprojects/semantic/resilience/backoff/Backoff;
@@ -10,7 +8,8 @@ public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/Backof
 	public final fun replace (Ljava/lang/String;Lpro/vlprojects/semantic/resilience/backoff/Backoff;)V
 }
 
-public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffRegistry$Companion {
+public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffRegistryKt {
+	public static final field DEFAULT_BACKOFF_NAME Ljava/lang/String;
 }
 
 public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/config/BackoffAutoConfiguration {

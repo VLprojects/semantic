@@ -10,36 +10,31 @@ import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.properties.
 
 internal class BackoffFactory(private val defaults: BackoffDefaultProperties) {
 
-    fun create(properties: BackoffProperties) = when (properties.type ?: defaults.type) {
-        BackoffType.FIXED -> createFixedBackoff(properties)
-        BackoffType.EXPONENTIAL -> createExponentialBackoff(properties)
-    }.let { backoff -> applyJitter(backoff, properties) }
-
-    private fun createFixedBackoff(properties: BackoffProperties) = properties
-        .also(::validateFixedBackoff)
-        .let { FixedBackoff(properties.delay ?: defaults.delay) }
-
-    private fun createExponentialBackoff(properties: BackoffProperties) = properties
-        .also(::validateExponentialBackoff)
-        .let {
-            ExponentialBackoff(
-                properties.initialDelay ?: defaults.initialDelay,
-                properties.delayLimit ?: defaults.delayLimit,
-                properties.multiplier ?: defaults.multiplier,
-            )
+    fun create(properties: BackoffProperties): Backoff {
+        val backoff = when (properties.type ?: defaults.type) {
+            BackoffType.FIXED -> createFixedBackoff(properties)
+            BackoffType.EXPONENTIAL -> createExponentialBackoff(properties)
         }
+        val jitter = properties.jitter ?: defaults.jitter
 
-    private fun validateFixedBackoff(properties: BackoffProperties) =
-        listOfNotNull(properties.initialDelay, properties.delayLimit, properties.multiplier)
-            .isEmpty()
-            .let { isValid ->
-                require(isValid) { "A fixed backoff does not use initial-delay, delay-limit or multiplier" }
-            }
+        return if (jitter == null) backoff else backoff.jittered(jitter)
+    }
 
-    private fun validateExponentialBackoff(properties: BackoffProperties) =
+    private fun createFixedBackoff(properties: BackoffProperties): Backoff {
+        require(properties.initialDelay == null) { "A fixed backoff does not use initial-delay" }
+        require(properties.delayLimit == null) { "A fixed backoff does not use delay-limit" }
+        require(properties.multiplier == null) { "A fixed backoff does not use multiplier" }
+
+        return FixedBackoff(properties.delay ?: defaults.delay)
+    }
+
+    private fun createExponentialBackoff(properties: BackoffProperties): Backoff {
         require(properties.delay == null) { "An exponential backoff does not use delay" }
 
-    private fun applyJitter(backoff: Backoff, properties: BackoffProperties) = (properties.jitter ?: defaults.jitter)
-        ?.let { jitter -> backoff.jittered(jitter) }
-        ?: backoff
+        return ExponentialBackoff(
+            properties.initialDelay ?: defaults.initialDelay,
+            properties.delayLimit ?: defaults.delayLimit,
+            properties.multiplier ?: defaults.multiplier,
+        )
+    }
 }

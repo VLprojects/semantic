@@ -3,6 +3,7 @@ package pro.vlprojects.semantic.resilience.backoff.spring.boot.config
 import org.springframework.core.Ordered
 import pro.vlprojects.semantic.resilience.backoff.Backoff
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.BackoffRegistry
+import pro.vlprojects.semantic.resilience.backoff.spring.boot.DEFAULT_BACKOFF_NAME
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.properties.BackoffConfigurationProperties
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.properties.BackoffProperties
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.properties.BackoffType
@@ -18,7 +19,7 @@ internal class StandardBackoffRegistryCustomizer(
         validateDefault()
         properties.instances
             .toList()
-            .plus(BackoffRegistry.DEFAULT_NAME to BackoffProperties())
+            .plus(DEFAULT_BACKOFF_NAME to BackoffProperties())
             .forEach { (name, instance) ->
                 createBackoff(name, instance).let { backoff -> registry.register(name, backoff) }
             }
@@ -29,7 +30,7 @@ internal class StandardBackoffRegistryCustomizer(
 
     private fun validateDefault() = BackoffType.entries
         .map { type -> BackoffProperties(type = type) }
-        .forEach { instance -> createBackoff(BackoffRegistry.DEFAULT_NAME, instance) }
+        .forEach { instance -> createBackoff(DEFAULT_BACKOFF_NAME, instance) }
 
     private fun createBackoff(name: String, instance: BackoffProperties) = try {
         factory.create(instance)
