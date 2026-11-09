@@ -19,20 +19,26 @@ internal class BackoffConfigurationService(
     factories: List<BackoffFactory<*>>,
 ) {
 
-    private val factories = factories.associateBy { factory -> factory.type }
+    private val factories = factories
+        .groupBy { factory -> factory.type }
+        .mapValues { (type, candidates) -> requireSingleFactory(type, candidates) }
 
     fun create(name: String, properties: BackoffProperties): Backoff = try {
         createBackoff(properties)
-    } catch (failure: IllegalArgumentException) {
-        throw createMisconfiguredFailure(name, failure)
     } catch (failure: BindException) {
-        throw createMisconfiguredFailure(name, failure)
+        throw IllegalArgumentException(createMisconfiguredMessage(name, failure.cause))
+    } catch (failure: RuntimeException) {
+        throw IllegalArgumentException(createMisconfiguredMessage(name, failure), failure)
     }
+
+    private fun requireSingleFactory(type: String, candidates: List<BackoffFactory<*>>) = candidates.singleOrNull()
+        ?: throw IllegalArgumentException(
+            "Several backoff factories declare the type '$type': ${candidates.map { it.javaClass.name }}",
+        )
 
     private fun createBackoff(properties: BackoffProperties): Backoff {
         val type = properties.type ?: defaults.type
-        val args = if (type == defaults.type) defaults.args + properties.args else properties.args
-        val backoff = createBackoff(findFactory(type), args)
+        val backoff = findFactory(type).let { factory -> createBackoff(factory, findArgs(type, properties)) }
         val jitter = properties.jitter ?: defaults.jitter
 
         return if (jitter == null) backoff else backoff.jittered(jitter)
@@ -41,20 +47,26 @@ internal class BackoffConfigurationService(
     private fun findFactory(type: String) = factories[type]
         ?: throw IllegalArgumentException("Unknown backoff type '$type'. Available types: ${factories.keys}")
 
-    private fun <C : Any> createBackoff(factory: BackoffFactory<C>, args: Map<String, String>): Backoff {
+    private fun findArgs(type: String, properties: BackoffProperties) = when (type) {
+        defaults.type -> listOf(properties.args, defaults.args)
+        else -> listOf(properties.args)
+    }
+
+    private fun <C : Any> createBackoff(factory: BackoffFactory<C>, args: List<Map<String, String>>): Backoff {
         val config = bindConfig(factory.configClass, args)
 
         return factory.create(config)
     }
 
-    private fun <C : Any> bindConfig(configClass: Class<C>, args: Map<String, String>): C {
-        val source = MapConfigurationPropertySource(args)
+    // Each map stays a separate source: Binder treats initial-delay and initialDelay as one name, a merged map does not.
+    private fun <C : Any> bindConfig(configClass: Class<C>, args: List<Map<String, String>>): C {
+        val sources = args.map { values -> MapConfigurationPropertySource(values) }
         val target = Bindable.of(configClass)
         val handler = NoUnboundElementsBindHandler(BindHandler.DEFAULT)
 
-        return Binder(source).bindOrCreate(ROOT_NAME, target, handler)
+        return Binder(sources).bindOrCreate(ROOT_NAME, target, handler)
     }
 
-    private fun createMisconfiguredFailure(name: String, cause: Exception) =
-        IllegalArgumentException("The backoff '$name' is misconfigured: ${cause.message}", cause)
+    private fun createMisconfiguredMessage(name: String, cause: Throwable?) =
+        "The backoff '$name' is misconfigured: ${cause?.message}"
 }
