@@ -3,9 +3,12 @@ package pro.vlprojects.semantic.resilience.backoff.spring.boot
 import pro.vlprojects.semantic.resilience.backoff.Backoff
 import java.util.concurrent.ConcurrentHashMap
 
-public class BackoffRegistry {
+public class BackoffRegistry(backoffs: Map<String, Backoff> = emptyMap()) {
 
-    private val backoffs = ConcurrentHashMap<String, Backoff>()
+    private val backoffs = ConcurrentHashMap(backoffs)
+
+    public val names: Set<String>
+        get() = backoffs.keys.toSet()
 
     public val default: Backoff
         get() = this[DEFAULT_NAME]

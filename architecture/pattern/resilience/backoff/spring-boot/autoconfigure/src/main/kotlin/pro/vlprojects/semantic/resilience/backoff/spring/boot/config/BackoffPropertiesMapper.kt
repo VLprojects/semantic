@@ -4,15 +4,18 @@ import pro.vlprojects.semantic.resilience.backoff.spring.boot.BackoffRegistry
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.properties.BackoffConfigurationProperties
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.properties.BackoffProperties
 
-internal class BackoffPropertiesRegistrar(private val properties: BackoffConfigurationProperties) : BackoffRegistrar {
+internal class BackoffPropertiesMapper(private val properties: BackoffConfigurationProperties) {
 
     private val factory = BackoffFactory(properties.default)
 
-    override fun register(registry: BackoffRegistry) = properties.instances
-        .toList()
+    fun asBackoffs() = properties.instances
+        .also(::rejectReservedName)
         .plus(BackoffRegistry.DEFAULT_NAME to BackoffProperties())
-        .forEach { (name, instance) ->
-            createBackoff(name, instance).let { backoff -> registry.register(name, backoff) }
+        .mapValues { (name, instance) -> createBackoff(name, instance) }
+
+    private fun rejectReservedName(instances: Map<String, BackoffProperties>) =
+        check(BackoffRegistry.DEFAULT_NAME !in instances) {
+            "The backoff '${BackoffRegistry.DEFAULT_NAME}' is set by the default block and cannot be an instance"
         }
 
     private fun createBackoff(name: String, instance: BackoffProperties) = try {
