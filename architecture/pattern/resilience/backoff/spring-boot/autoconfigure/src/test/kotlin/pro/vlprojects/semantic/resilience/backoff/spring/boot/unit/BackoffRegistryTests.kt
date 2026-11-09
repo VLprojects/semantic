@@ -13,7 +13,10 @@ class BackoffRegistryTests {
 
     private val default = FixedBackoff.ofSeconds(1)
     private val payments = FixedBackoff.ofSeconds(5)
-    private val registry = BackoffRegistry(mapOf(BackoffRegistry.DEFAULT_NAME to default, "payments" to payments))
+    private val registry = BackoffRegistry().also { registry ->
+        registry.register(BackoffRegistry.DEFAULT_NAME, default)
+        registry.register("payments", payments)
+    }
 
     @Test
     fun `a backoff is found by its name`() {

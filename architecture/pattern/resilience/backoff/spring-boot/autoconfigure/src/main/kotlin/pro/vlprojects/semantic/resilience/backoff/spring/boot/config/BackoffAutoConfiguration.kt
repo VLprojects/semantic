@@ -14,15 +14,16 @@ import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.properties.
 public class BackoffAutoConfiguration {
 
     @Bean
-    @ConditionalOnMissingBean
-    public fun backoffRegistry(
+    public fun standardBackoffRegistryCustomizer(
         properties: BackoffConfigurationProperties,
         backoffs: Map<String, Backoff>,
+    ): BackoffRegistryCustomizer = StandardBackoffRegistryCustomizer(properties, backoffs)
+
+    @Bean
+    @ConditionalOnMissingBean
+    public fun backoffRegistry(
         customizers: ObjectProvider<BackoffRegistryCustomizer>,
-    ): BackoffRegistry = BackoffPropertiesMapper(properties)
-        .asBackoffs()
-        .plus(backoffs)
-        .let(::BackoffRegistry)
+    ): BackoffRegistry = BackoffRegistry()
         .also { registry ->
             customizers
                 .orderedStream()

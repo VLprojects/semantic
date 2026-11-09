@@ -46,7 +46,6 @@ class BackoffAutoConfigurationTests {
                 "$PREFIX.default.initial-delay=2s",
                 "$PREFIX.default.delay-limit=1m",
                 "$PREFIX.default.multiplier=3",
-                "$PREFIX.default.jitter=0",
                 "$PREFIX.instances.payments.type=fixed",
                 "$PREFIX.instances.payments.delay=5s",
                 "$PREFIX.instances.orders.initial-delay=200ms",
