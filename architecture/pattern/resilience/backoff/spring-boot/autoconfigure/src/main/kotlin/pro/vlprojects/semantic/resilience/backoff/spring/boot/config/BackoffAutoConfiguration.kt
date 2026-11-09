@@ -50,6 +50,10 @@ public class BackoffAutoConfiguration {
         properties: BackoffConfigurationProperties,
         factories: List<BackoffFactory<*>>,
     ) {
+        require(DEFAULT_BACKOFF_NAME !in properties.instances) {
+            "The backoff name '$DEFAULT_BACKOFF_NAME' is reserved: set it in the '$DEFAULT_BACKOFF_NAME' block"
+        }
+
         val service = BackoffConfigurationService(properties.default, factories)
 
         properties.instances.forEach { (name, instance) -> registerBackoff(registry, service, name, instance) }

@@ -86,5 +86,5 @@ named `default` replaces the default block. To change the registry from code, de
 `names`, `register` and `replace`. Customizers run in `@Order`.
 
 Wrong settings stop the application at start, with the name of the instance, even when a bean replaces it: an
-unknown `type` or arg, a value that cannot be converted or that the `Backoff` being built refuses, and an
-instance named `default`. An unknown field outside `args` stops it as well.
+unknown `type` or arg, a value that cannot be converted or that the `Backoff` being built refuses. An instance
+named `default`, two factories of one `type` and an unknown field outside `args` stop it as well.
