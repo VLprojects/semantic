@@ -107,6 +107,24 @@ class BackoffFactoryTests {
     }
 
     @Test
+    fun `a fixed backoff rejects the initial delay field`() {
+        val failure = assertThrows<IllegalArgumentException> {
+            createBackoff(BackoffProperties(type = BackoffType.FIXED, initialDelay = Duration.ofSeconds(1)))
+        }
+
+        assertTrue("initial-delay" in failure.message.orEmpty())
+    }
+
+    @Test
+    fun `a fixed backoff rejects the delay limit field`() {
+        val failure = assertThrows<IllegalArgumentException> {
+            createBackoff(BackoffProperties(type = BackoffType.FIXED, delayLimit = Duration.ofSeconds(1)))
+        }
+
+        assertTrue("delay-limit" in failure.message.orEmpty())
+    }
+
+    @Test
     fun `the default block may hold the fields of both types`() {
         val backoff = createBackoff(
             default = BackoffDefaultProperties(delay = Duration.ofSeconds(5), initialDelay = Duration.ofSeconds(2)),
