@@ -3,8 +3,8 @@ package pro.vlprojects.semantic.delivery.unit.outbox
 import pro.vlprojects.semantic.delivery.outbox.Delivery
 import pro.vlprojects.semantic.delivery.outbox.DeliveryStatus
 import pro.vlprojects.semantic.delivery.outbox.Outbox
-import pro.vlprojects.semantic.delivery.outbox.OutboxId
 import pro.vlprojects.semantic.delivery.outbox.Payload
+import pro.vlprojects.semantic.delivery.outbox.id.OutboxId
 import java.time.Clock
 import java.time.Instant
 import java.time.ZoneOffset

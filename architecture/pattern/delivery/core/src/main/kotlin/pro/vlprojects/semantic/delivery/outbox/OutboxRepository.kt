@@ -1,5 +1,6 @@
 package pro.vlprojects.semantic.delivery.outbox
 
+import pro.vlprojects.semantic.delivery.outbox.id.OutboxId
 import java.time.Instant
 
 public interface OutboxRepository {

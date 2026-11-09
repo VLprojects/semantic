@@ -1,6 +1,7 @@
 package pro.vlprojects.semantic.delivery.outbox
 
 import pro.vlprojects.semantic.delivery.outbox.context.OutboxContextCollector
+import pro.vlprojects.semantic.delivery.outbox.id.OutboxIdGenerator
 import java.time.Clock
 
 public class OutboxService(
@@ -12,17 +13,17 @@ public class OutboxService(
     private val clock: Clock,
 ) {
 
-    public fun create(content: Any, deliverer: String, options: DeliveryOptions = DeliveryOptions()): Outbox {
+    public fun create(payload: Any, deliverer: String, metadata: OutboxMetadata = OutboxMetadata()): Outbox {
         val id = idGenerator.generate()
-        val payload = serializer.serialize(content)
-        val context = contextCollector.collect() + options.context
+        val content = serializer.serialize(payload)
+        val context = contextCollector.collect() + metadata.context
 
         return Outbox.of(
             id = id,
-            orderingKey = options.orderingKey ?: id.value,
-            idempotencyKey = options.idempotencyKey ?: id.value,
+            orderingKey = metadata.orderingKey ?: id.value,
+            idempotencyKey = metadata.idempotencyKey ?: id.value,
             deliverer = deliverer,
-            payload = payload,
+            payload = Payload.of(payload::class, content),
             context = context,
             clock = clock,
         ).let(repository::save)

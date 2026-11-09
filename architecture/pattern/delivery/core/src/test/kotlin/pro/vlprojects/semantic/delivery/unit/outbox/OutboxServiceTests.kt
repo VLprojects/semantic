@@ -2,10 +2,9 @@ package pro.vlprojects.semantic.delivery.unit.outbox
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import pro.vlprojects.semantic.delivery.outbox.DeliveryOptions
 import pro.vlprojects.semantic.delivery.outbox.DeliveryStatus
 import pro.vlprojects.semantic.delivery.outbox.Outbox
-import pro.vlprojects.semantic.delivery.outbox.OutboxId
+import pro.vlprojects.semantic.delivery.outbox.OutboxMetadata
 import pro.vlprojects.semantic.delivery.outbox.OutboxProperties
 import pro.vlprojects.semantic.delivery.outbox.OutboxRepository
 import pro.vlprojects.semantic.delivery.outbox.OutboxService
@@ -13,11 +12,13 @@ import pro.vlprojects.semantic.delivery.outbox.Payload
 import pro.vlprojects.semantic.delivery.outbox.PayloadSerializer
 import pro.vlprojects.semantic.delivery.outbox.context.OutboxContextCollector
 import pro.vlprojects.semantic.delivery.outbox.context.OutboxContextProvider
+import pro.vlprojects.semantic.delivery.outbox.id.OutboxId
 import pro.vlprojects.semantic.resilience.backoff.FixedBackoff
 import java.time.Clock
 import java.time.Duration
 import java.time.Instant
 import java.time.ZoneOffset
+import kotlin.reflect.KClass
 
 class OutboxServiceTests {
 
@@ -29,8 +30,15 @@ class OutboxServiceTests {
     private val lockRequests = mutableListOf<Pair<Instant, Instant>>()
     private val savedOutboxes = mutableListOf<Outbox>()
     private val generatedId = OutboxId.of("generated")
-    private val payload = Payload.of("order", byteArrayOf(1))
-    private val serializer = PayloadSerializer { payload }
+    private val serialized = byteArrayOf(1)
+
+    private val serializer = object : PayloadSerializer {
+
+        override fun serialize(payload: Any) = serialized
+
+        override fun <T : Any> deserialize(content: ByteArray, type: KClass<T>) = throw UnsupportedOperationException()
+    }
+
     private val contextCollector = OutboxContextProvider { mapOf("tenant" to "collected", "trace" to "abc") }
         .let(::listOf)
         .let(::OutboxContextCollector)
@@ -69,7 +77,7 @@ class OutboxServiceTests {
         assertEquals(listOf(created), savedOutboxes)
         assertEquals(generatedId, created.id)
         assertEquals("rabbit", created.deliverer)
-        assertEquals(payload, created.payload)
+        assertEquals(Payload.of(String::class, serialized), created.payload)
         assertEquals(DeliveryStatus.PENDING, created.delivery.status)
         assertEquals(moment, created.delivery.scheduledAt)
     }
@@ -84,9 +92,9 @@ class OutboxServiceTests {
 
     @Test
     fun `creating keeps the given keys`() {
-        val options = DeliveryOptions(orderingKey = "order-1", idempotencyKey = "request-1")
+        val metadata = OutboxMetadata(orderingKey = "order-1", idempotencyKey = "request-1")
 
-        val created = service.create("order", "rabbit", options)
+        val created = service.create("order", "rabbit", metadata)
 
         assertEquals("order-1", created.orderingKey)
         assertEquals("request-1", created.idempotencyKey)
@@ -94,9 +102,9 @@ class OutboxServiceTests {
 
     @Test
     fun `creating prefers the given context to the collected one`() {
-        val options = DeliveryOptions(context = mapOf("tenant" to "given"))
+        val metadata = OutboxMetadata(context = mapOf("tenant" to "given"))
 
-        val created = service.create("order", "rabbit", options)
+        val created = service.create("order", "rabbit", metadata)
 
         assertEquals(mapOf("tenant" to "given", "trace" to "abc"), created.context)
     }

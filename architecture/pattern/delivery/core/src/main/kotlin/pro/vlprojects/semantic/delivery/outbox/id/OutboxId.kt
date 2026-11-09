@@ -1,4 +1,4 @@
-package pro.vlprojects.semantic.delivery.outbox
+package pro.vlprojects.semantic.delivery.outbox.id
 
 public class OutboxId private constructor(public val value: String) {
 

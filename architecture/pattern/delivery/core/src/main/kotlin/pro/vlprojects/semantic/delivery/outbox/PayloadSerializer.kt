@@ -1,6 +1,10 @@
 package pro.vlprojects.semantic.delivery.outbox
 
-public fun interface PayloadSerializer {
+import kotlin.reflect.KClass
 
-    public fun serialize(content: Any): Payload
+public interface PayloadSerializer {
+
+    public fun serialize(payload: Any): ByteArray
+
+    public fun <T : Any> deserialize(content: ByteArray, type: KClass<T>): T
 }
