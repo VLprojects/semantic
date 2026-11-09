@@ -1,16 +1,14 @@
 package pro.vlprojects.semantic.delivery.outbox
 
+import pro.vlprojects.semantic.delivery.outbox.context.Context
 import pro.vlprojects.semantic.delivery.outbox.id.OutboxId
 import java.time.Clock
 import java.time.Instant
 
 public class Outbox private constructor(
     public val id: OutboxId,
-    public val orderingKey: String,
-    public val idempotencyKey: String,
-    public val deliverer: String,
     public val payload: Payload,
-    public val attributes: Map<String, String>,
+    public val context: Context,
     public val createdAt: Instant,
     delivery: Delivery,
     public val version: Long,
@@ -35,11 +33,8 @@ public class Outbox private constructor(
 
         public fun of(
             id: OutboxId,
-            orderingKey: String,
-            idempotencyKey: String,
-            deliverer: String,
             payload: Payload,
-            attributes: Map<String, String>,
+            context: Context,
             clock: Clock = Clock.systemUTC(),
         ): Outbox {
             val createdAt = clock.instant()
@@ -47,11 +42,8 @@ public class Outbox private constructor(
 
             return Outbox(
                 id = id,
-                orderingKey = orderingKey,
-                idempotencyKey = idempotencyKey,
-                deliverer = deliverer,
                 payload = payload,
-                attributes = attributes,
+                context = context,
                 createdAt = createdAt,
                 delivery = delivery,
                 version = 0,
@@ -60,21 +52,15 @@ public class Outbox private constructor(
 
         public fun of(
             id: OutboxId,
-            orderingKey: String,
-            idempotencyKey: String,
-            deliverer: String,
             payload: Payload,
-            attributes: Map<String, String>,
+            context: Context,
             createdAt: Instant,
             delivery: Delivery,
             version: Long,
         ): Outbox = Outbox(
             id = id,
-            orderingKey = orderingKey,
-            idempotencyKey = idempotencyKey,
-            deliverer = deliverer,
             payload = payload,
-            attributes = attributes,
+            context = context,
             createdAt = createdAt,
             delivery = delivery,
             version = version,

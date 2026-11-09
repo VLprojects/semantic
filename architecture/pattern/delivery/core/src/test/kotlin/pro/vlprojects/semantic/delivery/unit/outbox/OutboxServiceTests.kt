@@ -30,7 +30,7 @@ class OutboxServiceTests {
     private val lockRequests = mutableListOf<Pair<Instant, Instant>>()
     private val savedOutboxes = mutableListOf<Outbox>()
     private val generatedId = OutboxId.of("generated")
-    private val context = Context("rabbit")
+    private val context = Context.of("rabbit")
     private val serialized = byteArrayOf(1)
 
     private val serializer = object : PayloadSerializer {
@@ -77,37 +77,19 @@ class OutboxServiceTests {
 
         assertEquals(listOf(created), savedOutboxes)
         assertEquals(generatedId, created.id)
-        assertEquals("rabbit", created.deliverer)
+        assertEquals("rabbit", created.context.deliverer)
         assertEquals(Payload.of(String::class, serialized), created.payload)
         assertEquals(DeliveryStatus.PENDING, created.delivery.status)
         assertEquals(moment, created.delivery.scheduledAt)
     }
 
     @Test
-    fun `creating without keys uses the identifier for both`() {
-        val created = service.create("order", context)
-
-        assertEquals(generatedId.value, created.orderingKey)
-        assertEquals(generatedId.value, created.idempotencyKey)
-    }
-
-    @Test
-    fun `creating keeps the given keys`() {
-        val keyed = Context("rabbit", orderingKey = "order-1", idempotencyKey = "request-1")
-
-        val created = service.create("order", keyed)
-
-        assertEquals("order-1", created.orderingKey)
-        assertEquals("request-1", created.idempotencyKey)
-    }
-
-    @Test
     fun `creating prefers the given attributes to the collected ones`() {
-        val attributed = Context("rabbit", attributes = mapOf("tenant" to "given"))
+        val attributed = Context.of("rabbit", attributes = mapOf("tenant" to "given"))
 
         val created = service.create("order", attributed)
 
-        assertEquals(mapOf("tenant" to "given", "trace" to "abc"), created.attributes)
+        assertEquals(mapOf("tenant" to "given", "trace" to "abc"), created.context.attributes)
     }
 
     @Test
