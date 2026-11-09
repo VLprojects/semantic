@@ -1,12 +1,13 @@
-package pro.vlprojects.semantic.delivery.outbox.dispatch
+package pro.vlprojects.semantic.delivery.outbox
 
-import pro.vlprojects.semantic.delivery.outbox.Outbox
+import pro.vlprojects.semantic.delivery.outbox.error.OutboxDeliveryException
 
 public class OutboxDeliveryRouter(
     private val resolver: DeliveryDestinationResolver,
     private val deliverers: List<OutboxDeliverer<*>>,
 ) {
 
+    @Throws(OutboxDeliveryException::class)
     public fun route(outbox: Outbox) {
         val destination = resolver.resolve(outbox.context)
 

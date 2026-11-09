@@ -1,16 +1,16 @@
-package pro.vlprojects.semantic.delivery.unit.outbox.dispatch
+package pro.vlprojects.semantic.delivery.unit.outbox
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import pro.vlprojects.semantic.delivery.outbox.DeliveryDestination
+import pro.vlprojects.semantic.delivery.outbox.DeliveryDestinationResolver
 import pro.vlprojects.semantic.delivery.outbox.Outbox
-import pro.vlprojects.semantic.delivery.outbox.dispatch.DeliveryDestination
-import pro.vlprojects.semantic.delivery.outbox.dispatch.DeliveryDestinationResolver
-import pro.vlprojects.semantic.delivery.outbox.dispatch.OutboxDeliverer
-import pro.vlprojects.semantic.delivery.outbox.dispatch.OutboxDeliveryRouter
-import pro.vlprojects.semantic.delivery.unit.outbox.createOutbox
+import pro.vlprojects.semantic.delivery.outbox.OutboxDeliverer
+import pro.vlprojects.semantic.delivery.outbox.OutboxDeliveryRouter
+import pro.vlprojects.semantic.delivery.outbox.error.OutboxDeliveryException
 import java.time.Instant
 
 class OutboxDeliveryRouterTests {
@@ -64,7 +64,7 @@ class OutboxDeliveryRouterTests {
 
     @Test
     fun `route propagates the failure of the deliverer`() {
-        val failure = IllegalArgumentException("refused")
+        val failure = OutboxDeliveryException("refused")
         val deliverer = object : OutboxDeliverer<BrokerDestination> {
 
             override fun supports(destination: DeliveryDestination) = destination is BrokerDestination
@@ -73,7 +73,7 @@ class OutboxDeliveryRouterTests {
         }
         val router = OutboxDeliveryRouter({ brokerDestination }, listOf(deliverer))
 
-        assertSame(failure, assertThrows(IllegalArgumentException::class.java) { router.route(outbox) })
+        assertSame(failure, assertThrows(OutboxDeliveryException::class.java) { router.route(outbox) })
     }
 
     private data class BrokerDestination(val exchange: String) : DeliveryDestination

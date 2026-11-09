@@ -22,6 +22,13 @@ public final class pro/vlprojects/semantic/delivery/outbox/Delivery$Factory {
 	public final fun of (Ljava/time/Instant;Lpro/vlprojects/semantic/delivery/outbox/DeliveryStatus;ILjava/time/Instant;Ljava/time/Instant;Ljava/lang/String;)Lpro/vlprojects/semantic/delivery/outbox/Delivery;
 }
 
+public abstract interface class pro/vlprojects/semantic/delivery/outbox/DeliveryDestination {
+}
+
+public abstract interface class pro/vlprojects/semantic/delivery/outbox/DeliveryDestinationResolver {
+	public abstract fun resolve (Lpro/vlprojects/semantic/delivery/outbox/context/Context;)Lpro/vlprojects/semantic/delivery/outbox/DeliveryDestination;
+}
+
 public final class pro/vlprojects/semantic/delivery/outbox/DeliveryStatus : java/lang/Enum {
 	public static final field CANCELED Lpro/vlprojects/semantic/delivery/outbox/DeliveryStatus;
 	public static final field COMPLETED Lpro/vlprojects/semantic/delivery/outbox/DeliveryStatus;
@@ -48,6 +55,16 @@ public final class pro/vlprojects/semantic/delivery/outbox/Outbox$Factory {
 	public final fun of (Lpro/vlprojects/semantic/delivery/outbox/id/OutboxId;Lpro/vlprojects/semantic/delivery/outbox/Payload;Lpro/vlprojects/semantic/delivery/outbox/context/Context;Ljava/time/Clock;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
 	public final fun of (Lpro/vlprojects/semantic/delivery/outbox/id/OutboxId;Lpro/vlprojects/semantic/delivery/outbox/Payload;Lpro/vlprojects/semantic/delivery/outbox/context/Context;Ljava/time/Instant;Lpro/vlprojects/semantic/delivery/outbox/Delivery;J)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
 	public static synthetic fun of$default (Lpro/vlprojects/semantic/delivery/outbox/Outbox$Factory;Lpro/vlprojects/semantic/delivery/outbox/id/OutboxId;Lpro/vlprojects/semantic/delivery/outbox/Payload;Lpro/vlprojects/semantic/delivery/outbox/context/Context;Ljava/time/Clock;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
+}
+
+public abstract interface class pro/vlprojects/semantic/delivery/outbox/OutboxDeliverer {
+	public abstract fun deliver (Lpro/vlprojects/semantic/delivery/outbox/Outbox;Lpro/vlprojects/semantic/delivery/outbox/DeliveryDestination;)V
+	public abstract fun supports (Lpro/vlprojects/semantic/delivery/outbox/DeliveryDestination;)Z
+}
+
+public final class pro/vlprojects/semantic/delivery/outbox/OutboxDeliveryRouter {
+	public fun <init> (Lpro/vlprojects/semantic/delivery/outbox/DeliveryDestinationResolver;Ljava/util/List;)V
+	public final fun route (Lpro/vlprojects/semantic/delivery/outbox/Outbox;)V
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/OutboxProperties {
@@ -148,29 +165,17 @@ public abstract interface class pro/vlprojects/semantic/delivery/outbox/context/
 	public abstract fun provide (Ljava/lang/Object;Lpro/vlprojects/semantic/delivery/outbox/context/Context$Builder;)V
 }
 
-public abstract interface class pro/vlprojects/semantic/delivery/outbox/dispatch/DeliveryDestination {
-}
-
-public abstract interface class pro/vlprojects/semantic/delivery/outbox/dispatch/DeliveryDestinationResolver {
-	public abstract fun resolve (Lpro/vlprojects/semantic/delivery/outbox/context/Context;)Lpro/vlprojects/semantic/delivery/outbox/dispatch/DeliveryDestination;
-}
-
-public abstract interface class pro/vlprojects/semantic/delivery/outbox/dispatch/OutboxDeliverer {
-	public abstract fun deliver (Lpro/vlprojects/semantic/delivery/outbox/Outbox;Lpro/vlprojects/semantic/delivery/outbox/dispatch/DeliveryDestination;)V
-	public abstract fun supports (Lpro/vlprojects/semantic/delivery/outbox/dispatch/DeliveryDestination;)Z
-}
-
-public final class pro/vlprojects/semantic/delivery/outbox/dispatch/OutboxDeliveryRouter {
-	public fun <init> (Lpro/vlprojects/semantic/delivery/outbox/dispatch/DeliveryDestinationResolver;Ljava/util/List;)V
-	public final fun route (Lpro/vlprojects/semantic/delivery/outbox/Outbox;)V
-}
-
 public abstract interface class pro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy {
 	public abstract fun extract (Ljava/lang/Throwable;)Ljava/lang/String;
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/error/OutboxConflictException : java/lang/IllegalStateException {
 	public fun <init> (Lpro/vlprojects/semantic/delivery/outbox/id/OutboxId;)V
+}
+
+public class pro/vlprojects/semantic/delivery/outbox/error/OutboxDeliveryException : java/lang/RuntimeException {
+	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/error/OutboxOptimisticLockException : java/util/ConcurrentModificationException {
