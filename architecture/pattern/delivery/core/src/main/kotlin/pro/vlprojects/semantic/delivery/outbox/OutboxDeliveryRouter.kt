@@ -15,11 +15,11 @@ public class OutboxDeliveryRouter(
         deliverers
             .filter { it.supports(destination) }
             .let { policy.select(destination, it) }
-            .map(::castDeliverer)
+            .map(::cast)
             .forEach { it.send(outbox, destination) }
     }
 
     // A selected deliverer either supports the destination or accepts any
     @Suppress("UNCHECKED_CAST")
-    private fun castDeliverer(deliverer: OutboxDeliverer<*>) = deliverer as OutboxDeliverer<DeliveryDestination>
+    private fun cast(deliverer: OutboxDeliverer<*>) = deliverer as OutboxDeliverer<DeliveryDestination>
 }
