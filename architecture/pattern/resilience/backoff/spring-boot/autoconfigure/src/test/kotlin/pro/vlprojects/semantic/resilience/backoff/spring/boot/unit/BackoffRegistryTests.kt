@@ -1,5 +1,7 @@
 package pro.vlprojects.semantic.resilience.backoff.spring.boot.unit
 
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -11,10 +13,7 @@ class BackoffRegistryTests {
 
     private val default = FixedBackoff.ofSeconds(1)
     private val payments = FixedBackoff.ofSeconds(5)
-    private val registry = BackoffRegistry().also { registry ->
-        registry.register(BackoffRegistry.DEFAULT_NAME, default)
-        registry.register("payments", payments)
-    }
+    private val registry = BackoffRegistry(mapOf(BackoffRegistry.DEFAULT_NAME to default, "payments" to payments))
 
     @Test
     fun `a backoff is found by its name`() {
@@ -39,6 +38,27 @@ class BackoffRegistryTests {
     @Test
     fun `an unknown name can take the default instead`() {
         assertSame(default, registry.getOrDefault("orders"))
+    }
+
+    @Test
+    fun `the names list every backoff`() {
+        assertEquals(setOf(BackoffRegistry.DEFAULT_NAME, "payments"), registry.names)
+    }
+
+    @Test
+    fun `the names stay the same while the registry changes`() {
+        val names = registry.names
+
+        registry.register("orders", payments)
+
+        assertFalse("orders" in names)
+    }
+
+    @Test
+    fun `registering a free name adds it`() {
+        registry.register("orders", payments)
+
+        assertSame(payments, registry["orders"])
     }
 
     @Test

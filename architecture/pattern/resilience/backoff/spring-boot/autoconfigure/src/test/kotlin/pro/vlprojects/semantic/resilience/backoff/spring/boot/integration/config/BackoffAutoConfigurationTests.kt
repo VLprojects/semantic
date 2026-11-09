@@ -12,11 +12,12 @@ import org.springframework.boot.test.context.assertj.AssertableApplicationContex
 import org.springframework.boot.test.context.runner.ApplicationContextRunner
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.core.annotation.Order
 import pro.vlprojects.semantic.resilience.backoff.Backoff
 import pro.vlprojects.semantic.resilience.backoff.FixedBackoff
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.BackoffRegistry
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.BackoffAutoConfiguration
-import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.BackoffRegistrar
+import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.BackoffRegistryCustomizer
 import java.time.Duration
 
 class BackoffAutoConfigurationTests {
@@ -79,12 +80,44 @@ class BackoffAutoConfigurationTests {
     }
 
     @Test
-    fun `an own registrar adds to the registry`() {
+    fun `a customizer adds to the registry`() {
         runner
-            .withUserConfiguration(OwnRegistrarConfiguration::class.java)
+            .withUserConfiguration(AddingCustomizerConfiguration::class.java)
             .run { context ->
                 assertEquals(Duration.ofSeconds(9), context.getRegistry()["orders"].calculate(1))
             }
+    }
+
+    @Test
+    fun `a customizer sees the settings and the backoff beans`() {
+        runner
+            .withUserConfiguration(
+                PaymentsBackoffConfiguration::class.java,
+                ReplacingCustomizerConfiguration::class.java,
+            )
+            .withPropertyValues("$PREFIX.instances.orders.initial-delay=1ms")
+            .run { context ->
+                val registry = context.getRegistry()
+
+                assertEquals(setOf("default", "orders", "payments"), registry.names)
+                assertTrue(registry.names.all { name -> registry[name].calculate(1) == CUSTOMIZED_DELAY })
+            }
+    }
+
+    @Test
+    fun `customizers run in their order`() {
+        runner
+            .withUserConfiguration(OrderedCustomizersConfiguration::class.java)
+            .run { context ->
+                assertEquals(Duration.ofSeconds(2), context.getRegistry().default.calculate(1))
+            }
+    }
+
+    @Test
+    fun `a backoff bean that needs the registry stops the start`() {
+        runner
+            .withUserConfiguration(CircularBackoffConfiguration::class.java)
+            .run { context -> assertNotNull(context.startupFailure) }
     }
 
     @Test
@@ -129,16 +162,49 @@ class BackoffAutoConfigurationTests {
     }
 
     @Configuration(proxyBeanMethods = false)
-    class OwnRegistrarConfiguration {
+    class AddingCustomizerConfiguration {
 
         @Bean
-        fun ownRegistrar() = BackoffRegistrar { registry ->
+        fun addingCustomizer() = BackoffRegistryCustomizer { registry ->
             registry.register("orders", FixedBackoff.ofSeconds(9))
         }
+    }
+
+    @Configuration(proxyBeanMethods = false)
+    class ReplacingCustomizerConfiguration {
+
+        @Bean
+        fun replacingCustomizer() = BackoffRegistryCustomizer { registry ->
+            registry.names.forEach { name -> registry.replace(name, FixedBackoff.of(CUSTOMIZED_DELAY)) }
+        }
+    }
+
+    @Configuration(proxyBeanMethods = false)
+    class OrderedCustomizersConfiguration {
+
+        @Bean
+        @Order(2)
+        fun lastCustomizer() = BackoffRegistryCustomizer { registry ->
+            registry.replace(BackoffRegistry.DEFAULT_NAME, FixedBackoff.ofSeconds(2))
+        }
+
+        @Bean
+        @Order(1)
+        fun firstCustomizer() = BackoffRegistryCustomizer { registry ->
+            registry.replace(BackoffRegistry.DEFAULT_NAME, FixedBackoff.ofSeconds(1))
+        }
+    }
+
+    @Configuration(proxyBeanMethods = false)
+    class CircularBackoffConfiguration {
+
+        @Bean
+        fun payments(registry: BackoffRegistry): Backoff = registry.default
     }
 
     private companion object {
 
         const val PREFIX = "semantic.resilience.backoff"
+        val CUSTOMIZED_DELAY: Duration = Duration.ofSeconds(3)
     }
 }

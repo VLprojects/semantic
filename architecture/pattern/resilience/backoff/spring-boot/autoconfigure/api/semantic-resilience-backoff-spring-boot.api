@@ -2,8 +2,11 @@ public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/Backof
 	public static final field Companion Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffRegistry$Companion;
 	public static final field DEFAULT_NAME Ljava/lang/String;
 	public fun <init> ()V
+	public fun <init> (Ljava/util/Map;)V
+	public synthetic fun <init> (Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun get (Ljava/lang/String;)Lpro/vlprojects/semantic/resilience/backoff/Backoff;
 	public final fun getDefault ()Lpro/vlprojects/semantic/resilience/backoff/Backoff;
+	public final fun getNames ()Ljava/util/Set;
 	public final fun getOrDefault (Ljava/lang/String;)Lpro/vlprojects/semantic/resilience/backoff/Backoff;
 	public final fun register (Ljava/lang/String;Lpro/vlprojects/semantic/resilience/backoff/Backoff;)V
 	public final fun replace (Ljava/lang/String;Lpro/vlprojects/semantic/resilience/backoff/Backoff;)V
@@ -14,12 +17,11 @@ public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/Backof
 
 public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/config/BackoffAutoConfiguration {
 	public fun <init> ()V
-	public final fun backoffPropertiesRegistrar (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/BackoffConfigurationProperties;)Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/BackoffRegistrar;
-	public final fun backoffRegistry (Lorg/springframework/beans/factory/ObjectProvider;Lorg/springframework/beans/factory/ListableBeanFactory;)Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffRegistry;
+	public final fun backoffRegistry (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/BackoffConfigurationProperties;Ljava/util/Map;Lorg/springframework/beans/factory/ObjectProvider;)Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffRegistry;
 }
 
-public abstract interface class pro/vlprojects/semantic/resilience/backoff/spring/boot/config/BackoffRegistrar {
-	public abstract fun register (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffRegistry;)V
+public abstract interface class pro/vlprojects/semantic/resilience/backoff/spring/boot/config/BackoffRegistryCustomizer {
+	public abstract fun customize (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffRegistry;)V
 }
 
 public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/config/properties/BackoffConfigurationProperties {
