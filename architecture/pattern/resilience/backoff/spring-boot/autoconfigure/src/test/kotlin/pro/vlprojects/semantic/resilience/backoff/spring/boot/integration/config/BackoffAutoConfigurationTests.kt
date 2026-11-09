@@ -13,7 +13,6 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.annotation.Order
-import pro.vlprojects.semantic.resilience.backoff.Backoff
 import pro.vlprojects.semantic.resilience.backoff.FixedBackoff
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.BackoffRegistry
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.BackoffAutoConfiguration
@@ -68,6 +67,23 @@ class BackoffAutoConfigurationTests {
             .run { context ->
                 assertSame(context.getBean("payments"), context.getRegistry()["payments"])
             }
+    }
+
+    @Test
+    fun `a backoff bean named default replaces the default block`() {
+        runner
+            .withUserConfiguration(DefaultBackoffConfiguration::class.java)
+            .run { context ->
+                assertSame(context.getBean("default"), context.getRegistry().default)
+            }
+    }
+
+    @Test
+    fun `an invalid setting stops the start even when a bean replaces it`() {
+        runner
+            .withUserConfiguration(PaymentsBackoffConfiguration::class.java)
+            .withPropertyValues("$PREFIX.instances.payments.jitter=1.5")
+            .run { context -> assertTrue("'payments'" in context.readStartupFailureMessages()) }
     }
 
     @Test
@@ -151,7 +167,14 @@ class BackoffAutoConfigurationTests {
     class PaymentsBackoffConfiguration {
 
         @Bean
-        fun payments(): Backoff = FixedBackoff.ofSeconds(9)
+        fun payments() = FixedBackoff.ofSeconds(9)
+    }
+
+    @Configuration(proxyBeanMethods = false)
+    class DefaultBackoffConfiguration {
+
+        @Bean
+        fun default() = FixedBackoff.ofSeconds(9)
     }
 
     @Configuration(proxyBeanMethods = false)
@@ -199,12 +222,12 @@ class BackoffAutoConfigurationTests {
     class CircularBackoffConfiguration {
 
         @Bean
-        fun payments(registry: BackoffRegistry): Backoff = registry.default
+        fun payments(registry: BackoffRegistry) = registry.default
     }
 
     private companion object {
 
         const val PREFIX = "semantic.resilience.backoff"
-        val CUSTOMIZED_DELAY: Duration = Duration.ofSeconds(3)
+        val CUSTOMIZED_DELAY = Duration.ofSeconds(3)
     }
 }
