@@ -18,8 +18,8 @@ public class Outbox private constructor(
     public var delivery: Delivery = delivery
         private set
 
-    internal fun complete(terminatedAt: Instant) = apply {
-        delivery = delivery.completed(terminatedAt)
+    internal fun complete(completedAt: Instant) = apply {
+        delivery = delivery.completed(completedAt)
     }
 
     internal fun fail(scheduledAt: Instant, error: String) = apply {

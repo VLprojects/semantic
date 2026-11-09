@@ -16,10 +16,10 @@ public data class Delivery private constructor(
     public val error: String?,
 ) {
 
-    internal fun completed(terminatedAt: Instant): Delivery {
+    internal fun completed(completedAt: Instant): Delivery {
         checkHasStartedStatus()
 
-        return copy(status = DeliveryStatus.COMPLETED, lockedUntil = null, terminatedAt = terminatedAt, error = null)
+        return copy(status = DeliveryStatus.COMPLETED, lockedUntil = null, terminatedAt = completedAt, error = null)
     }
 
     internal fun failed(scheduledAt: Instant, error: String): Delivery {
