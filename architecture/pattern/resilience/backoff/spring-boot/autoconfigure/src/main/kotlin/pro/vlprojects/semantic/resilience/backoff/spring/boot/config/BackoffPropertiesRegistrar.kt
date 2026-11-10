@@ -50,6 +50,8 @@ internal class BackoffPropertiesRegistrar(
     private val availableTypes = this.factories.values.map { factory -> factory.type }
 
     fun registerBackoffs(registry: BackoffRegistry) {
+        requireNoValue(instancesName)
+
         val instanceNames = readChildNames(instancesName)
 
         require(instanceNames.none(::isDefaultName)) {
@@ -108,7 +110,7 @@ internal class BackoffPropertiesRegistrar(
 
         val defaultFactory = findFactory(defaultName) ?: getFactory(EXPONENTIAL_BACKOFF_TYPE)
         val factory = findFactory(blockName) ?: defaultFactory
-        val inheritedNames = listInheritedNames(blockName, factory, defaultFactory)
+        val inheritedNames = listBlockNames(blockName, factory, defaultFactory)
         val backoff = createBackoff(factory, inheritedNames)
         val jitter = bindJitter(blockName) ?: bindJitter(defaultName)
 
@@ -142,7 +144,7 @@ internal class BackoffPropertiesRegistrar(
         .map { name -> name.chop(propertyName.numberOfElements + 1) }
         .toSet()
 
-    private fun listInheritedNames(
+    private fun listBlockNames(
         blockName: ConfigurationPropertyName,
         factory: BackoffFactory<*>,
         defaultFactory: BackoffFactory<*>,
@@ -167,7 +169,7 @@ internal class BackoffPropertiesRegistrar(
         val config = try {
             bindConfig(factory.configClass, configNames)
         } catch (failure: BindException) {
-            throw IllegalArgumentException(describeBindFailure(factory, failure), failure)
+            throw createBindFailure(factory, failure)
         }
 
         return factory.create(config)
@@ -184,12 +186,18 @@ internal class BackoffPropertiesRegistrar(
     // One prefixed source per name, so a field of the instance takes priority over the same field of the default.
     private fun <C : Any> bindConfig(configClass: Class<C>, configNames: List<ConfigurationPropertyName>): C {
         val prefixes = configNames.map(ConfigurationPropertyName::toString)
-        val configSources = prefixes.flatMap { prefix -> sources.map { source -> source.withPrefix(prefix) } }
+        val configSources = prefixes.flatMap { prefix ->
+            sources.map { source -> source.withPrefix(prefix) }
+        }
         val target = Bindable.of(configClass)
         val handler = NoUnboundElementsBindHandler(BindHandler.DEFAULT)
 
         return Binder(configSources, placeholdersResolver).bindOrCreate(ROOT_NAME, target, handler)
     }
+
+    private fun createBindFailure(factory: BackoffFactory<*>, failure: BindException) = failure
+        .let { bindFailure -> describeBindFailure(factory, bindFailure) }
+        .let { message -> IllegalArgumentException(message, failure) }
 
     private fun describeBindFailure(factory: BackoffFactory<*>, failure: BindException) = failure.property
         ?.let { property ->
