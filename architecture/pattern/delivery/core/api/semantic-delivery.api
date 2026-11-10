@@ -99,24 +99,22 @@ public final class pro/vlprojects/semantic/delivery/outbox/OutboxDispatcher {
 
 public final class pro/vlprojects/semantic/delivery/outbox/OutboxProperties {
 	public fun <init> ()V
-	public fun <init> (Ljava/time/Duration;ILpro/vlprojects/semantic/resilience/backoff/Backoff;Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;ILorg/slf4j/event/Level;Lorg/slf4j/event/Level;)V
-	public synthetic fun <init> (Ljava/time/Duration;ILpro/vlprojects/semantic/resilience/backoff/Backoff;Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;ILorg/slf4j/event/Level;Lorg/slf4j/event/Level;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/time/Duration;ILpro/vlprojects/semantic/resilience/backoff/Backoff;Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;ILpro/vlprojects/semantic/delivery/outbox/logging/OutboxLoggingProperties;)V
+	public synthetic fun <init> (Ljava/time/Duration;ILpro/vlprojects/semantic/resilience/backoff/Backoff;Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;ILpro/vlprojects/semantic/delivery/outbox/logging/OutboxLoggingProperties;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/time/Duration;
 	public final fun component2 ()I
 	public final fun component3 ()Lpro/vlprojects/semantic/resilience/backoff/Backoff;
 	public final fun component4 ()Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;
 	public final fun component5 ()I
-	public final fun component6 ()Lorg/slf4j/event/Level;
-	public final fun component7 ()Lorg/slf4j/event/Level;
-	public final fun copy (Ljava/time/Duration;ILpro/vlprojects/semantic/resilience/backoff/Backoff;Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;ILorg/slf4j/event/Level;Lorg/slf4j/event/Level;)Lpro/vlprojects/semantic/delivery/outbox/OutboxProperties;
-	public static synthetic fun copy$default (Lpro/vlprojects/semantic/delivery/outbox/OutboxProperties;Ljava/time/Duration;ILpro/vlprojects/semantic/resilience/backoff/Backoff;Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;ILorg/slf4j/event/Level;Lorg/slf4j/event/Level;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/OutboxProperties;
+	public final fun component6 ()Lpro/vlprojects/semantic/delivery/outbox/logging/OutboxLoggingProperties;
+	public final fun copy (Ljava/time/Duration;ILpro/vlprojects/semantic/resilience/backoff/Backoff;Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;ILpro/vlprojects/semantic/delivery/outbox/logging/OutboxLoggingProperties;)Lpro/vlprojects/semantic/delivery/outbox/OutboxProperties;
+	public static synthetic fun copy$default (Lpro/vlprojects/semantic/delivery/outbox/OutboxProperties;Ljava/time/Duration;ILpro/vlprojects/semantic/resilience/backoff/Backoff;Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;ILpro/vlprojects/semantic/delivery/outbox/logging/OutboxLoggingProperties;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/OutboxProperties;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBackoff ()Lpro/vlprojects/semantic/resilience/backoff/Backoff;
 	public final fun getBatchSize ()I
-	public final fun getCancellationLogLevel ()Lorg/slf4j/event/Level;
 	public final fun getErrorPolicy ()Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;
-	public final fun getFailureLogLevel ()Lorg/slf4j/event/Level;
 	public final fun getLockDuration ()Ljava/time/Duration;
+	public final fun getLogging ()Lpro/vlprojects/semantic/delivery/outbox/logging/OutboxLoggingProperties;
 	public final fun getMaxAttempts ()I
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
@@ -277,5 +275,31 @@ public abstract interface class pro/vlprojects/semantic/delivery/outbox/id/Outbo
 public final class pro/vlprojects/semantic/delivery/outbox/id/UuidOutboxIdGenerator : pro/vlprojects/semantic/delivery/outbox/id/OutboxIdGenerator {
 	public fun <init> ()V
 	public fun generate ()Lpro/vlprojects/semantic/delivery/outbox/id/OutboxId;
+}
+
+public final class pro/vlprojects/semantic/delivery/outbox/logging/LoggingEventProperties {
+	public fun <init> (Lorg/slf4j/event/Level;)V
+	public final fun component1 ()Lorg/slf4j/event/Level;
+	public final fun copy (Lorg/slf4j/event/Level;)Lpro/vlprojects/semantic/delivery/outbox/logging/LoggingEventProperties;
+	public static synthetic fun copy$default (Lpro/vlprojects/semantic/delivery/outbox/logging/LoggingEventProperties;Lorg/slf4j/event/Level;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/logging/LoggingEventProperties;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getLevel ()Lorg/slf4j/event/Level;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/delivery/outbox/logging/OutboxLoggingProperties {
+	public fun <init> ()V
+	public fun <init> (Lpro/vlprojects/semantic/delivery/outbox/logging/LoggingEventProperties;Lpro/vlprojects/semantic/delivery/outbox/logging/LoggingEventProperties;)V
+	public synthetic fun <init> (Lpro/vlprojects/semantic/delivery/outbox/logging/LoggingEventProperties;Lpro/vlprojects/semantic/delivery/outbox/logging/LoggingEventProperties;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lpro/vlprojects/semantic/delivery/outbox/logging/LoggingEventProperties;
+	public final fun component2 ()Lpro/vlprojects/semantic/delivery/outbox/logging/LoggingEventProperties;
+	public final fun copy (Lpro/vlprojects/semantic/delivery/outbox/logging/LoggingEventProperties;Lpro/vlprojects/semantic/delivery/outbox/logging/LoggingEventProperties;)Lpro/vlprojects/semantic/delivery/outbox/logging/OutboxLoggingProperties;
+	public static synthetic fun copy$default (Lpro/vlprojects/semantic/delivery/outbox/logging/OutboxLoggingProperties;Lpro/vlprojects/semantic/delivery/outbox/logging/LoggingEventProperties;Lpro/vlprojects/semantic/delivery/outbox/logging/LoggingEventProperties;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/logging/OutboxLoggingProperties;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCancellation ()Lpro/vlprojects/semantic/delivery/outbox/logging/LoggingEventProperties;
+	public final fun getFailure ()Lpro/vlprojects/semantic/delivery/outbox/logging/LoggingEventProperties;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 

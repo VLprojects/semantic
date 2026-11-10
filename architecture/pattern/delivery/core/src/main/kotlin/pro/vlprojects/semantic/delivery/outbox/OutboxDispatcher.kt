@@ -50,7 +50,7 @@ public class OutboxDispatcher(
     }
 
     private fun selectLogLevel(status: DeliveryStatus) = when (status) {
-        DeliveryStatus.CANCELED -> config.cancellationLogLevel
-        else -> config.failureLogLevel
+        DeliveryStatus.CANCELED -> config.logging.cancellation.level
+        else -> config.logging.failure.level
     }
 }
