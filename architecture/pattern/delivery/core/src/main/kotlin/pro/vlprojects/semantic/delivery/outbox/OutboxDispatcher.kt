@@ -31,7 +31,7 @@ public class OutboxDispatcher(
     private fun complete(outbox: Outbox) = skipOnOptimisticLock(outbox) { service.complete(outbox) }
 
     private fun fail(outbox: Outbox, error: Throwable) = skipOnOptimisticLock(outbox) { service.fail(outbox, error) }
-        ?.let { failed -> logFailure(failed, error) }
+        ?.let { failed -> log(failed, error) }
 
     private fun skipOnOptimisticLock(outbox: Outbox, save: () -> Outbox) = try {
         save()
@@ -40,7 +40,7 @@ public class OutboxDispatcher(
         null
     }
 
-    private fun logFailure(outbox: Outbox, error: Throwable) {
+    private fun log(outbox: Outbox, error: Throwable) {
         val delivery = outbox.delivery
 
         logger
