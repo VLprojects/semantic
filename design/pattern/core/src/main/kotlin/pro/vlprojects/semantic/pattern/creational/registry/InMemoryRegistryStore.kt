@@ -14,5 +14,8 @@ public class InMemoryRegistryStore<T : Any> : RegistryStore<T> {
 
     override fun getAndRemove(name: String): T? = instances.remove(name)
 
+    override fun getAndRemoveAll(): Collection<T> = instances.keys
+        .mapNotNull(instances::remove)
+
     override fun getAll(): Collection<T> = instances.values.toList()
 }

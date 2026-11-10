@@ -29,7 +29,7 @@ Four roles, each with one reason to change:
 | `Registry<T>` | keeps instances by name and finds them; replaces and removes them at run time | builds nothing, knows no factory and no settings | Spring `SingletonBeanRegistry`, Spring Boot `SslBundleRegistry`, Resilience4j `Registry` |
 | `Registrar<T>` | populates a registry once at startup from one source: settings, annotations, beans, code | hands out no instance, nobody asks it | Spring `BeanRegistrar`, Spring Boot `SslBundleRegistrar`; `populate` as in Spring Data `RepositoryPopulator` and Spring JDBC `DatabasePopulator` |
 | `Factory<D, T>` | names the class of its definition, makes an instance of it | knows no name | Spring AMQP `RabbitListenerContainerFactory`, the factories of backoff |
-| `RegistryStore<T>` | keeps the instances of a registry: `find`, `putIfAbsent`, `getAndReplace`, `getAndRemove`, each atomic, and `getAll` | checks no name, throws no exception of the contract | Resilience4j `RegistryStore`; the methods as in JCache `Cache` |
+| `RegistryStore<T>` | keeps the instances of a registry: `find`, `putIfAbsent`, `getAndReplace`, `getAndRemove`, each atomic, `getAndRemoveAll` and `getAll` | checks no name, throws no exception of the contract | Resilience4j `RegistryStore`; the methods as in JCache `Cache` |
 
 A definition is the data an instance is made of, the delays of an exponential
 backoff for one; it carries no name, as a Spring `BeanDefinition` does not. It
@@ -81,6 +81,11 @@ registry is injected, never reached through a static, so it is no Service Locato
   `resolve` never does, so a misspelt name fails where nobody asked for a fallback.
 - A lookup is `resolve`, as `DestinationResolver` of Spring resolves a destination by its
   name and throws when it cannot.
+- A registry is `AutoCloseable`: `close` takes every instance out and closes each one that is
+  `AutoCloseable`, as `close` of a `CacheManager` in JCache closes its caches and Spring
+  destroys its singletons on shutdown. A failure of one instance does not stop the others:
+  `close` throws the first failure with the rest suppressed, as try-with-resources of the JDK
+  does. The registry takes new instances after it, as Spring does after `destroySingletons`.
 
 Each exception of a registry extends the one of the JDK a caller expects: `IllegalArgumentException`,
 `IllegalStateException`, `NoSuchElementException`. It carries the name that failed.
@@ -116,5 +121,7 @@ the later one replaces it on purpose: a bean from code overrides a setting by `r
 
 1. The contracts of `Registry`, `Registrar`, `Factory` and `RegistryStore`; `AbstractRegistry`
    and `InMemoryRegistryStore`.
-2. Metrics of a registry, kept in step with its changes without events.
-3. A Spring Boot adapter: a registrar over settings, taken out of backoff.
+2. Closing the instances of a registry on shutdown.
+3. A registry to read apart from one to change; `replace` of an expected instance.
+4. Metrics of a registry, kept in step with its changes without events.
+5. A Spring Boot adapter: a registrar over settings, taken out of backoff.

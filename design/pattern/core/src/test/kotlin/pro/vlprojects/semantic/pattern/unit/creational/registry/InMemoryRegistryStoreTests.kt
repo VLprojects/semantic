@@ -49,6 +49,15 @@ class InMemoryRegistryStoreTests {
     }
 
     @Test
+    fun `a remove of all returns every instance and leaves the store empty`() {
+        store.putIfAbsent("morning", "Good morning")
+        store.putIfAbsent("evening", "Good evening")
+
+        assertEquals(setOf("Good morning", "Good evening"), store.getAndRemoveAll().toSet())
+        assertTrue(store.getAll().isEmpty())
+    }
+
+    @Test
     fun `all the instances are a snapshot that later changes do not touch`() {
         store.putIfAbsent("morning", "Good morning")
         val instances = store.getAll()

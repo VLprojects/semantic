@@ -28,4 +28,20 @@ public abstract class AbstractRegistry<T : Any>(
         ?: throw InstanceNotFoundException(name)
 
     override fun getAll(): Collection<T> = store.getAll()
+
+    override fun close() {
+        store
+            .getAndRemoveAll()
+            .filterIsInstance<AutoCloseable>()
+            .mapNotNull(::closeCatching)
+            .reduceOrNull(::suppress)
+            ?.let { failure -> throw failure }
+    }
+
+    private fun closeCatching(instance: AutoCloseable) = instance
+        .runCatching(AutoCloseable::close)
+        .exceptionOrNull()
+
+    private fun suppress(failure: Throwable, next: Throwable) = failure
+        .also { first -> first.addSuppressed(next) }
 }

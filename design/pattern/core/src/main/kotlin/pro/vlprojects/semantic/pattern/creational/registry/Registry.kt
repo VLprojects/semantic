@@ -5,7 +5,7 @@ import pro.vlprojects.semantic.pattern.creational.registry.error.InstanceAlready
 import pro.vlprojects.semantic.pattern.creational.registry.error.InstanceNotFoundException
 import pro.vlprojects.semantic.pattern.creational.registry.error.InvalidNameException
 
-public interface Registry<T : Any> {
+public interface Registry<T : Any> : AutoCloseable {
 
     public fun find(name: String): T?
 
