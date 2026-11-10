@@ -9,7 +9,7 @@ public class OutboxDeliveryRouter(
 ) {
 
     @Throws(OutboxDeliveryException::class)
-    public fun route(outbox: Outbox) {
+    public fun send(outbox: Outbox) {
         val destination = deserializer.deserialize(outbox.destination)
 
         deliverers

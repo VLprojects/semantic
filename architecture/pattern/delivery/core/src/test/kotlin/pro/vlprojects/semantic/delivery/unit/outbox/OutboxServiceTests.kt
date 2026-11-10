@@ -100,7 +100,7 @@ class OutboxServiceTests {
     fun `getting with a lock asks the repository to hold scheduled records`() {
         lockedOutboxes += started
 
-        val locked = service.getAllWithLock(10)
+        val locked = service.getScheduledWithLock(10)
 
         assertEquals(listOf(started), locked)
         assertEquals(listOf(moment to moment.plus(lockDuration)), lockRequests)

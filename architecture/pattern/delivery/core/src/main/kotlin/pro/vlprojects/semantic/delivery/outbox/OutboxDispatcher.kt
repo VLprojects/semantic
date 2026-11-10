@@ -9,12 +9,12 @@ public class OutboxDispatcher(
 ) {
 
     public fun dispatch(): Int = service
-        .getAllWithLock(config.batchSize)
+        .getScheduledWithLock(config.batchSize)
         .onEach(::deliver)
         .size
 
     private fun deliver(outbox: Outbox) {
-        val failure = route(outbox)
+        val failure = send(outbox)
 
         try {
             when (failure) {
@@ -26,8 +26,8 @@ public class OutboxDispatcher(
         }
     }
 
-    private fun route(outbox: Outbox) = try {
-        router.route(outbox)
+    private fun send(outbox: Outbox) = try {
+        router.send(outbox)
         null
     } catch (exception: Exception) {
         exception
