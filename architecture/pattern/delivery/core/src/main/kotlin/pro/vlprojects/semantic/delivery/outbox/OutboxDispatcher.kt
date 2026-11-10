@@ -15,13 +15,9 @@ public class OutboxDispatcher(
         .size
 
     private fun process(outbox: Outbox) {
-        try {
-            deliver(outbox)
-        } catch (exception: Exception) {
-            return fail(outbox, exception)
-        }
-
-        complete(outbox)
+        runCatching { deliver(outbox) }
+            .onSuccess { complete(outbox) }
+            .onFailure { failure -> fail(outbox, failure) }
     }
 
     private fun deliver(outbox: Outbox) {
@@ -33,7 +29,7 @@ public class OutboxDispatcher(
 
     private fun complete(outbox: Outbox) = ignoreTakeover { service.complete(outbox) }
 
-    private fun fail(outbox: Outbox, cause: Exception) = ignoreTakeover { service.fail(outbox, cause) }
+    private fun fail(outbox: Outbox, cause: Throwable) = ignoreTakeover { service.fail(outbox, cause) }
 
     private fun ignoreTakeover(save: () -> Outbox) {
         try {
