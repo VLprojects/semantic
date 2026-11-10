@@ -15,31 +15,29 @@ public class OutboxDispatcher(
         .size
 
     private fun process(outbox: Outbox) {
-        val deliverers = resolveDeliverers(outbox)
-        val delivery = deliver(outbox, deliverers)
-
-        saveResult(outbox, delivery)
-    }
-
-    private fun resolveDeliverers(outbox: Outbox) = runCatching {
-        val destination = deserializer.deserialize(outbox.destination)
-
-        destination to router.determine(destination)
-    }
-
-    private fun deliver(
-        outbox: Outbox,
-        deliverers: Result<Pair<DeliveryDestination, List<OutboxDeliverer<DeliveryDestination>>>>,
-    ) = deliverers.mapCatching { (destination, selected) ->
-        selected.forEach { deliverer -> deliverer.send(outbox, destination) }
-    }
-
-    private fun saveResult(outbox: Outbox, delivery: Result<Unit>) {
         try {
-            delivery.fold(
-                onSuccess = { service.complete(outbox) },
-                onFailure = { failure -> service.fail(outbox, failure) },
-            )
+            deliver(outbox)
+        } catch (exception: Exception) {
+            return fail(outbox, exception)
+        }
+
+        complete(outbox)
+    }
+
+    private fun deliver(outbox: Outbox) {
+        val destination = deserializer.deserialize(outbox.destination)
+        val deliverers = router.determine(destination)
+
+        deliverers.forEach { deliverer -> deliverer.send(outbox, destination) }
+    }
+
+    private fun complete(outbox: Outbox) = ignoreTakeover { service.complete(outbox) }
+
+    private fun fail(outbox: Outbox, cause: Exception) = ignoreTakeover { service.fail(outbox, cause) }
+
+    private fun ignoreTakeover(save: () -> Outbox) {
+        try {
+            save()
         } catch (_: OutboxOptimisticLockException) {
             // The lock expired and another instance took the record over
         }
