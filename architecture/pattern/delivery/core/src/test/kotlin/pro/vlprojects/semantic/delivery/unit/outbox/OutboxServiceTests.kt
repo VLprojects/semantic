@@ -93,7 +93,7 @@ class OutboxServiceTests {
     fun `starting takes scheduled records from the repository`() {
         lockedOutboxes += started
 
-        val startedOutboxes = service.start(10)
+        val startedOutboxes = service.startScheduled(10)
 
         assertEquals(listOf(started), startedOutboxes)
         assertEquals(listOf(moment), lockRequests)

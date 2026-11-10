@@ -30,7 +30,7 @@ public class OutboxService(
             .let(repository::save)
     }
 
-    public fun start(limit: Int): List<Outbox> {
+    public fun startScheduled(limit: Int): List<Outbox> {
         val startedAt = clock.instant()
 
         return repository.findAndModifyScheduled(startedAt, limit)

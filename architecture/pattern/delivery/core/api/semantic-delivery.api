@@ -132,7 +132,7 @@ public final class pro/vlprojects/semantic/delivery/outbox/OutboxService {
 	public final fun complete (Lpro/vlprojects/semantic/delivery/outbox/Outbox;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
 	public final fun create (Ljava/lang/Object;Lpro/vlprojects/semantic/delivery/outbox/DeliveryDestination;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
 	public final fun fail (Lpro/vlprojects/semantic/delivery/outbox/Outbox;Ljava/lang/Throwable;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
-	public final fun start (I)Ljava/util/List;
+	public final fun startScheduled (I)Ljava/util/List;
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/Payload {
