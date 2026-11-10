@@ -178,7 +178,7 @@ Without Spring:
 
 ```kotlin
 val executor = Executors.newScheduledThreadPool(properties.polling.maxConcurrency)
-val container = OutboxPollingContainer(dispatcher, executor, properties.polling)
+val container = OutboxPollingContainer(dispatcher, executor, ActiveIdlePollingStrategy.of(), properties.polling)
 
 container.start()
 container.stop()
@@ -219,8 +219,9 @@ semantic.delivery.outbox:
 The key of the block under `polling.strategy` names its type, and the fields under it bind to the config class of the
 `OutboxPollingStrategyFactory` bean with that type, as with the settings of backoffs. `fixed` takes `interval` (`1s`),
 `active-idle` takes `active-interval` (`0s`) and `idle-interval` (`1s`), `adaptive` takes `min-interval` (`100ms`),
-`max-interval` (`10s`) and `multiplier` (`2`). An own strategy is a factory bean with its own type, or an
-`OutboxPollingStrategy` bean. Without Spring the strategy goes to `OutboxPollingProperties.strategy` as an object.
+`max-interval` (`10s`) and `multiplier` (`2`). The factories and their `Config` classes live in
+`semantic-delivery-spring-boot`; an own strategy is a factory bean with its own type and config class. Without Spring the
+application passes the strategy to the constructor of the container.
 `concurrency` and `max-concurrency` follow Spring Boot (`spring.rabbitmq.listener.simple.concurrency`,
 `max-concurrency`).
 
@@ -276,11 +277,11 @@ changes its API, so this is an open question.
 
 | PR | What | Size |
 | --- | --- | --- |
-| 1 | `OutboxPollingStrategy`, `OutboxPollingContext`, three implementations, `polling.strategy`, unit tests | ~250 lines, no threads |
+| 1 | `OutboxPollingStrategy`, `OutboxPollingContext`, three implementations, their factories with `Config` in `semantic-delivery-spring-boot`, unit tests | ~250 lines, no threads |
 | 2 | `OutboxPollingContainer` with a fixed number of pollers, `OutboxPoller`, `start`, `stop`, `shutdown-timeout`, logging of a failed poll | ~350 lines |
 | 3 | scaling from `concurrency` to `max-concurrency` | ~200 lines |
 | 4 | wake-up: `wakeup()`, merged signals, `cooldown` | ~150 lines |
-| 5 | auto-configuration and `OutboxPollingContainerLifecycle` in the Spring modules, `afterCommit` for the wake-up | separate |
+| 5 | auto-configuration with the strategy settings bound to the factories, `OutboxPollingContainerLifecycle` in the Spring modules, `afterCommit` for the wake-up | separate |
 
 ## 13. Open questions
 

@@ -99,24 +99,22 @@ public final class pro/vlprojects/semantic/delivery/outbox/OutboxDispatcher {
 
 public final class pro/vlprojects/semantic/delivery/outbox/OutboxProperties {
 	public fun <init> ()V
-	public fun <init> (Lpro/vlprojects/semantic/delivery/outbox/OutboxStalenessProperties;ILpro/vlprojects/semantic/resilience/backoff/Backoff;Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;ILpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingProperties;Lpro/vlprojects/semantic/delivery/outbox/logging/OutboxLoggingProperties;)V
-	public synthetic fun <init> (Lpro/vlprojects/semantic/delivery/outbox/OutboxStalenessProperties;ILpro/vlprojects/semantic/resilience/backoff/Backoff;Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;ILpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingProperties;Lpro/vlprojects/semantic/delivery/outbox/logging/OutboxLoggingProperties;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Lpro/vlprojects/semantic/delivery/outbox/OutboxStalenessProperties;ILpro/vlprojects/semantic/resilience/backoff/Backoff;Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;ILpro/vlprojects/semantic/delivery/outbox/logging/OutboxLoggingProperties;)V
+	public synthetic fun <init> (Lpro/vlprojects/semantic/delivery/outbox/OutboxStalenessProperties;ILpro/vlprojects/semantic/resilience/backoff/Backoff;Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;ILpro/vlprojects/semantic/delivery/outbox/logging/OutboxLoggingProperties;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Lpro/vlprojects/semantic/delivery/outbox/OutboxStalenessProperties;
 	public final fun component2 ()I
 	public final fun component3 ()Lpro/vlprojects/semantic/resilience/backoff/Backoff;
 	public final fun component4 ()Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;
 	public final fun component5 ()I
-	public final fun component6 ()Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingProperties;
-	public final fun component7 ()Lpro/vlprojects/semantic/delivery/outbox/logging/OutboxLoggingProperties;
-	public final fun copy (Lpro/vlprojects/semantic/delivery/outbox/OutboxStalenessProperties;ILpro/vlprojects/semantic/resilience/backoff/Backoff;Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;ILpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingProperties;Lpro/vlprojects/semantic/delivery/outbox/logging/OutboxLoggingProperties;)Lpro/vlprojects/semantic/delivery/outbox/OutboxProperties;
-	public static synthetic fun copy$default (Lpro/vlprojects/semantic/delivery/outbox/OutboxProperties;Lpro/vlprojects/semantic/delivery/outbox/OutboxStalenessProperties;ILpro/vlprojects/semantic/resilience/backoff/Backoff;Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;ILpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingProperties;Lpro/vlprojects/semantic/delivery/outbox/logging/OutboxLoggingProperties;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/OutboxProperties;
+	public final fun component6 ()Lpro/vlprojects/semantic/delivery/outbox/logging/OutboxLoggingProperties;
+	public final fun copy (Lpro/vlprojects/semantic/delivery/outbox/OutboxStalenessProperties;ILpro/vlprojects/semantic/resilience/backoff/Backoff;Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;ILpro/vlprojects/semantic/delivery/outbox/logging/OutboxLoggingProperties;)Lpro/vlprojects/semantic/delivery/outbox/OutboxProperties;
+	public static synthetic fun copy$default (Lpro/vlprojects/semantic/delivery/outbox/OutboxProperties;Lpro/vlprojects/semantic/delivery/outbox/OutboxStalenessProperties;ILpro/vlprojects/semantic/resilience/backoff/Backoff;Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;ILpro/vlprojects/semantic/delivery/outbox/logging/OutboxLoggingProperties;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/OutboxProperties;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBackoff ()Lpro/vlprojects/semantic/resilience/backoff/Backoff;
 	public final fun getBatchSize ()I
 	public final fun getErrorPolicy ()Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;
 	public final fun getLogging ()Lpro/vlprojects/semantic/delivery/outbox/logging/OutboxLoggingProperties;
 	public final fun getMaxAttempts ()I
-	public final fun getPolling ()Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingProperties;
 	public final fun getStaleness ()Lpro/vlprojects/semantic/delivery/outbox/OutboxStalenessProperties;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
@@ -358,19 +356,6 @@ public final class pro/vlprojects/semantic/delivery/outbox/polling/OutboxPolling
 
 public final class pro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingContext$Factory {
 	public final fun of (IILjava/time/Duration;)Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingContext;
-}
-
-public final class pro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingProperties {
-	public fun <init> ()V
-	public fun <init> (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy;)V
-	public synthetic fun <init> (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy;
-	public final fun copy (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy;)Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingProperties;
-	public static synthetic fun copy$default (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingProperties;Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingProperties;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getStrategy ()Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public abstract interface class pro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy {
