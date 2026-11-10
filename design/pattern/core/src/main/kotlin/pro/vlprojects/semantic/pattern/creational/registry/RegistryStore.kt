@@ -10,5 +10,7 @@ public interface RegistryStore<T : Any> {
 
     public fun getAndRemove(name: String): T?
 
+    public fun getAndRemoveAll(): Collection<T>
+
     public fun getAll(): Collection<T>
 }

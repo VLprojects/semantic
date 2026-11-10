@@ -8,11 +8,11 @@ import pro.vlprojects.semantic.pattern.creational.registry.Registry
 import pro.vlprojects.semantic.pattern.creational.registry.error.InstanceRegistrationException
 
 public abstract class AbstractRegistrar<D : Factory.Definition, T : Any>(
-    factories: List<Factory<*, T>>,
+    factories: List<Factory<out D, T>>,
 ) : Registrar<T> {
 
     private val factories = factories
-        .groupBy(Factory<*, T>::definitionType)
+        .groupBy(Factory<out D, T>::definitionType)
         .mapValues { (definitionType, candidates) ->
             candidates
                 .singleOrNull()
