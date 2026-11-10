@@ -6,7 +6,7 @@ never exceeded. `@RateLimit` puts the same limit on any method of a bean. The al
 "System Design Interview", volume 1. Storage sits behind an interface: memory by default, Redis for
 a counter shared by all instances, and any other store that can compare a version.
 
-This is the agreed design; only the `core` module exists so far, and it is empty.
+This is the agreed design; only the `core` module exists so far, and it holds the contract only.
 
 ![Modules of traffic and what each one holds](../../../docs/assets/traffic-light.svg#gh-light-mode-only)
 ![Modules of traffic and what each one holds](../../../docs/assets/traffic-dark.svg#gh-dark-mode-only)
@@ -38,10 +38,11 @@ requests, after Netflix concurrency-limits, gets a design of its own later.
 
 | Abstraction | What it does | What it does not do | After |
 | --- | --- | --- | --- |
-| `RateLimiter` | `tryAcquire(key, permits)` answers at once; the extension `acquire(key, permits, maxWait)` waits for a permit or throws `RateLimitExceededException` | knows neither the algorithm nor the storage | Guava `RateLimiter`, ASP.NET `RateLimiter` |
-| `DefaultRateLimiter` | reads the counter, asks the algorithm, saves the new state by version; on a conflict it repeats, up to `max-attempts` times; applies `on-failure` when storage fails | holds no formula | Bucket4j `AbstractCompareAndSwapBasedProxyManager` |
-| `RateLimitAlgorithm` | a sealed pure function: state, permits and time in, new state and decision out | reads no clock, touches no storage | Bucket4j `Bandwidth`, ASP.NET `TokenBucketRateLimiter` |
-| `RateLimitState` | the state of one algorithm, one subtype each; the core turns it into bytes and back | | Bucket4j `RemoteBucketState` |
+| `RateLimiter` | `tryAcquire(key, permits)` answers at once; the extension `acquire(key, permits, maxWait)` waits for a permit or throws `RateLimitExceededException` | knows neither the strategy nor the storage | Guava `RateLimiter`, ASP.NET `RateLimiter` |
+| `DefaultRateLimiter` | reads the counter, asks the strategy, saves the new state by version; on a conflict it repeats, up to `max-attempts` times; applies `on-failure` when storage fails | holds no formula | Bucket4j `AbstractCompareAndSwapBasedProxyManager` |
+| `RateLimitStrategy` | a sealed pure function: state, permits and time in, `RateLimitResult` out; one per algorithm | reads no clock, touches no storage | `limits.strategies` of Flask-Limiter, Bucket4j `Bandwidth` |
+| `RateLimitResult` | the new state and the response of one call | | Bucket4j `VerboseResult` |
+| `RateLimitState` | the state of one strategy, one subtype each; the core turns it into bytes and back | | Bucket4j `RemoteBucketState` |
 | `RateLimitCounter` | what storage keeps: key, state, version, `expiresAt` | | Spring Data `@Version` |
 | `RateLimitRepository` | `findByKey`, and `save` that throws `RateLimitOptimisticLockException` when the version has changed | decides nothing | Spring Data `CrudRepository`, `OutboxRepository` |
 | `InMemoryRateLimitRepository` | the default, on `ConcurrentHashMap.compute`; drops counters after `expiresAt` | is not shared by instances | Bucket4j `LockFreeBucket` |
@@ -56,7 +57,7 @@ requests, after Netflix concurrency-limits, gets a design of its own later.
 | `RateLimitRejectionHandler` | the answer to a rejected request; by default 429, `Retry-After` and a ProblemDetail | | ASP.NET `RateLimiterOptions.OnRejected` |
 | `RateLimitingInterceptor` | a `ClientHttpRequestInterceptor` for `RestClient`: waits for a permit up to `max-wait` | does not retry a 429 of the partner, that is retry's job | .NET `ClientSideRateLimitedHandler` |
 
-The algorithms are sealed because every storage has to save and restore the state of each of them.
+The strategies are sealed because every storage has to save and restore the state of each of them.
 A version instead of a lock works in any storage: `ConcurrentHashMap.compute` in memory, a Lua script
 in Redis, `UPDATE … WHERE version = ?` in JDBC.
 
@@ -186,11 +187,11 @@ semantic.traffic:
   headers: false               # RateLimit and RateLimit-Policy
   limiters:
     api:
-      algorithm: token-bucket  # token-bucket | leaky-bucket | fixed-window | sliding-window-log | sliding-window-counter
+      strategy: token-bucket   # token-bucket | leaky-bucket | fixed-window | sliding-window-log | sliding-window-counter
       permit-limit: 100
       window: 1m
     partner-acme:
-      algorithm: leaky-bucket
+      strategy: leaky-bucket
       permit-limit: 4
       window: 1s
   incoming:

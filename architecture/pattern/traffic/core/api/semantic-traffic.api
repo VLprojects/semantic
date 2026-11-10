@@ -1,0 +1,52 @@
+public final class pro/vlprojects/semantic/traffic/RateLimitResponse {
+	public static final field Factory Lpro/vlprojects/semantic/traffic/RateLimitResponse$Factory;
+	public final fun component1 ()Z
+	public final fun component2 ()Ljava/time/Duration;
+	public final fun component3 ()I
+	public final fun component4 ()Ljava/time/Duration;
+	public final fun component5 ()Ljava/time/Duration;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDelay ()Ljava/time/Duration;
+	public final fun getRemaining ()I
+	public final fun getResetAfter ()Ljava/time/Duration;
+	public final fun getRetryAfter ()Ljava/time/Duration;
+	public fun hashCode ()I
+	public final fun isAcquired ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/traffic/RateLimitResponse$Factory {
+	public final fun acquired (ILjava/time/Duration;)Lpro/vlprojects/semantic/traffic/RateLimitResponse;
+	public final fun rejected (ILjava/time/Duration;Ljava/time/Duration;)Lpro/vlprojects/semantic/traffic/RateLimitResponse;
+}
+
+public final class pro/vlprojects/semantic/traffic/RateLimitResult {
+	public static final field Factory Lpro/vlprojects/semantic/traffic/RateLimitResult$Factory;
+	public final fun component1 ()Lpro/vlprojects/semantic/traffic/RateLimitState;
+	public final fun component2 ()Lpro/vlprojects/semantic/traffic/RateLimitResponse;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getResponse ()Lpro/vlprojects/semantic/traffic/RateLimitResponse;
+	public final fun getState ()Lpro/vlprojects/semantic/traffic/RateLimitState;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/traffic/RateLimitResult$Factory {
+	public final fun of (Lpro/vlprojects/semantic/traffic/RateLimitState;Lpro/vlprojects/semantic/traffic/RateLimitResponse;)Lpro/vlprojects/semantic/traffic/RateLimitResult;
+}
+
+public abstract interface class pro/vlprojects/semantic/traffic/RateLimitState {
+}
+
+public abstract interface class pro/vlprojects/semantic/traffic/RateLimitStrategy {
+	public abstract fun getPermitLimit ()I
+	public abstract fun getWindow ()Ljava/time/Duration;
+	public abstract fun tryAcquire (Lpro/vlprojects/semantic/traffic/RateLimitState;ILjava/time/Instant;)Lpro/vlprojects/semantic/traffic/RateLimitResult;
+}
+
+public abstract interface class pro/vlprojects/semantic/traffic/RateLimiter {
+	public abstract fun getName ()Ljava/lang/String;
+	public abstract fun tryAcquire (Ljava/lang/String;I)Lpro/vlprojects/semantic/traffic/RateLimitResponse;
+	public static synthetic fun tryAcquire$default (Lpro/vlprojects/semantic/traffic/RateLimiter;Ljava/lang/String;IILjava/lang/Object;)Lpro/vlprojects/semantic/traffic/RateLimitResponse;
+}
+

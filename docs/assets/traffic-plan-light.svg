@@ -14,48 +14,57 @@
     <text x="800.0" y="112.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">after all</text>
     <rect x="40.0" y="132.0" width="216.0" height="52.0" rx="6" fill="#E3EFFF"/>
     <text x="52.0" y="154.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">1 · core</text>
-    <text x="52.0" y="172.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">contract, TokenBucket, memory</text>
+    <text x="52.0" y="172.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">the contract</text>
     <rect x="40.0" y="196.0" width="216.0" height="52.0" rx="6" fill="#E3EFFF"/>
     <text x="52.0" y="218.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">2 · core</text>
-    <text x="52.0" y="236.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">serialization of the state</text>
+    <text x="52.0" y="236.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">TokenBucket</text>
+    <rect x="40.0" y="260.0" width="216.0" height="52.0" rx="6" fill="#E3EFFF"/>
+    <text x="52.0" y="282.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">3 · core</text>
+    <text x="52.0" y="300.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">the counter in memory</text>
+    <rect x="40.0" y="324.0" width="216.0" height="52.0" rx="6" fill="#E3EFFF"/>
+    <text x="52.0" y="346.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">4 · core</text>
+    <text x="52.0" y="364.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">DefaultRateLimiter</text>
+    <rect x="40.0" y="388.0" width="216.0" height="52.0" rx="6" fill="#E3EFFF"/>
+    <text x="52.0" y="410.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">5 · core</text>
+    <text x="52.0" y="428.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">serialization of the state</text>
     <rect x="272.0" y="132.0" width="216.0" height="52.0" rx="6" fill="#E3EFFF"/>
-    <text x="284.0" y="154.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">3 · core</text>
-    <text x="284.0" y="172.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">FixedWindow</text>
+    <text x="284.0" y="154.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">6 · core</text>
+    <text x="284.0" y="172.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">acquire(maxWait)</text>
     <rect x="272.0" y="196.0" width="216.0" height="52.0" rx="6" fill="#E3EFFF"/>
-    <text x="284.0" y="218.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">4 · core</text>
-    <text x="284.0" y="236.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">SlidingWindowLog</text>
+    <text x="284.0" y="218.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">7 · core</text>
+    <text x="284.0" y="236.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">RateLimiterRegistry</text>
     <rect x="272.0" y="260.0" width="216.0" height="52.0" rx="6" fill="#E3EFFF"/>
-    <text x="284.0" y="282.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">5 · core</text>
-    <text x="284.0" y="300.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">SlidingWindowCounter</text>
-    <rect x="272.0" y="324.0" width="216.0" height="52.0" rx="6" fill="#E3EFFF"/>
-    <text x="284.0" y="346.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">6 · core</text>
-    <text x="284.0" y="364.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">LeakyBucket and delay</text>
+    <text x="284.0" y="282.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">8 · observability</text>
+    <text x="284.0" y="300.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">micrometer</text>
+    <rect x="272.0" y="324.0" width="216.0" height="52.0" rx="6" fill="#DDF7E7"/>
+    <text x="284.0" y="346.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">9 · spring/webmvc</text>
+    <text x="284.0" y="364.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">filter, 429, headers</text>
     <rect x="272.0" y="388.0" width="216.0" height="52.0" rx="6" fill="#E3EFFF"/>
-    <text x="284.0" y="410.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">7 · core</text>
-    <text x="284.0" y="428.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">acquire(maxWait)</text>
+    <text x="284.0" y="410.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">10 · core</text>
+    <text x="284.0" y="428.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">FixedWindow</text>
     <rect x="272.0" y="452.0" width="216.0" height="52.0" rx="6" fill="#E3EFFF"/>
-    <text x="284.0" y="474.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">8 · core</text>
-    <text x="284.0" y="492.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">RateLimiterRegistry</text>
+    <text x="284.0" y="474.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">11 · core</text>
+    <text x="284.0" y="492.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">SlidingWindowLog</text>
     <rect x="272.0" y="516.0" width="216.0" height="52.0" rx="6" fill="#E3EFFF"/>
-    <text x="284.0" y="538.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">9 · observability</text>
-    <text x="284.0" y="556.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">micrometer</text>
-    <rect x="272.0" y="580.0" width="216.0" height="52.0" rx="6" fill="#DDF7E7"/>
-    <text x="284.0" y="602.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">10 · spring/webmvc</text>
-    <text x="284.0" y="620.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">filter, 429, headers</text>
+    <text x="284.0" y="538.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">12 · core</text>
+    <text x="284.0" y="556.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">SlidingWindowCounter</text>
+    <rect x="272.0" y="580.0" width="216.0" height="52.0" rx="6" fill="#E3EFFF"/>
+    <text x="284.0" y="602.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">13 · core</text>
+    <text x="284.0" y="620.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">LeakyBucket and delay</text>
     <rect x="272.0" y="644.0" width="216.0" height="52.0" rx="6" fill="#DDF7E7"/>
-    <text x="284.0" y="666.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">11 · spring/data/redis</text>
+    <text x="284.0" y="666.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">14 · spring/data/redis</text>
     <text x="284.0" y="684.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">the shared counter</text>
     <rect x="504.0" y="132.0" width="216.0" height="52.0" rx="6" fill="#DDF7E7"/>
-    <text x="516.0" y="154.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">12 · spring/web</text>
+    <text x="516.0" y="154.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">15 · spring/web</text>
     <text x="516.0" y="172.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">RestClient interceptor</text>
     <rect x="504.0" y="196.0" width="216.0" height="52.0" rx="6" fill="#DDF7E7"/>
-    <text x="516.0" y="218.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">13 · spring/context</text>
+    <text x="516.0" y="218.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">16 · spring/context</text>
     <text x="516.0" y="236.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">@RateLimit and its proxy</text>
     <rect x="736.0" y="260.0" width="216.0" height="52.0" rx="6" fill="#FFEEDC"/>
-    <text x="748.0" y="282.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">14 · autoconfigure</text>
+    <text x="748.0" y="282.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">17 · autoconfigure</text>
     <text x="748.0" y="300.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8F4600" text-anchor="start">limits, rules, the proxy</text>
     <rect x="736.0" y="324.0" width="216.0" height="52.0" rx="6" fill="#FFEEDC"/>
-    <text x="748.0" y="346.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">15 · starter</text>
+    <text x="748.0" y="346.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">18 · starter</text>
     <text x="748.0" y="364.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8F4600" text-anchor="start">starter and starter/redis</text>
     <rect x="504.0" y="732.0" width="216.0" height="52.0" rx="6" fill="#F9FAFB"/>
     <rect x="504.8" y="732.8" width="214.5" height="50.5" rx="6" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-dasharray="2 3" stroke-linecap="round"/>
@@ -68,45 +77,54 @@
     <circle cx="64" cy="189" r="2" fill="#8B5CF6"/>
     <path d="M64,193 L61.5,188.0 L66.5,188.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
     <path d="M64,189 L64,188" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
-    <circle cx="261" cy="222.0" r="2" fill="#8B5CF6"/>
+    <circle cx="64" cy="253" r="2" fill="#8B5CF6"/>
+    <path d="M64,257 L61.5,252.0 L66.5,252.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M64,253 L64,252" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <circle cx="64" cy="317" r="2" fill="#8B5CF6"/>
+    <path d="M64,321 L61.5,316.0 L66.5,316.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M64,317 L64,316" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <circle cx="64" cy="381" r="2" fill="#8B5CF6"/>
+    <path d="M64,385 L61.5,380.0 L66.5,380.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M64,381 L64,380" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <circle cx="261" cy="158.0" r="2" fill="#8B5CF6"/>
     <path d="M269,158.0 L264.0,160.5 L264.0,155.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <path d="M261,222.0 L260,222.0 Q264,222.0 264,218.0 L264,162.0 Q264,158.0 268,158.0 L264,158.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
-    <circle cx="261" cy="222.0" r="2" fill="#8B5CF6"/>
+    <path d="M261,158.0 L264,158.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <circle cx="261" cy="158.0" r="2" fill="#8B5CF6"/>
     <path d="M269,222.0 L264.0,224.5 L264.0,219.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <path d="M261,222.0 L264,222.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
-    <circle cx="261" cy="222.0" r="2" fill="#8B5CF6"/>
+    <path d="M261,158.0 L260,158.0 Q264,158.0 264,162.0 L264,218.0 Q264,222.0 268,222.0 L264,222.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <circle cx="261" cy="158.0" r="2" fill="#8B5CF6"/>
     <path d="M269,286.0 L264.0,288.5 L264.0,283.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <path d="M261,222.0 L260,222.0 Q264,222.0 264,226.0 L264,282.0 Q264,286.0 268,286.0 L264,286.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
-    <circle cx="261" cy="222.0" r="2" fill="#8B5CF6"/>
+    <path d="M261,158.0 L260,158.0 Q264,158.0 264,162.0 L264,282.0 Q264,286.0 268,286.0 L264,286.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <circle cx="261" cy="158.0" r="2" fill="#8B5CF6"/>
     <path d="M269,350.0 L264.0,352.5 L264.0,347.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <path d="M261,222.0 L260,222.0 Q264,222.0 264,226.0 L264,346.0 Q264,350.0 268,350.0 L264,350.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
-    <circle cx="261" cy="222.0" r="2" fill="#8B5CF6"/>
+    <path d="M261,158.0 L260,158.0 Q264,158.0 264,162.0 L264,346.0 Q264,350.0 268,350.0 L264,350.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <circle cx="261" cy="414.0" r="2" fill="#8B5CF6"/>
     <path d="M269,414.0 L264.0,416.5 L264.0,411.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <path d="M261,222.0 L260,222.0 Q264,222.0 264,226.0 L264,410.0 Q264,414.0 268,414.0 L264,414.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
-    <circle cx="261" cy="222.0" r="2" fill="#8B5CF6"/>
+    <path d="M261,414.0 L264,414.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <circle cx="261" cy="414.0" r="2" fill="#8B5CF6"/>
     <path d="M269,478.0 L264.0,480.5 L264.0,475.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <path d="M261,222.0 L260,222.0 Q264,222.0 264,226.0 L264,474.0 Q264,478.0 268,478.0 L264,478.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
-    <circle cx="261" cy="222.0" r="2" fill="#8B5CF6"/>
+    <path d="M261,414.0 L260,414.0 Q264,414.0 264,418.0 L264,474.0 Q264,478.0 268,478.0 L264,478.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <circle cx="261" cy="414.0" r="2" fill="#8B5CF6"/>
     <path d="M269,542.0 L264.0,544.5 L264.0,539.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <path d="M261,222.0 L260,222.0 Q264,222.0 264,226.0 L264,538.0 Q264,542.0 268,542.0 L264,542.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
-    <circle cx="261" cy="222.0" r="2" fill="#8B5CF6"/>
+    <path d="M261,414.0 L260,414.0 Q264,414.0 264,418.0 L264,538.0 Q264,542.0 268,542.0 L264,542.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <circle cx="261" cy="414.0" r="2" fill="#8B5CF6"/>
     <path d="M269,606.0 L264.0,608.5 L264.0,603.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <path d="M261,222.0 L260,222.0 Q264,222.0 264,226.0 L264,602.0 Q264,606.0 268,606.0 L264,606.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
-    <circle cx="261" cy="222.0" r="2" fill="#8B5CF6"/>
+    <path d="M261,414.0 L260,414.0 Q264,414.0 264,418.0 L264,602.0 Q264,606.0 268,606.0 L264,606.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <circle cx="261" cy="414.0" r="2" fill="#8B5CF6"/>
     <path d="M269,670.0 L264.0,672.5 L264.0,667.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <path d="M261,222.0 L260,222.0 Q264,222.0 264,226.0 L264,666.0 Q264,670.0 268,670.0 L264,670.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
-    <circle cx="493" cy="414.0" r="2" fill="#8B5CF6"/>
+    <path d="M261,414.0 L260,414.0 Q264,414.0 264,418.0 L264,666.0 Q264,670.0 268,670.0 L264,670.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <circle cx="493" cy="158.0" r="2" fill="#8B5CF6"/>
     <path d="M501,158.0 L496.0,160.5 L496.0,155.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <path d="M493,414.0 L492,414.0 Q496,414.0 496,410.0 L496,162.0 Q496,158.0 500,158.0 L496,158.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
-    <circle cx="493" cy="414.0" r="2" fill="#8B5CF6"/>
+    <path d="M493,158.0 L496,158.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <circle cx="493" cy="158.0" r="2" fill="#8B5CF6"/>
     <path d="M501,222.0 L496.0,224.5 L496.0,219.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <path d="M493,414.0 L492,414.0 Q496,414.0 496,410.0 L496,226.0 Q496,222.0 500,222.0 L496,222.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
-    <circle cx="493" cy="478.0" r="2" fill="#8B5CF6"/>
+    <path d="M493,158.0 L492,158.0 Q496,158.0 496,162.0 L496,218.0 Q496,222.0 500,222.0 L496,222.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <circle cx="493" cy="222.0" r="2" fill="#8B5CF6"/>
     <path d="M501,222.0 L496.0,224.5 L496.0,219.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <path d="M493,478.0 L492,478.0 Q496,478.0 496,474.0 L496,226.0 Q496,222.0 500,222.0 L496,222.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
-    <circle cx="493" cy="606.0" r="2" fill="#8B5CF6"/>
+    <path d="M493,222.0 L496,222.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <circle cx="493" cy="350.0" r="2" fill="#8B5CF6"/>
     <path d="M733,286.0 L728.0,288.5 L728.0,283.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <path d="M493,606.0 L492,606.0 Q496,606.0 496,602.0 L496,290.0 Q496,286.0 500,286.0 L728,286.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <path d="M493,350.0 L492,350.0 Q496,350.0 496,346.0 L496,290.0 Q496,286.0 500,286.0 L728,286.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
     <circle cx="725" cy="158.0" r="2" fill="#8B5CF6"/>
     <path d="M733,286.0 L728.0,288.5 L728.0,283.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
     <path d="M725,158.0 L724,158.0 Q728,158.0 728,162.0 L728,282.0 Q728,286.0 732,286.0 L728,286.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
@@ -116,7 +134,7 @@
     <circle cx="760" cy="317" r="2" fill="#8B5CF6"/>
     <path d="M760,321 L757.5,316.0 L762.5,316.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
     <path d="M760,317 L760,316" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
-    <text x="40.0" y="816.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1F2328" text-anchor="start">3–6 add an algorithm and its format to the serialization of PR 2. 7–10 need only PR 1 and may start before PR 2.</text>
+    <text x="40.0" y="816.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1F2328" text-anchor="start">10–13 add a strategy and its format to the serialization of PR 5. 6–9 need only the contract of PR 1.</text>
     <text x="40.0" y="834.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">Shared files are settings.gradle.kts, docs/diagrams/traffic.py and the README: each PR adds a line, conflicts are settled on rebase.</text>
   </g>
 </svg>

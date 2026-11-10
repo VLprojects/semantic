@@ -23,7 +23,7 @@
     <text x="576.0" y="134.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="600" fill="#E6EDF3" text-anchor="middle">DefaultRateLimiter</text>
     <text x="576.0" y="152.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">the decision</text>
     <rect x="656.0" y="112.0" width="140.0" height="52.0" rx="6" fill="#29313C"/>
-    <text x="726.0" y="134.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="600" fill="#E6EDF3" text-anchor="middle">RateLimitAlgorithm</text>
+    <text x="726.0" y="134.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="600" fill="#E6EDF3" text-anchor="middle">RateLimitStrategy</text>
     <text x="726.0" y="152.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">a pure function</text>
     <rect x="804.0" y="112.0" width="152.0" height="52.0" rx="6" fill="#29313C"/>
     <text x="880.0" y="134.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="600" fill="#E6EDF3" text-anchor="middle">RateLimitRepository</text>
