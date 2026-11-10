@@ -40,8 +40,8 @@ A registrar takes a list of factories and keys each by the class of the definiti
 takes, read from its declaration `Factory<GreetingDefinition, String>`, as
 `GenericConversionService` of Spring reads the types of a `Converter`. A lookup is one
 access by the class of a definition, with no pass over the factories. The constructor of a
-registrar checks the list: a factory whose class does not resolve its definition, a lambda
-for one, throws `InvalidFactoryException`; two factories of one definition throw
+registrar checks the list: a factory whose class does not resolve its definition, a generic
+one for any definition, throws `InvalidFactoryException`; two factories of one definition throw
 `MultipleFactoriesException`. A definition with no factory of its exact class throws
 `FactoryNotFoundException` when it is made. The factories are dependencies of a
 registrar, not entries of a registry: their set is fixed when the application is assembled.

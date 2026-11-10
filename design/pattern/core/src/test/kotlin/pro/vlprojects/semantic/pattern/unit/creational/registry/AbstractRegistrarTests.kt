@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertInstanceOf
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import pro.vlprojects.semantic.pattern.creational.factory.Factory
 import pro.vlprojects.semantic.pattern.creational.factory.error.FactoryNotFoundException
 import pro.vlprojects.semantic.pattern.creational.factory.error.InvalidDefinitionException
 import pro.vlprojects.semantic.pattern.creational.factory.error.InvalidFactoryException
@@ -98,7 +97,7 @@ class AbstractRegistrarTests {
         assertThrows<InvalidFactoryException> {
             GreetingRegistrar(
                 definitions = emptyMap(),
-                factories = listOf(Factory<GreetingDefinition, String> { definition -> definition.text }),
+                factories = listOf(EchoFactory<GreetingDefinition>()),
             )
         }
     }
