@@ -39,6 +39,6 @@ public class OutboxDispatcher(
 
         router
             .determine(destination)
-            .forEach { it.send(outbox, destination) }
+            .forEach { deliverer -> deliverer.send(outbox, destination) }
     }
 }

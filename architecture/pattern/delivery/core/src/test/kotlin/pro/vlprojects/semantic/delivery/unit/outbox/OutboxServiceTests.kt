@@ -36,8 +36,8 @@ class OutboxServiceTests {
     private val contextCollector = listOf(keyProvider, attributeProvider).let(::ContextCollector)
     private val destination = object : DeliveryDestination {}
     private val serializedDestinations = mutableListOf<DeliveryDestination>()
-    private val destinationSerializer = DeliveryDestinationSerializer {
-        serializedDestinations += it
+    private val destinationSerializer = DeliveryDestinationSerializer { destination ->
+        serializedDestinations += destination
         "orders"
     }
     private val serialized = byteArrayOf(1)
@@ -48,7 +48,7 @@ class OutboxServiceTests {
 
         override fun save(outbox: Outbox) = outbox.also(savedOutboxes::add)
 
-        override fun findById(id: OutboxId) = lockedOutboxes.find { it.id == id }
+        override fun findById(id: OutboxId) = lockedOutboxes.find { outbox -> outbox.id == id }
 
         override fun lockScheduledForDelivery(
             scheduledUntil: Instant,
@@ -69,14 +69,14 @@ class OutboxServiceTests {
         lockDuration = lockDuration,
         maxAttempts = maxAttempts,
         backoff = backoff,
-    ).let {
+    ).let { config ->
         OutboxService(
             repository,
             serializer,
             contextCollector,
             destinationSerializer,
             { generatedId },
-            it,
+            config,
             clock,
         )
     }

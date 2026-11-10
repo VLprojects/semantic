@@ -39,7 +39,7 @@ class OutboxDispatcherTests {
     private val repository = object : OutboxRepository {
 
         override fun save(outbox: Outbox): Outbox {
-            saveFailures.removeFirstOrNull()?.let { throw it }
+            saveFailures.removeFirstOrNull()?.let { failure -> throw failure }
             savedStatuses += outbox.delivery.status
 
             return outbox
@@ -62,7 +62,7 @@ class OutboxDispatcherTests {
 
         override fun send(outbox: Outbox, destination: DeliveryDestination) {
             sent += outbox to destination
-            deliveryFailures.removeFirstOrNull()?.let { throw it }
+            deliveryFailures.removeFirstOrNull()?.let { failure -> throw failure }
         }
     }
 
@@ -80,7 +80,7 @@ class OutboxDispatcherTests {
 
     private val deserializer = DeliveryDestinationDeserializer { stored ->
         deserialized += stored
-        destinationFailures.removeFirstOrNull()?.let { throw it }
+        destinationFailures.removeFirstOrNull()?.let { failure -> throw failure }
 
         destination
     }
@@ -108,7 +108,7 @@ class OutboxDispatcherTests {
         dispatcher.dispatch()
 
         assertEquals(lockedOutboxes.map(Outbox::destination), deserialized)
-        assertEquals(lockedOutboxes.map { it to destination }, sent)
+        assertEquals(lockedOutboxes.map { outbox -> outbox to destination }, sent)
     }
 
     @Test

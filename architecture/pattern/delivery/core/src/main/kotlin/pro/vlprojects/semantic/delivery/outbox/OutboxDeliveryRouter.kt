@@ -9,8 +9,8 @@ public class OutboxDeliveryRouter(
 
     @Throws(OutboxRoutingException::class)
     public fun determine(destination: DeliveryDestination): List<OutboxDeliverer<DeliveryDestination>> = deliverers
-        .filter { it.supports(destination) }
-        .let { policy.select(destination, it) }
+        .filter { deliverer -> deliverer.supports(destination) }
+        .let { supported -> policy.select(destination, supported) }
         .map(::cast)
 
     // A selected deliverer either supports the destination or accepts any

@@ -10,7 +10,7 @@ public class Payload private constructor(
     override fun equals(other: Any?): Boolean =
         other is Payload && type == other.type && body.contentEquals(other.body)
 
-    override fun hashCode(): Int = body.contentHashCode().let { 31 * it + type.hashCode() }
+    override fun hashCode(): Int = body.contentHashCode().let { bodyHash -> 31 * bodyHash + type.hashCode() }
 
     public companion object Factory {
 
