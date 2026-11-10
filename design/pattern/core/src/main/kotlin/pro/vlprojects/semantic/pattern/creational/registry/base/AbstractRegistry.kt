@@ -1,11 +1,13 @@
-package pro.vlprojects.semantic.pattern.creational.registry
+package pro.vlprojects.semantic.pattern.creational.registry.base
 
+import pro.vlprojects.semantic.pattern.creational.registry.Registry
+import pro.vlprojects.semantic.pattern.creational.registry.RegistryStore
 import pro.vlprojects.semantic.pattern.creational.registry.error.InstanceAlreadyExistsException
 import pro.vlprojects.semantic.pattern.creational.registry.error.InstanceNotFoundException
 import pro.vlprojects.semantic.pattern.creational.registry.error.InvalidNameException
 
 public abstract class AbstractRegistry<T : Any>(
-    protected val store: RegistryStore<T>,
+    private val store: RegistryStore<T>,
 ) : Registry<T> {
 
     override fun find(name: String): T? = store.find(name)

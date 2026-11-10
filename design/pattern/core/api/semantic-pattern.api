@@ -1,19 +1,13 @@
+public abstract interface class pro/vlprojects/semantic/pattern/creational/factory/Definition {
+}
+
 public abstract interface class pro/vlprojects/semantic/pattern/creational/factory/Factory {
-	public abstract fun create (Ljava/lang/Object;)Ljava/lang/Object;
+	public abstract fun create (Lpro/vlprojects/semantic/pattern/creational/factory/Definition;)Ljava/lang/Object;
 }
 
 public class pro/vlprojects/semantic/pattern/creational/factory/error/InvalidDefinitionException : java/lang/IllegalArgumentException {
 	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-}
-
-public abstract class pro/vlprojects/semantic/pattern/creational/registry/AbstractRegistry : pro/vlprojects/semantic/pattern/creational/registry/Registry {
-	public fun <init> (Lpro/vlprojects/semantic/pattern/creational/registry/RegistryStore;)V
-	public fun find (Ljava/lang/String;)Ljava/lang/Object;
-	protected final fun getStore ()Lpro/vlprojects/semantic/pattern/creational/registry/RegistryStore;
-	public fun register (Ljava/lang/String;Ljava/lang/Object;)V
-	public fun replace (Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;
-	public fun unregister (Ljava/lang/String;)Ljava/lang/Object;
 }
 
 public final class pro/vlprojects/semantic/pattern/creational/registry/InMemoryRegistryStore : pro/vlprojects/semantic/pattern/creational/registry/RegistryStore {
@@ -42,6 +36,14 @@ public abstract interface class pro/vlprojects/semantic/pattern/creational/regis
 	public abstract fun putIfAbsent (Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;
 	public abstract fun remove (Ljava/lang/String;)Ljava/lang/Object;
 	public abstract fun replace (Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;
+}
+
+public abstract class pro/vlprojects/semantic/pattern/creational/registry/base/AbstractRegistry : pro/vlprojects/semantic/pattern/creational/registry/Registry {
+	public fun <init> (Lpro/vlprojects/semantic/pattern/creational/registry/RegistryStore;)V
+	public fun find (Ljava/lang/String;)Ljava/lang/Object;
+	public fun register (Ljava/lang/String;Ljava/lang/Object;)V
+	public fun replace (Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;
+	public fun unregister (Ljava/lang/String;)Ljava/lang/Object;
 }
 
 public final class pro/vlprojects/semantic/pattern/creational/registry/error/InstanceAlreadyExistsException : java/lang/IllegalStateException {

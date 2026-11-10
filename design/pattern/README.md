@@ -12,9 +12,10 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 
 | Package | What is there |
 | --- | --- |
-| `creational.registry` | `Registry`, named instances of one type that the whole application shares and manages at run time; `Registrar`, populates a registry at startup from one source; `RegistryStore`, keeps the instances of a registry; `AbstractRegistry` over a store and `InMemoryRegistryStore` |
+| `creational.registry` | `Registry`, named instances of one type that the whole application shares and manages at run time; `Registrar`, populates a registry at startup from one source; `RegistryStore`, keeps the instances of a registry; `InMemoryRegistryStore`, a store in memory |
+| `creational.registry.base` | `AbstractRegistry`, a registry over a store |
 | `creational.registry.error` | `InvalidNameException`, `InstanceAlreadyExistsException`, `InstanceNotFoundException` |
-| `creational.factory` | `Factory`, an instance made of its definition |
+| `creational.factory` | `Factory`, an instance made of its definition; `Definition`, the marker of a definition |
 | `creational.factory.error` | `InvalidDefinitionException` |
 
 `structural` and `behavioral` get packages when a pattern of them is needed.
@@ -31,7 +32,9 @@ Four roles, each with one reason to change:
 | `RegistryStore<T>` | keeps the instances of a registry: `find`, `putIfAbsent`, `replace`, `remove`, each atomic | checks no name, throws no exception of the contract | Resilience4j `RegistryStore`, `ConcurrentMap` of the JDK |
 
 A definition is the data an instance is made of, the delays of an exponential
-backoff for one; it carries no name, as a Spring `BeanDefinition` does not. The
+backoff for one; it carries no name, as a Spring `BeanDefinition` does not. It
+implements `Definition`, an empty interface that a factory is bound by and a module
+may extend, as Spring marks its callbacks with `Aware`. The
 factories are dependencies of a registrar, not entries of a registry: their set
 is fixed when the application is assembled.
 
