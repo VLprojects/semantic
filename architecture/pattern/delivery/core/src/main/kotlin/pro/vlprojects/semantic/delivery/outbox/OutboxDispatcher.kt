@@ -14,7 +14,7 @@ public class OutboxDispatcher(
         .size
 
     private fun deliver(outbox: Outbox) {
-        val failure = send(outbox)
+        val failure = catchDeliveryFailure(outbox)
 
         try {
             when (failure) {
@@ -26,8 +26,8 @@ public class OutboxDispatcher(
         }
     }
 
-    private fun send(outbox: Outbox) = try {
-        router.send(outbox)
+    private fun catchDeliveryFailure(outbox: Outbox) = try {
+        router.deliver(outbox)
         null
     } catch (exception: Exception) {
         exception

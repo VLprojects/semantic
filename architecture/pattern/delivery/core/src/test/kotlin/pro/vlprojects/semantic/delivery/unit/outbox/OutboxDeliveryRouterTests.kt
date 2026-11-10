@@ -28,54 +28,54 @@ class OutboxDeliveryRouterTests {
     private val localDeliverer = LocalDeliverer()
 
     @Test
-    fun `send hands the outbox to the deliverer of the resolved destination`() {
+    fun `deliver hands the outbox to the deliverer of the resolved destination`() {
         val router = OutboxDeliveryRouter({ brokerDestination }, listOf(localDeliverer, brokerDeliverer))
 
-        router.send(outbox)
+        router.deliver(outbox)
 
         assertEquals(listOf(outbox to brokerDestination), brokerDeliverer.delivered)
         assertTrue(localDeliverer.delivered.isEmpty())
     }
 
     @Test
-    fun `send deserializes the destination stored in the outbox`() {
+    fun `deliver deserializes the destination stored in the outbox`() {
         val stored = mutableListOf<String>()
         val deserializer = DeliveryDestinationDeserializer { destination ->
             stored += destination
             brokerDestination
         }
 
-        OutboxDeliveryRouter(deserializer, listOf(brokerDeliverer)).send(outbox)
+        OutboxDeliveryRouter(deserializer, listOf(brokerDeliverer)).deliver(outbox)
 
         assertEquals(listOf(outbox.destination), stored)
     }
 
     @Test
-    fun `send fails when several deliverers support the destination`() {
+    fun `deliver fails when several deliverers support the destination`() {
         val router = OutboxDeliveryRouter({ brokerDestination }, listOf(brokerDeliverer, BrokerDeliverer()))
 
-        assertThrows(MultipleOutboxDeliverersException::class.java) { router.send(outbox) }
+        assertThrows(MultipleOutboxDeliverersException::class.java) { router.deliver(outbox) }
         assertTrue(brokerDeliverer.delivered.isEmpty())
     }
 
     @Test
-    fun `send fails when no deliverer supports the destination`() {
+    fun `deliver fails when no deliverer supports the destination`() {
         val router = OutboxDeliveryRouter({ brokerDestination }, listOf(localDeliverer))
 
-        assertThrows(OutboxDelivererNotResolvedException::class.java) { router.send(outbox) }
+        assertThrows(OutboxDelivererNotResolvedException::class.java) { router.deliver(outbox) }
     }
 
     @Test
-    fun `send sends the outbox only through the routes the policy selects`() {
+    fun `deliver sends the outbox only through the routes the policy selects`() {
         val policy = DeliveryRoutingPolicy { _, _ -> emptyList() }
 
-        OutboxDeliveryRouter({ brokerDestination }, listOf(brokerDeliverer), policy).send(outbox)
+        OutboxDeliveryRouter({ brokerDestination }, listOf(brokerDeliverer), policy).deliver(outbox)
 
         assertTrue(brokerDeliverer.delivered.isEmpty())
     }
 
     @Test
-    fun `send sends the outbox through every selected route`() {
+    fun `deliver sends the outbox through every selected route`() {
         val second = BrokerDeliverer()
         val router = OutboxDeliveryRouter(
             { brokerDestination },
@@ -83,14 +83,14 @@ class OutboxDeliveryRouterTests {
             BroadcastDeliveryRoutingPolicy(),
         )
 
-        router.send(outbox)
+        router.deliver(outbox)
 
         assertEquals(1, brokerDeliverer.delivered.size)
         assertEquals(1, second.delivered.size)
     }
 
     @Test
-    fun `send hands an unsupported destination to the fallback deliverer`() {
+    fun `deliver hands an unsupported destination to the fallback deliverer`() {
         val delivered = mutableListOf<DeliveryDestination>()
         val fallback = object : OutboxDeliverer<DeliveryDestination> {
 
@@ -102,13 +102,13 @@ class OutboxDeliveryRouterTests {
         }
         val policy = FallbackDeliveryRoutingPolicy(fallback)
 
-        OutboxDeliveryRouter({ brokerDestination }, listOf(localDeliverer), policy).send(outbox)
+        OutboxDeliveryRouter({ brokerDestination }, listOf(localDeliverer), policy).deliver(outbox)
 
         assertEquals(listOf<DeliveryDestination>(brokerDestination), delivered)
     }
 
     @Test
-    fun `send propagates the failure of the deliverer`() {
+    fun `deliver propagates the failure of the deliverer`() {
         val failure = OutboxDeliveryException("refused")
         val deliverer = object : OutboxDeliverer<BrokerDestination> {
 
@@ -118,7 +118,7 @@ class OutboxDeliveryRouterTests {
         }
         val router = OutboxDeliveryRouter({ brokerDestination }, listOf(deliverer))
 
-        assertSame(failure, assertThrows(OutboxDeliveryException::class.java) { router.send(outbox) })
+        assertSame(failure, assertThrows(OutboxDeliveryException::class.java) { router.deliver(outbox) })
     }
 
     private data class BrokerDestination(val exchange: String) : DeliveryDestination
