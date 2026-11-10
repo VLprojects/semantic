@@ -72,5 +72,5 @@ the later one replaces it on purpose: a bean from code overrides a setting by `r
 
 1. The contracts of `Registry`, `Registrar` and `Factory`.
 2. `InMemoryRegistry`: copy on write under a monitor.
-3. Events of a registry, an instance registered, replaced or unregistered, for metrics.
+3. Metrics of a registry, kept in step with its changes without events.
 4. A Spring Boot adapter: a registrar over settings, taken out of backoff.
