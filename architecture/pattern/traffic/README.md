@@ -2,7 +2,7 @@
 
 Rate limits for Kotlin and Java, applied the same way to incoming requests and to outgoing calls.
 Incoming requests over the limit get 429. Outgoing calls wait for a permit, so a partner's quota is
-never exceeded. The algorithms are the five from chapter 4, "Design a Rate Limiter", of Alex Xu's
+never exceeded. `@RateLimit` puts the same limit on any method of a bean. The algorithms are the five from chapter 4, "Design a Rate Limiter", of Alex Xu's
 "System Design Interview", volume 1. Storage sits behind an interface: memory by default, Redis for
 a counter shared by all instances, and any other store that can compare a version.
 
@@ -17,10 +17,11 @@ This is the agreed design; only the `core` module exists so far, and it is empty
 | --- | --- | --- |
 | `core` | `semantic-traffic` | the contract, the five algorithms, a counter in memory; free of Spring |
 | `observability/micrometer` | `semantic-traffic-observability-micrometer` | permits acquired and rejected, tagged by limiter name only |
+| `spring/context` | `semantic-traffic-spring-context` | `@RateLimit` on methods of beans: a proxy without AspectJ, the key in SpEL |
 | `spring/webmvc` | `semantic-traffic-spring-webmvc` | `RateLimitingFilter`: 429, `Retry-After`, `RateLimit` headers |
 | `spring/web` | `semantic-traffic-spring-web` | `RateLimitingInterceptor` for `RestClient` |
 | `spring/data/redis` | `semantic-traffic-spring-data-redis` | `RedisRateLimitRepository`: one counter for all instances |
-| `spring-boot/autoconfigure` | `semantic-traffic-spring-boot` | the `semantic.traffic` settings, limiters by name, the filter and the interceptor |
+| `spring-boot/autoconfigure` | `semantic-traffic-spring-boot` | the `semantic.traffic` settings, limiters by name, the filter, the interceptor and the proxy of `@RateLimit` |
 | `spring-boot/starter` | `semantic-traffic-spring-boot-starter` | one dependency, counters in memory |
 | `spring-boot/starter/redis` | `semantic-traffic-spring-boot-starter-redis` | one dependency, counters in Redis |
 
@@ -45,6 +46,11 @@ requests, after Netflix concurrency-limits, gets a design of its own later.
 | `RateLimitRepository` | `findByKey`, and `save` that throws `RateLimitOptimisticLockException` when the version has changed | decides nothing | Spring Data `CrudRepository`, `OutboxRepository` |
 | `InMemoryRateLimitRepository` | the default, on `ConcurrentHashMap.compute`; drops counters after `expiresAt` | is not shared by instances | Bucket4j `LockFreeBucket` |
 | `RateLimitResponse` | `isAcquired`, `delay`, `remaining`, `retryAfter`, `resetAfter` | | Bucket4j `ConsumptionProbe`, Envoy `RateLimitResponse` |
+| `RateLimiterRegistry` | `findByName(name)`: one limiter for the filter, the interceptor and `@RateLimit`; `InMemoryRateLimiterRegistry` by default | builds no limiter from settings, autoconfigure does | Resilience4j `RateLimiterRegistry`, Spring `CacheManager` |
+| `@RateLimit` | on a method or a class: `limiter`, `key` in SpEL, `permits`, `maxWait` as text such as `"500ms"` | counts nothing | Spring `@ConcurrencyLimit`, SmallRye `@RateLimit` |
+| `RateLimitBeanPostProcessor` | wraps a bean with `@RateLimit` in a proxy; an unknown limiter name stops the application at startup | needs no AspectJ | Spring `ConcurrencyLimitBeanPostProcessor`, `ScheduledAnnotationBeanPostProcessor` |
+| `RateLimitMethodInterceptor` | evaluates the key, calls `acquire`, then the method; throws `RateLimitExceededException` | | Spring `ConcurrencyLimitInterceptor`, the key of `@Cacheable` |
+| `@EnableRateLimiting` | turns the proxy on without Spring Boot; `order` places it among other proxies | | Spring `@EnableCaching`, `@EnableResilientMethods` |
 | `RateLimitingFilter` | a `OncePerRequestFilter`: picks the limit by path, the key from `KeyResolver`, calls `RateLimitRejectionHandler` on rejection | counts nothing | ASP.NET `RateLimitingMiddleware` |
 | `KeyResolver` | the key of a request: principal, remote address, a header | | Spring Cloud Gateway `KeyResolver` |
 | `RateLimitRejectionHandler` | the answer to a rejected request; by default 429, `Retry-After` and a ProblemDetail | | ASP.NET `RateLimiterOptions.OnRejected` |
@@ -97,6 +103,39 @@ IETF draft `draft-ietf-httpapi-ratelimit-headers`; they are off by default while
 would be longer than `max-wait`, it throws `RateLimitExceededException` at once and the call is not
 sent, as Guava `tryAcquire(timeout)` and Resilience4j `timeoutDuration` do.
 
+## A method of a bean
+
+![A call of a method with @RateLimit](../../../docs/assets/traffic-annotation-light.svg#gh-light-mode-only)
+![A call of a method with @RateLimit](../../../docs/assets/traffic-annotation-dark.svg#gh-dark-mode-only)
+
+`@RateLimit` limits any method of a bean, not only an HTTP request or a `RestClient` call: a message
+listener, a scheduled task, a client of a partner's SDK.
+
+```kotlin
+@Component
+class AcmeOrders(private val client: AcmeClient) {
+
+    @RateLimit("partner-acme", key = "#tenantId", maxWait = "500ms")
+    fun load(tenantId: String) = client.loadOrders(tenantId)
+}
+```
+
+`RateLimitBeanPostProcessor` wraps the bean in a proxy as Spring 7 does for `@ConcurrencyLimit` and
+`@Retryable`, with an `AnnotationMatchingPointcut` and no AspectJ. `RateLimitMethodInterceptor` takes the
+limiter from `RateLimiterRegistry`, evaluates `key` as `@Cacheable` evaluates its key, and calls
+`acquire(key, permits, maxWait)`. Without `key` the limiter keeps one counter. Without `maxWait` the call
+does not wait: it either gets a permit at once or fails.
+
+A rejection is `RateLimitExceededException` with `retryAfter`. On a controller method `spring/webmvc` turns
+it into the same 429 as the filter does, through `RateLimitRejectionHandler`. Elsewhere it reaches the caller.
+
+- The proxy is applied before the proxy of `@Retryable`, so the retry wraps the limit and every attempt
+  takes a permit: a partner counts every attempt. `@EnableRateLimiting(order = …)` changes the place.
+- An unknown limiter name stops the application at startup, as an invalid `@Scheduled` does, and not at
+  the first call.
+- A call from inside the same bean skips the proxy, as with `@Transactional`.
+- `suspend` functions and reactive return types are not supported until a service needs them.
+
 ## A counter for several instances
 
 ![Two instances writing one counter by version](../../../docs/assets/traffic-shared-light.svg#gh-light-mode-only)
@@ -114,6 +153,7 @@ is full again; then storage drops it, by `PX` in Redis.
 | --- | --- | --- |
 | storage is down | the call goes through with a WARN and without `RateLimit` headers; `reject` turns it down | `on-failure: allow`, as Spring Cloud Gateway |
 | version conflicts in a row | after `max-attempts` the same rule as a failure | `max-attempts: 8` |
+| `@RateLimit` names an unknown limiter | the application does not start | |
 | a key is no longer used | the counter is removed after `expiresAt` | |
 | the process restarts | a counter in memory starts over; one in Redis stays | |
 | clocks of instances differ | time comes from the `java.time.Clock` of the calling instance, so a skew of N ms moves a shared limit by N ms; documented, not corrected | |
@@ -133,8 +173,10 @@ limiter.tryAcquire(key)
     ?: return tooManyRequests()
 ```
 
-In Spring the starter creates a limiter per entry of `limiters`, the filter for `incoming`, the
-interceptor for `outgoing`, and picks Redis when `starter/redis` is on the classpath:
+In Spring the starter creates a limiter per entry of `limiters` and puts it into `RateLimiterRegistry`,
+creates the filter for `incoming`, the interceptor for `outgoing` and `RateLimitBeanPostProcessor` for
+`@RateLimit`, and picks Redis when `starter/redis` is on the classpath. Without Spring Boot,
+`@EnableRateLimiting` and a `RateLimiterRegistry` bean are enough for `@RateLimit`:
 
 ```yaml
 semantic.traffic:
@@ -168,5 +210,5 @@ Limiters are named as Resilience4j instances are (`resilience4j.ratelimiter.inst
 ![What can be replaced without touching the rest](../../../docs/assets/traffic-extensions-dark.svg#gh-dark-mode-only)
 
 Metrics carry the limiter name and never the key, so their cardinality stays bounded, as in
-Resilience4j `TaggedRateLimiterMetrics`. WebFlux, an actuator endpoint and an annotation on a method
-are not built until a service needs them.
+Resilience4j `TaggedRateLimiterMetrics`. WebFlux, an actuator endpoint and `@RateLimit` on `suspend`
+and reactive methods are not built until a service needs them.
