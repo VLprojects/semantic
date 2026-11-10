@@ -70,9 +70,10 @@ registry.getOrDefault("inventory") // the default block for a name with no setti
 registry.default
 ```
 
-The key of a block names its type, and the fields under it bind to the config class of the `BackoffFactory`
-bean with that type. `fixed` takes `delay` (`1s`) and `exponential` takes `initial-delay` (`1s`), `delay-limit`
-(`1m`) and `multiplier` (`2`). `jitter` belongs to every type.
+The key of a block names its type: the name of a `BackoffFactory` bean without the `BackoffFactory` suffix. The
+fields under the key bind to the config class the factory gives as its type argument. `fixed` takes `delay`
+(`1s`) and `exponential` takes `initial-delay` (`1s`), `delay-limit` (`1m`) and `multiplier` (`2`). `jitter`
+belongs to every type.
 
 With nothing set, the type is `exponential` and there is no jitter. An instance without a type takes the type
 of `default` with its fields; with the same type it takes the fields it leaves out from `default`; with another
@@ -83,15 +84,12 @@ Names follow relaxed binding. An environment variable drops the hyphens of a nam
 `SEMANTIC_RESILIENCE_BACKOFF_INSTANCES_ORDEREVENTS_FIXED_DELAY` sets `order-events`; the instance keeps the name
 written in `application.yml`.
 
-To add an algorithm, declare a `BackoffFactory` bean with its own `type` and config class:
+To add an algorithm, declare a `BackoffFactory` bean: `linearBackoffFactory` gives the type `linear`, and a bean
+named `fixedBackoffFactory` replaces the built-in `fixed`.
 
 ```kotlin
 @Component
 class LinearBackoffFactory : BackoffFactory<LinearBackoffFactory.Config> {
-
-    override val type = "linear"
-
-    override val configClass = Config::class.java
 
     override fun create(config: Config) = LinearBackoff(config.step)
 
@@ -110,5 +108,5 @@ named `default` replaces the default block. To change the registry from code, de
 
 Wrong settings stop the application at start with the name of the instance, even when a bean replaces it: an
 unknown type or field, two types in one block, a value where a block is expected, a value that cannot be
-converted or that the `Backoff` being built refuses. An instance named `default` and two factories of one `type`
-stop it as well.
+converted or that the `Backoff` being built refuses. An instance named `default`, two factory beans that give one
+type and a factory without a concrete config class stop it as well.

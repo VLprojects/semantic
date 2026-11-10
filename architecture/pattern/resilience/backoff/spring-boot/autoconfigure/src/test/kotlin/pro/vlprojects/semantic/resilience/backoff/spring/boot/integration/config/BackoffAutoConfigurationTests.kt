@@ -146,6 +146,16 @@ class BackoffAutoConfigurationTests {
     }
 
     @Test
+    fun `a factory bean with the name of a built-in one replaces its algorithm`() {
+        runner
+            .withUserConfiguration(FixedBackoffFactoryConfiguration::class.java)
+            .withPropertyValues("$PREFIX.instances.orders.fixed=")
+            .run { context ->
+                assertEquals(Duration.ofSeconds(4), context.getRegistry()["orders"].calculate(1))
+            }
+    }
+
+    @Test
     fun `an unknown field stops the start`() {
         runner
             .withPropertyValues("$PREFIX.instances.payments.fixed.delya=5s")
@@ -262,15 +272,18 @@ class BackoffAutoConfigurationTests {
         fun onceBackoffFactory() = OnceBackoffFactory()
     }
 
+    @Configuration(proxyBeanMethods = false)
+    class FixedBackoffFactoryConfiguration {
+
+        @Bean
+        fun fixedBackoffFactory() = OnceBackoffFactory()
+    }
+
     class OnceBackoffFactory : BackoffFactory<OnceBackoffFactory.Config> {
-
-        override val type = "once"
-
-        override val configClass = Config::class.java
 
         override fun create(config: Config) = FixedBackoff(config.delay)
 
-        data class Config(val delay: Duration = Duration.ofSeconds(1))
+        data class Config(val delay: Duration = Duration.ofSeconds(4))
     }
 
     private companion object {

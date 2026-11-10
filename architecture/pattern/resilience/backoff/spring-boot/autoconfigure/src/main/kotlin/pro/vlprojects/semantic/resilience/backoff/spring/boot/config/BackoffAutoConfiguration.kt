@@ -11,22 +11,26 @@ import pro.vlprojects.semantic.resilience.backoff.spring.boot.factory.BackoffFac
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.factory.ExponentialBackoffFactory
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.factory.FixedBackoffFactory
 
+private const val FIXED_BACKOFF_FACTORY_BEAN_NAME = "fixedBackoffFactory"
+private const val EXPONENTIAL_BACKOFF_FACTORY_BEAN_NAME = "exponentialBackoffFactory"
+
 @AutoConfiguration
 public class BackoffAutoConfiguration {
 
-    @Bean
-    @ConditionalOnMissingBean
+    // The bean name gives the type, so an application bean of that name replaces the algorithm.
+    @Bean(FIXED_BACKOFF_FACTORY_BEAN_NAME)
+    @ConditionalOnMissingBean(name = [FIXED_BACKOFF_FACTORY_BEAN_NAME])
     public fun fixedBackoffFactory(): FixedBackoffFactory = FixedBackoffFactory()
 
-    @Bean
-    @ConditionalOnMissingBean
+    @Bean(EXPONENTIAL_BACKOFF_FACTORY_BEAN_NAME)
+    @ConditionalOnMissingBean(name = [EXPONENTIAL_BACKOFF_FACTORY_BEAN_NAME])
     public fun exponentialBackoffFactory(): ExponentialBackoffFactory = ExponentialBackoffFactory()
 
     @Bean
     @ConditionalOnMissingBean
     public fun backoffRegistry(
         environment: Environment,
-        factories: List<BackoffFactory<*>>,
+        factories: Map<String, BackoffFactory<*>>,
         backoffs: Map<String, Backoff>,
         customizers: ObjectProvider<BackoffRegistryCustomizer>,
     ): BackoffRegistry {
