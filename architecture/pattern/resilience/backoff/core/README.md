@@ -49,20 +49,18 @@ to a custom `BackOff`, so set `maxAttempts` there and in the error handler of Sp
 ```yaml
 semantic.resilience.backoff:
   default:
-    type: exponential
-    args:
+    exponential:
       initial-delay: 1s
       delay-limit: 1m
       multiplier: 2
     jitter: 0.5
   instances:
     payments:
-      type: fixed
-      args:
+      fixed:
         delay: 5s
       jitter: 0.3
     orders:
-      args:
+      exponential:
         initial-delay: 200ms
 ```
 
@@ -72,19 +70,40 @@ registry.getOrDefault("inventory") // the default block for a name with no setti
 registry.default
 ```
 
-`type` picks a `BackoffFactory` bean and `args` bind to its config class. `fixed` takes `delay` (`1s`) and
-`exponential` takes `initial-delay` (`1s`), `delay-limit` (`1m`) and `multiplier` (`2`). To add an algorithm,
-declare a `BackoffFactory` bean with its own `type`.
+The key of a block names its type, and the fields under it bind to the config class of the `BackoffFactory`
+bean with that type. `fixed` takes `delay` (`1s`) and `exponential` takes `initial-delay` (`1s`), `delay-limit`
+(`1m`) and `multiplier` (`2`). `jitter` belongs to every type.
 
-With nothing set, `type` is `exponential` and there is no jitter. An instance takes `type` and `jitter` from
-`default` when it leaves them out, and the `args` of `default` when its type is the same as the type of
-`default`. `jitter: 0` on an instance turns off the jitter of `default`.
+With nothing set, the type is `exponential` and there is no jitter. An instance without a type takes the type
+of `default` with its fields; with the same type it takes the fields it leaves out from `default`; with another
+type it keeps the defaults of that type. `jitter` comes from `default` unless the instance sets it, and
+`jitter: 0` turns it off.
+
+To add an algorithm, declare a `BackoffFactory` bean with its own `type` and config class:
+
+```kotlin
+@Component
+class LinearBackoffFactory : BackoffFactory<LinearBackoffFactory.Config> {
+
+    override val type = "linear"
+
+    override val configClass = Config::class.java
+
+    override fun create(config: Config) = LinearBackoff(config.step)
+
+    data class Config(val step: Duration = Duration.ofSeconds(1))
+}
+```
+
+```yaml
+semantic.resilience.backoff.instances.reports.linear.step: 2s
+```
 
 Any `Backoff` bean is available by its bean name and replaces the settings of an instance with that name; a bean
 named `default` replaces the default block. To change the registry from code, declare a
 `BackoffRegistryCustomizer` bean: it gets the filled registry, settings and beans alike, and may go through
 `names`, `register` and `replace`. Customizers run in `@Order`.
 
-Wrong settings stop the application at start, with the name of the instance, even when a bean replaces it: an
-unknown `type` or arg, a value that cannot be converted or that the `Backoff` being built refuses. An instance
-named `default`, two factories of one `type` and an unknown field outside `args` stop it as well.
+Wrong settings stop the application at start with the name of the instance, even when a bean replaces it: an
+unknown type or field, two types in one block, a value that cannot be converted or that the `Backoff` being
+built refuses. An instance named `default` and two factories of one `type` stop it as well.
