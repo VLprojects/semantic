@@ -79,6 +79,10 @@ of `default` with its fields; with the same type it takes the fields it leaves o
 type it keeps the defaults of that type. `jitter` comes from `default` unless the instance sets it, and
 `jitter: 0` turns it off.
 
+Names follow relaxed binding. An environment variable drops the hyphens of a name, so
+`SEMANTIC_RESILIENCE_BACKOFF_INSTANCES_ORDEREVENTS_FIXED_DELAY` sets `order-events`; the instance keeps the name
+written in `application.yml`.
+
 To add an algorithm, declare a `BackoffFactory` bean with its own `type` and config class:
 
 ```kotlin
@@ -105,5 +109,5 @@ named `default` replaces the default block. To change the registry from code, de
 `names`, `register` and `replace`. Customizers run in `@Order`.
 
 Wrong settings stop the application at start with the name of the instance, even when a bean replaces it: an
-unknown type or field, two types in one block, a value that cannot be converted or that the `Backoff` being
-built refuses. An instance named `default` and two factories of one `type` stop it as well.
+unknown type or field, two types in one block, a value where a block is expected, a value that cannot be
+converted or that the `Backoff` being built refuses. An instance named `default` and two factories of one `type` stop it as well.
