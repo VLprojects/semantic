@@ -63,6 +63,8 @@ def duties(pal):
 		("where to keep the counter", "find by key, save with a version check", "blue", "RateLimitRepository"),
 		("lose no update in a race", "on a version conflict, read again and count again", "blue", "DefaultRateLimiter"),
 		("wait for a permit before an outgoing call", "wait no longer than maxWait, otherwise throw", "blue", "RateLimiter.acquire"),
+		("find a limiter by its name", "one limiter for a filter, an interceptor and an annotation", "blue", "RateLimiterRegistry"),
+		("limit a method of a bean", "a proxy takes a permit before the call, the key from SpEL", "green", "@RateLimit"),
 		("whose request it is", "return a key for a request: client, tenant, IP", "green", "KeyResolver"),
 		("how to reject", "429, Retry-After, RateLimit headers", "green", "RateLimitRejectionHandler"),
 		("which limits and where", "limits by name from application.yaml", "amber", "TrafficProperties"),
@@ -406,6 +408,39 @@ def outgoing(pal):
 	return finish(a, y + 38)
 
 
+# ---------------------------------------------------------------- 5a. annotation
+def annotation(pal):
+	a = start(pal, "A method with @RateLimit", "spring/context: a proxy before the method; the limiter comes by name, the key from SpEL")
+	gap = 32
+	w = (R - L - 2 * gap) / 3
+	y, h = 112, 112
+	flow_card(a, L, y, w, h, "green", "@RateLimit", [" limiter = \"partner-acme\"", " key = \"#tenantId\"", " maxWait = \"500ms\""])
+	flow_card(a, L + w + gap, y, w, h, "green", "RateLimitMethodInterceptor", ["a proxy made by", "RateLimitBeanPostProcessor;", "SpEL turns #tenantId into t-42"])
+	flow_card(a, L + 2 * (w + gap), y, w, h, "blue", "RateLimiter", [" acquire(\"t-42\", 1, 500ms)", "found by name in", "RateLimiterRegistry"])
+	a.harrow(L + w + 6, y + h / 2, L + w + gap - 6)
+	a.harrow(L + 2 * w + gap + 6, y + h / 2, L + 2 * (w + gap) - 6)
+	y2, h2 = y + h + 48, 152
+	half = (R - L - gap) / 2
+	a.t(L, y2 - 12, "acquired", size=13, color="ink", weight="500")
+	a.t(L + half + gap, y2 - 12, "rejected", size=13, color="ink", weight="500")
+	ok = [("the method runs", False), ("one permit of t-42 is taken", False), ("", False), ("the proxy returns what the method returned", False)]
+	no = [("RateLimitExceededException", True), ("retryAfter = PT0.75S", True), ("", False),
+		("from a controller: 429 and Retry-After, by spring/webmvc", False), ("elsewhere: the caller gets the exception", False)]
+	for x, hue, rows in ((L, "green", ok), (L + half + gap, "red", no)):
+		a.rect(x, y2, half, h2, "card", r=6)
+		a.rect(x, y2, 4, h2, hue, r=2)
+		for i, (text, mono) in enumerate(rows):
+			assert fits(text, half - 40, 12), text
+			a.t(x + 20, y2 + 28 + i * 24, text, size=12, color="ink" if i == 0 else "soft", mono=mono)
+	sx = L + 2 * (w + gap) + w / 2
+	a.path(f"M{sx},{y + h + 6} L{sx},{y + h + 20} L{L + half / 2},{y + h + 20} L{L + half / 2},{y2 - 28}")
+	a.path(f"M{sx},{y + h + 20} L{L + half + gap + half / 2},{y + h + 20} L{L + half + gap + half / 2},{y2 - 28}")
+	bottom = y2 + h2 + 28
+	a.t(L, bottom, "A call from inside the same bean skips the proxy, as with @Transactional. An unknown limiter name stops the application at startup.", size=12)
+	a.t(L, bottom + 18, "The proxy is applied before the one of @Retryable, so the retry wraps it and every attempt takes a permit.", size=12)
+	return finish(a, bottom + 18)
+
+
 # ---------------------------------------------------------------- 6. shared counter
 def pointer(a, x1, y1, x2, y2, color="line", label=None):
 	a.path(f"M{x1},{y1} L{x2 + 10},{y2}", color=color, width=1.5)
@@ -526,6 +561,8 @@ def wiring(pal):
 			("green", "RateLimitingFilter", "rules by path from the settings")),
 		("outgoing", ("blue", "limiter.acquire(key, maxWait = …)", "before a call to a partner"),
 			("green", "RateLimitingInterceptor", "in RestClient.Builder by limit name")),
+		("a method", ("blue", "registry.findByName(\"partner-acme\")", "then acquire around the call, by hand"),
+			("green", "@RateLimit(\"partner-acme\")", "a proxy from the post-processor")),
 	]
 	y, h = head + 20, 76
 	for label, left, right in rows:
@@ -574,8 +611,14 @@ def extensions(pal):
 			("green", "remote address", "the client IP", False),
 			("green", "header", "X-Tenant-Id", False),
 			("ghost", "a lambda", "in the application code", False)]),
+		("method", "@RateLimit", "the key of a method call is a SpEL expression", [
+			("green", "#tenantId", "a parameter", True),
+			("green", "#order.customerId", "a property of a parameter", True),
+			("green", "@tenants.current()", "a bean", True),
+			("ghost", "no key", "one counter for the limiter", False)]),
 		("rejected", "RateLimitRejectionHandler", "fun interface: what to answer", [
 			("green", "ProblemDetail", "429 after RFC 9457", False),
+			("green", "RateLimitExceededException", "of @RateLimit, 429 as well", True),
 			("ghost", "your own", "another response format", False)]),
 	]
 	y = 112
@@ -612,12 +655,14 @@ def plan(pal):
 		5: (1, 2, "blue", "5 · core", "SlidingWindowCounter"),
 		6: (1, 3, "blue", "6 · core", "LeakyBucket and delay"),
 		7: (1, 4, "blue", "7 · core", "acquire(maxWait)"),
-		8: (1, 5, "blue", "8 · observability", "micrometer"),
-		9: (1, 6, "green", "9 · spring/webmvc", "filter, 429, headers"),
-		10: (1, 7, "green", "10 · spring/data/redis", "the shared counter"),
-		11: (2, 0, "green", "11 · spring/web", "RestClient interceptor"),
-		12: (3, 0, "amber", "12 · autoconfigure", "limits and rules from yaml"),
-		13: (3, 1, "amber", "13 · starter", "starter and starter/redis"),
+		8: (1, 5, "blue", "8 · core", "RateLimiterRegistry"),
+		9: (1, 6, "blue", "9 · observability", "micrometer"),
+		10: (1, 7, "green", "10 · spring/webmvc", "filter, 429, headers"),
+		11: (1, 8, "green", "11 · spring/data/redis", "the shared counter"),
+		12: (2, 0, "green", "12 · spring/web", "RestClient interceptor"),
+		13: (2, 1, "green", "13 · spring/context", "@RateLimit and its proxy"),
+		14: (3, 2, "amber", "14 · autoconfigure", "limits, rules, the proxy"),
+		15: (3, 3, "amber", "15 · starter", "starter and starter/redis"),
 	}
 	pos = {}
 	for k, (col, row, hue, name, note) in cards.items():
@@ -626,7 +671,7 @@ def plan(pal):
 		a.rect(x, y, cw, ch, hue + "-plate", r=6)
 		a.t(x + 12, y + 22, name, size=12, color=b.ink(hue), weight="600", mono=True)
 		a.t(x + 12, y + 40, note, size=CAPTION, color=hue + "-soft")
-	ghost_y = top + 8 * (ch + gap) + 24
+	ghost_y = top + 9 * (ch + gap) + 24
 	for i, (name, note) in enumerate((("spring/jdbc", "when a service needs it"), ("concurrency-limit", "a design of its own, later"))):
 		x = cx[2 + i]
 		a.rect(x, ghost_y, cw, ch, "ghost", r=6)
@@ -656,38 +701,42 @@ def plan(pal):
 			b.line(a, f"M{start_x},{y1} L{bx},{y2}", b.DECLARES)
 
 	edge(1, 2)
-	for k in (3, 4, 5, 6, 7, 8, 9, 10):
+	for k in (3, 4, 5, 6, 7, 8, 9, 10, 11):
 		edge(2, k)
-	edge(7, 11)
-	edge(9, 12)
-	edge(11, 12)
-	edge(12, 13)
+	edge(7, 12)
+	edge(7, 13)
+	edge(8, 13)
+	edge(10, 14)
+	edge(12, 14)
+	edge(13, 14)
+	edge(14, 15)
 	bottom = ghost_y + ch + 32
-	a.t(L, bottom, "3–6 add an algorithm and its format to the serialization of PR 2. 7–9 need only PR 1 and may start before PR 2.", size=12, color="ink")
+	a.t(L, bottom, "3–6 add an algorithm and its format to the serialization of PR 2. 7–10 need only PR 1 and may start before PR 2.", size=12, color="ink")
 	a.t(L, bottom + 18, "Shared files are settings.gradle.kts, docs/diagrams/traffic.py and the README: each PR adds a line, conflicts are settled on rebase.", size=12)
 	return finish(a, bottom + 18)
 
 
 # ---------------------------------------------------------------- modules
 MODULES = d.Map(
-	2,
+	3,
 	[
 		("JVM", "no Spring", [0]),
-		("Spring", "a server filter, a client interceptor, Redis", [1, 2]),
+		("Spring", "an annotation, a server filter, a client interceptor, Redis", [1, 2]),
 		("Spring Boot", "wiring only", [3]),
 		("later", "a design of its own", [4]),
 	],
 	{"JVM": "blue", "Spring": "green", "Spring Boot": "amber", "later": "card"},
 	[
-		(0, [0], "core", ["RateLimiter", "DefaultRateLimiter", "RateLimitAlgorithm", "RateLimitRepository", "RateLimitResponse"],
-			"The contract, the five algorithms and a counter in memory. No direction: one limiter for incoming and outgoing calls."),
-		(0, [1], "observability/micrometer", [], "Permits acquired and rejected, by limiter name and never by key."),
-		(1, [0], "spring/webmvc", ["KeyResolver", "OncePerRequestFilter"], "Incoming requests: a key per request, 429 with Retry-After and RateLimit headers."),
-		(1, [1], "spring/web", ["ClientHttpRequestInterceptor"], "Outgoing calls of RestClient: waits up to a limit for a permit, so a partner's quota holds."),
-		(2, [0, 1], "spring/data/redis", ["RedisRateLimitRepository"], "One counter for all instances: save compares the version in a Lua script."),
-		(3, [0], "spring-boot/autoconfigure", [], "Limits by name from properties, the filter and the interceptor."),
+		(0, [0, 1], "core", ["RateLimiter", "DefaultRateLimiter", "RateLimitAlgorithm", "RateLimitRepository", "RateLimiterRegistry", "RateLimitResponse"],
+			"The contract, the five algorithms, counters and limiters in memory. No direction: one limiter for incoming and outgoing calls."),
+		(0, [2], "observability/micrometer", [], "Permits acquired and rejected, by limiter name and never by key."),
+		(1, [0], "spring/context", ["@RateLimit", "@EnableRateLimiting"], "Methods of beans: a proxy takes a permit before the call, the key comes from SpEL."),
+		(1, [1], "spring/webmvc", ["KeyResolver", "OncePerRequestFilter"], "Incoming requests: a key per request, 429 with Retry-After and RateLimit headers."),
+		(1, [2], "spring/web", ["ClientHttpRequestInterceptor"], "Outgoing calls of RestClient: waits up to a limit for a permit, so a partner's quota holds."),
+		(2, [0, 1, 2], "spring/data/redis", ["RedisRateLimitRepository"], "One counter for all instances: save compares the version in a Lua script."),
+		(3, [0], "spring-boot/autoconfigure", [], "Limiters by name from properties, the filter, the interceptor and the post-processor of @RateLimit."),
 		(3, [1], "spring-boot/starter", [], "One dependency; starter/redis adds the shared counter."),
-		(4, [0, 1], "concurrency-limit/core", ["VegasLimit", "Gradient2Limit", "AIMDLimit"], "An adaptive limit of concurrent requests and shedding by priority, after Netflix concurrency-limits.", True),
+		(4, [0, 1, 2], "concurrency-limit/core", ["VegasLimit", "Gradient2Limit", "AIMDLimit"], "An adaptive limit of concurrent requests and shedding by priority, after Netflix concurrency-limits.", True),
 	],
 	lane=56,
 )
@@ -699,9 +748,10 @@ def modules(pal):
 	d.header(a, "TRAFFIC", "paths under architecture/pattern/traffic; the core has no framework, the rest plugs into its SPI")
 	m.draw(a)
 	t, c, w = m.w / 3, m.c, m.w
-	m.across(a, c[1], c[0] + w, m.top[0] + m.rh[0] / 2, d.DECLARES, "api")
+	m.across(a, c[2], c[1] + w, m.top[0] + m.rh[0] / 2, d.DECLARES, "api")
 	m.up(a, c[0] + t, 1, 0, d.DECLARES, "api")
-	m.bend(a, c[1] + t, 1, c[0] + 2 * t, 0, d.DECLARES, "api")
+	m.up(a, c[1] + t, 1, 0, d.DECLARES, "api")
+	m.bend(a, c[2] + t, 1, c[1] + 2 * t, 0, d.DECLARES, "api")
 	x, lane = c[0] + t / 2, c[0] - 24
 	start_y, low, high = m.top[2] - 5, m.top[2] - d.ROW_GAP / 2, m.bottom(0) + d.ROW_GAP / 2
 	d.dot(a, x, start_y)
@@ -716,7 +766,7 @@ def modules(pal):
 
 DIAGRAMS = (
 	("traffic", modules), ("traffic-duties", duties), ("traffic-abstractions", abstractions), ("traffic-flow", flow),
-	("traffic-algorithms", algorithms), ("traffic-incoming", incoming), ("traffic-outgoing", outgoing),
+	("traffic-algorithms", algorithms), ("traffic-incoming", incoming), ("traffic-outgoing", outgoing), ("traffic-annotation", annotation),
 	("traffic-shared", shared), ("traffic-failures", failures), ("traffic-wiring", wiring),
 	("traffic-extensions", extensions), ("traffic-plan", plan),
 )

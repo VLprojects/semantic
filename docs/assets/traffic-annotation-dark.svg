@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 534" width="1024" height="534" role="img">
+  <rect width="1024" height="534" rx="12" fill="#151B23"/>
+  <g transform="translate(12,12)">
+    <rect x="16" y="16" width="968" height="478" rx="12" fill="#1D242D"/>
+    <text x="40.0" y="52.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#E6EDF3" text-anchor="start">A method with @RateLimit</text>
+    <text x="40.0" y="76.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#9198A1" text-anchor="start">spring/context: a proxy before the method; the limiter comes by name, the key from SpEL</text>
+    <rect x="40.0" y="112.0" width="285.3" height="112.0" rx="6" fill="#5BF08A"/>
+    <text x="56.0" y="142.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#03240E" text-anchor="start">@RateLimit</text>
+    <text x="56.0" y="168.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start"> limiter = "partner-acme"</text>
+    <text x="56.0" y="186.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start"> key = "#tenantId"</text>
+    <text x="56.0" y="204.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start"> maxWait = "500ms"</text>
+    <rect x="357.3" y="112.0" width="285.3" height="112.0" rx="6" fill="#5BF08A"/>
+    <text x="373.3" y="142.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#03240E" text-anchor="start">RateLimitMethodInterceptor</text>
+    <text x="373.3" y="168.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">a proxy made by</text>
+    <text x="373.3" y="186.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">RateLimitBeanPostProcessor;</text>
+    <text x="373.3" y="204.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">SpEL turns #tenantId into t-42</text>
+    <rect x="674.7" y="112.0" width="285.3" height="112.0" rx="6" fill="#6E9BFF"/>
+    <text x="690.7" y="142.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#06173D" text-anchor="start">RateLimiter</text>
+    <text x="690.7" y="168.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#1B3A80" text-anchor="start"> acquire("t-42", 1, 500ms)</text>
+    <text x="690.7" y="186.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1B3A80" text-anchor="start">found by name in</text>
+    <text x="690.7" y="204.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1B3A80" text-anchor="start">RateLimiterRegistry</text>
+    <path d="M331.3333333333333,168.0 L345.3333333333333,168.0" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M344.3333333333333,164.0 L351.3333333333333,168.0 L344.3333333333333,172.0 Z" fill="#515B66"/>
+    <path d="M648.6666666666666,168.0 L662.6666666666666,168.0" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M661.6666666666666,164.0 L668.6666666666666,168.0 L661.6666666666666,172.0 Z" fill="#515B66"/>
+    <text x="40.0" y="260.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="500" fill="#E6EDF3" text-anchor="start">acquired</text>
+    <text x="516.0" y="260.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="500" fill="#E6EDF3" text-anchor="start">rejected</text>
+    <rect x="40.0" y="272.0" width="444.0" height="152.0" rx="6" fill="#29313C"/>
+    <rect x="40.0" y="272.0" width="4.0" height="152.0" rx="2" fill="#3FB950"/>
+    <text x="60.0" y="300.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#E6EDF3" text-anchor="start">the method runs</text>
+    <text x="60.0" y="324.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">one permit of t-42 is taken</text>
+    <text x="60.0" y="348.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start"></text>
+    <text x="60.0" y="372.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">the proxy returns what the method returned</text>
+    <rect x="516.0" y="272.0" width="444.0" height="152.0" rx="6" fill="#29313C"/>
+    <rect x="516.0" y="272.0" width="4.0" height="152.0" rx="2" fill="#FF4F7B"/>
+    <text x="536.0" y="300.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#E6EDF3" text-anchor="start">RateLimitExceededException</text>
+    <text x="536.0" y="324.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">retryAfter = PT0.75S</text>
+    <text x="536.0" y="348.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start"></text>
+    <text x="536.0" y="372.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">from a controller: 429 and Retry-After, by spring/webmvc</text>
+    <text x="536.0" y="396.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">elsewhere: the caller gets the exception</text>
+    <path d="M817.3333333333333,230 L817.3333333333333,244 L262.0,244 L262.0,244" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M817.3333333333333,244 L738.0,244 L738.0,244" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="40.0" y="452.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">A call from inside the same bean skips the proxy, as with @Transactional. An unknown limiter name stops the application at startup.</text>
+    <text x="40.0" y="470.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">The proxy is applied before the one of @Retryable, so the retry wraps it and every attempt takes a permit.</text>
+  </g>
+</svg>

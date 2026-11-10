@@ -53,7 +53,7 @@ divided further has a table of its own under it.
 | [`persistence`](#persistence) | how a service writes and reads its state | cqrs, event-sourcing, unit-of-work | |
 | [`resilience`](architecture/pattern/resilience/README.md) | circuit breaker, retries with backoff and jitter, deadline, bulkhead, fallback | core, backoff, retry, circuit-breaker, deadline, bulkhead, fallback | planned |
 | [`rollout`](architecture/pattern/rollout/core) | feature flags, kill switch, canary release, dark launch, A/B experiments | `featureflag`, `killswitch`, `canary`, `darklaunch`, `experiment` | planned |
-| [`traffic`](architecture/pattern/traffic/README.md) | rate limits on incoming requests and outgoing calls; load shedding later | core, observability, spring, spring-boot | planned |
+| [`traffic`](architecture/pattern/traffic/README.md) | rate limits on incoming requests, outgoing calls and methods of beans; load shedding later | core, observability, spring, spring-boot | planned |
 
 ##### Persistence
 

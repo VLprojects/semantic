@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 648" width="1024" height="648" role="img">
-  <rect width="1024" height="648" rx="12" fill="#F6F8FA"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 740" width="1024" height="740" role="img">
+  <rect width="1024" height="740" rx="12" fill="#F6F8FA"/>
   <g transform="translate(12,12)">
-    <rect x="16" y="16" width="968" height="592" rx="12" fill="#FFFFFF"/>
+    <rect x="16" y="16" width="968" height="684" rx="12" fill="#FFFFFF"/>
     <text x="40.0" y="52.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1F2328" text-anchor="start">Wiring without Spring and in Spring</text>
     <text x="40.0" y="76.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#59636E" text-anchor="start">The core is the same: only who creates the limits and attaches them to calls differs</text>
     <text x="200.0" y="120.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">without Spring</text>
@@ -38,5 +38,12 @@
     <rect x="588.0" y="508.0" width="372.0" height="76.0" rx="6" fill="#DDF7E7"/>
     <text x="600.0" y="540.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">RateLimitingInterceptor</text>
     <text x="600.0" y="564.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">in RestClient.Builder by limit name</text>
+    <text x="40.0" y="632.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="500" fill="#1F2328" text-anchor="start">a method</text>
+    <rect x="200.0" y="600.0" width="372.0" height="76.0" rx="6" fill="#E3EFFF"/>
+    <text x="212.0" y="632.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">registry.findByName("partner-acme")</text>
+    <text x="212.0" y="656.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">then acquire around the call, by hand</text>
+    <rect x="588.0" y="600.0" width="372.0" height="76.0" rx="6" fill="#DDF7E7"/>
+    <text x="600.0" y="632.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">@RateLimit("partner-acme")</text>
+    <text x="600.0" y="656.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">a proxy from the post-processor</text>
   </g>
 </svg>
