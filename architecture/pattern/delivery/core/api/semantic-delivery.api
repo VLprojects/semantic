@@ -9,8 +9,8 @@ public final class pro/vlprojects/semantic/delivery/outbox/Delivery {
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAttempts ()I
 	public final fun getError ()Ljava/lang/String;
-	public final fun getLockedUntil ()Ljava/time/Instant;
 	public final fun getScheduledAt ()Ljava/time/Instant;
+	public final fun getStartedAt ()Ljava/time/Instant;
 	public final fun getStatus ()Lpro/vlprojects/semantic/delivery/outbox/DeliveryStatus;
 	public final fun getTerminatedAt ()Ljava/time/Instant;
 	public fun hashCode ()I
@@ -113,9 +113,9 @@ public final class pro/vlprojects/semantic/delivery/outbox/OutboxProperties {
 	public final fun getBackoff ()Lpro/vlprojects/semantic/resilience/backoff/Backoff;
 	public final fun getBatchSize ()I
 	public final fun getErrorPolicy ()Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;
-	public final fun getLockDuration ()Ljava/time/Duration;
 	public final fun getLogging ()Lpro/vlprojects/semantic/delivery/outbox/logging/OutboxLoggingProperties;
 	public final fun getMaxAttempts ()I
+	public final fun getStalenessThreshold ()Ljava/time/Duration;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }

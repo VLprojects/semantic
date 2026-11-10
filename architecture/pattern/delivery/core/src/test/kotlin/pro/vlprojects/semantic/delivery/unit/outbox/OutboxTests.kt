@@ -21,17 +21,16 @@ class OutboxTests {
         assertEquals(DeliveryStatus.PENDING, delivery.status)
         assertEquals(0, delivery.attempts)
         assertEquals(moment, delivery.scheduledAt)
-        assertNull(delivery.lockedUntil)
+        assertNull(delivery.startedAt)
     }
 
     @Test
-    fun `failing unlocks the record and schedules it again`() {
+    fun `failing schedules the record again`() {
         val delivery = started.fail(later, "timeout").delivery
 
         assertEquals(DeliveryStatus.FAILED, delivery.status)
         assertEquals(later, delivery.scheduledAt)
         assertEquals("timeout", delivery.error)
-        assertNull(delivery.lockedUntil)
     }
 
     @Test

@@ -12,7 +12,7 @@ public interface OutboxRepository {
 
     public fun findById(id: OutboxId): Outbox?
 
-    public fun lockScheduledForDelivery(scheduledUntil: Instant, lockedUntil: Instant, limit: Int): List<Outbox>
+    public fun lockScheduledForDelivery(scheduledUntil: Instant, startedAt: Instant, limit: Int): List<Outbox>
 
     public fun deleteAll(status: DeliveryStatus, terminatedBefore: Instant, limit: Int): Int
 }

@@ -25,7 +25,6 @@ class OutboxDispatcherTests {
 
     private val moment = Instant.parse("2026-11-09T00:00:00Z")
     private val clock = Clock.fixed(moment, ZoneOffset.UTC)
-    private val lockedUntil = moment.plusSeconds(60)
     private val config = OutboxProperties(batchSize = 2)
     private val lockedOutboxes = mutableListOf<Outbox>()
     private val requestedLimits = mutableListOf<Int>()
@@ -49,7 +48,7 @@ class OutboxDispatcherTests {
 
         override fun lockScheduledForDelivery(
             scheduledUntil: Instant,
-            lockedUntil: Instant,
+            startedAt: Instant,
             limit: Int,
         ) = lockedOutboxes.also { requestedLimits += limit }
 
@@ -89,7 +88,7 @@ class OutboxDispatcherTests {
     private val dispatcher = OutboxDispatcher(service, deserializer, router, config)
 
     private fun lockOutboxes(count: Int) {
-        repeat(count) { lockedOutboxes += createStartedOutbox(moment, lockedUntil) }
+        repeat(count) { lockedOutboxes += createStartedOutbox(moment, moment) }
     }
 
     @Test

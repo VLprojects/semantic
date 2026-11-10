@@ -38,7 +38,7 @@ public class OutboxDispatcher(
     } catch (_: OutboxOptimisticLockException) {
         logger
             .atWarn()
-            .log { "Outbox ${outbox.id} was taken over by another instance after its lock expired" }
+            .log { "Outbox ${outbox.id} was changed by another process during delivery" }
         null
     }
 
