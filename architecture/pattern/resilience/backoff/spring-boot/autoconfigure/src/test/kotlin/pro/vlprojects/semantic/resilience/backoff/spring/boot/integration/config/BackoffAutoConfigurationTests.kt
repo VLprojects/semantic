@@ -148,7 +148,7 @@ class BackoffAutoConfigurationTests {
     @Test
     fun `an unknown field stops the start`() {
         runner
-            .withPropertyValues("$PREFIX.instances.payments.delya=5s")
+            .withPropertyValues("$PREFIX.instances.payments.fixed.delya=5s")
             .run { context -> assertTrue("delya" in context.readStartupFailureMessages()) }
     }
 
