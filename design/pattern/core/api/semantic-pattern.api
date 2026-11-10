@@ -56,6 +56,11 @@ public final class pro/vlprojects/semantic/pattern/creational/registry/error/Ins
 	public final fun getName ()Ljava/lang/String;
 }
 
+public final class pro/vlprojects/semantic/pattern/creational/registry/error/InstanceRegistrationException : java/lang/RuntimeException {
+	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public final fun getName ()Ljava/lang/String;
+}
+
 public final class pro/vlprojects/semantic/pattern/creational/registry/error/InvalidNameException : java/lang/IllegalArgumentException {
 	public fun <init> (Ljava/lang/String;)V
 	public final fun getName ()Ljava/lang/String;

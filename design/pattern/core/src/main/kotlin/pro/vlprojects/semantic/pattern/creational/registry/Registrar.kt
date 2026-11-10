@@ -1,10 +1,9 @@
 package pro.vlprojects.semantic.pattern.creational.registry
 
-import pro.vlprojects.semantic.pattern.creational.registry.error.InstanceAlreadyExistsException
-import pro.vlprojects.semantic.pattern.creational.registry.error.InvalidNameException
+import pro.vlprojects.semantic.pattern.creational.registry.error.InstanceRegistrationException
 
 public fun interface Registrar<T : Any> {
 
-    @Throws(InvalidNameException::class, InstanceAlreadyExistsException::class)
+    @Throws(InstanceRegistrationException::class)
     public fun populate(registry: Registry<T>)
 }

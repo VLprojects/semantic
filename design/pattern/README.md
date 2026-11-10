@@ -14,7 +14,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | --- | --- |
 | `creational.registry` | `Registry`, named instances of one type that the whole application shares and manages at run time; `Registrar`, populates a registry at startup from one source; `RegistryStore`, keeps the instances of a registry; `InMemoryRegistryStore`, a store in memory |
 | `creational.registry.base` | `AbstractRegistry`, a registry over a store |
-| `creational.registry.error` | `InvalidNameException`, `InstanceAlreadyExistsException`, `InstanceNotFoundException` |
+| `creational.registry.error` | `InvalidNameException`, `InstanceAlreadyExistsException`, `InstanceNotFoundException`; `InstanceRegistrationException` of a registrar |
 | `creational.factory` | `Factory`, an instance made of its definition; `Definition`, the marker of a definition |
 | `creational.factory.error` | `InvalidDefinitionException` |
 
@@ -46,7 +46,11 @@ class BackoffPropertiesRegistrar(
 
     override fun populate(registry: Registry<Backoff>) {
         properties.instances.forEach { (name, definition) ->
-            registry.register(name, factory.create(definition))
+            try {
+                registry.register(name, factory.create(definition))
+            } catch (failure: RuntimeException) {
+                throw InstanceRegistrationException(name, failure)
+            }
         }
     }
 }
@@ -84,6 +88,11 @@ A registrar makes every instance at startup, not on its first lookup: a wrong
 definition stops the startup instead of failing a call later, as a singleton in Spring
 is made eagerly unless it is marked lazy. A factory rejects a wrong definition with
 `InvalidDefinitionException`, as Jackson does with its own; a factory may extend it.
+
+A registrar wraps any failure of an instance in `InstanceRegistrationException` with the
+name it failed on and the failure as its cause: a wrong definition, a blank name, a taken
+one. A caller of `populate` catches one exception and learns which instance broke the
+startup, as `MBeanRegistrationException` of JMX wraps a failure of registration.
 
 Registrars run in their order. A name that two of them take stops the startup, unless
 the later one replaces it on purpose: a bean from code overrides a setting by `replace`.
