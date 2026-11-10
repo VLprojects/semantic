@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 944" width="1024" height="944" role="img">
+  <rect width="1024" height="944" rx="12" fill="#F6F8FA"/>
+  <g transform="translate(12,12)">
+    <rect x="16" y="16" width="968" height="888" rx="12" fill="#FFFFFF"/>
+    <rect x="889.5" y="164" width="1" height="716" fill="#DDE2E7"/>
+    <rect x="735.5" y="164" width="1" height="716" fill="#DDE2E7"/>
+    <rect x="589.5" y="164" width="1" height="716" fill="#DDE2E7"/>
+    <rect x="443.5" y="164" width="1" height="716" fill="#DDE2E7"/>
+    <rect x="311.5" y="164" width="1" height="716" fill="#DDE2E7"/>
+    <rect x="211.5" y="164" width="1" height="716" fill="#DDE2E7"/>
+    <text x="40.0" y="52.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1F2328" text-anchor="start">Polling and wake-up: who calls whom</text>
+    <text x="40.0" y="76.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#59636E" text-anchor="start">Time runs down. A bar is an object at work, a thin line one that waits</text>
+    <rect x="164.0" y="112.0" width="96.0" height="52.0" rx="6" fill="#E3E8ED"/>
+    <text x="212.0" y="134.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#1F2328" text-anchor="middle">service</text>
+    <text x="212.0" y="152.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="middle">application</text>
+    <rect x="268.0" y="112.0" width="88.0" height="52.0" rx="6" fill="#E3E8ED"/>
+    <text x="312.0" y="134.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="600" fill="#1F2328" text-anchor="middle">outbox</text>
+    <text x="312.0" y="152.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="middle">table</text>
+    <rect x="364.0" y="112.0" width="160.0" height="52.0" rx="6" fill="#E3E8ED"/>
+    <text x="444.0" y="134.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="600" fill="#1F2328" text-anchor="middle">OutboxPollingContainer</text>
+    <text x="444.0" y="152.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="middle">container</text>
+    <rect x="532.0" y="112.0" width="116.0" height="52.0" rx="6" fill="#E3E8ED"/>
+    <text x="590.0" y="134.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="600" fill="#1F2328" text-anchor="middle">OutboxPoller</text>
+    <text x="590.0" y="152.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="middle">polling loop</text>
+    <rect x="656.0" y="112.0" width="160.0" height="52.0" rx="6" fill="#E3E8ED"/>
+    <text x="736.0" y="134.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="600" fill="#1F2328" text-anchor="middle">OutboxPollingStrategy</text>
+    <text x="736.0" y="152.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="middle">pause</text>
+    <rect x="824.0" y="112.0" width="132.0" height="52.0" rx="6" fill="#E3E8ED"/>
+    <text x="890.0" y="134.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="600" fill="#1F2328" text-anchor="middle">OutboxDispatcher</text>
+    <text x="890.0" y="152.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="middle">one batch</text>
+    <text x="40.0" y="212.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">start</text>
+    <text x="40.0" y="230.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">on startup</text>
+    <path d="M450.0,208 L578.0,208" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M584.0,208 L577.0,204 L577.0,212 Z" fill="#AFB8C1"/>
+    <text x="517.0" y="200.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="middle">start: concurrency pollers</text>
+    <text x="40.0" y="276.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">batch</text>
+    <text x="40.0" y="294.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">one at a time</text>
+    <rect x="586.0" y="268.0" width="8.0" height="268.0" rx="2" fill="#1A7CFF"/>
+    <rect x="886.0" y="268.0" width="8.0" height="152.0" rx="2" fill="#1A7CFF"/>
+    <path d="M596.0,272 L878.0,272" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M884.0,272 L877.0,268 L877.0,276 Z" fill="#AFB8C1"/>
+    <text x="740.0" y="264.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#59636E" text-anchor="middle">dispatch()</text>
+    <path d="M884.0,308 L324.0,308" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M318.0,308 L325.0,304 L325.0,312 Z" fill="#AFB8C1"/>
+    <text x="876.0" y="300.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#59636E" text-anchor="end">findAndModifyScheduled(100)</text>
+    <path d="M318.0,344 L878.0,344" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M884.0,344 L877.0,340 L877.0,348 Z" fill="#AFB8C1"/>
+    <text x="876.0" y="336.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="end">up to 100 records, now PROCESSING</text>
+    <path d="M884.0,380 L324.0,380" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M318.0,380 L325.0,376 L325.0,384 Z" fill="#AFB8C1"/>
+    <text x="876.0" y="372.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="end">OutboxDeliverer.send, outcome to outbox</text>
+    <path d="M884.0,416 L602.0,416" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M596.0,416 L603.0,412 L603.0,420 Z" fill="#AFB8C1"/>
+    <text x="740.0" y="408.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#59636E" text-anchor="middle">n = 100</text>
+    <text x="40.0" y="464.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">pause</text>
+    <text x="40.0" y="482.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">by the strategy</text>
+    <path d="M596.0,460 L724.0,460" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M730.0,460 L723.0,456 L723.0,464 Z" fill="#AFB8C1"/>
+    <text x="663.0" y="452.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#59636E" text-anchor="middle">calculate(context)</text>
+    <path d="M730.0,496 L602.0,496" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M596.0,496 L603.0,492 L603.0,500 Z" fill="#AFB8C1"/>
+    <text x="663.0" y="488.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="middle">delay = 1 s</text>
+    <path d="M584.0,532 L456.0,532" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M450.0,532 L457.0,528 L457.0,536 Z" fill="#AFB8C1"/>
+    <text x="517.0" y="524.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#59636E" text-anchor="middle">schedule(this, delay)</text>
+    <text x="600.0" y="572.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">waits, the thread is free</text>
+    <text x="40.0" y="624.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">wake-up</text>
+    <text x="40.0" y="642.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">optional</text>
+    <path d="M218.0,620 L300.0,620" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M306.0,620 L299.0,616 L299.0,624 Z" fill="#AFB8C1"/>
+    <text x="262.0" y="612.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="middle">create + commit</text>
+    <path d="M218.0,656 L432.0,656" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M438.0,656 L431.0,652 L431.0,660 Z" fill="#AFB8C1"/>
+    <text x="328.0" y="648.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#59636E" text-anchor="middle">wakeup()</text>
+    <path d="M450.0,692 L578.0,692" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M584.0,692 L577.0,688 L577.0,696 Z" fill="#AFB8C1"/>
+    <text x="517.0" y="684.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="middle">pause cut short</text>
+    <rect x="586.0" y="724.0" width="8.0" height="28.0" rx="2" fill="#1A7CFF"/>
+    <path d="M596.0,728 L878.0,728" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M884.0,728 L877.0,724 L877.0,732 Z" fill="#AFB8C1"/>
+    <text x="740.0" y="720.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#59636E" text-anchor="middle">dispatch()</text>
+    <text x="40.0" y="796.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">1000 commits</text>
+    <text x="40.0" y="814.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">signals merge</text>
+    <path d="M218.0,792 L432.0,792" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M438.0,792 L431.0,788 L431.0,796 Z" fill="#AFB8C1"/>
+    <text x="328.0" y="784.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#59636E" text-anchor="middle">1000 × wakeup()</text>
+    <path d="M218.0,802 L432.0,802" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M438.0,802 L431.0,798 L431.0,806 Z" fill="#AFB8C1"/>
+    <path d="M218.0,812 L432.0,812" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M438.0,812 L431.0,808 L431.0,816 Z" fill="#AFB8C1"/>
+    <path d="M218.0,822 L432.0,822" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M438.0,822 L431.0,818 L431.0,826 Z" fill="#AFB8C1"/>
+    <path d="M450.0,864 L578.0,864" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M584.0,864 L577.0,860 L577.0,868 Z" fill="#AFB8C1"/>
+    <text x="517.0" y="856.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="middle">one wake-up per cooldown</text>
+  </g>
+</svg>
