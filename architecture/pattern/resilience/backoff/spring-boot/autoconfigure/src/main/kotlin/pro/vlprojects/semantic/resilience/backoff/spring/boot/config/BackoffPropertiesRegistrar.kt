@@ -37,7 +37,7 @@ internal class BackoffPropertiesRegistrar(
     }
 
     private fun getFallbackType() = types.find(fallbackTypeName)
-        ?: throw IllegalStateException("No backoff factory bean gives the type '$FALLBACK_TYPE_NAME'")
+        ?: error("No backoff factory bean gives the type '$FALLBACK_TYPE_NAME'")
 
     private fun requireNoInstanceNamedDefault() {
         if (DEFAULT_BACKOFF_NAME in properties.instances) {
@@ -76,16 +76,8 @@ internal class BackoffPropertiesRegistrar(
             ?.let { typeName -> getType(blockName, typeName) }
     }
 
-    private fun getType(blockName: String, typeName: ConfigurationPropertyName): BackoffType<*> {
-        val type = typeName.getLastElement(Form.ORIGINAL)
-
-        return types.find(typeName)
-            ?: throw InvalidConfigurationPropertyValueException(
-                blockName,
-                type,
-                "Unknown backoff type. Available types: ${types.names}",
-            )
-    }
+    private fun getType(blockName: String, typeName: ConfigurationPropertyName) = types.find(typeName)
+        ?: throw createUnknownTypeFailure(blockName, typeName)
 
     private fun <C : Any> createBackoff(
         blockName: String,
@@ -114,11 +106,23 @@ internal class BackoffPropertiesRegistrar(
     // The default block goes second, so a field of the instance takes priority over the same field of the default.
     private fun createBinder(blockName: String, settings: Map<String, String>) = listOf(settings, properties.default)
         .map { blockSettings -> blockSettings.filterValues(String::isNotBlank) }
-        .map { blockSettings -> blockSettings.mapKeys { (key) -> "$blockName$KEY_SEPARATOR$key" } }
+        .map { blockSettings -> prefixKeys(blockName, blockSettings) }
         .map(::MapConfigurationPropertySource)
         .let(::Binder)
 
+    private fun prefixKeys(blockName: String, settings: Map<String, String>) =
+        settings.mapKeys { (key) -> "$blockName$KEY_SEPARATOR$key" }
+
+    private fun createUnknownTypeFailure(blockName: String, typeName: ConfigurationPropertyName) = typeName
+        .getLastElement(Form.ORIGINAL)
+        .let { typeKey ->
+            InvalidConfigurationPropertyValueException(
+                blockName,
+                typeKey,
+                "Unknown backoff type. Available types: ${types.names}",
+            )
+        }
+
     private fun createInvalidValueFailure(blockName: String, settings: Map<String, String>, cause: Throwable) =
-        InvalidConfigurationPropertyValueException(blockName, settings, cause.message)
-            .apply { initCause(cause) }
+        InvalidConfigurationPropertyValueException(blockName, settings, cause.message, cause)
 }
