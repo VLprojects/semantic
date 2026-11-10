@@ -13,7 +13,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | Package | What is there |
 | --- | --- |
 | `creational.registry` | `Registry`, named instances of one type that the whole application shares and manages at run time; `Registrar`, populates a registry at startup from one source; `RegistryStore`, keeps the instances of a registry; `InMemoryRegistryStore`, a store in memory |
-| `creational.registry.base` | `AbstractRegistry`, a registry over a store |
+| `creational.registry.base` | `AbstractRegistry`, a registry over a store; `AbstractRegistrar`, a registrar of definitions through a factory |
 | `creational.registry.error` | `InvalidNameException`, `InstanceAlreadyExistsException`, `InstanceNotFoundException`, `DefaultInstanceNotFoundException`; `InstanceRegistrationException` of a registrar |
 | `creational.factory` | `Factory`, an instance made of its definition; `Definition`, the marker of a definition |
 | `creational.factory.error` | `InvalidDefinitionException` |
@@ -41,18 +41,10 @@ is fixed when the application is assembled.
 ```kotlin
 class BackoffPropertiesRegistrar(
     private val properties: BackoffProperties,
-    private val factory: Factory<BackoffDefinition, Backoff>,
-) : Registrar<Backoff> {
+    factory: Factory<BackoffDefinition, Backoff>,
+) : AbstractRegistrar<BackoffDefinition, Backoff>(factory) {
 
-    override fun populate(registry: Registry<Backoff>) {
-        properties.instances.forEach { (name, definition) ->
-            try {
-                registry.register(name, factory.create(definition))
-            } catch (failure: RuntimeException) {
-                throw InstanceRegistrationException(name, failure)
-            }
-        }
-    }
+    override fun loadDefinitions() = properties.instances
 }
 ```
 
@@ -99,7 +91,10 @@ is made eagerly unless it is marked lazy. A factory rejects a wrong definition w
 
 A registrar wraps any failure of an instance in `InstanceRegistrationException` with the
 name it failed on and the failure as its cause: a wrong definition, a blank name, a taken
-one. A caller of `populate` catches one exception and learns which instance broke the
+one. `AbstractRegistrar` does it once: its `populate` makes and registers every definition
+that `loadDefinitions` returns, as `RepositoryBeanDefinitionRegistrarSupport` of Spring Data
+leaves its subclass only the annotation and the extension. A registrar of ready beans from
+code needs no definitions and implements `Registrar` itself. A caller of `populate` catches one exception and learns which instance broke the
 startup, as `MBeanRegistrationException` of JMX wraps a failure of registration.
 
 Registrars run in their order. A name that two of them take stops the startup, unless

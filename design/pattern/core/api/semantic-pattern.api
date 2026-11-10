@@ -49,6 +49,12 @@ public abstract interface class pro/vlprojects/semantic/pattern/creational/regis
 	public abstract fun putIfAbsent (Ljava/lang/String;Ljava/lang/Object;)Z
 }
 
+public abstract class pro/vlprojects/semantic/pattern/creational/registry/base/AbstractRegistrar : pro/vlprojects/semantic/pattern/creational/registry/Registrar {
+	public fun <init> (Lpro/vlprojects/semantic/pattern/creational/factory/Factory;)V
+	protected abstract fun loadDefinitions ()Ljava/util/Map;
+	public final fun populate (Lpro/vlprojects/semantic/pattern/creational/registry/Registry;)V
+}
+
 public abstract class pro/vlprojects/semantic/pattern/creational/registry/base/AbstractRegistry : pro/vlprojects/semantic/pattern/creational/registry/Registry {
 	public fun <init> (Lpro/vlprojects/semantic/pattern/creational/registry/RegistryStore;)V
 	public fun find (Ljava/lang/String;)Ljava/lang/Object;
