@@ -25,16 +25,12 @@ public abstract interface class pro/vlprojects/semantic/resilience/backoff/sprin
 
 public abstract interface class pro/vlprojects/semantic/resilience/backoff/spring/boot/factory/BackoffFactory {
 	public abstract fun create (Ljava/lang/Object;)Lpro/vlprojects/semantic/resilience/backoff/Backoff;
-	public abstract fun getConfigClass ()Ljava/lang/Class;
-	public abstract fun getType ()Ljava/lang/String;
 }
 
 public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/factory/ExponentialBackoffFactory : pro/vlprojects/semantic/resilience/backoff/spring/boot/factory/BackoffFactory {
 	public fun <init> ()V
 	public synthetic fun create (Ljava/lang/Object;)Lpro/vlprojects/semantic/resilience/backoff/Backoff;
 	public fun create (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/factory/ExponentialBackoffFactory$Config;)Lpro/vlprojects/semantic/resilience/backoff/Backoff;
-	public fun getConfigClass ()Ljava/lang/Class;
-	public fun getType ()Ljava/lang/String;
 }
 
 public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/factory/ExponentialBackoffFactory$Config {
@@ -54,16 +50,10 @@ public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/factor
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/factory/ExponentialBackoffFactoryKt {
-	public static final field EXPONENTIAL_BACKOFF_TYPE Ljava/lang/String;
-}
-
 public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/factory/FixedBackoffFactory : pro/vlprojects/semantic/resilience/backoff/spring/boot/factory/BackoffFactory {
 	public fun <init> ()V
 	public synthetic fun create (Ljava/lang/Object;)Lpro/vlprojects/semantic/resilience/backoff/Backoff;
 	public fun create (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/factory/FixedBackoffFactory$Config;)Lpro/vlprojects/semantic/resilience/backoff/Backoff;
-	public fun getConfigClass ()Ljava/lang/Class;
-	public fun getType ()Ljava/lang/String;
 }
 
 public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/factory/FixedBackoffFactory$Config {
@@ -77,9 +67,5 @@ public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/factor
 	public final fun getDelay ()Ljava/time/Duration;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
-}
-
-public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/factory/FixedBackoffFactoryKt {
-	public static final field FIXED_BACKOFF_TYPE Ljava/lang/String;
 }
 

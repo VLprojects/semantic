@@ -170,43 +170,66 @@ class BackoffPropertiesRegistrarTests {
     }
 
     @Test
-    fun `a factory of the application adds a type`() {
+    fun `a factory bean of the application adds the type of its name`() {
         val registry = registerBackoffs(
             "$PREFIX.instances.orders.once.delay" to "7s",
-            factories = listOf(OnceBackoffFactory(), ExponentialBackoffFactory()),
+            factories = createFactories() + ("onceBackoffFactory" to OnceBackoffFactory()),
         )
 
         assertEquals(Duration.ofSeconds(7), registry["orders"].calculate(1))
     }
 
     @Test
-    fun `a type with a hyphen is found by its key in another form`() {
+    fun `a type of a camel case bean name is found by its key with a hyphen`() {
         val registry = registerBackoffs(
-            "$PREFIX.instances.orders.onceOnly.delay" to "7s",
-            factories = listOf(OnceBackoffFactory("once-only"), ExponentialBackoffFactory()),
+            "$PREFIX.instances.orders.once-only.delay" to "7s",
+            factories = createFactories() + ("onceOnlyBackoffFactory" to OnceBackoffFactory()),
         )
 
         assertEquals(Duration.ofSeconds(7), registry["orders"].calculate(1))
     }
 
     @Test
-    fun `a factory type of several names fails and names the factory`() {
+    fun `a bean name without the suffix is the type itself`() {
+        val registry = registerBackoffs(
+            "$PREFIX.instances.orders.once.delay" to "7s",
+            factories = createFactories() + ("once" to OnceBackoffFactory()),
+        )
+
+        assertEquals(Duration.ofSeconds(7), registry["orders"].calculate(1))
+    }
+
+    @Test
+    fun `a bean name of several property names fails and names the bean`() {
         val failure = assertThrows<IllegalArgumentException> {
-            registerBackoffs(factories = listOf(OnceBackoffFactory("once.only"), ExponentialBackoffFactory()))
+            registerBackoffs(factories = mapOf("once.onlyBackoffFactory" to OnceBackoffFactory()))
         }
 
-        assertTrue("OnceBackoffFactory" in failure.message.orEmpty())
-        assertTrue("once.only" in failure.message.orEmpty())
+        assertTrue("once.onlyBackoffFactory" in failure.message.orEmpty())
+    }
+
+    @Test
+    fun `a factory without a concrete config class fails and names the bean`() {
+        val failure = assertThrows<IllegalArgumentException> {
+            registerBackoffs(factories = mapOf("anyBackoffFactory" to AnyConfigBackoffFactory<Duration>()))
+        }
+
+        assertTrue("anyBackoffFactory" in failure.message.orEmpty())
     }
 
     @Test
     fun `two factories of one type fail and name both`() {
         val failure = assertThrows<IllegalArgumentException> {
-            registerBackoffs(factories = listOf(FixedBackoffFactory(), RivalFixedBackoffFactory()))
+            registerBackoffs(
+                factories = mapOf(
+                    "fixedBackoffFactory" to FixedBackoffFactory(),
+                    "fixed" to FixedBackoffFactory(),
+                ),
+            )
         }
 
-        assertTrue(FixedBackoffFactory::class.java.name in failure.message.orEmpty())
-        assertTrue("RivalFixedBackoffFactory" in failure.message.orEmpty())
+        assertTrue("fixedBackoffFactory" in failure.message.orEmpty())
+        assertTrue("[fixedBackoffFactory, fixed]" in failure.message.orEmpty())
     }
 
     @Test
@@ -322,7 +345,7 @@ class BackoffPropertiesRegistrarTests {
 
     private fun registerBackoffs(
         vararg properties: Pair<String, String>,
-        factories: List<BackoffFactory<*>> = listOf(FixedBackoffFactory(), ExponentialBackoffFactory()),
+        factories: Map<String, BackoffFactory<*>> = createFactories(),
     ) = properties
         .toMap()
         .let(::createEnvironment)
@@ -330,7 +353,7 @@ class BackoffPropertiesRegistrarTests {
 
     private fun registerBackoffs(
         environment: StandardEnvironment,
-        factories: List<BackoffFactory<*>> = listOf(FixedBackoffFactory(), ExponentialBackoffFactory()),
+        factories: Map<String, BackoffFactory<*>> = createFactories(),
     ): BackoffRegistry {
         val registry = BackoffRegistry()
 
@@ -338,6 +361,11 @@ class BackoffPropertiesRegistrarTests {
 
         return registry
     }
+
+    private fun createFactories() = mapOf(
+        "fixedBackoffFactory" to FixedBackoffFactory(),
+        "exponentialBackoffFactory" to ExponentialBackoffFactory(),
+    )
 
     private fun createEnvironment(properties: Map<String, String>) = StandardEnvironment().apply {
         this.propertySources.addFirst(MapPropertySource("test", properties))
@@ -347,21 +375,15 @@ class BackoffPropertiesRegistrarTests {
         .map { backoff.calculate(1) }
         .toSet()
 
-    private class RivalFixedBackoffFactory : BackoffFactory<FixedBackoffFactory.Config> {
-
-        override val type = "fixed"
-
-        override val configClass = FixedBackoffFactory.Config::class.java
-
-        override fun create(config: FixedBackoffFactory.Config) = FixedBackoff(config.delay)
-    }
-
-    private class OnceBackoffFactory(override val type: String = "once") : BackoffFactory<OnceBackoffFactory.Config> {
-
-        override val configClass = Config::class.java
+    private class OnceBackoffFactory : BackoffFactory<OnceBackoffFactory.Config> {
 
         override fun create(config: Config) = FixedBackoff(config.delay)
 
         data class Config(val delay: Duration = Duration.ofSeconds(4))
+    }
+
+    private class AnyConfigBackoffFactory<C : Any> : BackoffFactory<C> {
+
+        override fun create(config: C) = FixedBackoff(Duration.ofSeconds(1))
     }
 }
