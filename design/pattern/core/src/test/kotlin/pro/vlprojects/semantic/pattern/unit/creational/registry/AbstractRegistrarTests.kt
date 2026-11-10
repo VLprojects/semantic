@@ -5,8 +5,10 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertInstanceOf
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import pro.vlprojects.semantic.pattern.creational.factory.Factory
 import pro.vlprojects.semantic.pattern.creational.factory.error.FactoryNotFoundException
 import pro.vlprojects.semantic.pattern.creational.factory.error.InvalidDefinitionException
+import pro.vlprojects.semantic.pattern.creational.factory.error.InvalidFactoryException
 import pro.vlprojects.semantic.pattern.creational.factory.error.MultipleFactoriesException
 import pro.vlprojects.semantic.pattern.creational.registry.error.InstanceAlreadyExistsException
 import pro.vlprojects.semantic.pattern.creational.registry.error.InstanceRegistrationException
@@ -17,7 +19,7 @@ class AbstractRegistrarTests {
     private val registry = GreetingRegistry()
 
     @Test
-    fun `every definition becomes an instance of the factory that supports it`() {
+    fun `every definition becomes an instance of the factory of its class`() {
         mapOf(
             "morning" to GreetingDefinition("Good morning"),
             "evening" to ShoutDefinition("Good evening"),
@@ -70,7 +72,7 @@ class AbstractRegistrarTests {
     }
 
     @Test
-    fun `a definition that no factory supports is reported with its name`() {
+    fun `a definition without a factory is reported with its name`() {
         val failure = assertThrows<InstanceRegistrationException> {
             mapOf("silence" to SilenceDefinition)
                 .let(::GreetingRegistrar)
@@ -82,15 +84,22 @@ class AbstractRegistrarTests {
     }
 
     @Test
-    fun `a definition that several factories support is reported with its name`() {
-        val failure = assertThrows<InstanceRegistrationException> {
+    fun `two factories of one definition are rejected at construction`() {
+        assertThrows<MultipleFactoriesException> {
             GreetingRegistrar(
-                definitions = mapOf("morning" to GreetingDefinition("Good morning")),
+                definitions = emptyMap(),
                 factories = listOf(GreetingFactory, GreetingFactory),
-            ).populate(registry)
+            )
         }
+    }
 
-        assertEquals("morning", failure.name)
-        assertInstanceOf(MultipleFactoriesException::class.java, failure.cause)
+    @Test
+    fun `a factory whose definition is unknown is rejected at construction`() {
+        assertThrows<InvalidFactoryException> {
+            GreetingRegistrar(
+                definitions = emptyMap(),
+                factories = listOf(Factory<GreetingDefinition, String> { definition -> definition.text }),
+            )
+        }
     }
 }

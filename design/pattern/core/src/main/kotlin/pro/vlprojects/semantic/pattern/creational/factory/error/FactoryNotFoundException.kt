@@ -4,4 +4,4 @@ import pro.vlprojects.semantic.pattern.creational.factory.Factory
 
 public class FactoryNotFoundException(
     definition: Factory.Definition,
-) : NoSuchElementException("No factory supports a definition of ${definition::class.simpleName}")
+) : NoSuchElementException("No factory creates an instance of ${definition.javaClass.name}")

@@ -13,10 +13,10 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | Package | What is there |
 | --- | --- |
 | `creational.registry` | `Registry`, named instances of one type that the whole application shares and manages at run time; `Registrar`, populates a registry at startup from one source; `RegistryStore`, keeps the instances of a registry; `InMemoryRegistryStore`, a store in memory |
-| `creational.registry.base` | `AbstractRegistry`, a registry over a store; `AbstractRegistrar`, a registrar of definitions through the factory that supports each |
+| `creational.registry.base` | `AbstractRegistry`, a registry over a store; `AbstractRegistrar`, a registrar of definitions through the factory of each class of a definition |
 | `creational.registry.error` | `InvalidNameException`, `InstanceAlreadyExistsException`, `InstanceNotFoundException`, `DefaultInstanceNotFoundException`; `InstanceRegistrationException` of a registrar |
 | `creational.factory` | `Factory`, an instance made of its definition; `Factory.Definition`, the marker of a definition |
-| `creational.factory.error` | `InvalidDefinitionException`; `FactoryNotFoundException`, `MultipleFactoriesException` of a registrar |
+| `creational.factory.error` | `InvalidDefinitionException`; `InvalidFactoryException`, `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
 
 `structural` and `behavioral` get packages when a pattern of them is needed.
 
@@ -28,7 +28,7 @@ Four roles, each with one reason to change:
 | --- | --- | --- | --- |
 | `Registry<T>` | keeps instances by name and finds them; replaces and removes them at run time | builds nothing, knows no factory and no settings | Spring `SingletonBeanRegistry`, Spring Boot `SslBundleRegistry`, Resilience4j `Registry` |
 | `Registrar<T>` | populates a registry once at startup from one source: settings, annotations, beans, code | hands out no instance, nobody asks it | Spring `BeanRegistrar`, Spring Boot `SslBundleRegistrar`; `populate` as in Spring Data `RepositoryPopulator` and Spring JDBC `DatabasePopulator` |
-| `Factory<D, T>` | tells by `supports` whether it takes a definition, makes an instance of it | knows no name | Spring AMQP `RabbitListenerContainerFactory`, the factories of backoff |
+| `Factory<D, T>` | makes an instance of its definition | knows no name | Spring AMQP `RabbitListenerContainerFactory`, the factories of backoff |
 | `RegistryStore<T>` | keeps the instances of a registry: `find`, `putIfAbsent`, `getAndReplace`, `getAndRemove`, each atomic, and `getAll` | checks no name, throws no exception of the contract | Resilience4j `RegistryStore`; the methods as in JCache `Cache` |
 
 A definition is the data an instance is made of, the delays of an exponential
@@ -36,11 +36,14 @@ backoff for one; it carries no name, as a Spring `BeanDefinition` does not. It
 implements `Factory.Definition`, an empty interface that a factory is bound by and a module
 may extend, as Spring marks its callbacks with `Aware`.
 
-A registrar takes a list of factories and makes each definition by the one whose
-`supports` takes it, as `ProviderManager` of Spring Security picks an
-`AuthenticationProvider` by its `supports`. No factory that supports a definition
-throws `FactoryNotFoundException`, several throw `MultipleFactoriesException`: the
-choice never depends on the order of the list. The factories are dependencies of a
+A registrar takes a list of factories and keys each by the class of the definition it
+takes, read from its declaration `Factory<GreetingDefinition, String>`, as
+`GenericConversionService` of Spring reads the types of a `Converter`. A lookup is one
+access by the class of a definition, with no pass over the factories. The constructor of a
+registrar checks the list: a factory whose class does not resolve its definition, a lambda
+for one, throws `InvalidFactoryException`; two factories of one definition throw
+`MultipleFactoriesException`. A definition with no factory of its exact class throws
+`FactoryNotFoundException` when it is made. The factories are dependencies of a
 registrar, not entries of a registry: their set is fixed when the application is assembled.
 
 ```kotlin
@@ -96,7 +99,7 @@ is made eagerly unless it is marked lazy. A factory rejects a wrong definition w
 
 A registrar wraps any failure of an instance in `InstanceRegistrationException` with the
 name it failed on and the failure as its cause: a wrong definition, a blank name, a taken
-one, a definition no factory or several factories support. `AbstractRegistrar` does it once: its `populate` makes and registers every definition
+one, a definition with no factory. `AbstractRegistrar` does it once: its `populate` makes and registers every definition
 that `loadDefinitions` returns, as `RepositoryBeanDefinitionRegistrarSupport` of Spring Data
 leaves its subclass only the annotation and the extension. A registrar of ready beans from
 code needs no definitions and implements `Registrar` itself. A caller of `populate` catches one exception and learns which instance broke the

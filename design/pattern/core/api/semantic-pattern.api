@@ -1,6 +1,5 @@
 public abstract interface class pro/vlprojects/semantic/pattern/creational/factory/Factory {
 	public abstract fun create (Lpro/vlprojects/semantic/pattern/creational/factory/Factory$Definition;)Ljava/lang/Object;
-	public abstract fun supports (Lpro/vlprojects/semantic/pattern/creational/factory/Factory$Definition;)Z
 }
 
 public abstract interface class pro/vlprojects/semantic/pattern/creational/factory/Factory$Definition {
@@ -15,8 +14,12 @@ public class pro/vlprojects/semantic/pattern/creational/factory/error/InvalidDef
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 }
 
-public final class pro/vlprojects/semantic/pattern/creational/factory/error/MultipleFactoriesException : java/lang/IllegalStateException {
-	public fun <init> (Lpro/vlprojects/semantic/pattern/creational/factory/Factory$Definition;)V
+public final class pro/vlprojects/semantic/pattern/creational/factory/error/InvalidFactoryException : java/lang/IllegalArgumentException {
+	public fun <init> (Lpro/vlprojects/semantic/pattern/creational/factory/Factory;)V
+}
+
+public final class pro/vlprojects/semantic/pattern/creational/factory/error/MultipleFactoriesException : java/lang/IllegalArgumentException {
+	public fun <init> (Ljava/lang/Class;)V
 }
 
 public final class pro/vlprojects/semantic/pattern/creational/registry/InMemoryRegistryStore : pro/vlprojects/semantic/pattern/creational/registry/RegistryStore {

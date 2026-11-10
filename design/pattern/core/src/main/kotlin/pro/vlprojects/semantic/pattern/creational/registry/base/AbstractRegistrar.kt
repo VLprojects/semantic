@@ -3,13 +3,21 @@ package pro.vlprojects.semantic.pattern.creational.registry.base
 import pro.vlprojects.semantic.pattern.creational.factory.Factory
 import pro.vlprojects.semantic.pattern.creational.factory.error.FactoryNotFoundException
 import pro.vlprojects.semantic.pattern.creational.factory.error.MultipleFactoriesException
+import pro.vlprojects.semantic.pattern.creational.factory.resolveDefinitionType
 import pro.vlprojects.semantic.pattern.creational.registry.Registrar
 import pro.vlprojects.semantic.pattern.creational.registry.Registry
 import pro.vlprojects.semantic.pattern.creational.registry.error.InstanceRegistrationException
 
 public abstract class AbstractRegistrar<D : Factory.Definition, T : Any>(
-    private val factories: List<Factory<*, T>>,
+    factories: List<Factory<*, T>>,
 ) : Registrar<T> {
+
+    private val factoriesByDefinitionType = factories
+        .groupBy(Factory<*, T>::resolveDefinitionType)
+        .mapValues { (definitionType, candidates) ->
+            candidates.singleOrNull()
+                ?: throw MultipleFactoriesException(definitionType)
+        }
 
     protected abstract fun loadDefinitions(): Map<String, D>
 
@@ -30,14 +38,7 @@ public abstract class AbstractRegistrar<D : Factory.Definition, T : Any>(
         .let(::resolveFactory)
         .create(definition)
 
-    @Suppress("UNCHECKED_CAST") // supports() guarantees the factory takes this definition
-    private fun resolveFactory(definition: D): Factory<D, T> {
-        val candidates = factories.filter { factory -> factory.supports(definition) }
-
-        return when {
-            candidates.isEmpty() -> throw FactoryNotFoundException(definition)
-            candidates.size > 1 -> throw MultipleFactoriesException(definition)
-            else -> candidates.single() as Factory<D, T>
-        }
-    }
+    @Suppress("UNCHECKED_CAST") // factories are keyed by the class of the definition they take
+    private fun resolveFactory(definition: D) = factoriesByDefinitionType[definition.javaClass] as Factory<D, T>?
+        ?: throw FactoryNotFoundException(definition)
 }
