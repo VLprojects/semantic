@@ -46,7 +46,7 @@ class OutboxDispatcherTests {
 
         override fun findById(id: OutboxId) = null
 
-        override fun start(startedAt: Instant, limit: Int) = lockedOutboxes.also {
+        override fun findAndModifyScheduled(startedAt: Instant, limit: Int) = lockedOutboxes.also {
             requestedLimits +=
                 limit
         }
