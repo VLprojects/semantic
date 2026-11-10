@@ -26,11 +26,7 @@ public data class RateLimitDecision private constructor(
 
         public companion object Factory {
 
-            public fun of(total: Int, remaining: Int): Capacity {
-                require(remaining in 0..total) { "Remaining $remaining is outside 0..$total" }
-
-                return Capacity(total, remaining)
-            }
+            public fun of(total: Int, remaining: Int): Capacity = Capacity(total, remaining)
         }
     }
 
