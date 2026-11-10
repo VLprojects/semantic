@@ -10,13 +10,16 @@ public interface Registry<T : Any> {
     public fun find(name: String): T?
 
     @Throws(InstanceNotFoundException::class)
-    public operator fun get(name: String): T = find(name)
+    public fun resolve(name: String): T = find(name)
         ?: throw InstanceNotFoundException(name)
 
     @Throws(DefaultInstanceNotFoundException::class)
-    public fun getOrDefault(name: String): T = find(name)
-        ?: find(DEFAULT_NAME)
+    public fun resolveDefault(): T = find(DEFAULT_NAME)
         ?: throw DefaultInstanceNotFoundException(DEFAULT_NAME)
+
+    @Throws(DefaultInstanceNotFoundException::class)
+    public fun resolveOrDefault(name: String): T = find(name)
+        ?: resolveDefault()
 
     public operator fun contains(name: String): Boolean = find(name) != null
 

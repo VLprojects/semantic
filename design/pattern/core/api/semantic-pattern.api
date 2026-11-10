@@ -28,11 +28,12 @@ public abstract interface class pro/vlprojects/semantic/pattern/creational/regis
 	public static final field DEFAULT_NAME Ljava/lang/String;
 	public fun contains (Ljava/lang/String;)Z
 	public abstract fun find (Ljava/lang/String;)Ljava/lang/Object;
-	public fun get (Ljava/lang/String;)Ljava/lang/Object;
 	public abstract fun getAll ()Ljava/util/Collection;
-	public fun getOrDefault (Ljava/lang/String;)Ljava/lang/Object;
 	public abstract fun register (Ljava/lang/String;Ljava/lang/Object;)V
 	public abstract fun replace (Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;
+	public fun resolve (Ljava/lang/String;)Ljava/lang/Object;
+	public fun resolveDefault ()Ljava/lang/Object;
+	public fun resolveOrDefault (Ljava/lang/String;)Ljava/lang/Object;
 	public abstract fun unregister (Ljava/lang/String;)Ljava/lang/Object;
 }
 

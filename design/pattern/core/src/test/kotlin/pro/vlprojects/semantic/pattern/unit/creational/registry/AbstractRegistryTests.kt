@@ -20,7 +20,7 @@ class AbstractRegistryTests {
     fun `a registered instance is found by its name`() {
         registry.register("morning", "Good morning")
 
-        assertEquals("Good morning", registry["morning"])
+        assertEquals("Good morning", registry.resolve("morning"))
         assertEquals("Good morning", registry.find("morning"))
         assertTrue("morning" in registry)
     }
@@ -29,7 +29,7 @@ class AbstractRegistryTests {
     fun `an unknown name finds nothing`() {
         assertNull(registry.find("evening"))
         assertFalse("evening" in registry)
-        assertEquals("evening", assertThrows<InstanceNotFoundException> { registry["evening"] }.name)
+        assertEquals("evening", assertThrows<InstanceNotFoundException> { registry.resolve("evening") }.name)
     }
 
     @Test
@@ -43,7 +43,7 @@ class AbstractRegistryTests {
         registry.register("morning", "Good morning")
 
         assertThrows<InstanceAlreadyExistsException> { registry.register("morning", "Morning") }
-        assertEquals("Good morning", registry["morning"])
+        assertEquals("Good morning", registry.resolve("morning"))
     }
 
     @Test
@@ -51,7 +51,7 @@ class AbstractRegistryTests {
         registry.register("morning", "Good morning")
 
         assertEquals("Good morning", registry.replace("morning", "Morning"))
-        assertEquals("Morning", registry["morning"])
+        assertEquals("Morning", registry.resolve("morning"))
     }
 
     @Test
@@ -70,10 +70,18 @@ class AbstractRegistryTests {
     }
 
     @Test
+    fun `the default instance is the one under the default name`() {
+        registry.register(Registry.DEFAULT_NAME, "Hello")
+
+        assertEquals("Hello", registry.resolveDefault())
+    }
+
+    @Test
     fun `a registry without the default instance says so`() {
         registry.register("morning", "Good morning")
 
-        assertThrows<DefaultInstanceNotFoundException> { registry.getOrDefault("evening") }
+        assertThrows<DefaultInstanceNotFoundException> { registry.resolveDefault() }
+        assertThrows<DefaultInstanceNotFoundException> { registry.resolveOrDefault("evening") }
     }
 
     @Test
@@ -81,9 +89,9 @@ class AbstractRegistryTests {
         registry.register(Registry.DEFAULT_NAME, "Hello")
         registry.register("morning", "Good morning")
 
-        assertEquals("Good morning", registry.getOrDefault("morning"))
-        assertEquals("Hello", registry.getOrDefault("evening"))
-        assertThrows<InstanceNotFoundException> { registry["evening"] }
+        assertEquals("Good morning", registry.resolveOrDefault("morning"))
+        assertEquals("Hello", registry.resolveOrDefault("evening"))
+        assertThrows<InstanceNotFoundException> { registry.resolve("evening") }
     }
 
     @Test

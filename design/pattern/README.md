@@ -56,7 +56,7 @@ class BackoffPropertiesRegistrar(
 }
 ```
 
-The code of an application looks an instance up, `registry["orders"]`; the
+The code of an application looks an instance up, `registry.resolve("orders")`; the
 registry is injected, never reached through a static, so it is no Service Locator.
 
 ## The contract of a registry
@@ -64,7 +64,7 @@ registry is injected, never reached through a static, so it is no Service Locato
 - `register` of a blank name throws `InvalidNameException`.
 - A name is registered once: `register` of a taken name throws `InstanceAlreadyExistsException`,
   as `registerMBean` of JMX throws its `InstanceAlreadyExistsException`.
-- `replace`, `unregister` and `get` of an unknown name throw `InstanceNotFoundException`, as
+- `replace`, `unregister` and `resolve` of an unknown name throw `InstanceNotFoundException`, as
   `unregisterMBean` of JMX does; `find` returns `null`.
 - `replace` and `unregister` return the instance they took out, for its owner to close it,
   as `replace` in Resilience4j and `unregisterContributor` in Spring Boot do.
@@ -72,9 +72,11 @@ registry is injected, never reached through a static, so it is no Service Locato
   does; later changes do not touch it.
 - The default instance is the one under `Registry.DEFAULT_NAME`, `"default"`, as the default
   configuration of Resilience4j is. A registrar puts it as any other.
-- `getOrDefault` falls back to the default instance for an unknown name, or throws
-  `DefaultInstanceNotFoundException`, an `InstanceNotFoundException`, when there is none.
-  `get` never falls back, so a misspelt name fails where nobody asked for a fallback.
+- `resolveDefault` returns the default instance or throws `DefaultInstanceNotFoundException`,
+  an `InstanceNotFoundException`. `resolveOrDefault` falls back to it for an unknown name;
+  `resolve` never does, so a misspelt name fails where nobody asked for a fallback.
+- A lookup is `resolve`, as `DestinationResolver` of Spring resolves a destination by its
+  name and throws when it cannot.
 
 Each exception of a registry extends the one of the JDK a caller expects: `IllegalArgumentException`,
 `IllegalStateException`, `NoSuchElementException`. It carries the name that failed.
