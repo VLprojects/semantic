@@ -264,6 +264,15 @@ class BackoffPropertiesRegistrarTests {
     }
 
     @Test
+    fun `a value right on the instances block fails`() {
+        val failure = assertThrows<IllegalArgumentException> {
+            registerBackoffs("$PREFIX.instances" to "9s")
+        }
+
+        assertTrue("9s" in failure.message.orEmpty())
+    }
+
+    @Test
     fun `a field the type does not have fails with the names of the instance and the field`() {
         val failure = assertThrows<IllegalArgumentException> {
             registerBackoffs("$PREFIX.instances.orders.exponential.delay" to "5s")
