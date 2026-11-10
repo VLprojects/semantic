@@ -4,7 +4,7 @@ Classic patterns of objects for Kotlin and Java, grouped as the Gang of Four gro
 them: creational, structural, behavioral. A package per group, a package per
 pattern inside it. Plain Kotlin, no framework; adapters come as modules of their own.
 
-Only the contracts of the creational group are in place so far.
+Only the creational group is in place so far: a registry with its store, a registrar, a factory.
 
 ## Packages
 
@@ -12,8 +12,10 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 
 | Package | What is there |
 | --- | --- |
-| `creational.registry` | `Registry`, named instances of one type that the whole application shares and manages at run time; `Registrar`, populates a registry at startup from one source; `RegistryStore`, keeps the instances of a registry |
+| `creational.registry` | `Registry`, named instances of one type that the whole application shares and manages at run time; `Registrar`, populates a registry at startup from one source; `RegistryStore`, keeps the instances of a registry; `AbstractRegistry` over a store and `InMemoryRegistryStore` |
+| `creational.registry.error` | `InvalidNameException`, `InstanceAlreadyExistsException`, `InstanceNotFoundException` |
 | `creational.factory` | `Factory`, an instance made of its definition |
+| `creational.factory.error` | `InvalidDefinitionException` |
 
 `structural` and `behavioral` get packages when a pattern of them is needed.
 
@@ -52,31 +54,40 @@ registry is injected, never reached through a static, so it is no Service Locato
 
 ## The contract of a registry
 
-- A name is not blank, or `IllegalArgumentException`.
-- A name is registered once: `register` of a taken name throws `IllegalStateException`,
-  as `registerSingleton` in Spring does. `replace` and `unregister` of an unknown name throw
-  `NoSuchElementException`, as `removeBeanDefinition` throws `NoSuchBeanDefinitionException`.
+- `register` of a blank name throws `InvalidNameException`.
+- A name is registered once: `register` of a taken name throws `InstanceAlreadyExistsException`,
+  as `registerMBean` of JMX throws its `InstanceAlreadyExistsException`.
+- `replace`, `unregister` and `get` of an unknown name throw `InstanceNotFoundException`, as
+  `unregisterMBean` of JMX does; `find` returns `null`.
 - `replace` and `unregister` return the instance they took out, for its owner to close it,
   as `replace` in Resilience4j and `unregisterContributor` in Spring Boot do.
-- `get` of an unknown name throws `NoSuchElementException`, `find` returns `null`.
-- The order of `names` is the order of the store.
+- A registry lists no names: code looks an instance up by the name it knows.
+
+Each exception of a registry extends the one of the JDK a caller expects: `IllegalArgumentException`,
+`IllegalStateException`, `NoSuchElementException`. It carries the name that failed.
 
 A registry checks a name and turns the answers of its store into the exceptions above:
 `putIfAbsent` that returns an instance means a taken name, `replace` or `remove` that
-returns `null` means an unknown one. The store keeps instances in memory by default; a
-cache or a database fits it too, for an instance that can be serialized.
+returns `null` means an unknown one. `AbstractRegistry` does it once for every store, as
+`AbstractRegistry` of Resilience4j does over its `RegistryStore`. `InMemoryRegistryStore`
+keeps instances in a `ConcurrentHashMap`; a cache or a database fits a store too, for an
+instance that can be serialized.
+
+```kotlin
+class BackoffRegistry(store: RegistryStore<Backoff>) : AbstractRegistry<Backoff>(store)
+```
 
 A registrar makes every instance at startup, not on its first lookup: a wrong
 definition stops the startup instead of failing a call later, as a singleton in Spring
 is made eagerly unless it is marked lazy. A factory rejects a wrong definition with
-`IllegalArgumentException`.
+`InvalidDefinitionException`, as Jackson does with its own; a factory may extend it.
 
 Registrars run in their order. A name that two of them take stops the startup, unless
 the later one replaces it on purpose: a bean from code overrides a setting by `replace`.
 
 ## Plan
 
-1. The contracts of `Registry`, `Registrar`, `Factory` and `RegistryStore`.
-2. `AbstractRegistry` over a `RegistryStore`, and `InMemoryRegistryStore` on `ConcurrentHashMap`, as in Resilience4j.
-3. Metrics of a registry, kept in step with its changes without events.
-4. A Spring Boot adapter: a registrar over settings, taken out of backoff.
+1. The contracts of `Registry`, `Registrar`, `Factory` and `RegistryStore`; `AbstractRegistry`
+   and `InMemoryRegistryStore`.
+2. Metrics of a registry, kept in step with its changes without events.
+3. A Spring Boot adapter: a registrar over settings, taken out of backoff.

@@ -1,23 +1,25 @@
 package pro.vlprojects.semantic.pattern.creational.registry
 
-public interface Registry<T : Any> {
+import pro.vlprojects.semantic.pattern.creational.registry.error.InstanceAlreadyExistsException
+import pro.vlprojects.semantic.pattern.creational.registry.error.InstanceNotFoundException
+import pro.vlprojects.semantic.pattern.creational.registry.error.InvalidNameException
 
-    public val names: Set<String>
+public interface Registry<T : Any> {
 
     public fun find(name: String): T?
 
-    @Throws(NoSuchElementException::class)
+    @Throws(InstanceNotFoundException::class)
     public operator fun get(name: String): T = find(name)
-        ?: throw NoSuchElementException("No instance is registered under '$name'")
+        ?: throw InstanceNotFoundException(name)
 
-    public operator fun contains(name: String): Boolean = name in names
+    public operator fun contains(name: String): Boolean = find(name) != null
 
-    @Throws(IllegalArgumentException::class, IllegalStateException::class)
+    @Throws(InvalidNameException::class, InstanceAlreadyExistsException::class)
     public fun register(name: String, instance: T)
 
-    @Throws(IllegalArgumentException::class, NoSuchElementException::class)
+    @Throws(InstanceNotFoundException::class)
     public fun replace(name: String, instance: T): T
 
-    @Throws(IllegalArgumentException::class, NoSuchElementException::class)
+    @Throws(InstanceNotFoundException::class)
     public fun unregister(name: String): T
 }

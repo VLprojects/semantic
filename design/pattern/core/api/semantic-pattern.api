@@ -2,6 +2,28 @@ public abstract interface class pro/vlprojects/semantic/pattern/creational/facto
 	public abstract fun create (Ljava/lang/Object;)Ljava/lang/Object;
 }
 
+public class pro/vlprojects/semantic/pattern/creational/factory/error/InvalidDefinitionException : java/lang/IllegalArgumentException {
+	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public abstract class pro/vlprojects/semantic/pattern/creational/registry/AbstractRegistry : pro/vlprojects/semantic/pattern/creational/registry/Registry {
+	public fun <init> (Lpro/vlprojects/semantic/pattern/creational/registry/RegistryStore;)V
+	public fun find (Ljava/lang/String;)Ljava/lang/Object;
+	protected final fun getStore ()Lpro/vlprojects/semantic/pattern/creational/registry/RegistryStore;
+	public fun register (Ljava/lang/String;Ljava/lang/Object;)V
+	public fun replace (Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;
+	public fun unregister (Ljava/lang/String;)Ljava/lang/Object;
+}
+
+public final class pro/vlprojects/semantic/pattern/creational/registry/InMemoryRegistryStore : pro/vlprojects/semantic/pattern/creational/registry/RegistryStore {
+	public fun <init> ()V
+	public fun find (Ljava/lang/String;)Ljava/lang/Object;
+	public fun putIfAbsent (Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;
+	public fun remove (Ljava/lang/String;)Ljava/lang/Object;
+	public fun replace (Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;
+}
+
 public abstract interface class pro/vlprojects/semantic/pattern/creational/registry/Registrar {
 	public abstract fun populate (Lpro/vlprojects/semantic/pattern/creational/registry/Registry;)V
 }
@@ -10,7 +32,6 @@ public abstract interface class pro/vlprojects/semantic/pattern/creational/regis
 	public fun contains (Ljava/lang/String;)Z
 	public abstract fun find (Ljava/lang/String;)Ljava/lang/Object;
 	public fun get (Ljava/lang/String;)Ljava/lang/Object;
-	public abstract fun getNames ()Ljava/util/Set;
 	public abstract fun register (Ljava/lang/String;Ljava/lang/Object;)V
 	public abstract fun replace (Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;
 	public abstract fun unregister (Ljava/lang/String;)Ljava/lang/Object;
@@ -18,9 +39,23 @@ public abstract interface class pro/vlprojects/semantic/pattern/creational/regis
 
 public abstract interface class pro/vlprojects/semantic/pattern/creational/registry/RegistryStore {
 	public abstract fun find (Ljava/lang/String;)Ljava/lang/Object;
-	public abstract fun getNames ()Ljava/util/Set;
 	public abstract fun putIfAbsent (Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;
 	public abstract fun remove (Ljava/lang/String;)Ljava/lang/Object;
 	public abstract fun replace (Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;
+}
+
+public final class pro/vlprojects/semantic/pattern/creational/registry/error/InstanceAlreadyExistsException : java/lang/IllegalStateException {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun getName ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/pattern/creational/registry/error/InstanceNotFoundException : java/util/NoSuchElementException {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun getName ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/pattern/creational/registry/error/InvalidNameException : java/lang/IllegalArgumentException {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun getName ()Ljava/lang/String;
 }
 
