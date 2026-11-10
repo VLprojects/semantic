@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 656" width="1024" height="656" role="img">
+  <rect width="1024" height="656" rx="12" fill="#151B23"/>
+  <g transform="translate(12,12)">
+    <rect x="16" y="16" width="968" height="600" rx="12" fill="#1D242D"/>
+    <text x="40.0" y="52.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#E6EDF3" text-anchor="start">Storage failure, race, expiry and restart</text>
+    <text x="40.0" y="76.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#9198A1" text-anchor="start">DefaultRateLimiter decides, not an adapter, so incoming and outgoing calls behave alike</text>
+    <text x="40.0" y="146.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">storage is down</text>
+    <text x="40.0" y="166.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">the call goes through, WARN in the log;</text>
+    <text x="40.0" y="184.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">reject turns it down</text>
+    <rect x="320.0" y="144.0" width="600.0" height="8.0" rx="2" fill="#FF4F7B"/>
+    <text x="320.0" y="128.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#E6EDF3" text-anchor="start">Redis does not answer</text>
+    <rect x="332.0" y="136.0" width="3.0" height="24.0" rx="1" fill="#3FB950"/>
+    <rect x="380.0" y="136.0" width="3.0" height="24.0" rx="1" fill="#3FB950"/>
+    <rect x="428.0" y="136.0" width="3.0" height="24.0" rx="1" fill="#3FB950"/>
+    <rect x="476.0" y="136.0" width="3.0" height="24.0" rx="1" fill="#3FB950"/>
+    <rect x="524.0" y="136.0" width="3.0" height="24.0" rx="1" fill="#3FB950"/>
+    <rect x="572.0" y="136.0" width="3.0" height="24.0" rx="1" fill="#3FB950"/>
+    <rect x="620.0" y="136.0" width="3.0" height="24.0" rx="1" fill="#3FB950"/>
+    <rect x="668.0" y="136.0" width="3.0" height="24.0" rx="1" fill="#3FB950"/>
+    <rect x="716.0" y="136.0" width="3.0" height="24.0" rx="1" fill="#3FB950"/>
+    <rect x="764.0" y="136.0" width="3.0" height="24.0" rx="1" fill="#3FB950"/>
+    <rect x="812.0" y="136.0" width="3.0" height="24.0" rx="1" fill="#3FB950"/>
+    <rect x="860.0" y="136.0" width="3.0" height="24.0" rx="1" fill="#3FB950"/>
+    <path d="M320,164 L320,168 L920,168 L920,164" stroke="#515B66" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="620.0" y="184.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#6E7681" text-anchor="middle">on-failure: allow</text>
+    <text x="40.0" y="274.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">a hot key</text>
+    <text x="40.0" y="294.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">version conflicts in a row:</text>
+    <text x="40.0" y="312.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">after max-attempts, as a failure</text>
+    <rect x="320.0" y="264.0" width="48.0" height="24.0" rx="2" fill="#FF9F4A"/>
+    <rect x="376.0" y="264.0" width="48.0" height="24.0" rx="2" fill="#FF9F4A"/>
+    <rect x="432.0" y="264.0" width="48.0" height="24.0" rx="2" fill="#FF9F4A"/>
+    <rect x="488.0" y="264.0" width="48.0" height="24.0" rx="2" fill="#3FB950"/>
+    <text x="552.0" y="280.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#6E7681" text-anchor="start">saved at the 4th attempt</text>
+    <path d="M320,292 L320,296 L768,296 L768,292" stroke="#515B66" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="544.0" y="312.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#6E7681" text-anchor="middle">max-attempts: 8</text>
+    <text x="40.0" y="402.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">a key is no longer used</text>
+    <text x="40.0" y="422.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">the counter is full again,</text>
+    <text x="40.0" y="440.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">so storage removes it</text>
+    <rect x="320.0" y="392.0" width="160.0" height="24.0" rx="2" fill="#4493F8"/>
+    <rect x="482.0" y="403.0" width="238.0" height="2.0" rx="1" fill="#454F5A"/>
+    <rect x="720.0" y="372.0" width="1.5" height="48.0" rx="0" fill="#E6EDF3"/>
+    <text x="728.0" y="382.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#E6EDF3" text-anchor="start">removed</text>
+    <path d="M480,420 L480,424 L720,424 L720,420" stroke="#515B66" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="600.0" y="440.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#6E7681" text-anchor="middle">expiresAt</text>
+    <text x="40.0" y="530.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">the process restarts</text>
+    <text x="40.0" y="550.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">the counter in memory is lost,</text>
+    <text x="40.0" y="568.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">the limit starts over</text>
+    <rect x="320.0" y="520.0" width="200.0" height="24.0" rx="2" fill="#4493F8"/>
+    <rect x="520.0" y="500.0" width="1.5" height="48.0" rx="0" fill="#E6EDF3"/>
+    <text x="528.0" y="510.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#E6EDF3" text-anchor="start">restart</text>
+    <rect x="524.0" y="520.0" width="200.0" height="24.0" rx="2" fill="#6E9BFF"/>
+    <text x="740.0" y="536.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#6E7681" text-anchor="start">InMemory: a full quota</text>
+  </g>
+</svg>

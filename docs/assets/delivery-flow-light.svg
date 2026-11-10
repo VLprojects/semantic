@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1454 700" width="1454" height="700" role="img">
+  <rect width="1454" height="700" rx="12" fill="#F6F8FA"/>
+  <g transform="translate(12,12)">
+    <text x="24.0" y="46.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="16" font-weight="600" fill="#1F2328" text-anchor="start">THE PATH OF A RECORD</text>
+    <rect x="228.0" y="32.0" width="319.7" height="18" rx="4" fill="#59636E" fill-opacity="0.2"/>
+    <text x="236.0" y="44.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="start">two transactions with a relay and a channel between them</text>
+    <rect x="24" y="80" width="1382" height="108" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
+    <text x="40.0" y="120.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1F2328" text-anchor="start">writing</text>
+    <text x="40.0" y="140.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">one transaction of the</text>
+    <text x="40.0" y="154.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">service</text>
+    <rect x="24" y="260" width="1382" height="212" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
+    <text x="40.0" y="300.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1F2328" text-anchor="start">relaying</text>
+    <text x="40.0" y="320.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">after commit, on any</text>
+    <text x="40.0" y="334.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">instance</text>
+    <rect x="24" y="544" width="1382" height="108" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
+    <text x="40.0" y="584.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1F2328" text-anchor="start">receiving</text>
+    <text x="40.0" y="604.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">one transaction of the</text>
+    <text x="40.0" y="618.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">consumer</text>
+    <rect x="214.0" y="96.0" width="252.0" height="76.0" rx="6" fill="#E3EFFF"/>
+    <text x="226.0" y="120.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">Outbox.schedule</text>
+    <text x="226.0" y="140.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">payload and key; outside a transaction</text>
+    <text x="226.0" y="156.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">it throws</text>
+    <rect x="522.0" y="96.0" width="252.0" height="76.0" rx="6" fill="#E3EFFF"/>
+    <text x="534.0" y="120.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">repository.add</text>
+    <text x="534.0" y="140.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">a record per handler, NEW, with the</text>
+    <text x="534.0" y="156.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">context</text>
+    <circle cx="471" cy="134.0" r="2" fill="#8B5CF6"/>
+    <path d="M519,134.0 L514.0,136.5 L514.0,131.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M471,134.0 L514,134.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="830.0" y="96.0" width="252.0" height="76.0" rx="6" fill="#DDF7E7"/>
+    <text x="842.0" y="120.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">commit</text>
+    <text x="842.0" y="140.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">the change and the record exist</text>
+    <text x="842.0" y="156.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">together</text>
+    <circle cx="779" cy="134.0" r="2" fill="#8B5CF6"/>
+    <path d="M827,134.0 L822.0,136.5 L822.0,131.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M779,134.0 L822,134.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="214.0" y="328.0" width="252.0" height="76.0" rx="6" fill="#E3EFFF"/>
+    <text x="226.0" y="352.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">Relay.relay</text>
+    <text x="226.0" y="372.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">claims a batch: SKIP LOCKED, a lease,</text>
+    <text x="226.0" y="388.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">a token</text>
+    <rect x="522.0" y="328.0" width="252.0" height="76.0" rx="6" fill="#E3EFFF"/>
+    <text x="534.0" y="352.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">OutboxHandler.handle</text>
+    <text x="534.0" y="372.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">your code or RabbitOutboxHandler</text>
+    <circle cx="471" cy="366.0" r="2" fill="#8B5CF6"/>
+    <path d="M519,366.0 L514.0,368.5 L514.0,363.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M471,366.0 L514,366.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="779" cy="366.0" r="2" fill="#8B5CF6"/>
+    <path d="M779,366.0 L802.0,366.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="830.0" y="276.0" width="560.0" height="52.0" rx="6" fill="#DDF7E7"/>
+    <text x="842.0" y="297.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">complete</text>
+    <text x="842.0" y="316.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">COMPLETED; a stale token changes nothing</text>
+    <path d="M802.0,366.0 L802.0,302.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M827,302.0 L822.0,304.5 L822.0,299.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M802.0,302.0 L822,302.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="830.0" y="340.0" width="560.0" height="52.0" rx="6" fill="#FFEEDC"/>
+    <text x="842.0" y="361.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">reschedule</text>
+    <text x="842.0" y="380.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8F4600" text-anchor="start">OutboxRetryPolicy with Backoff picks the next attempt</text>
+    <path d="M802.0,366.0 L802.0,366.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M827,366.0 L822.0,368.5 L822.0,363.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M802.0,366.0 L822,366.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="830.0" y="404.0" width="560.0" height="52.0" rx="6" fill="#E3E8ED"/>
+    <text x="842.0" y="425.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#EE2D62" text-anchor="start">OutboxFallbackHandler, else FAILED</text>
+    <text x="842.0" y="444.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">attempts are spent</text>
+    <path d="M802.0,366.0 L802.0,430.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M827,430.0 L822.0,432.5 L822.0,427.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M802.0,430.0 L822,430.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="214.0" y="560.0" width="252.0" height="76.0" rx="6" fill="#E3EFFF"/>
+    <text x="226.0" y="584.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">IdempotentReceiver</text>
+    <text x="226.0" y="604.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">opens the transaction through</text>
+    <text x="226.0" y="620.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">TransactionRunner</text>
+    <rect x="522.0" y="560.0" width="252.0" height="76.0" rx="6" fill="#E3EFFF"/>
+    <text x="534.0" y="584.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">Inbox.accept</text>
+    <text x="534.0" y="604.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">source, idempotency key, consumer; a</text>
+    <text x="534.0" y="620.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">duplicate stops here</text>
+    <circle cx="471" cy="598.0" r="2" fill="#8B5CF6"/>
+    <path d="M519,598.0 L514.0,600.5 L514.0,595.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M471,598.0 L514,598.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="830.0" y="560.0" width="252.0" height="76.0" rx="6" fill="#E3E8ED"/>
+    <text x="842.0" y="584.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">@TransactionalInbox</text>
+    <text x="842.0" y="604.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">the handler; what it sends goes through</text>
+    <text x="842.0" y="620.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">Outbox.schedule</text>
+    <circle cx="779" cy="598.0" r="2" fill="#8B5CF6"/>
+    <path d="M827,598.0 L822.0,600.5 L822.0,595.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M779,598.0 L822,598.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="1138.0" y="560.0" width="252.0" height="76.0" rx="6" fill="#DDF7E7"/>
+    <text x="1150.0" y="584.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">commit, then ack</text>
+    <text x="1150.0" y="604.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">a crash before ack brings a duplicate</text>
+    <circle cx="1087" cy="598.0" r="2" fill="#8B5CF6"/>
+    <path d="M1135,598.0 L1130.0,600.5 L1130.0,595.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M1087,598.0 L1130,598.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="956.0" cy="177" r="2" fill="#8B5CF6"/>
+    <path d="M340.0,325.0 L337.5,320.0 L342.5,320.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M956.0,177 L956.0,216.0 Q956.0,224.0 948.0,224.0 L348.0,224.0 Q340.0,224.0 340.0,232.0 L340.0,320.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="648.0" y="216.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">commit makes the record visible to Relay</text>
+    <circle cx="648.0" cy="409.0" r="2" fill="#8B5CF6"/>
+    <path d="M340.0,557 L337.5,552.0 L342.5,552.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M648.0,409.0 L648.0,500.0 Q648.0,508.0 640.0,508.0 L348.0,508.0 Q340.0,508.0 340.0,516.0 L340.0,552" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="494.0" y="500.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">at least once</text>
+  </g>
+</svg>
