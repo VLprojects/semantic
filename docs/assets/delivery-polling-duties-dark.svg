@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 608" width="1024" height="608" role="img">
+  <rect width="1024" height="608" rx="12" fill="#151B23"/>
+  <g transform="translate(12,12)">
+    <rect x="16" y="16" width="968" height="552" rx="12" fill="#1D242D"/>
+    <text x="40.0" y="52.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#E6EDF3" text-anchor="start">One task, one abstraction</text>
+    <text x="40.0" y="76.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#9198A1" text-anchor="start">On the left, what has to be decided; on the right, who decides it and nothing else</text>
+    <text x="40.0" y="130.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">which records to take and how to deliver them</text>
+    <text x="40.0" y="148.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">take a batch, send it, save the outcome</text>
+    <rect x="640.0" y="116.0" width="139.2" height="32.0" rx="6" fill="#6E9BFF"/>
+    <text x="652.0" y="136.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#06173D" text-anchor="start">OutboxDispatcher</text>
+    <text x="40.0" y="186.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">when to poll the database again</text>
+    <text x="40.0" y="204.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">return a pause from the outcome of a batch</text>
+    <rect x="640.0" y="172.0" width="175.2" height="32.0" rx="6" fill="#6E9BFF"/>
+    <text x="652.0" y="192.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#06173D" text-anchor="start">OutboxPollingStrategy</text>
+    <text x="40.0" y="242.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">run batches one after another</text>
+    <text x="40.0" y="260.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">batch, pause, batch; a failed batch does not stop the loop</text>
+    <rect x="640.0" y="228.0" width="110.4" height="32.0" rx="6" fill="#6E9BFF"/>
+    <text x="652.0" y="248.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#06173D" text-anchor="start">OutboxPoller</text>
+    <text x="40.0" y="298.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">how many pollers to keep</text>
+    <text x="40.0" y="316.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">from concurrency to max-concurrency</text>
+    <rect x="640.0" y="284.0" width="182.4" height="32.0" rx="6" fill="#6E9BFF"/>
+    <text x="652.0" y="304.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#06173D" text-anchor="start">OutboxPollingContainer</text>
+    <text x="40.0" y="354.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">graceful shutdown</text>
+    <text x="40.0" y="372.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">cancel pauses, wait for batches, no longer than the timeout</text>
+    <rect x="640.0" y="340.0" width="182.4" height="32.0" rx="6" fill="#6E9BFF"/>
+    <text x="652.0" y="360.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#06173D" text-anchor="start">OutboxPollingContainer</text>
+    <text x="40.0" y="410.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">which threads run it all</text>
+    <text x="40.0" y="428.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">the pause waits in a queue, not in a thread</text>
+    <rect x="640.0" y="396.0" width="196.8" height="32.0" rx="6" fill="#6E9BFF"/>
+    <text x="652.0" y="416.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#06173D" text-anchor="start">ScheduledExecutorService</text>
+    <text x="40.0" y="466.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">speed up delivery after a commit</text>
+    <text x="40.0" y="484.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">wake a pausing poller, at most once per cooldown</text>
+    <rect x="640.0" y="452.0" width="182.4" height="32.0" rx="6" fill="#6E9BFF"/>
+    <text x="652.0" y="472.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#06173D" text-anchor="start">OutboxPollingContainer</text>
+    <text x="40.0" y="522.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">the lifecycle of Spring</text>
+    <text x="40.0" y="540.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">start with the context, stop when it closes</text>
+    <rect x="640.0" y="508.0" width="247.2" height="32.0" rx="6" fill="#5BF08A"/>
+    <text x="652.0" y="528.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#03240E" text-anchor="start">OutboxPollingContainerLifecycle</text>
+  </g>
+</svg>

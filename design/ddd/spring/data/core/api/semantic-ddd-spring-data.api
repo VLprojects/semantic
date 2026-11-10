@@ -22,6 +22,11 @@ public abstract interface class pro/vlprojects/semantic/ddd/spring/data/reposito
 	public fun findByIdOrThrow (Lpro/vlprojects/semantic/ddd/tactical/Identifier;)Lpro/vlprojects/semantic/ddd/tactical/Entity;
 }
 
+public final class pro/vlprojects/semantic/ddd/spring/data/repository/SortExtensionsKt {
+	public static final fun order (Lkotlin/reflect/KProperty1;)Lorg/springframework/data/domain/Sort$Order;
+	public static final fun sort (Lkotlin/reflect/KProperty1;)Lorg/springframework/data/domain/Sort;
+}
+
 public abstract interface class pro/vlprojects/semantic/ddd/spring/data/repository/SpecificationExecutor {
 	public fun count (Lpro/vlprojects/semantic/ddd/tactical/Specification;)J
 	public fun exists (Lpro/vlprojects/semantic/ddd/tactical/Specification;)Z

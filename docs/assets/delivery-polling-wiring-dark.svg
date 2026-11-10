@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 556" width="1024" height="556" role="img">
+  <rect width="1024" height="556" rx="12" fill="#151B23"/>
+  <g transform="translate(12,12)">
+    <rect x="16" y="16" width="968" height="500" rx="12" fill="#1D242D"/>
+    <text x="40.0" y="52.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#E6EDF3" text-anchor="start">Without Spring and with Spring</text>
+    <text x="40.0" y="76.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#9198A1" text-anchor="start">The core is the same; only who creates the threads and calls start and stop differs</text>
+    <text x="200.0" y="120.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">without Spring</text>
+    <text x="588.0" y="120.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">Spring</text>
+    <text x="40.0" y="172.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="500" fill="#E6EDF3" text-anchor="start">threads</text>
+    <rect x="200.0" y="140.0" width="372.0" height="76.0" rx="6" fill="#6E9BFF"/>
+    <text x="212.0" y="172.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#06173D" text-anchor="start">Executors.newScheduledThreadPool(8)</text>
+    <text x="212.0" y="196.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1B3A80" text-anchor="start">created and closed by the application</text>
+    <rect x="588.0" y="140.0" width="372.0" height="76.0" rx="6" fill="#5BF08A"/>
+    <text x="600.0" y="172.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#03240E" text-anchor="start">ThreadPoolTaskScheduler</text>
+    <text x="600.0" y="196.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">from auto-configuration, outbox-poller-*</text>
+    <text x="40.0" y="264.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="500" fill="#E6EDF3" text-anchor="start">container</text>
+    <rect x="200.0" y="232.0" width="760.0" height="76.0" rx="6" fill="#6E9BFF"/>
+    <text x="212.0" y="264.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#06173D" text-anchor="start">OutboxPollingContainer(dispatcher, executor, properties)</text>
+    <text x="212.0" y="288.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1B3A80" text-anchor="start">the same class from semantic-delivery</text>
+    <text x="40.0" y="356.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="500" fill="#E6EDF3" text-anchor="start">start and stop</text>
+    <rect x="200.0" y="324.0" width="372.0" height="76.0" rx="6" fill="#6E9BFF"/>
+    <text x="212.0" y="356.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#06173D" text-anchor="start">container.start() · container.stop()</text>
+    <text x="212.0" y="380.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1B3A80" text-anchor="start">called by the application on start and stop</text>
+    <rect x="588.0" y="324.0" width="372.0" height="76.0" rx="6" fill="#5BF08A"/>
+    <text x="600.0" y="356.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#03240E" text-anchor="start">OutboxPollingContainerLifecycle</text>
+    <text x="600.0" y="380.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">with the context, waits up to shutdown-timeout</text>
+    <text x="40.0" y="448.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="500" fill="#E6EDF3" text-anchor="start">settings</text>
+    <rect x="200.0" y="416.0" width="372.0" height="76.0" rx="6" fill="#6E9BFF"/>
+    <text x="212.0" y="448.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#06173D" text-anchor="start">OutboxProperties(polling = ...)</text>
+    <text x="212.0" y="472.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1B3A80" text-anchor="start">in the application code</text>
+    <rect x="588.0" y="416.0" width="372.0" height="76.0" rx="6" fill="#5BF08A"/>
+    <text x="600.0" y="448.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#03240E" text-anchor="start">semantic.delivery.outbox.polling.*</text>
+    <text x="600.0" y="472.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#0D5A26" text-anchor="start">in application.yaml</text>
+  </g>
+</svg>
