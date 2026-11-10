@@ -29,7 +29,7 @@ Four roles, each with one reason to change:
 | `Registry<T>` | keeps instances by name and finds them; replaces and removes them at run time | builds nothing, knows no factory and no settings | Spring `SingletonBeanRegistry`, Spring Boot `SslBundleRegistry`, Resilience4j `Registry` |
 | `Registrar<T>` | populates a registry once at startup from one source: settings, annotations, beans, code | hands out no instance, nobody asks it | Spring `BeanRegistrar`, Spring Boot `SslBundleRegistrar`; `populate` as in Spring Data `RepositoryPopulator` and Spring JDBC `DatabasePopulator` |
 | `Factory<D, T>` | makes an instance of its definition | knows no name | Spring AMQP `RabbitListenerContainerFactory`, the factories of backoff |
-| `RegistryStore<T>` | keeps the instances of a registry: `find`, `putIfAbsent`, `replace`, `remove`, each atomic | checks no name, throws no exception of the contract | Resilience4j `RegistryStore`, `ConcurrentMap` of the JDK |
+| `RegistryStore<T>` | keeps the instances of a registry: `find`, `putIfAbsent`, `getAndReplace`, `getAndRemove`, each atomic | checks no name, throws no exception of the contract | Resilience4j `RegistryStore`; the methods as in JCache `Cache` |
 
 A definition is the data an instance is made of, the delays of an exponential
 backoff for one; it carries no name, as a Spring `BeanDefinition` does not. It
@@ -70,8 +70,8 @@ Each exception of a registry extends the one of the JDK a caller expects: `Illeg
 `IllegalStateException`, `NoSuchElementException`. It carries the name that failed.
 
 A registry checks a name and turns the answers of its store into the exceptions above:
-`putIfAbsent` that returns an instance means a taken name, `replace` or `remove` that
-returns `null` means an unknown one. `AbstractRegistry` does it once for every store, as
+`putIfAbsent` that returns `false` means a taken name, `getAndReplace` or `getAndRemove`
+that returns `null` means an unknown one. `AbstractRegistry` does it once for every store, as
 `AbstractRegistry` of Resilience4j does over its `RegistryStore`. `InMemoryRegistryStore`
 keeps instances in a `ConcurrentHashMap`; a cache or a database fits a store too, for an
 instance that can be serialized.

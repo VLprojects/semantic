@@ -4,9 +4,9 @@ public interface RegistryStore<T : Any> {
 
     public fun find(name: String): T?
 
-    public fun putIfAbsent(name: String, instance: T): T?
+    public fun putIfAbsent(name: String, instance: T): Boolean
 
-    public fun replace(name: String, instance: T): T?
+    public fun getAndReplace(name: String, instance: T): T?
 
-    public fun remove(name: String): T?
+    public fun getAndRemove(name: String): T?
 }

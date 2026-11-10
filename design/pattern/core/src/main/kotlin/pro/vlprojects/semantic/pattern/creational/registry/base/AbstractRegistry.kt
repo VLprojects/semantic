@@ -16,14 +16,14 @@ public abstract class AbstractRegistry<T : Any>(
         if (name.isBlank()) {
             throw InvalidNameException(name)
         }
-        if (store.putIfAbsent(name, instance) != null) {
+        if (!store.putIfAbsent(name, instance)) {
             throw InstanceAlreadyExistsException(name)
         }
     }
 
-    override fun replace(name: String, instance: T): T = store.replace(name, instance)
+    override fun replace(name: String, instance: T): T = store.getAndReplace(name, instance)
         ?: throw InstanceNotFoundException(name)
 
-    override fun unregister(name: String): T = store.remove(name)
+    override fun unregister(name: String): T = store.getAndRemove(name)
         ?: throw InstanceNotFoundException(name)
 }
