@@ -48,7 +48,7 @@ class OutboxServiceTests {
 
         override fun findById(id: OutboxId) = lockedOutboxes.find { outbox -> outbox.id == id }
 
-        override fun lockScheduledForDelivery(startedAt: Instant, limit: Int) = lockedOutboxes
+        override fun start(startedAt: Instant, limit: Int) = lockedOutboxes
             .take(limit)
             .also { lockRequests += startedAt }
 
