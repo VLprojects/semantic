@@ -41,6 +41,42 @@ class TokenBucketTests {
     }
 
     @Test
+    fun `a call that may wait takes the tokens ahead of the refill`() {
+        val empty = TokenBucketState.of(0, moment)
+        val expected = RateLimitDecision.passed(
+            tokens = Capacity.of(3, -1),
+            delay = Duration.ofMillis(600),
+            resetAfter = Duration.ofMillis(3600),
+        )
+
+        val result = bucket.allow(empty, 1, moment.plusMillis(400), maxWait = Duration.ofSeconds(1))
+
+        assertEquals(TokenBucketState.of(-1, moment), result.state)
+        assertEquals(expected, result.decision)
+    }
+
+    @Test
+    fun `a call waits behind the tokens taken ahead of it`() {
+        val indebted = TokenBucketState.of(-1, moment)
+
+        val result = bucket.allow(indebted, 1, moment, maxWait = Duration.ofSeconds(2))
+
+        assertEquals(Duration.ofSeconds(2), result.decision.delay)
+        assertEquals(TokenBucketState.of(-2, moment), result.state)
+    }
+
+    @Test
+    fun `a call that would wait longer than it may is rejected and takes nothing`() {
+        val empty = TokenBucketState.of(0, moment)
+
+        val result = bucket.allow(empty, 2, moment, maxWait = Duration.ofSeconds(1))
+
+        assertEquals(RateLimitDecision.Outcome.REJECTED, result.decision.outcome)
+        assertEquals(Duration.ofSeconds(2), result.decision.retryAfter)
+        assertEquals(empty, result.state)
+    }
+
+    @Test
     fun `a token comes back each interval and the rest of the interval is kept`() {
         val empty = TokenBucketState.of(0, moment)
 
@@ -68,6 +104,11 @@ class TokenBucketTests {
     @Test
     fun `more tokens than the capacity are rejected`() {
         assertThrows<IllegalArgumentException> { bucket.allow(null, 4, moment) }
+    }
+
+    @Test
+    fun `a negative wait is rejected`() {
+        assertThrows<IllegalArgumentException> { bucket.allow(null, 1, moment, Duration.ofMillis(-1)) }
     }
 
     @Test

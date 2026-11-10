@@ -11,7 +11,7 @@ The design is in [README.md](README.md).
 | PR | What it holds | Size |
 | --- | --- | --- |
 | 1 | the contract: `RateLimiter.allow(key, tokens)`, `RateLimitDecision` | ~50 lines |
-| 2 | `RateLimitStrategy`, `RateLimitState`, `RateLimitResult`, `TokenBucket` and its state; unit tests | ~200 lines |
+| 2 | `RateLimitStrategy` with `maxWait`, `RateLimitState`, `RateLimitResult`, `TokenBucket` and its state, `delay` in the decision; unit tests | ~300 lines |
 | 3 | `RateLimitCounter`, `RateLimitRepository`, `RateLimitOptimisticLockException`, `InMemoryRateLimitRepository`; unit tests on a `Clock` | ~150 lines |
 | 4 | `DefaultRateLimiter` with the retry by version and `on-failure`; unit tests on a `Clock` | ~200 lines |
 | 5 | `RateLimitState` to bytes and back, a format with a version | ~150 lines |
@@ -20,14 +20,14 @@ The design is in [README.md](README.md).
 
 | PR | What it holds | Needs merged |
 | --- | --- | --- |
-| 6 | `acquire(maxWait)`, `RateLimitExceededException` | 1 |
+| 6 | `acquire(maxWait)` waits for `delay`, `RateLimitExceededException` | 1 |
 | 7 | `RateLimiterRegistry` with `findByName`, `InMemoryRateLimiterRegistry` | 1 |
 | 8 | `observability/micrometer` | 1 |
 | 9 | `spring/webmvc`: the filter, `KeyResolver`, `RateLimitRejectionHandler`, the headers | 1 |
 | 10 | `FixedWindow` | 5 |
 | 11 | `SlidingWindowLog`, accepted requests only | 5 |
 | 12 | `SlidingWindowCounter` | 5 |
-| 13 | `LeakyBucket` as GCRA, `delay` in the decision | 5 |
+| 13 | `LeakyBucket` as GCRA | 5 |
 | 14 | `spring/data/redis`: the Lua script, `PX`, Testcontainers | 5 |
 
 ## Stage 3, in parallel

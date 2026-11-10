@@ -17,14 +17,16 @@ public class TokenBucket private constructor(
         .toLong()
         .let(period::dividedBy)
 
-    override fun allow(state: RateLimitState?, tokens: Int, now: Instant): RateLimitResult {
+    override fun allow(state: RateLimitState?, tokens: Int, now: Instant, maxWait: Duration): RateLimitResult {
         require(tokens in 1..capacity) { "The tokens must be from 1 to $capacity: $tokens" }
+        require(!maxWait.isNegative) { "The maximum wait must not be negative: $maxWait" }
 
         val bucket = refill(state, now)
+        val delay = calculateRefillTime(bucket, tokens, now)
 
         return when {
-            bucket.tokens >= tokens -> consume(bucket, tokens, now)
-            else -> reject(bucket, tokens, now)
+            delay <= maxWait -> consume(bucket, tokens, delay, now)
+            else -> reject(bucket, delay, now)
         }
     }
 
@@ -48,18 +50,18 @@ public class TokenBucket private constructor(
         return TokenBucketState.of(tokens, refilledAt)
     }
 
-    private fun consume(bucket: TokenBucketState, tokens: Int, now: Instant): RateLimitResult {
+    // Tokens taken ahead of the refill go below zero, so later calls wait behind this one.
+    private fun consume(bucket: TokenBucketState, tokens: Int, delay: Duration, now: Instant): RateLimitResult {
         val consumed = TokenBucketState.of(bucket.tokens - tokens, bucket.refilledAt)
         val resetAfter = calculateRefillTime(consumed, capacity, now)
 
         return consumed
             .let(::measure)
-            .let { measured -> RateLimitDecision.passed(measured, resetAfter) }
+            .let { measured -> RateLimitDecision.passed(measured, delay, resetAfter) }
             .let { decision -> RateLimitResult.of(consumed, decision) }
     }
 
-    private fun reject(bucket: TokenBucketState, tokens: Int, now: Instant): RateLimitResult {
-        val retryAfter = calculateRefillTime(bucket, tokens, now)
+    private fun reject(bucket: TokenBucketState, retryAfter: Duration, now: Instant): RateLimitResult {
         val resetAfter = calculateRefillTime(bucket, capacity, now)
 
         return bucket

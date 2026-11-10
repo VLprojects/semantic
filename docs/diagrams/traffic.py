@@ -98,7 +98,7 @@ def abstractions(pal):
 	card(a, RX, y[1], BW, "blue", "class", "DefaultRateLimiter", "reads, counts, saves by version")
 	card(a, BX, y[2], BW, "blue", "sealed interface", "RateLimitStrategy", "the five algorithms of Alex Xu")
 	card(a, RX, y[2], BW, "blue", "interface", "RateLimitRepository", "findByKey, save by version")
-	card(a, BX, y[3], BW, "blue", "data", "RateLimitDecision", "outcome, tokens, retryAfter")
+	card(a, BX, y[3], BW, "blue", "data", "RateLimitDecision", "outcome, tokens, delay")
 	card(a, RX, y[3], BW, "blue", "class", "InMemoryRateLimitRepository", "the default, in memory")
 	card(a, RX, y[4], BW, "green", "adapters", "RedisRateLimitRepository", "shared by all instances")
 	mid = b.BLOCK / 2
@@ -111,7 +111,7 @@ def abstractions(pal):
 	b.line(a, f"M{RX + 48},{y[1] + b.BLOCK + b.AIR + b.DOT} L{RX + 48},{y[1] + b.BLOCK + 24} L{BX + 200},{y[1] + b.BLOCK + 24} L{BX + 200},{y[2] - b.AIR - b.HEAD}", b.DECLARES)
 	b.dot(a, RX + 48, y[1] + b.BLOCK + b.AIR + b.DOT)
 	b.arrowhead(a, BX + 200, y[2] - b.AIR, 0, 1)
-	a.t(BX + 212, y[1] + b.BLOCK + 40, "allow(state, tokens, now)", size=12, mono=True)
+	a.t(BX + 212, y[1] + b.BLOCK + 40, "allow(state, tokens, now, maxWait)", size=12, mono=True)
 	down(a, RX + 220, y[1] + b.BLOCK, y[2], "findByKey · save")
 	down(a, BX + 48, y[2] + b.BLOCK, y[3], "returns", mono=False)
 	b.across(a, RX + BW / 2, RX + BW / 2, 0, b.BUILDS) if False else None
@@ -396,7 +396,7 @@ def outgoing(pal):
 	for s in (0, 0.5, 1, 1.5, 2):
 		a.t(x0 + s * px, axis, f"{s:g} s", size=AXIS, color="mute", anchor="start" if s == 0 else "middle")
 	notes = [
-		(0, "a call waits", "the delay of LeakyBucket", "or retryAfter of TokenBucket"),
+		(0, "a call waits", "the delay of the decision,", "its tokens are taken ahead"),
 		(0.75, "waited too long", "RateLimitExceededException,", "and the call is not sent"),
 		(1.55, "the key is the partner", "in Redis: one quota", "for all instances"),
 	]
@@ -660,7 +660,7 @@ def plan(pal):
 		10: (1, 4, "blue", "10 · core", "FixedWindow"),
 		11: (1, 5, "blue", "11 · core", "SlidingWindowLog"),
 		12: (1, 6, "blue", "12 · core", "SlidingWindowCounter"),
-		13: (1, 7, "blue", "13 · core", "LeakyBucket and delay"),
+		13: (1, 7, "blue", "13 · core", "LeakyBucket"),
 		14: (1, 8, "green", "14 · spring/data/redis", "the shared counter"),
 		15: (2, 0, "green", "15 · spring/web", "RestClient interceptor"),
 		16: (2, 1, "green", "16 · spring/context", "@RateLimit and its proxy"),
