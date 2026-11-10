@@ -5,6 +5,8 @@ import pro.vlprojects.semantic.pattern.creational.factory.error.InvalidDefinitio
 
 object GreetingFactory : Factory<GreetingDefinition, String> {
 
+    override fun supports(definition: Factory.Definition) = definition is GreetingDefinition
+
     override fun create(definition: GreetingDefinition) = definition.text
         .takeIf(String::isNotBlank)
         ?: throw InvalidDefinitionException("A greeting is blank")
