@@ -6,7 +6,10 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import pro.vlprojects.semantic.resilience.backoff.Backoff
 import pro.vlprojects.semantic.resilience.backoff.FixedBackoff
-import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.BackoffConfigurationService
+import pro.vlprojects.semantic.resilience.backoff.spring.boot.BackoffRegistry
+import pro.vlprojects.semantic.resilience.backoff.spring.boot.DEFAULT_BACKOFF_NAME
+import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.BackoffPropertiesRegistrar
+import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.properties.BackoffConfigurationProperties
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.properties.BackoffDefaultProperties
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.properties.BackoffProperties
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.factory.BackoffFactory
@@ -14,7 +17,7 @@ import pro.vlprojects.semantic.resilience.backoff.spring.boot.factory.Exponentia
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.factory.FixedBackoffFactory
 import java.time.Duration
 
-class BackoffConfigurationServiceTests {
+class BackoffPropertiesRegistrarTests {
 
     @Test
     fun `without settings the backoff is exponential`() {
@@ -22,6 +25,24 @@ class BackoffConfigurationServiceTests {
 
         assertEquals(Duration.ofSeconds(1), backoff.calculate(1))
         assertEquals(Duration.ofSeconds(2), backoff.calculate(2))
+    }
+
+    @Test
+    fun `the default block is registered under the default name`() {
+        val registry = registerBackoffs(BackoffConfigurationProperties(BackoffDefaultProperties(type = "fixed")))
+
+        assertEquals(Duration.ofSeconds(1), registry[DEFAULT_BACKOFF_NAME].calculate(3))
+    }
+
+    @Test
+    fun `an instance named default fails as reserved`() {
+        val failure = assertThrows<IllegalArgumentException> {
+            registerBackoffs(
+                BackoffConfigurationProperties(instances = mapOf(DEFAULT_BACKOFF_NAME to BackoffProperties())),
+            )
+        }
+
+        assertTrue("reserved" in failure.message.orEmpty())
     }
 
     @Test
@@ -102,18 +123,18 @@ class BackoffConfigurationServiceTests {
 
     @Test
     fun `a factory of the application adds a type`() {
-        val service = BackoffConfigurationService(BackoffDefaultProperties(), listOf(OnceBackoffFactory()))
+        val properties = BackoffConfigurationProperties(instances = mapOf("orders" to BackoffProperties(type = "once")))
 
-        val backoff = service.create("orders", BackoffProperties(type = "once"))
+        val registry = registerBackoffs(properties, listOf(OnceBackoffFactory(), ExponentialBackoffFactory()))
 
-        assertEquals(Duration.ofSeconds(4), backoff.calculate(1))
+        assertEquals(Duration.ofSeconds(4), registry["orders"].calculate(1))
     }
 
     @Test
     fun `two factories of one type fail and name both`() {
         val failure = assertThrows<IllegalArgumentException> {
-            BackoffConfigurationService(
-                BackoffDefaultProperties(),
+            BackoffPropertiesRegistrar(
+                BackoffConfigurationProperties(),
                 listOf(FixedBackoffFactory(), RivalFixedBackoffFactory()),
             )
         }
@@ -160,10 +181,18 @@ class BackoffConfigurationServiceTests {
     }
 
     private fun createBackoff(
-        properties: BackoffProperties = BackoffProperties(),
+        instance: BackoffProperties = BackoffProperties(),
         default: BackoffDefaultProperties = BackoffDefaultProperties(),
-    ) = BackoffConfigurationService(default, listOf(FixedBackoffFactory(), ExponentialBackoffFactory()))
-        .create("orders", properties)
+    ) = BackoffConfigurationProperties(default, mapOf("orders" to instance))
+        .let { properties -> registerBackoffs(properties) }
+        .let { registry -> registry["orders"] }
+
+    private fun registerBackoffs(
+        properties: BackoffConfigurationProperties,
+        factories: List<BackoffFactory<*>> = listOf(FixedBackoffFactory(), ExponentialBackoffFactory()),
+    ) = BackoffRegistry().also { registry ->
+        BackoffPropertiesRegistrar(properties, factories).registerBackoffs(registry)
+    }
 
     private fun sampleDelays(backoff: Backoff) = (1..200)
         .map { backoff.calculate(1) }
