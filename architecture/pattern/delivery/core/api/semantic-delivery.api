@@ -115,7 +115,7 @@ public final class pro/vlprojects/semantic/delivery/outbox/OutboxProperties {
 	public final fun getErrorPolicy ()Lpro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy;
 	public final fun getLogging ()Lpro/vlprojects/semantic/delivery/outbox/logging/OutboxLoggingProperties;
 	public final fun getMaxAttempts ()I
-	public final fun getVisibilityTimeout ()Ljava/time/Duration;
+	public final fun getStartToCloseTimeout ()Ljava/time/Duration;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
