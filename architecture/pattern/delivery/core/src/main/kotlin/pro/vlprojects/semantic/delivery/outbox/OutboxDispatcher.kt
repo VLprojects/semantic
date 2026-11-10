@@ -4,6 +4,7 @@ import pro.vlprojects.semantic.delivery.outbox.error.OutboxOptimisticLockExcepti
 
 public class OutboxDispatcher(
     private val service: OutboxService,
+    private val deserializer: DeliveryDestinationDeserializer,
     private val router: OutboxDeliveryRouter,
     private val config: OutboxProperties,
 ) {
@@ -27,9 +28,17 @@ public class OutboxDispatcher(
     }
 
     private fun catchDeliveryFailure(outbox: Outbox) = try {
-        router.deliver(outbox)
+        send(outbox)
         null
     } catch (exception: Exception) {
         exception
+    }
+
+    private fun send(outbox: Outbox) {
+        val destination = deserializer.deserialize(outbox.destination)
+
+        router
+            .resolveDeliverers(destination)
+            .forEach { it.send(outbox, destination) }
     }
 }

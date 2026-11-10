@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import pro.vlprojects.semantic.delivery.outbox.DeliveryDestination
+import pro.vlprojects.semantic.delivery.outbox.DeliveryDestinationDeserializer
 import pro.vlprojects.semantic.delivery.outbox.DeliveryStatus
 import pro.vlprojects.semantic.delivery.outbox.Outbox
 import pro.vlprojects.semantic.delivery.outbox.OutboxDeliverer
@@ -29,8 +30,10 @@ class OutboxDispatcherTests {
     private val lockedOutboxes = mutableListOf<Outbox>()
     private val requestedLimits = mutableListOf<Int>()
     private val savedStatuses = mutableListOf<DeliveryStatus>()
-    private val sent = mutableListOf<Outbox>()
+    private val sent = mutableListOf<Pair<Outbox, DeliveryDestination>>()
+    private val deserialized = mutableListOf<String>()
     private val deliveryFailures = ArrayDeque<Exception>()
+    private val destinationFailures = ArrayDeque<Exception>()
     private val saveFailures = ArrayDeque<RuntimeException>()
 
     private val repository = object : OutboxRepository {
@@ -58,7 +61,7 @@ class OutboxDispatcherTests {
         override fun supports(destination: DeliveryDestination) = true
 
         override fun send(outbox: Outbox, destination: DeliveryDestination) {
-            sent += outbox
+            sent += outbox to destination
             deliveryFailures.removeFirstOrNull()?.let { throw it }
         }
     }
@@ -72,12 +75,18 @@ class OutboxDispatcherTests {
         config,
         clock,
     )
-    private val dispatcher = createDispatcher { object : DeliveryDestination {} }
 
-    private fun createDispatcher(deserialize: () -> DeliveryDestination) = OutboxDeliveryRouter(
-        { deserialize() },
-        listOf(deliverer),
-    ).let { OutboxDispatcher(service, it, config) }
+    private val destination = object : DeliveryDestination {}
+
+    private val deserializer = DeliveryDestinationDeserializer { stored ->
+        deserialized += stored
+        destinationFailures.removeFirstOrNull()?.let { throw it }
+
+        destination
+    }
+
+    private val router = listOf(deliverer).let(::OutboxDeliveryRouter)
+    private val dispatcher = OutboxDispatcher(service, deserializer, router, config)
 
     private fun lockOutboxes(count: Int) {
         repeat(count) { lockedOutboxes += createStartedOutbox(moment, lockedUntil) }
@@ -89,8 +98,17 @@ class OutboxDispatcherTests {
 
         dispatcher.dispatch()
 
-        assertEquals(lockedOutboxes, sent)
         assertEquals(listOf(DeliveryStatus.COMPLETED), savedStatuses)
+    }
+
+    @Test
+    fun `dispatch sends the outbox to the destination stored in it`() {
+        lockOutboxes(1)
+
+        dispatcher.dispatch()
+
+        assertEquals(lockedOutboxes.map(Outbox::destination), deserialized)
+        assertEquals(lockedOutboxes.map { it to destination }, sent)
     }
 
     @Test
@@ -118,10 +136,11 @@ class OutboxDispatcherTests {
     }
 
     @Test
-    fun `dispatch fails the outbox on any exception of routing`() {
+    fun `dispatch fails the outbox when its destination cannot be read`() {
         lockOutboxes(1)
+        destinationFailures += IllegalArgumentException("unknown destination")
 
-        createDispatcher { throw IllegalArgumentException("unknown destination") }.dispatch()
+        dispatcher.dispatch()
 
         assertEquals(listOf(DeliveryStatus.FAILED), savedStatuses)
     }
