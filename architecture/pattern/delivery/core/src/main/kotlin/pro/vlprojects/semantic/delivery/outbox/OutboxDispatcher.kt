@@ -36,7 +36,9 @@ public class OutboxDispatcher(
     private fun skipOnOptimisticLock(outbox: Outbox, save: () -> Outbox) = try {
         save()
     } catch (_: OutboxOptimisticLockException) {
-        logger.warn("Outbox {} was taken over by another instance after its lock expired", outbox.id)
+        logger
+            .atWarn()
+            .log { "Outbox ${outbox.id} was taken over by another instance after its lock expired" }
         null
     }
 
@@ -46,7 +48,7 @@ public class OutboxDispatcher(
         logger
             .atLevel(selectLogLevel(delivery.status))
             .setCause(error)
-            .log("Outbox {} failed {} times and is {}", outbox.id, delivery.attempts, delivery.status)
+            .log { "Outbox ${outbox.id} failed ${delivery.attempts} times and is ${delivery.status}" }
     }
 
     private fun selectLogLevel(status: DeliveryStatus) = when (status) {
