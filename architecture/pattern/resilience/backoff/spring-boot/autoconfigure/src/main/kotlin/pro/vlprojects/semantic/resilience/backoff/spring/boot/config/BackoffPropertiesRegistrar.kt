@@ -8,14 +8,16 @@ import org.springframework.boot.context.properties.bind.handler.NoUnboundElement
 import org.springframework.boot.context.properties.source.MapConfigurationPropertySource
 import pro.vlprojects.semantic.resilience.backoff.Backoff
 import pro.vlprojects.semantic.resilience.backoff.extension.jittered
-import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.properties.BackoffDefaultProperties
+import pro.vlprojects.semantic.resilience.backoff.spring.boot.BackoffRegistry
+import pro.vlprojects.semantic.resilience.backoff.spring.boot.DEFAULT_BACKOFF_NAME
+import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.properties.BackoffConfigurationProperties
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.properties.BackoffProperties
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.factory.BackoffFactory
 
 private const val ROOT_NAME = ""
 
-internal class BackoffConfigurationService(
-    private val defaults: BackoffDefaultProperties,
+internal class BackoffPropertiesRegistrar(
+    private val properties: BackoffConfigurationProperties,
     factories: List<BackoffFactory<*>>,
 ) {
 
@@ -23,12 +25,13 @@ internal class BackoffConfigurationService(
         .groupBy { factory -> factory.type }
         .mapValues { (type, candidates) -> requireSingleFactory(type, candidates) }
 
-    fun create(name: String, properties: BackoffProperties): Backoff = try {
-        createBackoff(properties)
-    } catch (failure: BindException) {
-        throw createMisconfiguredFailure(name, "${failure.message}: ${failure.cause?.message}", failure.cause)
-    } catch (failure: RuntimeException) {
-        throw createMisconfiguredFailure(name, failure.message, failure)
+    fun registerBackoffs(registry: BackoffRegistry) {
+        require(DEFAULT_BACKOFF_NAME !in properties.instances) {
+            "The backoff name '$DEFAULT_BACKOFF_NAME' is reserved: set it in the '$DEFAULT_BACKOFF_NAME' block"
+        }
+
+        properties.instances.forEach { (name, instance) -> registerBackoff(registry, name, instance) }
+        registerBackoff(registry, DEFAULT_BACKOFF_NAME, BackoffProperties())
     }
 
     private fun requireSingleFactory(type: String, candidates: List<BackoffFactory<*>>): BackoffFactory<*> {
@@ -38,11 +41,22 @@ internal class BackoffConfigurationService(
             ?: throw IllegalArgumentException("Several backoff factories declare the type '$type': $names")
     }
 
-    private fun createBackoff(properties: BackoffProperties): Backoff {
-        val type = properties.type ?: defaults.type
-        val args = findArgs(type, properties)
+    private fun registerBackoff(registry: BackoffRegistry, name: String, instance: BackoffProperties) =
+        createBackoff(name, instance).let { backoff -> registry.register(name, backoff) }
+
+    private fun createBackoff(name: String, instance: BackoffProperties) = try {
+        createBackoff(instance)
+    } catch (failure: BindException) {
+        throw createMisconfiguredFailure(name, "${failure.message}: ${failure.cause?.message}", failure.cause)
+    } catch (failure: RuntimeException) {
+        throw createMisconfiguredFailure(name, failure.message, failure)
+    }
+
+    private fun createBackoff(instance: BackoffProperties): Backoff {
+        val type = instance.type ?: properties.default.type
+        val args = findArgs(type, instance)
         val backoff = findFactory(type).let { factory -> createBackoff(factory, args) }
-        val jitter = properties.jitter ?: defaults.jitter
+        val jitter = instance.jitter ?: properties.default.jitter
 
         return if (jitter == null) backoff else backoff.jittered(jitter)
     }
@@ -50,9 +64,9 @@ internal class BackoffConfigurationService(
     private fun findFactory(type: String) = factories[type]
         ?: throw IllegalArgumentException("Unknown backoff type '$type'. Available types: ${factories.keys}")
 
-    private fun findArgs(type: String, properties: BackoffProperties) = when (type) {
-        defaults.type -> listOf(properties.args, defaults.args)
-        else -> listOf(properties.args)
+    private fun findArgs(type: String, instance: BackoffProperties) = when (type) {
+        properties.default.type -> listOf(instance.args, properties.default.args)
+        else -> listOf(instance.args)
     }
 
     private fun <C : Any> createBackoff(factory: BackoffFactory<C>, args: List<Map<String, String>>): Backoff {
