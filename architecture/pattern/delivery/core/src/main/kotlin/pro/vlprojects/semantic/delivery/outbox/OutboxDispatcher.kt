@@ -38,7 +38,7 @@ public class OutboxDispatcher(
         val destination = deserializer.deserialize(outbox.destination)
 
         router
-            .resolveDeliverers(destination)
+            .determine(destination)
             .forEach { it.send(outbox, destination) }
     }
 }

@@ -8,7 +8,7 @@ public class OutboxDeliveryRouter(
 ) {
 
     @Throws(OutboxDeliveryException::class)
-    public fun resolveDeliverers(
+    public fun determine(
         destination: DeliveryDestination,
     ): List<OutboxDeliverer<DeliveryDestination>> = deliverers
         .filter { it.supports(destination) }

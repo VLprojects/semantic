@@ -94,7 +94,7 @@ public abstract interface class pro/vlprojects/semantic/delivery/outbox/OutboxDe
 public final class pro/vlprojects/semantic/delivery/outbox/OutboxDeliveryRouter {
 	public fun <init> (Ljava/util/List;Lpro/vlprojects/semantic/delivery/outbox/DeliveryRoutingPolicy;)V
 	public synthetic fun <init> (Ljava/util/List;Lpro/vlprojects/semantic/delivery/outbox/DeliveryRoutingPolicy;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun resolveDeliverers (Lpro/vlprojects/semantic/delivery/outbox/DeliveryDestination;)Ljava/util/List;
+	public final fun determine (Lpro/vlprojects/semantic/delivery/outbox/DeliveryDestination;)Ljava/util/List;
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/OutboxDispatcher {
