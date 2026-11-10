@@ -38,7 +38,8 @@ may extend, as Spring marks its callbacks with `Aware`.
 
 A factory names the class of its definition by `definitionType`, a `KClass<D>`, as a deserializer of
 Jackson names its class by `handledType` and a `FactoryBean` of Spring by `getObjectType`;
-the compiler checks that the class is `D`. A registrar takes a list of factories and keys
+the compiler checks that the class is `D`. A registrar takes a list of factories of its own definitions,
+`Factory<out D, T>`: a factory of another definition does not compile. It keys
 each by that class: a lookup is one access by the class of a definition, with no pass over
 the factories. The constructor of a registrar checks the list: two factories of one
 definition throw `MultipleFactoriesException`.
@@ -53,7 +54,7 @@ registrar, not entries of a registry: their set is fixed when the application is
 ```kotlin
 class BackoffPropertiesRegistrar(
     private val properties: BackoffProperties,
-    factories: List<Factory<*, Backoff>>,
+    factories: List<Factory<out BackoffDefinition, Backoff>>,
 ) : AbstractRegistrar<BackoffDefinition, Backoff>(factories) {
 
     override fun loadDefinitions() = properties.instances
