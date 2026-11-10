@@ -29,11 +29,10 @@ public class OutboxDispatcher(
 
     private fun fail(outbox: Outbox, cause: Throwable) = skipOnOptimisticLock { service.fail(outbox, cause) }
 
-    private fun skipOnOptimisticLock(save: () -> Outbox) {
-        try {
-            save()
-        } catch (_: OutboxOptimisticLockException) {
-            // The lock expired and another instance took the record over
-        }
+    private fun skipOnOptimisticLock(save: () -> Outbox) = try {
+        save()
+    } catch (_: OutboxOptimisticLockException) {
+        // The lock expired and another instance took the record over
+        null
     }
 }
