@@ -14,9 +14,17 @@ public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/Backof
 
 public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/config/BackoffAutoConfiguration {
 	public fun <init> ()V
-	public final fun backoffRegistry (Lorg/springframework/core/env/Environment;Ljava/util/Map;Ljava/util/Map;Lorg/springframework/beans/factory/ObjectProvider;)Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffRegistry;
+	public final fun backoffRegistry (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/BackoffProperties;Ljava/util/Map;Ljava/util/Map;Lorg/springframework/beans/factory/ObjectProvider;)Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffRegistry;
 	public final fun exponentialBackoffFactory ()Lpro/vlprojects/semantic/resilience/backoff/spring/boot/factory/ExponentialBackoffFactory;
 	public final fun fixedBackoffFactory ()Lpro/vlprojects/semantic/resilience/backoff/spring/boot/factory/FixedBackoffFactory;
+}
+
+public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/config/BackoffProperties {
+	public fun <init> ()V
+	public fun <init> (Ljava/util/Map;Ljava/util/Map;)V
+	public synthetic fun <init> (Ljava/util/Map;Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getDefault ()Ljava/util/Map;
+	public final fun getInstances ()Ljava/util/Map;
 }
 
 public abstract interface class pro/vlprojects/semantic/resilience/backoff/spring/boot/config/BackoffRegistryCustomizer {
@@ -35,16 +43,18 @@ public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/factor
 
 public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/factory/ExponentialBackoffFactory$Config {
 	public fun <init> ()V
-	public fun <init> (Ljava/time/Duration;Ljava/time/Duration;D)V
-	public synthetic fun <init> (Ljava/time/Duration;Ljava/time/Duration;DILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/time/Duration;Ljava/time/Duration;DD)V
+	public synthetic fun <init> (Ljava/time/Duration;Ljava/time/Duration;DDILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/time/Duration;
 	public final fun component2 ()Ljava/time/Duration;
 	public final fun component3 ()D
-	public final fun copy (Ljava/time/Duration;Ljava/time/Duration;D)Lpro/vlprojects/semantic/resilience/backoff/spring/boot/factory/ExponentialBackoffFactory$Config;
-	public static synthetic fun copy$default (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/factory/ExponentialBackoffFactory$Config;Ljava/time/Duration;Ljava/time/Duration;DILjava/lang/Object;)Lpro/vlprojects/semantic/resilience/backoff/spring/boot/factory/ExponentialBackoffFactory$Config;
+	public final fun component4 ()D
+	public final fun copy (Ljava/time/Duration;Ljava/time/Duration;DD)Lpro/vlprojects/semantic/resilience/backoff/spring/boot/factory/ExponentialBackoffFactory$Config;
+	public static synthetic fun copy$default (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/factory/ExponentialBackoffFactory$Config;Ljava/time/Duration;Ljava/time/Duration;DDILjava/lang/Object;)Lpro/vlprojects/semantic/resilience/backoff/spring/boot/factory/ExponentialBackoffFactory$Config;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDelayLimit ()Ljava/time/Duration;
 	public final fun getInitialDelay ()Ljava/time/Duration;
+	public final fun getJitter ()D
 	public final fun getMultiplier ()D
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;

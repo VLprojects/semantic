@@ -53,12 +53,11 @@ semantic.resilience.backoff:
       initial-delay: 1s
       delay-limit: 1m
       multiplier: 2
-    jitter: 0.5
+      jitter: 0.5
   instances:
     payments:
       fixed:
         delay: 5s
-      jitter: 0.3
     orders:
       exponential:
         initial-delay: 200ms
@@ -72,17 +71,15 @@ registry.default
 
 The key of a block names its type: the name of a `BackoffFactory` bean without the `BackoffFactory` suffix. The
 fields under the key bind to the config class the factory gives as its type argument. `fixed` takes `delay`
-(`1s`) and `exponential` takes `initial-delay` (`1s`), `delay-limit` (`1m`) and `multiplier` (`2`). `jitter`
-belongs to every type.
+(`1s`) and `exponential` takes `initial-delay` (`1s`), `delay-limit` (`1m`), `multiplier` (`2`) and `jitter`
+(`0`, no jitter).
 
-With nothing set, the type is `exponential` and there is no jitter. An instance without a type takes the type
-of `default` with its fields; with the same type it takes the fields it leaves out from `default`; with another
-type it keeps the defaults of that type. `jitter` comes from `default` unless the instance sets it, and
-`jitter: 0` turns it off.
+With nothing set, the type is `exponential`. An instance without a type takes the type of `default` with its
+fields; with the same type it takes the fields it leaves out from `default`; with another type it keeps the
+defaults of that type.
 
-Names follow relaxed binding. An environment variable drops the hyphens of a name, so
-`SEMANTIC_RESILIENCE_BACKOFF_INSTANCES_ORDEREVENTS_FIXED_DELAY` sets `order-events`; the instance keeps the name
-written in `application.yml`.
+Instance names are keys of a map, so they follow the Spring Boot rules for map keys: an environment variable
+gives a lowercase name without hyphens.
 
 To add an algorithm, declare a `BackoffFactory` bean: `linearBackoffFactory` gives the type `linear`, and a bean
 named `fixedBackoffFactory` replaces the built-in `fixed`.
@@ -91,9 +88,9 @@ named `fixedBackoffFactory` replaces the built-in `fixed`.
 @Component
 class LinearBackoffFactory : BackoffFactory<LinearBackoffFactory.Config> {
 
-    override fun create(config: Config) = LinearBackoff(config.step)
+    override fun create(config: Config) = LinearBackoff(config.step).jittered(config.jitter)
 
-    data class Config(val step: Duration = Duration.ofSeconds(1))
+    data class Config(val step: Duration = Duration.ofSeconds(1), val jitter: Double = 0.5)
 }
 ```
 

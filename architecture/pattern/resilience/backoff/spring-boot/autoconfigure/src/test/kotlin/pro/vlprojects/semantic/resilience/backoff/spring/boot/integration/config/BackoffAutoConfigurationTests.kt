@@ -59,6 +59,15 @@ class BackoffAutoConfigurationTests {
     }
 
     @Test
+    fun `an instance name with a hyphen keeps its form`() {
+        runner
+            .withPropertyValues("$PREFIX.instances.order-events.fixed.delay=5s")
+            .run { context ->
+                assertEquals(Duration.ofSeconds(5), context.getRegistry()["order-events"].calculate(1))
+            }
+    }
+
+    @Test
     fun `a backoff bean is more important than the settings`() {
         runner
             .withUserConfiguration(PaymentsBackoffConfiguration::class.java)
@@ -81,8 +90,8 @@ class BackoffAutoConfigurationTests {
     fun `an invalid setting stops the start even when a bean replaces it`() {
         runner
             .withUserConfiguration(PaymentsBackoffConfiguration::class.java)
-            .withPropertyValues("$PREFIX.instances.payments.jitter=1.5")
-            .run { context -> assertTrue("'payments'" in context.readStartupFailureMessages()) }
+            .withPropertyValues("$PREFIX.instances.payments.exponential.jitter=1.5")
+            .run { context -> assertTrue("instances[payments]" in context.readStartupFailureMessages()) }
     }
 
     @Test
@@ -173,28 +182,28 @@ class BackoffAutoConfigurationTests {
     fun `an invalid default stops the start and names it`() {
         runner
             .withPropertyValues("$PREFIX.default.exponential.multiplier=0.5")
-            .run { context -> assertTrue("'default'" in context.readStartupFailureMessages()) }
+            .run { context -> assertTrue("$PREFIX.default" in context.readStartupFailureMessages()) }
     }
 
     @Test
     fun `a field the type of an instance does not have stops the start and names the instance`() {
         runner
             .withPropertyValues("$PREFIX.instances.payments.exponential.delay=5s")
-            .run { context -> assertTrue("'payments'" in context.readStartupFailureMessages()) }
+            .run { context -> assertTrue("instances[payments]" in context.readStartupFailureMessages()) }
     }
 
     @Test
     fun `an instance named default stops the start`() {
         runner
-            .withPropertyValues("$PREFIX.instances.default.jitter=0.5")
+            .withPropertyValues("$PREFIX.instances.default.fixed.delay=5s")
             .run { context -> assertTrue("'default'" in context.readStartupFailureMessages()) }
     }
 
     @Test
     fun `an invalid value stops the start and names the instance`() {
         runner
-            .withPropertyValues("$PREFIX.instances.orders.jitter=1.5")
-            .run { context -> assertTrue("'orders'" in context.readStartupFailureMessages()) }
+            .withPropertyValues("$PREFIX.instances.orders.exponential.jitter=1.5")
+            .run { context -> assertTrue("instances[orders]" in context.readStartupFailureMessages()) }
     }
 
     private fun AssertableApplicationContext.getRegistry() = this.getBean(BackoffRegistry::class.java)

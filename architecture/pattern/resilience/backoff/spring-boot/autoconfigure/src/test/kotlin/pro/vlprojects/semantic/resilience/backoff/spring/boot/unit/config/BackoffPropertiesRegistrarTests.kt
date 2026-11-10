@@ -4,20 +4,18 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.springframework.core.env.MapPropertySource
-import org.springframework.core.env.StandardEnvironment
-import org.springframework.core.env.StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME
-import org.springframework.core.env.SystemEnvironmentPropertySource
+import org.springframework.boot.context.properties.bind.BindException
+import org.springframework.boot.context.properties.source.InvalidConfigurationPropertyValueException
 import pro.vlprojects.semantic.resilience.backoff.Backoff
 import pro.vlprojects.semantic.resilience.backoff.FixedBackoff
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.BackoffRegistry
+import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.BackoffProperties
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.BackoffPropertiesRegistrar
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.factory.BackoffFactory
+import pro.vlprojects.semantic.resilience.backoff.spring.boot.factory.BackoffTypeRegistry
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.factory.ExponentialBackoffFactory
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.factory.FixedBackoffFactory
 import java.time.Duration
-
-private const val PREFIX = "semantic.resilience.backoff"
 
 class BackoffPropertiesRegistrarTests {
 
@@ -31,7 +29,7 @@ class BackoffPropertiesRegistrarTests {
 
     @Test
     fun `the default block takes the type of its key`() {
-        val registry = registerBackoffs("$PREFIX.default.fixed.delay" to "3s")
+        val registry = registerBackoffs(default = mapOf("fixed.delay" to "3s"))
 
         assertEquals(Duration.ofSeconds(3), registry.default.calculate(5))
     }
@@ -39,52 +37,32 @@ class BackoffPropertiesRegistrarTests {
     @Test
     fun `an instance without a type takes the type and the fields of the default`() {
         val registry = registerBackoffs(
-            "$PREFIX.default.fixed.delay" to "3s",
-            "$PREFIX.instances.orders.jitter" to "0",
+            default = mapOf("fixed.delay" to "3s"),
+            instances = mapOf("orders" to emptyMap()),
         )
 
         assertEquals(Duration.ofSeconds(3), registry["orders"].calculate(5))
     }
 
     @Test
-    fun `without a jitter setting the pause is exact`() {
-        val registry = registerBackoffs("$PREFIX.instances.orders.fixed.delay" to "1s")
-
-        assertEquals(setOf(Duration.ofSeconds(1)), sampleDelays(registry["orders"]))
-    }
-
-    @Test
-    fun `an instance inherits the jitter of the default`() {
-        val registry = registerBackoffs(
-            "$PREFIX.default.jitter" to "1.0",
-            "$PREFIX.instances.orders.fixed.delay" to "1s",
-        )
-
-        assertTrue(sampleDelays(registry["orders"]).size > 1)
-    }
-
-    @Test
-    fun `a zero jitter of an instance switches off the jitter of the default`() {
-        val registry = registerBackoffs(
-            "$PREFIX.default.jitter" to "1.0",
-            "$PREFIX.instances.orders.jitter" to "0",
-        )
-
-        assertEquals(setOf(Duration.ofSeconds(1)), sampleDelays(registry["orders"]))
-    }
-
-    @Test
     fun `an instance takes another type with its own fields`() {
-        val registry = registerBackoffs("$PREFIX.instances.payments.fixed.delay" to "5s")
+        val registry = registerBackoffs(instances = mapOf("orders" to mapOf("fixed.delay" to "5s")))
 
-        assertEquals(Duration.ofSeconds(5), registry["payments"].calculate(3))
+        assertEquals(Duration.ofSeconds(5), registry["orders"].calculate(3))
+    }
+
+    @Test
+    fun `a type with no fields takes the defaults of its config`() {
+        val registry = registerBackoffs(instances = mapOf("orders" to mapOf("fixed" to "")))
+
+        assertEquals(Duration.ofSeconds(1), registry["orders"].calculate(3))
     }
 
     @Test
     fun `the fields an instance leaves out come from a default of the same type`() {
         val registry = registerBackoffs(
-            "$PREFIX.default.exponential.multiplier" to "3",
-            "$PREFIX.instances.orders.exponential.initial-delay" to "200ms",
+            default = mapOf("exponential.initial-delay" to "200ms"),
+            instances = mapOf("orders" to mapOf("exponential.multiplier" to "3")),
         )
 
         assertEquals(Duration.ofMillis(200), registry["orders"].calculate(1))
@@ -92,20 +70,10 @@ class BackoffPropertiesRegistrarTests {
     }
 
     @Test
-    fun `a field of an instance beats the same field of the default`() {
+    fun `a field of an instance beats the same field of the default written in another form`() {
         val registry = registerBackoffs(
-            "$PREFIX.default.exponential.initial-delay" to "5s",
-            "$PREFIX.instances.orders.exponential.initial-delay" to "200ms",
-        )
-
-        assertEquals(Duration.ofMillis(200), registry["orders"].calculate(1))
-    }
-
-    @Test
-    fun `a field of an instance beats the field of the default written in another form`() {
-        val registry = registerBackoffs(
-            "$PREFIX.default.exponential.initial-delay" to "5s",
-            "$PREFIX.instances.orders.exponential.initialDelay" to "200ms",
+            default = mapOf("exponential.initialDelay" to "5s"),
+            instances = mapOf("orders" to mapOf("exponential.initial-delay" to "200ms")),
         )
 
         assertEquals(Duration.ofMillis(200), registry["orders"].calculate(1))
@@ -114,75 +82,37 @@ class BackoffPropertiesRegistrarTests {
     @Test
     fun `an instance of another type ignores the fields of the default`() {
         val registry = registerBackoffs(
-            "$PREFIX.default.fixed.delay" to "5s",
-            "$PREFIX.instances.orders.exponential.multiplier" to "3",
+            default = mapOf("exponential.initial-delay" to "5s"),
+            instances = mapOf("orders" to mapOf("fixed" to "")),
         )
 
         assertEquals(Duration.ofSeconds(1), registry["orders"].calculate(1))
     }
 
     @Test
-    fun `an instance name with a hyphen gets its settings`() {
-        val registry = registerBackoffs("$PREFIX.instances.order-events.fixed.delay" to "9s")
-
-        assertEquals(Duration.ofSeconds(9), registry["order-events"].calculate(1))
-    }
-
-    @Test
-    fun `an instance name with capitals gets its settings`() {
-        val registry = registerBackoffs("$PREFIX.instances.Orders.fixed.delay" to "9s")
-
-        assertEquals(Duration.ofSeconds(9), registry["Orders"].calculate(1))
-    }
-
-    @Test
-    fun `an environment variable reaches the instance`() {
-        val environment = createEnvironment(emptyMap())
-        val variables = mapOf<String, Any>("SEMANTIC_RESILIENCE_BACKOFF_INSTANCES_PAYMENTS_FIXED_DELAY" to "5s")
-        val source = SystemEnvironmentPropertySource(SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME, variables)
-
-        environment.propertySources.replace(SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME, source)
-
-        assertEquals(Duration.ofSeconds(5), registerBackoffs(environment)["payments"].calculate(1))
-    }
-
-    @Test
-    fun `an environment variable in another form keeps the declared name`() {
-        val environment = createEnvironment(emptyMap())
-        val variables = mapOf<String, Any>("SEMANTIC_RESILIENCE_BACKOFF_INSTANCES_ORDEREVENTS_FIXED_DELAY" to "5s")
-        val variablesSource = SystemEnvironmentPropertySource(SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME, variables)
-        val applicationProperties = mapOf<String, Any>("$PREFIX.instances.order-events.fixed.delay" to "3s")
-
-        environment.propertySources.replace(SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME, variablesSource)
-        environment.propertySources.addLast(MapPropertySource("application", applicationProperties))
-
-        assertEquals(Duration.ofSeconds(5), registerBackoffs(environment)["order-events"].calculate(1))
-    }
-
-    @Test
-    fun `a placeholder in a field resolves`() {
+    fun `an instance inherits the jitter of a default of the same type`() {
         val registry = registerBackoffs(
-            "pause" to "6s",
-            "$PREFIX.instances.orders.fixed.delay" to "\${pause}",
+            default = mapOf("exponential.jitter" to "0.5"),
+            instances = mapOf("orders" to mapOf("exponential.initial-delay" to "1s")),
         )
 
-        assertEquals(Duration.ofSeconds(6), registry["orders"].calculate(1))
+        assertTrue(sampleDelays(registry["orders"]).size > 1)
     }
 
     @Test
-    fun `a factory bean of the application adds the type of its name`() {
+    fun `a zero jitter of an instance switches off the jitter of the default`() {
         val registry = registerBackoffs(
-            "$PREFIX.instances.orders.once.delay" to "7s",
-            factories = createFactories() + ("onceBackoffFactory" to OnceBackoffFactory()),
+            default = mapOf("exponential.jitter" to "0.5"),
+            instances = mapOf("orders" to mapOf("exponential.jitter" to "0")),
         )
 
-        assertEquals(Duration.ofSeconds(7), registry["orders"].calculate(1))
+        assertEquals(setOf(Duration.ofSeconds(1)), sampleDelays(registry["orders"]))
     }
 
     @Test
-    fun `a type of a camel case bean name is found by its key with a hyphen`() {
+    fun `a type key in another form finds its factory`() {
         val registry = registerBackoffs(
-            "$PREFIX.instances.orders.once-only.delay" to "7s",
+            instances = mapOf("orders" to mapOf("once-only.delay" to "7s")),
             factories = createFactories() + ("onceOnlyBackoffFactory" to OnceBackoffFactory()),
         )
 
@@ -190,174 +120,93 @@ class BackoffPropertiesRegistrarTests {
     }
 
     @Test
-    fun `a bean name without the suffix is the type itself`() {
-        val registry = registerBackoffs(
-            "$PREFIX.instances.orders.once.delay" to "7s",
-            factories = createFactories() + ("once" to OnceBackoffFactory()),
-        )
-
-        assertEquals(Duration.ofSeconds(7), registry["orders"].calculate(1))
-    }
-
-    @Test
-    fun `a bean name of several property names fails and names the bean`() {
-        val failure = assertThrows<IllegalArgumentException> {
-            registerBackoffs(factories = mapOf("once.onlyBackoffFactory" to OnceBackoffFactory()))
-        }
-
-        assertTrue("once.onlyBackoffFactory" in failure.message.orEmpty())
-    }
-
-    @Test
-    fun `a factory without a concrete config class fails and names the bean`() {
-        val failure = assertThrows<IllegalArgumentException> {
-            registerBackoffs(factories = mapOf("anyBackoffFactory" to AnyConfigBackoffFactory<Duration>()))
-        }
-
-        assertTrue("anyBackoffFactory" in failure.message.orEmpty())
-    }
-
-    @Test
-    fun `two factories of one type fail and name both`() {
-        val failure = assertThrows<IllegalArgumentException> {
-            registerBackoffs(
-                factories = mapOf(
-                    "fixedBackoffFactory" to FixedBackoffFactory(),
-                    "fixed" to FixedBackoffFactory(),
-                ),
-            )
-        }
-
-        assertTrue("fixedBackoffFactory" in failure.message.orEmpty())
-        assertTrue("[fixedBackoffFactory, fixed]" in failure.message.orEmpty())
-    }
-
-    @Test
     fun `an unknown type fails and lists the available ones`() {
-        val failure = assertThrows<IllegalArgumentException> {
-            registerBackoffs("$PREFIX.instances.orders.linear.step" to "2s")
+        val failure = assertThrows<InvalidConfigurationPropertyValueException> {
+            registerBackoffs(instances = mapOf("orders" to mapOf("linear.step" to "2s")))
         }
 
-        assertTrue("orders" in failure.message.orEmpty())
+        assertTrue("instances[orders]" in failure.message.orEmpty())
         assertTrue("linear" in failure.message.orEmpty())
-        assertTrue("fixed" in failure.message.orEmpty())
-    }
-
-    @Test
-    fun `a misspelt jitter fails with the name of the instance`() {
-        val failure = assertThrows<IllegalArgumentException> {
-            registerBackoffs("$PREFIX.instances.orders.jiter" to "0.5")
-        }
-
-        assertTrue("orders" in failure.message.orEmpty())
-        assertTrue("jiter" in failure.message.orEmpty())
+        assertTrue("[fixed, exponential]" in failure.message.orEmpty())
     }
 
     @Test
     fun `two types of one instance fail`() {
-        val failure = assertThrows<IllegalArgumentException> {
+        val failure = assertThrows<InvalidConfigurationPropertyValueException> {
             registerBackoffs(
-                "$PREFIX.instances.orders.fixed.delay" to "5s",
-                "$PREFIX.instances.orders.exponential.multiplier" to "3",
+                instances = mapOf("orders" to mapOf("fixed.delay" to "5s", "exponential.initial-delay" to "1s")),
             )
         }
 
-        assertTrue("orders" in failure.message.orEmpty())
+        assertTrue("instances[orders]" in failure.message.orEmpty())
         assertTrue("Only one backoff type" in failure.message.orEmpty())
     }
 
     @Test
     fun `a value right on the type fails with the name of the instance`() {
-        val failure = assertThrows<IllegalArgumentException> {
-            registerBackoffs("$PREFIX.instances.orders.fixed" to "9s")
+        val failure = assertThrows<BindException> {
+            registerBackoffs(instances = mapOf("orders" to mapOf("fixed" to "9s")))
         }
 
-        assertTrue("orders" in failure.message.orEmpty())
-        assertTrue("9s" in failure.message.orEmpty())
-    }
-
-    @Test
-    fun `a value right on the instance fails with the name of the instance`() {
-        val failure = assertThrows<IllegalArgumentException> {
-            registerBackoffs("$PREFIX.instances.orders" to "9s")
-        }
-
-        assertTrue("orders" in failure.message.orEmpty())
-        assertTrue("9s" in failure.message.orEmpty())
-    }
-
-    @Test
-    fun `a value right on the instances block fails`() {
-        val failure = assertThrows<IllegalArgumentException> {
-            registerBackoffs("$PREFIX.instances" to "9s")
-        }
-
-        assertTrue("9s" in failure.message.orEmpty())
+        assertTrue("instances[orders].fixed" in failure.message.orEmpty())
     }
 
     @Test
     fun `a field the type does not have fails with the names of the instance and the field`() {
-        val failure = assertThrows<IllegalArgumentException> {
-            registerBackoffs("$PREFIX.instances.orders.exponential.delay" to "5s")
+        val failure = assertThrows<BindException> {
+            registerBackoffs(instances = mapOf("orders" to mapOf("exponential.delay" to "5s")))
         }
 
-        assertTrue("orders" in failure.message.orEmpty())
-        assertTrue("delay" in failure.message.orEmpty())
+        assertTrue("instances[orders].exponential.delay" in failure.cause?.message.orEmpty())
     }
 
     @Test
     fun `a field of a wrong format fails with the names of the instance and the field`() {
-        val failure = assertThrows<IllegalArgumentException> {
-            registerBackoffs("$PREFIX.instances.orders.exponential.multiplier" to "a lot")
+        val failure = assertThrows<BindException> {
+            registerBackoffs(instances = mapOf("orders" to mapOf("exponential.multiplier" to "abc")))
         }
 
-        assertTrue("orders" in failure.message.orEmpty())
-        assertTrue("multiplier" in failure.message.orEmpty())
+        assertTrue("instances[orders].exponential.multiplier" in failure.message.orEmpty())
     }
 
     @Test
     fun `a value the backoff refuses fails with the name of the instance`() {
-        val failure = assertThrows<IllegalArgumentException> {
-            registerBackoffs("$PREFIX.instances.orders.jitter" to "1.5")
+        val failure = assertThrows<InvalidConfigurationPropertyValueException> {
+            registerBackoffs(instances = mapOf("orders" to mapOf("exponential.jitter" to "1.5")))
         }
 
-        assertTrue("orders" in failure.message.orEmpty())
+        assertTrue("instances[orders]" in failure.message.orEmpty())
         assertTrue("jitter" in failure.message.orEmpty())
     }
 
     @Test
     fun `an invalid default fails with the name of the default`() {
-        val failure = assertThrows<IllegalArgumentException> {
-            registerBackoffs("$PREFIX.default.exponential.multiplier" to "0.5")
+        val failure = assertThrows<InvalidConfigurationPropertyValueException> {
+            registerBackoffs(default = mapOf("exponential.multiplier" to "0.5"))
         }
 
-        assertTrue("'default'" in failure.message.orEmpty())
+        assertTrue("semantic.resilience.backoff.default" in failure.message.orEmpty())
     }
 
     @Test
     fun `an instance named default fails as reserved`() {
-        val failure = assertThrows<IllegalArgumentException> {
-            registerBackoffs("$PREFIX.instances.default.jitter" to "0.5")
+        val failure = assertThrows<InvalidConfigurationPropertyValueException> {
+            registerBackoffs(instances = mapOf("default" to mapOf("fixed.delay" to "5s")))
         }
 
         assertTrue("reserved" in failure.message.orEmpty())
     }
 
     private fun registerBackoffs(
-        vararg properties: Pair<String, String>,
-        factories: Map<String, BackoffFactory<*>> = createFactories(),
-    ) = properties
-        .toMap()
-        .let(::createEnvironment)
-        .let { environment -> registerBackoffs(environment, factories) }
-
-    private fun registerBackoffs(
-        environment: StandardEnvironment,
+        default: Map<String, String> = emptyMap(),
+        instances: Map<String, Map<String, String>> = emptyMap(),
         factories: Map<String, BackoffFactory<*>> = createFactories(),
     ): BackoffRegistry {
+        val properties = BackoffProperties(default, instances)
+        val types = BackoffTypeRegistry.of(factories)
         val registry = BackoffRegistry()
 
-        BackoffPropertiesRegistrar(environment, factories).registerBackoffs(registry)
+        BackoffPropertiesRegistrar(properties, types).registerBackoffs(registry)
 
         return registry
     }
@@ -366,10 +215,6 @@ class BackoffPropertiesRegistrarTests {
         "fixedBackoffFactory" to FixedBackoffFactory(),
         "exponentialBackoffFactory" to ExponentialBackoffFactory(),
     )
-
-    private fun createEnvironment(properties: Map<String, String>) = StandardEnvironment().apply {
-        this.propertySources.addFirst(MapPropertySource("test", properties))
-    }
 
     private fun sampleDelays(backoff: Backoff) = (1..200)
         .map { backoff.calculate(1) }
@@ -380,10 +225,5 @@ class BackoffPropertiesRegistrarTests {
         override fun create(config: Config) = FixedBackoff(config.delay)
 
         data class Config(val delay: Duration = Duration.ofSeconds(4))
-    }
-
-    private class AnyConfigBackoffFactory<C : Any> : BackoffFactory<C> {
-
-        override fun create(config: C) = FixedBackoff(Duration.ofSeconds(1))
     }
 }
