@@ -10,7 +10,7 @@ The design is in [README.md](README.md).
 
 | PR | What it holds | Size |
 | --- | --- | --- |
-| 1 | the contract: `RateLimiter.allow(key, cost)`, `RateLimitDecision` | ~50 lines |
+| 1 | the contract: `RateLimiter.allow(key, tokens)`, `RateLimitDecision` | ~50 lines |
 | 2 | `RateLimitStrategy`, `RateLimitState`, `RateLimitResult`, `TokenBucket` and its state; unit tests | ~200 lines |
 | 3 | `RateLimitCounter`, `RateLimitRepository`, `RateLimitOptimisticLockException`, `InMemoryRateLimitRepository`; unit tests on a `Clock` | ~150 lines |
 | 4 | `DefaultRateLimiter` with the retry by version and `on-failure`; unit tests on a `Clock` | ~200 lines |
@@ -50,7 +50,7 @@ files are settled on rebase.
 
 ## Decided
 
-- The answer is `RateLimitDecision` of `allow(key, cost)`, the storage is `RateLimitRepository`, the formula is
+- The answer is `RateLimitDecision` of `allow(key, tokens)`, the storage is `RateLimitRepository`, the formula is
   `RateLimitStrategy`, after the strategies of Flask-Limiter.
 - `on-failure: allow` by default.
 - Settings are `permit-limit` per `window`, after ASP.NET.

@@ -1,6 +1,6 @@
 package pro.vlprojects.semantic.traffic.limit.rate
 
-public enum class RateLimitStatus {
+public enum class RateLimitOutcome {
     PASSED,
     REJECTED,
 }

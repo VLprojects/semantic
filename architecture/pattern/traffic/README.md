@@ -38,17 +38,17 @@ requests, after Netflix concurrency-limits, gets a design of its own later.
 
 | Abstraction | What it does | What it does not do | After |
 | --- | --- | --- | --- |
-| `RateLimiter` | `allow(key, cost = 1)` answers at once; the extension `acquire(key, cost, maxWait)` waits or throws `RateLimitExceededException` | knows neither the strategy nor the storage | Go `x/time/rate` `Allow`, go-redis `redis_rate` `Allow(key)`, Python `limits` `cost` |
+| `RateLimiter` | `allow(key, tokens = 1)` answers at once; the extension `acquire(key, tokens, maxWait)` waits or throws `RateLimitExceededException` | knows neither the strategy nor the storage | Go `x/time/rate` `Allow`, go-redis `redis_rate` `Allow(key)`, Symfony `consume(tokens)` |
 | `DefaultRateLimiter` | reads the counter, asks the strategy, saves the new state by version; on a conflict it repeats, up to `max-attempts` times; applies `on-failure` when storage fails | holds no formula | Bucket4j `AbstractCompareAndSwapBasedProxyManager` |
-| `RateLimitStrategy` | a sealed pure function: state, cost and time in, `RateLimitResult` out; one per algorithm | reads no clock, touches no storage | `limits.strategies` of Flask-Limiter, Bucket4j `Bandwidth` |
+| `RateLimitStrategy` | a sealed pure function: state, tokens and time in, `RateLimitResult` out; one per algorithm | reads no clock, touches no storage | `limits.strategies` of Flask-Limiter, Bucket4j `Bandwidth` |
 | `RateLimitResult` | the new state and the response of one call | | Bucket4j `VerboseResult` |
 | `RateLimitState` | the state of one strategy, one subtype each; the core turns it into bytes and back | | Bucket4j `RemoteBucketState` |
 | `RateLimitCounter` | what storage keeps: key, state, version, `expiresAt` | | Spring Data `@Version` |
 | `RateLimitRepository` | `findByKey`, and `save` that throws `RateLimitOptimisticLockException` when the version has changed | decides nothing | Spring Data `CrudRepository`, `OutboxRepository` |
 | `InMemoryRateLimitRepository` | the default, on `ConcurrentHashMap.compute`; drops counters after `expiresAt` | is not shared by instances | Bucket4j `LockFreeBucket` |
-| `RateLimitDecision` | `status` of `RateLimitStatus`: `PASSED` or `REJECTED`; `remaining`, `retryAfter`, `resetAfter`; `LeakyBucket` adds `delay` | | Spring Security `AuthorizationDecision`, go-redis `redis_rate` `Result`, Envoy `RateLimitResponse.Code` |
+| `RateLimitDecision` | `outcome` of `RateLimitOutcome`: `PASSED` or `REJECTED`; `limit`, `remainingTokens`, `retryAfter`, `resetAfter`; `LeakyBucket` adds `delay` | | Spring Boot `Outcome`, go-redis `redis_rate` `Result`, Symfony `RateLimit` |
 | `RateLimiterRegistry` | `findByName(name)`: one limiter for the filter, the interceptor and `@RateLimit`; `InMemoryRateLimiterRegistry` by default | builds no limiter from settings, autoconfigure does | Resilience4j `RateLimiterRegistry`, Spring `CacheManager` |
-| `@RateLimit` | on a method or a class: `limiter`, `key` in SpEL, `cost`, `maxWait` as text such as `"500ms"` | counts nothing | Spring `@ConcurrencyLimit`, SmallRye `@RateLimit` |
+| `@RateLimit` | on a method or a class: `limiter`, `key` in SpEL, `tokens`, `maxWait` as text such as `"500ms"` | counts nothing | Spring `@ConcurrencyLimit`, SmallRye `@RateLimit` |
 | `RateLimitBeanPostProcessor` | wraps a bean with `@RateLimit` in a proxy; an unknown limiter name stops the application at startup | needs no AspectJ | Spring `ConcurrencyLimitBeanPostProcessor`, `ScheduledAnnotationBeanPostProcessor` |
 | `RateLimitMethodInterceptor` | evaluates the key, calls `acquire`, then the method; throws `RateLimitExceededException` | | Spring `ConcurrencyLimitInterceptor`, the key of `@Cacheable` |
 | `@EnableRateLimiting` | turns the proxy on without Spring Boot; `order` places it among other proxies | | Spring `@EnableCaching`, `@EnableResilientMethods` |
@@ -124,7 +124,7 @@ class AcmeOrders(private val client: AcmeClient) {
 `RateLimitBeanPostProcessor` wraps the bean in a proxy as Spring 7 does for `@ConcurrencyLimit` and
 `@Retryable`, with an `AnnotationMatchingPointcut` and no AspectJ. `RateLimitMethodInterceptor` takes the
 limiter from `RateLimiterRegistry`, evaluates `key` as `@Cacheable` evaluates its key, and calls
-`acquire(key, cost, maxWait)`. Without `key` the limiter keeps one counter. Without `maxWait` the call
+`acquire(key, tokens, maxWait)`. Without `key` the limiter keeps one counter. Without `maxWait` the call
 does not wait: it either gets a permit at once or fails.
 
 A rejection is `RateLimitExceededException` with `retryAfter`. On a controller method `spring/webmvc` turns
@@ -169,7 +169,7 @@ Without Spring:
 ```kotlin
 val limiter = DefaultRateLimiter("api", TokenBucket.of(100, Duration.ofMinutes(1)), InMemoryRateLimitRepository())
 
-if (limiter.allow(key).status == RateLimitStatus.REJECTED) {
+if (limiter.allow(key).outcome == RateLimitOutcome.REJECTED) {
     return tooManyRequests()
 }
 ```

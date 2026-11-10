@@ -5,7 +5,7 @@
     <text x="40.0" y="52.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#E6EDF3" text-anchor="start">One task, one abstraction</text>
     <text x="40.0" y="76.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#9198A1" text-anchor="start">On the left what has to be decided, on the right who decides it and nothing else</text>
     <text x="40.0" y="130.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">let a call through or not</text>
-    <text x="40.0" y="148.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">return a decision for a key and a cost</text>
+    <text x="40.0" y="148.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">return a decision for a key and tokens</text>
     <rect x="620.0" y="116.0" width="103.2" height="32.0" rx="6" fill="#6E9BFF"/>
     <text x="632.0" y="136.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#06173D" text-anchor="start">RateLimiter</text>
     <text x="40.0" y="186.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">how to count calls</text>
