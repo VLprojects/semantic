@@ -8,9 +8,7 @@ public class OutboxDeliveryRouter(
 ) {
 
     @Throws(OutboxDeliveryException::class)
-    public fun determine(
-        destination: DeliveryDestination,
-    ): List<OutboxDeliverer<DeliveryDestination>> = deliverers
+    public fun determine(destination: DeliveryDestination): List<OutboxDeliverer<DeliveryDestination>> = deliverers
         .filter { it.supports(destination) }
         .let { policy.select(destination, it) }
         .map(::cast)
