@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 828" width="1024" height="828" role="img">
+  <rect width="1024" height="828" rx="12" fill="#F6F8FA"/>
+  <g transform="translate(12,12)">
+    <rect x="16" y="16" width="968" height="772" rx="12" fill="#FFFFFF"/>
+    <text x="40.0" y="52.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1F2328" text-anchor="start">Abstractions</text>
+    <text x="40.0" y="76.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#59636E" text-anchor="start">Top to bottom is the path of a call: from an HTTP request to the counter in storage</text>
+    <text x="40.0" y="136.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="500" fill="#1F2328" text-anchor="start">Spring</text>
+    <text x="40.0" y="156.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">semantic-traffic-spring-*</text>
+    <text x="40.0" y="276.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="500" fill="#1F2328" text-anchor="start">JVM</text>
+    <text x="40.0" y="296.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">semantic-traffic</text>
+    <text x="40.0" y="696.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="500" fill="#1F2328" text-anchor="start">Spring</text>
+    <text x="40.0" y="716.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">spring/data/redis, spring/jdbc</text>
+    <rect x="248.0" y="112.0" width="292.0" height="92.0" rx="6" fill="#DDF7E7"/>
+    <rect x="260.0" y="124.0" width="101.8" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
+    <text x="268.0" y="136.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">spring/webmvc</text>
+    <text x="260.0" y="160.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">RateLimitingFilter</text>
+    <text x="260.0" y="192.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">incoming: 429 on rejection</text>
+    <rect x="668.0" y="112.0" width="292.0" height="92.0" rx="6" fill="#DDF7E7"/>
+    <rect x="680.0" y="124.0" width="82.0" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
+    <text x="688.0" y="136.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">spring/web</text>
+    <text x="680.0" y="160.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">RateLimitingInterceptor</text>
+    <text x="680.0" y="192.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">outgoing: waits for a permit</text>
+    <rect x="248.0" y="252.0" width="292.0" height="92.0" rx="6" fill="#E3EFFF"/>
+    <rect x="260.0" y="264.0" width="75.4" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
+    <text x="268.0" y="276.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">interface</text>
+    <text x="260.0" y="300.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">RateLimiter</text>
+    <text x="260.0" y="332.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">tryAcquire, acquire(maxWait)</text>
+    <rect x="668.0" y="252.0" width="292.0" height="92.0" rx="6" fill="#E3EFFF"/>
+    <rect x="680.0" y="264.0" width="49.0" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
+    <text x="688.0" y="276.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">class</text>
+    <text x="680.0" y="300.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">DefaultRateLimiter</text>
+    <text x="680.0" y="332.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">reads, counts, saves by version</text>
+    <rect x="248.0" y="392.0" width="292.0" height="92.0" rx="6" fill="#E3EFFF"/>
+    <rect x="260.0" y="404.0" width="121.6" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
+    <text x="268.0" y="416.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">sealed interface</text>
+    <text x="260.0" y="440.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">RateLimitAlgorithm</text>
+    <text x="260.0" y="472.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">the five algorithms of Alex Xu</text>
+    <rect x="668.0" y="392.0" width="292.0" height="92.0" rx="6" fill="#E3EFFF"/>
+    <rect x="680.0" y="404.0" width="75.4" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
+    <text x="688.0" y="416.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">interface</text>
+    <text x="680.0" y="440.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">RateLimitRepository</text>
+    <text x="680.0" y="472.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">findByKey, save by version</text>
+    <rect x="248.0" y="532.0" width="292.0" height="92.0" rx="6" fill="#E3EFFF"/>
+    <rect x="260.0" y="544.0" width="42.4" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
+    <text x="268.0" y="556.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">data</text>
+    <text x="260.0" y="580.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">RateLimitResponse</text>
+    <text x="260.0" y="612.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">acquired, delay, retryAfter</text>
+    <rect x="668.0" y="532.0" width="292.0" height="92.0" rx="6" fill="#E3EFFF"/>
+    <rect x="680.0" y="544.0" width="49.0" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
+    <text x="688.0" y="556.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">class</text>
+    <text x="680.0" y="580.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">InMemoryRateLimitRepository</text>
+    <text x="680.0" y="612.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">the default, in memory</text>
+    <rect x="668.0" y="672.0" width="292.0" height="92.0" rx="6" fill="#DDF7E7"/>
+    <rect x="680.0" y="684.0" width="68.8" height="18" rx="4" fill="#3A7550" fill-opacity="0.2"/>
+    <text x="688.0" y="696.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#3A7550" text-anchor="start">adapters</text>
+    <text x="680.0" y="720.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">RedisRateLimitRepository</text>
+    <text x="680.0" y="752.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">shared by all instances</text>
+    <circle cx="296" cy="209" r="2" fill="#8B5CF6"/>
+    <path d="M296,249 L293.5,244.0 L298.5,244.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M296,209 L296,244" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <text x="316.0" y="232.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">tryAcquire()</text>
+    <path d="M716,209 L716,228 L500,228 L500,244" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <circle cx="716" cy="209" r="2" fill="#8B5CF6"/>
+    <path d="M500,249 L497.5,244.0 L502.5,244.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <text x="732.0" y="224.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">acquire(maxWait)</text>
+    <circle cx="663" cy="298.0" r="2" fill="#8B5CF6"/>
+    <path d="M543,298.0 L548.0,295.5 L548.0,300.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M663,298.0 L548,298.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="604.0" y="286.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">implements</text>
+    <path d="M716,349 L716,368 L448,368 L448,384" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <circle cx="716" cy="349" r="2" fill="#8B5CF6"/>
+    <path d="M448,389 L445.5,384.0 L450.5,384.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <text x="460.0" y="384.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">acquire(state, permits, now)</text>
+    <circle cx="888" cy="349" r="2" fill="#8B5CF6"/>
+    <path d="M888,389 L885.5,384.0 L890.5,384.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M888,349 L888,384" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <text x="908.0" y="372.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">findByKey · save</text>
+    <circle cx="296" cy="489" r="2" fill="#8B5CF6"/>
+    <path d="M296,529 L293.5,524.0 L298.5,524.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M296,489 L296,524" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <text x="316.0" y="512.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">returns</text>
+    <circle cx="965" cy="578.0" r="2" fill="#8B5CF6"/>
+    <path d="M963,438.0 L968.0,435.5 L968.0,440.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M965,578.0 L980,578.0 Q988,578.0 988,570.0 L988,446.0 Q988,438.0 980,438.0 L968,438.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="965" cy="718.0" r="2" fill="#8B5CF6"/>
+    <path d="M963,438.0 L968.0,435.5 L968.0,440.5 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M965,718.0 L980,718.0 Q988,718.0 988,710.0 L988,446.0 Q988,438.0 980,438.0 L968,438.0" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="rotate(-90 952 578.0)">
+    <rect x="918.3" y="566.0" width="67.4" height="16.0" rx="2" fill="#FFFFFF"/>
+    <text x="952.0" y="578.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="middle">implement</text>
+    </g>
+  </g>
+</svg>
