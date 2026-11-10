@@ -20,7 +20,7 @@ public class OutboxDispatcher(
 
     private fun deliver(outbox: Outbox) {
         val destination = deserializer.deserialize(outbox.destination)
-        val deliverer = router.determine(destination)
+        val deliverer = router.resolve(destination)
 
         deliverer.send(outbox, destination)
     }
