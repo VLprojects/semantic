@@ -41,5 +41,5 @@ The modules follow Namastack Outbox and keep its handler model.
 ![Modules of Namastack Outbox and their counterparts here](../../../docs/assets/delivery-namastack-light.svg#gh-light-mode-only)
 ![Modules of Namastack Outbox and their counterparts here](../../../docs/assets/delivery-namastack-dark.svg#gh-dark-mode-only)
 
-The core runs without Spring, records are taken by `SKIP LOCKED` and marked started instead of partitions,
+The core runs without Spring, records are taken by `SKIP LOCKED` and moved to `PROCESSING` instead of partitions,
 and the inbox has no counterpart there.

@@ -17,13 +17,13 @@ public data class Delivery private constructor(
 ) {
 
     internal fun completed(completedAt: Instant): Delivery {
-        checkHasStartedStatus()
+        checkHasProcessingStatus()
 
         return copy(status = DeliveryStatus.COMPLETED, terminatedAt = completedAt, error = null)
     }
 
     internal fun failed(scheduledAt: Instant, error: String): Delivery {
-        checkHasStartedStatus()
+        checkHasProcessingStatus()
         val abbreviatedError = error.abbreviated(
             minLength = MAX_ERROR_LENGTH,
             visibleLength = MAX_ERROR_LENGTH - 1,
@@ -43,7 +43,7 @@ public data class Delivery private constructor(
         return copy(status = DeliveryStatus.CANCELED, terminatedAt = canceledAt)
     }
 
-    private fun checkHasStartedStatus() = check(status == DeliveryStatus.STARTED) { "Delivery is $status" }
+    private fun checkHasProcessingStatus() = check(status == DeliveryStatus.PROCESSING) { "Delivery is $status" }
 
     private fun checkHasFailedStatus() = check(status == DeliveryStatus.FAILED) { "Delivery is $status" }
 

@@ -42,7 +42,7 @@ public final class pro/vlprojects/semantic/delivery/outbox/DeliveryStatus : java
 	public static final field COMPLETED Lpro/vlprojects/semantic/delivery/outbox/DeliveryStatus;
 	public static final field FAILED Lpro/vlprojects/semantic/delivery/outbox/DeliveryStatus;
 	public static final field PENDING Lpro/vlprojects/semantic/delivery/outbox/DeliveryStatus;
-	public static final field STARTED Lpro/vlprojects/semantic/delivery/outbox/DeliveryStatus;
+	public static final field PROCESSING Lpro/vlprojects/semantic/delivery/outbox/DeliveryStatus;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public final fun isTerminal ()Z
 	public static fun valueOf (Ljava/lang/String;)Lpro/vlprojects/semantic/delivery/outbox/DeliveryStatus;

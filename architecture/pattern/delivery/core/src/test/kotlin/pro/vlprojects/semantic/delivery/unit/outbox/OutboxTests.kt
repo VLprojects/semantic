@@ -12,7 +12,7 @@ class OutboxTests {
 
     private val moment = Instant.parse("2026-11-09T00:00:00Z")
     private val later = moment.plusSeconds(60)
-    private val started = createStartedOutbox(moment, later)
+    private val processing = createProcessingOutbox(moment, later)
 
     @Test
     fun `a new record is pending from its creation`() {
@@ -26,7 +26,7 @@ class OutboxTests {
 
     @Test
     fun `failing schedules the record again`() {
-        val delivery = started.fail(later, "timeout").delivery
+        val delivery = processing.fail(later, "timeout").delivery
 
         assertEquals(DeliveryStatus.FAILED, delivery.status)
         assertEquals(later, delivery.scheduledAt)
@@ -35,14 +35,14 @@ class OutboxTests {
 
     @Test
     fun `a long error is cut`() {
-        val delivery = started.fail(later, "x".repeat(2000)).delivery
+        val delivery = processing.fail(later, "x".repeat(2000)).delivery
 
         assertEquals(1000, delivery.error?.length)
     }
 
     @Test
     fun `completing records the termination time`() {
-        val delivery = started.complete(later).delivery
+        val delivery = processing.complete(later).delivery
 
         assertEquals(DeliveryStatus.COMPLETED, delivery.status)
         assertEquals(later, delivery.terminatedAt)
@@ -50,7 +50,7 @@ class OutboxTests {
 
     @Test
     fun `canceling keeps the last error and records the termination time`() {
-        val delivery = started
+        val delivery = processing
             .fail(later, "timeout")
             .cancel(later)
             .delivery
@@ -62,11 +62,11 @@ class OutboxTests {
 
     @Test
     fun `a delivery that has not failed cannot be canceled`() {
-        assertThrows<IllegalStateException> { started.cancel(later) }
+        assertThrows<IllegalStateException> { processing.cancel(later) }
     }
 
     @Test
-    fun `a delivery that has not started cannot complete`() {
+    fun `a delivery that is not processing cannot complete`() {
         val pending = createOutbox(moment)
 
         assertThrows<IllegalStateException> { pending.complete(later) }
