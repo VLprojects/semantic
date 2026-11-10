@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.core.env.MapPropertySource
 import org.springframework.core.env.StandardEnvironment
+import org.springframework.core.env.StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME
+import org.springframework.core.env.SystemEnvironmentPropertySource
 import pro.vlprojects.semantic.resilience.backoff.Backoff
 import pro.vlprojects.semantic.resilience.backoff.FixedBackoff
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.BackoffRegistry
@@ -120,6 +122,41 @@ class BackoffPropertiesRegistrarTests {
     }
 
     @Test
+    fun `an instance name with a hyphen gets its settings`() {
+        val registry = registerBackoffs("$PREFIX.instances.order-events.fixed.delay" to "9s")
+
+        assertEquals(Duration.ofSeconds(9), registry["order-events"].calculate(1))
+    }
+
+    @Test
+    fun `an instance name with capitals gets its settings`() {
+        val registry = registerBackoffs("$PREFIX.instances.Orders.fixed.delay" to "9s")
+
+        assertEquals(Duration.ofSeconds(9), registry["Orders"].calculate(1))
+    }
+
+    @Test
+    fun `an environment variable reaches the instance`() {
+        val environment = createEnvironment(emptyMap())
+        val variables = mapOf<String, Any>("SEMANTIC_RESILIENCE_BACKOFF_INSTANCES_PAYMENTS_FIXED_DELAY" to "5s")
+        val source = SystemEnvironmentPropertySource(SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME, variables)
+
+        environment.propertySources.replace(SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME, source)
+
+        assertEquals(Duration.ofSeconds(5), registerBackoffs(environment)["payments"].calculate(1))
+    }
+
+    @Test
+    fun `a placeholder in a field resolves`() {
+        val registry = registerBackoffs(
+            "pause" to "6s",
+            "$PREFIX.instances.orders.fixed.delay" to "\${pause}",
+        )
+
+        assertEquals(Duration.ofSeconds(6), registry["orders"].calculate(1))
+    }
+
+    @Test
     fun `a factory of the application adds a type`() {
         val registry = registerBackoffs(
             "$PREFIX.instances.orders.once.delay" to "7s",
@@ -170,6 +207,17 @@ class BackoffPropertiesRegistrarTests {
         }
 
         assertTrue("orders" in failure.message.orEmpty())
+        assertTrue("Only one backoff type" in failure.message.orEmpty())
+    }
+
+    @Test
+    fun `a value right on the type fails with the name of the instance`() {
+        val failure = assertThrows<IllegalArgumentException> {
+            registerBackoffs("$PREFIX.instances.orders.fixed" to "9s")
+        }
+
+        assertTrue("orders" in failure.message.orEmpty())
+        assertTrue("9s" in failure.message.orEmpty())
     }
 
     @Test
@@ -223,8 +271,15 @@ class BackoffPropertiesRegistrarTests {
     private fun registerBackoffs(
         vararg properties: Pair<String, String>,
         factories: List<BackoffFactory<*>> = listOf(FixedBackoffFactory(), ExponentialBackoffFactory()),
+    ) = properties
+        .toMap()
+        .let(::createEnvironment)
+        .let { environment -> registerBackoffs(environment, factories) }
+
+    private fun registerBackoffs(
+        environment: StandardEnvironment,
+        factories: List<BackoffFactory<*>> = listOf(FixedBackoffFactory(), ExponentialBackoffFactory()),
     ): BackoffRegistry {
-        val environment = createEnvironment(properties.toMap())
         val registry = BackoffRegistry()
 
         BackoffPropertiesRegistrar(environment, factories).registerBackoffs(registry)
