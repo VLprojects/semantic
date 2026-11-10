@@ -177,6 +177,7 @@ class BackoffPropertiesRegistrarTests {
 
         assertTrue("instances[orders]" in failure.message.orEmpty())
         assertTrue("jitter" in failure.message.orEmpty())
+        assertTrue(failure.cause is IllegalArgumentException)
     }
 
     @Test
