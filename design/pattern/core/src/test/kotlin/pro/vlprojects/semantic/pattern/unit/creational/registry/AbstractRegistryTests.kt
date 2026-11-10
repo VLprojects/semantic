@@ -70,15 +70,9 @@ class AbstractRegistryTests {
     }
 
     @Test
-    fun `the default instance is the one under the default name`() {
-        registry.register(Registry.DEFAULT_NAME, "Hello")
-
-        assertEquals("Hello", registry.getDefault())
-    }
-
-    @Test
     fun `a registry without the default instance says so`() {
-        assertThrows<DefaultInstanceNotFoundException> { registry.getDefault() }
+        registry.register("morning", "Good morning")
+
         assertThrows<DefaultInstanceNotFoundException> { registry.getOrDefault("evening") }
     }
 

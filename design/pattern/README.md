@@ -71,10 +71,10 @@ registry is injected, never reached through a static, so it is no Service Locato
 - `getAll` returns a snapshot of the instances, as `getAllCircuitBreakers` in Resilience4j
   does; later changes do not touch it.
 - The default instance is the one under `Registry.DEFAULT_NAME`, `"default"`, as the default
-  configuration of Resilience4j is. A registrar puts it as any other. `getDefault` returns it or
-  throws `DefaultInstanceNotFoundException`, an `InstanceNotFoundException`.
-- `getOrDefault` falls back to the default instance for an unknown name; `get` never does,
-  so a misspelt name fails where nobody asked for a fallback.
+  configuration of Resilience4j is. A registrar puts it as any other.
+- `getOrDefault` falls back to the default instance for an unknown name, or throws
+  `DefaultInstanceNotFoundException`, an `InstanceNotFoundException`, when there is none.
+  `get` never falls back, so a misspelt name fails where nobody asked for a fallback.
 
 Each exception of a registry extends the one of the JDK a caller expects: `IllegalArgumentException`,
 `IllegalStateException`, `NoSuchElementException`. It carries the name that failed.
