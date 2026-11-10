@@ -2,9 +2,9 @@ package pro.vlprojects.semantic.delivery.outbox
 
 import java.time.Duration
 
-public data class OutboxStalenessProperties(public val processing: Duration = Duration.ofMinutes(1)) {
+public data class OutboxStalenessProperties(public val inProgress: Duration = Duration.ofMinutes(1)) {
 
     init {
-        require(processing.isPositive) { "The staleness of a processing delivery must be positive: $processing" }
+        require(inProgress.isPositive) { "The staleness of a delivery in progress must be positive: $inProgress" }
     }
 }

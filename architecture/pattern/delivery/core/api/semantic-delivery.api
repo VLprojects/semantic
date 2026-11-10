@@ -143,7 +143,7 @@ public final class pro/vlprojects/semantic/delivery/outbox/OutboxStalenessProper
 	public final fun copy (Ljava/time/Duration;)Lpro/vlprojects/semantic/delivery/outbox/OutboxStalenessProperties;
 	public static synthetic fun copy$default (Lpro/vlprojects/semantic/delivery/outbox/OutboxStalenessProperties;Ljava/time/Duration;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/OutboxStalenessProperties;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getProcessing ()Ljava/time/Duration;
+	public final fun getInProgress ()Ljava/time/Duration;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
