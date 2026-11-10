@@ -24,14 +24,14 @@
     <text x="234.0" y="148.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">RateLimiter</text>
     <rect x="320.6" y="136.0" width="134.8" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
     <text x="328.6" y="148.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">DefaultRateLimiter</text>
-    <rect x="461.4" y="136.0" width="134.8" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="469.4" y="148.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">RateLimitAlgorithm</text>
-    <rect x="602.2" y="136.0" width="141.4" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="610.2" y="148.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">RateLimitRepository</text>
-    <rect x="749.6" y="136.0" width="141.4" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="757.6" y="148.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">RateLimiterRegistry</text>
-    <rect x="897.0" y="136.0" width="128.2" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
-    <text x="905.0" y="148.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">RateLimitResponse</text>
+    <rect x="461.4" y="136.0" width="128.2" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="469.4" y="148.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">RateLimitStrategy</text>
+    <rect x="595.6" y="136.0" width="141.4" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="603.6" y="148.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">RateLimitRepository</text>
+    <rect x="743.0" y="136.0" width="141.4" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="751.0" y="148.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">RateLimiterRegistry</text>
+    <rect x="890.4" y="136.0" width="128.2" height="18" rx="4" fill="#1F2328" fill-opacity="0.2"/>
+    <text x="898.4" y="148.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">RateLimitDecision</text>
     <text x="226.0" y="180.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">The contract, the five algorithms, counters and limiters in memory. No direction: one limiter for incoming and outgoing calls.</text>
     <rect x="1166.0" y="96.0" width="380.0" height="94.0" rx="6" fill="#E3EFFF"/>
     <text x="1178.0" y="122.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">observability/micrometer</text>

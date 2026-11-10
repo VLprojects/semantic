@@ -23,7 +23,7 @@
     <text x="576.0" y="134.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="600" fill="#E6EDF3" text-anchor="middle">DefaultRateLimiter</text>
     <text x="576.0" y="152.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">the decision</text>
     <rect x="656.0" y="112.0" width="140.0" height="52.0" rx="6" fill="#29313C"/>
-    <text x="726.0" y="134.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="600" fill="#E6EDF3" text-anchor="middle">RateLimitAlgorithm</text>
+    <text x="726.0" y="134.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="600" fill="#E6EDF3" text-anchor="middle">RateLimitStrategy</text>
     <text x="726.0" y="152.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">a pure function</text>
     <rect x="804.0" y="112.0" width="152.0" height="52.0" rx="6" fill="#29313C"/>
     <text x="880.0" y="134.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="600" fill="#E6EDF3" text-anchor="middle">RateLimitRepository</text>
@@ -46,8 +46,8 @@
     <text x="379.0" y="268.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">alice</text>
     <path d="M320.0,310 L564.0,310" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="M570.0,310 L563.0,306 L563.0,314 Z" fill="#515B66"/>
-    <rect x="365.1" y="289.0" width="159.8" height="16.0" rx="3" fill="#1D242D"/>
-    <text x="445.0" y="302.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">tryAcquire("api:alice")</text>
+    <rect x="381.6" y="289.0" width="126.8" height="16.0" rx="3" fill="#1D242D"/>
+    <text x="445.0" y="302.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">allow("api:alice")</text>
     <path d="M582.0,344 L868.0,344" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="M874.0,344 L867.0,340 L867.0,348 Z" fill="#515B66"/>
     <rect x="694.3" y="323.0" width="67.4" height="16.0" rx="3" fill="#1D242D"/>
@@ -58,8 +58,8 @@
     <text x="728.0" y="370.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">tokens 3 · v7</text>
     <path d="M582.0,412 L714.0,412" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="M720.0,412 L713.0,408 L713.0,416 Z" fill="#515B66"/>
-    <rect x="597.5" y="391.0" width="107.0" height="16.0" rx="3" fill="#1D242D"/>
-    <text x="651.0" y="404.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">acquire(1, now)</text>
+    <rect x="604.1" y="391.0" width="93.8" height="16.0" rx="3" fill="#1D242D"/>
+    <text x="651.0" y="404.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">allow(1, now)</text>
     <path d="M720.0,446 L588.0,446" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="M582.0,446 L589.0,442 L589.0,450 Z" fill="#515B66"/>
     <rect x="588.5" y="425.0" width="125.0" height="16.0" rx="3" fill="#1D242D"/>
@@ -97,8 +97,8 @@
     <text x="728.0" y="716.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">findByKey</text>
     <path d="M582.0,758 L714.0,758" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="M720.0,758 L713.0,754 L713.0,762 Z" fill="#515B66"/>
-    <rect x="597.5" y="737.0" width="107.0" height="16.0" rx="3" fill="#1D242D"/>
-    <text x="651.0" y="750.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">acquire(1, now)</text>
+    <rect x="604.1" y="737.0" width="93.8" height="16.0" rx="3" fill="#1D242D"/>
+    <text x="651.0" y="750.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">allow(1, now)</text>
     <path d="M582.0,792 L868.0,792" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="M874.0,792 L867.0,788 L867.0,796 Z" fill="#515B66"/>
     <rect x="697.6" y="771.0" width="60.8" height="16.0" rx="3" fill="#1D242D"/>
@@ -120,8 +120,8 @@
     <text x="728.0" y="926.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">tokens 0 · v9</text>
     <path d="M582.0,968 L714.0,968" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="M720.0,968 L713.0,964 L713.0,972 Z" fill="#515B66"/>
-    <rect x="597.5" y="947.0" width="107.0" height="16.0" rx="3" fill="#1D242D"/>
-    <text x="651.0" y="960.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">acquire(1, now)</text>
+    <rect x="604.1" y="947.0" width="93.8" height="16.0" rx="3" fill="#1D242D"/>
+    <text x="651.0" y="960.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">allow(1, now)</text>
     <path d="M720.0,1002 L588.0,1002" stroke="#FF4F7B" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="M582.0,1002 L589.0,998 L589.0,1006 Z" fill="#FF4F7B"/>
     <rect x="603.9" y="981.0" width="94.2" height="16.0" rx="3" fill="#1D242D"/>

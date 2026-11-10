@@ -58,8 +58,8 @@ def duties(pal):
 	a = start(pal, "One task, one abstraction", "On the left what has to be decided, on the right who decides it and nothing else")
 	ox = 620
 	rows = [
-		("let a call through or not", "return a decision for a key and a number of permits", "blue", "RateLimiter"),
-		("how to count permits", "a pure function: state and time in, a decision out", "blue", "RateLimitAlgorithm"),
+		("let a call through or not", "return a decision for a key and tokens", "blue", "RateLimiter"),
+		("how to count calls", "a pure function: state and time in, a decision out", "blue", "RateLimitStrategy"),
 		("where to keep the counter", "find by key, save with a version check", "blue", "RateLimitRepository"),
 		("lose no update in a race", "on a version conflict, read again and count again", "blue", "DefaultRateLimiter"),
 		("wait for a permit before an outgoing call", "wait no longer than maxWait, otherwise throw", "blue", "RateLimiter.acquire"),
@@ -94,15 +94,15 @@ def abstractions(pal):
 	level(a, y[4], "Spring", "spring/data/redis, spring/jdbc")
 	card(a, BX, y[0], BW, "green", "spring/webmvc", "RateLimitingFilter", "incoming: 429 on rejection")
 	card(a, RX, y[0], BW, "green", "spring/web", "RateLimitingInterceptor", "outgoing: waits for a permit")
-	card(a, BX, y[1], BW, "blue", "interface", "RateLimiter", "tryAcquire, acquire(maxWait)")
+	card(a, BX, y[1], BW, "blue", "interface", "RateLimiter", "allow, acquire(maxWait)")
 	card(a, RX, y[1], BW, "blue", "class", "DefaultRateLimiter", "reads, counts, saves by version")
-	card(a, BX, y[2], BW, "blue", "sealed interface", "RateLimitAlgorithm", "the five algorithms of Alex Xu")
+	card(a, BX, y[2], BW, "blue", "sealed interface", "RateLimitStrategy", "the five algorithms of Alex Xu")
 	card(a, RX, y[2], BW, "blue", "interface", "RateLimitRepository", "findByKey, save by version")
-	card(a, BX, y[3], BW, "blue", "data", "RateLimitResponse", "acquired, delay, retryAfter")
+	card(a, BX, y[3], BW, "blue", "data", "RateLimitDecision", "outcome, tokens, retryAfter")
 	card(a, RX, y[3], BW, "blue", "class", "InMemoryRateLimitRepository", "the default, in memory")
 	card(a, RX, y[4], BW, "green", "adapters", "RedisRateLimitRepository", "shared by all instances")
 	mid = b.BLOCK / 2
-	down(a, BX + 48, y[0] + b.BLOCK, y[1], "tryAcquire()")
+	down(a, BX + 48, y[0] + b.BLOCK, y[1], "allow()")
 	b.line(a, f"M{RX + 48},{y[0] + b.BLOCK + b.AIR + b.DOT} L{RX + 48},{y[0] + b.BLOCK + 24} L{BX + BW - 40},{y[0] + b.BLOCK + 24} L{BX + BW - 40},{y[1] - b.AIR - b.HEAD}", b.DECLARES)
 	b.dot(a, RX + 48, y[0] + b.BLOCK + b.AIR + b.DOT)
 	b.arrowhead(a, BX + BW - 40, y[1] - b.AIR, 0, 1)
@@ -111,7 +111,7 @@ def abstractions(pal):
 	b.line(a, f"M{RX + 48},{y[1] + b.BLOCK + b.AIR + b.DOT} L{RX + 48},{y[1] + b.BLOCK + 24} L{BX + 200},{y[1] + b.BLOCK + 24} L{BX + 200},{y[2] - b.AIR - b.HEAD}", b.DECLARES)
 	b.dot(a, RX + 48, y[1] + b.BLOCK + b.AIR + b.DOT)
 	b.arrowhead(a, BX + 200, y[2] - b.AIR, 0, 1)
-	a.t(BX + 212, y[1] + b.BLOCK + 40, "acquire(state, permits, now)", size=12, mono=True)
+	a.t(BX + 212, y[1] + b.BLOCK + 40, "allow(state, tokens, now)", size=12, mono=True)
 	down(a, RX + 220, y[1] + b.BLOCK, y[2], "findByKey · save")
 	down(a, BX + 48, y[2] + b.BLOCK, y[3], "returns", mono=False)
 	b.across(a, RX + BW / 2, RX + BW / 2, 0, b.BUILDS) if False else None
@@ -140,7 +140,7 @@ def flow(pal):
 	gutter = 152
 	widths = [88, 148, 112, 152, 148, 160]
 	lanes = [("client", "HTTP", False), ("RateLimitingFilter", "spring/webmvc", True), ("KeyResolver", "whose request", True),
-		("DefaultRateLimiter", "the decision", True), ("RateLimitAlgorithm", "a pure function", True), ("RateLimitRepository", "the counter", True)]
+		("DefaultRateLimiter", "the decision", True), ("RateLimitStrategy", "a pure function", True), ("RateLimitRepository", "the counter", True)]
 	xs, x = [], gutter
 	for w in widths:
 		xs.append(x + w / 2)
@@ -166,10 +166,10 @@ def flow(pal):
 	msg(a, xs, 0, 1, y, "GET /api/orders", mono=True)
 	msg(a, xs, 1, 2, y + step, "resolve()")
 	msg(a, xs, 2, 1, y + 2 * step, "alice")
-	msg(a, xs, 1, 3, y + 3 * step, "tryAcquire(\"api:alice\")")
+	msg(a, xs, 1, 3, y + 3 * step, "allow(\"api:alice\")")
 	msg(a, xs, 3, 5, y + 4 * step, "findByKey")
 	msg(a, xs, 5, 3, y + 5 * step, "tokens 3 · v7", mono=False)
-	msg(a, xs, 3, 4, y + 6 * step, "acquire(1, now)")
+	msg(a, xs, 3, 4, y + 6 * step, "allow(1, now)")
 	msg(a, xs, 4, 3, y + 7 * step, "tokens 2 · acquired", mono=False)
 	msg(a, xs, 3, 5, y + 8 * step, "save(v8)")
 	msg(a, xs, 5, 3, y + 9 * step, "saved", mono=False)
@@ -182,7 +182,7 @@ def flow(pal):
 	msg(a, xs, 3, 5, y, "save(v8)")
 	msg(a, xs, 5, 3, y + step, "conflict: already v8", mono=False, color="amber")
 	msg(a, xs, 3, 5, y + 2 * step, "findByKey")
-	msg(a, xs, 3, 4, y + 3 * step, "acquire(1, now)")
+	msg(a, xs, 3, 4, y + 3 * step, "allow(1, now)")
 	msg(a, xs, 3, 5, y + 4 * step, "save(v9)")
 	msg(a, xs, 5, 3, y + 5 * step, "saved", mono=False)
 
@@ -191,7 +191,7 @@ def flow(pal):
 	busy(3, y - 4, y + 4 * step + 4)
 	msg(a, xs, 3, 5, y, "findByKey")
 	msg(a, xs, 5, 3, y + step, "tokens 0 · v9", mono=False)
-	msg(a, xs, 3, 4, y + 2 * step, "acquire(1, now)")
+	msg(a, xs, 3, 4, y + 2 * step, "allow(1, now)")
 	msg(a, xs, 4, 3, y + 3 * step, "rejected · 4 s", mono=False, color="red")
 	msg(a, xs, 3, 1, y + 4 * step, "rejected · nothing to save", mono=False)
 	msg(a, xs, 1, 0, y + 5 * step, "429", color="red")
@@ -333,7 +333,7 @@ def incoming(pal):
 	y, h = 112, 112
 	flow_card(a, L, y, w, h, "green", "RateLimitingFilter", ["a rule by path: /api/** →", "limit api, key principal"])
 	flow_card(a, L + w + gap, y, w, h, "green", "KeyResolver", ["principal, IP, a header", "X-Tenant-Id or a lambda"])
-	flow_card(a, L + 2 * (w + gap), y, w, h, "blue", "RateLimiter", ["tryAcquire(\"api:alice\", 1)"])
+	flow_card(a, L + 2 * (w + gap), y, w, h, "blue", "RateLimiter", ["allow(\"api:alice\", 1)"])
 	a.harrow(L + w + 6, y + h / 2, L + w + gap - 6)
 	a.harrow(L + 2 * w + gap + 6, y + h / 2, L + 2 * (w + gap) - 6)
 	y2, h2 = y + h + 48, 152
@@ -552,12 +552,12 @@ def wiring(pal):
 	a.t(ax, head, "without Spring", size=13, color="ink", weight="600")
 	a.t(sx, head, "Spring", size=13, color="ink", weight="600")
 	rows = [
-		("algorithm", ("blue", "TokenBucket.of(100, Duration.ofMinutes(1))", "in the application code"),
+		("strategy", ("blue", "TokenBucket.of(100, Duration.ofMinutes(1))", "in the application code"),
 			("amber", "semantic.traffic.limiters.api.*", "in application.yaml")),
-		("limiter", ("blue", "DefaultRateLimiter(\"api\", algorithm, repository)", "the same class from semantic-traffic"), None),
+		("limiter", ("blue", "DefaultRateLimiter(\"api\", strategy, repository)", "the same class from semantic-traffic"), None),
 		("storage", ("blue", "InMemoryRateLimitRepository()", "or your own RateLimitRepository"),
 			("green", "RedisRateLimitRepository", "with starter/redis on the classpath")),
-		("incoming", ("blue", "limiter.tryAcquire(key)", "in your code, the answer is yours"),
+		("incoming", ("blue", "limiter.allow(key)", "in your code, the answer is yours"),
 			("green", "RateLimitingFilter", "rules by path from the settings")),
 		("outgoing", ("blue", "limiter.acquire(key, maxWait = …)", "before a call to a partner"),
 			("green", "RateLimitingInterceptor", "in RestClient.Builder by limit name")),
@@ -595,7 +595,7 @@ def extensions(pal):
 	a = start(pal, "What can be replaced without touching the rest", "Each point is an interface; the algorithms are sealed, since any storage must be able to save their state")
 	gx = 200
 	groups = [
-		("algorithm", "RateLimitAlgorithm", "sealed: the five of Alex Xu, no others", [
+		("algorithm", "RateLimitStrategy", "sealed: the five of Alex Xu, no others", [
 			("blue", "TokenBucket", "the default", True),
 			("blue", "LeakyBucket", "a steady pace", True),
 			("blue", "FixedWindow", "the cheapest", True),
@@ -648,21 +648,24 @@ def plan(pal):
 		a.t(x + 64, 112, note, size=12)
 	top = 132
 	cards = {
-		1: (0, 0, "blue", "1 · core", "contract, TokenBucket, memory"),
-		2: (0, 1, "blue", "2 · core", "serialization of the state"),
-		3: (1, 0, "blue", "3 · core", "FixedWindow"),
-		4: (1, 1, "blue", "4 · core", "SlidingWindowLog"),
-		5: (1, 2, "blue", "5 · core", "SlidingWindowCounter"),
-		6: (1, 3, "blue", "6 · core", "LeakyBucket and delay"),
-		7: (1, 4, "blue", "7 · core", "acquire(maxWait)"),
-		8: (1, 5, "blue", "8 · core", "RateLimiterRegistry"),
-		9: (1, 6, "blue", "9 · observability", "micrometer"),
-		10: (1, 7, "green", "10 · spring/webmvc", "filter, 429, headers"),
-		11: (1, 8, "green", "11 · spring/data/redis", "the shared counter"),
-		12: (2, 0, "green", "12 · spring/web", "RestClient interceptor"),
-		13: (2, 1, "green", "13 · spring/context", "@RateLimit and its proxy"),
-		14: (3, 2, "amber", "14 · autoconfigure", "limits, rules, the proxy"),
-		15: (3, 3, "amber", "15 · starter", "starter and starter/redis"),
+		1: (0, 0, "blue", "1 · core", "the contract"),
+		2: (0, 1, "blue", "2 · core", "TokenBucket"),
+		3: (0, 2, "blue", "3 · core", "the counter in memory"),
+		4: (0, 3, "blue", "4 · core", "DefaultRateLimiter"),
+		5: (0, 4, "blue", "5 · core", "serialization of the state"),
+		6: (1, 0, "blue", "6 · core", "acquire(maxWait)"),
+		7: (1, 1, "blue", "7 · core", "RateLimiterRegistry"),
+		8: (1, 2, "blue", "8 · observability", "micrometer"),
+		9: (1, 3, "green", "9 · spring/webmvc", "filter, 429, headers"),
+		10: (1, 4, "blue", "10 · core", "FixedWindow"),
+		11: (1, 5, "blue", "11 · core", "SlidingWindowLog"),
+		12: (1, 6, "blue", "12 · core", "SlidingWindowCounter"),
+		13: (1, 7, "blue", "13 · core", "LeakyBucket and delay"),
+		14: (1, 8, "green", "14 · spring/data/redis", "the shared counter"),
+		15: (2, 0, "green", "15 · spring/web", "RestClient interceptor"),
+		16: (2, 1, "green", "16 · spring/context", "@RateLimit and its proxy"),
+		17: (3, 2, "amber", "17 · autoconfigure", "limits, rules, the proxy"),
+		18: (3, 3, "amber", "18 · starter", "starter and starter/redis"),
 	}
 	pos = {}
 	for k, (col, row, hue, name, note) in cards.items():
@@ -700,18 +703,21 @@ def plan(pal):
 		else:
 			b.line(a, f"M{start_x},{y1} L{bx},{y2}", b.DECLARES)
 
-	edge(1, 2)
-	for k in (3, 4, 5, 6, 7, 8, 9, 10, 11):
-		edge(2, k)
-	edge(7, 12)
-	edge(7, 13)
-	edge(8, 13)
-	edge(10, 14)
-	edge(12, 14)
-	edge(13, 14)
-	edge(14, 15)
+	for k in (1, 2, 3, 4):
+		edge(k, k + 1)
+	for k in (6, 7, 8, 9):
+		edge(1, k)
+	for k in (10, 11, 12, 13, 14):
+		edge(5, k)
+	edge(6, 15)
+	edge(6, 16)
+	edge(7, 16)
+	edge(9, 17)
+	edge(15, 17)
+	edge(16, 17)
+	edge(17, 18)
 	bottom = ghost_y + ch + 32
-	a.t(L, bottom, "3–6 add an algorithm and its format to the serialization of PR 2. 7–10 need only PR 1 and may start before PR 2.", size=12, color="ink")
+	a.t(L, bottom, "10–13 add a strategy and its format to the serialization of PR 5. 6–9 need only the contract of PR 1.", size=12, color="ink")
 	a.t(L, bottom + 18, "Shared files are settings.gradle.kts, docs/diagrams/traffic.py and the README: each PR adds a line, conflicts are settled on rebase.", size=12)
 	return finish(a, bottom + 18)
 
@@ -727,7 +733,7 @@ MODULES = d.Map(
 	],
 	{"JVM": "blue", "Spring": "green", "Spring Boot": "amber", "later": "card"},
 	[
-		(0, [0, 1], "core", ["RateLimiter", "DefaultRateLimiter", "RateLimitAlgorithm", "RateLimitRepository", "RateLimiterRegistry", "RateLimitResponse"],
+		(0, [0, 1], "core", ["RateLimiter", "DefaultRateLimiter", "RateLimitStrategy", "RateLimitRepository", "RateLimiterRegistry", "RateLimitDecision"],
 			"The contract, the five algorithms, counters and limiters in memory. No direction: one limiter for incoming and outgoing calls."),
 		(0, [2], "observability/micrometer", [], "Permits acquired and rejected, by limiter name and never by key."),
 		(1, [0], "spring/context", ["@RateLimit", "@EnableRateLimiting"], "Methods of beans: a proxy takes a permit before the call, the key comes from SpEL."),
