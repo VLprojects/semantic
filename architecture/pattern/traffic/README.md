@@ -46,7 +46,7 @@ requests, after Netflix concurrency-limits, gets a design of its own later.
 | `RateLimitCounter` | what storage keeps: key, state, version, `expiresAt` | | Spring Data `@Version` |
 | `RateLimitRepository` | `findByKey`, and `save` that throws `RateLimitOptimisticLockException` when the version has changed | decides nothing | Spring Data `CrudRepository`, `OutboxRepository` |
 | `InMemoryRateLimitRepository` | the default, on `ConcurrentHashMap.compute`; drops counters after `expiresAt` | is not shared by instances | Bucket4j `LockFreeBucket` |
-| `RateLimitDecision` | `outcome` of `RateLimitOutcome`: `PASSED` or `REJECTED`; `limit`, `remainingTokens`, `retryAfter`, `resetAfter`; `LeakyBucket` adds `delay` | | Spring Boot `Outcome`, go-redis `redis_rate` `Result`, Symfony `RateLimit` |
+| `RateLimitDecision` | `outcome`: `PASSED` or `REJECTED`; `tokens` as `Capacity` of `total`, `used` and `remaining`; `retryAfter` until the next call passes, `resetAfter` until the capacity is full; `LeakyBucket` adds `delay` | | Spring Boot `Outcome`, go-redis `redis_rate` `Result`, Symfony `RateLimit`, JDK `FileStore` and `MemoryUsage` |
 | `RateLimiterRegistry` | `findByName(name)`: one limiter for the filter, the interceptor and `@RateLimit`; `InMemoryRateLimiterRegistry` by default | builds no limiter from settings, autoconfigure does | Resilience4j `RateLimiterRegistry`, Spring `CacheManager` |
 | `@RateLimit` | on a method or a class: `limiter`, `key` in SpEL, `tokens`, `maxWait` as text such as `"500ms"` | counts nothing | Spring `@ConcurrencyLimit`, SmallRye `@RateLimit` |
 | `RateLimitBeanPostProcessor` | wraps a bean with `@RateLimit` in a proxy; an unknown limiter name stops the application at startup | needs no AspectJ | Spring `ConcurrencyLimitBeanPostProcessor`, `ScheduledAnnotationBeanPostProcessor` |
@@ -169,7 +169,7 @@ Without Spring:
 ```kotlin
 val limiter = DefaultRateLimiter("api", TokenBucket.of(100, Duration.ofMinutes(1)), InMemoryRateLimitRepository())
 
-if (limiter.allow(key).outcome == RateLimitOutcome.REJECTED) {
+if (limiter.allow(key).outcome == Outcome.REJECTED) {
     return tooManyRequests()
 }
 ```

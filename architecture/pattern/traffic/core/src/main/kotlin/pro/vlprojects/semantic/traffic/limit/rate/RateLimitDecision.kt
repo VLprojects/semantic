@@ -4,33 +4,42 @@ import java.time.Duration
 
 @ConsistentCopyVisibility
 public data class RateLimitDecision private constructor(
-    public val outcome: RateLimitOutcome,
-    public val limit: Int,
-    public val remainingTokens: Int,
+    public val outcome: Outcome,
+    public val tokens: Capacity,
     public val retryAfter: Duration,
     public val resetAfter: Duration,
 ) {
 
+    public enum class Outcome {
+        PASSED,
+        REJECTED,
+    }
+
+    @ConsistentCopyVisibility
+    public data class Capacity private constructor(
+        public val total: Int,
+        public val remaining: Int,
+    ) {
+
+        public val used: Int
+            get() = total - remaining
+
+        public companion object Factory {
+
+            public fun of(total: Int, remaining: Int): Capacity {
+                require(remaining in 0..total) { "Remaining $remaining is outside 0..$total" }
+
+                return Capacity(total, remaining)
+            }
+        }
+    }
+
     public companion object Factory {
 
-        public fun passed(
-            limit: Int,
-            remainingTokens: Int,
-            resetAfter: Duration,
-        ): RateLimitDecision =
-            RateLimitDecision(RateLimitOutcome.PASSED, limit, remainingTokens, retryAfter = Duration.ZERO, resetAfter)
+        public fun passed(tokens: Capacity, resetAfter: Duration): RateLimitDecision =
+            RateLimitDecision(Outcome.PASSED, tokens, retryAfter = Duration.ZERO, resetAfter)
 
-        public fun rejected(
-            limit: Int,
-            remainingTokens: Int,
-            retryAfter: Duration,
-            resetAfter: Duration,
-        ): RateLimitDecision = RateLimitDecision(
-            RateLimitOutcome.REJECTED,
-            limit,
-            remainingTokens,
-            retryAfter,
-            resetAfter,
-        )
+        public fun rejected(tokens: Capacity, retryAfter: Duration, resetAfter: Duration): RateLimitDecision =
+            RateLimitDecision(Outcome.REJECTED, tokens, retryAfter, resetAfter)
     }
 }
