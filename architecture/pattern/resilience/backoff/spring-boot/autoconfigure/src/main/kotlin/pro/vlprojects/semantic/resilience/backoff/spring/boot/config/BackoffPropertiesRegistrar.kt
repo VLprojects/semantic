@@ -1,5 +1,6 @@
 package pro.vlprojects.semantic.resilience.backoff.spring.boot.config
 
+import org.springframework.aop.framework.AopProxyUtils
 import org.springframework.boot.context.properties.bind.BindException
 import org.springframework.boot.context.properties.bind.BindHandler
 import org.springframework.boot.context.properties.bind.Bindable
@@ -12,7 +13,6 @@ import org.springframework.boot.context.properties.source.ConfigurationPropertyS
 import org.springframework.boot.context.properties.source.IterableConfigurationPropertySource
 import org.springframework.core.GenericTypeResolver
 import org.springframework.core.env.Environment
-import org.springframework.util.ClassUtils
 import pro.vlprojects.semantic.resilience.backoff.Backoff
 import pro.vlprojects.semantic.resilience.backoff.extension.jittered
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.BackoffRegistry
@@ -53,9 +53,7 @@ internal class BackoffPropertiesRegistrar(
 
     private val availableTypes = beanNames.values.map(::readType)
 
-    init {
-        factories.forEach { (beanName, factory) -> resolveConfigClass(beanName, factory) }
-    }
+    private val configClasses = factories.mapValues { (beanName, factory) -> resolveConfigClass(beanName, factory) }
 
     fun registerBackoffs(registry: BackoffRegistry) {
         requireNoValue(instancesName)
@@ -82,8 +80,8 @@ internal class BackoffPropertiesRegistrar(
         .takeIf(::isSingleElement)
         ?.takeUnless(::isJitterName)
         ?: throw IllegalArgumentException(
-            "The backoff factory bean '$beanName' gives the type '${readType(beanName)}': " +
-                "it must be a single property name other than '$JITTER_PROPERTY_NAME'",
+            "The backoff factory bean '$beanName' gives the type '${readType(beanName)}': it must be a single " +
+                "property name other than '$JITTER_PROPERTY_NAME', so give the bean a short name",
         )
 
     private fun readUniformType(beanName: String) = beanName
@@ -106,11 +104,9 @@ internal class BackoffPropertiesRegistrar(
     private fun requireSingleBeanName(type: String, candidates: List<String>) = candidates.singleOrNull()
         ?: throw IllegalArgumentException("Several backoff factory beans give the type '$type': $candidates")
 
-    @Suppress("UNCHECKED_CAST")
-    private fun <C : Any> resolveConfigClass(beanName: String, factory: BackoffFactory<C>) = factory.javaClass
-        .let(ClassUtils::getUserClass)
+    private fun resolveConfigClass(beanName: String, factory: BackoffFactory<*>) = factory
+        .let(AopProxyUtils::ultimateTargetClass)
         .let { factoryClass -> GenericTypeResolver.resolveTypeArgument(factoryClass, BackoffFactory::class.java) }
-        ?.let { configClass -> configClass as Class<C> }
         ?: throw IllegalArgumentException(
             "The backoff factory bean '$beanName' must declare its config class as the type argument of BackoffFactory",
         )
@@ -185,8 +181,11 @@ internal class BackoffPropertiesRegistrar(
         factory: BackoffFactory<C>,
         blockNames: List<ConfigurationPropertyName>,
     ): Backoff {
+        val type = readType(beanName)
         val typeName = readTypeName(beanName)
-        val configClass = resolveConfigClass(beanName, factory)
+
+        @Suppress("UNCHECKED_CAST")
+        val configClass = configClasses.getValue(beanName) as Class<C>
         val configNames = blockNames.map { blockName -> blockName.append(typeName) }
 
         configNames.forEach(::requireNoValue)
@@ -194,7 +193,7 @@ internal class BackoffPropertiesRegistrar(
         val config = try {
             bindConfig(configClass, configNames)
         } catch (failure: BindException) {
-            throw createBindFailure(readType(beanName), failure)
+            throw createBindFailure(type, failure)
         }
 
         return factory.create(config)
@@ -220,8 +219,7 @@ internal class BackoffPropertiesRegistrar(
         return Binder(configSources, placeholdersResolver).bindOrCreate(ROOT_NAME, target, handler)
     }
 
-    private fun createBindFailure(type: String, failure: BindException) = failure
-        .let { bindFailure -> describeBindFailure(type, bindFailure) }
+    private fun createBindFailure(type: String, failure: BindException) = describeBindFailure(type, failure)
         .let { message -> IllegalArgumentException(message, failure) }
 
     private fun describeBindFailure(type: String, failure: BindException) = failure.property
