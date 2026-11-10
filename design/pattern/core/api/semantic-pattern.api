@@ -1,6 +1,6 @@
 public abstract interface class pro/vlprojects/semantic/pattern/creational/factory/Factory {
 	public abstract fun create (Lpro/vlprojects/semantic/pattern/creational/factory/Factory$Definition;)Ljava/lang/Object;
-	public abstract fun getDefinitionType ()Ljava/lang/Class;
+	public abstract fun getDefinitionType ()Lkotlin/reflect/KClass;
 }
 
 public abstract interface class pro/vlprojects/semantic/pattern/creational/factory/Factory$Definition {
@@ -16,7 +16,7 @@ public class pro/vlprojects/semantic/pattern/creational/factory/error/InvalidDef
 }
 
 public final class pro/vlprojects/semantic/pattern/creational/factory/error/MultipleFactoriesException : java/lang/IllegalArgumentException {
-	public fun <init> (Ljava/lang/Class;)V
+	public fun <init> (Lkotlin/reflect/KClass;)V
 }
 
 public final class pro/vlprojects/semantic/pattern/creational/registry/InMemoryRegistryStore : pro/vlprojects/semantic/pattern/creational/registry/RegistryStore {

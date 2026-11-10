@@ -1,5 +1,7 @@
 package pro.vlprojects.semantic.pattern.creational.factory.error
 
+import kotlin.reflect.KClass
+
 public class MultipleFactoriesException(
-    definitionType: Class<*>,
-) : IllegalArgumentException("Several factories create an instance of ${definitionType.name}")
+    definitionType: KClass<*>,
+) : IllegalArgumentException("Several factories create an instance of ${definitionType.java.name}")

@@ -36,7 +36,7 @@ backoff for one; it carries no name, as a Spring `BeanDefinition` does not. It
 implements `Factory.Definition`, an empty interface that a factory is bound by and a module
 may extend, as Spring marks its callbacks with `Aware`.
 
-A factory names the class of its definition by `definitionType`, as a deserializer of
+A factory names the class of its definition by `definitionType`, a `KClass<D>`, as a deserializer of
 Jackson names its class by `handledType` and a `FactoryBean` of Spring by `getObjectType`;
 the compiler checks that the class is `D`. A registrar takes a list of factories and keys
 each by that class: a lookup is one access by the class of a definition, with no pass over

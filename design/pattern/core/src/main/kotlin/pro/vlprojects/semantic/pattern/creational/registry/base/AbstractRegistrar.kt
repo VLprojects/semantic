@@ -38,6 +38,6 @@ public abstract class AbstractRegistrar<D : Factory.Definition, T : Any>(
         .create(definition)
 
     @Suppress("UNCHECKED_CAST") // factories are keyed by the class of the definition they take
-    private fun resolveFactory(definition: D) = factories[definition.javaClass] as Factory<D, T>?
+    private fun resolveFactory(definition: D) = factories[definition::class] as Factory<D, T>?
         ?: throw FactoryNotFoundException(definition)
 }
