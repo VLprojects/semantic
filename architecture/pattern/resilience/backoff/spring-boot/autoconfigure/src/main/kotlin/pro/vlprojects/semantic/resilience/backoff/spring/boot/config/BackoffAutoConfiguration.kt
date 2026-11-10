@@ -7,9 +7,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import pro.vlprojects.semantic.resilience.backoff.Backoff
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.BackoffRegistry
-import pro.vlprojects.semantic.resilience.backoff.spring.boot.DEFAULT_BACKOFF_NAME
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.properties.BackoffConfigurationProperties
-import pro.vlprojects.semantic.resilience.backoff.spring.boot.config.properties.BackoffProperties
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.factory.BackoffFactory
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.factory.ExponentialBackoffFactory
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.factory.FixedBackoffFactory
@@ -36,7 +34,7 @@ public class BackoffAutoConfiguration {
     ): BackoffRegistry {
         val registry = BackoffRegistry()
 
-        initBackoffRegistry(registry, properties, factories)
+        BackoffPropertiesRegistrar(properties, factories).registerBackoffs(registry)
         backoffs.forEach { (name, backoff) -> registry.replace(name, backoff) }
         customizers
             .orderedStream()
@@ -44,28 +42,4 @@ public class BackoffAutoConfiguration {
 
         return registry
     }
-
-    private fun initBackoffRegistry(
-        registry: BackoffRegistry,
-        properties: BackoffConfigurationProperties,
-        factories: List<BackoffFactory<*>>,
-    ) {
-        require(DEFAULT_BACKOFF_NAME !in properties.instances) {
-            "The backoff name '$DEFAULT_BACKOFF_NAME' is reserved: set it in the '$DEFAULT_BACKOFF_NAME' block"
-        }
-
-        val service = BackoffConfigurationService(properties.default, factories)
-
-        properties.instances.forEach { (name, instance) -> registerBackoff(registry, service, name, instance) }
-        registerBackoff(registry, service, DEFAULT_BACKOFF_NAME, BackoffProperties())
-    }
-
-    private fun registerBackoff(
-        registry: BackoffRegistry,
-        service: BackoffConfigurationService,
-        name: String,
-        properties: BackoffProperties,
-    ) = service
-        .create(name, properties)
-        .let { backoff -> registry.register(name, backoff) }
 }
