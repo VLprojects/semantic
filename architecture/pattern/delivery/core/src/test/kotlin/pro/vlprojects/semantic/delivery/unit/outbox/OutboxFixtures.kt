@@ -36,14 +36,14 @@ internal fun createStartedOutbox(createdAt: Instant, lockedUntil: Instant) = Del
         terminatedAt = null,
         error = null,
     )
-    .let {
+    .let { delivery ->
         Outbox.of(
             id = identifier,
             payload = payload,
             destination = DESTINATION,
             context = context,
             createdAt = createdAt,
-            delivery = it,
+            delivery = delivery,
             version = 1,
         )
     }

@@ -30,7 +30,7 @@ public class OutboxService(
             .let(repository::save)
     }
 
-    public fun getAllWithLock(limit: Int): List<Outbox> {
+    public fun getScheduledWithLock(limit: Int): List<Outbox> {
         val now = clock.instant()
         val lockedUntil = now.plus(config.lockDuration)
 
