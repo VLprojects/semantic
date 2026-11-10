@@ -3,6 +3,7 @@ package pro.vlprojects.semantic.delivery.outbox
 import pro.vlprojects.semantic.delivery.outbox.error.ErrorPolicy
 import pro.vlprojects.semantic.delivery.outbox.error.RootCauseErrorPolicy
 import pro.vlprojects.semantic.delivery.outbox.logging.OutboxLoggingProperties
+import pro.vlprojects.semantic.delivery.outbox.polling.OutboxPollingProperties
 import pro.vlprojects.semantic.resilience.backoff.Backoff
 import pro.vlprojects.semantic.resilience.backoff.ExponentialBackoff
 
@@ -12,6 +13,7 @@ public data class OutboxProperties(
     public val backoff: Backoff = ExponentialBackoff.of(),
     public val errorPolicy: ErrorPolicy = RootCauseErrorPolicy(),
     public val batchSize: Int = 100,
+    public val polling: OutboxPollingProperties = OutboxPollingProperties(),
     public val logging: OutboxLoggingProperties = OutboxLoggingProperties(),
 ) {
 
