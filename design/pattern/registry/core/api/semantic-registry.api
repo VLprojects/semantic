@@ -1,5 +1,0 @@
-public abstract interface class pro/vlprojects/semantic/registry/Registry {
-	public abstract fun findByName (Ljava/lang/String;)Ljava/lang/Object;
-	public abstract fun getNames ()Ljava/util/Set;
-}
-

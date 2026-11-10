@@ -49,7 +49,7 @@ module("semantic-ddd-spring-boot-starter-jpa", "design/ddd/spring-boot/starter/j
 module("semantic-ddd-spring-boot-starter-mongodb", "design/ddd/spring-boot/starter/mongodb")
 module("semantic-dbc", "design/dbc/core")
 module("semantic-algebra", "design/algebra/core")
-module("semantic-registry", "design/pattern/registry/core")
+module("semantic-pattern", "design/pattern/core")
 
 module("semantic-layered", "architecture/style/layered/core")
 module("semantic-onion", "architecture/style/onion/core")
