@@ -41,7 +41,7 @@ requests, after Netflix concurrency-limits, gets a design of its own later.
 | `RateLimiter` | `allow(key, tokens = 1)` answers at once; the extension `acquire(key, tokens, maxWait)` waits or throws `RateLimitExceededException` | knows neither the strategy nor the storage | Go `x/time/rate` `Allow`, go-redis `redis_rate` `Allow(key)`, Symfony `consume(tokens)` |
 | `DefaultRateLimiter` | reads the counter, asks the strategy, saves the new state by version; on a conflict it repeats, up to `max-attempts` times; applies `on-failure` when storage fails | holds no formula | Bucket4j `AbstractCompareAndSwapBasedProxyManager` |
 | `RateLimitStrategy` | a sealed pure function: state, tokens and time in, `RateLimitResult` out; one per algorithm | reads no clock, touches no storage | `limits.strategies` of Flask-Limiter, Bucket4j `Bandwidth` |
-| `RateLimitResult` | the new state and the response of one call | | Bucket4j `VerboseResult` |
+| `RateLimitResult` | the new state and the decision of one call; on a rejection the state stays as it was | | Bucket4j `VerboseResult` |
 | `RateLimitState` | the state of one strategy, one subtype each; the core turns it into bytes and back | | Bucket4j `RemoteBucketState` |
 | `RateLimitCounter` | what storage keeps: key, state, version, `expiresAt` | | Spring Data `@Version` |
 | `RateLimitRepository` | `findByKey`, and `save` that throws `RateLimitOptimisticLockException` when the version has changed | decides nothing | Spring Data `CrudRepository`, `OutboxRepository` |
@@ -76,15 +76,15 @@ only accepted requests, so the log of a key never grows past the limit, even und
 
 | Algorithm | State | Strength | Cost | Fits |
 | --- | --- | --- | --- | --- |
-| `TokenBucket`, the default | tokens, time of the last refill | a burst up to `permit-limit`, then a steady pace | two numbers | APIs for clients |
+| `TokenBucket`, the default | tokens, time of the last refill | a burst up to `capacity`, then a steady pace | two numbers | APIs for clients |
 | `LeakyBucket` | the theoretical arrival time (GCRA) | an even pace out; returns a `delay` instead of a rejection | one number | calls to a partner |
 | `FixedWindow` | start of the window, count | the cheapest | twice the limit gets through at the edge of two windows | coarse quotas, a day or a month |
 | `SlidingWindowLog` | the time of each accepted request | exact | up to `permit-limit` timestamps a key | small limits that must be exact |
 | `SlidingWindowCounter` | two windows | nearly exact: the current window plus the previous one times the overlap | three numbers | large limits |
 
 `LeakyBucket` is GCRA, not a queue in memory, so it works on a shared counter too: each call gets the
-`delay` it has to wait, and the caller waits. Every algorithm takes `permit-limit` permits per
-`window`, as ASP.NET names them.
+`delay` it has to wait, and the caller waits. `TokenBucket` refills `capacity` tokens evenly over
+`period`, as Bucket4j `Bandwidth.simple` names them; a call for more tokens than `capacity` is an error.
 
 ## Incoming requests
 
