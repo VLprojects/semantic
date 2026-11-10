@@ -10,23 +10,27 @@ import org.springframework.boot.context.properties.source.ConfigurationPropertyN
 import org.springframework.boot.context.properties.source.ConfigurationPropertyName.Form
 import org.springframework.boot.context.properties.source.ConfigurationPropertySources
 import org.springframework.boot.context.properties.source.IterableConfigurationPropertySource
+import org.springframework.core.GenericTypeResolver
 import org.springframework.core.env.Environment
+import org.springframework.util.ClassUtils
 import pro.vlprojects.semantic.resilience.backoff.Backoff
 import pro.vlprojects.semantic.resilience.backoff.extension.jittered
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.BackoffRegistry
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.DEFAULT_BACKOFF_NAME
 import pro.vlprojects.semantic.resilience.backoff.spring.boot.factory.BackoffFactory
-import pro.vlprojects.semantic.resilience.backoff.spring.boot.factory.EXPONENTIAL_BACKOFF_TYPE
 
 private const val PROPERTIES_PREFIX = "semantic.resilience.backoff"
 private const val DEFAULT_PROPERTY_NAME = "$PROPERTIES_PREFIX.$DEFAULT_BACKOFF_NAME"
 private const val INSTANCES_PROPERTY_NAME = "$PROPERTIES_PREFIX.instances"
 private const val JITTER_PROPERTY_NAME = "jitter"
 private const val ROOT_NAME = ""
+private const val DEFAULT_BACKOFF_TYPE = "exponential"
+private const val BEAN_NAME_SUFFIX = "BackoffFactory"
+private const val TYPE_SEPARATOR = '.'
 
 internal class BackoffPropertiesRegistrar(
     environment: Environment,
-    factories: List<BackoffFactory<*>>,
+    private val factories: Map<String, BackoffFactory<*>>,
 ) {
 
     private val sources = ConfigurationPropertySources.get(environment)
@@ -43,11 +47,15 @@ internal class BackoffPropertiesRegistrar(
 
     private val jitterTarget = Bindable.of(Double::class.javaObjectType)
 
-    private val factories = factories
+    private val beanNames = factories.keys
         .groupBy(::readUniformType)
-        .mapValues { (type, candidates) -> requireSingleFactory(type, candidates) }
+        .mapValues { (type, candidates) -> requireSingleBeanName(type, candidates) }
 
-    private val availableTypes = this.factories.values.map { factory -> factory.type }
+    private val availableTypes = beanNames.values.map(::readType)
+
+    init {
+        factories.forEach { (beanName, factory) -> resolveConfigClass(beanName, factory) }
+    }
 
     fun registerBackoffs(registry: BackoffRegistry) {
         requireNoValue(instancesName)
@@ -62,15 +70,25 @@ internal class BackoffPropertiesRegistrar(
         instanceNames.forEach { instanceName -> registerBackoff(registry, instanceName) }
     }
 
-    private fun readUniformType(factory: BackoffFactory<*>) = factory.type
-        .let(ConfigurationPropertyName::ofIfValid)
-        ?.takeIf(::isSingleElement)
+    // A bean name gives the type the way Spring Boot names health contributors: without the standard suffix.
+    private fun readType(beanName: String) = when {
+        beanName.endsWith(BEAN_NAME_SUFFIX, ignoreCase = true) -> beanName.dropLast(BEAN_NAME_SUFFIX.length)
+        else -> beanName
+    }
+
+    private fun readTypeName(beanName: String) = beanName
+        .let(::readType)
+        .let { type -> ConfigurationPropertyName.adapt(type, TYPE_SEPARATOR) }
+        .takeIf(::isSingleElement)
         ?.takeUnless(::isJitterName)
-        ?.let(::readUniformName)
         ?: throw IllegalArgumentException(
-            "The backoff factory ${factory.javaClass.name} declares the type '${factory.type}': " +
+            "The backoff factory bean '$beanName' gives the type '${readType(beanName)}': " +
                 "it must be a single property name other than '$JITTER_PROPERTY_NAME'",
         )
+
+    private fun readUniformType(beanName: String) = beanName
+        .let(::readTypeName)
+        .let(::readUniformName)
 
     private fun isSingleElement(propertyName: ConfigurationPropertyName) =
         propertyName.numberOfElements == 1 && !propertyName.isLastElementIndexed
@@ -85,12 +103,17 @@ internal class BackoffPropertiesRegistrar(
     private fun isJitterName(propertyName: ConfigurationPropertyName) =
         readUniformName(propertyName) == JITTER_PROPERTY_NAME
 
-    private fun requireSingleFactory(type: String, candidates: List<BackoffFactory<*>>): BackoffFactory<*> {
-        val names = candidates.map { factory -> factory.javaClass.name }
+    private fun requireSingleBeanName(type: String, candidates: List<String>) = candidates.singleOrNull()
+        ?: throw IllegalArgumentException("Several backoff factory beans give the type '$type': $candidates")
 
-        return candidates.singleOrNull()
-            ?: throw IllegalArgumentException("Several backoff factories declare the type '$type': $names")
-    }
+    @Suppress("UNCHECKED_CAST")
+    private fun <C : Any> resolveConfigClass(beanName: String, factory: BackoffFactory<C>) = factory.javaClass
+        .let(ClassUtils::getUserClass)
+        .let { factoryClass -> GenericTypeResolver.resolveTypeArgument(factoryClass, BackoffFactory::class.java) }
+        ?.let { configClass -> configClass as Class<C> }
+        ?: throw IllegalArgumentException(
+            "The backoff factory bean '$beanName' must declare its config class as the type argument of BackoffFactory",
+        )
 
     private fun registerBackoff(registry: BackoffRegistry, blockName: ConfigurationPropertyName) {
         val name = readOriginalName(blockName)
@@ -108,20 +131,22 @@ internal class BackoffPropertiesRegistrar(
     private fun createBackoff(blockName: ConfigurationPropertyName): Backoff {
         requireNoValue(blockName)
 
-        val defaultFactory = findFactory(defaultName) ?: getFactory(EXPONENTIAL_BACKOFF_TYPE)
-        val factory = findFactory(blockName) ?: defaultFactory
-        val inheritedNames = listBlockNames(blockName, factory, defaultFactory)
-        val backoff = createBackoff(factory, inheritedNames)
+        val defaultBeanName = findBeanName(defaultName) ?: getBeanName(DEFAULT_BACKOFF_TYPE)
+        val beanName = findBeanName(blockName) ?: defaultBeanName
+        val blockNames = listBlockNames(blockName, beanName, defaultBeanName)
+        val backoff = factories
+            .getValue(beanName)
+            .let { factory -> createBackoff(beanName, factory, blockNames) }
         val jitter = bindJitter(blockName) ?: bindJitter(defaultName)
 
         return if (jitter == null) backoff else backoff.jittered(jitter)
     }
 
-    private fun findFactory(blockName: ConfigurationPropertyName): BackoffFactory<*>? {
+    private fun findBeanName(blockName: ConfigurationPropertyName): String? {
         val typeNames = readChildNames(blockName).filterNot(::isJitterName)
         val types = typeNames.map(::readOriginalName)
         val unknownTypes = typeNames
-            .filterNot { typeName -> readUniformName(typeName) in factories }
+            .filterNot { typeName -> readUniformName(typeName) in beanNames }
             .map(::readOriginalName)
 
         require(unknownTypes.isEmpty()) { "Unknown backoff types $unknownTypes. Available types: $availableTypes" }
@@ -130,10 +155,10 @@ internal class BackoffPropertiesRegistrar(
         return typeNames
             .singleOrNull()
             ?.let(::readUniformName)
-            ?.let(factories::getValue)
+            ?.let(beanNames::getValue)
     }
 
-    private fun getFactory(type: String) = factories[type]
+    private fun getBeanName(type: String) = beanNames[type]
         ?: throw IllegalArgumentException("Unknown backoff type '$type'. Available types: $availableTypes")
 
     // Lowest-priority sources go first, so an override written in another form keeps the declared name.
@@ -144,14 +169,11 @@ internal class BackoffPropertiesRegistrar(
         .map { name -> name.chop(propertyName.numberOfElements + 1) }
         .toSet()
 
-    private fun listBlockNames(
-        blockName: ConfigurationPropertyName,
-        factory: BackoffFactory<*>,
-        defaultFactory: BackoffFactory<*>,
-    ) = when (factory) {
-        defaultFactory -> listOf(blockName, defaultName)
-        else -> listOf(blockName)
-    }
+    private fun listBlockNames(blockName: ConfigurationPropertyName, beanName: String, defaultBeanName: String) =
+        when (beanName) {
+            defaultBeanName -> listOf(blockName, defaultName)
+            else -> listOf(blockName)
+        }
 
     private fun bindJitter(blockName: ConfigurationPropertyName) = blockName
         .append(JITTER_PROPERTY_NAME)
@@ -159,17 +181,20 @@ internal class BackoffPropertiesRegistrar(
         .orElse(null)
 
     private fun <C : Any> createBackoff(
+        beanName: String,
         factory: BackoffFactory<C>,
         blockNames: List<ConfigurationPropertyName>,
     ): Backoff {
-        val configNames = blockNames.map { blockName -> blockName.append(factory.type) }
+        val typeName = readTypeName(beanName)
+        val configClass = resolveConfigClass(beanName, factory)
+        val configNames = blockNames.map { blockName -> blockName.append(typeName) }
 
         configNames.forEach(::requireNoValue)
 
         val config = try {
-            bindConfig(factory.configClass, configNames)
+            bindConfig(configClass, configNames)
         } catch (failure: BindException) {
-            throw createBindFailure(factory, failure)
+            throw createBindFailure(readType(beanName), failure)
         }
 
         return factory.create(config)
@@ -195,15 +220,13 @@ internal class BackoffPropertiesRegistrar(
         return Binder(configSources, placeholdersResolver).bindOrCreate(ROOT_NAME, target, handler)
     }
 
-    private fun createBindFailure(factory: BackoffFactory<*>, failure: BindException) = failure
-        .let { bindFailure -> describeBindFailure(factory, bindFailure) }
+    private fun createBindFailure(type: String, failure: BindException) = failure
+        .let { bindFailure -> describeBindFailure(type, bindFailure) }
         .let { message -> IllegalArgumentException(message, failure) }
 
-    private fun describeBindFailure(factory: BackoffFactory<*>, failure: BindException) = failure.property
-        ?.let { property ->
-            "Invalid field '${property.name}' of the type '${factory.type}': ${failure.cause?.message}"
-        }
-        ?: "Invalid fields of the type '${factory.type}': ${failure.cause?.message}"
+    private fun describeBindFailure(type: String, failure: BindException) = failure.property
+        ?.let { property -> "Invalid field '${property.name}' of the type '$type': ${failure.cause?.message}" }
+        ?: "Invalid fields of the type '$type': ${failure.cause?.message}"
 
     private fun createMisconfiguredFailure(name: String, message: String?, cause: Throwable?) =
         IllegalArgumentException("The backoff '$name' is misconfigured: $message", cause)
