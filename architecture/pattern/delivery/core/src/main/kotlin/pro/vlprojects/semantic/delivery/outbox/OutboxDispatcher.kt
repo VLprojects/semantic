@@ -11,20 +11,13 @@ public class OutboxDispatcher(
 
     public fun dispatch(): Int = service
         .getScheduledWithLock(config.batchSize)
-        .onEach(::deliver)
+        .onEach(::process)
         .size
 
-    private fun deliver(outbox: Outbox) {
+    private fun process(outbox: Outbox) {
         val failure = catchDeliveryFailure(outbox)
 
-        try {
-            when (failure) {
-                null -> service.complete(outbox)
-                else -> service.fail(outbox, failure)
-            }
-        } catch (_: OutboxOptimisticLockException) {
-            // The lock expired and another instance took the record over
-        }
+        saveResult(outbox, failure)
     }
 
     private fun catchDeliveryFailure(outbox: Outbox) = try {
@@ -40,5 +33,18 @@ public class OutboxDispatcher(
         router
             .determine(destination)
             .forEach { deliverer -> deliverer.send(outbox, destination) }
+    }
+
+    private fun saveResult(outbox: Outbox, failure: Exception?) {
+        try {
+            completeOrFail(outbox, failure)
+        } catch (_: OutboxOptimisticLockException) {
+            // The lock expired and another instance took the record over
+        }
+    }
+
+    private fun completeOrFail(outbox: Outbox, failure: Exception?) = when (failure) {
+        null -> service.complete(outbox)
+        else -> service.fail(outbox, failure)
     }
 }
