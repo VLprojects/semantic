@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 618" width="1024" height="618" role="img">
+  <rect width="1024" height="618" rx="12" fill="#F6F8FA"/>
+  <g transform="translate(12,12)">
+    <rect x="16" y="16" width="968" height="562" rx="12" fill="#FFFFFF"/>
+    <text x="40.0" y="52.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1F2328" text-anchor="start">Five algorithms on one series of requests</text>
+    <text x="40.0" y="76.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#59636E" text-anchor="start">The limit is 4 requests a second. Green is acquired, red is rejected, amber waited for its turn</text>
+    <text x="40.0" y="126.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">TokenBucket</text>
+    <text x="40.0" y="146.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">a burst up to the limit, then</text>
+    <text x="40.0" y="164.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">a steady refill</text>
+    <rect x="340.0" y="154.0" width="600.0" height="1.0" rx="0" fill="#DDE2E7"/>
+    <rect x="540.0" y="114.0" width="1.0" height="60.0" rx="0" fill="#DDE2E7"/>
+    <rect x="740.0" y="114.0" width="1.0" height="60.0" rx="0" fill="#DDE2E7"/>
+    <rect x="368.0" y="144.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="378.0" y="144.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="488.0" y="144.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="498.0" y="144.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="508.0" y="144.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="518.0" y="144.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="528.0" y="144.0" width="4.0" height="20.0" rx="1" fill="#EE2D62"/>
+    <rect x="548.0" y="144.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="558.0" y="144.0" width="4.0" height="20.0" rx="1" fill="#EE2D62"/>
+    <rect x="568.0" y="144.0" width="4.0" height="20.0" rx="1" fill="#EE2D62"/>
+    <rect x="578.0" y="144.0" width="4.0" height="20.0" rx="1" fill="#EE2D62"/>
+    <rect x="588.0" y="144.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="678.0" y="144.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="798.0" y="144.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="838.0" y="144.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="878.0" y="144.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <text x="40.0" y="202.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">LeakyBucket</text>
+    <text x="40.0" y="222.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">a queue up to the limit,</text>
+    <text x="40.0" y="240.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">out at exactly 4 a second</text>
+    <rect x="340.0" y="230.0" width="600.0" height="1.0" rx="0" fill="#DDE2E7"/>
+    <rect x="540.0" y="190.0" width="1.0" height="60.0" rx="0" fill="#DDE2E7"/>
+    <rect x="740.0" y="190.0" width="1.0" height="60.0" rx="0" fill="#DDE2E7"/>
+    <rect x="368.0" y="220.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="378.0" y="229.0" width="40.0" height="2.0" rx="1" fill="#FF9F2E"/>
+    <rect x="378.0" y="227.0" width="4.0" height="6.0" rx="1" fill="#FF9F2E"/>
+    <rect x="418.0" y="220.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="488.0" y="220.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="498.0" y="229.0" width="40.0" height="2.0" rx="1" fill="#FF9F2E"/>
+    <rect x="498.0" y="227.0" width="4.0" height="6.0" rx="1" fill="#FF9F2E"/>
+    <rect x="538.0" y="220.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="508.0" y="229.0" width="80.0" height="2.0" rx="1" fill="#FF9F2E"/>
+    <rect x="508.0" y="227.0" width="4.0" height="6.0" rx="1" fill="#FF9F2E"/>
+    <rect x="588.0" y="220.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="518.0" y="229.0" width="120.0" height="2.0" rx="1" fill="#FF9F2E"/>
+    <rect x="518.0" y="227.0" width="4.0" height="6.0" rx="1" fill="#FF9F2E"/>
+    <rect x="638.0" y="220.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="528.0" y="220.0" width="4.0" height="20.0" rx="1" fill="#EE2D62"/>
+    <rect x="548.0" y="229.0" width="140.0" height="2.0" rx="1" fill="#FF9F2E"/>
+    <rect x="548.0" y="227.0" width="4.0" height="6.0" rx="1" fill="#FF9F2E"/>
+    <rect x="688.0" y="220.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="558.0" y="220.0" width="4.0" height="20.0" rx="1" fill="#EE2D62"/>
+    <rect x="568.0" y="220.0" width="4.0" height="20.0" rx="1" fill="#EE2D62"/>
+    <rect x="578.0" y="220.0" width="4.0" height="20.0" rx="1" fill="#EE2D62"/>
+    <rect x="588.0" y="229.0" width="150.0" height="2.0" rx="1" fill="#FF9F2E"/>
+    <rect x="588.0" y="227.0" width="4.0" height="6.0" rx="1" fill="#FF9F2E"/>
+    <rect x="738.0" y="220.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="678.0" y="229.0" width="110.0" height="2.0" rx="1" fill="#FF9F2E"/>
+    <rect x="678.0" y="227.0" width="4.0" height="6.0" rx="1" fill="#FF9F2E"/>
+    <rect x="788.0" y="220.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="798.0" y="229.0" width="40.0" height="2.0" rx="1" fill="#FF9F2E"/>
+    <rect x="798.0" y="227.0" width="4.0" height="6.0" rx="1" fill="#FF9F2E"/>
+    <rect x="838.0" y="220.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="838.0" y="229.0" width="50.0" height="2.0" rx="1" fill="#FF9F2E"/>
+    <rect x="838.0" y="227.0" width="4.0" height="6.0" rx="1" fill="#FF9F2E"/>
+    <rect x="888.0" y="220.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="878.0" y="229.0" width="60.0" height="2.0" rx="1" fill="#FF9F2E"/>
+    <rect x="878.0" y="227.0" width="4.0" height="6.0" rx="1" fill="#FF9F2E"/>
+    <rect x="938.0" y="220.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <text x="40.0" y="278.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">FixedWindow</text>
+    <text x="40.0" y="298.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">a counter per window; twice</text>
+    <text x="40.0" y="316.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">the limit gets through at the edge</text>
+    <rect x="340.0" y="306.0" width="600.0" height="1.0" rx="0" fill="#DDE2E7"/>
+    <rect x="540.0" y="266.0" width="1.0" height="60.0" rx="0" fill="#DDE2E7"/>
+    <rect x="740.0" y="266.0" width="1.0" height="60.0" rx="0" fill="#DDE2E7"/>
+    <rect x="368.0" y="296.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="378.0" y="296.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="488.0" y="296.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="498.0" y="296.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="508.0" y="296.0" width="4.0" height="20.0" rx="1" fill="#EE2D62"/>
+    <rect x="518.0" y="296.0" width="4.0" height="20.0" rx="1" fill="#EE2D62"/>
+    <rect x="528.0" y="296.0" width="4.0" height="20.0" rx="1" fill="#EE2D62"/>
+    <rect x="548.0" y="296.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="558.0" y="296.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="568.0" y="296.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="578.0" y="296.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="588.0" y="296.0" width="4.0" height="20.0" rx="1" fill="#EE2D62"/>
+    <rect x="678.0" y="296.0" width="4.0" height="20.0" rx="1" fill="#EE2D62"/>
+    <rect x="798.0" y="296.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="838.0" y="296.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="878.0" y="296.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <path d="M490.0,324 L490.0,328 L580.0,328 L580.0,324" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="535.0" y="344.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#1F2328" text-anchor="middle">8 requests in 0.45 s</text>
+    <text x="40.0" y="354.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">SlidingWindowLog</text>
+    <text x="40.0" y="374.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">exact: a log of timestamps,</text>
+    <text x="40.0" y="392.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">memory grows with the limit</text>
+    <rect x="340.0" y="382.0" width="600.0" height="1.0" rx="0" fill="#DDE2E7"/>
+    <rect x="540.0" y="342.0" width="1.0" height="60.0" rx="0" fill="#DDE2E7"/>
+    <rect x="740.0" y="342.0" width="1.0" height="60.0" rx="0" fill="#DDE2E7"/>
+    <rect x="368.0" y="372.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="378.0" y="372.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="488.0" y="372.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="498.0" y="372.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="508.0" y="372.0" width="4.0" height="20.0" rx="1" fill="#EE2D62"/>
+    <rect x="518.0" y="372.0" width="4.0" height="20.0" rx="1" fill="#EE2D62"/>
+    <rect x="528.0" y="372.0" width="4.0" height="20.0" rx="1" fill="#EE2D62"/>
+    <rect x="548.0" y="372.0" width="4.0" height="20.0" rx="1" fill="#EE2D62"/>
+    <rect x="558.0" y="372.0" width="4.0" height="20.0" rx="1" fill="#EE2D62"/>
+    <rect x="568.0" y="372.0" width="4.0" height="20.0" rx="1" fill="#EE2D62"/>
+    <rect x="578.0" y="372.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="588.0" y="372.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="678.0" y="372.0" width="4.0" height="20.0" rx="1" fill="#EE2D62"/>
+    <rect x="798.0" y="372.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="838.0" y="372.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="878.0" y="372.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <text x="40.0" y="430.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">SlidingWindowCounter</text>
+    <text x="40.0" y="450.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">two windows and their overlap:</text>
+    <text x="40.0" y="468.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">nearly exact and cheap</text>
+    <rect x="340.0" y="458.0" width="600.0" height="1.0" rx="0" fill="#DDE2E7"/>
+    <rect x="540.0" y="418.0" width="1.0" height="60.0" rx="0" fill="#DDE2E7"/>
+    <rect x="740.0" y="418.0" width="1.0" height="60.0" rx="0" fill="#DDE2E7"/>
+    <rect x="368.0" y="448.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="378.0" y="448.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="488.0" y="448.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="498.0" y="448.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="508.0" y="448.0" width="4.0" height="20.0" rx="1" fill="#EE2D62"/>
+    <rect x="518.0" y="448.0" width="4.0" height="20.0" rx="1" fill="#EE2D62"/>
+    <rect x="528.0" y="448.0" width="4.0" height="20.0" rx="1" fill="#EE2D62"/>
+    <rect x="548.0" y="448.0" width="4.0" height="20.0" rx="1" fill="#EE2D62"/>
+    <rect x="558.0" y="448.0" width="4.0" height="20.0" rx="1" fill="#EE2D62"/>
+    <rect x="568.0" y="448.0" width="4.0" height="20.0" rx="1" fill="#EE2D62"/>
+    <rect x="578.0" y="448.0" width="4.0" height="20.0" rx="1" fill="#EE2D62"/>
+    <rect x="588.0" y="448.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="678.0" y="448.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="798.0" y="448.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="838.0" y="448.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <rect x="878.0" y="448.0" width="4.0" height="20.0" rx="1" fill="#22C063"/>
+    <text x="340.0" y="480.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">0 s</text>
+    <text x="540.0" y="480.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="middle">1 s</text>
+    <text x="740.0" y="480.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="middle">2 s</text>
+    <text x="940.0" y="480.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="middle">3 s</text>
+    <text x="340.0" y="516.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">start</text>
+    <text x="340.0" y="536.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">the quota is full,</text>
+    <text x="340.0" y="554.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">all get through</text>
+    <text x="490.0" y="516.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">a burst at the edge</text>
+    <text x="490.0" y="536.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">10 requests in 0.5 s:</text>
+    <text x="490.0" y="554.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">here the algorithms differ</text>
+    <text x="660.0" y="516.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">after the burst</text>
+    <text x="660.0" y="536.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">FixedWindow and the log</text>
+    <text x="660.0" y="554.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">still count the burst</text>
+  </g>
+</svg>

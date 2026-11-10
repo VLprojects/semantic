@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1150" width="1024" height="1150" role="img">
+  <rect width="1024" height="1150" rx="12" fill="#151B23"/>
+  <g transform="translate(12,12)">
+    <rect x="16" y="16" width="968" height="1094" rx="12" fill="#1D242D"/>
+    <rect x="879.5" y="164" width="1" height="922" fill="#323B46"/>
+    <rect x="725.5" y="164" width="1" height="922" fill="#323B46"/>
+    <rect x="575.5" y="164" width="1" height="922" fill="#323B46"/>
+    <rect x="443.5" y="164" width="1" height="922" fill="#323B46"/>
+    <rect x="313.5" y="164" width="1" height="922" fill="#323B46"/>
+    <rect x="195.5" y="164" width="1" height="922" fill="#323B46"/>
+    <text x="40.0" y="52.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#E6EDF3" text-anchor="start">An incoming request: who calls whom</text>
+    <text x="40.0" y="76.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#9198A1" text-anchor="start">Time runs down. A bar means the object is busy. Any storage: memory, Redis, JDBC</text>
+    <rect x="156.0" y="112.0" width="80.0" height="52.0" rx="6" fill="#29313C"/>
+    <text x="196.0" y="134.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="middle">client</text>
+    <text x="196.0" y="152.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">HTTP</text>
+    <rect x="244.0" y="112.0" width="140.0" height="52.0" rx="6" fill="#29313C"/>
+    <text x="314.0" y="134.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="600" fill="#E6EDF3" text-anchor="middle">RateLimitingFilter</text>
+    <text x="314.0" y="152.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">spring/webmvc</text>
+    <rect x="392.0" y="112.0" width="104.0" height="52.0" rx="6" fill="#29313C"/>
+    <text x="444.0" y="134.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="600" fill="#E6EDF3" text-anchor="middle">KeyResolver</text>
+    <text x="444.0" y="152.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">whose request</text>
+    <rect x="504.0" y="112.0" width="144.0" height="52.0" rx="6" fill="#29313C"/>
+    <text x="576.0" y="134.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="600" fill="#E6EDF3" text-anchor="middle">DefaultRateLimiter</text>
+    <text x="576.0" y="152.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">the decision</text>
+    <rect x="656.0" y="112.0" width="140.0" height="52.0" rx="6" fill="#29313C"/>
+    <text x="726.0" y="134.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="600" fill="#E6EDF3" text-anchor="middle">RateLimitAlgorithm</text>
+    <text x="726.0" y="152.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">a pure function</text>
+    <rect x="804.0" y="112.0" width="152.0" height="52.0" rx="6" fill="#29313C"/>
+    <text x="880.0" y="134.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="600" fill="#E6EDF3" text-anchor="middle">RateLimitRepository</text>
+    <text x="880.0" y="152.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">the counter</text>
+    <text x="40.0" y="212.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">acquired</text>
+    <text x="40.0" y="230.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">tokens are left</text>
+    <rect x="310.0" y="204.0" width="8.0" height="382.0" rx="2" fill="#4493F8"/>
+    <rect x="572.0" y="306.0" width="8.0" height="246.0" rx="2" fill="#4493F8"/>
+    <path d="M202.0,208 L302.0,208" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M308.0,208 L301.0,204 L301.0,212 Z" fill="#515B66"/>
+    <rect x="201.5" y="187.0" width="107.0" height="16.0" rx="3" fill="#1D242D"/>
+    <text x="255.0" y="200.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">GET /api/orders</text>
+    <path d="M320.0,242 L432.0,242" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M438.0,242 L431.0,238 L431.0,246 Z" fill="#515B66"/>
+    <rect x="345.3" y="221.0" width="67.4" height="16.0" rx="3" fill="#1D242D"/>
+    <text x="379.0" y="234.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">resolve()</text>
+    <path d="M438.0,276 L326.0,276" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M320.0,276 L327.0,272 L327.0,280 Z" fill="#515B66"/>
+    <rect x="358.5" y="255.0" width="41.0" height="16.0" rx="3" fill="#1D242D"/>
+    <text x="379.0" y="268.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">alice</text>
+    <path d="M320.0,310 L564.0,310" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M570.0,310 L563.0,306 L563.0,314 Z" fill="#515B66"/>
+    <rect x="365.1" y="289.0" width="159.8" height="16.0" rx="3" fill="#1D242D"/>
+    <text x="445.0" y="302.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">tryAcquire("api:alice")</text>
+    <path d="M582.0,344 L868.0,344" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M874.0,344 L867.0,340 L867.0,348 Z" fill="#515B66"/>
+    <rect x="694.3" y="323.0" width="67.4" height="16.0" rx="3" fill="#1D242D"/>
+    <text x="728.0" y="336.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">findByKey</text>
+    <path d="M874.0,378 L588.0,378" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M582.0,378 L589.0,374 L589.0,382 Z" fill="#515B66"/>
+    <rect x="684.0" y="357.0" width="88.1" height="16.0" rx="3" fill="#1D242D"/>
+    <text x="728.0" y="370.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">tokens 3 · v7</text>
+    <path d="M582.0,412 L714.0,412" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M720.0,412 L713.0,408 L713.0,416 Z" fill="#515B66"/>
+    <rect x="597.5" y="391.0" width="107.0" height="16.0" rx="3" fill="#1D242D"/>
+    <text x="651.0" y="404.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">acquire(1, now)</text>
+    <path d="M720.0,446 L588.0,446" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M582.0,446 L589.0,442 L589.0,450 Z" fill="#515B66"/>
+    <rect x="588.5" y="425.0" width="125.0" height="16.0" rx="3" fill="#1D242D"/>
+    <text x="651.0" y="438.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">tokens 2 · acquired</text>
+    <path d="M582.0,480 L868.0,480" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M874.0,480 L867.0,476 L867.0,484 Z" fill="#515B66"/>
+    <rect x="697.6" y="459.0" width="60.8" height="16.0" rx="3" fill="#1D242D"/>
+    <text x="728.0" y="472.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">save(v8)</text>
+    <path d="M874.0,514 L588.0,514" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M582.0,514 L589.0,510 L589.0,518 Z" fill="#515B66"/>
+    <rect x="708.6" y="493.0" width="38.8" height="16.0" rx="3" fill="#1D242D"/>
+    <text x="728.0" y="506.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">saved</text>
+    <path d="M570.0,548 L326.0,548" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M320.0,548 L327.0,544 L327.0,552 Z" fill="#515B66"/>
+    <rect x="373.2" y="527.0" width="143.5" height="16.0" rx="3" fill="#1D242D"/>
+    <text x="445.0" y="540.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">acquired · remaining 2</text>
+    <path d="M308.0,582 L208.0,582" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M202.0,582 L209.0,578 L209.0,586 Z" fill="#515B66"/>
+    <rect x="241.1" y="561.0" width="27.8" height="16.0" rx="3" fill="#1D242D"/>
+    <text x="255.0" y="574.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">200</text>
+    <text x="40.0" y="660.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">race</text>
+    <text x="40.0" y="678.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">the version changed</text>
+    <rect x="572.0" y="652.0" width="8.0" height="178.0" rx="2" fill="#4493F8"/>
+    <path d="M582.0,656 L868.0,656" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M874.0,656 L867.0,652 L867.0,660 Z" fill="#515B66"/>
+    <rect x="697.6" y="635.0" width="60.8" height="16.0" rx="3" fill="#1D242D"/>
+    <text x="728.0" y="648.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">save(v8)</text>
+    <path d="M874.0,690 L588.0,690" stroke="#FF9F4A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M582.0,690 L589.0,686 L589.0,694 Z" fill="#FF9F4A"/>
+    <rect x="662.4" y="669.0" width="131.2" height="16.0" rx="3" fill="#1D242D"/>
+    <text x="728.0" y="682.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">conflict: already v8</text>
+    <path d="M582.0,724 L868.0,724" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M874.0,724 L867.0,720 L867.0,728 Z" fill="#515B66"/>
+    <rect x="694.3" y="703.0" width="67.4" height="16.0" rx="3" fill="#1D242D"/>
+    <text x="728.0" y="716.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">findByKey</text>
+    <path d="M582.0,758 L714.0,758" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M720.0,758 L713.0,754 L713.0,762 Z" fill="#515B66"/>
+    <rect x="597.5" y="737.0" width="107.0" height="16.0" rx="3" fill="#1D242D"/>
+    <text x="651.0" y="750.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">acquire(1, now)</text>
+    <path d="M582.0,792 L868.0,792" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M874.0,792 L867.0,788 L867.0,796 Z" fill="#515B66"/>
+    <rect x="697.6" y="771.0" width="60.8" height="16.0" rx="3" fill="#1D242D"/>
+    <text x="728.0" y="784.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">save(v9)</text>
+    <path d="M874.0,826 L588.0,826" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M582.0,826 L589.0,822 L589.0,830 Z" fill="#515B66"/>
+    <rect x="708.6" y="805.0" width="38.8" height="16.0" rx="3" fill="#1D242D"/>
+    <text x="728.0" y="818.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">saved</text>
+    <text x="40.0" y="904.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">rejected</text>
+    <text x="40.0" y="922.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">no tokens left</text>
+    <rect x="572.0" y="896.0" width="8.0" height="144.0" rx="2" fill="#4493F8"/>
+    <path d="M582.0,900 L868.0,900" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M874.0,900 L867.0,896 L867.0,904 Z" fill="#515B66"/>
+    <rect x="694.3" y="879.0" width="67.4" height="16.0" rx="3" fill="#1D242D"/>
+    <text x="728.0" y="892.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">findByKey</text>
+    <path d="M874.0,934 L588.0,934" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M582.0,934 L589.0,930 L589.0,938 Z" fill="#515B66"/>
+    <rect x="684.0" y="913.0" width="88.1" height="16.0" rx="3" fill="#1D242D"/>
+    <text x="728.0" y="926.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">tokens 0 · v9</text>
+    <path d="M582.0,968 L714.0,968" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M720.0,968 L713.0,964 L713.0,972 Z" fill="#515B66"/>
+    <rect x="597.5" y="947.0" width="107.0" height="16.0" rx="3" fill="#1D242D"/>
+    <text x="651.0" y="960.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">acquire(1, now)</text>
+    <path d="M720.0,1002 L588.0,1002" stroke="#FF4F7B" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M582.0,1002 L589.0,998 L589.0,1006 Z" fill="#FF4F7B"/>
+    <rect x="603.9" y="981.0" width="94.2" height="16.0" rx="3" fill="#1D242D"/>
+    <text x="651.0" y="994.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">rejected · 4 s</text>
+    <path d="M570.0,1036 L326.0,1036" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M320.0,1036 L327.0,1032 L327.0,1040 Z" fill="#515B66"/>
+    <rect x="360.9" y="1015.0" width="168.2" height="16.0" rx="3" fill="#1D242D"/>
+    <text x="445.0" y="1028.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">rejected · nothing to save</text>
+    <path d="M308.0,1070 L208.0,1070" stroke="#FF4F7B" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M202.0,1070 L209.0,1066 L209.0,1074 Z" fill="#FF4F7B"/>
+    <rect x="241.1" y="1049.0" width="27.8" height="16.0" rx="3" fill="#1D242D"/>
+    <text x="255.0" y="1062.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">429</text>
+  </g>
+</svg>

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 608" width="1024" height="608" role="img">
+  <rect width="1024" height="608" rx="12" fill="#151B23"/>
+  <g transform="translate(12,12)">
+    <rect x="16" y="16" width="968" height="552" rx="12" fill="#1D242D"/>
+    <text x="40.0" y="52.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#E6EDF3" text-anchor="start">One task, one abstraction</text>
+    <text x="40.0" y="76.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#9198A1" text-anchor="start">On the left what has to be decided, on the right who decides it and nothing else</text>
+    <text x="40.0" y="130.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">let a call through or not</text>
+    <text x="40.0" y="148.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">return a decision for a key and a number of permits</text>
+    <rect x="620.0" y="116.0" width="103.2" height="32.0" rx="6" fill="#6E9BFF"/>
+    <text x="632.0" y="136.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#06173D" text-anchor="start">RateLimiter</text>
+    <text x="40.0" y="186.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">how to count permits</text>
+    <text x="40.0" y="204.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">a pure function: state and time in, a decision out</text>
+    <rect x="620.0" y="172.0" width="153.6" height="32.0" rx="6" fill="#6E9BFF"/>
+    <text x="632.0" y="192.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#06173D" text-anchor="start">RateLimitAlgorithm</text>
+    <text x="40.0" y="242.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">where to keep the counter</text>
+    <text x="40.0" y="260.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">find by key, save with a version check</text>
+    <rect x="620.0" y="228.0" width="160.8" height="32.0" rx="6" fill="#6E9BFF"/>
+    <text x="632.0" y="248.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#06173D" text-anchor="start">RateLimitRepository</text>
+    <text x="40.0" y="298.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">lose no update in a race</text>
+    <text x="40.0" y="316.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">on a version conflict, read again and count again</text>
+    <rect x="620.0" y="284.0" width="153.6" height="32.0" rx="6" fill="#6E9BFF"/>
+    <text x="632.0" y="304.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#06173D" text-anchor="start">DefaultRateLimiter</text>
+    <text x="40.0" y="354.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">wait for a permit before an outgoing call</text>
+    <text x="40.0" y="372.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">wait no longer than maxWait, otherwise throw</text>
+    <rect x="620.0" y="340.0" width="160.8" height="32.0" rx="6" fill="#6E9BFF"/>
+    <text x="632.0" y="360.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#06173D" text-anchor="start">RateLimiter.acquire</text>
+    <text x="40.0" y="410.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">whose request it is</text>
+    <text x="40.0" y="428.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">return a key for a request: client, tenant, IP</text>
+    <rect x="620.0" y="396.0" width="103.2" height="32.0" rx="6" fill="#5BF08A"/>
+    <text x="632.0" y="416.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#03240E" text-anchor="start">KeyResolver</text>
+    <text x="40.0" y="466.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">how to reject</text>
+    <text x="40.0" y="484.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">429, Retry-After, RateLimit headers</text>
+    <rect x="620.0" y="452.0" width="204.0" height="32.0" rx="6" fill="#5BF08A"/>
+    <text x="632.0" y="472.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#03240E" text-anchor="start">RateLimitRejectionHandler</text>
+    <text x="40.0" y="522.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">which limits and where</text>
+    <text x="40.0" y="540.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">limits by name from application.yaml</text>
+    <rect x="620.0" y="508.0" width="146.4" height="32.0" rx="6" fill="#FFB46B"/>
+    <text x="632.0" y="528.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F1206" text-anchor="start">TrafficProperties</text>
+  </g>
+</svg>

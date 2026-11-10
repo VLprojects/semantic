@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 518" width="1024" height="518" role="img">
+  <rect width="1024" height="518" rx="12" fill="#F6F8FA"/>
+  <g transform="translate(12,12)">
+    <rect x="16" y="16" width="968" height="462" rx="12" fill="#FFFFFF"/>
+    <text x="40.0" y="52.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1F2328" text-anchor="start">Outgoing calls to a partner</text>
+    <text x="40.0" y="76.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#59636E" text-anchor="start">spring/web: the partner allows 4 calls a second. The application sends 8 calls at once, maxWait is 1.5 s</text>
+    <text x="40.0" y="134.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">no limiter</text>
+    <text x="40.0" y="154.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">8 calls go out at once,</text>
+    <text x="40.0" y="172.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">the partner answers 429 to 4</text>
+    <rect x="320.0" y="160.0" width="600.0" height="1.0" rx="0" fill="#DDE2E7"/>
+    <rect x="318.0" y="138.0" width="4.0" height="22.0" rx="1" fill="#22C063"/>
+    <rect x="325.0" y="138.0" width="4.0" height="22.0" rx="1" fill="#22C063"/>
+    <rect x="332.0" y="138.0" width="4.0" height="22.0" rx="1" fill="#22C063"/>
+    <rect x="339.0" y="138.0" width="4.0" height="22.0" rx="1" fill="#22C063"/>
+    <rect x="346.0" y="138.0" width="4.0" height="22.0" rx="1" fill="#EE2D62"/>
+    <rect x="353.0" y="138.0" width="4.0" height="22.0" rx="1" fill="#EE2D62"/>
+    <rect x="360.0" y="138.0" width="4.0" height="22.0" rx="1" fill="#EE2D62"/>
+    <rect x="367.0" y="138.0" width="4.0" height="22.0" rx="1" fill="#EE2D62"/>
+    <text x="40.0" y="222.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">LeakyBucket</text>
+    <text x="40.0" y="242.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">a queue: a call goes out</text>
+    <text x="40.0" y="260.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">every 0.25 s; the 8th would wait 1.75 s</text>
+    <rect x="320.0" y="248.0" width="600.0" height="1.0" rx="0" fill="#DDE2E7"/>
+    <rect x="318.0" y="226.0" width="4.0" height="22.0" rx="1" fill="#22C063"/>
+    <rect x="320.0" y="236.0" width="75.0" height="2.0" rx="1" fill="#FF9F2E"/>
+    <rect x="393.0" y="226.0" width="4.0" height="22.0" rx="1" fill="#22C063"/>
+    <rect x="320.0" y="236.0" width="150.0" height="2.0" rx="1" fill="#FF9F2E"/>
+    <rect x="468.0" y="226.0" width="4.0" height="22.0" rx="1" fill="#22C063"/>
+    <rect x="320.0" y="236.0" width="225.0" height="2.0" rx="1" fill="#FF9F2E"/>
+    <rect x="543.0" y="226.0" width="4.0" height="22.0" rx="1" fill="#22C063"/>
+    <rect x="320.0" y="236.0" width="300.0" height="2.0" rx="1" fill="#FF9F2E"/>
+    <rect x="618.0" y="226.0" width="4.0" height="22.0" rx="1" fill="#22C063"/>
+    <rect x="320.0" y="236.0" width="375.0" height="2.0" rx="1" fill="#FF9F2E"/>
+    <rect x="693.0" y="226.0" width="4.0" height="22.0" rx="1" fill="#22C063"/>
+    <rect x="320.0" y="236.0" width="450.0" height="2.0" rx="1" fill="#FF9F2E"/>
+    <rect x="768.0" y="226.0" width="4.0" height="22.0" rx="1" fill="#22C063"/>
+    <rect x="843.0" y="226.0" width="4.0" height="22.0" rx="1" fill="#EE2D62"/>
+    <text x="40.0" y="310.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">TokenBucket</text>
+    <text x="40.0" y="330.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">4 at once, the rest wait</text>
+    <text x="40.0" y="348.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">for the bucket to refill</text>
+    <rect x="320.0" y="336.0" width="600.0" height="1.0" rx="0" fill="#DDE2E7"/>
+    <rect x="318.0" y="314.0" width="4.0" height="22.0" rx="1" fill="#22C063"/>
+    <rect x="325.0" y="314.0" width="4.0" height="22.0" rx="1" fill="#22C063"/>
+    <rect x="332.0" y="314.0" width="4.0" height="22.0" rx="1" fill="#22C063"/>
+    <rect x="339.0" y="314.0" width="4.0" height="22.0" rx="1" fill="#22C063"/>
+    <rect x="320.0" y="324.0" width="75.0" height="2.0" rx="1" fill="#FF9F2E"/>
+    <rect x="393.0" y="314.0" width="4.0" height="22.0" rx="1" fill="#22C063"/>
+    <rect x="320.0" y="324.0" width="150.0" height="2.0" rx="1" fill="#FF9F2E"/>
+    <rect x="468.0" y="314.0" width="4.0" height="22.0" rx="1" fill="#22C063"/>
+    <rect x="320.0" y="324.0" width="225.0" height="2.0" rx="1" fill="#FF9F2E"/>
+    <rect x="543.0" y="314.0" width="4.0" height="22.0" rx="1" fill="#22C063"/>
+    <rect x="320.0" y="324.0" width="300.0" height="2.0" rx="1" fill="#FF9F2E"/>
+    <rect x="618.0" y="314.0" width="4.0" height="22.0" rx="1" fill="#22C063"/>
+    <rect x="770.0" y="116.0" width="1.5" height="244.0" rx="0" fill="#1F2328"/>
+    <text x="778.0" y="126.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">maxWait</text>
+    <text x="320.0" y="380.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">0 s</text>
+    <text x="470.0" y="380.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="middle">0.5 s</text>
+    <text x="620.0" y="380.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="middle">1 s</text>
+    <text x="770.0" y="380.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="middle">1.5 s</text>
+    <text x="920.0" y="380.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="middle">2 s</text>
+    <text x="40.0" y="416.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">a call waits</text>
+    <text x="40.0" y="436.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">the delay of LeakyBucket</text>
+    <text x="40.0" y="454.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">or retryAfter of TokenBucket</text>
+    <text x="545.0" y="416.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">waited too long</text>
+    <text x="545.0" y="436.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">RateLimitExceededException,</text>
+    <text x="545.0" y="454.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">and the call is not sent</text>
+    <text x="785.0" y="416.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">the key is the partner</text>
+    <text x="785.0" y="436.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">in Redis: one quota</text>
+    <text x="785.0" y="454.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">for all instances</text>
+  </g>
+</svg>
