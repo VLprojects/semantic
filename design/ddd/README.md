@@ -191,8 +191,7 @@ counting and deleting, sorted and by page, with `findByIdOrThrow`, which raises
 `NotFoundException` of the core when there is no such entity.
 `AggregateRepository` extends it for an aggregate root and adds nothing yet:
 it takes a root only. A store gives a repository of its own on top of each,
-`JpaAggregateRepository` with `JpaRepository`, `MongoAggregateRepository` with
-`MongoRepository`.
+`JpaEntityRepository` and `JpaAggregateRepository` with `JpaRepository`.
 
 `SpecificationExecutor` finds by a specification the way
 `QuerydslPredicateExecutor` finds by a predicate. At its root is `findBy`,
@@ -258,6 +257,33 @@ a constructor with no arguments, and `AbstractId` has none. It implements
 with the key it holds, not with its own empty field, and an entity equals its
 proxy both ways: `ProxyUtils` takes the class of the entity from the proxy by
 the detector of Spring Data JPA.
+
+`JpaEntityRepository` and `JpaAggregateRepository`, under
+`pro.vlprojects.semantic.ddd.spring.data.jpa.repository`, are `JpaRepository`
+of Spring Data with `EntityRepository` and `AggregateRepository` of the Spring
+Data module. A service declares its repository on one of them, and Spring Data
+builds it as any other. A repository declared in Kotlin needs
+`kotlin-reflect` at run time: Spring Data reads its methods through it.
+
+```kotlin
+interface CartRepository : JpaAggregateRepository<Cart, CartId>
+```
+
+`findForUpdateByIdOrNull` finds an entity and locks its row until the
+transaction ends: `@Lock(PESSIMISTIC_WRITE)` on a query of its own, one
+`SELECT … FOR UPDATE`, `FOR NO KEY UPDATE` on PostgreSQL. Another transaction
+that locks the same row waits for this one to end.
+`findForUpdateByIdOrThrow` raises `NotFoundException`, as `findByIdOrThrow`
+does. The query is written out: Spring Data would split a derived name at
+`Or`. It compares `id`, which Hibernate reads as the identifier of the entity
+whatever its attribute is named. How long a transaction waits for the lock is
+up to the service: the library sets no timeout, as it sets none for any other
+query. Fetching the associations with an entity graph is left to the
+repository of the service: the interface does not know them.
+
+```kotlin
+carts.findForUpdateByIdOrThrow(cartId).add(item)
+```
 
 ## Modules
 

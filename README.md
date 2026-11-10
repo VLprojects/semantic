@@ -25,7 +25,7 @@ divided further has a table of its own under it.
 | --- | --- | --- |
 | [`architecture`](#architecture) | styles of a service and the patterns it applies | boundary, pattern, style |
 | [`correctness`](#correctness) | the rules a state keeps and the failures that report a broken one | constraint, error, rule, validation |
-| [`design`](#design) | approaches to designing a model and its abstractions | algebra, dbc, ddd |
+| [`design`](#design) | approaches to designing a model and its abstractions | algebra, dbc, ddd, pattern |
 | [`idiom`](#idiom) | extensions of the Kotlin standard library | format, helper |
 | [`math`](#math) | computations over numbers | math |
 | [`type`](#type) | rich value objects, a module per category | version |
@@ -48,12 +48,12 @@ divided further has a table of its own under it.
 | --- | --- | --- | --- |
 | [`caching`](architecture/pattern/caching/core) | cache-aside, read-through, write-through, write-behind, refresh-ahead | | planned |
 | [`coordination`](architecture/pattern/coordination/core) | sagas with compensating steps; a distributed lock with a lease and a fencing token | `saga`, `lock` | planned |
-| [`delivery`](architecture/pattern/delivery/core) | transactional outbox (at-least-once sending) and inbox (at-most-once processing), together exactly-once; idempotency keys | `outbox`, `inbox`, `idempotency` | planned |
+| [`delivery`](architecture/pattern/delivery/README.md) | transactional outbox (at-least-once sending) and inbox (at-most-once processing), together exactly-once; idempotency keys | core, jackson, observability, performance-test, spring, spring-boot, test | planned |
 | [`lifecycle`](architecture/pattern/lifecycle/core) | graceful startup and shutdown, warm-up, liveness and readiness checks | `startup`, `warmup`, `health`, `shutdown` | planned |
 | [`persistence`](#persistence) | how a service writes and reads its state | cqrs, event-sourcing, unit-of-work | |
-| [`resilience`](architecture/pattern/resilience/core) | circuit breaker, retries with backoff and jitter, timeout, bulkhead, fallback | `circuitbreaker`, `retry`, `backoff`, `timeout`, `bulkhead`, `fallback` | planned |
+| [`resilience`](architecture/pattern/resilience/README.md) | circuit breaker, retries with backoff and jitter, deadline, bulkhead, fallback | core, backoff, retry, circuit-breaker, deadline, bulkhead, fallback | planned |
 | [`rollout`](architecture/pattern/rollout/core) | feature flags, kill switch, canary release, dark launch, A/B experiments | `featureflag`, `killswitch`, `canary`, `darklaunch`, `experiment` | planned |
-| [`traffic`](architecture/pattern/traffic/core) | rate limiting, throttling, load shedding, back pressure | `ratelimit`, `throttling`, `shedding`, `backpressure` | planned |
+| [`traffic`](architecture/pattern/traffic/README.md) | rate limits on incoming requests, outgoing calls and methods of beans; load shedding later | core, observability, spring, spring-boot | planned |
 
 ##### Persistence
 
@@ -94,13 +94,14 @@ Depends on nothing: `ddd` and the architecture styles build on it.
 
 ### Design
 
-`design/` — ways of designing a model: domain-driven design for the business, design by contract for the guarantees of a call, algebra for the laws of operations.
+`design/` — ways of designing a model: domain-driven design for the business, design by contract for the guarantees of a call, algebra for the laws of operations, classic patterns for the objects of a program.
 
 | Directory | What it is | Contents | Status |
 | --- | --- | --- | --- |
 | [`algebra`](design/algebra/core) | orders and algebraic structures with their laws, the vocabulary of Algebra-Driven Design | `relation`, `structure` | planned |
 | [`dbc`](design/dbc/core) | design by contract: conditions of a call and invariants of a type, checked at run time | `condition`, `invariant` | planned |
 | [`ddd`](#ddd) | domain-driven design with Jackson, Spring Data and Spring Boot adapters | core, jackson, spring-boot, spring/data | |
+| [`pattern`](design/pattern/README.md) | classic patterns of objects grouped as the Gang of Four groups them; a registry, its registrar and a factory first | `creational.registry`, `creational.factory` | design |
 
 #### DDD
 

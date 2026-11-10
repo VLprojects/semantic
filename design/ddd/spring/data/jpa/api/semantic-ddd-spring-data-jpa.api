@@ -18,3 +18,11 @@ public abstract class pro/vlprojects/semantic/ddd/spring/data/jpa/AbstractJpaEnt
 	protected fun setVersion (J)V
 }
 
+public abstract interface class pro/vlprojects/semantic/ddd/spring/data/jpa/repository/JpaAggregateRepository : pro/vlprojects/semantic/ddd/spring/data/jpa/repository/JpaEntityRepository, pro/vlprojects/semantic/ddd/spring/data/repository/AggregateRepository {
+}
+
+public abstract interface class pro/vlprojects/semantic/ddd/spring/data/jpa/repository/JpaEntityRepository : org/springframework/data/jpa/repository/JpaRepository, pro/vlprojects/semantic/ddd/spring/data/repository/EntityRepository {
+	public abstract fun findForUpdateByIdOrNull (Lpro/vlprojects/semantic/ddd/tactical/Identifier;)Lpro/vlprojects/semantic/ddd/tactical/Entity;
+	public fun findForUpdateByIdOrThrow (Lpro/vlprojects/semantic/ddd/tactical/Identifier;)Lpro/vlprojects/semantic/ddd/tactical/Entity;
+}
+
