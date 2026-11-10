@@ -65,7 +65,7 @@ def abstractions(pal):
 	card(a, RX, y[2], BW, "blue", "internal · PR 2", "OutboxPoller", "loop: batch, pause, batch again")
 	card(a, BX, y[3], full, "blue", "exists", "OutboxDispatcher", "delivers a batch: takes records, sends them, saves the outcome")
 	mid = b.BLOCK / 2
-	leftward(a, y[2] + mid, "calculate()", b.DECLARES)
+	leftward(a, y[2] + mid, "calculateDelay()", b.DECLARES)
 	down(a, BX + 48, y[0] + b.BLOCK, y[1], "start() · stop()")
 	down(a, RX + 48, y[1] + b.BLOCK, y[2], "runs N", mono=False)
 	down(a, RX + 48, y[2] + b.BLOCK, y[3], "dispatch()")
@@ -79,7 +79,7 @@ def loop(pal):
 	y, h = 112, 96
 	steps = [
 		("dispatch()", "takes up to batch-size records,", "delivers them, returns their count"),
-		("calculate(context)", "from the count and the last pause", "decides how long to wait"),
+		("calculateDelay(context)", "from the count and the last pause", "decides how long to wait"),
 		("schedule(delay)", "puts the poller in the queue", "of the executor, frees the thread"),
 	]
 	for i, (call, n1, n2) in enumerate(steps):
@@ -325,7 +325,7 @@ def extensions(pal):
 	a = start(pal, "What can be replaced without touching the rest", "Each point is an interface; a new implementation changes no code around it")
 	gx = 200
 	groups = [
-		("pause", "OutboxPollingStrategy", "calculate(context): Duration", [
+		("pause", "OutboxPollingStrategy", "calculateDelay(context): Duration", [
 			("blue", "FixedPollingStrategy", "constant pause", True),
 			("blue", "ActiveIdlePollingStrategy", "default", True),
 			("blue", "AdaptivePollingStrategy", "grows when idle", True),
@@ -465,7 +465,7 @@ def flow(pal):
 
 	y += 188
 	section(y, "pause", "by the strategy")
-	msg(a, xs, 3, 4, y, "calculate(context)")
+	msg(a, xs, 3, 4, y, "calculateDelay()")
 	msg(a, xs, 4, 3, y + 36, "delay = 1 s", mono=False)
 	msg(a, xs, 3, 2, y + 72, "schedule(this, delay)")
 	a.t(xs[3] + 10, y + 112, "waits, the thread is free", size=12)

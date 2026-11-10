@@ -88,7 +88,7 @@ in the queue of the executor, not in `Thread.sleep`.
 ```kotlin
 public fun interface OutboxPollingStrategy {
 
-    public fun calculate(context: OutboxPollingContext): Duration
+    public fun calculateDelay(context: OutboxPollingContext): Duration
 }
 ```
 
@@ -102,7 +102,7 @@ public fun interface OutboxPollingStrategy {
 | --- | --- | --- | --- |
 | `FixedPollingStrategy(interval)` | always `interval` | a steady load on the database | Namastack `FixedPollingTrigger`, Spring `PeriodicTrigger` |
 | `ActiveIdlePollingStrategy(activeInterval, idleInterval)` | `activeInterval` after a full batch (0 by default), `idleInterval` otherwise | **the default**: a burst goes without pauses, an idle database is polled once per `idleInterval` | Spring Integration `SimpleActiveIdleReceiveMessageAdvice` |
-| `AdaptivePollingStrategy(minInterval, maxInterval)` | a full batch halves the pause, a batch of a quarter or less doubles it, within min..max | rare records and fewer queries | Namastack `AdaptivePollingTrigger` |
+| `AdaptivePollingStrategy(minInterval, maxInterval, multiplier)` | a full batch divides the pause by `multiplier` (2 by default), a batch of a quarter or less multiplies it, within min..max | rare records and fewer queries | Namastack `AdaptivePollingTrigger` |
 
 An own algorithm is `OutboxPollingStrategy { context -> ... }`.
 
@@ -207,23 +207,22 @@ semantic.delivery.outbox:
   batch-size: 100
   polling:
     enabled: true
-    strategy: active-idle       # fixed | active-idle | adaptive
-    fixed:
-      interval: 1s
-    active-idle:
-      active-interval: 0s
-      idle-interval: 1s
-    adaptive:
-      min-interval: 100ms
-      max-interval: 10s
+    strategy:
+      active-idle:              # or fixed, adaptive, an own type
+        active-interval: 0s
+        idle-interval: 1s
     concurrency: 1
     max-concurrency: 1
     shutdown-timeout: 30s
 ```
 
-`polling.strategy` with `polling.<strategy>.*` follows Namastack (`outbox.polling.trigger`,
-`outbox.polling.adaptive.min-interval`) with the key named `strategy`. `concurrency` and `max-concurrency` follow Spring
-Boot (`spring.rabbitmq.listener.simple.concurrency`, `max-concurrency`).
+The key of the block under `polling.strategy` names its type, and the fields under it bind to the config class of the
+`OutboxPollingStrategyFactory` bean with that type, as with the settings of backoffs. `fixed` takes `interval` (`1s`),
+`active-idle` takes `active-interval` (`0s`) and `idle-interval` (`1s`), `adaptive` takes `min-interval` (`100ms`),
+`max-interval` (`10s`) and `multiplier` (`2`). An own strategy is a factory bean with its own type, or an
+`OutboxPollingStrategy` bean. Without Spring the strategy goes to `OutboxPollingProperties.strategy` as an object.
+`concurrency` and `max-concurrency` follow Spring Boot (`spring.rabbitmq.listener.simple.concurrency`,
+`max-concurrency`).
 
 ## 9. Graceful shutdown
 
@@ -277,7 +276,7 @@ changes its API, so this is an open question.
 
 | PR | What | Size |
 | --- | --- | --- |
-| 1 | `OutboxPollingStrategy`, `OutboxPollingContext`, three implementations, `polling.strategy` and its intervals, unit tests | ~250 lines, no threads |
+| 1 | `OutboxPollingStrategy`, `OutboxPollingContext`, three implementations, `polling.strategy`, unit tests | ~250 lines, no threads |
 | 2 | `OutboxPollingContainer` with a fixed number of pollers, `OutboxPoller`, `start`, `stop`, `shutdown-timeout`, logging of a failed poll | ~350 lines |
 | 3 | scaling from `concurrency` to `max-concurrency` | ~200 lines |
 | 4 | wake-up: `wakeup()`, merged signals, `cooldown` | ~150 lines |

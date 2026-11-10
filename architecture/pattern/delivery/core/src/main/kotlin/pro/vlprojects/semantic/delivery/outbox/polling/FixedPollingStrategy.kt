@@ -8,7 +8,7 @@ public class FixedPollingStrategy private constructor(private val interval: Dura
         require(interval.isPositive) { "The interval must be positive: $interval" }
     }
 
-    override fun calculate(context: OutboxPollingContext): Duration = interval
+    override fun calculateDelay(context: OutboxPollingContext): Duration = interval
 
     public companion object Factory {
 

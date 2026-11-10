@@ -318,24 +318,9 @@ public final class pro/vlprojects/semantic/delivery/outbox/logging/OutboxLogging
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class pro/vlprojects/semantic/delivery/outbox/polling/ActiveIdlePollingProperties {
-	public fun <init> ()V
-	public fun <init> (Ljava/time/Duration;Ljava/time/Duration;)V
-	public synthetic fun <init> (Ljava/time/Duration;Ljava/time/Duration;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Ljava/time/Duration;
-	public final fun component2 ()Ljava/time/Duration;
-	public final fun copy (Ljava/time/Duration;Ljava/time/Duration;)Lpro/vlprojects/semantic/delivery/outbox/polling/ActiveIdlePollingProperties;
-	public static synthetic fun copy$default (Lpro/vlprojects/semantic/delivery/outbox/polling/ActiveIdlePollingProperties;Ljava/time/Duration;Ljava/time/Duration;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/polling/ActiveIdlePollingProperties;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getActiveInterval ()Ljava/time/Duration;
-	public final fun getIdleInterval ()Ljava/time/Duration;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
 public final class pro/vlprojects/semantic/delivery/outbox/polling/ActiveIdlePollingStrategy : pro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy {
 	public static final field Factory Lpro/vlprojects/semantic/delivery/outbox/polling/ActiveIdlePollingStrategy$Factory;
-	public fun calculate (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingContext;)Ljava/time/Duration;
+	public fun calculateDelay (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingContext;)Ljava/time/Duration;
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/polling/ActiveIdlePollingStrategy$Factory {
@@ -343,47 +328,19 @@ public final class pro/vlprojects/semantic/delivery/outbox/polling/ActiveIdlePol
 	public static synthetic fun of$default (Lpro/vlprojects/semantic/delivery/outbox/polling/ActiveIdlePollingStrategy$Factory;Ljava/time/Duration;Ljava/time/Duration;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/polling/ActiveIdlePollingStrategy;
 }
 
-public final class pro/vlprojects/semantic/delivery/outbox/polling/AdaptivePollingProperties {
-	public fun <init> ()V
-	public fun <init> (Ljava/time/Duration;Ljava/time/Duration;)V
-	public synthetic fun <init> (Ljava/time/Duration;Ljava/time/Duration;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Ljava/time/Duration;
-	public final fun component2 ()Ljava/time/Duration;
-	public final fun copy (Ljava/time/Duration;Ljava/time/Duration;)Lpro/vlprojects/semantic/delivery/outbox/polling/AdaptivePollingProperties;
-	public static synthetic fun copy$default (Lpro/vlprojects/semantic/delivery/outbox/polling/AdaptivePollingProperties;Ljava/time/Duration;Ljava/time/Duration;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/polling/AdaptivePollingProperties;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getMaxInterval ()Ljava/time/Duration;
-	public final fun getMinInterval ()Ljava/time/Duration;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
 public final class pro/vlprojects/semantic/delivery/outbox/polling/AdaptivePollingStrategy : pro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy {
 	public static final field Factory Lpro/vlprojects/semantic/delivery/outbox/polling/AdaptivePollingStrategy$Factory;
-	public fun calculate (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingContext;)Ljava/time/Duration;
+	public fun calculateDelay (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingContext;)Ljava/time/Duration;
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/polling/AdaptivePollingStrategy$Factory {
-	public final fun of (Ljava/time/Duration;Ljava/time/Duration;)Lpro/vlprojects/semantic/delivery/outbox/polling/AdaptivePollingStrategy;
-	public static synthetic fun of$default (Lpro/vlprojects/semantic/delivery/outbox/polling/AdaptivePollingStrategy$Factory;Ljava/time/Duration;Ljava/time/Duration;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/polling/AdaptivePollingStrategy;
-}
-
-public final class pro/vlprojects/semantic/delivery/outbox/polling/FixedPollingProperties {
-	public fun <init> ()V
-	public fun <init> (Ljava/time/Duration;)V
-	public synthetic fun <init> (Ljava/time/Duration;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Ljava/time/Duration;
-	public final fun copy (Ljava/time/Duration;)Lpro/vlprojects/semantic/delivery/outbox/polling/FixedPollingProperties;
-	public static synthetic fun copy$default (Lpro/vlprojects/semantic/delivery/outbox/polling/FixedPollingProperties;Ljava/time/Duration;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/polling/FixedPollingProperties;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getInterval ()Ljava/time/Duration;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
+	public final fun of (Ljava/time/Duration;Ljava/time/Duration;D)Lpro/vlprojects/semantic/delivery/outbox/polling/AdaptivePollingStrategy;
+	public static synthetic fun of$default (Lpro/vlprojects/semantic/delivery/outbox/polling/AdaptivePollingStrategy$Factory;Ljava/time/Duration;Ljava/time/Duration;DILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/polling/AdaptivePollingStrategy;
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/polling/FixedPollingStrategy : pro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy {
 	public static final field Factory Lpro/vlprojects/semantic/delivery/outbox/polling/FixedPollingStrategy$Factory;
-	public fun calculate (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingContext;)Ljava/time/Duration;
+	public fun calculateDelay (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingContext;)Ljava/time/Duration;
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/polling/FixedPollingStrategy$Factory {
@@ -401,39 +358,22 @@ public final class pro/vlprojects/semantic/delivery/outbox/polling/OutboxPolling
 
 public final class pro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingContext$Factory {
 	public final fun of (IILjava/time/Duration;)Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingContext;
-	public static synthetic fun of$default (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingContext$Factory;IILjava/time/Duration;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingContext;
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingProperties {
 	public fun <init> ()V
-	public fun <init> (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategyType;Lpro/vlprojects/semantic/delivery/outbox/polling/FixedPollingProperties;Lpro/vlprojects/semantic/delivery/outbox/polling/ActiveIdlePollingProperties;Lpro/vlprojects/semantic/delivery/outbox/polling/AdaptivePollingProperties;)V
-	public synthetic fun <init> (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategyType;Lpro/vlprojects/semantic/delivery/outbox/polling/FixedPollingProperties;Lpro/vlprojects/semantic/delivery/outbox/polling/ActiveIdlePollingProperties;Lpro/vlprojects/semantic/delivery/outbox/polling/AdaptivePollingProperties;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun buildStrategy ()Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy;
-	public final fun component1 ()Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategyType;
-	public final fun component2 ()Lpro/vlprojects/semantic/delivery/outbox/polling/FixedPollingProperties;
-	public final fun component3 ()Lpro/vlprojects/semantic/delivery/outbox/polling/ActiveIdlePollingProperties;
-	public final fun component4 ()Lpro/vlprojects/semantic/delivery/outbox/polling/AdaptivePollingProperties;
-	public final fun copy (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategyType;Lpro/vlprojects/semantic/delivery/outbox/polling/FixedPollingProperties;Lpro/vlprojects/semantic/delivery/outbox/polling/ActiveIdlePollingProperties;Lpro/vlprojects/semantic/delivery/outbox/polling/AdaptivePollingProperties;)Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingProperties;
-	public static synthetic fun copy$default (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingProperties;Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategyType;Lpro/vlprojects/semantic/delivery/outbox/polling/FixedPollingProperties;Lpro/vlprojects/semantic/delivery/outbox/polling/ActiveIdlePollingProperties;Lpro/vlprojects/semantic/delivery/outbox/polling/AdaptivePollingProperties;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingProperties;
+	public fun <init> (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy;)V
+	public synthetic fun <init> (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy;
+	public final fun copy (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy;)Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingProperties;
+	public static synthetic fun copy$default (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingProperties;Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingProperties;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getActiveIdle ()Lpro/vlprojects/semantic/delivery/outbox/polling/ActiveIdlePollingProperties;
-	public final fun getAdaptive ()Lpro/vlprojects/semantic/delivery/outbox/polling/AdaptivePollingProperties;
-	public final fun getFixed ()Lpro/vlprojects/semantic/delivery/outbox/polling/FixedPollingProperties;
-	public final fun getStrategy ()Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategyType;
+	public final fun getStrategy ()Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
 public abstract interface class pro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy {
-	public abstract fun calculate (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingContext;)Ljava/time/Duration;
-}
-
-public final class pro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategyType : java/lang/Enum {
-	public static final field ACTIVE_IDLE Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategyType;
-	public static final field ADAPTIVE Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategyType;
-	public static final field FIXED Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategyType;
-	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategyType;
-	public static fun values ()[Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategyType;
+	public abstract fun calculateDelay (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingContext;)Ljava/time/Duration;
 }
 

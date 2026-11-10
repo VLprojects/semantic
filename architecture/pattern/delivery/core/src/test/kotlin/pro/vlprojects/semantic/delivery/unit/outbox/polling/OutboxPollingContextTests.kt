@@ -12,44 +12,46 @@ class OutboxPollingContextTests {
 
     @Test
     fun `a batch of the batch size is full`() {
-        assertTrue(OutboxPollingContext.of(dispatched = 100, batchSize = 100).isBatchFull())
+        assertTrue(OutboxPollingContext.of(100, 100, Duration.ZERO).isBatchFull())
     }
 
     @Test
     fun `a smaller batch is not full`() {
-        assertFalse(OutboxPollingContext.of(dispatched = 99, batchSize = 100).isBatchFull())
+        assertFalse(OutboxPollingContext.of(99, 100, Duration.ZERO).isBatchFull())
     }
 
     @Test
-    fun `the first batch has no previous delay`() {
-        assertEquals(Duration.ZERO, OutboxPollingContext.of(dispatched = 0, batchSize = 100).previousDelay)
+    fun `the context keeps the previous delay`() {
+        val context = OutboxPollingContext.of(0, 100, Duration.ofSeconds(1))
+
+        assertEquals(Duration.ofSeconds(1), context.previousDelay)
     }
 
     @Test
     fun `the dispatched count must not exceed the batch size`() {
         assertThrows(IllegalArgumentException::class.java) {
-            OutboxPollingContext.of(dispatched = 101, batchSize = 100)
+            OutboxPollingContext.of(101, 100, Duration.ZERO)
         }
     }
 
     @Test
     fun `the dispatched count must not be negative`() {
         assertThrows(IllegalArgumentException::class.java) {
-            OutboxPollingContext.of(dispatched = -1, batchSize = 100)
+            OutboxPollingContext.of(-1, 100, Duration.ZERO)
         }
     }
 
     @Test
     fun `the batch size must be positive`() {
         assertThrows(IllegalArgumentException::class.java) {
-            OutboxPollingContext.of(dispatched = 0, batchSize = 0)
+            OutboxPollingContext.of(0, 0, Duration.ZERO)
         }
     }
 
     @Test
     fun `the previous delay must not be negative`() {
         assertThrows(IllegalArgumentException::class.java) {
-            OutboxPollingContext.of(dispatched = 0, batchSize = 100, previousDelay = Duration.ofMillis(-1))
+            OutboxPollingContext.of(0, 100, Duration.ofMillis(-1))
         }
     }
 }

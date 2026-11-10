@@ -21,7 +21,7 @@ public class OutboxPollingContext private constructor(
         public fun of(
             dispatched: Int,
             batchSize: Int,
-            previousDelay: Duration = Duration.ZERO,
+            previousDelay: Duration,
         ): OutboxPollingContext = OutboxPollingContext(dispatched, batchSize, previousDelay)
     }
 }

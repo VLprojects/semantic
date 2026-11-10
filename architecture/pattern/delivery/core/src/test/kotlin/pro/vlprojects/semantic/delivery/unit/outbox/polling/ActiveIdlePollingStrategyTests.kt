@@ -12,27 +12,27 @@ class ActiveIdlePollingStrategyTests {
 
     @Test
     fun `a full batch waits the active interval`() {
-        assertEquals(Duration.ofMillis(10), strategy.calculateAfter(100))
+        assertEquals(Duration.ofMillis(10), strategy.calculateDelayAfter(100))
     }
 
     @Test
     fun `a partial batch waits the idle interval`() {
-        assertEquals(Duration.ofSeconds(2), strategy.calculateAfter(99))
+        assertEquals(Duration.ofSeconds(2), strategy.calculateDelayAfter(99))
     }
 
     @Test
     fun `an empty batch waits the idle interval`() {
-        assertEquals(Duration.ofSeconds(2), strategy.calculateAfter(0))
+        assertEquals(Duration.ofSeconds(2), strategy.calculateDelayAfter(0))
     }
 
     @Test
     fun `a full batch goes on at once by default`() {
-        assertEquals(Duration.ZERO, ActiveIdlePollingStrategy.of().calculateAfter(100))
+        assertEquals(Duration.ZERO, ActiveIdlePollingStrategy.of().calculateDelayAfter(100))
     }
 
     @Test
     fun `an idle database is polled once a second by default`() {
-        assertEquals(Duration.ofSeconds(1), ActiveIdlePollingStrategy.of().calculateAfter(0))
+        assertEquals(Duration.ofSeconds(1), ActiveIdlePollingStrategy.of().calculateDelayAfter(0))
     }
 
     @Test
