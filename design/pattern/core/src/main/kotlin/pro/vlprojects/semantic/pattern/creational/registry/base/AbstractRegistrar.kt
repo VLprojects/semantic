@@ -3,7 +3,6 @@ package pro.vlprojects.semantic.pattern.creational.registry.base
 import pro.vlprojects.semantic.pattern.creational.factory.Factory
 import pro.vlprojects.semantic.pattern.creational.factory.error.FactoryNotFoundException
 import pro.vlprojects.semantic.pattern.creational.factory.error.MultipleFactoriesException
-import pro.vlprojects.semantic.pattern.creational.factory.resolveDefinitionType
 import pro.vlprojects.semantic.pattern.creational.registry.Registrar
 import pro.vlprojects.semantic.pattern.creational.registry.Registry
 import pro.vlprojects.semantic.pattern.creational.registry.error.InstanceRegistrationException
@@ -13,7 +12,7 @@ public abstract class AbstractRegistrar<D : Factory.Definition, T : Any>(
 ) : Registrar<T> {
 
     private val factories = factories
-        .groupBy(Factory<*, T>::resolveDefinitionType)
+        .groupBy(Factory<*, T>::definitionType)
         .mapValues { (definitionType, candidates) ->
             candidates.singleOrNull()
                 ?: throw MultipleFactoriesException(definitionType)

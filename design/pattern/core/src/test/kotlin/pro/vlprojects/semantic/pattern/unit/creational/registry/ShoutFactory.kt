@@ -1,6 +1,10 @@
 package pro.vlprojects.semantic.pattern.unit.creational.registry
 
-object ShoutFactory : TextFactory<ShoutDefinition>() {
+import pro.vlprojects.semantic.pattern.creational.factory.Factory
+
+object ShoutFactory : Factory<ShoutDefinition, String> {
+
+    override val definitionType = ShoutDefinition::class.java
 
     override fun create(definition: ShoutDefinition) = definition.text.uppercase()
 }

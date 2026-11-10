@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import pro.vlprojects.semantic.pattern.creational.factory.error.FactoryNotFoundException
 import pro.vlprojects.semantic.pattern.creational.factory.error.InvalidDefinitionException
-import pro.vlprojects.semantic.pattern.creational.factory.error.InvalidFactoryException
 import pro.vlprojects.semantic.pattern.creational.factory.error.MultipleFactoriesException
 import pro.vlprojects.semantic.pattern.creational.registry.error.InstanceAlreadyExistsException
 import pro.vlprojects.semantic.pattern.creational.registry.error.InstanceRegistrationException
@@ -88,16 +87,6 @@ class AbstractRegistrarTests {
             GreetingRegistrar(
                 definitions = emptyMap(),
                 factories = listOf(GreetingFactory, GreetingFactory),
-            )
-        }
-    }
-
-    @Test
-    fun `a factory whose definition is unknown is rejected at construction`() {
-        assertThrows<InvalidFactoryException> {
-            GreetingRegistrar(
-                definitions = emptyMap(),
-                factories = listOf(EchoFactory<GreetingDefinition>()),
             )
         }
     }
