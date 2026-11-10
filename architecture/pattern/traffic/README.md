@@ -6,7 +6,7 @@ never exceeded. `@RateLimit` puts the same limit on any method of a bean. The al
 "System Design Interview", volume 1. Storage sits behind an interface: memory by default, Redis for
 a counter shared by all instances, and any other store that can compare a version.
 
-This is the agreed design; only the `core` module exists so far, and it holds the contract only.
+This is the agreed design; only the `core` module exists so far, and it holds `RateLimiter` and `RateLimitDecision` only.
 
 ![Modules of traffic and what each one holds](../../../docs/assets/traffic-light.svg#gh-light-mode-only)
 ![Modules of traffic and what each one holds](../../../docs/assets/traffic-dark.svg#gh-dark-mode-only)
@@ -16,7 +16,7 @@ This is the agreed design; only the `core` module exists so far, and it holds th
 | Directory | Artifact | What it holds |
 | --- | --- | --- |
 | `core` | `semantic-traffic` | the contract, the five algorithms, a counter in memory; free of Spring |
-| `observability/micrometer` | `semantic-traffic-observability-micrometer` | permits acquired and rejected, tagged by limiter name only |
+| `observability/micrometer` | `semantic-traffic-observability-micrometer` | calls allowed and rejected, tagged by limiter name only |
 | `spring/context` | `semantic-traffic-spring-context` | `@RateLimit` on methods of beans: a proxy without AspectJ, the key in SpEL |
 | `spring/webmvc` | `semantic-traffic-spring-webmvc` | `RateLimitingFilter`: 429, `Retry-After`, `RateLimit` headers |
 | `spring/web` | `semantic-traffic-spring-web` | `RateLimitingInterceptor` for `RestClient` |
@@ -38,17 +38,17 @@ requests, after Netflix concurrency-limits, gets a design of its own later.
 
 | Abstraction | What it does | What it does not do | After |
 | --- | --- | --- | --- |
-| `RateLimiter` | `tryAcquire(key, permits)` answers at once; the extension `acquire(key, permits, maxWait)` waits for a permit or throws `RateLimitExceededException` | knows neither the strategy nor the storage | Guava `RateLimiter`, ASP.NET `RateLimiter` |
+| `RateLimiter` | `allow(key, cost = 1)` answers at once; the extension `acquire(key, cost, maxWait)` waits or throws `RateLimitExceededException` | knows neither the strategy nor the storage | Go `x/time/rate` `Allow`, go-redis `redis_rate` `Allow(key)`, Python `limits` `cost` |
 | `DefaultRateLimiter` | reads the counter, asks the strategy, saves the new state by version; on a conflict it repeats, up to `max-attempts` times; applies `on-failure` when storage fails | holds no formula | Bucket4j `AbstractCompareAndSwapBasedProxyManager` |
-| `RateLimitStrategy` | a sealed pure function: state, permits and time in, `RateLimitResult` out; one per algorithm | reads no clock, touches no storage | `limits.strategies` of Flask-Limiter, Bucket4j `Bandwidth` |
+| `RateLimitStrategy` | a sealed pure function: state, cost and time in, `RateLimitResult` out; one per algorithm | reads no clock, touches no storage | `limits.strategies` of Flask-Limiter, Bucket4j `Bandwidth` |
 | `RateLimitResult` | the new state and the response of one call | | Bucket4j `VerboseResult` |
 | `RateLimitState` | the state of one strategy, one subtype each; the core turns it into bytes and back | | Bucket4j `RemoteBucketState` |
 | `RateLimitCounter` | what storage keeps: key, state, version, `expiresAt` | | Spring Data `@Version` |
 | `RateLimitRepository` | `findByKey`, and `save` that throws `RateLimitOptimisticLockException` when the version has changed | decides nothing | Spring Data `CrudRepository`, `OutboxRepository` |
 | `InMemoryRateLimitRepository` | the default, on `ConcurrentHashMap.compute`; drops counters after `expiresAt` | is not shared by instances | Bucket4j `LockFreeBucket` |
-| `RateLimitResponse` | `isAcquired`, `delay`, `remaining`, `retryAfter`, `resetAfter` | | Bucket4j `ConsumptionProbe`, Envoy `RateLimitResponse` |
+| `RateLimitDecision` | `isAllowed`, `remaining`, `retryAfter`, `resetAfter`; `LeakyBucket` adds `delay` | | Spring Security `AuthorizationDecision`, go-redis `redis_rate` `Result` |
 | `RateLimiterRegistry` | `findByName(name)`: one limiter for the filter, the interceptor and `@RateLimit`; `InMemoryRateLimiterRegistry` by default | builds no limiter from settings, autoconfigure does | Resilience4j `RateLimiterRegistry`, Spring `CacheManager` |
-| `@RateLimit` | on a method or a class: `limiter`, `key` in SpEL, `permits`, `maxWait` as text such as `"500ms"` | counts nothing | Spring `@ConcurrencyLimit`, SmallRye `@RateLimit` |
+| `@RateLimit` | on a method or a class: `limiter`, `key` in SpEL, `cost`, `maxWait` as text such as `"500ms"` | counts nothing | Spring `@ConcurrencyLimit`, SmallRye `@RateLimit` |
 | `RateLimitBeanPostProcessor` | wraps a bean with `@RateLimit` in a proxy; an unknown limiter name stops the application at startup | needs no AspectJ | Spring `ConcurrencyLimitBeanPostProcessor`, `ScheduledAnnotationBeanPostProcessor` |
 | `RateLimitMethodInterceptor` | evaluates the key, calls `acquire`, then the method; throws `RateLimitExceededException` | | Spring `ConcurrencyLimitInterceptor`, the key of `@Cacheable` |
 | `@EnableRateLimiting` | turns the proxy on without Spring Boot; `order` places it among other proxies | | Spring `@EnableCaching`, `@EnableResilientMethods` |
@@ -124,7 +124,7 @@ class AcmeOrders(private val client: AcmeClient) {
 `RateLimitBeanPostProcessor` wraps the bean in a proxy as Spring 7 does for `@ConcurrencyLimit` and
 `@Retryable`, with an `AnnotationMatchingPointcut` and no AspectJ. `RateLimitMethodInterceptor` takes the
 limiter from `RateLimiterRegistry`, evaluates `key` as `@Cacheable` evaluates its key, and calls
-`acquire(key, permits, maxWait)`. Without `key` the limiter keeps one counter. Without `maxWait` the call
+`acquire(key, cost, maxWait)`. Without `key` the limiter keeps one counter. Without `maxWait` the call
 does not wait: it either gets a permit at once or fails.
 
 A rejection is `RateLimitExceededException` with `retryAfter`. On a controller method `spring/webmvc` turns
@@ -169,8 +169,8 @@ Without Spring:
 ```kotlin
 val limiter = DefaultRateLimiter("api", TokenBucket.of(100, Duration.ofMinutes(1)), InMemoryRateLimitRepository())
 
-limiter.tryAcquire(key)
-    .takeIf(RateLimitResponse::isAcquired)
+limiter.allow(key)
+    .takeIf(RateLimitDecision::isAllowed)
     ?: return tooManyRequests()
 ```
 

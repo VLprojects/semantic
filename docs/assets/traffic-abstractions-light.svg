@@ -24,7 +24,7 @@
     <rect x="260.0" y="264.0" width="75.4" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
     <text x="268.0" y="276.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">interface</text>
     <text x="260.0" y="300.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">RateLimiter</text>
-    <text x="260.0" y="332.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">tryAcquire, acquire(maxWait)</text>
+    <text x="260.0" y="332.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">allow, acquire(maxWait)</text>
     <rect x="668.0" y="252.0" width="292.0" height="92.0" rx="6" fill="#E3EFFF"/>
     <rect x="680.0" y="264.0" width="49.0" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
     <text x="688.0" y="276.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">class</text>
@@ -43,8 +43,8 @@
     <rect x="248.0" y="532.0" width="292.0" height="92.0" rx="6" fill="#E3EFFF"/>
     <rect x="260.0" y="544.0" width="42.4" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
     <text x="268.0" y="556.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">data</text>
-    <text x="260.0" y="580.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">RateLimitResponse</text>
-    <text x="260.0" y="612.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">acquired, delay, retryAfter</text>
+    <text x="260.0" y="580.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">RateLimitDecision</text>
+    <text x="260.0" y="612.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">allowed, retryAfter, resetAfter</text>
     <rect x="668.0" y="532.0" width="292.0" height="92.0" rx="6" fill="#E3EFFF"/>
     <rect x="680.0" y="544.0" width="49.0" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
     <text x="688.0" y="556.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">class</text>
@@ -58,7 +58,7 @@
     <circle cx="296" cy="209" r="2" fill="#8B5CF6"/>
     <path d="M296,249 L293.5,244.0 L298.5,244.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
     <path d="M296,209 L296,244" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
-    <text x="316.0" y="232.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">tryAcquire()</text>
+    <text x="316.0" y="232.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">allow()</text>
     <path d="M716,209 L716,228 L500,228 L500,244" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
     <circle cx="716" cy="209" r="2" fill="#8B5CF6"/>
     <path d="M500,249 L497.5,244.0 L502.5,244.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
@@ -70,7 +70,7 @@
     <path d="M716,349 L716,368 L448,368 L448,384" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
     <circle cx="716" cy="349" r="2" fill="#8B5CF6"/>
     <path d="M448,389 L445.5,384.0 L450.5,384.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <text x="460.0" y="384.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">acquire(state, permits, now)</text>
+    <text x="460.0" y="384.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">allow(state, cost, now)</text>
     <circle cx="888" cy="349" r="2" fill="#8B5CF6"/>
     <path d="M888,389 L885.5,384.0 L890.5,384.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
     <path d="M888,349 L888,384" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>

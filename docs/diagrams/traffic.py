@@ -58,8 +58,8 @@ def duties(pal):
 	a = start(pal, "One task, one abstraction", "On the left what has to be decided, on the right who decides it and nothing else")
 	ox = 620
 	rows = [
-		("let a call through or not", "return a decision for a key and a number of permits", "blue", "RateLimiter"),
-		("how to count permits", "a pure function: state and time in, a decision out", "blue", "RateLimitStrategy"),
+		("let a call through or not", "return a decision for a key and a cost", "blue", "RateLimiter"),
+		("how to count calls", "a pure function: state and time in, a decision out", "blue", "RateLimitStrategy"),
 		("where to keep the counter", "find by key, save with a version check", "blue", "RateLimitRepository"),
 		("lose no update in a race", "on a version conflict, read again and count again", "blue", "DefaultRateLimiter"),
 		("wait for a permit before an outgoing call", "wait no longer than maxWait, otherwise throw", "blue", "RateLimiter.acquire"),
@@ -94,15 +94,15 @@ def abstractions(pal):
 	level(a, y[4], "Spring", "spring/data/redis, spring/jdbc")
 	card(a, BX, y[0], BW, "green", "spring/webmvc", "RateLimitingFilter", "incoming: 429 on rejection")
 	card(a, RX, y[0], BW, "green", "spring/web", "RateLimitingInterceptor", "outgoing: waits for a permit")
-	card(a, BX, y[1], BW, "blue", "interface", "RateLimiter", "tryAcquire, acquire(maxWait)")
+	card(a, BX, y[1], BW, "blue", "interface", "RateLimiter", "allow, acquire(maxWait)")
 	card(a, RX, y[1], BW, "blue", "class", "DefaultRateLimiter", "reads, counts, saves by version")
 	card(a, BX, y[2], BW, "blue", "sealed interface", "RateLimitStrategy", "the five algorithms of Alex Xu")
 	card(a, RX, y[2], BW, "blue", "interface", "RateLimitRepository", "findByKey, save by version")
-	card(a, BX, y[3], BW, "blue", "data", "RateLimitResponse", "acquired, delay, retryAfter")
+	card(a, BX, y[3], BW, "blue", "data", "RateLimitDecision", "allowed, retryAfter, resetAfter")
 	card(a, RX, y[3], BW, "blue", "class", "InMemoryRateLimitRepository", "the default, in memory")
 	card(a, RX, y[4], BW, "green", "adapters", "RedisRateLimitRepository", "shared by all instances")
 	mid = b.BLOCK / 2
-	down(a, BX + 48, y[0] + b.BLOCK, y[1], "tryAcquire()")
+	down(a, BX + 48, y[0] + b.BLOCK, y[1], "allow()")
 	b.line(a, f"M{RX + 48},{y[0] + b.BLOCK + b.AIR + b.DOT} L{RX + 48},{y[0] + b.BLOCK + 24} L{BX + BW - 40},{y[0] + b.BLOCK + 24} L{BX + BW - 40},{y[1] - b.AIR - b.HEAD}", b.DECLARES)
 	b.dot(a, RX + 48, y[0] + b.BLOCK + b.AIR + b.DOT)
 	b.arrowhead(a, BX + BW - 40, y[1] - b.AIR, 0, 1)
@@ -111,7 +111,7 @@ def abstractions(pal):
 	b.line(a, f"M{RX + 48},{y[1] + b.BLOCK + b.AIR + b.DOT} L{RX + 48},{y[1] + b.BLOCK + 24} L{BX + 200},{y[1] + b.BLOCK + 24} L{BX + 200},{y[2] - b.AIR - b.HEAD}", b.DECLARES)
 	b.dot(a, RX + 48, y[1] + b.BLOCK + b.AIR + b.DOT)
 	b.arrowhead(a, BX + 200, y[2] - b.AIR, 0, 1)
-	a.t(BX + 212, y[1] + b.BLOCK + 40, "acquire(state, permits, now)", size=12, mono=True)
+	a.t(BX + 212, y[1] + b.BLOCK + 40, "allow(state, cost, now)", size=12, mono=True)
 	down(a, RX + 220, y[1] + b.BLOCK, y[2], "findByKey · save")
 	down(a, BX + 48, y[2] + b.BLOCK, y[3], "returns", mono=False)
 	b.across(a, RX + BW / 2, RX + BW / 2, 0, b.BUILDS) if False else None
@@ -166,10 +166,10 @@ def flow(pal):
 	msg(a, xs, 0, 1, y, "GET /api/orders", mono=True)
 	msg(a, xs, 1, 2, y + step, "resolve()")
 	msg(a, xs, 2, 1, y + 2 * step, "alice")
-	msg(a, xs, 1, 3, y + 3 * step, "tryAcquire(\"api:alice\")")
+	msg(a, xs, 1, 3, y + 3 * step, "allow(\"api:alice\")")
 	msg(a, xs, 3, 5, y + 4 * step, "findByKey")
 	msg(a, xs, 5, 3, y + 5 * step, "tokens 3 · v7", mono=False)
-	msg(a, xs, 3, 4, y + 6 * step, "acquire(1, now)")
+	msg(a, xs, 3, 4, y + 6 * step, "allow(1, now)")
 	msg(a, xs, 4, 3, y + 7 * step, "tokens 2 · acquired", mono=False)
 	msg(a, xs, 3, 5, y + 8 * step, "save(v8)")
 	msg(a, xs, 5, 3, y + 9 * step, "saved", mono=False)
@@ -182,7 +182,7 @@ def flow(pal):
 	msg(a, xs, 3, 5, y, "save(v8)")
 	msg(a, xs, 5, 3, y + step, "conflict: already v8", mono=False, color="amber")
 	msg(a, xs, 3, 5, y + 2 * step, "findByKey")
-	msg(a, xs, 3, 4, y + 3 * step, "acquire(1, now)")
+	msg(a, xs, 3, 4, y + 3 * step, "allow(1, now)")
 	msg(a, xs, 3, 5, y + 4 * step, "save(v9)")
 	msg(a, xs, 5, 3, y + 5 * step, "saved", mono=False)
 
@@ -191,7 +191,7 @@ def flow(pal):
 	busy(3, y - 4, y + 4 * step + 4)
 	msg(a, xs, 3, 5, y, "findByKey")
 	msg(a, xs, 5, 3, y + step, "tokens 0 · v9", mono=False)
-	msg(a, xs, 3, 4, y + 2 * step, "acquire(1, now)")
+	msg(a, xs, 3, 4, y + 2 * step, "allow(1, now)")
 	msg(a, xs, 4, 3, y + 3 * step, "rejected · 4 s", mono=False, color="red")
 	msg(a, xs, 3, 1, y + 4 * step, "rejected · nothing to save", mono=False)
 	msg(a, xs, 1, 0, y + 5 * step, "429", color="red")
@@ -333,7 +333,7 @@ def incoming(pal):
 	y, h = 112, 112
 	flow_card(a, L, y, w, h, "green", "RateLimitingFilter", ["a rule by path: /api/** →", "limit api, key principal"])
 	flow_card(a, L + w + gap, y, w, h, "green", "KeyResolver", ["principal, IP, a header", "X-Tenant-Id or a lambda"])
-	flow_card(a, L + 2 * (w + gap), y, w, h, "blue", "RateLimiter", ["tryAcquire(\"api:alice\", 1)"])
+	flow_card(a, L + 2 * (w + gap), y, w, h, "blue", "RateLimiter", ["allow(\"api:alice\", 1)"])
 	a.harrow(L + w + 6, y + h / 2, L + w + gap - 6)
 	a.harrow(L + 2 * w + gap + 6, y + h / 2, L + 2 * (w + gap) - 6)
 	y2, h2 = y + h + 48, 152
@@ -557,7 +557,7 @@ def wiring(pal):
 		("limiter", ("blue", "DefaultRateLimiter(\"api\", strategy, repository)", "the same class from semantic-traffic"), None),
 		("storage", ("blue", "InMemoryRateLimitRepository()", "or your own RateLimitRepository"),
 			("green", "RedisRateLimitRepository", "with starter/redis on the classpath")),
-		("incoming", ("blue", "limiter.tryAcquire(key)", "in your code, the answer is yours"),
+		("incoming", ("blue", "limiter.allow(key)", "in your code, the answer is yours"),
 			("green", "RateLimitingFilter", "rules by path from the settings")),
 		("outgoing", ("blue", "limiter.acquire(key, maxWait = …)", "before a call to a partner"),
 			("green", "RateLimitingInterceptor", "in RestClient.Builder by limit name")),
@@ -733,7 +733,7 @@ MODULES = d.Map(
 	],
 	{"JVM": "blue", "Spring": "green", "Spring Boot": "amber", "later": "card"},
 	[
-		(0, [0, 1], "core", ["RateLimiter", "DefaultRateLimiter", "RateLimitStrategy", "RateLimitRepository", "RateLimiterRegistry", "RateLimitResponse"],
+		(0, [0, 1], "core", ["RateLimiter", "DefaultRateLimiter", "RateLimitStrategy", "RateLimitRepository", "RateLimiterRegistry", "RateLimitDecision"],
 			"The contract, the five algorithms, counters and limiters in memory. No direction: one limiter for incoming and outgoing calls."),
 		(0, [2], "observability/micrometer", [], "Permits acquired and rejected, by limiter name and never by key."),
 		(1, [0], "spring/context", ["@RateLimit", "@EnableRateLimiting"], "Methods of beans: a proxy takes a permit before the call, the key comes from SpEL."),

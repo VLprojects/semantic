@@ -10,8 +10,8 @@ The design is in [README.md](README.md).
 
 | PR | What it holds | Size |
 | --- | --- | --- |
-| 1 | the contract: `RateLimiter`, `RateLimitResponse`, `RateLimitStrategy`, `RateLimitState`, `RateLimitResult` | ~100 lines |
-| 2 | `TokenBucket` and its state; unit tests | ~170 lines |
+| 1 | the contract: `RateLimiter.allow(key, cost)`, `RateLimitDecision` | ~50 lines |
+| 2 | `RateLimitStrategy`, `RateLimitState`, `RateLimitResult`, `TokenBucket` and its state; unit tests | ~200 lines |
 | 3 | `RateLimitCounter`, `RateLimitRepository`, `RateLimitOptimisticLockException`, `InMemoryRateLimitRepository`; unit tests on a `Clock` | ~150 lines |
 | 4 | `DefaultRateLimiter` with the retry by version and `on-failure`; unit tests on a `Clock` | ~200 lines |
 | 5 | `RateLimitState` to bytes and back, a format with a version | ~150 lines |
@@ -27,7 +27,7 @@ The design is in [README.md](README.md).
 | 10 | `FixedWindow` | 5 |
 | 11 | `SlidingWindowLog`, accepted requests only | 5 |
 | 12 | `SlidingWindowCounter` | 5 |
-| 13 | `LeakyBucket` as GCRA, `delay` in the response | 5 |
+| 13 | `LeakyBucket` as GCRA, `delay` in the decision | 5 |
 | 14 | `spring/data/redis`: the Lua script, `PX`, Testcontainers | 5 |
 
 ## Stage 3, in parallel
@@ -50,7 +50,7 @@ files are settled on rebase.
 
 ## Decided
 
-- The decision is `RateLimitResponse`, the storage is `RateLimitRepository`, the formula is
+- The answer is `RateLimitDecision` of `allow(key, cost)`, the storage is `RateLimitRepository`, the formula is
   `RateLimitStrategy`, after the strategies of Flask-Limiter.
 - `on-failure: allow` by default.
 - Settings are `permit-limit` per `window`, after ASP.NET.
