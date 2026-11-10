@@ -221,8 +221,8 @@ suffix, in kebab case: `ActiveIdlePollingStrategyFactory` is `active-idle`, as S
 factories. The fields under the key bind to the type argument of the factory, its `Config`, resolved the way Spring
 resolves the event of an `ApplicationListener`. `fixed` takes `interval` (`1s`), `active-idle` takes `active-interval`
 (`0s`) and `idle-interval` (`1s`), `adaptive` takes `min-interval` (`100ms`), `max-interval` (`10s`) and `multiplier`
-(`2`). The factories live in `semantic-delivery-spring-boot`; an own strategy is a factory class with its own `Config`,
-declared as a bean. Without Spring the application passes the strategy to the constructor of the container.
+(`2`). The factories come in PR 5 to `semantic-delivery-spring-boot`; an own strategy is a factory class with its own
+`Config`, declared as a bean. Without Spring the application passes the strategy to the constructor of the container.
 `concurrency` and `max-concurrency` follow Spring Boot (`spring.rabbitmq.listener.simple.concurrency`,
 `max-concurrency`).
 
@@ -278,11 +278,11 @@ changes its API, so this is an open question.
 
 | PR | What | Size |
 | --- | --- | --- |
-| 1 | `OutboxPollingStrategy`, `OutboxPollingContext`, three implementations, their factories with `Config` in `semantic-delivery-spring-boot`, unit tests | ~250 lines, no threads |
+| 1 | `OutboxPollingStrategy`, `OutboxPollingContext`, three implementations, unit tests | ~250 lines, no threads |
 | 2 | `OutboxPollingContainer` with a fixed number of pollers, `OutboxPoller`, `start`, `stop`, `shutdown-timeout`, logging of a failed poll | ~350 lines |
 | 3 | scaling from `concurrency` to `max-concurrency` | ~200 lines |
 | 4 | wake-up: `wakeup()`, merged signals, `cooldown` | ~150 lines |
-| 5 | auto-configuration with the strategy settings bound to the factories, `OutboxPollingContainerLifecycle` in the Spring modules, `afterCommit` for the wake-up | separate |
+| 5 | auto-configuration with the strategy factories and their `Config` bound to `polling.strategy`, `OutboxPollingContainerLifecycle` in the Spring modules, `afterCommit` for the wake-up | separate |
 
 ## 13. Open questions
 
