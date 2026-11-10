@@ -1,13 +1,13 @@
 package pro.vlprojects.semantic.delivery.outbox
 
-import pro.vlprojects.semantic.delivery.outbox.error.OutboxDeliveryException
+import pro.vlprojects.semantic.delivery.outbox.error.OutboxRoutingException
 
 public class OutboxDeliveryRouter(
     private val deliverers: List<OutboxDeliverer<*>>,
     private val policy: DeliveryRoutingPolicy = UniqueDeliveryRoutingPolicy(),
 ) {
 
-    @Throws(OutboxDeliveryException::class)
+    @Throws(OutboxRoutingException::class)
     public fun determine(destination: DeliveryDestination): List<OutboxDeliverer<DeliveryDestination>> = deliverers
         .filter { it.supports(destination) }
         .let { policy.select(destination, it) }
