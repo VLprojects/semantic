@@ -14,22 +14,25 @@ public abstract class AbstractRegistrar<D : Factory.Definition, T : Any>(
     private val factories = factories
         .groupBy(Factory<*, T>::definitionType)
         .mapValues { (definitionType, candidates) ->
-            candidates.singleOrNull()
+            candidates
+                .singleOrNull()
                 ?: throw MultipleFactoriesException(definitionType)
         }
 
     protected abstract fun loadDefinitions(): Map<String, D>
 
     @Throws(InstanceRegistrationException::class)
-    final override fun populate(registry: Registry<T>) {
-        loadDefinitions().forEach { (name, definition) ->
-            try {
-                definition
-                    .let(::create)
-                    .let { instance -> registry.register(name, instance) }
-            } catch (failure: RuntimeException) {
-                throw InstanceRegistrationException(name, failure)
-            }
+    final override fun populate(registry: Registry<T>): Unit = loadDefinitions()
+        .forEach { (name, definition) -> register(registry, name, definition) }
+
+    private fun register(registry: Registry<T>, name: String, definition: D) = runCatching {
+        definition
+            .let(::create)
+            .let { instance -> registry.register(name, instance) }
+    }.getOrElse { failure ->
+        when (failure) {
+            is RuntimeException -> throw InstanceRegistrationException(name, failure)
+            else -> throw failure
         }
     }
 
