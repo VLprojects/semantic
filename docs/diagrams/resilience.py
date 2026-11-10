@@ -84,15 +84,17 @@ def backoff_map():
 		[
 			("JVM", "no Spring", [0]),
 			("Spring", "Spring types", [1]),
-			("used by", "other modules that wait", [2]),
+			("Spring Boot", "wiring only", [2]),
+			("used by", "other modules that wait", [3]),
 		],
 		HUES,
 		[
 			(0, [0, 1, 2], "core", ["Backoff", "FixedBackoff", "ExponentialBackoff", "JitteredBackoff"],
 				"The delay for an attempt number. Whoever calls it waits and repeats. Not a Policy: it runs nothing."),
 			(1, [0], "spring/core", [], "Backoff as a Spring BackOff."),
-			(2, [1], "resilience/retry/core", ["Retry"], "Pauses between attempts."),
-			(2, [2], "delivery/core", ["OutboxRetryPolicy"], "Picks the next attempt of a record."),
+			(2, [0], "spring-boot/autoconfigure", ["BackoffRegistry"], "Backoffs by name from application.yml."),
+			(3, [1], "resilience/retry/core", ["Retry"], "Pauses between attempts."),
+			(3, [2], "delivery/core", ["OutboxRetryPolicy"], "Picks the next attempt of a record."),
 		],
 	)
 
@@ -100,8 +102,9 @@ def backoff_map():
 def draw_backoff(a, m):
 	third, c = d.W / 3, m.c
 	m.up(a, c[0] + third, 1, 0, d.DECLARES, "api")
-	m.up(a, c[1] + third, 2, 0, d.DECLARES, "api: Backoff")
-	m.up(a, c[2] + third, 2, 0, d.DECLARES, "api: Backoff")
+	m.up(a, c[0] + third, 2, 1, d.DECLARES, "api")
+	m.up(a, c[1] + third, 3, 0, d.DECLARES, "api: Backoff")
+	m.up(a, c[2] + third, 3, 0, d.DECLARES, "api: Backoff")
 
 
 def retry_map():

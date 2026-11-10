@@ -12,12 +12,23 @@ public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/Backof
 	public static final field DEFAULT_BACKOFF_NAME Ljava/lang/String;
 }
 
+public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/config/BackoffAutoConfiguration {
+	public fun <init> ()V
+	public final fun backoffRegistry (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/config/BackoffProperties;Ljava/util/Map;Ljava/util/Map;Lorg/springframework/beans/factory/ObjectProvider;)Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffRegistry;
+	public final fun exponentialBackoffFactory ()Lpro/vlprojects/semantic/resilience/backoff/spring/boot/factory/ExponentialBackoffFactory;
+	public final fun fixedBackoffFactory ()Lpro/vlprojects/semantic/resilience/backoff/spring/boot/factory/FixedBackoffFactory;
+}
+
 public final class pro/vlprojects/semantic/resilience/backoff/spring/boot/config/BackoffProperties {
 	public fun <init> ()V
 	public fun <init> (Ljava/util/Map;Ljava/util/Map;)V
 	public synthetic fun <init> (Ljava/util/Map;Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getDefault ()Ljava/util/Map;
 	public final fun getInstances ()Ljava/util/Map;
+}
+
+public abstract interface class pro/vlprojects/semantic/resilience/backoff/spring/boot/config/BackoffRegistryCustomizer {
+	public abstract fun customize (Lpro/vlprojects/semantic/resilience/backoff/spring/boot/BackoffRegistry;)V
 }
 
 public abstract interface class pro/vlprojects/semantic/resilience/backoff/spring/boot/factory/BackoffFactory {

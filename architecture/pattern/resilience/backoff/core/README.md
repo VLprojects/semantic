@@ -40,3 +40,70 @@ RetryPolicy.builder().backOff(ExponentialBackoff.of().jittered().toSpring(maxAtt
 `maxAttempts` is the number of pauses, after which Spring stops. Without it the `BackOff` never stops, which
 suits a listener container that reconnects until the broker is back. `RetryPolicy` refuses `maxRetries` next
 to a custom `BackOff`, so set `maxAttempts` there and in the error handler of Spring Kafka.
+
+## Settings
+
+`semantic-resilience-backoff-spring-boot` builds pauses from `application.yml` and exposes them as the
+`BackoffRegistry` bean:
+
+```yaml
+semantic.resilience.backoff:
+  default:
+    exponential:
+      initial-delay: 1s
+      delay-limit: 1m
+      multiplier: 2
+      jitter: 0.5
+  instances:
+    payments:
+      fixed:
+        delay: 5s
+    orders:
+      exponential:
+        initial-delay: 200ms
+```
+
+```kotlin
+registry["payments"]               // fails when the name is unknown
+registry.getOrDefault("inventory") // the default block for a name with no settings of its own
+registry.default
+```
+
+The key of a block names its type: the name of a `BackoffFactory` bean without the `BackoffFactory` suffix. The
+fields under the key bind to the config class the factory gives as its type argument. `fixed` takes `delay`
+(`1s`) and `exponential` takes `initial-delay` (`1s`), `delay-limit` (`1m`), `multiplier` (`2`) and `jitter`
+(`0`, no jitter).
+
+With nothing set, the type is `exponential`. An instance without a type takes the type of `default` with its
+fields; with the same type it takes the fields it leaves out from `default`; with another type it keeps the
+defaults of that type.
+
+Instance names are keys of a map, so they follow the Spring Boot rules for map keys: an environment variable
+gives a lowercase name without hyphens.
+
+To add an algorithm, declare a `BackoffFactory` bean: `linearBackoffFactory` gives the type `linear`, and a bean
+named `fixedBackoffFactory` replaces the built-in `fixed`.
+
+```kotlin
+@Component
+class LinearBackoffFactory : BackoffFactory<LinearBackoffFactory.Config> {
+
+    override fun create(config: Config) = LinearBackoff(config.step).jittered(config.jitter)
+
+    data class Config(val step: Duration = Duration.ofSeconds(1), val jitter: Double = 0.5)
+}
+```
+
+```yaml
+semantic.resilience.backoff.instances.reports.linear.step: 2s
+```
+
+Any `Backoff` bean is available by its bean name and replaces the settings of an instance with that name; a bean
+named `default` replaces the default block. To change the registry from code, declare a
+`BackoffRegistryCustomizer` bean: it gets the filled registry, settings and beans alike, and may go through
+`names`, `register` and `replace`. Customizers run in `@Order`.
+
+Wrong settings stop the application at start with the name of the instance, even when a bean replaces it: an
+unknown type or field, two types in one block, a value where a block is expected, a value that cannot be
+converted or that the `Backoff` being built refuses. An instance named `default`, two factory beans that give one
+type and a factory without a concrete config class stop it as well.
