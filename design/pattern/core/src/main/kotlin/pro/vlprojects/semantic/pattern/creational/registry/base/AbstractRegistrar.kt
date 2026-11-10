@@ -26,19 +26,15 @@ public abstract class AbstractRegistrar<D : Factory.Definition, T : Any>(
         .forEach { (name, definition) -> register(registry, name, definition) }
 
     private fun register(registry: Registry<T>, name: String, definition: D) = runCatching {
-        definition
-            .let(::create)
-            .let { instance -> registry.register(name, instance) }
-    }.getOrElse { failure ->
-        when (failure) {
-            is RuntimeException -> throw InstanceRegistrationException(name, failure)
-            else -> throw failure
-        }
-    }
+        val factory = resolveFactory(definition)
+        val instance = factory.create(definition)
+        registry.register(name, instance)
+    }.onFailure { failure -> handleFailure(name, failure) }
 
-    private fun create(definition: D) = definition
-        .let(::resolveFactory)
-        .create(definition)
+    private fun handleFailure(name: String, failure: Throwable): Nothing = when (failure) {
+        is Exception -> throw InstanceRegistrationException(name, failure)
+        else -> throw failure
+    }
 
     @Suppress("UNCHECKED_CAST") // factories are keyed by the class of the definition they take
     private fun resolveFactory(definition: D) = factories[definition::class] as Factory<D, T>?
