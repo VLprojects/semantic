@@ -87,7 +87,7 @@ class OutboxDispatcherTests {
     private val dispatcher = OutboxDispatcher(service, deserializer, router, config)
 
     private fun lockOutboxes(count: Int) {
-        repeat(count) { lockedOutboxes += createStartedOutbox(moment, moment) }
+        repeat(count) { lockedOutboxes += createProcessingOutbox(moment, moment) }
     }
 
     @Test

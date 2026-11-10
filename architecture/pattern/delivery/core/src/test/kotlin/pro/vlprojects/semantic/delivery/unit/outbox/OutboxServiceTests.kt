@@ -57,7 +57,7 @@ class OutboxServiceTests {
 
     private val backoff = FixedBackoff.ofSeconds(30)
     private val service = createService(maxAttempts = 2)
-    private val started = createStartedOutbox(moment, moment)
+    private val processing = createProcessingOutbox(moment, moment)
 
     private fun createService(maxAttempts: Int) = OutboxProperties(
         maxAttempts = maxAttempts,
@@ -91,17 +91,17 @@ class OutboxServiceTests {
 
     @Test
     fun `acquiring takes scheduled records from the repository`() {
-        lockedOutboxes += started
+        lockedOutboxes += processing
 
         val acquiredOutboxes = service.acquireScheduledForDelivery(10)
 
-        assertEquals(listOf(started), acquiredOutboxes)
+        assertEquals(listOf(processing), acquiredOutboxes)
         assertEquals(listOf(moment), lockRequests)
     }
 
     @Test
     fun `failing with attempts left plans the next attempt after the backoff`() {
-        val failed = service.fail(started, cause)
+        val failed = service.fail(processing, cause)
 
         assertEquals(DeliveryStatus.FAILED, failed.delivery.status)
         assertEquals(moment.plusSeconds(30), failed.delivery.scheduledAt)
@@ -109,7 +109,7 @@ class OutboxServiceTests {
 
     @Test
     fun `completing records the current time`() {
-        val completed = service.complete(started)
+        val completed = service.complete(processing)
 
         assertEquals(DeliveryStatus.COMPLETED, completed.delivery.status)
         assertEquals(moment, completed.delivery.terminatedAt)
@@ -117,7 +117,7 @@ class OutboxServiceTests {
 
     @Test
     fun `failing without attempts left cancels the delivery and stores the cause`() {
-        val canceled = createService(maxAttempts = 1).fail(started, cause)
+        val canceled = createService(maxAttempts = 1).fail(processing, cause)
 
         assertEquals(DeliveryStatus.CANCELED, canceled.delivery.status)
         assertEquals("java.lang.IllegalStateException: timeout", canceled.delivery.error)
