@@ -31,7 +31,9 @@ public final class pro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision$
 
 public final class pro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision$Factory {
 	public final fun passed (Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision$Capacity;Ljava/time/Duration;)Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision;
+	public final fun passed (Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision$Capacity;Ljava/time/Instant;Ljava/time/Instant;)Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision;
 	public final fun rejected (Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision$Capacity;Ljava/time/Duration;Ljava/time/Duration;)Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision;
+	public final fun rejected (Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision$Capacity;Ljava/time/Instant;Ljava/time/Instant;Ljava/time/Instant;)Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision;
 }
 
 public final class pro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision$Outcome : java/lang/Enum {

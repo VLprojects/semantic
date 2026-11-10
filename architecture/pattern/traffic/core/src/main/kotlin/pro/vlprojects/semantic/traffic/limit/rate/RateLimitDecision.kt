@@ -1,6 +1,7 @@
 package pro.vlprojects.semantic.traffic.limit.rate
 
 import java.time.Duration
+import java.time.Instant
 
 @ConsistentCopyVisibility
 public data class RateLimitDecision private constructor(
@@ -35,7 +36,29 @@ public data class RateLimitDecision private constructor(
         public fun passed(tokens: Capacity, resetAfter: Duration): RateLimitDecision =
             RateLimitDecision(Outcome.PASSED, tokens, retryAfter = Duration.ZERO, resetAfter)
 
+        public fun passed(
+            tokens: Capacity,
+            now: Instant,
+            resetAt: Instant,
+        ): RateLimitDecision {
+            val resetAfter = Duration.between(now, resetAt)
+
+            return passed(tokens, resetAfter)
+        }
+
         public fun rejected(tokens: Capacity, retryAfter: Duration, resetAfter: Duration): RateLimitDecision =
             RateLimitDecision(Outcome.REJECTED, tokens, retryAfter, resetAfter)
+
+        public fun rejected(
+            tokens: Capacity,
+            now: Instant,
+            retryAt: Instant,
+            resetAt: Instant,
+        ): RateLimitDecision {
+            val retryAfter = Duration.between(now, retryAt)
+            val resetAfter = Duration.between(now, resetAt)
+
+            return rejected(tokens, retryAfter, resetAfter)
+        }
     }
 }
