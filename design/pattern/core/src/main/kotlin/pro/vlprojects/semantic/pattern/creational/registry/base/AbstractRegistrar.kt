@@ -28,11 +28,10 @@ public abstract class AbstractRegistrar<D : Factory.Definition, T : Any>(
                 .onFailure { failure -> handleFailure(name, failure) }
         }
 
-    private fun register(registry: Registry<T>, name: String, definition: D) {
-        val factory = resolveFactory(definition)
-        val instance = factory.create(definition)
-        registry.register(name, instance)
-    }
+    private fun register(registry: Registry<T>, name: String, definition: D) = definition
+        .let(::resolveFactory)
+        .create(definition)
+        .let { instance -> registry.register(name, instance) }
 
     private fun handleFailure(name: String, failure: Throwable): Nothing = when (failure) {
         is Exception -> throw InstanceRegistrationException(name, failure)
