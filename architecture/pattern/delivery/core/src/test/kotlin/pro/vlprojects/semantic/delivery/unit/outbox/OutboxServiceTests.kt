@@ -17,7 +17,6 @@ import pro.vlprojects.semantic.delivery.outbox.context.ContextProvider
 import pro.vlprojects.semantic.delivery.outbox.id.OutboxId
 import pro.vlprojects.semantic.resilience.backoff.FixedBackoff
 import java.time.Clock
-import java.time.Duration
 import java.time.Instant
 import java.time.ZoneOffset
 
@@ -25,10 +24,9 @@ class OutboxServiceTests {
 
     private val moment = Instant.parse("2026-11-09T00:00:00Z")
     private val clock = Clock.fixed(moment, ZoneOffset.UTC)
-    private val lockDuration = Duration.ofMinutes(1)
     private val cause = IllegalStateException("timeout")
     private val lockedOutboxes = mutableListOf<Outbox>()
-    private val lockRequests = mutableListOf<Pair<Instant, Instant>>()
+    private val lockRequests = mutableListOf<Instant>()
     private val savedOutboxes = mutableListOf<Outbox>()
     private val generatedId = OutboxId.of("generated")
     private val attributeProvider = AttributeProvider { mapOf("tenant" to "collected", "trace" to "abc") }
@@ -50,23 +48,18 @@ class OutboxServiceTests {
 
         override fun findById(id: OutboxId) = lockedOutboxes.find { outbox -> outbox.id == id }
 
-        override fun lockScheduledForDelivery(
-            scheduledUntil: Instant,
-            lockedUntil: Instant,
-            limit: Int,
-        ) = lockedOutboxes
+        override fun findAndModifyScheduled(startedAt: Instant, limit: Int) = lockedOutboxes
             .take(limit)
-            .also { lockRequests += scheduledUntil to lockedUntil }
+            .also { lockRequests += startedAt }
 
         override fun deleteAll(status: DeliveryStatus, terminatedBefore: Instant, limit: Int) = 0
     }
 
     private val backoff = FixedBackoff.ofSeconds(30)
     private val service = createService(maxAttempts = 2)
-    private val started = createStartedOutbox(moment, moment.plus(lockDuration))
+    private val started = createStartedOutbox(moment, moment)
 
     private fun createService(maxAttempts: Int) = OutboxProperties(
-        lockDuration = lockDuration,
         maxAttempts = maxAttempts,
         backoff = backoff,
     ).let { config ->
@@ -97,13 +90,13 @@ class OutboxServiceTests {
     }
 
     @Test
-    fun `getting with a lock asks the repository to hold scheduled records`() {
+    fun `acquiring takes scheduled records from the repository`() {
         lockedOutboxes += started
 
-        val locked = service.getScheduledWithLock(10)
+        val acquiredOutboxes = service.acquireScheduledForDelivery(10)
 
-        assertEquals(listOf(started), locked)
-        assertEquals(listOf(moment to moment.plus(lockDuration)), lockRequests)
+        assertEquals(listOf(started), acquiredOutboxes)
+        assertEquals(listOf(moment), lockRequests)
     }
 
     @Test

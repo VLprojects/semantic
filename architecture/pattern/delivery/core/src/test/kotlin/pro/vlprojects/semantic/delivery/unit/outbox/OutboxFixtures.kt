@@ -27,12 +27,12 @@ internal fun createOutbox(createdAt: Instant) = Outbox.of(
     clock = Clock.fixed(createdAt, ZoneOffset.UTC),
 )
 
-internal fun createStartedOutbox(createdAt: Instant, lockedUntil: Instant) = Delivery
+internal fun createStartedOutbox(createdAt: Instant, startedAt: Instant) = Delivery
     .of(
         scheduledAt = createdAt,
         status = DeliveryStatus.STARTED,
         attempts = 1,
-        lockedUntil = lockedUntil,
+        startedAt = startedAt,
         terminatedAt = null,
         error = null,
     )

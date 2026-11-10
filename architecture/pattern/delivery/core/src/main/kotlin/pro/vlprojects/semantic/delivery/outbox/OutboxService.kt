@@ -30,11 +30,10 @@ public class OutboxService(
             .let(repository::save)
     }
 
-    public fun getScheduledWithLock(limit: Int): List<Outbox> {
-        val now = clock.instant()
-        val lockedUntil = now.plus(config.lockDuration)
+    public fun acquireScheduledForDelivery(limit: Int): List<Outbox> {
+        val startedAt = clock.instant()
 
-        return repository.lockScheduledForDelivery(now, lockedUntil, limit)
+        return repository.findAndModifyScheduled(startedAt, limit)
     }
 
     public fun complete(outbox: Outbox): Outbox = outbox

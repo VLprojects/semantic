@@ -11,7 +11,7 @@ public data class Delivery private constructor(
     public val scheduledAt: Instant,
     public val status: DeliveryStatus,
     public val attempts: Int,
-    public val lockedUntil: Instant?,
+    public val startedAt: Instant?,
     public val terminatedAt: Instant?,
     public val error: String?,
 ) {
@@ -19,7 +19,7 @@ public data class Delivery private constructor(
     internal fun completed(completedAt: Instant): Delivery {
         checkHasStartedStatus()
 
-        return copy(status = DeliveryStatus.COMPLETED, lockedUntil = null, terminatedAt = completedAt, error = null)
+        return copy(status = DeliveryStatus.COMPLETED, terminatedAt = completedAt, error = null)
     }
 
     internal fun failed(scheduledAt: Instant, error: String): Delivery {
@@ -33,7 +33,6 @@ public data class Delivery private constructor(
         return copy(
             scheduledAt = scheduledAt,
             status = DeliveryStatus.FAILED,
-            lockedUntil = null,
             error = abbreviatedError,
         )
     }
@@ -54,7 +53,7 @@ public data class Delivery private constructor(
             scheduledAt = scheduledAt,
             status = DeliveryStatus.PENDING,
             attempts = 0,
-            lockedUntil = null,
+            startedAt = null,
             terminatedAt = null,
             error = null,
         )
@@ -63,9 +62,9 @@ public data class Delivery private constructor(
             scheduledAt: Instant,
             status: DeliveryStatus,
             attempts: Int,
-            lockedUntil: Instant?,
+            startedAt: Instant?,
             terminatedAt: Instant?,
             error: String?,
-        ): Delivery = Delivery(scheduledAt, status, attempts, lockedUntil, terminatedAt, error)
+        ): Delivery = Delivery(scheduledAt, status, attempts, startedAt, terminatedAt, error)
     }
 }
