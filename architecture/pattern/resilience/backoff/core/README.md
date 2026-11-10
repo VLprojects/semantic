@@ -110,4 +110,5 @@ named `default` replaces the default block. To change the registry from code, de
 
 Wrong settings stop the application at start with the name of the instance, even when a bean replaces it: an
 unknown type or field, two types in one block, a value where a block is expected, a value that cannot be
-converted or that the `Backoff` being built refuses. An instance named `default` and two factories of one `type` stop it as well.
+converted or that the `Backoff` being built refuses. An instance named `default` and two factories of one `type`
+stop it as well.
