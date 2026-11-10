@@ -8,9 +8,9 @@ public class UniqueDeliveryRoutingPolicy : DeliveryRoutingPolicy {
     override fun select(
         destination: DeliveryDestination,
         deliverers: List<OutboxDeliverer<*>>,
-    ): List<OutboxDeliverer<*>> = when (deliverers.size) {
+    ): OutboxDeliverer<*> = when (deliverers.size) {
         0 -> throw OutboxDelivererNotResolvedException(destination)
-        1 -> deliverers
+        1 -> deliverers.single()
         else -> throw MultipleOutboxDeliverersException(destination)
     }
 }

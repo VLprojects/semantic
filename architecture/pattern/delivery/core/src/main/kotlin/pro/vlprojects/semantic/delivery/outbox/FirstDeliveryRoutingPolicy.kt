@@ -7,7 +7,6 @@ public class FirstDeliveryRoutingPolicy : DeliveryRoutingPolicy {
     override fun select(
         destination: DeliveryDestination,
         deliverers: List<OutboxDeliverer<*>>,
-    ): List<OutboxDeliverer<*>> = deliverers
-        .take(1)
-        .ifEmpty { throw OutboxDelivererNotResolvedException(destination) }
+    ): OutboxDeliverer<*> = deliverers.firstOrNull()
+        ?: throw OutboxDelivererNotResolvedException(destination)
 }

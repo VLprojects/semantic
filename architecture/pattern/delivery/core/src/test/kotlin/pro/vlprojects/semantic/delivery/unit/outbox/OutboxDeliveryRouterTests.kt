@@ -2,9 +2,7 @@ package pro.vlprojects.semantic.delivery.unit.outbox
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import pro.vlprojects.semantic.delivery.outbox.BroadcastDeliveryRoutingPolicy
 import pro.vlprojects.semantic.delivery.outbox.DeliveryDestination
 import pro.vlprojects.semantic.delivery.outbox.DeliveryRoutingPolicy
 import pro.vlprojects.semantic.delivery.outbox.FallbackDeliveryRoutingPolicy
@@ -24,7 +22,7 @@ class OutboxDeliveryRouterTests {
     fun `determine returns the deliverer that supports the destination`() {
         val router = OutboxDeliveryRouter(listOf(localDeliverer, brokerDeliverer))
 
-        assertEquals(listOf(brokerDeliverer), router.determine(brokerDestination))
+        assertEquals(brokerDeliverer, router.determine(brokerDestination))
     }
 
     @Test
@@ -42,19 +40,11 @@ class OutboxDeliveryRouterTests {
     }
 
     @Test
-    fun `determine returns only the deliverers the policy selects`() {
-        val policy = DeliveryRoutingPolicy { _, _ -> emptyList() }
+    fun `determine returns the deliverer the policy selects`() {
+        val policy = DeliveryRoutingPolicy { _, _ -> localDeliverer }
         val router = OutboxDeliveryRouter(listOf(brokerDeliverer), policy)
 
-        assertTrue(router.determine(brokerDestination).isEmpty())
-    }
-
-    @Test
-    fun `determine returns every deliverer the policy selects`() {
-        val second = BrokerDeliverer()
-        val router = OutboxDeliveryRouter(listOf(brokerDeliverer, second), BroadcastDeliveryRoutingPolicy())
-
-        assertEquals(listOf(brokerDeliverer, second), router.determine(brokerDestination))
+        assertEquals(localDeliverer, router.determine(brokerDestination))
     }
 
     @Test
@@ -67,7 +57,7 @@ class OutboxDeliveryRouterTests {
         }
         val router = OutboxDeliveryRouter(listOf(localDeliverer), FallbackDeliveryRoutingPolicy(fallback))
 
-        assertEquals(listOf(fallback), router.determine(brokerDestination))
+        assertEquals(fallback, router.determine(brokerDestination))
     }
 
     private data class BrokerDestination(val exchange: String) : DeliveryDestination

@@ -8,12 +8,12 @@ public class OutboxDeliveryRouter(
 ) {
 
     @Throws(OutboxRoutingException::class)
-    public fun determine(destination: DeliveryDestination): List<OutboxDeliverer<DeliveryDestination>> = deliverers
+    public fun determine(destination: DeliveryDestination): OutboxDeliverer<DeliveryDestination> = deliverers
         .filter { deliverer -> deliverer.supports(destination) }
         .let { deliverers -> policy.select(destination, deliverers) }
-        .map(::cast)
+        .let(::cast)
 
-    // A selected deliverer either supports the destination or accepts any
+    // The selected deliverer either supports the destination or accepts any
     @Suppress("UNCHECKED_CAST")
     private fun cast(deliverer: OutboxDeliverer<*>) = deliverer as OutboxDeliverer<DeliveryDestination>
 }

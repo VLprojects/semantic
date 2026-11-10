@@ -3,7 +3,6 @@ package pro.vlprojects.semantic.delivery.unit.outbox
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
-import pro.vlprojects.semantic.delivery.outbox.BroadcastDeliveryRoutingPolicy
 import pro.vlprojects.semantic.delivery.outbox.DeliveryDestination
 import pro.vlprojects.semantic.delivery.outbox.FallbackDeliveryRoutingPolicy
 import pro.vlprojects.semantic.delivery.outbox.FirstDeliveryRoutingPolicy
@@ -21,7 +20,7 @@ class DeliveryRoutingPolicyTests {
 
     @Test
     fun `unique keeps the only deliverer`() {
-        assertEquals(listOf(deliverer), UniqueDeliveryRoutingPolicy().select(TestDestination, listOf(deliverer)))
+        assertEquals(deliverer, UniqueDeliveryRoutingPolicy().select(TestDestination, listOf(deliverer)))
     }
 
     @Test
@@ -39,24 +38,10 @@ class DeliveryRoutingPolicyTests {
     }
 
     @Test
-    fun `broadcast keeps every deliverer`() {
-        val deliverers = listOf(deliverer, otherDeliverer)
-
-        assertEquals(deliverers, BroadcastDeliveryRoutingPolicy().select(TestDestination, deliverers))
-    }
-
-    @Test
-    fun `broadcast fails without deliverers`() {
-        assertThrows(OutboxDelivererNotResolvedException::class.java) {
-            BroadcastDeliveryRoutingPolicy().select(TestDestination, emptyList())
-        }
-    }
-
-    @Test
-    fun `first keeps only the first deliverer`() {
+    fun `first selects the first deliverer`() {
         val selected = FirstDeliveryRoutingPolicy().select(TestDestination, listOf(deliverer, otherDeliverer))
 
-        assertEquals(listOf(deliverer), selected)
+        assertEquals(deliverer, selected)
     }
 
     @Test
@@ -67,10 +52,10 @@ class DeliveryRoutingPolicyTests {
     }
 
     @Test
-    fun `last keeps only the last deliverer`() {
+    fun `last selects the last deliverer`() {
         val selected = LastDeliveryRoutingPolicy().select(TestDestination, listOf(deliverer, otherDeliverer))
 
-        assertEquals(listOf(otherDeliverer), selected)
+        assertEquals(otherDeliverer, selected)
     }
 
     @Test
@@ -82,14 +67,21 @@ class DeliveryRoutingPolicyTests {
 
     @Test
     fun `fallback gives its deliverer when none was found`() {
-        assertEquals(listOf(deliverer), FallbackDeliveryRoutingPolicy(deliverer).select(TestDestination, emptyList()))
+        assertEquals(deliverer, FallbackDeliveryRoutingPolicy(deliverer).select(TestDestination, emptyList()))
     }
 
     @Test
-    fun `fallback keeps the found deliverers`() {
-        val deliverers = listOf(otherDeliverer)
+    fun `fallback keeps the found deliverer`() {
+        val selected = FallbackDeliveryRoutingPolicy(deliverer).select(TestDestination, listOf(otherDeliverer))
 
-        assertEquals(deliverers, FallbackDeliveryRoutingPolicy(deliverer).select(TestDestination, deliverers))
+        assertEquals(otherDeliverer, selected)
+    }
+
+    @Test
+    fun `fallback fails with several deliverers`() {
+        assertThrows(MultipleOutboxDeliverersException::class.java) {
+            FallbackDeliveryRoutingPolicy(deliverer).select(TestDestination, listOf(deliverer, otherDeliverer))
+        }
     }
 
     private data object TestDestination : DeliveryDestination

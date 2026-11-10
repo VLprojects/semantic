@@ -20,9 +20,9 @@ public class OutboxDispatcher(
 
     private fun deliver(outbox: Outbox) {
         val destination = deserializer.deserialize(outbox.destination)
-        val deliverers = router.determine(destination)
+        val deliverer = router.determine(destination)
 
-        deliverers.forEach { deliverer -> deliverer.send(outbox, destination) }
+        deliverer.send(outbox, destination)
     }
 
     private fun complete(outbox: Outbox) = ignoreTakeover { service.complete(outbox) }
