@@ -14,18 +14,15 @@ public class OutboxDispatcher(
         .onEach(::process)
         .size
 
-    private fun process(outbox: Outbox) {
-        val failure = try {
-            val destination = deserializer.deserialize(outbox.destination)
-            val deliverers = router.determine(destination)
+    private fun process(outbox: Outbox) = outbox
+        .let(::resolveDeliverers)
+        .mapCatching { (destination, deliverers) -> deliver(outbox, destination, deliverers) }
+        .let { delivery -> saveResult(outbox, delivery) }
 
-            deliver(outbox, destination, deliverers)
-            null
-        } catch (exception: Exception) {
-            exception
-        }
+    private fun resolveDeliverers(outbox: Outbox) = runCatching {
+        val destination = deserializer.deserialize(outbox.destination)
 
-        saveResult(outbox, failure)
+        destination to router.determine(destination)
     }
 
     private fun deliver(
@@ -34,12 +31,12 @@ public class OutboxDispatcher(
         deliverers: List<OutboxDeliverer<DeliveryDestination>>,
     ) = deliverers.forEach { deliverer -> deliverer.send(outbox, destination) }
 
-    private fun saveResult(outbox: Outbox, failure: Exception?) {
+    private fun saveResult(outbox: Outbox, delivery: Result<Unit>) {
         try {
-            when (failure) {
-                null -> service.complete(outbox)
-                else -> service.fail(outbox, failure)
-            }
+            delivery.fold(
+                onSuccess = { service.complete(outbox) },
+                onFailure = { failure -> service.fail(outbox, failure) },
+            )
         } catch (_: OutboxOptimisticLockException) {
             // The lock expired and another instance took the record over
         }
