@@ -13,11 +13,7 @@ public interface Registry<T : Any> {
 
     public fun register(name: String, instance: T)
 
-    public fun register(name: String, supplier: () -> T)
+    public fun replace(name: String, instance: T): T
 
-    public fun replace(name: String, instance: T)
-
-    public fun replace(name: String, supplier: () -> T)
-
-    public fun unregister(name: String)
+    public fun unregister(name: String): T
 }

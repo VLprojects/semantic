@@ -3,7 +3,7 @@ public abstract interface class pro/vlprojects/semantic/pattern/creational/facto
 }
 
 public abstract interface class pro/vlprojects/semantic/pattern/creational/registry/Registrar {
-	public abstract fun register (Lpro/vlprojects/semantic/pattern/creational/registry/Registry;)V
+	public abstract fun populate (Lpro/vlprojects/semantic/pattern/creational/registry/Registry;)V
 }
 
 public abstract interface class pro/vlprojects/semantic/pattern/creational/registry/Registry {
@@ -12,9 +12,7 @@ public abstract interface class pro/vlprojects/semantic/pattern/creational/regis
 	public fun get (Ljava/lang/String;)Ljava/lang/Object;
 	public abstract fun getNames ()Ljava/util/Set;
 	public abstract fun register (Ljava/lang/String;Ljava/lang/Object;)V
-	public abstract fun register (Ljava/lang/String;Lkotlin/jvm/functions/Function0;)V
-	public abstract fun replace (Ljava/lang/String;Ljava/lang/Object;)V
-	public abstract fun replace (Ljava/lang/String;Lkotlin/jvm/functions/Function0;)V
-	public abstract fun unregister (Ljava/lang/String;)V
+	public abstract fun replace (Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;
+	public abstract fun unregister (Ljava/lang/String;)Ljava/lang/Object;
 }
 
