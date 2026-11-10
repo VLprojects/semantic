@@ -45,7 +45,7 @@ class TokenBucketTests {
         val empty = TokenBucketState.of(0, moment)
         val expected = RateLimitDecision.passed(
             tokens = Capacity.of(3, -1),
-            delay = Duration.ofMillis(600),
+            retryAfter = Duration.ofMillis(600),
             resetAfter = Duration.ofMillis(3600),
         )
 
@@ -61,7 +61,7 @@ class TokenBucketTests {
 
         val result = bucket.allow(indebted, 1, moment, maxWait = Duration.ofSeconds(2))
 
-        assertEquals(Duration.ofSeconds(2), result.decision.delay)
+        assertEquals(Duration.ofSeconds(2), result.decision.retryAfter)
         assertEquals(TokenBucketState.of(-2, moment), result.state)
     }
 

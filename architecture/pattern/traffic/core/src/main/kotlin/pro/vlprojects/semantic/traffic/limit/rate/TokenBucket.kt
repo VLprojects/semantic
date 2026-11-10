@@ -22,11 +22,11 @@ public class TokenBucket private constructor(
         require(!maxWait.isNegative) { "The maximum wait must not be negative: $maxWait" }
 
         val bucket = refill(state, now)
-        val delay = calculateRefillTime(bucket, tokens, now)
+        val retryAfter = calculateRefillTime(bucket, tokens, now)
 
         return when {
-            delay <= maxWait -> consume(bucket, tokens, delay, now)
-            else -> reject(bucket, delay, now)
+            retryAfter <= maxWait -> consume(bucket, tokens, retryAfter, now)
+            else -> reject(bucket, retryAfter, now)
         }
     }
 
@@ -51,13 +51,13 @@ public class TokenBucket private constructor(
     }
 
     // Tokens taken ahead of the refill go below zero, so later calls wait behind this one.
-    private fun consume(bucket: TokenBucketState, tokens: Int, delay: Duration, now: Instant): RateLimitResult {
+    private fun consume(bucket: TokenBucketState, tokens: Int, retryAfter: Duration, now: Instant): RateLimitResult {
         val consumed = TokenBucketState.of(bucket.tokens - tokens, bucket.refilledAt)
         val resetAfter = calculateRefillTime(consumed, capacity, now)
 
         return consumed
             .let(::measure)
-            .let { measured -> RateLimitDecision.passed(measured, delay, resetAfter) }
+            .let { measured -> RateLimitDecision.passed(measured, retryAfter, resetAfter) }
             .let { decision -> RateLimitResult.of(consumed, decision) }
     }
 

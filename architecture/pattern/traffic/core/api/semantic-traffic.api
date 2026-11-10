@@ -4,9 +4,7 @@ public final class pro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision 
 	public final fun component2 ()Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision$Capacity;
 	public final fun component3 ()Ljava/time/Duration;
 	public final fun component4 ()Ljava/time/Duration;
-	public final fun component5 ()Ljava/time/Duration;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getDelay ()Ljava/time/Duration;
 	public final fun getOutcome ()Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision$Outcome;
 	public final fun getResetAfter ()Ljava/time/Duration;
 	public final fun getRetryAfter ()Ljava/time/Duration;
@@ -35,6 +33,7 @@ public final class pro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision$
 	public final fun passed (Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision$Capacity;Ljava/time/Duration;)Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision;
 	public final fun passed (Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision$Capacity;Ljava/time/Duration;Ljava/time/Duration;)Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision;
 	public final fun passed (Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision$Capacity;Ljava/time/Instant;Ljava/time/Instant;)Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision;
+	public final fun passed (Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision$Capacity;Ljava/time/Instant;Ljava/time/Instant;Ljava/time/Instant;)Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision;
 	public final fun rejected (Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision$Capacity;Ljava/time/Duration;Ljava/time/Duration;)Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision;
 	public final fun rejected (Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision$Capacity;Ljava/time/Instant;Ljava/time/Instant;Ljava/time/Instant;)Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision;
 }
