@@ -6,7 +6,7 @@ never exceeded. The algorithms are the five from chapter 4, "Design a Rate Limit
 "System Design Interview", volume 1. Storage sits behind an interface: memory by default, Redis for
 a counter shared by all instances, and any other store that can compare a version.
 
-This is the agreed design; only the `core` module exists so far, and it is empty.
+This is the agreed design; only the `core` module exists so far, with `TokenBucket` and a counter in memory.
 
 ![Modules of traffic and what each one holds](../../../docs/assets/traffic-light.svg#gh-light-mode-only)
 ![Modules of traffic and what each one holds](../../../docs/assets/traffic-dark.svg#gh-dark-mode-only)
@@ -40,6 +40,7 @@ requests, after Netflix concurrency-limits, gets a design of its own later.
 | `RateLimiter` | `tryAcquire(key, permits)` answers at once; the extension `acquire(key, permits, maxWait)` waits for a permit or throws `RateLimitExceededException` | knows neither the algorithm nor the storage | Guava `RateLimiter`, ASP.NET `RateLimiter` |
 | `DefaultRateLimiter` | reads the counter, asks the algorithm, saves the new state by version; on a conflict it repeats, up to `max-attempts` times; applies `on-failure` when storage fails | holds no formula | Bucket4j `AbstractCompareAndSwapBasedProxyManager` |
 | `RateLimitAlgorithm` | a sealed pure function: state, permits and time in, new state and decision out | reads no clock, touches no storage | Bucket4j `Bandwidth`, ASP.NET `TokenBucketRateLimiter` |
+| `RateLimitResult` | the new state and the response of one call | | Bucket4j `VerboseResult` |
 | `RateLimitState` | the state of one algorithm, one subtype each; the core turns it into bytes and back | | Bucket4j `RemoteBucketState` |
 | `RateLimitCounter` | what storage keeps: key, state, version, `expiresAt` | | Spring Data `@Version` |
 | `RateLimitRepository` | `findByKey`, and `save` that throws `RateLimitOptimisticLockException` when the version has changed | decides nothing | Spring Data `CrudRepository`, `OutboxRepository` |
@@ -112,7 +113,7 @@ is full again; then storage drops it, by `PX` in Redis.
 
 | Case | What happens | Setting |
 | --- | --- | --- |
-| storage is down | the call goes through with a WARN and without `RateLimit` headers; `reject` turns it down | `on-failure: allow`, as Spring Cloud Gateway |
+| storage is down | the call goes through with a WARN and without `RateLimit` headers; `reject` turns it down | `on-failure: allow`, as Spring Cloud Gateway; `RateLimitFailureMode`, after Envoy `failure_mode_deny` |
 | version conflicts in a row | after `max-attempts` the same rule as a failure | `max-attempts: 8` |
 | a key is no longer used | the counter is removed after `expiresAt` | |
 | the process restarts | a counter in memory starts over; one in Redis stays | |

@@ -1,0 +1,129 @@
+public final class pro/vlprojects/semantic/traffic/DefaultRateLimiter : pro/vlprojects/semantic/traffic/RateLimiter {
+	public fun <init> (Ljava/lang/String;Lpro/vlprojects/semantic/traffic/RateLimitAlgorithm;Lpro/vlprojects/semantic/traffic/RateLimitRepository;Ljava/time/Clock;ILpro/vlprojects/semantic/traffic/RateLimitFailureMode;)V
+	public synthetic fun <init> (Ljava/lang/String;Lpro/vlprojects/semantic/traffic/RateLimitAlgorithm;Lpro/vlprojects/semantic/traffic/RateLimitRepository;Ljava/time/Clock;ILpro/vlprojects/semantic/traffic/RateLimitFailureMode;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getName ()Ljava/lang/String;
+	public fun tryAcquire (Ljava/lang/String;I)Lpro/vlprojects/semantic/traffic/RateLimitResponse;
+}
+
+public final class pro/vlprojects/semantic/traffic/InMemoryRateLimitRepository : pro/vlprojects/semantic/traffic/RateLimitRepository {
+	public fun <init> ()V
+	public fun <init> (Ljava/time/Clock;)V
+	public synthetic fun <init> (Ljava/time/Clock;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun findByKey (Ljava/lang/String;)Lpro/vlprojects/semantic/traffic/RateLimitCounter;
+	public fun save (Lpro/vlprojects/semantic/traffic/RateLimitCounter;)Lpro/vlprojects/semantic/traffic/RateLimitCounter;
+}
+
+public abstract interface class pro/vlprojects/semantic/traffic/RateLimitAlgorithm {
+	public abstract fun getPermitLimit ()I
+	public abstract fun getWindow ()Ljava/time/Duration;
+	public abstract fun tryAcquire (Lpro/vlprojects/semantic/traffic/RateLimitState;ILjava/time/Instant;)Lpro/vlprojects/semantic/traffic/RateLimitResult;
+}
+
+public final class pro/vlprojects/semantic/traffic/RateLimitCounter {
+	public static final field Factory Lpro/vlprojects/semantic/traffic/RateLimitCounter$Factory;
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Lpro/vlprojects/semantic/traffic/RateLimitState;
+	public final fun component3 ()J
+	public final fun component4 ()Ljava/time/Instant;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getExpiresAt ()Ljava/time/Instant;
+	public final fun getKey ()Ljava/lang/String;
+	public final fun getState ()Lpro/vlprojects/semantic/traffic/RateLimitState;
+	public final fun getVersion ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/traffic/RateLimitCounter$Factory {
+	public final fun of (Ljava/lang/String;Lpro/vlprojects/semantic/traffic/RateLimitState;JLjava/time/Instant;)Lpro/vlprojects/semantic/traffic/RateLimitCounter;
+}
+
+public final class pro/vlprojects/semantic/traffic/RateLimitFailureMode : java/lang/Enum {
+	public static final field ALLOW Lpro/vlprojects/semantic/traffic/RateLimitFailureMode;
+	public static final field REJECT Lpro/vlprojects/semantic/traffic/RateLimitFailureMode;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lpro/vlprojects/semantic/traffic/RateLimitFailureMode;
+	public static fun values ()[Lpro/vlprojects/semantic/traffic/RateLimitFailureMode;
+}
+
+public abstract interface class pro/vlprojects/semantic/traffic/RateLimitRepository {
+	public abstract fun findByKey (Ljava/lang/String;)Lpro/vlprojects/semantic/traffic/RateLimitCounter;
+	public abstract fun save (Lpro/vlprojects/semantic/traffic/RateLimitCounter;)Lpro/vlprojects/semantic/traffic/RateLimitCounter;
+}
+
+public final class pro/vlprojects/semantic/traffic/RateLimitResponse {
+	public static final field Factory Lpro/vlprojects/semantic/traffic/RateLimitResponse$Factory;
+	public final fun component1 ()Z
+	public final fun component2 ()Ljava/time/Duration;
+	public final fun component3 ()I
+	public final fun component4 ()Ljava/time/Duration;
+	public final fun component5 ()Ljava/time/Duration;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDelay ()Ljava/time/Duration;
+	public final fun getRemaining ()I
+	public final fun getResetAfter ()Ljava/time/Duration;
+	public final fun getRetryAfter ()Ljava/time/Duration;
+	public fun hashCode ()I
+	public final fun isAcquired ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/traffic/RateLimitResponse$Factory {
+	public final fun acquired (ILjava/time/Duration;)Lpro/vlprojects/semantic/traffic/RateLimitResponse;
+	public final fun rejected (ILjava/time/Duration;Ljava/time/Duration;)Lpro/vlprojects/semantic/traffic/RateLimitResponse;
+}
+
+public final class pro/vlprojects/semantic/traffic/RateLimitResult {
+	public static final field Factory Lpro/vlprojects/semantic/traffic/RateLimitResult$Factory;
+	public final fun component1 ()Lpro/vlprojects/semantic/traffic/RateLimitState;
+	public final fun component2 ()Lpro/vlprojects/semantic/traffic/RateLimitResponse;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getResponse ()Lpro/vlprojects/semantic/traffic/RateLimitResponse;
+	public final fun getState ()Lpro/vlprojects/semantic/traffic/RateLimitState;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/traffic/RateLimitResult$Factory {
+	public final fun of (Lpro/vlprojects/semantic/traffic/RateLimitState;Lpro/vlprojects/semantic/traffic/RateLimitResponse;)Lpro/vlprojects/semantic/traffic/RateLimitResult;
+}
+
+public abstract interface class pro/vlprojects/semantic/traffic/RateLimitState {
+}
+
+public abstract interface class pro/vlprojects/semantic/traffic/RateLimiter {
+	public abstract fun getName ()Ljava/lang/String;
+	public abstract fun tryAcquire (Ljava/lang/String;I)Lpro/vlprojects/semantic/traffic/RateLimitResponse;
+	public static synthetic fun tryAcquire$default (Lpro/vlprojects/semantic/traffic/RateLimiter;Ljava/lang/String;IILjava/lang/Object;)Lpro/vlprojects/semantic/traffic/RateLimitResponse;
+}
+
+public final class pro/vlprojects/semantic/traffic/TokenBucket : pro/vlprojects/semantic/traffic/RateLimitAlgorithm {
+	public static final field Factory Lpro/vlprojects/semantic/traffic/TokenBucket$Factory;
+	public fun getPermitLimit ()I
+	public fun getWindow ()Ljava/time/Duration;
+	public fun tryAcquire (Lpro/vlprojects/semantic/traffic/RateLimitState;ILjava/time/Instant;)Lpro/vlprojects/semantic/traffic/RateLimitResult;
+}
+
+public final class pro/vlprojects/semantic/traffic/TokenBucket$Factory {
+	public final fun of (ILjava/time/Duration;)Lpro/vlprojects/semantic/traffic/TokenBucket;
+}
+
+public final class pro/vlprojects/semantic/traffic/TokenBucketState : pro/vlprojects/semantic/traffic/RateLimitState {
+	public static final field Factory Lpro/vlprojects/semantic/traffic/TokenBucketState$Factory;
+	public final fun component1 ()I
+	public final fun component2 ()Ljava/time/Instant;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getRefilledAt ()Ljava/time/Instant;
+	public final fun getTokens ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/traffic/TokenBucketState$Factory {
+	public final fun of (ILjava/time/Instant;)Lpro/vlprojects/semantic/traffic/TokenBucketState;
+}
+
+public final class pro/vlprojects/semantic/traffic/error/RateLimitOptimisticLockException : java/util/ConcurrentModificationException {
+	public fun <init> (Ljava/lang/String;)V
+}
+

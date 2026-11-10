@@ -1,3 +1,7 @@
 plugins {
     id("semantic.kotlin-library")
 }
+
+dependencies {
+    implementation(libs.slf4j.api)
+}
