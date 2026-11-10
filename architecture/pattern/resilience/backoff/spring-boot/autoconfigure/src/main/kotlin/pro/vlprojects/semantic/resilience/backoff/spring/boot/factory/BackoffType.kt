@@ -24,16 +24,19 @@ internal class BackoffType<C : Any> private constructor(
         }
 
         // A bean name gives the type the way Spring Boot names health contributors: without the standard suffix.
-        private fun readName(beanName: String) = beanName
-            .let(::removeSuffix)
-            .let { name -> ConfigurationPropertyName.adapt(name, NAME_SEPARATOR) }
-            .takeIf(::isSingleElement)
-            ?: throw IllegalArgumentException(
-                "The backoff factory bean '$beanName' gives the type '${removeSuffix(beanName)}': " +
-                    "it must be a single property name, so give the bean a short name",
-            )
+        private fun readName(beanName: String): ConfigurationPropertyName {
+            val type = removeStandardSuffix(beanName)
 
-        private fun removeSuffix(beanName: String) = when {
+            return ConfigurationPropertyName
+                .adapt(type, NAME_SEPARATOR)
+                .takeIf(::isSingleElement)
+                ?: throw IllegalArgumentException(
+                    "The backoff factory bean '$beanName' gives the type '$type': " +
+                        "it must be a single property name, so give the bean a short name",
+                )
+        }
+
+        private fun removeStandardSuffix(beanName: String) = when {
             beanName.endsWith(BEAN_NAME_SUFFIX, ignoreCase = true) -> beanName.dropLast(BEAN_NAME_SUFFIX.length)
             else -> beanName
         }

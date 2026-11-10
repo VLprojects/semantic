@@ -16,7 +16,7 @@ import pro.vlprojects.semantic.resilience.backoff.spring.boot.factory.BackoffTyp
 
 private const val DEFAULT_PROPERTY_NAME = "$BACKOFF_PROPERTIES_PREFIX.$DEFAULT_BACKOFF_NAME"
 private const val INSTANCES_PROPERTY_NAME = "$BACKOFF_PROPERTIES_PREFIX.instances"
-private const val DEFAULT_TYPE_NAME = "exponential"
+private const val FALLBACK_TYPE_NAME = "exponential"
 private const val KEY_SEPARATOR = '.'
 
 internal class BackoffPropertiesRegistrar(
@@ -24,21 +24,20 @@ internal class BackoffPropertiesRegistrar(
     private val types: BackoffTypeRegistry,
 ) {
 
-    private val defaultTypeName = ConfigurationPropertyName.of(DEFAULT_TYPE_NAME)
+    private val fallbackTypeName = ConfigurationPropertyName.of(FALLBACK_TYPE_NAME)
 
-    private val defaultType by lazy {
-        findType(DEFAULT_PROPERTY_NAME, properties.default)
-            ?: types.find(defaultTypeName)
-            ?: throw IllegalStateException("No backoff factory bean gives the type '$DEFAULT_TYPE_NAME'")
-    }
+    private val defaultType = findType(DEFAULT_PROPERTY_NAME, properties.default) ?: getFallbackType()
 
     fun registerBackoffs(registry: BackoffRegistry) {
         requireNoInstanceNamedDefault()
-        registry.register(DEFAULT_BACKOFF_NAME, createBackoff(DEFAULT_PROPERTY_NAME, properties.default))
+        registerBackoff(registry, DEFAULT_BACKOFF_NAME, DEFAULT_PROPERTY_NAME, properties.default)
         properties.instances.forEach { (name, settings) ->
-            registry.register(name, createBackoff("$INSTANCES_PROPERTY_NAME[$name]", settings))
+            registerBackoff(registry, name, "$INSTANCES_PROPERTY_NAME[$name]", settings)
         }
     }
+
+    private fun getFallbackType() = types.find(fallbackTypeName)
+        ?: throw IllegalStateException("No backoff factory bean gives the type '$FALLBACK_TYPE_NAME'")
 
     private fun requireNoInstanceNamedDefault() {
         if (DEFAULT_BACKOFF_NAME in properties.instances) {
@@ -50,15 +49,16 @@ internal class BackoffPropertiesRegistrar(
         }
     }
 
-    private fun createBackoff(blockName: String, settings: Map<String, String>): Backoff {
+    private fun registerBackoff(
+        registry: BackoffRegistry,
+        name: String,
+        blockName: String,
+        settings: Map<String, String>,
+    ) {
         val type = findType(blockName, settings) ?: defaultType
-        val binder = createBinder(blockName, settings)
+        val backoff = createBackoff(blockName, settings, type)
 
-        return try {
-            createBackoff(blockName, type, binder)
-        } catch (failure: IllegalArgumentException) {
-            throw InvalidConfigurationPropertyValueException(blockName, settings, failure.message)
-        }
+        registry.register(name, backoff)
     }
 
     private fun findType(blockName: String, settings: Map<String, String>): BackoffType<*>? {
@@ -73,31 +73,52 @@ internal class BackoffPropertiesRegistrar(
 
         return typeNames
             .singleOrNull()
-            ?.let { typeName -> findType(blockName, typeName) }
+            ?.let { typeName -> getType(blockName, typeName) }
     }
 
-    private fun findType(blockName: String, typeName: ConfigurationPropertyName) = types.find(typeName)
-        ?: throw InvalidConfigurationPropertyValueException(
-            blockName,
-            typeName.getLastElement(Form.ORIGINAL),
-            "Unknown backoff type. Available types: ${types.names}",
-        )
+    private fun getType(blockName: String, typeName: ConfigurationPropertyName): BackoffType<*> {
+        val type = typeName.getLastElement(Form.ORIGINAL)
 
-    // The default block goes second, so a field of the instance takes priority over the same field of the default.
-    private fun createBinder(blockName: String, settings: Map<String, String>) = listOf(settings, properties.default)
-        .map { blockSettings -> blockSettings.filterValues(String::isNotBlank) }
-        .map(::MapConfigurationPropertySource)
-        .map { source -> source.withPrefix(blockName) }
-        .let(::Binder)
+        return types.find(typeName)
+            ?: throw InvalidConfigurationPropertyValueException(
+                blockName,
+                type,
+                "Unknown backoff type. Available types: ${types.names}",
+            )
+    }
 
-    private fun <C : Any> createBackoff(blockName: String, type: BackoffType<C>, binder: Binder): Backoff {
+    private fun <C : Any> createBackoff(
+        blockName: String,
+        settings: Map<String, String>,
+        type: BackoffType<C>,
+    ): Backoff {
+        val config = bindConfig(blockName, settings, type)
+
+        return try {
+            type.factory.create(config)
+        } catch (failure: IllegalArgumentException) {
+            throw createInvalidValueFailure(blockName, settings, failure)
+        }
+    }
+
+    private fun <C : Any> bindConfig(blockName: String, settings: Map<String, String>, type: BackoffType<C>): C {
         val configName = ConfigurationPropertyName
             .of(blockName)
             .append(type.name)
         val target = Bindable.of(type.configClass)
         val handler = NoUnboundElementsBindHandler(BindHandler.DEFAULT)
-        val config = binder.bindOrCreate(configName, target, handler)
 
-        return type.factory.create(config)
+        return createBinder(blockName, settings).bindOrCreate(configName, target, handler)
     }
+
+    // The default block goes second, so a field of the instance takes priority over the same field of the default.
+    private fun createBinder(blockName: String, settings: Map<String, String>) = listOf(settings, properties.default)
+        .map { blockSettings -> blockSettings.filterValues(String::isNotBlank) }
+        .map { blockSettings -> blockSettings.mapKeys { (key) -> "$blockName$KEY_SEPARATOR$key" } }
+        .map(::MapConfigurationPropertySource)
+        .let(::Binder)
+
+    private fun createInvalidValueFailure(blockName: String, settings: Map<String, String>, cause: Throwable) =
+        InvalidConfigurationPropertyValueException(blockName, settings, cause.message)
+            .apply { initCause(cause) }
 }
