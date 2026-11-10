@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 516" width="1024" height="516" role="img">
+  <rect width="1024" height="516" rx="12" fill="#F6F8FA"/>
+  <g transform="translate(12,12)">
+    <rect x="16" y="16" width="968" height="460" rx="12" fill="#FFFFFF"/>
+    <text x="40.0" y="52.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1F2328" text-anchor="start">An incoming request</text>
+    <text x="40.0" y="76.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#59636E" text-anchor="start">spring/webmvc: a filter before DispatcherServlet; the limit comes from the path, the key from the request</text>
+    <rect x="40.0" y="112.0" width="285.3" height="112.0" rx="6" fill="#DDF7E7"/>
+    <text x="56.0" y="142.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">RateLimitingFilter</text>
+    <text x="56.0" y="168.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">a rule by path: /api/** →</text>
+    <text x="56.0" y="186.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">limit api, key principal</text>
+    <rect x="357.3" y="112.0" width="285.3" height="112.0" rx="6" fill="#DDF7E7"/>
+    <text x="373.3" y="142.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">KeyResolver</text>
+    <text x="373.3" y="168.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">principal, IP, a header</text>
+    <text x="373.3" y="186.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">X-Tenant-Id or a lambda</text>
+    <rect x="674.7" y="112.0" width="285.3" height="112.0" rx="6" fill="#E3EFFF"/>
+    <text x="690.7" y="142.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">RateLimiter</text>
+    <text x="690.7" y="168.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">allow("api:alice", 1)</text>
+    <path d="M331.3333333333333,168.0 L345.3333333333333,168.0" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M344.3333333333333,164.0 L351.3333333333333,168.0 L344.3333333333333,172.0 Z" fill="#AFB8C1"/>
+    <path d="M648.6666666666666,168.0 L662.6666666666666,168.0" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M661.6666666666666,164.0 L668.6666666666666,168.0 L661.6666666666666,172.0 Z" fill="#AFB8C1"/>
+    <text x="40.0" y="260.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="500" fill="#1F2328" text-anchor="start">acquired</text>
+    <text x="516.0" y="260.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="500" fill="#1F2328" text-anchor="start">rejected</text>
+    <rect x="40.0" y="272.0" width="444.0" height="152.0" rx="6" fill="#E3E8ED"/>
+    <rect x="40.0" y="272.0" width="4.0" height="152.0" rx="2" fill="#22C063"/>
+    <text x="60.0" y="300.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#1F2328" text-anchor="start">HTTP/1.1 200 OK</text>
+    <text x="60.0" y="324.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">RateLimit-Policy: "api";q=100;w=60</text>
+    <text x="60.0" y="348.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">RateLimit: "api";r=37;t=21</text>
+    <text x="60.0" y="372.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start"></text>
+    <text x="60.0" y="396.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">the request goes on down the chain</text>
+    <rect x="516.0" y="272.0" width="444.0" height="152.0" rx="6" fill="#E3E8ED"/>
+    <rect x="516.0" y="272.0" width="4.0" height="152.0" rx="2" fill="#EE2D62"/>
+    <text x="536.0" y="300.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#1F2328" text-anchor="start">HTTP/1.1 429 Too Many Requests</text>
+    <text x="536.0" y="324.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">Retry-After: 4</text>
+    <text x="536.0" y="348.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">RateLimit: "api";r=0;t=4</text>
+    <text x="536.0" y="372.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">Content-Type: application/problem+json</text>
+    <text x="536.0" y="396.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">RateLimitRejectionHandler</text>
+    <path d="M817.3333333333333,230 L817.3333333333333,244 L262.0,244 L262.0,244" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M817.3333333333333,244 L738.0,244 L738.0,244" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="40.0" y="452.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">RateLimit headers follow the IETF draft-ietf-httpapi-ratelimit-headers and are off by default; Retry-After follows RFC 9110 and is always sent.</text>
+  </g>
+</svg>

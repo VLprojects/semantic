@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 456" width="1024" height="456" role="img">
+  <rect width="1024" height="456" rx="12" fill="#F6F8FA"/>
+  <g transform="translate(12,12)">
+    <rect x="16" y="16" width="968" height="400" rx="12" fill="#FFFFFF"/>
+    <text x="40.0" y="52.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1F2328" text-anchor="start">Optional: more pollers under load, fewer when idle</text>
+    <text x="40.0" y="76.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#59636E" text-anchor="start">concurrency 1, max-concurrency 8; 10 000 records arrive at once</text>
+    <text x="40.0" y="132.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="500" fill="#1F2328" text-anchor="start">waiting</text>
+    <path d="M200.0,192 L200.0,128.0 L238.0,131.8 L276.0,142.1 L314.0,155.5 L352.0,169.0 L390.0,181.8 L428.0,192.0 L960.0,192 Z" fill="#FF9F2E" fill-opacity="0.2"/>
+    <path d="M200.0,128 L200.0,128.0 L238.0,131.8 L276.0,142.1 L314.0,155.5 L352.0,169.0 L390.0,181.8 L428.0,192.0 L960.0,192" stroke="#FF9F2E" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="192.0" y="132.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="end">10 000</text>
+    <text x="192.0" y="196.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="end">0</text>
+    <text x="40.0" y="244.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="500" fill="#1F2328" text-anchor="start">pollers</text>
+    <rect x="200.0" y="240.0" width="760.0" height="1.0" rx="0" fill="#DDE2E7"/>
+    <text x="192.0" y="244.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="end">8</text>
+    <rect x="200.0" y="352.0" width="760.0" height="1.0" rx="0" fill="#DDE2E7"/>
+    <text x="192.0" y="356.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="end">1</text>
+    <path d="M200.0,352 L212.7,352 L212.7,336 L225.3,336 L225.3,320 L238.0,320 L238.0,304 L250.7,304 L250.7,288 L263.3,288 L263.3,272 L276.0,272 L276.0,256 L288.7,256 L288.7,240 L443.2,240 L443.2,256 L519.2,256 L519.2,272 L595.2,272 L595.2,288 L671.2,288 L671.2,304 L747.2,304 L747.2,320 L823.2,320 L823.2,336 L899.2,336 L899.2,352 L960.0,352" stroke="#1A7CFF" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="200.0" y="368.0" width="760.0" height="1.0" rx="0" fill="#AFB8C1"/>
+    <rect x="428.0" y="120.0" width="1.0" height="248.0" rx="0" fill="#AFB8C1"/>
+    <text x="436.0" y="132.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="start">all delivered</text>
+    <text x="302.6" y="288.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1F2328" text-anchor="start">+1 poller every 10 s</text>
+    <text x="302.6" y="306.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">while batches are full</text>
+    <text x="610.4" y="260.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#1F2328" text-anchor="start">−1 poller every 60 s</text>
+    <text x="610.4" y="278.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">once batches are no longer full</text>
+    <text x="200.0" y="392.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">0 min</text>
+    <text x="352.0" y="392.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="middle">2 min</text>
+    <text x="504.0" y="392.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="middle">4 min</text>
+    <text x="656.0" y="392.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="middle">6 min</text>
+    <text x="808.0" y="392.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="middle">8 min</text>
+    <text x="960.0" y="392.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="end">10 min</text>
+  </g>
+</svg>

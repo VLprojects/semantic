@@ -256,7 +256,7 @@ TREE = [
 				("tracking", "new, dirty, removed"), ("commit", "one transaction"),
 			])), (1, ("blue", "architecture/pattern/resilience/core", "semantic-resilience", "survive a failing dependency", [
 				("circuitbreaker", "fail fast"), ("retry", "transient faults"), ("backoff", "exponential, jitter"),
-				("timeout", "bounded waits"), ("bulkhead", "isolated pools"), ("fallback", "degraded answer"),
+				("deadline", "bounded waits"), ("bulkhead", "isolated pools"), ("fallback", "degraded answer"),
 			]))],
 			[(1, ("blue", "architecture/pattern/rollout/core", "semantic-rollout", "features released in code", [
 				("featureflag", "on, off per user"), ("killswitch", "emergency off"), ("canary", "growing share"),
@@ -318,6 +318,11 @@ TREE = [
 			[(1, ("green", "design/ddd/spring/data/core", "semantic-ddd-spring-data", "aggregates in Spring Data")),
 				(1, ("green", "design/ddd/spring/data/jpa", "semantic-ddd-spring-data-jpa", "JPA mapping")),
 				(1, ("green", "design/ddd/spring/data/mongodb", "semantic-ddd-spring-data-mongodb", "MongoDB mapping"))],
+		]),
+		("pattern", "classic patterns of objects, grouped as the Gang of Four groups them", [
+			[(1, ("blue", "design/pattern/core", "semantic-pattern", "registry, registrar and factory; no framework", [
+				("creational", "patterns of creation", ["registry", "factory"]),
+			]))],
 		]),
 	])],
 	[("idiom", "extensions of the Kotlin standard library", [(None, None, [

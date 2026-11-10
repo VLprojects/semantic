@@ -1,0 +1,49 @@
+package pro.vlprojects.semantic.delivery.unit.outbox
+
+import pro.vlprojects.semantic.delivery.outbox.Delivery
+import pro.vlprojects.semantic.delivery.outbox.DeliveryStatus
+import pro.vlprojects.semantic.delivery.outbox.Outbox
+import pro.vlprojects.semantic.delivery.outbox.Payload
+import pro.vlprojects.semantic.delivery.outbox.context.Context
+import pro.vlprojects.semantic.delivery.outbox.id.OutboxId
+import java.time.Clock
+import java.time.Instant
+import java.time.ZoneOffset
+
+private val identifier = OutboxId.of("record")
+private val payload = Payload.of("OrderPlaced", byteArrayOf(1))
+private const val DESTINATION = "orders"
+private val context = Context.of(
+    orderingKey = "order-1",
+    idempotencyKey = "operation",
+    attributes = mapOf("trace" to "abc"),
+)
+
+internal fun createOutbox(createdAt: Instant) = Outbox.of(
+    id = identifier,
+    payload = payload,
+    destination = DESTINATION,
+    context = context,
+    clock = Clock.fixed(createdAt, ZoneOffset.UTC),
+)
+
+internal fun createProcessingOutbox(createdAt: Instant, startedAt: Instant) = Delivery
+    .of(
+        scheduledAt = createdAt,
+        status = DeliveryStatus.PROCESSING,
+        attempts = 1,
+        startedAt = startedAt,
+        terminatedAt = null,
+        error = null,
+    )
+    .let { delivery ->
+        Outbox.of(
+            id = identifier,
+            payload = payload,
+            destination = DESTINATION,
+            context = context,
+            createdAt = createdAt,
+            delivery = delivery,
+            version = 1,
+        )
+    }

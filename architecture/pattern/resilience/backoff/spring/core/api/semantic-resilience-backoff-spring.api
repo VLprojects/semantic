@@ -1,0 +1,5 @@
+public final class pro/vlprojects/semantic/resilience/backoff/spring/extension/BackoffExtensionsKt {
+	public static final fun toSpring (Lpro/vlprojects/semantic/resilience/backoff/Backoff;Ljava/lang/Integer;)Lorg/springframework/util/backoff/BackOff;
+	public static synthetic fun toSpring$default (Lpro/vlprojects/semantic/resilience/backoff/Backoff;Ljava/lang/Integer;ILjava/lang/Object;)Lorg/springframework/util/backoff/BackOff;
+}
+
