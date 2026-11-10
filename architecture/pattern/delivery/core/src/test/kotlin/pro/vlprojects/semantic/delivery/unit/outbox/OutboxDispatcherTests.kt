@@ -46,11 +46,10 @@ class OutboxDispatcherTests {
 
         override fun findById(id: OutboxId) = null
 
-        override fun lockScheduledForDelivery(
-            scheduledUntil: Instant,
-            startedAt: Instant,
-            limit: Int,
-        ) = lockedOutboxes.also { requestedLimits += limit }
+        override fun lockScheduledForDelivery(startedAt: Instant, limit: Int) = lockedOutboxes.also {
+            requestedLimits +=
+                limit
+        }
 
         override fun deleteAll(status: DeliveryStatus, terminatedBefore: Instant, limit: Int) = 0
     }

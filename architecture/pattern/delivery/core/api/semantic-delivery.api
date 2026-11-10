@@ -123,7 +123,7 @@ public final class pro/vlprojects/semantic/delivery/outbox/OutboxProperties {
 public abstract interface class pro/vlprojects/semantic/delivery/outbox/OutboxRepository {
 	public abstract fun deleteAll (Lpro/vlprojects/semantic/delivery/outbox/DeliveryStatus;Ljava/time/Instant;I)I
 	public abstract fun findById (Lpro/vlprojects/semantic/delivery/outbox/id/OutboxId;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
-	public abstract fun lockScheduledForDelivery (Ljava/time/Instant;Ljava/time/Instant;I)Ljava/util/List;
+	public abstract fun lockScheduledForDelivery (Ljava/time/Instant;I)Ljava/util/List;
 	public abstract fun save (Lpro/vlprojects/semantic/delivery/outbox/Outbox;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
 }
 

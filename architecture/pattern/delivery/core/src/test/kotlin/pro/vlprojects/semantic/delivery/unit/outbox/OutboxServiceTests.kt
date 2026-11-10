@@ -26,7 +26,7 @@ class OutboxServiceTests {
     private val clock = Clock.fixed(moment, ZoneOffset.UTC)
     private val cause = IllegalStateException("timeout")
     private val lockedOutboxes = mutableListOf<Outbox>()
-    private val lockRequests = mutableListOf<Pair<Instant, Instant>>()
+    private val lockRequests = mutableListOf<Instant>()
     private val savedOutboxes = mutableListOf<Outbox>()
     private val generatedId = OutboxId.of("generated")
     private val attributeProvider = AttributeProvider { mapOf("tenant" to "collected", "trace" to "abc") }
@@ -48,13 +48,9 @@ class OutboxServiceTests {
 
         override fun findById(id: OutboxId) = lockedOutboxes.find { outbox -> outbox.id == id }
 
-        override fun lockScheduledForDelivery(
-            scheduledUntil: Instant,
-            startedAt: Instant,
-            limit: Int,
-        ) = lockedOutboxes
+        override fun lockScheduledForDelivery(startedAt: Instant, limit: Int) = lockedOutboxes
             .take(limit)
-            .also { lockRequests += scheduledUntil to startedAt }
+            .also { lockRequests += startedAt }
 
         override fun deleteAll(status: DeliveryStatus, terminatedBefore: Instant, limit: Int) = 0
     }
@@ -100,7 +96,7 @@ class OutboxServiceTests {
         val locked = service.getScheduledWithLock(10)
 
         assertEquals(listOf(started), locked)
-        assertEquals(listOf(moment to moment), lockRequests)
+        assertEquals(listOf(moment), lockRequests)
     }
 
     @Test

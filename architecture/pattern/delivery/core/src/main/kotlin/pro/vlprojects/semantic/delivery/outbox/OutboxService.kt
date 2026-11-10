@@ -31,9 +31,9 @@ public class OutboxService(
     }
 
     public fun getScheduledWithLock(limit: Int): List<Outbox> {
-        val now = clock.instant()
+        val startedAt = clock.instant()
 
-        return repository.lockScheduledForDelivery(now, now, limit)
+        return repository.lockScheduledForDelivery(startedAt, limit)
     }
 
     public fun complete(outbox: Outbox): Outbox = outbox
