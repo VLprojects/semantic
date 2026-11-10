@@ -25,11 +25,11 @@ public class OutboxDispatcher(
         deliverer.send(outbox, destination)
     }
 
-    private fun complete(outbox: Outbox) = ignoreTakeover { service.complete(outbox) }
+    private fun complete(outbox: Outbox) = skipOnOptimisticLock { service.complete(outbox) }
 
-    private fun fail(outbox: Outbox, cause: Throwable) = ignoreTakeover { service.fail(outbox, cause) }
+    private fun fail(outbox: Outbox, cause: Throwable) = skipOnOptimisticLock { service.fail(outbox, cause) }
 
-    private fun ignoreTakeover(save: () -> Outbox) {
+    private fun skipOnOptimisticLock(save: () -> Outbox) {
         try {
             save()
         } catch (_: OutboxOptimisticLockException) {
