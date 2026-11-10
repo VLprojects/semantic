@@ -41,15 +41,16 @@ internal class BackoffPropertiesRegistrar(
             ?: throw IllegalArgumentException("Several backoff factories declare the type '$type': $names")
     }
 
-    private fun registerBackoff(registry: BackoffRegistry, name: String, instance: BackoffProperties) =
-        createBackoff(name, instance).let { backoff -> registry.register(name, backoff) }
+    private fun registerBackoff(registry: BackoffRegistry, name: String, instance: BackoffProperties) {
+        val backoff = try {
+            createBackoff(instance)
+        } catch (failure: BindException) {
+            throw createMisconfiguredFailure(name, "${failure.message}: ${failure.cause?.message}", failure.cause)
+        } catch (failure: RuntimeException) {
+            throw createMisconfiguredFailure(name, failure.message, failure)
+        }
 
-    private fun createBackoff(name: String, instance: BackoffProperties) = try {
-        createBackoff(instance)
-    } catch (failure: BindException) {
-        throw createMisconfiguredFailure(name, "${failure.message}: ${failure.cause?.message}", failure.cause)
-    } catch (failure: RuntimeException) {
-        throw createMisconfiguredFailure(name, failure.message, failure)
+        registry.register(name, backoff)
     }
 
     private fun createBackoff(instance: BackoffProperties): Backoff {
