@@ -93,10 +93,10 @@ class AbstractRegistryTests {
     }
 
     @Test
-    fun `the instances are listed with their names`() {
+    fun `all the instances are listed`() {
         registry.register("morning", "Good morning")
         registry.register("evening", "Good evening")
 
-        assertEquals(mapOf("morning" to "Good morning", "evening" to "Good evening"), registry.instances)
+        assertEquals(setOf("Good morning", "Good evening"), registry.getAll().toSet())
     }
 }

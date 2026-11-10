@@ -7,8 +7,6 @@ import pro.vlprojects.semantic.pattern.creational.registry.error.InvalidNameExce
 
 public interface Registry<T : Any> {
 
-    public val instances: Map<String, T>
-
     @get:Throws(DefaultInstanceNotFoundException::class)
     public val default: T
         get() = find(DEFAULT_NAME)
@@ -25,6 +23,8 @@ public interface Registry<T : Any> {
         ?: default
 
     public operator fun contains(name: String): Boolean = find(name) != null
+
+    public fun getAll(): Collection<T>
 
     @Throws(InvalidNameException::class, InstanceAlreadyExistsException::class)
     public fun register(name: String, instance: T)

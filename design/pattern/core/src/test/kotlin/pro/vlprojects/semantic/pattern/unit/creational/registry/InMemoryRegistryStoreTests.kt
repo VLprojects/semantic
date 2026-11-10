@@ -49,12 +49,12 @@ class InMemoryRegistryStoreTests {
     }
 
     @Test
-    fun `the instances are a snapshot that later changes do not touch`() {
+    fun `all the instances are a snapshot that later changes do not touch`() {
         store.putIfAbsent("morning", "Good morning")
-        val instances = store.instances
+        val instances = store.getAll()
 
         store.putIfAbsent("evening", "Good evening")
 
-        assertEquals(mapOf("morning" to "Good morning"), instances)
+        assertEquals(listOf("Good morning"), instances)
     }
 }

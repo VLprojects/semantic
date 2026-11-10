@@ -13,9 +13,9 @@ public class pro/vlprojects/semantic/pattern/creational/factory/error/InvalidDef
 public final class pro/vlprojects/semantic/pattern/creational/registry/InMemoryRegistryStore : pro/vlprojects/semantic/pattern/creational/registry/RegistryStore {
 	public fun <init> ()V
 	public fun find (Ljava/lang/String;)Ljava/lang/Object;
+	public fun getAll ()Ljava/util/Collection;
 	public fun getAndRemove (Ljava/lang/String;)Ljava/lang/Object;
 	public fun getAndReplace (Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;
-	public fun getInstances ()Ljava/util/Map;
 	public fun putIfAbsent (Ljava/lang/String;Ljava/lang/Object;)Z
 }
 
@@ -29,8 +29,8 @@ public abstract interface class pro/vlprojects/semantic/pattern/creational/regis
 	public fun contains (Ljava/lang/String;)Z
 	public abstract fun find (Ljava/lang/String;)Ljava/lang/Object;
 	public fun get (Ljava/lang/String;)Ljava/lang/Object;
+	public abstract fun getAll ()Ljava/util/Collection;
 	public fun getDefault ()Ljava/lang/Object;
-	public abstract fun getInstances ()Ljava/util/Map;
 	public fun getOrDefault (Ljava/lang/String;)Ljava/lang/Object;
 	public abstract fun register (Ljava/lang/String;Ljava/lang/Object;)V
 	public abstract fun replace (Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;
@@ -43,16 +43,16 @@ public final class pro/vlprojects/semantic/pattern/creational/registry/Registry$
 
 public abstract interface class pro/vlprojects/semantic/pattern/creational/registry/RegistryStore {
 	public abstract fun find (Ljava/lang/String;)Ljava/lang/Object;
+	public abstract fun getAll ()Ljava/util/Collection;
 	public abstract fun getAndRemove (Ljava/lang/String;)Ljava/lang/Object;
 	public abstract fun getAndReplace (Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;
-	public abstract fun getInstances ()Ljava/util/Map;
 	public abstract fun putIfAbsent (Ljava/lang/String;Ljava/lang/Object;)Z
 }
 
 public abstract class pro/vlprojects/semantic/pattern/creational/registry/base/AbstractRegistry : pro/vlprojects/semantic/pattern/creational/registry/Registry {
 	public fun <init> (Lpro/vlprojects/semantic/pattern/creational/registry/RegistryStore;)V
 	public fun find (Ljava/lang/String;)Ljava/lang/Object;
-	public fun getInstances ()Ljava/util/Map;
+	public fun getAll ()Ljava/util/Collection;
 	public fun register (Ljava/lang/String;Ljava/lang/Object;)V
 	public fun replace (Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;
 	public fun unregister (Ljava/lang/String;)Ljava/lang/Object;
