@@ -46,12 +46,12 @@ public class OutboxDispatcher(
         val delivery = outbox.delivery
 
         logger
-            .atLevel(getLevel(delivery.status))
+            .atLevel(resolveLevel(delivery.status))
             .setCause(error)
             .log { "Outbox ${outbox.id} failed ${delivery.attempts} times and is ${delivery.status}" }
     }
 
-    private fun getLevel(status: DeliveryStatus) = when (status) {
+    private fun resolveLevel(status: DeliveryStatus) = when (status) {
         DeliveryStatus.CANCELED -> config.logging.cancellation.level
         else -> config.logging.failure.level
     }
