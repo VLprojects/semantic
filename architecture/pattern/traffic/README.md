@@ -46,7 +46,7 @@ requests, after Netflix concurrency-limits, gets a design of its own later.
 | `RateLimitCounter` | what storage keeps: key, state, version, `expiresAt` | | Spring Data `@Version` |
 | `RateLimitRepository` | `findByKey`, and `save` that throws `RateLimitOptimisticLockException` when the version has changed | decides nothing | Spring Data `CrudRepository`, `OutboxRepository` |
 | `InMemoryRateLimitRepository` | the default, on `ConcurrentHashMap.compute`; drops counters after `expiresAt` | is not shared by instances | Bucket4j `LockFreeBucket` |
-| `RateLimitDecision` | `isAllowed`, `remaining`, `retryAfter`, `resetAfter`; `LeakyBucket` adds `delay` | | Spring Security `AuthorizationDecision`, go-redis `redis_rate` `Result` |
+| `RateLimitDecision` | `status` of `RateLimitStatus`: `PASSED` or `REJECTED`; `remaining`, `retryAfter`, `resetAfter`; `LeakyBucket` adds `delay` | | Spring Security `AuthorizationDecision`, go-redis `redis_rate` `Result`, Envoy `RateLimitResponse.Code` |
 | `RateLimiterRegistry` | `findByName(name)`: one limiter for the filter, the interceptor and `@RateLimit`; `InMemoryRateLimiterRegistry` by default | builds no limiter from settings, autoconfigure does | Resilience4j `RateLimiterRegistry`, Spring `CacheManager` |
 | `@RateLimit` | on a method or a class: `limiter`, `key` in SpEL, `cost`, `maxWait` as text such as `"500ms"` | counts nothing | Spring `@ConcurrencyLimit`, SmallRye `@RateLimit` |
 | `RateLimitBeanPostProcessor` | wraps a bean with `@RateLimit` in a proxy; an unknown limiter name stops the application at startup | needs no AspectJ | Spring `ConcurrencyLimitBeanPostProcessor`, `ScheduledAnnotationBeanPostProcessor` |
@@ -169,9 +169,9 @@ Without Spring:
 ```kotlin
 val limiter = DefaultRateLimiter("api", TokenBucket.of(100, Duration.ofMinutes(1)), InMemoryRateLimitRepository())
 
-limiter.allow(key)
-    .takeIf(RateLimitDecision::isAllowed)
-    ?: return tooManyRequests()
+if (limiter.allow(key).status == RateLimitStatus.REJECTED) {
+    return tooManyRequests()
+}
 ```
 
 In Spring the starter creates a limiter per entry of `limiters` and puts it into `RateLimiterRegistry`,

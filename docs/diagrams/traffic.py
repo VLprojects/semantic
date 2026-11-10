@@ -98,7 +98,7 @@ def abstractions(pal):
 	card(a, RX, y[1], BW, "blue", "class", "DefaultRateLimiter", "reads, counts, saves by version")
 	card(a, BX, y[2], BW, "blue", "sealed interface", "RateLimitStrategy", "the five algorithms of Alex Xu")
 	card(a, RX, y[2], BW, "blue", "interface", "RateLimitRepository", "findByKey, save by version")
-	card(a, BX, y[3], BW, "blue", "data", "RateLimitDecision", "allowed, retryAfter, resetAfter")
+	card(a, BX, y[3], BW, "blue", "data", "RateLimitDecision", "status, retryAfter, resetAfter")
 	card(a, RX, y[3], BW, "blue", "class", "InMemoryRateLimitRepository", "the default, in memory")
 	card(a, RX, y[4], BW, "green", "adapters", "RedisRateLimitRepository", "shared by all instances")
 	mid = b.BLOCK / 2
