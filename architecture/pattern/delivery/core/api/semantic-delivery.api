@@ -160,7 +160,7 @@ public final class pro/vlprojects/semantic/delivery/outbox/UniqueDeliveryRouting
 }
 
 public abstract interface class pro/vlprojects/semantic/delivery/outbox/context/AttributeProvider : pro/vlprojects/semantic/delivery/outbox/context/ContextProvider {
-	public fun provide (Ljava/lang/Object;Lpro/vlprojects/semantic/delivery/outbox/context/Context$Builder;)V
+	public fun enrich (Ljava/lang/Object;Lpro/vlprojects/semantic/delivery/outbox/context/Context$Builder;)V
 	public abstract fun provideAttributes ()Ljava/util/Map;
 }
 
@@ -196,7 +196,7 @@ public final class pro/vlprojects/semantic/delivery/outbox/context/ContextCollec
 }
 
 public abstract interface class pro/vlprojects/semantic/delivery/outbox/context/ContextProvider {
-	public abstract fun provide (Ljava/lang/Object;Lpro/vlprojects/semantic/delivery/outbox/context/Context$Builder;)V
+	public abstract fun enrich (Ljava/lang/Object;Lpro/vlprojects/semantic/delivery/outbox/context/Context$Builder;)V
 }
 
 public abstract interface class pro/vlprojects/semantic/delivery/outbox/error/ErrorPolicy {
