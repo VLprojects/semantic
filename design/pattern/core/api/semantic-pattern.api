@@ -16,3 +16,11 @@ public abstract interface class pro/vlprojects/semantic/pattern/creational/regis
 	public abstract fun unregister (Ljava/lang/String;)Ljava/lang/Object;
 }
 
+public abstract interface class pro/vlprojects/semantic/pattern/creational/registry/RegistryStore {
+	public abstract fun find (Ljava/lang/String;)Ljava/lang/Object;
+	public abstract fun getNames ()Ljava/util/Set;
+	public abstract fun putIfAbsent (Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;
+	public abstract fun remove (Ljava/lang/String;)Ljava/lang/Object;
+	public abstract fun replace (Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;
+}
+

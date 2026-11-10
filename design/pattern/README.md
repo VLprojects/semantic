@@ -12,20 +12,21 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 
 | Package | What is there |
 | --- | --- |
-| `creational.registry` | `Registry`, named instances of one type that the whole application shares and manages at run time; `Registrar`, populates a registry at startup from one source |
+| `creational.registry` | `Registry`, named instances of one type that the whole application shares and manages at run time; `Registrar`, populates a registry at startup from one source; `RegistryStore`, keeps the instances of a registry |
 | `creational.factory` | `Factory`, an instance made of its definition |
 
 `structural` and `behavioral` get packages when a pattern of them is needed.
 
-## Registry, registrar, factory
+## Registry, registrar, factory, store
 
-Three roles, each with one reason to change:
+Four roles, each with one reason to change:
 
 | Role | What it does | What it does not | Samples |
 | --- | --- | --- | --- |
 | `Registry<T>` | keeps instances by name and finds them; replaces and removes them at run time | builds nothing, knows no factory and no settings | Spring `SingletonBeanRegistry`, Spring Boot `SslBundleRegistry`, Resilience4j `Registry` |
 | `Registrar<T>` | populates a registry once at startup from one source: settings, annotations, beans, code | hands out no instance, nobody asks it | Spring `BeanRegistrar`, Spring Boot `SslBundleRegistrar`; `populate` as in Spring Data `RepositoryPopulator` and Spring JDBC `DatabasePopulator` |
 | `Factory<D, T>` | makes an instance of its definition | knows no name | Spring AMQP `RabbitListenerContainerFactory`, the factories of backoff |
+| `RegistryStore<T>` | keeps the instances of a registry: `find`, `putIfAbsent`, `replace`, `remove`, each atomic | checks no name, throws no exception of the contract | Resilience4j `RegistryStore`, `ConcurrentMap` of the JDK |
 
 A definition is the data an instance is made of, the delays of an exponential
 backoff for one; it carries no name, as a Spring `BeanDefinition` does not. The
@@ -58,7 +59,12 @@ registry is injected, never reached through a static, so it is no Service Locato
 - `replace` and `unregister` return the instance they took out, for its owner to close it,
   as `replace` in Resilience4j and `unregisterContributor` in Spring Boot do.
 - `get` of an unknown name throws `NoSuchElementException`, `find` returns `null`.
-- `names` keep the order of registration, so logs and actuator stay stable.
+- The order of `names` is the order of the store.
+
+A registry checks a name and turns the answers of its store into the exceptions above:
+`putIfAbsent` that returns an instance means a taken name, `replace` or `remove` that
+returns `null` means an unknown one. The store keeps instances in memory by default; a
+cache or a database fits it too, for an instance that can be serialized.
 
 A registrar makes every instance at startup, not on its first lookup: a wrong
 definition stops the startup instead of failing a call later, as a singleton in Spring
@@ -70,7 +76,7 @@ the later one replaces it on purpose: a bean from code overrides a setting by `r
 
 ## Plan
 
-1. The contracts of `Registry`, `Registrar` and `Factory`.
-2. `InMemoryRegistry`: copy on write under a monitor.
+1. The contracts of `Registry`, `Registrar`, `Factory` and `RegistryStore`.
+2. `AbstractRegistry` over a `RegistryStore`, and `InMemoryRegistryStore` on `ConcurrentHashMap`, as in Resilience4j.
 3. Metrics of a registry, kept in step with its changes without events.
 4. A Spring Boot adapter: a registrar over settings, taken out of backoff.
