@@ -14,10 +14,12 @@ public class OutboxDispatcher(
         .onEach(::process)
         .size
 
-    private fun process(outbox: Outbox) = outbox
-        .let(::resolveDeliverers)
-        .mapCatching { (destination, deliverers) -> deliver(outbox, destination, deliverers) }
-        .let { delivery -> saveResult(outbox, delivery) }
+    private fun process(outbox: Outbox) {
+        val deliverers = resolveDeliverers(outbox)
+        val delivery = deliver(outbox, deliverers)
+
+        saveResult(outbox, delivery)
+    }
 
     private fun resolveDeliverers(outbox: Outbox) = runCatching {
         val destination = deserializer.deserialize(outbox.destination)
@@ -27,9 +29,10 @@ public class OutboxDispatcher(
 
     private fun deliver(
         outbox: Outbox,
-        destination: DeliveryDestination,
-        deliverers: List<OutboxDeliverer<DeliveryDestination>>,
-    ) = deliverers.forEach { deliverer -> deliverer.send(outbox, destination) }
+        deliverers: Result<Pair<DeliveryDestination, List<OutboxDeliverer<DeliveryDestination>>>>,
+    ) = deliverers.mapCatching { (destination, selected) ->
+        selected.forEach { deliverer -> deliverer.send(outbox, destination) }
+    }
 
     private fun saveResult(outbox: Outbox, delivery: Result<Unit>) {
         try {
