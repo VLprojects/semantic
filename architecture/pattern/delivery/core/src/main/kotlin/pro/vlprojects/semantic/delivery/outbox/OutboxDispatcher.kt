@@ -14,11 +14,9 @@ public class OutboxDispatcher(
         .onEach(::process)
         .size
 
-    private fun process(outbox: Outbox) {
-        runCatching { deliver(outbox) }
-            .onSuccess { complete(outbox) }
-            .onFailure { failure -> fail(outbox, failure) }
-    }
+    private fun process(outbox: Outbox) = runCatching { deliver(outbox) }
+        .onSuccess { complete(outbox) }
+        .onFailure { failure -> fail(outbox, failure) }
 
     private fun deliver(outbox: Outbox) {
         val destination = deserializer.deserialize(outbox.destination)
