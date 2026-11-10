@@ -14,5 +14,7 @@ public interface OutboxRepository {
 
     public fun findAndModifyScheduled(startedAt: Instant, limit: Int): List<Outbox>
 
+    public fun findAllProcessing(startedBefore: Instant, limit: Int): List<Outbox>
+
     public fun deleteAll(status: DeliveryStatus, terminatedBefore: Instant, limit: Int): Int
 }

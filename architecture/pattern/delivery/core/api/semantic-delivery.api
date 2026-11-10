@@ -122,6 +122,7 @@ public final class pro/vlprojects/semantic/delivery/outbox/OutboxProperties {
 
 public abstract interface class pro/vlprojects/semantic/delivery/outbox/OutboxRepository {
 	public abstract fun deleteAll (Lpro/vlprojects/semantic/delivery/outbox/DeliveryStatus;Ljava/time/Instant;I)I
+	public abstract fun findAllProcessing (Ljava/time/Instant;I)Ljava/util/List;
 	public abstract fun findAndModifyScheduled (Ljava/time/Instant;I)Ljava/util/List;
 	public abstract fun findById (Lpro/vlprojects/semantic/delivery/outbox/id/OutboxId;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
 	public abstract fun save (Lpro/vlprojects/semantic/delivery/outbox/Outbox;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
@@ -133,6 +134,7 @@ public final class pro/vlprojects/semantic/delivery/outbox/OutboxService {
 	public final fun complete (Lpro/vlprojects/semantic/delivery/outbox/Outbox;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
 	public final fun create (Ljava/lang/Object;Lpro/vlprojects/semantic/delivery/outbox/DeliveryDestination;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
 	public final fun fail (Lpro/vlprojects/semantic/delivery/outbox/Outbox;Ljava/lang/Throwable;)Lpro/vlprojects/semantic/delivery/outbox/Outbox;
+	public final fun recoverStale (I)Ljava/util/List;
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/OutboxStalenessProperties {
