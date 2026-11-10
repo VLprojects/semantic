@@ -1,5 +1,6 @@
 package pro.vlprojects.semantic.delivery.outbox
 
+import org.slf4j.event.Level
 import pro.vlprojects.semantic.delivery.outbox.error.ErrorPolicy
 import pro.vlprojects.semantic.delivery.outbox.error.RootCauseErrorPolicy
 import pro.vlprojects.semantic.resilience.backoff.Backoff
@@ -12,6 +13,8 @@ public data class OutboxProperties(
     public val backoff: Backoff = ExponentialBackoff.of(),
     public val errorPolicy: ErrorPolicy = RootCauseErrorPolicy(),
     public val batchSize: Int = 100,
+    public val failureLogLevel: Level = Level.WARN,
+    public val cancellationLogLevel: Level = Level.ERROR,
 ) {
 
     init {

@@ -4,5 +4,6 @@ plugins {
 
 dependencies {
     api(project(":semantic-resilience-backoff"))
+    api(libs.slf4j.api)
     implementation(project(":semantic-format"))
 }

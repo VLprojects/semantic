@@ -1,5 +1,6 @@
 package pro.vlprojects.semantic.delivery.outbox
 
+import org.slf4j.LoggerFactory
 import pro.vlprojects.semantic.delivery.outbox.error.OutboxOptimisticLockException
 
 public class OutboxDispatcher(
@@ -8,6 +9,8 @@ public class OutboxDispatcher(
     private val router: OutboxDeliveryRouter,
     private val config: OutboxProperties,
 ) {
+
+    private val logger = LoggerFactory.getLogger(OutboxDispatcher::class.java)
 
     public fun dispatch(): Int = service
         .getScheduledWithLock(config.batchSize)
@@ -25,14 +28,29 @@ public class OutboxDispatcher(
         deliverer.send(outbox, destination)
     }
 
-    private fun complete(outbox: Outbox) = skipOnOptimisticLock { service.complete(outbox) }
+    private fun complete(outbox: Outbox) = skipOnOptimisticLock(outbox) { service.complete(outbox) }
 
-    private fun fail(outbox: Outbox, cause: Throwable) = skipOnOptimisticLock { service.fail(outbox, cause) }
+    private fun fail(outbox: Outbox, error: Throwable) = skipOnOptimisticLock(outbox) { service.fail(outbox, error) }
+        ?.let { failed -> logFailure(failed, error) }
 
-    private fun skipOnOptimisticLock(save: () -> Outbox) = try {
+    private fun skipOnOptimisticLock(outbox: Outbox, save: () -> Outbox) = try {
         save()
     } catch (_: OutboxOptimisticLockException) {
-        // The lock expired and another instance took the record over
+        logger.warn("Outbox {} was taken over by another instance after its lock expired", outbox.id)
         null
+    }
+
+    private fun logFailure(outbox: Outbox, error: Throwable) {
+        val delivery = outbox.delivery
+
+        logger
+            .atLevel(selectLogLevel(delivery.status))
+            .setCause(error)
+            .log("Outbox {} failed {} times and is {}", outbox.id, delivery.attempts, delivery.status)
+    }
+
+    private fun selectLogLevel(status: DeliveryStatus) = when (status) {
+        DeliveryStatus.CANCELED -> config.cancellationLogLevel
+        else -> config.failureLogLevel
     }
 }
