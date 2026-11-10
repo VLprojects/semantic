@@ -147,6 +147,19 @@ class BackoffPropertiesRegistrarTests {
     }
 
     @Test
+    fun `an environment variable in another form keeps the declared name`() {
+        val environment = createEnvironment(emptyMap())
+        val variables = mapOf<String, Any>("SEMANTIC_RESILIENCE_BACKOFF_INSTANCES_ORDEREVENTS_FIXED_DELAY" to "5s")
+        val variablesSource = SystemEnvironmentPropertySource(SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME, variables)
+        val applicationProperties = mapOf<String, Any>("$PREFIX.instances.order-events.fixed.delay" to "3s")
+
+        environment.propertySources.replace(SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME, variablesSource)
+        environment.propertySources.addLast(MapPropertySource("application", applicationProperties))
+
+        assertEquals(Duration.ofSeconds(5), registerBackoffs(environment)["order-events"].calculate(1))
+    }
+
+    @Test
     fun `a placeholder in a field resolves`() {
         val registry = registerBackoffs(
             "pause" to "6s",
@@ -164,6 +177,26 @@ class BackoffPropertiesRegistrarTests {
         )
 
         assertEquals(Duration.ofSeconds(7), registry["orders"].calculate(1))
+    }
+
+    @Test
+    fun `a type with a hyphen is found by its key in another form`() {
+        val registry = registerBackoffs(
+            "$PREFIX.instances.orders.onceOnly.delay" to "7s",
+            factories = listOf(OnceBackoffFactory("once-only"), ExponentialBackoffFactory()),
+        )
+
+        assertEquals(Duration.ofSeconds(7), registry["orders"].calculate(1))
+    }
+
+    @Test
+    fun `a factory type of several names fails and names the factory`() {
+        val failure = assertThrows<IllegalArgumentException> {
+            registerBackoffs(factories = listOf(OnceBackoffFactory("once.only"), ExponentialBackoffFactory()))
+        }
+
+        assertTrue("OnceBackoffFactory" in failure.message.orEmpty())
+        assertTrue("once.only" in failure.message.orEmpty())
     }
 
     @Test
@@ -214,6 +247,16 @@ class BackoffPropertiesRegistrarTests {
     fun `a value right on the type fails with the name of the instance`() {
         val failure = assertThrows<IllegalArgumentException> {
             registerBackoffs("$PREFIX.instances.orders.fixed" to "9s")
+        }
+
+        assertTrue("orders" in failure.message.orEmpty())
+        assertTrue("9s" in failure.message.orEmpty())
+    }
+
+    @Test
+    fun `a value right on the instance fails with the name of the instance`() {
+        val failure = assertThrows<IllegalArgumentException> {
+            registerBackoffs("$PREFIX.instances.orders" to "9s")
         }
 
         assertTrue("orders" in failure.message.orEmpty())
@@ -304,9 +347,7 @@ class BackoffPropertiesRegistrarTests {
         override fun create(config: FixedBackoffFactory.Config) = FixedBackoff(config.delay)
     }
 
-    private class OnceBackoffFactory : BackoffFactory<OnceBackoffFactory.Config> {
-
-        override val type = "once"
+    private class OnceBackoffFactory(override val type: String = "once") : BackoffFactory<OnceBackoffFactory.Config> {
 
         override val configClass = Config::class.java
 
