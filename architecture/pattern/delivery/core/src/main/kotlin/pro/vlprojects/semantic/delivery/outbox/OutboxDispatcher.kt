@@ -13,7 +13,7 @@ public class OutboxDispatcher(
     private val logger = LoggerFactory.getLogger(OutboxDispatcher::class.java)
 
     public fun dispatch(): Int = service
-        .startScheduled(config.batchSize)
+        .acquireForDelivery(config.batchSize)
         .onEach(::process)
         .size
 
