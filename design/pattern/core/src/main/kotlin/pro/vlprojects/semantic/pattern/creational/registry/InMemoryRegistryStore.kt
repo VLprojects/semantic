@@ -4,13 +4,16 @@ import java.util.concurrent.ConcurrentHashMap
 
 public class InMemoryRegistryStore<T : Any> : RegistryStore<T> {
 
-    private val instances = ConcurrentHashMap<String, T>()
+    private val instancesByName = ConcurrentHashMap<String, T>()
 
-    override fun find(name: String): T? = instances[name]
+    override val instances: Map<String, T>
+        get() = instancesByName.toMap()
 
-    override fun putIfAbsent(name: String, instance: T): Boolean = instances.putIfAbsent(name, instance) == null
+    override fun find(name: String): T? = instancesByName[name]
 
-    override fun getAndReplace(name: String, instance: T): T? = instances.replace(name, instance)
+    override fun putIfAbsent(name: String, instance: T): Boolean = instancesByName.putIfAbsent(name, instance) == null
 
-    override fun getAndRemove(name: String): T? = instances.remove(name)
+    override fun getAndReplace(name: String, instance: T): T? = instancesByName.replace(name, instance)
+
+    override fun getAndRemove(name: String): T? = instancesByName.remove(name)
 }

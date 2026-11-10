@@ -10,6 +10,9 @@ public abstract class AbstractRegistry<T : Any>(
     private val store: RegistryStore<T>,
 ) : Registry<T> {
 
+    override val instances: Map<String, T>
+        get() = store.instances
+
     override fun find(name: String): T? = store.find(name)
 
     override fun register(name: String, instance: T) {

@@ -1,16 +1,28 @@
 package pro.vlprojects.semantic.pattern.creational.registry
 
+import pro.vlprojects.semantic.pattern.creational.registry.error.DefaultInstanceNotFoundException
 import pro.vlprojects.semantic.pattern.creational.registry.error.InstanceAlreadyExistsException
 import pro.vlprojects.semantic.pattern.creational.registry.error.InstanceNotFoundException
 import pro.vlprojects.semantic.pattern.creational.registry.error.InvalidNameException
 
 public interface Registry<T : Any> {
 
+    public val instances: Map<String, T>
+
+    @get:Throws(DefaultInstanceNotFoundException::class)
+    public val default: T
+        get() = find(DEFAULT_NAME)
+            ?: throw DefaultInstanceNotFoundException(DEFAULT_NAME)
+
     public fun find(name: String): T?
 
     @Throws(InstanceNotFoundException::class)
     public operator fun get(name: String): T = find(name)
         ?: throw InstanceNotFoundException(name)
+
+    @Throws(DefaultInstanceNotFoundException::class)
+    public fun getOrDefault(name: String): T = find(name)
+        ?: default
 
     public operator fun contains(name: String): Boolean = find(name) != null
 
@@ -22,4 +34,9 @@ public interface Registry<T : Any> {
 
     @Throws(InstanceNotFoundException::class)
     public fun unregister(name: String): T
+
+    public companion object {
+
+        public const val DEFAULT_NAME: String = "default"
+    }
 }

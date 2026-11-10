@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import pro.vlprojects.semantic.pattern.creational.registry.Registry
+import pro.vlprojects.semantic.pattern.creational.registry.error.DefaultInstanceNotFoundException
 import pro.vlprojects.semantic.pattern.creational.registry.error.InstanceAlreadyExistsException
 import pro.vlprojects.semantic.pattern.creational.registry.error.InstanceNotFoundException
 import pro.vlprojects.semantic.pattern.creational.registry.error.InvalidNameException
@@ -65,5 +67,36 @@ class AbstractRegistryTests {
         assertThrows<InstanceNotFoundException> { registry.replace("evening", "Good evening") }
         assertThrows<InstanceNotFoundException> { registry.unregister("evening") }
         assertFalse("evening" in registry)
+    }
+
+    @Test
+    fun `the default instance is the one under the default name`() {
+        registry.register(Registry.DEFAULT_NAME, "Hello")
+
+        assertEquals("Hello", registry.default)
+    }
+
+    @Test
+    fun `a registry without the default instance says so`() {
+        assertThrows<DefaultInstanceNotFoundException> { registry.default }
+        assertThrows<DefaultInstanceNotFoundException> { registry.getOrDefault("evening") }
+    }
+
+    @Test
+    fun `an unknown name falls back to the default instance only when asked`() {
+        registry.register(Registry.DEFAULT_NAME, "Hello")
+        registry.register("morning", "Good morning")
+
+        assertEquals("Good morning", registry.getOrDefault("morning"))
+        assertEquals("Hello", registry.getOrDefault("evening"))
+        assertThrows<InstanceNotFoundException> { registry["evening"] }
+    }
+
+    @Test
+    fun `the instances are listed with their names`() {
+        registry.register("morning", "Good morning")
+        registry.register("evening", "Good evening")
+
+        assertEquals(mapOf("morning" to "Good morning", "evening" to "Good evening"), registry.instances)
     }
 }

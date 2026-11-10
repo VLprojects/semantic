@@ -47,4 +47,14 @@ class InMemoryRegistryStoreTests {
         assertNull(store.find("morning"))
         assertNull(store.getAndRemove("morning"))
     }
+
+    @Test
+    fun `the instances are a snapshot that later changes do not touch`() {
+        store.putIfAbsent("morning", "Good morning")
+        val instances = store.instances
+
+        store.putIfAbsent("evening", "Good evening")
+
+        assertEquals(mapOf("morning" to "Good morning"), instances)
+    }
 }
