@@ -12,10 +12,10 @@ public abstract class AbstractRegistrar<D : Factory.Definition, T : Any>(
 ) : Registrar<T> {
 
     private val factories = factories
-        .groupBy { factory -> factory.definitionType.java }
+        .groupBy(Factory<*, T>::definitionType)
         .mapValues { (definitionType, candidates) ->
             candidates.singleOrNull()
-                ?: throw MultipleFactoriesException(definitionType.kotlin)
+                ?: throw MultipleFactoriesException(definitionType)
         }
 
     protected abstract fun loadDefinitions(): Map<String, D>
@@ -37,34 +37,7 @@ public abstract class AbstractRegistrar<D : Factory.Definition, T : Any>(
         .let(::resolveFactory)
         .create(definition)
 
-    private fun resolveFactory(definition: D) = definition.javaClass
-        .let(::findNearestFactory)
-        ?.let(::cast)
+    @Suppress("UNCHECKED_CAST") // factories are keyed by the class of the definition they take
+    private fun resolveFactory(definition: D) = factories[definition::class] as Factory<D, T>?
         ?: throw FactoryNotFoundException(definition)
-
-    private fun findNearestFactory(definitionType: Class<*>) = definitionType
-        .let(::listOf)
-        .let(::readSupertypesByDistance)
-        .map { supertypes -> supertypes.mapNotNull(factories::get) }
-        .firstOrNull(List<Factory<*, T>>::isNotEmpty)
-        ?.let { candidates ->
-            candidates.singleOrNull()
-                ?: throw MultipleFactoriesException(definitionType.kotlin)
-        }
-
-    private fun readSupertypesByDistance(types: List<Class<*>>) = generateSequence(types) { nearer ->
-        nearer
-            .flatMap(::readSupertypes)
-            .distinct()
-            .ifEmpty { null }
-    }
-
-    private fun readSupertypes(type: Class<*>) = type.interfaces
-        .asSequence()
-        .plus(type.superclass)
-        .filterNotNull()
-        .toList()
-
-    @Suppress("UNCHECKED_CAST") // a factory of a supertype of D takes D as well
-    private fun cast(factory: Factory<*, T>) = factory as Factory<D, T>
 }

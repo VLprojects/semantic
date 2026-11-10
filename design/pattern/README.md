@@ -39,13 +39,10 @@ may extend, as Spring marks its callbacks with `Aware`.
 A factory names the class of its definition by `definitionType`, a `KClass<D>`, as a deserializer of
 Jackson names its class by `handledType` and a `FactoryBean` of Spring by `getObjectType`;
 the compiler checks that the class is `D`. A registrar takes a list of factories and keys
-each by that class; its constructor checks the list: two factories of one class throw
-`MultipleFactoriesException`. A definition takes the factory of its own class or, failing
-that, of its nearest supertype, as `GenericConversionService` of Spring walks the hierarchy
-of a class to find a converter: a factory of `GreetingDefinition` makes a `MorningDefinition`
-that extends it, unless `MorningDefinition` has a factory of its own. A factory never makes a
-supertype of its definition. Two factories at one distance throw `MultipleFactoriesException`,
-none throws `FactoryNotFoundException`. The factories are dependencies of a
+each by that class: a lookup is one access by the class of a definition, with no pass over
+the factories. The constructor of a registrar checks the list: two factories of one
+definition throw `MultipleFactoriesException`. A definition with no factory of its exact class throws
+`FactoryNotFoundException` when it is made. The factories are dependencies of a
 registrar, not entries of a registry: their set is fixed when the application is assembled.
 
 ```kotlin

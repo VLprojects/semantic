@@ -30,29 +30,6 @@ class AbstractRegistrarTests {
     }
 
     @Test
-    fun `a definition takes the factory of its supertype`() {
-        mapOf("morning" to MorningDefinition("Good morning"))
-            .let(::GreetingRegistrar)
-            .populate(registry)
-
-        assertEquals("Good morning", registry.resolve("morning"))
-    }
-
-    @Test
-    fun `a definition takes the factory of its nearest supertype`() {
-        GreetingRegistrar(
-            definitions = mapOf(
-                "morning" to MorningDefinition("Good morning"),
-                "evening" to GreetingDefinition("Good evening"),
-            ),
-            factories = listOf(GreetingFactory, MorningFactory),
-        ).populate(registry)
-
-        assertEquals("Good morning!", registry.resolve("morning"))
-        assertEquals("Good evening", registry.resolve("evening"))
-    }
-
-    @Test
     fun `a wrong definition is reported with its name`() {
         val failure = assertThrows<InstanceRegistrationException> {
             mapOf("morning" to GreetingDefinition(" "))
