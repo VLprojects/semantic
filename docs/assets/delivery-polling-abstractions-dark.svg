@@ -36,7 +36,8 @@
     <circle cx="663" cy="438.0" r="2" fill="#A78BFA"/>
     <path d="M543,438.0 L548.0,435.5 L548.0,440.5 Z" fill="#A78BFA" stroke="#A78BFA" stroke-width="0.5" stroke-linejoin="round"/>
     <path d="M663,438.0 L548,438.0" stroke="#A78BFA" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
-    <text x="604.0" y="426.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#9198A1" text-anchor="middle">calculateDelay()</text>
+    <text x="604.0" y="426.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">BeforePolling()</text>
+    <text x="604.0" y="411.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#9198A1" text-anchor="middle">calculateDuration</text>
     <circle cx="296" cy="209" r="2" fill="#A78BFA"/>
     <path d="M296,249 L293.5,244.0 L298.5,244.0 Z" fill="#A78BFA" stroke="#A78BFA" stroke-width="0.5" stroke-linejoin="round"/>
     <path d="M296,209 L296,244" stroke="#A78BFA" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>

@@ -12,17 +12,17 @@ class FixedPollingStrategyTests {
 
     @Test
     fun `a full batch waits the interval`() {
-        assertEquals(Duration.ofMillis(500), strategy.calculateDelayAfter(100))
+        assertEquals(Duration.ofMillis(500), strategy.calculateDurationAfterBatch(100))
     }
 
     @Test
     fun `an empty batch waits the interval`() {
-        assertEquals(Duration.ofMillis(500), strategy.calculateDelayAfter(0))
+        assertEquals(Duration.ofMillis(500), strategy.calculateDurationAfterBatch(0))
     }
 
     @Test
     fun `the default interval is one second`() {
-        assertEquals(Duration.ofSeconds(1), FixedPollingStrategy.of().calculateDelayAfter(0))
+        assertEquals(Duration.ofSeconds(1), FixedPollingStrategy.of().calculateDurationAfterBatch(0))
     }
 
     @Test

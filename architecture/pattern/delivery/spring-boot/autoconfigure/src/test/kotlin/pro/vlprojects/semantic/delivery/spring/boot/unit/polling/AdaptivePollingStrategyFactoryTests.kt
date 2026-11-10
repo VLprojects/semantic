@@ -13,8 +13,8 @@ class AdaptivePollingStrategyFactoryTests {
     fun `by default the delay doubles from a hundred milliseconds to ten seconds`() {
         val strategy = factory.create(AdaptivePollingStrategyFactory.Config())
 
-        assertEquals(Duration.ofMillis(200), strategy.calculateDelayAfter(0))
-        assertEquals(Duration.ofSeconds(10), strategy.calculateDelayAfter(0, Duration.ofSeconds(8)))
+        assertEquals(Duration.ofMillis(200), strategy.calculateDurationAfterBatch(0))
+        assertEquals(Duration.ofSeconds(10), strategy.calculateDurationAfterBatch(0, Duration.ofSeconds(8)))
     }
 
     @Test
@@ -22,7 +22,7 @@ class AdaptivePollingStrategyFactoryTests {
         val config = AdaptivePollingStrategyFactory.Config(Duration.ofMillis(50), Duration.ofSeconds(1), 3.0)
         val strategy = factory.create(config)
 
-        assertEquals(Duration.ofMillis(150), strategy.calculateDelayAfter(0))
-        assertEquals(Duration.ofSeconds(1), strategy.calculateDelayAfter(0, Duration.ofMillis(900)))
+        assertEquals(Duration.ofMillis(150), strategy.calculateDurationAfterBatch(0))
+        assertEquals(Duration.ofSeconds(1), strategy.calculateDurationAfterBatch(0, Duration.ofMillis(900)))
     }
 }

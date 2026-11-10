@@ -16,8 +16,8 @@ public class AdaptivePollingStrategy private constructor(
         require(multiplier >= 1.0) { "The multiplier must not be less than 1: $multiplier" }
     }
 
-    override fun calculateDelay(context: OutboxPollingContext): Duration = context
-        .previousDelay
+    override fun calculateDurationBeforePolling(context: OutboxPollingContext): Duration = context
+        .previousDurationBeforePolling
         .let(::limit)
         .toNanos()
         .let { nanos -> scale(nanos, context) }

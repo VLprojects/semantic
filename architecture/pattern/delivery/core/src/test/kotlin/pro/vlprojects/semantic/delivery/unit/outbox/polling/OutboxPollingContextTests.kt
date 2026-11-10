@@ -24,7 +24,7 @@ class OutboxPollingContextTests {
     fun `the context keeps the previous delay`() {
         val context = OutboxPollingContext.of(0, 100, Duration.ofSeconds(1))
 
-        assertEquals(Duration.ofSeconds(1), context.previousDelay)
+        assertEquals(Duration.ofSeconds(1), context.previousDurationBeforePolling)
     }
 
     @Test

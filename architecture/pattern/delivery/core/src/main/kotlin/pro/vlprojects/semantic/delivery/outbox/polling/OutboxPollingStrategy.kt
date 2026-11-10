@@ -4,5 +4,5 @@ import java.time.Duration
 
 public fun interface OutboxPollingStrategy {
 
-    public fun calculateDelay(context: OutboxPollingContext): Duration
+    public fun calculateDurationBeforePolling(context: OutboxPollingContext): Duration
 }

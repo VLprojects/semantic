@@ -13,8 +13,8 @@ class ActiveIdlePollingStrategyFactoryTests {
     fun `by default a full batch goes on at once and an idle outbox is polled once a second`() {
         val strategy = factory.create(ActiveIdlePollingStrategyFactory.Config())
 
-        assertEquals(Duration.ZERO, strategy.calculateDelayAfter(100))
-        assertEquals(Duration.ofSeconds(1), strategy.calculateDelayAfter(0))
+        assertEquals(Duration.ZERO, strategy.calculateDurationAfterBatch(100))
+        assertEquals(Duration.ofSeconds(1), strategy.calculateDurationAfterBatch(0))
     }
 
     @Test
@@ -22,7 +22,7 @@ class ActiveIdlePollingStrategyFactoryTests {
         val config = ActiveIdlePollingStrategyFactory.Config(Duration.ofMillis(5), Duration.ofSeconds(3))
         val strategy = factory.create(config)
 
-        assertEquals(Duration.ofMillis(5), strategy.calculateDelayAfter(100))
-        assertEquals(Duration.ofSeconds(3), strategy.calculateDelayAfter(0))
+        assertEquals(Duration.ofMillis(5), strategy.calculateDurationAfterBatch(100))
+        assertEquals(Duration.ofSeconds(3), strategy.calculateDurationAfterBatch(0))
     }
 }

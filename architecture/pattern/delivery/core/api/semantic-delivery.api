@@ -318,7 +318,7 @@ public final class pro/vlprojects/semantic/delivery/outbox/logging/OutboxLogging
 
 public final class pro/vlprojects/semantic/delivery/outbox/polling/ActiveIdlePollingStrategy : pro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy {
 	public static final field Factory Lpro/vlprojects/semantic/delivery/outbox/polling/ActiveIdlePollingStrategy$Factory;
-	public fun calculateDelay (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingContext;)Ljava/time/Duration;
+	public fun calculateDurationBeforePolling (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingContext;)Ljava/time/Duration;
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/polling/ActiveIdlePollingStrategy$Factory {
@@ -328,7 +328,7 @@ public final class pro/vlprojects/semantic/delivery/outbox/polling/ActiveIdlePol
 
 public final class pro/vlprojects/semantic/delivery/outbox/polling/AdaptivePollingStrategy : pro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy {
 	public static final field Factory Lpro/vlprojects/semantic/delivery/outbox/polling/AdaptivePollingStrategy$Factory;
-	public fun calculateDelay (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingContext;)Ljava/time/Duration;
+	public fun calculateDurationBeforePolling (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingContext;)Ljava/time/Duration;
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/polling/AdaptivePollingStrategy$Factory {
@@ -338,7 +338,7 @@ public final class pro/vlprojects/semantic/delivery/outbox/polling/AdaptivePolli
 
 public final class pro/vlprojects/semantic/delivery/outbox/polling/FixedPollingStrategy : pro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy {
 	public static final field Factory Lpro/vlprojects/semantic/delivery/outbox/polling/FixedPollingStrategy$Factory;
-	public fun calculateDelay (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingContext;)Ljava/time/Duration;
+	public fun calculateDurationBeforePolling (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingContext;)Ljava/time/Duration;
 }
 
 public final class pro/vlprojects/semantic/delivery/outbox/polling/FixedPollingStrategy$Factory {
@@ -350,7 +350,7 @@ public final class pro/vlprojects/semantic/delivery/outbox/polling/OutboxPolling
 	public static final field Factory Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingContext$Factory;
 	public final fun getBatchSize ()I
 	public final fun getDispatched ()I
-	public final fun getPreviousDelay ()Ljava/time/Duration;
+	public final fun getPreviousDurationBeforePolling ()Ljava/time/Duration;
 	public final fun isBatchFull ()Z
 }
 
@@ -359,6 +359,6 @@ public final class pro/vlprojects/semantic/delivery/outbox/polling/OutboxPolling
 }
 
 public abstract interface class pro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy {
-	public abstract fun calculateDelay (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingContext;)Ljava/time/Duration;
+	public abstract fun calculateDurationBeforePolling (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingContext;)Ljava/time/Duration;
 }
 

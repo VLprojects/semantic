@@ -13,13 +13,13 @@ class FixedPollingStrategyFactoryTests {
     fun `by default the outbox is polled once a second`() {
         val strategy = factory.create(FixedPollingStrategyFactory.Config())
 
-        assertEquals(Duration.ofSeconds(1), strategy.calculateDelayAfter(100))
+        assertEquals(Duration.ofSeconds(1), strategy.calculateDurationAfterBatch(100))
     }
 
     @Test
     fun `the interval comes from the config`() {
         val strategy = factory.create(FixedPollingStrategyFactory.Config(Duration.ofMillis(300)))
 
-        assertEquals(Duration.ofMillis(300), strategy.calculateDelayAfter(0))
+        assertEquals(Duration.ofMillis(300), strategy.calculateDurationAfterBatch(0))
     }
 }

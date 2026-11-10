@@ -47,7 +47,7 @@ What happens to 10 000 records with `batch-size: 100` and `max-concurrency: 4`:
 | --- | --- | --- | --- | --- |
 | `OutboxDispatcher` | class, exists | delivers one batch: takes records, sends them, saves the outcome; returns how many it took | knows nothing of time and threads | — |
 | `OutboxPollingStrategy` | fun interface | decides from the outcome of a batch when to poll again | runs no threads and keeps no state | Spring Messaging `ReconnectStrategy`, Namastack `OutboxPollingTrigger` |
-| `OutboxPollingContext` | class | the facts of a batch: `dispatched`, `batchSize`, `previousDelay`, `isBatchFull()` | — | Spring `TriggerContext` |
+| `OutboxPollingContext` | class | the facts of a batch: `dispatched`, `batchSize`, `previousDurationBeforePolling`, `isBatchFull()` | — | Spring `TriggerContext` |
 | `OutboxPoller` | internal class | runs one loop: batch, strategy, pause, batch again; a failed batch does not stop the loop | does not decide how many pollers there are | Spring Integration `AbstractPollingEndpoint` |
 | `OutboxPollingContainer` | class | runs delivery in the background by polling: `start()`, `stop()`, `isRunning()`, `wakeup()`; keeps from `concurrency` to `max-concurrency` pollers on a `ScheduledExecutorService` | delivers nothing itself and counts no pauses | Spring JMS `DefaultMessageListenerContainer`, Spring AMQP `SimpleMessageListenerContainer` |
 | `OutboxPollingContainerLifecycle` | class in `semantic-delivery-spring` | a `SmartLifecycle` that starts and stops the container with the context | holds no polling logic | Spring Boot `WebServerGracefulShutdownLifecycle` |
@@ -88,11 +88,11 @@ in the queue of the executor, not in `Thread.sleep`.
 ```kotlin
 public fun interface OutboxPollingStrategy {
 
-    public fun calculateDelay(context: OutboxPollingContext): Duration
+    public fun calculateDurationBeforePolling(context: OutboxPollingContext): Duration
 }
 ```
 
-- The signature follows `Backoff.calculate(attempt)`: facts in, a pause out.
+- The name says what is calculated: the duration before the next polling. As with `Backoff`, facts in, a pause out.
 - A strategy keeps no state; the poller passes it the last pause. One instance is safe to share between parallel
   pollers. The `OutboxPollingTrigger` of Namastack keeps state and works only with one polling thread.
 - The context is a class, not a list of parameters, so a new field does not break an implementation, as with Spring

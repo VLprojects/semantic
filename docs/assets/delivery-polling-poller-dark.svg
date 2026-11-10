@@ -4,24 +4,24 @@
     <rect x="16" y="16" width="968" height="264" rx="12" fill="#1D242D"/>
     <text x="40.0" y="52.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#E6EDF3" text-anchor="start">One poller: batch, pause, batch again</text>
     <text x="40.0" y="76.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#9198A1" text-anchor="start">A thread is busy only during a batch; the pause waits in the queue of ScheduledExecutorService</text>
-    <rect x="40.0" y="112.0" width="274.7" height="96.0" rx="6" fill="#29313C"/>
+    <rect x="40.0" y="112.0" width="285.3" height="96.0" rx="6" fill="#29313C"/>
     <text x="56.0" y="144.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">dispatch()</text>
     <text x="56.0" y="172.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">takes up to batch-size records,</text>
     <text x="56.0" y="190.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">delivers them, returns their count</text>
-    <path d="M326.6666666666667,160.0 L344.6666666666667,160.0" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M343.6666666666667,156.0 L350.6666666666667,160.0 L343.6666666666667,164.0 Z" fill="#515B66"/>
-    <rect x="362.7" y="112.0" width="274.7" height="96.0" rx="6" fill="#29313C"/>
-    <text x="378.7" y="144.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">calculateDelay(context)</text>
-    <text x="378.7" y="172.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">from the count and the last pause</text>
-    <text x="378.7" y="190.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">decides how long to wait</text>
-    <path d="M649.3333333333334,160.0 L667.3333333333334,160.0" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M666.3333333333334,156.0 L673.3333333333334,160.0 L666.3333333333334,164.0 Z" fill="#515B66"/>
-    <rect x="685.3" y="112.0" width="274.7" height="96.0" rx="6" fill="#29313C"/>
-    <text x="701.3" y="144.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">schedule(delay)</text>
-    <text x="701.3" y="172.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">puts the poller in the queue</text>
-    <text x="701.3" y="190.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">of the executor, frees the thread</text>
-    <path d="M822.6666666666667,216 L822.6666666666667,232 L177.33333333333334,232 L177.33333333333334,222" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M173.33333333333334,223 L177.33333333333334,216 L181.33333333333334,223 Z" fill="#515B66"/>
+    <path d="M337.3333333333333,160.0 L339.3333333333333,160.0" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M338.3333333333333,156.0 L345.3333333333333,160.0 L338.3333333333333,164.0 Z" fill="#515B66"/>
+    <rect x="357.3" y="112.0" width="285.3" height="96.0" rx="6" fill="#29313C"/>
+    <text x="373.3" y="144.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">calculateDurationBeforePolling()</text>
+    <text x="373.3" y="172.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">from the count and the last pause</text>
+    <text x="373.3" y="190.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">decides how long to wait</text>
+    <path d="M654.6666666666666,160.0 L656.6666666666666,160.0" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M655.6666666666666,156.0 L662.6666666666666,160.0 L655.6666666666666,164.0 Z" fill="#515B66"/>
+    <rect x="674.7" y="112.0" width="285.3" height="96.0" rx="6" fill="#29313C"/>
+    <text x="690.7" y="144.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">schedule(delay)</text>
+    <text x="690.7" y="172.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">puts the poller in the queue</text>
+    <text x="690.7" y="190.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">of the executor, frees the thread</text>
+    <path d="M817.3333333333333,216 L817.3333333333333,232 L182.66666666666666,232 L182.66666666666666,222" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M178.66666666666666,223 L182.66666666666666,216 L186.66666666666666,223 Z" fill="#515B66"/>
     <text x="500.0" y="256.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="middle">after delay</text>
   </g>
 </svg>

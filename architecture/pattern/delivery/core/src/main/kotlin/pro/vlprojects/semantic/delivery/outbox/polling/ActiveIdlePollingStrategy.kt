@@ -15,7 +15,7 @@ public class ActiveIdlePollingStrategy private constructor(
         }
     }
 
-    override fun calculateDelay(context: OutboxPollingContext): Duration = when {
+    override fun calculateDurationBeforePolling(context: OutboxPollingContext): Duration = when {
         context.isBatchFull() -> activeInterval
         else -> idleInterval
     }

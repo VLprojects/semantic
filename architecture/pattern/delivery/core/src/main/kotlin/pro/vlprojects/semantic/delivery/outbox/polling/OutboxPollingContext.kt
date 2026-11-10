@@ -5,13 +5,15 @@ import java.time.Duration
 public class OutboxPollingContext private constructor(
     public val dispatched: Int,
     public val batchSize: Int,
-    public val previousDelay: Duration,
+    public val previousDurationBeforePolling: Duration,
 ) {
 
     init {
         require(batchSize >= 1) { "The batch size must be positive: $batchSize" }
         require(dispatched in 0..batchSize) { "The dispatched count $dispatched is outside the batch size $batchSize" }
-        require(!previousDelay.isNegative) { "The previous delay must not be negative: $previousDelay" }
+        require(!previousDurationBeforePolling.isNegative) {
+            "The previous duration before polling must not be negative: $previousDurationBeforePolling"
+        }
     }
 
     public fun isBatchFull(): Boolean = dispatched == batchSize
@@ -21,7 +23,7 @@ public class OutboxPollingContext private constructor(
         public fun of(
             dispatched: Int,
             batchSize: Int,
-            previousDelay: Duration,
-        ): OutboxPollingContext = OutboxPollingContext(dispatched, batchSize, previousDelay)
+            previousDurationBeforePolling: Duration,
+        ): OutboxPollingContext = OutboxPollingContext(dispatched, batchSize, previousDurationBeforePolling)
     }
 }
