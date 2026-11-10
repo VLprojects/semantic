@@ -41,8 +41,13 @@ Jackson names its class by `handledType` and a `FactoryBean` of Spring by `getOb
 the compiler checks that the class is `D`. A registrar takes a list of factories and keys
 each by that class: a lookup is one access by the class of a definition, with no pass over
 the factories. The constructor of a registrar checks the list: two factories of one
-definition throw `MultipleFactoriesException`. A definition with no factory of its exact class throws
-`FactoryNotFoundException` when it is made. The factories are dependencies of a
+definition throw `MultipleFactoriesException`.
+
+One factory makes one class of a definition, and a lookup takes the exact class, as
+`SimpleDeserializers` of Jackson does: a factory of a supertype would read only the fields
+of the supertype and lose the rest. A hierarchy of definitions, a sealed `BackoffDefinition`
+for one, gives each class a factory of its own. A definition with no factory of its exact
+class throws `FactoryNotFoundException` when it is made, even if its supertype has one. The factories are dependencies of a
 registrar, not entries of a registry: their set is fixed when the application is assembled.
 
 ```kotlin
