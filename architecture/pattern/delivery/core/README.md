@@ -216,12 +216,13 @@ semantic.delivery.outbox:
     shutdown-timeout: 30s
 ```
 
-The key of the block under `polling.strategy` names its type, and the fields under it bind to the config class of the
-`OutboxPollingStrategyFactory` bean with that type, as with the settings of backoffs. `fixed` takes `interval` (`1s`),
-`active-idle` takes `active-interval` (`0s`) and `idle-interval` (`1s`), `adaptive` takes `min-interval` (`100ms`),
-`max-interval` (`10s`) and `multiplier` (`2`). The factories and their `Config` classes live in
-`semantic-delivery-spring-boot`; an own strategy is a factory bean with its own type and config class. Without Spring the
-application passes the strategy to the constructor of the container.
+The key of the block under `polling.strategy` names an `OutboxPollingStrategyFactory` bean by its class without the
+suffix, in kebab case: `ActiveIdlePollingStrategyFactory` is `active-idle`, as Spring Cloud Gateway names its filter
+factories. The fields under the key bind to the type argument of the factory, its `Config`, resolved the way Spring
+resolves the event of an `ApplicationListener`. `fixed` takes `interval` (`1s`), `active-idle` takes `active-interval`
+(`0s`) and `idle-interval` (`1s`), `adaptive` takes `min-interval` (`100ms`), `max-interval` (`10s`) and `multiplier`
+(`2`). The factories live in `semantic-delivery-spring-boot`; an own strategy is a factory class with its own `Config`,
+declared as a bean. Without Spring the application passes the strategy to the constructor of the container.
 `concurrency` and `max-concurrency` follow Spring Boot (`spring.rabbitmq.listener.simple.concurrency`,
 `max-concurrency`).
 

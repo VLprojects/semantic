@@ -2,8 +2,6 @@ public final class pro/vlprojects/semantic/delivery/spring/boot/polling/ActiveId
 	public fun <init> ()V
 	public synthetic fun create (Ljava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy;
 	public fun create (Lpro/vlprojects/semantic/delivery/spring/boot/polling/ActiveIdlePollingStrategyFactory$Config;)Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy;
-	public fun getConfigClass ()Ljava/lang/Class;
-	public fun getType ()Ljava/lang/String;
 }
 
 public final class pro/vlprojects/semantic/delivery/spring/boot/polling/ActiveIdlePollingStrategyFactory$Config {
@@ -21,16 +19,10 @@ public final class pro/vlprojects/semantic/delivery/spring/boot/polling/ActiveId
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class pro/vlprojects/semantic/delivery/spring/boot/polling/ActiveIdlePollingStrategyFactoryKt {
-	public static final field ACTIVE_IDLE_POLLING_STRATEGY_TYPE Ljava/lang/String;
-}
-
 public final class pro/vlprojects/semantic/delivery/spring/boot/polling/AdaptivePollingStrategyFactory : pro/vlprojects/semantic/delivery/spring/boot/polling/OutboxPollingStrategyFactory {
 	public fun <init> ()V
 	public synthetic fun create (Ljava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy;
 	public fun create (Lpro/vlprojects/semantic/delivery/spring/boot/polling/AdaptivePollingStrategyFactory$Config;)Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy;
-	public fun getConfigClass ()Ljava/lang/Class;
-	public fun getType ()Ljava/lang/String;
 }
 
 public final class pro/vlprojects/semantic/delivery/spring/boot/polling/AdaptivePollingStrategyFactory$Config {
@@ -50,16 +42,10 @@ public final class pro/vlprojects/semantic/delivery/spring/boot/polling/Adaptive
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class pro/vlprojects/semantic/delivery/spring/boot/polling/AdaptivePollingStrategyFactoryKt {
-	public static final field ADAPTIVE_POLLING_STRATEGY_TYPE Ljava/lang/String;
-}
-
 public final class pro/vlprojects/semantic/delivery/spring/boot/polling/FixedPollingStrategyFactory : pro/vlprojects/semantic/delivery/spring/boot/polling/OutboxPollingStrategyFactory {
 	public fun <init> ()V
 	public synthetic fun create (Ljava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy;
 	public fun create (Lpro/vlprojects/semantic/delivery/spring/boot/polling/FixedPollingStrategyFactory$Config;)Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy;
-	public fun getConfigClass ()Ljava/lang/Class;
-	public fun getType ()Ljava/lang/String;
 }
 
 public final class pro/vlprojects/semantic/delivery/spring/boot/polling/FixedPollingStrategyFactory$Config {
@@ -75,13 +61,7 @@ public final class pro/vlprojects/semantic/delivery/spring/boot/polling/FixedPol
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class pro/vlprojects/semantic/delivery/spring/boot/polling/FixedPollingStrategyFactoryKt {
-	public static final field FIXED_POLLING_STRATEGY_TYPE Ljava/lang/String;
-}
-
 public abstract interface class pro/vlprojects/semantic/delivery/spring/boot/polling/OutboxPollingStrategyFactory {
 	public abstract fun create (Ljava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy;
-	public abstract fun getConfigClass ()Ljava/lang/Class;
-	public abstract fun getType ()Ljava/lang/String;
 }
 
