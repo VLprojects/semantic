@@ -19,7 +19,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.registry.error` | `InvalidNameException`, `InstanceAlreadyExistsException`, `InstanceNotFoundException`, `DefaultInstanceNotFoundException`; `InstanceRegistrationException` of a registrar |
 | `creational.factory` | `Factory`, an instance made of its definition; `Factory.Definition`, the marker of a definition |
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
-| `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context |
+| `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
 | `enterprise.plugin` | `TypeNameResolver`, a class by the name of its type; `PolymorphicBinder`, a block of settings to an object of the class the block names |
 | `enterprise.plugin.base` | `AbstractPolymorphicBinder`, a binder that takes the type from the key and leaves the fields to a subclass |
@@ -155,6 +155,21 @@ resolver whether it `supportsParameter` and `ProviderManager` asks each provider
 ```kotlin
 val deliverers = PredicateResolver(deliverers, OutboxDeliverer<*>::supports)
 val deliverer = deliverers.resolve(destination, ResolvingPolicy.first())
+```
+
+`TypeNameResolver` finds a subtype by its name, as the type of a block in settings or a
+`type` field of JSON names it. A subtype is named by its class without the name of the base
+type at its end: `FixedDelayBackoff` of `Backoff` is `FixedDelay`, and `Backoff` keeps its whole
+name. Spring Cloud Gateway names a filter factory alike by `NameUtils.normalizeFilterFactoryName`,
+but it removes the name of the base type anywhere in the class name.
+`of(types)` takes the names as they are given. A name is matched regardless of case, dashes and
+underscores, as Spring Boot relaxed binding matches `fixedDelay`, `fixed-delay` and
+`fixed_delay`. Names that coincide regardless of case, dashes and underscores, a name that is
+blank but for dashes and underscores, or an anonymous class stop the resolver from being made.
+
+```kotlin
+val types = TypeNameResolver.of(Backoff::class, listOf(FixedBackoff::class, ExponentialBackoff::class))
+val type = types.resolve("exponential")
 ```
 
 ## Plugin
