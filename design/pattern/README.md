@@ -155,19 +155,17 @@ val deliverer = deliverers.resolve(destination, ResolvingPolicy.first())
 
 `TypeNameResolver` finds a subtype by its name, as the type of a block in settings or a
 `type` field of JSON names it. A subtype is named by its class without the name of the base
-type at its end, in kebab case, as Spring Cloud Gateway names a filter factory in its
-properties by `NameUtils.normalizeFilterFactoryNameAsProperty`: `FixedDelayBackoff` of
-`Backoff` is `fixed-delay`, and `Backoff` itself is `backoff`. `of(map)` takes the names as
-they are given; `typeNames` lists them. A name is matched regardless of case, dashes and
+type at its end, as Spring Cloud Gateway names a filter factory by
+`NameUtils.normalizeFilterFactoryName`: `FixedDelayBackoff` of `Backoff` is `FixedDelay`.
+Unlike there, a subtype named as its base type keeps its whole name: `Backoff` is `Backoff`.
+`of(map)` takes the names as they are given. A name is matched regardless of case, dashes and
 underscores, as Spring Boot relaxed binding matches `fixedDelay`, `fixed-delay` and
-`fixed_delay`. Names that coincide regardless of case, dashes and underscores, an empty name
-or one of dashes and underscores only, or an anonymous class stop the resolver from being
-made.
+`fixed_delay`. Names that coincide regardless of case, dashes and underscores, a name that is
+blank but for dashes and underscores, or an anonymous class stop the resolver from being made.
 
 ```kotlin
 val types = TypeNameResolver.of(Backoff::class, listOf(FixedBackoff::class, ExponentialBackoff::class))
-val type = types.resolveOrNull(name)
-    ?: throw IllegalArgumentException("Unknown backoff '$name', known: ${types.typeNames}")
+val type = types.resolve("exponential")
 ```
 
 ## Plan

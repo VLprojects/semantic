@@ -13,7 +13,6 @@ class TypeNameResolverTests {
 
     @Test
     fun `a subtype is named by its class without the name of the base type`() {
-        assertEquals(setOf("fixed", "fixed-delay"), resolver.typeNames)
         assertEquals(FixedBackoff::class, resolver.resolve("fixed"))
         assertEquals(FixedDelayBackoff::class, resolver.resolve("fixed-delay"))
     }
@@ -22,7 +21,7 @@ class TypeNameResolverTests {
     fun `a subtype named as its base type keeps its whole name`() {
         val backoffResolver = TypeNameResolver.of(Backoff::class, listOf(Backoff::class))
 
-        assertEquals(setOf("backoff"), backoffResolver.typeNames)
+        assertEquals(Backoff::class, backoffResolver.resolve("backoff"))
     }
 
     @Test
@@ -57,7 +56,6 @@ class TypeNameResolverTests {
     fun `a type is named as it is given`() {
         val mapResolver = TypeNameResolver.of(mapOf("constant" to FixedBackoff::class))
 
-        assertEquals(setOf("constant"), mapResolver.typeNames)
         assertEquals(FixedBackoff::class, mapResolver.resolve("constant"))
     }
 
@@ -68,7 +66,6 @@ class TypeNameResolverTests {
 
         types["fixed-delay"] = FixedDelayBackoff::class
 
-        assertEquals(setOf("fixed"), mapResolver.typeNames)
         assertNull(mapResolver.resolveOrNull("fixed-delay"))
     }
 
@@ -76,7 +73,7 @@ class TypeNameResolverTests {
     fun `a repeated subtype is named once`() {
         val fixedResolver = TypeNameResolver.of(Backoff::class, listOf(FixedBackoff::class, FixedBackoff::class))
 
-        assertEquals(setOf("fixed"), fixedResolver.typeNames)
+        assertEquals(FixedBackoff::class, fixedResolver.resolve("fixed"))
     }
 
     @Test
@@ -86,7 +83,8 @@ class TypeNameResolverTests {
         }
 
         assertEquals(
-            "Several subtypes have the name 'fixed': ${FixedBackoff::class.java.name}, ${Fixed::class.java.name}",
+            "Subtype names coincide regardless of case, dashes and underscores: " +
+                "[[${FixedBackoff::class.java.name}, ${Fixed::class.java.name}]]",
             failure.message,
         )
     }
@@ -98,9 +96,7 @@ class TypeNameResolverTests {
         }
 
         assertEquals(
-            "Type names coincide regardless of case, dashes and underscores: " +
-                "'fixed-delay' of ${FixedBackoff::class.java.name}, " +
-                "'fixedDelay' of ${FixedDelayBackoff::class.java.name}",
+            "Type names coincide regardless of case, dashes and underscores: [[fixed-delay, fixedDelay]]",
             failure.message,
         )
     }
@@ -113,7 +109,16 @@ class TypeNameResolverTests {
             TypeNameResolver.of(Backoff::class, listOf(anonymous::class))
         }
 
-        assertEquals("A class without a name has no type name: ${anonymous::class.java.name}", failure.message)
+        assertEquals("Anonymous classes have no type name: [${anonymous::class.java.name}]", failure.message)
+    }
+
+    @Test
+    fun `an empty given name is rejected`() {
+        val failure = assertThrows<IllegalArgumentException> {
+            TypeNameResolver.of(mapOf("" to FixedBackoff::class))
+        }
+
+        assertEquals("Type names are blank regardless of dashes and underscores: ['']", failure.message)
     }
 
     @Test
@@ -122,6 +127,15 @@ class TypeNameResolverTests {
             TypeNameResolver.of(mapOf("-" to FixedBackoff::class))
         }
 
-        assertEquals("A type name is empty or has dashes and underscores only: '-'", failure.message)
+        assertEquals("Type names are blank regardless of dashes and underscores: ['-']", failure.message)
+    }
+
+    @Test
+    fun `a given name of spaces only is rejected`() {
+        val failure = assertThrows<IllegalArgumentException> {
+            TypeNameResolver.of(mapOf(" " to FixedBackoff::class))
+        }
+
+        assertEquals("Type names are blank regardless of dashes and underscores: [' ']", failure.message)
     }
 }

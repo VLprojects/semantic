@@ -23,7 +23,6 @@ public final class pro/vlprojects/semantic/pattern/behavioral/resolver/Resolving
 
 public final class pro/vlprojects/semantic/pattern/behavioral/resolver/TypeNameResolver : pro/vlprojects/semantic/pattern/behavioral/resolver/Resolver {
 	public static final field Factory Lpro/vlprojects/semantic/pattern/behavioral/resolver/TypeNameResolver$Factory;
-	public final fun getTypeNames ()Ljava/util/Set;
 	public synthetic fun resolveAll (Ljava/lang/Object;)Ljava/util/Collection;
 	public fun resolveAll (Ljava/lang/String;)Ljava/util/Collection;
 }
