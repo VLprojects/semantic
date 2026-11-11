@@ -60,6 +60,13 @@ class TypeNameResolverTests {
     }
 
     @Test
+    fun `a given name is matched regardless of case, dashes and underscores`() {
+        val mapResolver = TypeNameResolver.of(mapOf("Fixed-Delay" to FixedDelayBackoff::class))
+
+        assertEquals(FixedDelayBackoff::class, mapResolver.resolve("fixed_delay"))
+    }
+
+    @Test
     fun `a change of the source map does not reach the resolver`() {
         val types = mutableMapOf<String, KClass<out Backoff>>("fixed" to FixedBackoff::class)
         val mapResolver = TypeNameResolver.of(types)
@@ -83,8 +90,8 @@ class TypeNameResolverTests {
         }
 
         assertEquals(
-            "Subtype names coincide regardless of case, dashes and underscores: " +
-                "[[${FixedBackoff::class.java.name}, ${Fixed::class.java.name}]]",
+            "Duplicate type names regardless of case, dashes and underscores: " +
+                "{fixed=[${FixedBackoff::class.java}, ${Fixed::class.java}]}",
             failure.message,
         )
     }
@@ -96,7 +103,7 @@ class TypeNameResolverTests {
         }
 
         assertEquals(
-            "Type names coincide regardless of case, dashes and underscores: [[fixed-delay, fixedDelay]]",
+            "Duplicate type names regardless of case, dashes and underscores: {fixeddelay=[fixed-delay, fixedDelay]}",
             failure.message,
         )
     }
@@ -109,7 +116,7 @@ class TypeNameResolverTests {
             TypeNameResolver.of(Backoff::class, listOf(anonymous::class))
         }
 
-        assertEquals("Anonymous classes have no type name: [${anonymous::class.java.name}]", failure.message)
+        assertEquals("Anonymous classes have no type name: [${anonymous::class.java}]", failure.message)
     }
 
     @Test
@@ -137,5 +144,14 @@ class TypeNameResolverTests {
         }
 
         assertEquals("Type names are blank regardless of dashes and underscores: [' ']", failure.message)
+    }
+
+    @Test
+    fun `blank given names are rejected before duplicate ones`() {
+        val failure = assertThrows<IllegalArgumentException> {
+            TypeNameResolver.of(mapOf("-" to FixedBackoff::class, "_" to FixedDelayBackoff::class))
+        }
+
+        assertEquals("Type names are blank regardless of dashes and underscores: ['-', '_']", failure.message)
     }
 }

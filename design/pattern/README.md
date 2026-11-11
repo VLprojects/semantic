@@ -155,10 +155,10 @@ val deliverer = deliverers.resolve(destination, ResolvingPolicy.first())
 
 `TypeNameResolver` finds a subtype by its name, as the type of a block in settings or a
 `type` field of JSON names it. A subtype is named by its class without the name of the base
-type at its end, as Spring Cloud Gateway names a filter factory by
-`NameUtils.normalizeFilterFactoryName`: `FixedDelayBackoff` of `Backoff` is `FixedDelay`.
-Unlike there, a subtype named as its base type keeps its whole name: `Backoff` is `Backoff`.
-`of(map)` takes the names as they are given. A name is matched regardless of case, dashes and
+type at its end: `FixedDelayBackoff` of `Backoff` is `FixedDelay`, and `Backoff` keeps its whole
+name. Spring Cloud Gateway names a filter factory alike by `NameUtils.normalizeFilterFactoryName`,
+but it removes the name of the base type anywhere in the class name.
+`of(types)` takes the names as they are given. A name is matched regardless of case, dashes and
 underscores, as Spring Boot relaxed binding matches `fixedDelay`, `fixed-delay` and
 `fixed_delay`. Names that coincide regardless of case, dashes and underscores, a name that is
 blank but for dashes and underscores, or an anonymous class stop the resolver from being made.
