@@ -1,3 +1,16 @@
+public abstract interface class pro/vlprojects/semantic/pattern/behavioral/resolver/Candidates : java/lang/Iterable, kotlin/jvm/internal/markers/KMappedMarker {
+	public fun isAmbiguous ()Z
+	public fun isUnsatisfied ()Z
+}
+
+public abstract interface class pro/vlprojects/semantic/pattern/behavioral/resolver/Resolver {
+	public abstract fun resolve (Ljava/lang/Object;)Lpro/vlprojects/semantic/pattern/behavioral/resolver/Candidates;
+}
+
+public abstract interface class pro/vlprojects/semantic/pattern/behavioral/resolver/SelectionPolicy {
+	public abstract fun select (Ljava/lang/Object;Lpro/vlprojects/semantic/pattern/behavioral/resolver/Candidates;)Ljava/lang/Object;
+}
+
 public abstract interface class pro/vlprojects/semantic/pattern/creational/factory/Factory {
 	public abstract fun create (Lpro/vlprojects/semantic/pattern/creational/factory/Factory$Definition;)Ljava/lang/Object;
 	public abstract fun getDefinitionType ()Lkotlin/reflect/KClass;
