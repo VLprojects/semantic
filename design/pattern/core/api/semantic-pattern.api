@@ -1,3 +1,8 @@
+public final class pro/vlprojects/semantic/pattern/behavioral/resolver/PredicateResolver : pro/vlprojects/semantic/pattern/behavioral/resolver/Resolver {
+	public fun <init> (Ljava/util/List;Lkotlin/jvm/functions/Function2;)V
+	public fun resolveAll (Ljava/lang/Object;)Ljava/util/Collection;
+}
+
 public abstract interface class pro/vlprojects/semantic/pattern/behavioral/resolver/Resolver {
 	public fun resolve (Ljava/lang/Object;)Ljava/lang/Object;
 	public fun resolve (Ljava/lang/Object;Lpro/vlprojects/semantic/pattern/behavioral/resolver/ResolvingPolicy;)Ljava/lang/Object;
