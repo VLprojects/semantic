@@ -4,7 +4,8 @@ Classic patterns of objects for Kotlin and Java, grouped as the Gang of Four gro
 them: creational, structural, behavioral. A package per group, a package per
 pattern inside it. Plain Kotlin, no framework; adapters come as modules of their own.
 
-In place so far: a registry with its store, a registrar and a factory in the creational group; a resolver in the behavioral one.
+In place so far: a registry with its store, a registrar and a factory in the creational group;
+a resolver in the behavioral one.
 
 ## Packages
 
@@ -154,14 +155,19 @@ val deliverer = deliverers.resolve(destination, ResolvingPolicy.first())
 
 `TypeNameResolver` finds a subtype by its name, as the type of a block in settings or a
 `type` field of JSON names it. A subtype is named by its class without the name of the base
-type, in the dashed form, as Jackson names a subtype by its class: `FixedDelayBackoff` of
-`Backoff` is `fixed-delay`. A name is matched regardless of case and separators, as
-Spring Boot binds `fixedDelay`, `fixed-delay` and `fixed_delay` alike. Two types of one name
-stop the resolver from being made.
+type at its end, in kebab case, as Spring Cloud Gateway names a filter factory in its
+properties by `NameUtils.normalizeFilterFactoryNameAsProperty`: `FixedDelayBackoff` of
+`Backoff` is `fixed-delay`, and `Backoff` itself is `backoff`. `of(map)` takes the names as
+they are given; `typeNames` lists them. A name is matched regardless of case, dashes and
+underscores, as Spring Boot relaxed binding matches `fixedDelay`, `fixed-delay` and
+`fixed_delay`. Names that coincide regardless of case, dashes and underscores, an empty name
+or one of dashes and underscores only, or an anonymous class stop the resolver from being
+made.
 
 ```kotlin
 val types = TypeNameResolver.of(Backoff::class, listOf(FixedBackoff::class, ExponentialBackoff::class))
-val type = types.resolve("exponential")
+val type = types.resolveOrNull(name)
+    ?: throw IllegalArgumentException("Unknown backoff '$name', known: ${types.typeNames}")
 ```
 
 ## Plan
