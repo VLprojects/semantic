@@ -6,7 +6,7 @@ Application Architecture by Fowler in a group of our own, enterprise. A package 
 a package per pattern inside it. Plain Kotlin, no framework; adapters come as modules of their own.
 
 In place so far: a registry, a registrar and a factory in the creational group; the contracts
-of Plugin in the enterprise group.
+of Plugin and its base binder in the enterprise group.
 
 ## Packages
 
@@ -20,6 +20,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.factory` | `Factory`, an instance made of its definition; `Factory.Definition`, the marker of a definition |
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
 | `enterprise.plugin` | `TypeNameResolver`, a class by the name of its type; `PolymorphicBinder`, a block of settings to an object of the class the block names |
+| `enterprise.plugin.base` | `AbstractPolymorphicBinder`, a binder that takes the type from the key and leaves the fields to a subclass |
 | `enterprise.plugin.error` | `TypeNotFoundException`, `MultipleTypesException` of a binder |
 
 `structural` and `behavioral` get packages when a pattern of them is needed.
