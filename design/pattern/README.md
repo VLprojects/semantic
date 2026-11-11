@@ -5,8 +5,8 @@ them: creational, structural, behavioral, plus the patterns of Patterns of Enter
 Application Architecture by Fowler in a group of our own, enterprise. A package per group,
 a package per pattern inside it. Plain Kotlin, no framework; adapters come as modules of their own.
 
-In place so far: a registry, a registrar and a factory in the creational group; the contracts
-of Plugin in the enterprise group.
+In place so far: a registry with its store, a registrar and a factory in the creational group; a resolver
+in the behavioral one; the contracts of Plugin in the enterprise one.
 
 ## Packages
 
@@ -19,10 +19,12 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.registry.error` | `InvalidNameException`, `InstanceAlreadyExistsException`, `InstanceNotFoundException`, `DefaultInstanceNotFoundException`; `InstanceRegistrationException` of a registrar |
 | `creational.factory` | `Factory`, an instance made of its definition; `Factory.Definition`, the marker of a definition |
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
+| `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last` |
+| `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
 | `enterprise.plugin` | `TypeNameResolver`, a class by the name of its type; `PolymorphicBinder`, a block of settings to an object of the class the block names |
 | `enterprise.plugin.error` | `TypeNotFoundException`, `MultipleTypesException` of a binder |
 
-`structural` and `behavioral` get packages when a pattern of them is needed.
+`structural` gets packages when a pattern of it is needed.
 
 ## Registry, registrar, factory, store
 
@@ -121,6 +123,28 @@ startup, as `MBeanRegistrationException` of JMX wraps a failure of registration.
 
 Registrars run in their order. A name that two of them take stops the startup, unless
 the later one replaces it on purpose: a bean from code overrides a setting by `replace`.
+
+## Resolver
+
+A resolver finds the values for a context: a class for the name of a type, a handler for
+a message. An implementation writes one method, `resolveAll`, and the rest come with the
+contract, as Spring `ObjectProvider` and CDI `Instance` give one, an optional one or all:
+
+| Method | Nothing found | One found | Several found |
+| --- | --- | --- | --- |
+| `resolveAll(context)` | an empty collection | it | all of them |
+| `resolveOrNull(context)` | `null` | it | `MultipleResolvedException` |
+| `resolve(context)` | `NotResolvedException` | it | `MultipleResolvedException` |
+| `resolveOrNull(context, policy)` | `null` | it | the one the policy selects |
+| `resolve(context, policy)` | `NotResolvedException` | it | the one the policy selects |
+
+A policy is asked only when several values are found, as Spring picks a primary bean only
+among several candidates. `ResolvingPolicy.first()` and `last()` keep the order `resolveAll`
+returns; each is one instance for every type, as `naturalOrder()` of Kotlin is.
+
+```kotlin
+val plugin = resolver.resolve(type, ResolvingPolicy.first())
+```
 
 ## Plugin
 
