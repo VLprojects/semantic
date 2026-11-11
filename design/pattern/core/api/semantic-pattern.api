@@ -1,5 +1,5 @@
 public final class pro/vlprojects/semantic/pattern/behavioral/resolver/PredicateResolver : pro/vlprojects/semantic/pattern/behavioral/resolver/Resolver {
-	public fun <init> (Ljava/util/List;Lkotlin/jvm/functions/Function2;)V
+	public fun <init> (Ljava/util/Collection;Lkotlin/jvm/functions/Function2;)V
 	public fun resolveAll (Ljava/lang/Object;)Ljava/util/Collection;
 }
 
