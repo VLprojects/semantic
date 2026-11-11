@@ -2,39 +2,40 @@ package pro.vlprojects.semantic.pattern.behavioral.resolver
 
 import kotlin.reflect.KClass
 
+private val CAMEL_CASE_BOUNDARY = Regex("(?<=.)(?=\\p{Lu})")
+
 public class TypeNameResolver<T : Any> private constructor(
-    types: List<Pair<String, KClass<out T>>>,
+    types: Map<String, KClass<out T>>,
 ) : Resolver<String, KClass<out T>> {
 
-    public val typeNames: Set<String> = types
-        .map(Pair<String, KClass<out T>>::first)
-        .toSet()
+    public val typeNames: Set<String> = types.keys
 
-    private val types = types
-        .groupBy({ (typeName) -> typeName.toUniformName() }, Pair<String, KClass<out T>>::second)
-        .mapValues { (typeName, namesakes) -> requireSingleType(typeName, namesakes) }
+    private val typesByUniformName = types.mapKeys { (typeName) -> typeName.toUniformForm() }
+
+    init {
+        require(typesByUniformName.size == typeNames.size) { "Several types have one name: $typeNames" }
+    }
 
     override fun resolveAll(context: String): Collection<KClass<out T>> = context
-        .toUniformName()
-        .let(types::get)
+        .toUniformForm()
+        .let(typesByUniformName::get)
         .let(::listOfNotNull)
-
-    private fun requireSingleType(typeName: String, namesakes: List<KClass<out T>>) = namesakes
-        .singleOrNull()
-        ?: throw IllegalArgumentException("Several types are named '$typeName': $namesakes")
 
     public companion object Factory {
 
-        public fun <T : Any> of(types: Map<String, KClass<out T>>): TypeNameResolver<T> = types
-            .toList()
-            .let(::TypeNameResolver)
+        public fun <T : Any> of(types: Map<String, KClass<out T>>): TypeNameResolver<T> = TypeNameResolver(types)
 
         public fun <T : Any> of(
             baseType: KClass<T>,
             subtypes: Collection<KClass<out T>>,
         ): TypeNameResolver<T> = subtypes
-            .map { subtype -> subtype.readTypeName(baseType) to subtype }
+            .associateBy { subtype -> subtype.readTypeName(baseType) }
+            .also { types -> requireNamePerSubtype(types, subtypes) }
             .let(::TypeNameResolver)
+
+        private fun requireNamePerSubtype(types: Map<String, KClass<*>>, subtypes: Collection<KClass<*>>) {
+            require(types.size == subtypes.size) { "Several subtypes have one name: $subtypes" }
+        }
     }
 }
 
@@ -44,14 +45,9 @@ private fun KClass<*>.readTypeName(baseType: KClass<*>) = this.java.simpleName
     .toDashedForm()
 
 private fun String.toDashedForm() = this
-    .mapIndexed { index, char ->
-        when {
-            index > 0 && char.isUpperCase() -> "-${char.lowercaseChar()}"
-            else -> char.lowercase()
-        }
-    }
-    .joinToString("")
+    .replace(CAMEL_CASE_BOUNDARY, "-")
+    .lowercase()
 
-private fun String.toUniformName() = this
+private fun String.toUniformForm() = this
     .filter(Char::isLetterOrDigit)
     .lowercase()
