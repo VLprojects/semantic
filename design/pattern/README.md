@@ -19,7 +19,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.registry.error` | `InvalidNameException`, `InstanceAlreadyExistsException`, `InstanceNotFoundException`, `DefaultInstanceNotFoundException`; `InstanceRegistrationException` of a registrar |
 | `creational.factory` | `Factory`, an instance made of its definition; `Factory.Definition`, the marker of a definition |
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
-| `enterprise.plugin` | `DefinitionTypeResolver`, the class of a definition by the name of its type; `PolymorphicDefinitionBinder`, a block of settings to a definition of the type the block names |
+| `enterprise.plugin` | `TypeNameResolver`, a class by the name of its type; `PolymorphicBinder`, a block of settings to an object of the class the block names |
 | `enterprise.plugin.error` | `TypeNotFoundException`, `MultipleTypesException` of a binder |
 
 `structural` and `behavioral` get packages when a pattern of them is needed.
@@ -127,7 +127,10 @@ the later one replaces it on purpose: a bean from code overrides a setting by `r
 Plugin, as Fowler describes it, links an interface to its implementation when the application
 is configured, not when it is compiled. Here it has two halves. The factory half, a definition to an
 instance, is `Factory` and `AbstractRegistrar` above. The configuration half, a block of settings to
-a definition, is `enterprise.plugin`; Dropwizard calls it polymorphic configuration.
+an object of the class the block names, is `enterprise.plugin`; Dropwizard calls it polymorphic
+configuration. It knows no factory: the class may be any, a definition or not, as Spring Boot
+`Binder` binds any class. A registrar joins the halves: it binds a block to a definition of its
+own, `PolymorphicBinder<D>`, and makes an instance of it by the factory of its class.
 
 Dropwizard names the type in a field, `type:`; here a block names its type by its key, as
 `WRAPPER_OBJECT` of Jackson does:
@@ -148,8 +151,8 @@ type; the one of Spring Boot takes the name of the bean of the factory without i
 
 | Role | What it does | What it does not | Samples |
 | --- | --- | --- | --- |
-| `DefinitionTypeResolver<D>` | finds the class of a definition by the name of its type, `find`; names the known types, `typeNames` | reads no settings, throws nothing | Jackson `TypeIdResolver`: `typeFromId`, `getDescForKnownTypeIds` |
-| `PolymorphicDefinitionBinder<D>` | binds a block of settings to a definition of the class the block names, `bind(name, properties, defaults)` | makes no instance, knows no factory | Spring Boot `Binder.bind(name, target)` |
+| `TypeNameResolver<T>` | finds a class by the name of its type, `find`; names the known types, `typeNames` | reads no settings, throws nothing | Jackson `TypeIdResolver`: `typeFromId`, `getDescForKnownTypeIds`; the name as `@JsonTypeName` and `TypeNameIdResolver` |
+| `PolymorphicBinder<T>` | binds a block of settings to an object of the class the block names, `bind(name, properties, defaults)` | makes no instance, knows no factory and no definition | Spring Boot `Binder.bind(name, target)` |
 
 A block comes as `Map<String, String>` with keys flattened as Spring Boot flattens a tree:
 `exponential.multiplier`, `exponential.jitter.factor`, `exponential.retry-on-statuses[0]`.
@@ -175,7 +178,7 @@ The contract of a binder:
 `TypeNotFoundException` is a `NoSuchElementException`, as `FactoryNotFoundException` is;
 `MultipleTypesException` is an `IllegalArgumentException`, as `MultipleFactoriesException` is.
 Fields are the business of the adapter: the one of Spring Boot binds with
-`NoUnboundElementsBindHandler`, so a field the definition does not have throws `BindException`.
+`NoUnboundElementsBindHandler`, so a field the class does not have throws `BindException`.
 
 A resolver returns `null` for an unknown type, as `Registry.find` does, and the binder throws:
 only the binder knows the path of the block. Jackson splits it the same way: `TypeNameIdResolver`
@@ -190,8 +193,8 @@ no module needs it yet.
 
 ### Plan of Plugin
 
-1. The contracts of `DefinitionTypeResolver` and `PolymorphicDefinitionBinder`, their errors.
-2. `AbstractPolymorphicDefinitionBinder`: the type from the key, one type in a block, `defaults`,
+1. The contracts of `TypeNameResolver` and `PolymorphicBinder`, their errors.
+2. `AbstractPolymorphicBinder`: the type from the key, one type in a block, `defaults`,
    the default type; a subclass binds only the fields.
 3. A Spring Boot adapter, `semantic-pattern-spring-boot`: a resolver over the beans of factories,
    a binder over the `Binder` of Spring Boot.

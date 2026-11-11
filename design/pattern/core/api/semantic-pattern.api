@@ -101,14 +101,14 @@ public final class pro/vlprojects/semantic/pattern/creational/registry/error/Inv
 	public final fun getName ()Ljava/lang/String;
 }
 
-public abstract interface class pro/vlprojects/semantic/pattern/enterprise/plugin/DefinitionTypeResolver {
-	public abstract fun find (Ljava/lang/String;)Lkotlin/reflect/KClass;
-	public abstract fun getTypeNames ()Ljava/util/Set;
+public abstract interface class pro/vlprojects/semantic/pattern/enterprise/plugin/PolymorphicBinder {
+	public abstract fun bind (Ljava/lang/String;Ljava/util/Map;Ljava/util/Map;)Ljava/lang/Object;
+	public static synthetic fun bind$default (Lpro/vlprojects/semantic/pattern/enterprise/plugin/PolymorphicBinder;Ljava/lang/String;Ljava/util/Map;Ljava/util/Map;ILjava/lang/Object;)Ljava/lang/Object;
 }
 
-public abstract interface class pro/vlprojects/semantic/pattern/enterprise/plugin/PolymorphicDefinitionBinder {
-	public abstract fun bind (Ljava/lang/String;Ljava/util/Map;Ljava/util/Map;)Lpro/vlprojects/semantic/pattern/creational/factory/Factory$Definition;
-	public static synthetic fun bind$default (Lpro/vlprojects/semantic/pattern/enterprise/plugin/PolymorphicDefinitionBinder;Ljava/lang/String;Ljava/util/Map;Ljava/util/Map;ILjava/lang/Object;)Lpro/vlprojects/semantic/pattern/creational/factory/Factory$Definition;
+public abstract interface class pro/vlprojects/semantic/pattern/enterprise/plugin/TypeNameResolver {
+	public abstract fun find (Ljava/lang/String;)Lkotlin/reflect/KClass;
+	public abstract fun getTypeNames ()Ljava/util/Set;
 }
 
 public final class pro/vlprojects/semantic/pattern/enterprise/plugin/error/MultipleTypesException : java/lang/IllegalArgumentException {
