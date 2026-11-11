@@ -102,7 +102,7 @@ Depends on nothing: `ddd` and the architecture styles build on it.
 | [`dbc`](design/dbc/core) | design by contract: conditions of a call and invariants of a type, checked at run time | `condition`, `invariant` | planned |
 | [`ddd`](#ddd) | domain-driven design with Jackson, Spring Data and Spring Boot adapters | core, jackson, spring-boot, spring/data | |
 | [`edd`](design/edd/README.md) | event-driven design: events of any type, a registry of publications, sending them outside, after Spring Modulith | | planned |
-| [`pattern`](design/pattern/README.md) | classic patterns of objects grouped as the Gang of Four groups them; a registry, its registrar and a factory first | `creational.registry`, `creational.factory` | design |
+| [`pattern`](design/pattern/README.md) | classic patterns of objects grouped as the Gang of Four groups them; a registry, its registrar and a factory first, a resolver | `creational.registry`, `creational.factory`, `behavioral.resolver` | design |
 
 #### DDD
 
