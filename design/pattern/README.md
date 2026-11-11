@@ -17,7 +17,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.registry.error` | `InvalidNameException`, `InstanceAlreadyExistsException`, `InstanceNotFoundException`, `DefaultInstanceNotFoundException`; `InstanceRegistrationException` of a registrar |
 | `creational.factory` | `Factory`, an instance made of its definition; `Factory.Definition`, the marker of a definition |
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
-| `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context |
+| `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
 
 `structural` gets packages when a pattern of it is needed.
@@ -150,6 +150,18 @@ resolver whether it `supportsParameter` and `ProviderManager` asks each provider
 ```kotlin
 val deliverers = PredicateResolver(deliverers, OutboxDeliverer<*>::supports)
 val deliverer = deliverers.resolve(destination, ResolvingPolicy.first())
+```
+
+`TypeNameResolver` finds a subtype by its name, as the type of a block in settings or a
+`type` field of JSON names it. A subtype is named by its class without the name of the base
+type, in the dashed form, as Jackson names a subtype by its class: `FixedDelayBackoff` of
+`Backoff` is `fixed-delay`. A name is matched regardless of case and separators, as
+Spring Boot binds `fixedDelay`, `fixed-delay` and `fixed_delay` alike. Two types of one name
+stop the resolver from being made.
+
+```kotlin
+val types = TypeNameResolver.of(Backoff::class, listOf(FixedBackoff::class, ExponentialBackoff::class))
+val type = types.resolve("exponential")
 ```
 
 ## Plan
