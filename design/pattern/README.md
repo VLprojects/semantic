@@ -19,7 +19,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.registry.error` | `InvalidNameException`, `InstanceAlreadyExistsException`, `InstanceNotFoundException`, `DefaultInstanceNotFoundException`; `InstanceRegistrationException` of a registrar |
 | `creational.factory` | `Factory`, an instance made of its definition; `Factory.Definition`, the marker of a definition |
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
-| `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last` |
+| `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
 | `enterprise.plugin` | `TypeNameResolver`, a class by the name of its type; `PolymorphicBinder`, a block of settings to an object of the class the block names |
 | `enterprise.plugin.error` | `TypeNotFoundException`, `MultipleTypesException` of a binder |
@@ -144,6 +144,16 @@ returns; each is one instance for every type, as `naturalOrder()` of Kotlin is.
 
 ```kotlin
 val plugin = resolver.resolve(type, ResolvingPolicy.first())
+```
+
+`PredicateResolver` keeps a list of candidates and resolves those that hold for a context, in
+the order of the list, as `HandlerMethodArgumentResolverComposite` of Spring asks each
+resolver whether it `supportsParameter` and `ProviderManager` asks each provider whether it
+`supports` an authentication:
+
+```kotlin
+val deliverers = PredicateResolver(deliverers, OutboxDeliverer<*>::supports)
+val deliverer = deliverers.resolve(destination, ResolvingPolicy.first())
 ```
 
 ## Plugin
