@@ -4,7 +4,8 @@ Classic patterns of objects for Kotlin and Java, grouped as the Gang of Four gro
 them: creational, structural, behavioral. A package per group, a package per
 pattern inside it. Plain Kotlin, no framework; adapters come as modules of their own.
 
-In place so far: a registry with its store, a registrar and a factory in the creational group; a resolver in the behavioral one.
+In place so far: a registry with its store, a registrar and a factory in the creational group;
+a resolver in the behavioral one.
 
 ## Packages
 
@@ -17,7 +18,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.registry.error` | `InvalidNameException`, `InstanceAlreadyExistsException`, `InstanceNotFoundException`, `DefaultInstanceNotFoundException`; `InstanceRegistrationException` of a registrar |
 | `creational.factory` | `Factory`, an instance made of its definition; `Factory.Definition`, the marker of a definition |
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
-| `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context |
+| `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
 
 `structural` gets packages when a pattern of it is needed.
@@ -150,6 +151,21 @@ resolver whether it `supportsParameter` and `ProviderManager` asks each provider
 ```kotlin
 val deliverers = PredicateResolver(deliverers, OutboxDeliverer<*>::supports)
 val deliverer = deliverers.resolve(destination, ResolvingPolicy.first())
+```
+
+`TypeNameResolver` finds a subtype by its name, as the type of a block in settings or a
+`type` field of JSON names it. A subtype is named by its class without the name of the base
+type at its end: `FixedDelayBackoff` of `Backoff` is `FixedDelay`, and `Backoff` keeps its whole
+name. Spring Cloud Gateway names a filter factory alike by `NameUtils.normalizeFilterFactoryName`,
+but it removes the name of the base type anywhere in the class name.
+`of(types)` takes the names as they are given. A name is matched regardless of case, dashes and
+underscores, as Spring Boot relaxed binding matches `fixedDelay`, `fixed-delay` and
+`fixed_delay`. Names that coincide regardless of case, dashes and underscores, a name that is
+blank but for dashes and underscores, or an anonymous class stop the resolver from being made.
+
+```kotlin
+val types = TypeNameResolver.of(Backoff::class, listOf(FixedBackoff::class, ExponentialBackoff::class))
+val type = types.resolve("exponential")
 ```
 
 ## Plan
