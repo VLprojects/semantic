@@ -17,7 +17,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.registry.error` | `InvalidNameException`, `InstanceAlreadyExistsException`, `InstanceNotFoundException`, `DefaultInstanceNotFoundException`; `InstanceRegistrationException` of a registrar |
 | `creational.factory` | `Factory`, an instance made of its definition; `Factory.Definition`, the marker of a definition |
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
-| `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the values that hold for a context |
+| `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
 
 `structural` gets packages when a pattern of it is needed.
@@ -142,7 +142,7 @@ returns; each is one instance for every type, as `naturalOrder()` of Kotlin is.
 val plugin = resolver.resolve(type, ResolvingPolicy.first())
 ```
 
-`PredicateResolver` keeps a list of values and resolves those that hold for a context, in
+`PredicateResolver` keeps a list of candidates and resolves those that hold for a context, in
 the order of the list, as `HandlerMethodArgumentResolverComposite` of Spring asks each
 resolver whether it `supportsParameter` and `ProviderManager` asks each provider whether it
 `supports` an authentication:
