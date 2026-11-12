@@ -14,7 +14,7 @@ public class ClassNameResolver<T : Any> private constructor(
         .also(::checkIsAllowed)
         .let(classLoader::loadClassOrNull)
         ?.also(::checkIsSubtype)
-        ?.asSubclass(baseType.java)
+        ?.asSubclass(baseType.javaObjectType)
         ?.kotlin
         .let(::listOfNotNull)
 
@@ -25,8 +25,8 @@ public class ClassNameResolver<T : Any> private constructor(
     }
 
     private fun checkIsSubtype(type: Class<*>) {
-        if (!baseType.java.isAssignableFrom(type)) {
-            throw NotSubtypeException(type.name, baseType)
+        if (!baseType.javaObjectType.isAssignableFrom(type)) {
+            throw NotSubtypeException(type.name, baseType.javaObjectType.name)
         }
     }
 

@@ -13,7 +13,8 @@ internal fun ClassLoader.loadClassOrNull(className: String) = try {
 
 internal fun KClass<*>.getDefaultClassLoader(resolverClassLoader: ClassLoader?) = resolverClassLoader
     ?.takeIf { classLoader -> this.isVisible(classLoader) }
-    ?: this.java.classLoader
+    ?: this.javaObjectType.classLoader
     ?: ClassLoader.getSystemClassLoader()
 
-private fun KClass<*>.isVisible(classLoader: ClassLoader) = classLoader.loadClassOrNull(this.java.name) == this.java
+private fun KClass<*>.isVisible(classLoader: ClassLoader) =
+    classLoader.loadClassOrNull(this.javaObjectType.name) == this.javaObjectType

@@ -19,11 +19,13 @@ class ClassNameResolverTests {
 
     private val allowedPackage = Backoff::class.java.packageName
 
+    private val fixedBackoffName = FixedBackoff::class.java.name
+
     private val resolver = ClassNameResolver.of(Backoff::class, setOf(allowedPackage))
 
     @Test
     fun `a subtype is resolved by the full name of its class`() {
-        assertEquals(FixedBackoff::class, resolver.resolve(FixedBackoff::class.java.name))
+        assertEquals(FixedBackoff::class, resolver.resolve(fixedBackoffName))
     }
 
     @Test
@@ -55,14 +57,21 @@ class ClassNameResolverTests {
     fun `a subtype of Any is resolved by the full name of its class`() {
         val anyResolver = ClassNameResolver.of(Any::class, setOf(allowedPackage))
 
-        assertEquals(FixedBackoff::class, anyResolver.resolve(FixedBackoff::class.java.name))
+        assertEquals(FixedBackoff::class, anyResolver.resolve(fixedBackoffName))
+    }
+
+    @Test
+    fun `a primitive base type resolves its wrapper class`() {
+        val intResolver = ClassNameResolver.of(Int::class, setOf("java.lang"))
+
+        assertEquals(Int::class, intResolver.resolve(Int::class.javaObjectType.name))
     }
 
     @Test
     fun `a class of any of the allowed packages is resolved`() {
         val severalPackagesResolver = ClassNameResolver.of(Backoff::class, listOf("com.acme", allowedPackage))
 
-        assertEquals(FixedBackoff::class, severalPackagesResolver.resolve(FixedBackoff::class.java.name))
+        assertEquals(FixedBackoff::class, severalPackagesResolver.resolve(fixedBackoffName))
     }
 
     @Test
@@ -70,7 +79,7 @@ class ClassNameResolverTests {
         val parentPackage = allowedPackage.substringBeforeLast('.')
         val parentResolver = ClassNameResolver.of(Backoff::class, setOf(parentPackage))
 
-        assertEquals(FixedBackoff::class, parentResolver.resolve(FixedBackoff::class.java.name))
+        assertEquals(FixedBackoff::class, parentResolver.resolve(fixedBackoffName))
     }
 
     @Test
@@ -89,7 +98,7 @@ class ClassNameResolverTests {
     fun `a class outside the allowed packages is rejected before it is loaded`() {
         val rejectingResolver = ClassNameResolver.of(Backoff::class, setOf("com.acme"), RejectingClassLoader())
 
-        assertThrows<ClassNotAllowedException> { rejectingResolver.resolveOrNull(FixedBackoff::class.java.name) }
+        assertThrows<ClassNotAllowedException> { rejectingResolver.resolveOrNull(fixedBackoffName) }
     }
 
     @Test
@@ -97,7 +106,7 @@ class ClassNameResolverTests {
         val truncatedPackage = allowedPackage.dropLast(1)
         val truncatedResolver = ClassNameResolver.of(Backoff::class, setOf(truncatedPackage))
 
-        assertThrows<ClassNotAllowedException> { truncatedResolver.resolveOrNull(FixedBackoff::class.java.name) }
+        assertThrows<ClassNotAllowedException> { truncatedResolver.resolveOrNull(fixedBackoffName) }
     }
 
     @Test
@@ -107,7 +116,7 @@ class ClassNameResolverTests {
 
     @Test
     fun `the descriptor of an array of an allowed class is rejected`() {
-        assertThrows<ClassNotAllowedException> { resolver.resolveOrNull("[L${FixedBackoff::class.java.name};") }
+        assertThrows<ClassNotAllowedException> { resolver.resolveOrNull("[L$fixedBackoffName;") }
     }
 
     @Test
@@ -117,7 +126,7 @@ class ClassNameResolverTests {
 
         packages += allowedPackage
 
-        assertThrows<ClassNotAllowedException> { acmeResolver.resolveOrNull(FixedBackoff::class.java.name) }
+        assertThrows<ClassNotAllowedException> { acmeResolver.resolveOrNull(fixedBackoffName) }
     }
 
     @Test
@@ -130,10 +139,10 @@ class ClassNameResolverTests {
         val unlinkableResolver = ClassNameResolver.of(Backoff::class, setOf(allowedPackage), UnlinkableClassLoader())
 
         val failure = assertThrows<IllegalArgumentException> {
-            unlinkableResolver.resolveOrNull(FixedBackoff::class.java.name)
+            unlinkableResolver.resolveOrNull(fixedBackoffName)
         }
 
-        assertEquals("The class '${FixedBackoff::class.java.name}' cannot be loaded", failure.message)
+        assertEquals("The class '$fixedBackoffName' cannot be loaded", failure.message)
         assertInstanceOf(NoClassDefFoundError::class.java, failure.cause)
     }
 
@@ -149,7 +158,7 @@ class ClassNameResolverTests {
                     .kotlin
 
                 val isolatedFixedBackoff = ClassNameResolver.of(isolatedBackoff, setOf(allowedPackage))
-                    .resolve(FixedBackoff::class.java.name)
+                    .resolve(fixedBackoffName)
 
                 assertSame(isolatedClassLoader, isolatedFixedBackoff.java.classLoader)
             }
@@ -184,7 +193,7 @@ class ClassNameResolverTests {
         val failure = assertThrows<NotSubtypeException> { resolver.resolveOrNull(testsName) }
 
         assertEquals(testsName, failure.className)
-        assertEquals(Backoff::class, failure.baseType)
+        assertEquals(Backoff::class.java.name, failure.baseTypeName)
         assertEquals("The class '$testsName' is not a subtype of '${Backoff::class.java.name}'", failure.message)
     }
 

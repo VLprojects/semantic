@@ -61,8 +61,8 @@ public final class pro/vlprojects/semantic/pattern/behavioral/resolver/error/Not
 }
 
 public final class pro/vlprojects/semantic/pattern/behavioral/resolver/error/NotSubtypeException : java/lang/IllegalArgumentException {
-	public fun <init> (Ljava/lang/String;Lkotlin/reflect/KClass;)V
-	public final fun getBaseType ()Lkotlin/reflect/KClass;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun getBaseTypeName ()Ljava/lang/String;
 	public final fun getClassName ()Ljava/lang/String;
 }
 

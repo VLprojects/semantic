@@ -212,7 +212,7 @@ allowed packages and returns only its base type or a subtype of it:
   `DefaultBaseTypeLimitingValidator` of Jackson denies such a base type, this resolver takes
   it, so the allowed packages are then the only guard; keep them narrow.
 
-`of` fails with an `IllegalArgumentException` on an empty set of allowed packages, which would
+`of` fails with an `IllegalArgumentException` on no allowed packages, which would
 allow nothing, and on an allowed package that is not dot-separated identifiers, as
 `SourceVersion.isIdentifier` of the JDK checks each: `com.acme.`, `1com` or `*`, where `*` of
 Spring Kafka trusts every class.
