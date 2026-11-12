@@ -18,7 +18,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.registry.error` | `InvalidNameException`, `InstanceAlreadyExistsException`, `InstanceNotFoundException`, `DefaultInstanceNotFoundException`; `InstanceRegistrationException` of a registrar |
 | `creational.factory` | `Factory`, an instance made of its definition; `Factory.Definition`, the marker of a definition |
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
-| `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name; `TypeHierarchyResolver`, the candidates of the class of a context, its superclasses and interfaces |
+| `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name; `TypeHierarchyResolver`, the candidates that declare the class of a context, one of its superclasses or interfaces |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
 
 `structural` gets packages when a pattern of it is needed.
@@ -168,8 +168,8 @@ val types = TypeNameResolver.of(Backoff::class, listOf(FixedBackoff::class, Expo
 val type = types.resolve("exponential")
 ```
 
-`TypeHierarchyResolver` finds the candidates of the class of a context, its superclasses and
-interfaces. A candidate declares its type itself, as a Spring `GenericConverter` declares the
+`TypeHierarchyResolver` finds the candidates that declare the class of a context, one of its
+superclasses or interfaces. A candidate declares its type itself, as a Spring `GenericConverter` declares the
 types it converts and an `@ExceptionHandler` method of `ExceptionHandlerMethodResolver` the
 exceptions it handles, so a new candidate comes without a change of the resolver or of those
 who call it.
@@ -184,8 +184,8 @@ interfaces of an enum, and an array has only its own class, `Cloneable`, `Serial
 `Any`, neither the arrays of the supertypes of its elements nor `Array<out Any>`.
 
 A type is any class or interface, so a marker interface of a failure fits beside the class of
-an exception; it yields to every superclass that has a candidate but `Any`. Several types of one
-context usually have a candidate: then `resolve` and `resolveOrNull` without a policy throw
+an exception; it yields to every superclass that has a candidate but `Any`. When several types of
+one context have a candidate, `resolve` and `resolveOrNull` without a policy throw
 `MultipleResolvedException`, and `ResolvingPolicy.first()` selects the subclass before its
 superclass:
 

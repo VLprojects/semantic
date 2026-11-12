@@ -16,8 +16,6 @@ import kotlin.reflect.KClass
 
 class TypeHierarchyResolverTests {
 
-    private val selectType = { type: KClass<*> -> type }
-
     private val types = mutableListOf(
         Any::class,
         Exception::class,
@@ -27,15 +25,12 @@ class TypeHierarchyResolverTests {
         SocketTimeoutException::class,
     )
 
-    private val resolver = TypeHierarchyResolver.of<Any, KClass<*>>(types, selectType)
+    private val resolver = types.let(::createResolver)
 
-    private val ioTypes = listOf(IOException::class)
+    private val ioResolver = listOf(IOException::class).let(::createResolver)
 
-    private val ioResolver = TypeHierarchyResolver.of<Exception, KClass<*>>(ioTypes, selectType)
-
-    private val interfaceTypes = listOf(RetryableFailure::class, Serializable::class, TransientFailure::class)
-
-    private val interfaceResolver = TypeHierarchyResolver.of<Throwable, KClass<*>>(interfaceTypes, selectType)
+    private val interfaceResolver = listOf(RetryableFailure::class, Serializable::class, TransientFailure::class)
+        .let(::createResolver)
 
     private val first = ResolvingPolicy.first<KClass<*>>()
 
@@ -99,8 +94,7 @@ class TypeHierarchyResolverTests {
 
     @Test
     fun `the class Enum of an enum precedes its interfaces as any superclass`() {
-        val enumTypes = listOf(TemporalAccessor::class, Enum::class)
-        val enumResolver = TypeHierarchyResolver.of<Any, KClass<*>>(enumTypes, selectType)
+        val enumResolver = listOf(TemporalAccessor::class, Enum::class).let(::createResolver)
 
         val resolved = enumResolver.resolveAll(DayOfWeek.MONDAY)
 
@@ -109,8 +103,7 @@ class TypeHierarchyResolverTests {
 
     @Test
     fun `the candidate of an enum is resolved for its constant with a body`() {
-        val signalTypes = listOf(Signal::class)
-        val signalResolver = TypeHierarchyResolver.of<Any, KClass<*>>(signalTypes, selectType)
+        val signalResolver = listOf(Signal::class).let(::createResolver)
 
         val resolved = signalResolver.resolveAll(Signal.RED)
 
@@ -119,14 +112,13 @@ class TypeHierarchyResolverTests {
 
     @Test
     fun `an array resolves its own class and the interfaces of every array`() {
-        val arrayTypes = listOf(
+        val arrayResolver = listOf(
             Array<String>::class,
             Array<CharSequence>::class,
             Array<out Any>::class,
             Cloneable::class,
             Serializable::class,
-        )
-        val arrayResolver = TypeHierarchyResolver.of<Any, KClass<*>>(arrayTypes, selectType)
+        ).let(::createResolver)
 
         val resolved = arrayOf("x").let(arrayResolver::resolveAll)
 
@@ -135,8 +127,7 @@ class TypeHierarchyResolverTests {
 
     @Test
     fun `the candidate of a Kotlin primitive is resolved for its boxed context`() {
-        val numberTypes = listOf(Int::class, Number::class)
-        val numberResolver = TypeHierarchyResolver.of<Any, KClass<*>>(numberTypes, selectType)
+        val numberResolver = listOf(Int::class, Number::class).let(::createResolver)
 
         val resolved = numberResolver.resolveAll(5)
 
@@ -145,8 +136,7 @@ class TypeHierarchyResolverTests {
 
     @Test
     fun `the candidate of a Kotlin mapped interface is resolved for its Java context`() {
-        val textTypes = listOf(CharSequence::class)
-        val textResolver = TypeHierarchyResolver.of<Any, KClass<*>>(textTypes, selectType)
+        val textResolver = listOf(CharSequence::class).let(::createResolver)
 
         val resolved = textResolver.resolveAll("x")
 
@@ -196,8 +186,7 @@ class TypeHierarchyResolverTests {
 
     @Test
     fun `no candidates resolve nothing`() {
-        val noTypes = emptyList<KClass<*>>()
-        val emptyResolver = TypeHierarchyResolver.of<Any, KClass<*>>(noTypes, selectType)
+        val emptyResolver = emptyList<KClass<*>>().let(::createResolver)
 
         val resolved = emptyResolver.resolveAll(ioFailure)
 
@@ -212,4 +201,7 @@ class TypeHierarchyResolverTests {
 
         assertEquals(IOException::class, resolved)
     }
+
+    private fun createResolver(types: Collection<KClass<*>>) = TypeHierarchyResolver
+        .of<Any, KClass<*>>(types) { type -> type }
 }
