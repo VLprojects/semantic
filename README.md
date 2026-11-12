@@ -101,7 +101,7 @@ Depends on nothing: `ddd` and the architecture styles build on it.
 | [`algebra`](design/algebra/core) | orders and algebraic structures with their laws, the vocabulary of Algebra-Driven Design | `relation`, `structure` | planned |
 | [`dbc`](design/dbc/core) | design by contract: conditions of a call and invariants of a type, checked at run time | `condition`, `invariant` | planned |
 | [`ddd`](#ddd) | domain-driven design with Jackson, Spring Data and Spring Boot adapters | core, jackson, spring-boot, spring/data | |
-| [`pattern`](design/pattern/README.md) | classic patterns of objects grouped as the Gang of Four groups them; a registry, its registrar and a factory first, a resolver | `creational.registry`, `creational.factory`, `behavioral.resolver` | design |
+| [`pattern`](design/pattern/README.md) | classic patterns of objects grouped as the Gang of Four groups them, and enterprise patterns of Fowler; a registry, its registrar, a factory, a resolver and Plugin first | `creational.registry`, `creational.factory`, `behavioral.resolver`, `enterprise.plugin` | design |
 
 #### DDD
 
