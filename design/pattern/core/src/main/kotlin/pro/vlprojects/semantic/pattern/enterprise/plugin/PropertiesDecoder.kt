@@ -5,9 +5,8 @@ import kotlin.reflect.KClass
 public interface PropertiesDecoder {
 
     /**
-     * Decodes [properties], keyed relative to the object as the configuration spells them, `[0]` for an index,
-     * to an object of [type]: empty [properties] give its defaults; a required field missing, an extra
-     * or a wrong one throws.
+     * Decodes [properties] to an object of [type]; keys are relative to it: `jitter.factor`, `statuses[0]`.
+     * Empty [properties] give the defaults of [type]; a missing required, an extra or a wrong field throws.
      */
     public fun <T : Any> decode(properties: Map<String, String>, type: KClass<T>): T
 }

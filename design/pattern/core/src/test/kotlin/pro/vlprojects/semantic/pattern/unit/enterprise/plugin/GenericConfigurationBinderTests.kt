@@ -71,6 +71,11 @@ class GenericConfigurationBinderTests {
     }
 
     @Test
+    fun `a field with no name is rejected as unbound`() {
+        assertUnbound(mapOf("fixed." to "1s"), "['orders.fixed.']")
+    }
+
+    @Test
     fun `an empty value on the type key is dropped and the fields stay`() {
         val delay = bind(mapOf("fixed" to "", "fixed.delay" to "1s"))
 
@@ -182,7 +187,9 @@ class GenericConfigurationBinderTests {
 
     @Test
     fun `an empty block takes the default type`() {
-        val delay = bind(emptyMap(), createBinder(defaultTypeName = "fixed"))
+        val binder = createBinder(defaultTypeName = "fixed")
+
+        val delay = bind(emptyMap(), binder)
 
         assertEquals(FixedDelay::class, delay::class)
         assertEquals(emptyMap<String, String>(), delay.properties)

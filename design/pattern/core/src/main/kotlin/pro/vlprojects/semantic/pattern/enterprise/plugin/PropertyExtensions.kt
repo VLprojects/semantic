@@ -14,10 +14,12 @@ internal fun Map<String, String>.extractFields() = this
 
 private fun String.hasFieldPath() = when {
     this.extractTypeName().isEmpty() -> false
-    else -> this.extractTypeSuffix().startsWith(KEY_SEPARATOR)
+    else -> this.removeTypeName().isFieldPath()
 }
 
-private fun String.extractTypeSuffix() = this
+private fun String.isFieldPath() = this.startsWith(KEY_SEPARATOR) && this.length > 1
+
+private fun String.removeTypeName() = this
     .extractTypeName()
     .length
     .let { typeNameLength -> this.substring(typeNameLength) }
@@ -35,7 +37,7 @@ private fun String.isBlockKey() = this.isEmpty()
 
 private fun String.isTypeKey() = when {
     this.isBlockKey() -> false
-    else -> this.extractTypeSuffix().isEmpty()
+    else -> this.removeTypeName().isEmpty()
 }
 
 internal fun String.appendSegment(segment: String) = when {

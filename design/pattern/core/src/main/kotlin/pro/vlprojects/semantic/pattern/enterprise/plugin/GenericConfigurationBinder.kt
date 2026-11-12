@@ -22,10 +22,11 @@ public class GenericConfigurationBinder<out T : Any>(
     override fun bind(prefix: String, properties: Map<String, String>): T {
         val typeName = findTypeName(prefix, properties)
             ?: defaultTypeName
-        val type = resolveType(prefix, typeName)
-        val typePrefix = prefix.appendSegment(typeName)
 
         checkHasNoUnboundProperties(prefix, properties)
+
+        val type = resolveType(prefix, typeName)
+        val typePrefix = prefix.appendSegment(typeName)
 
         return properties
             .extractFields()
