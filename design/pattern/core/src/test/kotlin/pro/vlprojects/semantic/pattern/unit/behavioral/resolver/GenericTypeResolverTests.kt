@@ -82,7 +82,7 @@ class GenericTypeResolverTests {
 
     @Test
     fun `a type argument given to the outer class of an inner supertype is resolved`() {
-        assertEquals(CreateOrder::class, commandTypes.resolve(OrderCommandHandlers.CreateOrderInnerHandler::class))
+        assertEquals(CreateOrder::class, commandTypes.resolve(OrderCommandHandlerOwner.CreateOrderInnerHandler::class))
     }
 
     @Test
@@ -117,7 +117,7 @@ class GenericTypeResolverTests {
     }
 
     @Test
-    fun `a type argument of a lambda is erased and resolves nothing`() {
+    fun `a lambda of the generic type implements it raw and resolves nothing`() {
         val handler = CommandHandler<CreateOrder> { _ -> }
 
         assertNull(commandTypes.resolveOrNull(handler::class))
@@ -125,7 +125,7 @@ class GenericTypeResolverTests {
 
     @Test
     fun `a type argument of a lambda is resolved through the subinterface it implements`() {
-        val handler = CreateOrderCommandHandler { _ -> }
+        val handler = CreateOrderHandlerFunction { _ -> }
 
         assertEquals(CreateOrder::class, commandTypes.resolve(handler::class))
     }

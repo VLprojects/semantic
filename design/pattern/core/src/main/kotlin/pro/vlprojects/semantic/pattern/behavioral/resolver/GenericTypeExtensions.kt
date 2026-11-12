@@ -37,8 +37,8 @@ private fun Type.collectTypeMappings(subtypeMappings: Map<out TypeVariable<*>, C
     .filterIsInstance<ParameterizedType>()
     .flatMap(ParameterizedType::zipTypeParametersWithArguments)
     .mapNotNull { (variable, argument) ->
-        subtypeMappings
-            .resolveRawClassOrNull(argument)
+        argument
+            .resolveRawClassOrNull(subtypeMappings)
             ?.let { rawClass -> variable to rawClass }
     }
     .toMap()
@@ -58,10 +58,10 @@ private fun ParameterizedType.zipTypeParametersWithArguments() = this
     .orEmpty()
     .zip(this.actualTypeArguments)
 
-private fun Map<out TypeVariable<*>, Class<*>>.resolveRawClassOrNull(type: Type): Class<*>? = when (type) {
-    is GenericArrayType -> this.resolveRawClassOrNull(type.genericComponentType)?.arrayType()
-    is TypeVariable<*> -> this[type]
-    else -> type.toRawClassOrNull()
+private fun Type.resolveRawClassOrNull(mappings: Map<out TypeVariable<*>, Class<*>>): Class<*>? = when (this) {
+    is GenericArrayType -> this.genericComponentType.resolveRawClassOrNull(mappings)?.arrayType()
+    is TypeVariable<*> -> mappings[this]
+    else -> this.toRawClassOrNull()
 }
 
 private fun Type.toRawClassOrNull(): Class<*>? = when (this) {
