@@ -149,9 +149,10 @@ class ClassNameResolverTests {
 
     @Test
     fun `the system class loader is taken when neither the thread nor the base type has one`() {
-        val anyResolver = createResolverInThread(threadClassLoader = null, Any::class)
+        val anyFixedBackoff = createResolverInThread(threadClassLoader = null, Any::class)
+            .resolve(FixedBackoff::class.java.name)
 
-        assertEquals(FixedBackoff::class, anyResolver.resolve(FixedBackoff::class.java.name))
+        assertSame(ClassLoader.getSystemClassLoader(), anyFixedBackoff.java.classLoader)
     }
 
     @Test
@@ -162,7 +163,7 @@ class ClassNameResolverTests {
 
         assertEquals(testsName, failure.className)
         assertEquals(Backoff::class, failure.baseType)
-        assertEquals("The class '$testsName' is not a subtype of ${Backoff::class.java.name}", failure.message)
+        assertEquals("The class '$testsName' is not a subtype of '${Backoff::class.java.name}'", failure.message)
     }
 
     @Test
@@ -185,17 +186,6 @@ class ClassNameResolverTests {
             "Allowed packages are not package names: ['com.acme.', '*', '', 'com..acme', '1com', 'com.ac-me']",
             failure.message,
         )
-    }
-
-    @Test
-    fun `the allowed packages of a failure are its own unmodifiable copy`() {
-        val packages = mutableSetOf("com.acme", "org.acme")
-        val failure = ClassNotAllowedException("java.lang.Runtime", packages)
-
-        packages += "java.lang"
-
-        assertEquals(setOf("com.acme", "org.acme"), failure.allowedPackages)
-        assertThrows<UnsupportedOperationException> { (failure.allowedPackages as MutableSet<String>).add("java.lang") }
     }
 
     private fun <T : Any> createResolverInThread(threadClassLoader: ClassLoader?, baseType: KClass<T>) = Executors

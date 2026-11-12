@@ -172,16 +172,17 @@ val types = TypeNameResolver.of(Backoff::class, listOf(FixedBackoff::class, Expo
 val type = types.resolve("exponential")
 ```
 
-`ClassNameResolver` finds a subtype by the full name of its class, where no list of subtypes
-is known in advance, as `TypeNameResolver` needs it: `type: com.acme.backoff.JitteredBackoff`
-in settings, as `ClassNameIdResolver` of Jackson finds a class by its name in JSON. A class
+`ClassNameResolver` finds a subtype by the full name of its class, where the subtypes are not
+known in advance, unlike `TypeNameResolver`, which takes their list:
+`type: com.acme.backoff.JitteredBackoff` in settings, as `ClassNameIdResolver` of Jackson finds
+a class by its name in JSON. A class
 loaded by a name from outside is a known vulnerability, the one of polymorphic
 deserialization in Jackson, so the resolver loads only what its allowed packages hold and
 returns only a subtype of its base type:
 
 - a name outside the allowed packages is rejected by `ClassNotAllowedException` before the
-  class is loaded, as `PolymorphicTypeValidator` of Jackson checks the name of a subclass
-  first by `allowIfSubType` and `JsonDeserializer` of Spring Kafka by its trusted packages; a
+  class is loaded, as `BasicPolymorphicTypeValidator` of Jackson checks the name of a
+  subclass first by `allowIfSubType` and `JsonDeserializer` of Spring Kafka by its trusted packages; a
   package allows its subpackages, as `basePackages` of Spring component scanning does;
 - a class is loaded without running its static initializers, as `ClassUtils.forName` of
   Spring loads it, by one class loader: the one given, or else the context one of the thread
