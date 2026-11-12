@@ -3,7 +3,7 @@ package pro.vlprojects.semantic.pattern.behavioral.resolver
 import java.lang.reflect.TypeVariable
 import kotlin.reflect.KClass
 
-public class TypeArgumentResolver<G : Any> private constructor(
+public class GenericTypeResolver<G : Any> private constructor(
     private val typeParameter: TypeVariable<Class<G>>,
 ) : Resolver<KClass<out G>, KClass<*>> {
 
@@ -15,10 +15,10 @@ public class TypeArgumentResolver<G : Any> private constructor(
 
     public companion object Factory {
 
-        public fun <G : Any> of(genericType: KClass<G>, index: Int = 0): TypeArgumentResolver<G> = genericType
+        public fun <G : Any> of(genericType: KClass<G>, index: Int = 0): GenericTypeResolver<G> = genericType
             .also { type -> checkHasTypeParameter(type, index) }
             .java
             .typeParameters[index]
-            .let(::TypeArgumentResolver)
+            .let(::GenericTypeResolver)
     }
 }

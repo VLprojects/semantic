@@ -18,7 +18,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.registry.error` | `InvalidNameException`, `InstanceAlreadyExistsException`, `InstanceNotFoundException`, `DefaultInstanceNotFoundException`; `InstanceRegistrationException` of a registrar |
 | `creational.factory` | `Factory`, an instance made of its definition; `Factory.Definition`, the marker of a definition |
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
-| `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name; `TypeArgumentResolver`, the type argument a class gives to a generic type |
+| `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name; `GenericTypeResolver`, the type a class gives to a generic type |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
 
 `structural` gets packages when a pattern of it is needed.
@@ -168,8 +168,8 @@ val types = TypeNameResolver.of(Backoff::class, listOf(FixedBackoff::class, Expo
 val type = types.resolve("exponential")
 ```
 
-`TypeArgumentResolver` finds the type argument a class gives to a generic type, as Spring
-`GenericTypeResolver.resolveTypeArgument` does: `CreateOrder` of `CreateOrderHandler :
+`GenericTypeResolver` finds the type a class gives to a generic type, as `resolveTypeArgument`
+of the Spring class of the same name does: `CreateOrder` of `CreateOrderHandler :
 CommandHandler<CreateOrder>`. A type variable of a generic supertype, a base class or an
 interface, is followed through the hierarchy, as Guava `TypeToken.resolveType` follows it. The
 type parameter is taken by its index, the first one by default, as `ResolvableType.getGeneric`
@@ -184,9 +184,9 @@ variable of the outer class of an inner one followed. For an index out of the ty
 a negative one too, `of` throws `IllegalArgumentException`.
 
 ```kotlin
-val commandTypes = TypeArgumentResolver.of(CommandHandler::class)
+val commandTypes = GenericTypeResolver.of(CommandHandler::class)
 val commandType = commandTypes.resolve(handler::class)
-val targetType = TypeArgumentResolver.of(Converter::class, index = 1).resolve(converter::class)
+val targetType = GenericTypeResolver.of(Converter::class, index = 1).resolve(converter::class)
 ```
 
 ## Plan

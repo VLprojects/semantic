@@ -4,12 +4,12 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import pro.vlprojects.semantic.pattern.behavioral.resolver.TypeArgumentResolver
+import pro.vlprojects.semantic.pattern.behavioral.resolver.GenericTypeResolver
 import java.lang.reflect.Proxy
 
-class TypeArgumentResolverTests {
+class GenericTypeResolverTests {
 
-    private val commandTypes = TypeArgumentResolver.of(CommandHandler::class)
+    private val commandTypes = GenericTypeResolver.of(CommandHandler::class)
 
     @Test
     fun `a type argument given to a generic type is resolved`() {
@@ -43,15 +43,15 @@ class TypeArgumentResolverTests {
 
     @Test
     fun `a type argument given by the wrapper of a Kotlin primitive is resolved`() {
-        val comparableTypes = TypeArgumentResolver.of(Comparable::class)
+        val comparableTypes = GenericTypeResolver.of(Comparable::class)
 
         assertEquals(Int::class, comparableTypes.resolve(Int::class))
     }
 
     @Test
     fun `a type argument is resolved by the index of its type parameter`() {
-        val sourceTypes = TypeArgumentResolver.of(Converter::class)
-        val targetTypes = TypeArgumentResolver.of(Converter::class, index = 1)
+        val sourceTypes = GenericTypeResolver.of(Converter::class)
+        val targetTypes = GenericTypeResolver.of(Converter::class, index = 1)
 
         assertEquals(String::class, sourceTypes.resolve(StringToIntConverter::class))
         assertEquals(Int::class, targetTypes.resolve(StringToIntConverter::class))
@@ -114,7 +114,7 @@ class TypeArgumentResolverTests {
     @Test
     fun `a negative index is rejected`() {
         val failure = assertThrows<IllegalArgumentException> {
-            TypeArgumentResolver.of(Converter::class, index = -1)
+            GenericTypeResolver.of(Converter::class, index = -1)
         }
 
         assertEquals(
@@ -126,7 +126,7 @@ class TypeArgumentResolverTests {
     @Test
     fun `an index beyond the type parameters is rejected`() {
         val failure = assertThrows<IllegalArgumentException> {
-            TypeArgumentResolver.of(Converter::class, index = 2)
+            GenericTypeResolver.of(Converter::class, index = 2)
         }
 
         assertEquals(
@@ -138,7 +138,7 @@ class TypeArgumentResolverTests {
     @Test
     fun `a type without type parameters is rejected`() {
         val failure = assertThrows<IllegalArgumentException> {
-            TypeArgumentResolver.of(CreateOrder::class)
+            GenericTypeResolver.of(CreateOrder::class)
         }
 
         assertEquals(
