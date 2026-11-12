@@ -9,8 +9,11 @@ internal fun String.isPackageName() = this
     .all(String::isJavaIdentifier)
 
 private fun String.isJavaIdentifier() = this.isNotEmpty() &&
-    this.first().isJavaIdentifierStart() &&
-    this.drop(1).all(Char::isJavaIdentifierPart)
+    this.codePointAt(0).let(Character::isJavaIdentifierStart) &&
+    this
+        .codePoints()
+        .skip(1)
+        .allMatch(Character::isJavaIdentifierPart)
 
 internal fun String.isInPackage(packageName: String) = this.startsWith("$packageName$PACKAGE_SEPARATOR")
 
@@ -23,7 +26,11 @@ internal fun String.loadClassOrNull(classLoader: ClassLoader) = try {
     throw IllegalArgumentException("The class '$this' cannot be loaded", failure)
 }
 
-internal val KClass<*>.defaultClassLoader
-    get() = this.java.classLoader
-        ?: ClassNameResolver::class.java.classLoader
-        ?: ClassLoader.getSystemClassLoader()
+internal fun KClass<*>.getDefaultClassLoader(
+    resolverClassLoader: ClassLoader? = ClassNameResolver::class.java.classLoader,
+) = resolverClassLoader
+    ?.takeIf { classLoader -> this.isVisible(classLoader) }
+    ?: this.java.classLoader
+    ?: ClassLoader.getSystemClassLoader()
+
+private fun KClass<*>.isVisible(classLoader: ClassLoader) = this.java.name.loadClassOrNull(classLoader) == this.java

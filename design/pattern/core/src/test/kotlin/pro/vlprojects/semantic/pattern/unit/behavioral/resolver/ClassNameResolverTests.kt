@@ -9,7 +9,9 @@ import org.junit.jupiter.api.assertThrows
 import pro.vlprojects.semantic.pattern.behavioral.resolver.ClassNameResolver
 import pro.vlprojects.semantic.pattern.behavioral.resolver.error.ClassNotAllowedException
 import pro.vlprojects.semantic.pattern.behavioral.resolver.error.NotSubtypeException
+import pro.vlprojects.semantic.pattern.behavioral.resolver.getDefaultClassLoader
 import java.net.URLClassLoader
+import java.sql.Wrapper
 
 class ClassNameResolverTests {
 
@@ -127,7 +129,7 @@ class ClassNameResolverTests {
     }
 
     @Test
-    fun `the class loader of the base type is taken`() {
+    fun `the class loader of the base type is taken when the resolver does not see the base type`() {
         val testClassesLocation = Backoff::class.java.protectionDomain.codeSource.location
 
         arrayOf(testClassesLocation)
@@ -145,11 +147,14 @@ class ClassNameResolverTests {
     }
 
     @Test
-    fun `the class loader of the resolver is taken when the base type has none`() {
-        val anyFixedBackoff = ClassNameResolver.of(Any::class, setOf(allowedPackage))
-            .resolve(FixedBackoff::class.java.name)
+    fun `the class loader of the resolver is taken when it sees the base type`() {
+        val platformChildClassLoader = ClassLoader.getPlatformClassLoader()
+            .let { platformClassLoader -> URLClassLoader(emptyArray(), platformClassLoader) }
 
-        assertSame(ClassNameResolver::class.java.classLoader, anyFixedBackoff.java.classLoader)
+        platformChildClassLoader.use { resolverClassLoader ->
+            assertSame(resolverClassLoader, Wrapper::class.getDefaultClassLoader(resolverClassLoader))
+            assertSame(resolverClassLoader, Any::class.getDefaultClassLoader(resolverClassLoader))
+        }
     }
 
     @Test
@@ -180,6 +185,7 @@ class ClassNameResolverTests {
                     "com.acme2",
                     "_acme",
                     "com.\$acme",
+                    "com.\uD835\uDC65",
                     "com.acme.",
                     "*",
                     "",

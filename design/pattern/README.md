@@ -185,11 +185,16 @@ hold and returns only its base type or a subtype of it:
   trusted packages; a package allows its subpackages, as `basePackages` of Spring component
   scanning does;
 - a class is loaded without running its static initializers, as `ClassUtils.forName` of
-  Spring loads it, by one class loader: the one given, or else the one of the base type; where
-  the base type has none, as `Any` of the bootstrap class loader, the one of the resolver, as
-  `ClassUtils.getDefaultClassLoader` of Spring takes the one of `ClassUtils`; then the system
-  one. A class this loader does not see resolves nothing, where `TypeFactory.findClass` of
-  Jackson tries the next loader;
+  Spring loads it, by one class loader, the first of:
+  1. the one given to `of`;
+  2. the one of the resolver, where it sees the base type, as `ClassUtils.isVisible` of
+     Spring checks a class: a base type of the JDK, as `Any` or `DataSource`, then still
+     finds the classes of the application;
+  3. the one of the base type;
+  4. the system one.
+
+  A class this loader does not see resolves nothing, where `TypeFactory.findClass` of Jackson
+  tries the next loader;
 - a nested class is named by its binary name, `com.acme.Outer$Inner`, as `Class.forName`
   takes it;
 - a class that is missing resolves nothing, as Jackson leaves an unknown class to the caller;
