@@ -4,5 +4,5 @@ open class OuterCommandHandler<C> : CommandHandler<C> {
 
     override fun handle(command: C) = Unit
 
-    inner class InnerCommandHandler : OuterCommandHandler<C>()
+    open inner class InnerCommandHandler : OuterCommandHandler<C>()
 }

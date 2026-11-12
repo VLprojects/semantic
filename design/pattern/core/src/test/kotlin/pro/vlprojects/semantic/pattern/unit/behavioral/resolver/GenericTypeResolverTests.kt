@@ -77,6 +77,20 @@ class GenericTypeResolverTests {
     }
 
     @Test
+    fun `a type argument given to the outer class of an outer class is resolved`() {
+        val handlerType = OrderCommandModule.CreateOrderHandlers.CreateOrderHandler::class
+
+        assertEquals(CreateOrder::class, commandTypes.resolve(handlerType))
+    }
+
+    @Test
+    fun `a type argument given to the outer class wins over the variable an inner subclass passes back`() {
+        val handlerType = CreateOrderOuterCommandHandler.CreateOrderInnerCommandHandler::class
+
+        assertEquals(CreateOrder::class, commandTypes.resolve(handlerType))
+    }
+
+    @Test
     fun `a type argument given by an anonymous class is resolved`() {
         val handler = object : CommandHandler<CreateOrder> {
 

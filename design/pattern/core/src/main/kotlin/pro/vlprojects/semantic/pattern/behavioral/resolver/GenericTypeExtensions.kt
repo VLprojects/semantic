@@ -6,7 +6,7 @@ import java.lang.reflect.Type
 import java.lang.reflect.TypeVariable
 
 internal fun Class<*>.collectTypeVariableMap() = this
-    .collectAllGenericSupertypes()
+    .collectGenericSupertypes()
     .flatMap { supertype ->
         supertype
             .collectOwnerTypes()
@@ -16,13 +16,13 @@ internal fun Class<*>.collectTypeVariableMap() = this
     .flatMap(ParameterizedType::zipTypeParametersWithArguments)
     .toMap()
 
-private fun Type.collectAllGenericSupertypes(): List<Type> = this
+private fun Type.collectGenericSupertypes(): List<Type> = this
     .toRawClassOrNull()
     ?.listGenericSupertypes()
     .orEmpty()
     .flatMap { supertype ->
         supertype
-            .collectAllGenericSupertypes()
+            .collectGenericSupertypes()
             .plus(supertype)
     }
 
