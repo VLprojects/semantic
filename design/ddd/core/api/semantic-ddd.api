@@ -20,6 +20,15 @@ public final class pro/vlprojects/semantic/ddd/dsl/BusinessRulesKt {
 	public static final fun rule (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lpro/vlprojects/semantic/ddd/tactical/BusinessRule;
 }
 
+public final class pro/vlprojects/semantic/ddd/strategic/ArchitecturalPattern : java/lang/Enum {
+	public static final field CQRS Lpro/vlprojects/semantic/ddd/strategic/ArchitecturalPattern;
+	public static final field LAYERED Lpro/vlprojects/semantic/ddd/strategic/ArchitecturalPattern;
+	public static final field PORTS_AND_ADAPTERS Lpro/vlprojects/semantic/ddd/strategic/ArchitecturalPattern;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lpro/vlprojects/semantic/ddd/strategic/ArchitecturalPattern;
+	public static fun values ()[Lpro/vlprojects/semantic/ddd/strategic/ArchitecturalPattern;
+}
+
 public abstract interface class pro/vlprojects/semantic/ddd/strategic/BoundedContext {
 	public fun getName ()Ljava/lang/String;
 }
@@ -29,17 +38,66 @@ public final class pro/vlprojects/semantic/ddd/strategic/BoundedContextKt {
 	public static final fun hasBoundedContext (Lkotlin/reflect/KClass;Lpro/vlprojects/semantic/ddd/strategic/BoundedContext;)Z
 }
 
+public final class pro/vlprojects/semantic/ddd/strategic/BusinessLogicPattern : java/lang/Enum {
+	public static final field ACTIVE_RECORD Lpro/vlprojects/semantic/ddd/strategic/BusinessLogicPattern;
+	public static final field DOMAIN_MODEL Lpro/vlprojects/semantic/ddd/strategic/BusinessLogicPattern;
+	public static final field EVENT_SOURCED_DOMAIN_MODEL Lpro/vlprojects/semantic/ddd/strategic/BusinessLogicPattern;
+	public static final field TRANSACTION_SCRIPT Lpro/vlprojects/semantic/ddd/strategic/BusinessLogicPattern;
+	public final fun getArchitecturalPattern ()Lpro/vlprojects/semantic/ddd/strategic/ArchitecturalPattern;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun getTestingStrategy ()Lpro/vlprojects/semantic/ddd/strategic/TestingStrategy;
+	public static fun valueOf (Ljava/lang/String;)Lpro/vlprojects/semantic/ddd/strategic/BusinessLogicPattern;
+	public static fun values ()[Lpro/vlprojects/semantic/ddd/strategic/BusinessLogicPattern;
+}
+
+public final class pro/vlprojects/semantic/ddd/strategic/Complexity : java/lang/Enum {
+	public static final field HIGH Lpro/vlprojects/semantic/ddd/strategic/Complexity;
+	public static final field LOW Lpro/vlprojects/semantic/ddd/strategic/Complexity;
+	public final fun getBusinessLogicPattern ()Lpro/vlprojects/semantic/ddd/strategic/BusinessLogicPattern;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lpro/vlprojects/semantic/ddd/strategic/Complexity;
+	public static fun values ()[Lpro/vlprojects/semantic/ddd/strategic/Complexity;
+}
+
 public abstract interface class pro/vlprojects/semantic/ddd/strategic/Subdomain {
+	public fun getArchitecturalPattern ()Lpro/vlprojects/semantic/ddd/strategic/ArchitecturalPattern;
+	public fun getBusinessLogicPattern ()Lpro/vlprojects/semantic/ddd/strategic/BusinessLogicPattern;
+	public abstract fun getComplexity ()Lpro/vlprojects/semantic/ddd/strategic/Complexity;
 	public fun getName ()Ljava/lang/String;
+	public fun getTestingStrategy ()Lpro/vlprojects/semantic/ddd/strategic/TestingStrategy;
+	public abstract fun getVolatility ()Lpro/vlprojects/semantic/ddd/strategic/Volatility;
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/strategic/Subdomain$Core : pro/vlprojects/semantic/ddd/strategic/Subdomain {
+	public fun getComplexity ()Lpro/vlprojects/semantic/ddd/strategic/Complexity;
+	public fun getVolatility ()Lpro/vlprojects/semantic/ddd/strategic/Volatility;
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/strategic/Subdomain$Generic : pro/vlprojects/semantic/ddd/strategic/Subdomain {
+	public fun getComplexity ()Lpro/vlprojects/semantic/ddd/strategic/Complexity;
+	public fun getVolatility ()Lpro/vlprojects/semantic/ddd/strategic/Volatility;
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/strategic/Subdomain$Supporting : pro/vlprojects/semantic/ddd/strategic/Subdomain {
+	public fun getComplexity ()Lpro/vlprojects/semantic/ddd/strategic/Complexity;
+	public fun getVolatility ()Lpro/vlprojects/semantic/ddd/strategic/Volatility;
+}
+
+public final class pro/vlprojects/semantic/ddd/strategic/TestingStrategy : java/lang/Enum {
+	public static final field DIAMOND Lpro/vlprojects/semantic/ddd/strategic/TestingStrategy;
+	public static final field PYRAMID Lpro/vlprojects/semantic/ddd/strategic/TestingStrategy;
+	public static final field REVERSED_PYRAMID Lpro/vlprojects/semantic/ddd/strategic/TestingStrategy;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lpro/vlprojects/semantic/ddd/strategic/TestingStrategy;
+	public static fun values ()[Lpro/vlprojects/semantic/ddd/strategic/TestingStrategy;
+}
+
+public final class pro/vlprojects/semantic/ddd/strategic/Volatility : java/lang/Enum {
+	public static final field HIGH Lpro/vlprojects/semantic/ddd/strategic/Volatility;
+	public static final field LOW Lpro/vlprojects/semantic/ddd/strategic/Volatility;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lpro/vlprojects/semantic/ddd/strategic/Volatility;
+	public static fun values ()[Lpro/vlprojects/semantic/ddd/strategic/Volatility;
 }
 
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/AggregateRoot : pro/vlprojects/semantic/ddd/tactical/Entity {

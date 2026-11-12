@@ -955,11 +955,41 @@ def subdomains(pal):
 	a.w, a.h = right, y - 16 + 16
 	return a
 
+
+# ---------------------------------------------------------------------- subdomain characteristics
+# A row per category with what it gives by default, a column per characteristic, and a subdomain below that
+# overrides its pattern of business logic: the override is green, the columns after it follow from it
+
+
+def characteristics(pal):
+	a = Art(0, 0, pal)
+	head = ["category", "complexity", "volatility", "business logic", "architecture", "tests"]
+	rows = [
+		(["Subdomain.Core", "HIGH", "HIGH", "DOMAIN_MODEL", "PORTS_AND_ADAPTERS", "PYRAMID"], None),
+		(["Subdomain.Supporting", "LOW", "LOW", "TRANSACTION_SCRIPT", "LAYERED", "REVERSED_PYRAMID"], None),
+		(["Subdomain.Generic", "HIGH", "LOW", "DOMAIN_MODEL", "PORTS_AND_ADAPTERS", "PYRAMID"], None),
+		(["object Ledger : Core", "HIGH", "HIGH", "EVENT_SOURCED_DOMAIN_MODEL", "CQRS", "PYRAMID"], 3),
+	]
+	widths = [max(cells(row[i]) * CELL + 24 for row, _ in rows) for i in range(len(head))]
+	xs, x = [], 16
+	for w in widths:
+		xs.append(x)
+		x += w + 16
+	for column, label in zip(xs, head):
+		a.t(column, 28, label)
+	y = 44
+	for values, overridden in rows:
+		for i, value in enumerate(values):
+			chip(a, xs[i], y, value, "green" if i == overridden else None)
+		y += CHIP + 16
+	a.w, a.h = x, y
+	return a
+
 DIAGRAMS = {
 	"families": families, "dependencies": dependencies,
 	"format-cases": cases, "helper-words": words, "format-abbreviated": abbreviated, "helper-symbols": symbols,
 	"ddd-context-packages": context_packages, "ddd-context-uses": context_uses, "ddd-context-reference": context_reference,
-	"ddd-subdomains": subdomains,
+	"ddd-subdomains": subdomains, "ddd-subdomain-characteristics": characteristics,
 }
 
 if __name__ == "__main__":
