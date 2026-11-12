@@ -181,7 +181,7 @@ taken by its index, the first one by default, as `ResolvableType.getGeneric` tak
   `CommandHandler<List<CreateOrder>>`; an array of a type variable, to an array of its
   argument; an array of a parameterized type, to an array of its raw class.
 - A Kotlin primitive class is resolved through its wrapper: `Int::class` resolves to `Int` for
-  `Comparable`, through `Comparable<Integer>` of `java.lang.Integer`.
+  `Comparable`, as `java.lang.Integer` implements `Comparable<java.lang.Integer>`.
 - A primitive argument resolves to the class of its wrapper: for `Converter<String, Int>` the
   target type equals `Int::class`, and its `java` is `java.lang.Integer`, not `int`.
 - A variable of an outer class is followed through the owner of an inner supertype, as
