@@ -174,7 +174,8 @@ CommandHandler<CreateOrder>`. A type variable of a generic supertype, a base cla
 interface, is followed through the hierarchy level by level, as `ResolvableType.as` follows it,
 each level binding the variables of its supertypes by its own arguments. The type parameter is
 taken by its index, the first one by default, as `ResolvableType.getGeneric` takes it;
-`resolveTypeArgument` of Spring rejects a type of several parameters instead.
+`resolveTypeArgument` of Spring rejects a type of several parameters, and
+`resolveTypeArguments` returns them all as an array, unresolved ones as `null`.
 
 - A parameterized argument resolves to its raw class: `List` of
   `CommandHandler<List<CreateOrder>>`; an array of a type variable, to an array of its
