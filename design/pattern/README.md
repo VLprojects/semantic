@@ -21,8 +21,8 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
 | `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name; `ClassNameResolver`, a subtype by the full name of its class |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException`; `ClassNotAllowedException`, `NotSubtypeException` of a class name resolver |
-| `enterprise.plugin` | `PolymorphicConfigurationBinder`, a block of settings to an object of the class the block names |
-| `enterprise.plugin.error` | `InvalidConfigurationException` of a binder: `UnknownConfigurationException`, `MultipleConfigurationsException`, `InvalidConfigurationPropertyException` |
+| `enterprise.configuration` | `PolymorphicConfigurationBinder`, a block of settings to an object of the class the block names; `Definition`, a block as strings: its name, type and arguments; `DefinitionParser`, flat properties to definitions; `DefinitionMapper`, the arguments of a definition to an object of a class |
+| `enterprise.configuration.error` | Of a binder, `InvalidConfigurationException`: `UnknownConfigurationException`, `InvalidConfigurationPropertyException`. Of a parser, `DefinitionParsingException`, an `InvalidConfigurationException` too: `MultipleConfigurationsException`, `UnboundConfigurationPropertiesException`. Of a mapper, `DefinitionConversionException` |
 
 `structural` gets packages when a pattern of it is needed.
 
@@ -230,7 +230,7 @@ val type = types.resolve("com.acme.backoff.JitteredBackoff")
 Plugin, as Fowler describes it, links an interface to its implementation when the application
 is configured, not when it is compiled. Here it has two halves. The factory half, a definition to an
 instance, is `Factory` and `AbstractRegistrar` above. The configuration half, a block of settings to
-an object of the class the block names, is `enterprise.plugin`; Dropwizard calls it polymorphic
+an object of the class the block names, is `enterprise.configuration`; Dropwizard calls it polymorphic
 configuration. It knows no factory: the class may be any, a definition or not, as Spring Boot
 `Binder` binds any class. A registrar may join the halves: its `loadDefinitions` binds each block
 by a `PolymorphicConfigurationBinder<D>` and makes an instance by the factory of the class of the definition.
@@ -261,27 +261,28 @@ resolver.
 
 A block comes as `Map<String, String>` with keys flattened as Spring Boot flattens a tree:
 `exponential.multiplier`, `exponential.jitter.factor`, `exponential.retry-on-statuses[0]`.
-`prefix` is the prefix of the block, `semantic.resilience.backoff.instances[orders]`: its keys
+`prefix` is the prefix of the block, `semantic.resilience.backoff.instances.orders`: its keys
 are relative to it, as to the prefix of `@ConfigurationProperties`, and the errors carry it, so
 a wrong block is found by its prefix.
 
-The contract of a binder:
+The contract of a binder of one block, as it is now; step 3 of the plan turns it into a binder of
+all the blocks under a prefix, made of a parser, a resolver and a mapper, and the layout of keys
+and the default type move to the parser:
 
 - The type is the first segment of a key. Keys of one block that name different types throw
   `MultipleConfigurationsException` with the prefix of the block and the types.
 - A type that the resolver does not find throws `UnknownConfigurationException` with the prefix
   of the block and the type, as Jackson throws `InvalidTypeIdException`. A field outside a type,
-  `orders.multiplier`, names the unknown type `multiplier`.
+  `multiplier=3`, is a value on a type key and throws `UnboundConfigurationPropertiesException`.
 - A resolver that finds several classes for a type throws `MultipleResolvedException` of its own;
   `TypeNameResolver` never does, as its names are unique.
 - An empty block takes the default type the binder is made with. A default type the resolver does
   not find fails when the binder is made, with `IllegalArgumentException`.
-- Types are compared by the class the resolver finds, not by their spelling: `TypeNameResolver`
-  matches `fixed-delay` and `fixedDelay` as one name, and the binder takes them as one type.
-  A field set under two spellings of the type keeps the later key, as a map keeps the later
-  entry.
+- Types are compared as written: `fixed-delay` and `fixedDelay` in one block throw
+  `MultipleConfigurationsException`, though `TypeNameResolver` matches both to one class.
 - Fields that do not fit the class, a required one missing, an extra one or a wrong value, throw
-  `InvalidConfigurationPropertyException` with the prefix and the error of the adapter as its cause.
+  `InvalidConfigurationPropertyException` with the prefix and the `DefinitionConversionException` of
+  the mapper as its cause.
 
 Every error of a binder is an `InvalidConfigurationException`: the configuration of the block is
 invalid, and the caller catches one exception. The block is an argument of `bind`, so it is an
@@ -304,13 +305,96 @@ the name of the instance.
 A type in a field of the block, `type: exponential` as `PROPERTY` of Jackson, is not supported:
 no module needs it yet.
 
+### Definition, parser, mapper
+
+Spring Boot flattens the settings of a module to keys of four parts:
+
+```
+semantic.resilience.backoff.instances . orders . exponential . initial-delay = 200ms
+prefix                                  name     type          argument
+```
+
+The prefix is where a module keeps its blocks, with the section `instances` when the module has
+one, as `resilience4j.retry.instances` of Resilience4j does. The name is the name of an instance,
+the type picks a class, and the rest of the key is an argument: `jitter.factor` and
+`retry-on-statuses[0]` too.
+
+Binding splits in three, as Jackson splits a polymorphic read into `TypeDeserializer`,
+`TypeIdResolver` and `JsonDeserializer`:
+
+| Part | What it does | In Jackson |
+| --- | --- | --- |
+| `DefinitionParser` | flat properties to a `Definition` per block: the name, the type and the arguments | `TypeDeserializer` finds the type id |
+| `Resolver<String, KClass<out T>>` | a type to a class | `TypeIdResolver` |
+| `DefinitionMapper` | the arguments of a definition to an object of a class | `JsonDeserializer` |
+
+`Definition` is a block as strings, before any class, as `FilterDefinition(name, args)`
+of Spring Cloud Gateway is. It is not a `Factory.Definition`: a mapper makes one of it. Its
+`toString` names the keys of the arguments and hides their values, which may be secrets.
+
+The type is a string, as the type id of Jackson is: a short name, `exponential`, or a name of a
+class, as a resolver reads it. A definition always has a type, and none of its name, type and
+argument keys is blank. It copies the arguments, so a change of the given map does not reach it.
+
+The contract of `DefinitionParser`, named as `BeanDefinitionParser` of Spring: `parse(properties)`
+takes all the flat properties of an application and gives one definition per name of a block it
+finds, in no order. Where the blocks are and how their keys are laid out is up to the parser: it is
+made with what it needs, as `AsPropertyTypeDeserializer` of Jackson is made with the name of the
+type property and the default type. Its errors are `DefinitionParsingException`, as
+`BeanDefinitionParsingException` is of Spring, with the prefix of the block: keys of one block that
+name different types throw `MultipleConfigurationsException`, keys it cannot read throw
+`UnboundConfigurationPropertiesException` with the keys, as Spring Boot does.
+
+The first parser, of named blocks, is to be made with a prefix and a default type, and to read named
+definitions of flat properties under the prefix, as `PropertiesBeanDefinitionReader` of Spring does:
+
+- The keys outside the prefix are left out. The prefix ends at `.` or `[`:
+  `semantic.resilience.backoff.instancesBackup.orders` is outside `semantic.resilience.backoff.instances`.
+- The name is the first segment after the prefix. A name in brackets, `instances[orders.v2]`, is
+  `orders.v2`, as Spring Boot keeps a map key with a dot. The type is the next segment, up to `.`
+  or `[`. The rest of the key after the `.` is an argument.
+- A block that names no type, `orders=` as Spring Boot flattens `orders:` of YAML, takes the default
+  type, as `TypeDeserializerBase` of Jackson takes `defaultImpl`. A parser made with no default type
+  leaves the key unbound.
+- An empty value on the type key, `orders.fixed=`, names the type and gives no argument: Spring Boot
+  4.1 flattens `fixed:` and `fixed: {}` of YAML so; 4.0 drops `fixed: {}`, and the block takes the
+  default type.
+- Keys of one block that name different types throw `MultipleConfigurationsException` with the
+  prefix of the block, `semantic.resilience.backoff.instances.orders`, and the types. Types are
+  compared as written: a parser knows no classes, and a map of flat keys keeps no order of their
+  sources, so neither of `fixed-delay` and `fixedDelay` may win. An environment variable spells a
+  type with no dash, `ORDERS_FIXEDDELAY_DELAY` as `orders.fixeddelay.delay`: a block it overrides
+  names its type `fixeddelay` in YAML too.
+- A key that is neither an argument nor one of those two, a value on them, `orders=5` or
+  `orders.fixed=5`, or a list in their place, `orders[0]=fixed` or `orders.fixed[0]=`, is left
+  unbound and throws `UnboundConfigurationPropertiesException` with the prefix of the block.
+
+The contract of `DefinitionMapper`: `convert(definition, targetType)` makes an object of
+`targetType` of the arguments, as `ObjectMapper.convertValue(map, type)` of Jackson does. No
+arguments give the defaults of the class; a required argument missing, an extra one or a wrong value
+throws `DefinitionConversionException` with the definition and the target type, as
+`ConversionService` of Spring throws `ConversionFailedException` with its `targetType`, so the
+binder wraps no other error. The class is chosen before: a mapper reads no type, as a
+`JsonDeserializer` of Jackson does not; the name of the definition is there for its errors. The core
+has no mapper, as it is plain Kotlin: the Spring Boot adapter is to give one over `Binder`, wrapping
+its `BindException`. The definition is an argument of `convert`, so its error is an
+`IllegalArgumentException`, as the one of `convertValue` is. A mapper knows no prefix, so its error
+is not an `InvalidConfigurationException`: the binder wraps it in one.
+
+Two layouts are not supported, as no module needs them yet: a type in a field of the block,
+`type: exponential` as `PROPERTY` of Jackson, and a list of blocks with the name in a field,
+`backoff[0].name=orders` as `routes[0].id` of Spring Cloud Gateway. Either is a parser of its own.
+
 ### Plan of Plugin
 
 1. The contract of `PolymorphicConfigurationBinder`, its errors.
-2. `AbstractPolymorphicConfigurationBinder`: the type from the key, one type in a block, the default
-   type; a subclass binds only the fields.
-3. A Spring Boot adapter, `semantic-pattern-spring-boot`: a binder over the `Binder` of Spring Boot.
-4. Backoff and the polling of delivery moved onto it.
+2. `Definition`; the contracts of `DefinitionParser` and `DefinitionMapper`.
+3. A binder of all the blocks under a prefix: `bind` gives the objects by the names of the blocks,
+   the `Map<String, D>` that `loadDefinitions` of a registrar returns.
+4. A parser of named blocks, made with a prefix and a default type.
+5. `GenericConfigurationBinder`: a parser, a resolver and a mapper.
+6. A Spring Boot adapter, `semantic-pattern-spring-boot`: a mapper over the `Binder` of Spring Boot.
+7. Backoff and the polling of delivery moved onto it.
 
 ## Plan
 
