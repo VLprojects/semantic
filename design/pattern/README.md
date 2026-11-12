@@ -137,7 +137,7 @@ contract, as Spring `ObjectProvider` and CDI `Instance` give one, an optional on
 
 An implementation may reject a context it does not take: every method, `resolveAll` included,
 throws an `IllegalArgumentException` then, as `ClassNameResolver` rejects a class outside its
-trusted packages.
+allowed packages.
 
 A policy is asked only when several values are found, as Spring picks a primary bean only
 among several candidates. `ResolvingPolicy.first()` and `last()` keep the order `resolveAll`
@@ -176,18 +176,19 @@ val type = types.resolve("exponential")
 is known in advance, as `TypeNameResolver` needs it: `type: com.acme.backoff.JitteredBackoff`
 in settings, as `ClassNameIdResolver` of Jackson finds a class by its name in JSON. A class
 loaded by a name from outside is a known vulnerability, the one of polymorphic
-deserialization in Jackson, so the resolver loads only what its trusted packages hold and
+deserialization in Jackson, so the resolver loads only what its allowed packages hold and
 returns only a subtype of its base type:
 
-- a name outside the trusted packages is rejected by `ClassNotAllowedException` before the
+- a name outside the allowed packages is rejected by `ClassNotAllowedException` before the
   class is loaded, as `PolymorphicTypeValidator` of Jackson checks the name of a subclass
-  first and `JsonDeserializer` of Spring Kafka trusts the packages it is given; a package
-  trusts its subpackages, as `basePackages` of Spring component scanning does;
+  first by `allowIfSubType` and `JsonDeserializer` of Spring Kafka by its trusted packages; a
+  package allows its subpackages, as `basePackages` of Spring component scanning does;
 - a class is loaded without running its static initializers, as `ClassUtils.forName` of
-  Spring loads it; the class loader is the one given, or else the context one of the thread
+  Spring loads it, by one class loader: the one given, or else the context one of the thread
   that makes the resolver, as `ClassUtils.getDefaultClassLoader` of Spring takes it first;
-  then the one of the base type, where Spring takes the one of `ClassUtils`; then the system
-  one;
+  where the thread has none, the one of the base type, where Spring takes the one of
+  `ClassUtils`; where the base type has none, the system one. A class this loader does not
+  see resolves nothing, where `TypeFactory.findClass` of Jackson tries the next loader;
 - a nested class is named by its binary name, `com.acme.Outer$Inner`, as `Class.forName`
   takes it;
 - a class that is missing resolves nothing, as Jackson leaves an unknown class to the caller;
@@ -196,9 +197,9 @@ returns only a subtype of its base type:
   cause, as `ClassUtils.resolveClassName` of Spring rejects it;
 - a class that is not a subtype is rejected by `NotSubtypeException`, as Jackson rejects it.
 
-An empty set of trusted packages, or a name that is not of Java identifiers joined by single
+An empty set of allowed packages, or a name that is not of Java identifiers joined by single
 dots, such as `com.acme.`, `1com` or `*`, fails `of` with an `IllegalArgumentException` instead
-of silently trusting none, where `*` of Spring Kafka trusts every class.
+of silently allowing none, where `*` of Spring Kafka trusts every class.
 
 ```kotlin
 val types = ClassNameResolver.of(Backoff::class, setOf("com.acme"))

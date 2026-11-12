@@ -6,21 +6,21 @@ import kotlin.reflect.KClass
 
 public class ClassNameResolver<T : Any> private constructor(
     private val baseType: KClass<T>,
-    private val trustedPackages: Set<String>,
+    private val allowedPackages: Set<String>,
     private val classLoader: ClassLoader,
 ) : Resolver<String, KClass<out T>> {
 
     override fun resolveAll(context: String): Collection<KClass<out T>> = context
-        .also(::checkIsTrusted)
+        .also(::checkIsAllowed)
         .loadClassOrNull(classLoader)
         ?.also(::checkIsSubtype)
         ?.asSubclass(baseType.java)
         ?.kotlin
         .let(::listOfNotNull)
 
-    private fun checkIsTrusted(className: String) {
-        if (trustedPackages.none(className::isInPackage)) {
-            throw ClassNotAllowedException(className, trustedPackages)
+    private fun checkIsAllowed(className: String) {
+        if (allowedPackages.none(className::isInPackage)) {
+            throw ClassNotAllowedException(className, allowedPackages)
         }
     }
 
@@ -34,11 +34,11 @@ public class ClassNameResolver<T : Any> private constructor(
 
         public fun <T : Any> of(
             baseType: KClass<T>,
-            trustedPackages: Collection<String>,
+            allowedPackages: Collection<String>,
             classLoader: ClassLoader = baseType.getDefaultClassLoader(),
-        ): ClassNameResolver<T> = trustedPackages
+        ): ClassNameResolver<T> = allowedPackages
             .toSet()
-            .also(::checkHasTrustedPackage)
+            .also(::checkHasAllowedPackage)
             .also(::checkHasOnlyPackageNames)
             .let { packages -> ClassNameResolver(baseType, packages, classLoader) }
     }

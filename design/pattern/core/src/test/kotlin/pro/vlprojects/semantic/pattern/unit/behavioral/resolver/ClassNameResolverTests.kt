@@ -10,15 +10,14 @@ import pro.vlprojects.semantic.pattern.behavioral.resolver.ClassNameResolver
 import pro.vlprojects.semantic.pattern.behavioral.resolver.error.ClassNotAllowedException
 import pro.vlprojects.semantic.pattern.behavioral.resolver.error.NotSubtypeException
 import java.net.URLClassLoader
-import java.util.concurrent.Callable
 import java.util.concurrent.Executors
 import kotlin.reflect.KClass
 
 class ClassNameResolverTests {
 
-    private val trustedPackage = Backoff::class.java.packageName
+    private val allowedPackage = Backoff::class.java.packageName
 
-    private val resolver = ClassNameResolver.of(Backoff::class, setOf(trustedPackage))
+    private val resolver = ClassNameResolver.of(Backoff::class, setOf(allowedPackage))
 
     @Test
     fun `a subtype is resolved by the full name of its class`() {
@@ -36,51 +35,64 @@ class ClassNameResolverTests {
     }
 
     @Test
-    fun `a missing class in a trusted package resolves nothing`() {
-        assertNull(resolver.resolveOrNull("$trustedPackage.MissingBackoff"))
+    fun `a nested class is not resolved by its canonical name`() {
+        assertNull(resolver.resolveOrNull(Backoffs.Jittered::class.java.canonicalName))
     }
 
     @Test
-    fun `a class of any of the trusted packages is resolved`() {
-        val acmeResolver = ClassNameResolver.of(Backoff::class, listOf("com.acme", trustedPackage))
+    fun `a missing class in an allowed package resolves nothing`() {
+        assertNull(resolver.resolveOrNull("$allowedPackage.MissingBackoff"))
+    }
+
+    @Test
+    fun `a class of any of the allowed packages is resolved`() {
+        val acmeResolver = ClassNameResolver.of(Backoff::class, listOf("com.acme", allowedPackage))
 
         assertEquals(FixedBackoff::class, acmeResolver.resolve(FixedBackoff::class.java.name))
     }
 
     @Test
-    fun `a class of a subpackage is trusted`() {
-        val parentPackage = trustedPackage.substringBeforeLast('.')
+    fun `a class of a subpackage is allowed`() {
+        val parentPackage = allowedPackage.substringBeforeLast('.')
         val parentResolver = ClassNameResolver.of(Backoff::class, setOf(parentPackage))
 
         assertEquals(FixedBackoff::class, parentResolver.resolve(FixedBackoff::class.java.name))
     }
 
     @Test
-    fun `a class outside the trusted packages is rejected`() {
-        val failure = assertThrows<ClassNotAllowedException> { resolver.resolveOrNull("java.lang.Runtime") }
+    fun `a class outside the allowed packages is rejected`() {
+        val failure = assertThrows<ClassNotAllowedException> { resolver.resolveAll("java.lang.Runtime") }
 
         assertEquals("java.lang.Runtime", failure.className)
-        assertEquals(setOf(trustedPackage), failure.trustedPackages)
+        assertEquals(setOf(allowedPackage), failure.allowedPackages)
         assertEquals(
-            "The class 'java.lang.Runtime' is not in the trusted packages: [$trustedPackage]",
+            "The class 'java.lang.Runtime' is not in the allowed packages: [$allowedPackage]",
             failure.message,
         )
     }
 
     @Test
-    fun `a class outside the trusted packages is rejected before it is loaded`() {
+    fun `a class outside the allowed packages is rejected before it is loaded`() {
         val rejectingResolver = ClassNameResolver.of(Backoff::class, setOf("com.acme"), RejectingClassLoader())
 
         assertThrows<ClassNotAllowedException> { rejectingResolver.resolveOrNull(FixedBackoff::class.java.name) }
     }
 
     @Test
-    fun `a name that only starts as a trusted package is rejected`() {
-        val truncatedPackage = trustedPackage.dropLast(1)
+    fun `a package that only starts as an allowed one is not allowed`() {
+        val truncatedPackage = allowedPackage.dropLast(1)
         val truncatedResolver = ClassNameResolver.of(Backoff::class, setOf(truncatedPackage))
 
         assertThrows<ClassNotAllowedException> { truncatedResolver.resolveOrNull(FixedBackoff::class.java.name) }
-        assertThrows<ClassNotAllowedException> { resolver.resolveOrNull(trustedPackage) }
+    }
+
+    @Test
+    fun `the name of an allowed package is rejected`() {
+        assertThrows<ClassNotAllowedException> { resolver.resolveOrNull(allowedPackage) }
+    }
+
+    @Test
+    fun `the descriptor of an array of an allowed class is rejected`() {
         assertThrows<ClassNotAllowedException> { resolver.resolveOrNull("[L${FixedBackoff::class.java.name};") }
     }
 
@@ -89,7 +101,7 @@ class ClassNameResolverTests {
         val packages = mutableListOf("com.acme")
         val acmeResolver = ClassNameResolver.of(Backoff::class, packages)
 
-        packages += trustedPackage
+        packages += allowedPackage
 
         assertThrows<ClassNotAllowedException> { acmeResolver.resolveOrNull(FixedBackoff::class.java.name) }
     }
@@ -101,7 +113,7 @@ class ClassNameResolverTests {
 
     @Test
     fun `a class that cannot be linked is rejected`() {
-        val unlinkableResolver = ClassNameResolver.of(Backoff::class, setOf(trustedPackage), UnlinkableClassLoader())
+        val unlinkableResolver = ClassNameResolver.of(Backoff::class, setOf(allowedPackage), UnlinkableClassLoader())
 
         val failure = assertThrows<IllegalArgumentException> {
             unlinkableResolver.resolveOrNull(FixedBackoff::class.java.name)
@@ -145,6 +157,7 @@ class ClassNameResolverTests {
     @Test
     fun `a class that is not a subtype is rejected`() {
         val testsName = ClassNameResolverTests::class.java.name
+
         val failure = assertThrows<NotSubtypeException> { resolver.resolveOrNull(testsName) }
 
         assertEquals(testsName, failure.className)
@@ -153,14 +166,14 @@ class ClassNameResolverTests {
     }
 
     @Test
-    fun `empty trusted packages are rejected`() {
+    fun `empty allowed packages are rejected`() {
         val failure = assertThrows<IllegalArgumentException> { ClassNameResolver.of(Backoff::class, emptySet()) }
 
-        assertEquals("Trusted packages are empty", failure.message)
+        assertEquals("Allowed packages are empty", failure.message)
     }
 
     @Test
-    fun `trusted packages that are not package names are rejected`() {
+    fun `allowed packages that are not package names are rejected`() {
         val failure = assertThrows<IllegalArgumentException> {
             ClassNameResolver.of(
                 Backoff::class,
@@ -169,20 +182,20 @@ class ClassNameResolverTests {
         }
 
         assertEquals(
-            "Trusted packages are not package names: ['com.acme.', '*', '', 'com..acme', '1com', 'com.ac-me']",
+            "Allowed packages are not package names: ['com.acme.', '*', '', 'com..acme', '1com', 'com.ac-me']",
             failure.message,
         )
     }
 
     @Test
-    fun `the trusted packages of a failure are its own unmodifiable copy`() {
+    fun `the allowed packages of a failure are its own unmodifiable copy`() {
         val packages = mutableSetOf("com.acme", "org.acme")
         val failure = ClassNotAllowedException("java.lang.Runtime", packages)
 
         packages += "java.lang"
 
-        assertEquals(setOf("com.acme", "org.acme"), failure.trustedPackages)
-        assertThrows<UnsupportedOperationException> { (failure.trustedPackages as MutableSet<String>).add("java.lang") }
+        assertEquals(setOf("com.acme", "org.acme"), failure.allowedPackages)
+        assertThrows<UnsupportedOperationException> { (failure.allowedPackages as MutableSet<String>).add("java.lang") }
     }
 
     private fun <T : Any> createResolverInThread(threadClassLoader: ClassLoader?, baseType: KClass<T>) = Executors
@@ -191,11 +204,7 @@ class ClassNameResolverTests {
         }
         .use { executor ->
             executor
-                .submit(
-                    Callable {
-                        ClassNameResolver.of(baseType, setOf(trustedPackage))
-                    },
-                )
+                .submit<ClassNameResolver<T>> { ClassNameResolver.of(baseType, setOf(allowedPackage)) }
                 .get()
         }
 }

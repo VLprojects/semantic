@@ -1,13 +1,13 @@
 package pro.vlprojects.semantic.pattern.behavioral.resolver
 
-internal fun checkHasTrustedPackage(trustedPackages: Set<String>) {
-    require(trustedPackages.isNotEmpty()) { "Trusted packages are empty" }
+internal fun checkHasAllowedPackage(allowedPackages: Set<String>) {
+    require(allowedPackages.isNotEmpty()) { "Allowed packages are empty" }
 }
 
-internal fun checkHasOnlyPackageNames(trustedPackages: Set<String>) {
-    val invalidNames = trustedPackages
+internal fun checkHasOnlyPackageNames(allowedPackages: Set<String>) {
+    val invalidNames = allowedPackages
         .filterNot(String::isPackageName)
         .map { name -> "'$name'" }
 
-    require(invalidNames.isEmpty()) { "Trusted packages are not package names: $invalidNames" }
+    require(invalidNames.isEmpty()) { "Allowed packages are not package names: $invalidNames" }
 }

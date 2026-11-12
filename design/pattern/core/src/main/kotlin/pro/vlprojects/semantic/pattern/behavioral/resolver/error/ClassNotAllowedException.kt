@@ -4,10 +4,10 @@ import java.util.Collections
 
 public class ClassNotAllowedException(
     public val className: String,
-    trustedPackages: Set<String>,
-) : IllegalArgumentException("The class '$className' is not in the trusted packages: $trustedPackages") {
+    allowedPackages: Set<String>,
+) : IllegalArgumentException("The class '$className' is not in the allowed packages: $allowedPackages") {
 
-    public val trustedPackages: Set<String> = trustedPackages
+    public val allowedPackages: Set<String> = allowedPackages
         .toSet()
         .let(Collections::unmodifiableSet)
 }

@@ -45,8 +45,8 @@ public final class pro/vlprojects/semantic/pattern/behavioral/resolver/TypeNameR
 
 public final class pro/vlprojects/semantic/pattern/behavioral/resolver/error/ClassNotAllowedException : java/lang/IllegalArgumentException {
 	public fun <init> (Ljava/lang/String;Ljava/util/Set;)V
+	public final fun getAllowedPackages ()Ljava/util/Set;
 	public final fun getClassName ()Ljava/lang/String;
-	public final fun getTrustedPackages ()Ljava/util/Set;
 }
 
 public final class pro/vlprojects/semantic/pattern/behavioral/resolver/error/MultipleResolvedException : java/lang/IllegalArgumentException {
