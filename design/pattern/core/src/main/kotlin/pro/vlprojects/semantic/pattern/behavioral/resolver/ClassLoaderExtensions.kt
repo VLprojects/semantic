@@ -1,7 +1,5 @@
 package pro.vlprojects.semantic.pattern.behavioral.resolver
 
-import kotlin.reflect.KClass
-
 // Initialization is off so that no static initializer runs before the base type is checked.
 internal fun ClassLoader.loadClassOrNull(className: String) = try {
     Class.forName(className, false, this)
@@ -11,10 +9,9 @@ internal fun ClassLoader.loadClassOrNull(className: String) = try {
     throw IllegalArgumentException("The class '$className' cannot be loaded", failure)
 }
 
-internal fun KClass<*>.getDefaultClassLoader(resolverClassLoader: ClassLoader?) = resolverClassLoader
+internal fun Class<*>.getDefaultClassLoader(resolverClassLoader: ClassLoader?) = resolverClassLoader
     ?.takeIf { classLoader -> this.isVisible(classLoader) }
-    ?: this.javaObjectType.classLoader
+    ?: this.classLoader
     ?: ClassLoader.getSystemClassLoader()
 
-private fun KClass<*>.isVisible(classLoader: ClassLoader) =
-    classLoader.loadClassOrNull(this.javaObjectType.name) == this.javaObjectType
+private fun Class<*>.isVisible(classLoader: ClassLoader) = classLoader.loadClassOrNull(this.name) == this

@@ -1,6 +1,6 @@
 package pro.vlprojects.semantic.pattern.unit.behavioral.resolver
 
-class Backoffs {
+class OuterBackoff {
 
     class Jittered : Backoff
 }

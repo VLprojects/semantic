@@ -1,6 +1,6 @@
 package pro.vlprojects.semantic.pattern.unit.behavioral.resolver
 
-class FailingBackoff : Backoff {
+class InitializationFailingBackoff : Backoff {
 
     companion object {
 

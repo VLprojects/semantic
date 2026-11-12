@@ -5,7 +5,7 @@ import pro.vlprojects.semantic.pattern.behavioral.resolver.error.NotSubtypeExcep
 import kotlin.reflect.KClass
 
 public class ClassNameResolver<T : Any> private constructor(
-    private val baseType: KClass<T>,
+    private val baseType: Class<T>,
     private val allowedPackages: Set<String>,
     private val classLoader: ClassLoader,
 ) : Resolver<String, KClass<out T>> {
@@ -14,7 +14,7 @@ public class ClassNameResolver<T : Any> private constructor(
         .also(::checkIsAllowed)
         .let(classLoader::loadClassOrNull)
         ?.also(::checkIsSubtype)
-        ?.asSubclass(baseType.javaObjectType)
+        ?.asSubclass(baseType)
         ?.kotlin
         .let(::listOfNotNull)
 
@@ -25,8 +25,8 @@ public class ClassNameResolver<T : Any> private constructor(
     }
 
     private fun checkIsSubtype(type: Class<*>) {
-        if (!baseType.javaObjectType.isAssignableFrom(type)) {
-            throw NotSubtypeException(type.name, baseType.javaObjectType.name)
+        if (!baseType.isAssignableFrom(type)) {
+            throw NotSubtypeException(type.name, baseType.name)
         }
     }
 
@@ -35,11 +35,12 @@ public class ClassNameResolver<T : Any> private constructor(
         public fun <T : Any> of(
             baseType: KClass<T>,
             allowedPackages: Collection<String>,
-            classLoader: ClassLoader = baseType.getDefaultClassLoader(ClassNameResolver::class.java.classLoader),
+            classLoader: ClassLoader = baseType.javaObjectType
+                .getDefaultClassLoader(ClassNameResolver::class.java.classLoader),
         ): ClassNameResolver<T> = allowedPackages
             .toSet()
             .also(::checkHasAllowedPackage)
             .also(::checkHasOnlyPackageNames)
-            .let { packages -> ClassNameResolver(baseType, packages, classLoader) }
+            .let { packages -> ClassNameResolver(baseType.javaObjectType, packages, classLoader) }
     }
 }

@@ -35,12 +35,12 @@ class ClassNameResolverTests {
 
     @Test
     fun `a nested class is resolved by its binary name`() {
-        assertEquals(Backoffs.Jittered::class, resolver.resolve(Backoffs.Jittered::class.java.name))
+        assertEquals(OuterBackoff.Jittered::class, resolver.resolve(OuterBackoff.Jittered::class.java.name))
     }
 
     @Test
     fun `a nested class is not resolved by its canonical name`() {
-        assertNull(resolver.resolveOrNull(Backoffs.Jittered::class.java.canonicalName))
+        assertNull(resolver.resolveOrNull(OuterBackoff.Jittered::class.java.canonicalName))
     }
 
     @Test
@@ -131,7 +131,10 @@ class ClassNameResolverTests {
 
     @Test
     fun `a subtype is resolved without initializing its class`() {
-        assertEquals(FailingBackoff::class, resolver.resolve(FailingBackoff::class.java.name))
+        assertEquals(
+            InitializationFailingBackoff::class,
+            resolver.resolve(InitializationFailingBackoff::class.java.name),
+        )
     }
 
     @Test
@@ -171,19 +174,25 @@ class ClassNameResolverTests {
         emptyArray<URL>()
             .let { urls -> URLClassLoader(urls, platformClassLoader) }
             .use { resolverClassLoader ->
-                assertSame(resolverClassLoader, Wrapper::class.getDefaultClassLoader(resolverClassLoader))
-                assertSame(resolverClassLoader, Any::class.getDefaultClassLoader(resolverClassLoader))
+                assertSame(resolverClassLoader, Wrapper::class.java.getDefaultClassLoader(resolverClassLoader))
+                assertSame(resolverClassLoader, Any::class.java.getDefaultClassLoader(resolverClassLoader))
             }
     }
 
     @Test
     fun `the class loader of the base type is taken when the resolver has none`() {
-        assertSame(Backoff::class.java.classLoader, Backoff::class.getDefaultClassLoader(resolverClassLoader = null))
+        assertSame(
+            Backoff::class.java.classLoader,
+            Backoff::class.java.getDefaultClassLoader(resolverClassLoader = null),
+        )
     }
 
     @Test
     fun `the system class loader is taken when neither the resolver nor the base type has one`() {
-        assertSame(ClassLoader.getSystemClassLoader(), Any::class.getDefaultClassLoader(resolverClassLoader = null))
+        assertSame(
+            ClassLoader.getSystemClassLoader(),
+            Any::class.java.getDefaultClassLoader(resolverClassLoader = null),
+        )
     }
 
     @Test
