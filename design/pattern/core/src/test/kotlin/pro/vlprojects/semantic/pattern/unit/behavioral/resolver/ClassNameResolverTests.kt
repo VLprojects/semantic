@@ -145,11 +145,11 @@ class ClassNameResolverTests {
     }
 
     @Test
-    fun `the system class loader is taken when the base type has none`() {
+    fun `the class loader of the resolver is taken when the base type has none`() {
         val anyFixedBackoff = ClassNameResolver.of(Any::class, setOf(allowedPackage))
             .resolve(FixedBackoff::class.java.name)
 
-        assertSame(ClassLoader.getSystemClassLoader(), anyFixedBackoff.java.classLoader)
+        assertSame(ClassNameResolver::class.java.classLoader, anyFixedBackoff.java.classLoader)
     }
 
     @Test

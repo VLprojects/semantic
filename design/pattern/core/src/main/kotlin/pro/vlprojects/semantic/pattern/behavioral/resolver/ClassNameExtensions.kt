@@ -25,4 +25,5 @@ internal fun String.loadClassOrNull(classLoader: ClassLoader) = try {
 
 internal val KClass<*>.defaultClassLoader
     get() = this.java.classLoader
+        ?: ClassNameResolver::class.java.classLoader
         ?: ClassLoader.getSystemClassLoader()
