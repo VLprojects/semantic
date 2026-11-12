@@ -47,22 +47,22 @@ private fun ParameterizedType.zipTypeParametersWithArguments() = this
     .orEmpty()
     .zip(this.actualTypeArguments)
 
+private fun Type.resolveRawClassOrNull(subtypeMappings: Map<out TypeVariable<*>, Class<*>>): Class<*>? = when (this) {
+    is GenericArrayType -> this.genericComponentType.resolveRawClassOrNull(subtypeMappings)?.arrayType()
+    is TypeVariable<*> -> subtypeMappings[this]
+    else -> this.toRawClassOrNull()
+}
+
 private fun Class<*>.resolveTypeParameterInSupertypesOrNull(
     typeParameter: TypeVariable<*>,
-    mappings: Map<out TypeVariable<*>, Class<*>>,
+    subtypeMappings: Map<out TypeVariable<*>, Class<*>>,
 ) = this
     .listGenericSupertypes()
-    .firstNotNullOfOrNull { supertype -> supertype.resolveTypeParameterOrNull(typeParameter, mappings) }
+    .firstNotNullOfOrNull { supertype -> supertype.resolveTypeParameterOrNull(typeParameter, subtypeMappings) }
 
 private fun Class<*>.listGenericSupertypes() = this.genericSuperclass
     .let(::listOfNotNull)
     .plus(this.genericInterfaces)
-
-private fun Type.resolveRawClassOrNull(mappings: Map<out TypeVariable<*>, Class<*>>): Class<*>? = when (this) {
-    is GenericArrayType -> this.genericComponentType.resolveRawClassOrNull(mappings)?.arrayType()
-    is TypeVariable<*> -> mappings[this]
-    else -> this.toRawClassOrNull()
-}
 
 private fun Type.toRawClassOrNull(): Class<*>? = when (this) {
     is Class<*> -> this

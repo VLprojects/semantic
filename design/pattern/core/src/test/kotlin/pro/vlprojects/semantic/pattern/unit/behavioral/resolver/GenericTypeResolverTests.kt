@@ -93,6 +93,13 @@ class GenericTypeResolverTests {
     }
 
     @Test
+    fun `a type variable given to the owner of an inner supertype is resolved through the subtype`() {
+        val handlerType = CreateOrderCommandHandlerOwner.CreateOrderForwardingHandler::class
+
+        assertEquals(CreateOrder::class, commandTypes.resolve(handlerType))
+    }
+
+    @Test
     fun `a type argument given to the outermost class of a nested inner supertype is resolved`() {
         val handlerType = CreateOrderCommandModule.CreateOrderHandlers.CreateOrderNestedInnerHandler::class
 

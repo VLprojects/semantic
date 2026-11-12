@@ -6,4 +6,6 @@ open class CommandHandlerOwner<C> {
 
         override fun handle(command: C) = Unit
     }
+
+    open inner class ForwardingHandler : Handler()
 }
