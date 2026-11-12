@@ -195,8 +195,10 @@ hold and returns only its base type or a subtype of it:
   4. the system one.
 
   A class this loader does not see resolves nothing, where `TypeFactory.findClass` of Jackson
-  tries the next loader. The context class loader of the thread is not asked yet: under
-  Spring Boot DevTools, pass `Thread.currentThread().contextClassLoader` to `of`;
+  tries the next loader. The context class loader of the thread is not asked yet: where the
+  library sits in a parent of the loader of the application, as under Spring Boot DevTools, a
+  base type of the JDK or of a library resolves a stale copy of the class; pass
+  `Thread.currentThread().contextClassLoader` to `of` there;
 - a nested class is named by its binary name, `com.acme.Outer$Inner`, as `Class.forName`
   takes it;
 - a class that is missing resolves nothing, as Jackson leaves an unknown class to the caller;
@@ -204,7 +206,10 @@ hold and returns only its base type or a subtype of it:
   ignores case, is rejected by an `IllegalArgumentException` with the `LinkageError` as its
   cause, as `ClassUtils.resolveClassName` of Spring rejects a class definition it cannot
   resolve;
-- a class that is not a subtype is rejected by `NotSubtypeException`, as Jackson rejects it.
+- a class that is not a subtype is rejected by `NotSubtypeException`, as Jackson rejects it;
+  a base type as wide as `Any` rejects nothing, as `DefaultBaseTypeLimitingValidator` of
+  Jackson counts `Object` unsafe, so the allowed packages are then the only guard: keep them
+  narrow.
 
 An empty set of allowed packages, or an allowed package that is not dot-separated Java
 identifiers (`Character.isJavaIdentifierStart`, `isJavaIdentifierPart`), such as `com.acme.`,

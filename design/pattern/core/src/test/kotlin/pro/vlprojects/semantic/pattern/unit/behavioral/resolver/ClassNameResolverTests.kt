@@ -10,6 +10,7 @@ import pro.vlprojects.semantic.pattern.behavioral.resolver.ClassNameResolver
 import pro.vlprojects.semantic.pattern.behavioral.resolver.error.ClassNotAllowedException
 import pro.vlprojects.semantic.pattern.behavioral.resolver.error.NotSubtypeException
 import pro.vlprojects.semantic.pattern.behavioral.resolver.getDefaultClassLoader
+import java.net.URL
 import java.net.URLClassLoader
 import java.sql.Wrapper
 
@@ -47,6 +48,13 @@ class ClassNameResolverTests {
     @Test
     fun `a malformed name in an allowed package resolves nothing`() {
         assertNull(resolver.resolveOrNull("$allowedPackage..FixedBackoff"))
+    }
+
+    @Test
+    fun `a subtype of Any is resolved by the full name of its class`() {
+        val anyResolver = ClassNameResolver.of(Any::class, setOf(allowedPackage))
+
+        assertEquals(FixedBackoff::class, anyResolver.resolve(FixedBackoff::class.java.name))
     }
 
     @Test
@@ -148,13 +156,14 @@ class ClassNameResolverTests {
 
     @Test
     fun `the class loader of the resolver is taken when it sees the base type`() {
-        val platformChildClassLoader = ClassLoader.getPlatformClassLoader()
-            .let { platformClassLoader -> URLClassLoader(emptyArray(), platformClassLoader) }
+        val platformClassLoader = ClassLoader.getPlatformClassLoader()
 
-        platformChildClassLoader.use { resolverClassLoader ->
-            assertSame(resolverClassLoader, Wrapper::class.getDefaultClassLoader(resolverClassLoader))
-            assertSame(resolverClassLoader, Any::class.getDefaultClassLoader(resolverClassLoader))
-        }
+        emptyArray<URL>()
+            .let { urls -> URLClassLoader(urls, platformClassLoader) }
+            .use { resolverClassLoader ->
+                assertSame(resolverClassLoader, Wrapper::class.getDefaultClassLoader(resolverClassLoader))
+                assertSame(resolverClassLoader, Any::class.getDefaultClassLoader(resolverClassLoader))
+            }
     }
 
     @Test
