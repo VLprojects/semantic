@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import pro.vlprojects.semantic.pattern.behavioral.resolver.error.MultipleResolvedException
-import pro.vlprojects.semantic.pattern.enterprise.plugin.error.MultipleTypesException
-import pro.vlprojects.semantic.pattern.enterprise.plugin.error.TypeNotFoundException
+import pro.vlprojects.semantic.pattern.enterprise.plugin.error.MultipleConfigurationsException
+import pro.vlprojects.semantic.pattern.enterprise.plugin.error.UnknownConfigurationException
 
 class AbstractPolymorphicConfigurationBinderTests {
 
@@ -69,7 +69,7 @@ class AbstractPolymorphicConfigurationBinderTests {
 
     @Test
     fun `several types in a block are rejected with the path and the types`() {
-        val failure = assertThrows<MultipleTypesException> {
+        val failure = assertThrows<MultipleConfigurationsException> {
             bind(mapOf("fixed.delay" to "1s", "exponential.multiplier" to "2"))
         }
 
@@ -79,7 +79,7 @@ class AbstractPolymorphicConfigurationBinderTests {
 
     @Test
     fun `an unknown type is rejected with the path`() {
-        val failure = assertThrows<TypeNotFoundException> {
+        val failure = assertThrows<UnknownConfigurationException> {
             bind(mapOf("exponental.multiplier" to "2"))
         }
 
@@ -89,7 +89,7 @@ class AbstractPolymorphicConfigurationBinderTests {
 
     @Test
     fun `a field outside a type names an unknown type`() {
-        val failure = assertThrows<TypeNotFoundException> {
+        val failure = assertThrows<UnknownConfigurationException> {
             bind(mapOf("fixed.delay" to "1s", "multiplier" to "2"))
         }
 
@@ -115,7 +115,7 @@ class AbstractPolymorphicConfigurationBinderTests {
 
     @Test
     fun `an empty block rejects defaults of several types`() {
-        val failure = assertThrows<MultipleTypesException> {
+        val failure = assertThrows<MultipleConfigurationsException> {
             bind(emptyMap(), mapOf("fixed.delay" to "1s", "exponential.multiplier" to "2"))
         }
 

@@ -3,8 +3,9 @@ package pro.vlprojects.semantic.pattern.enterprise.plugin.base
 import pro.vlprojects.semantic.pattern.behavioral.resolver.Resolver
 import pro.vlprojects.semantic.pattern.behavioral.resolver.error.MultipleResolvedException
 import pro.vlprojects.semantic.pattern.enterprise.plugin.PolymorphicConfigurationBinder
-import pro.vlprojects.semantic.pattern.enterprise.plugin.error.MultipleTypesException
-import pro.vlprojects.semantic.pattern.enterprise.plugin.error.TypeNotFoundException
+import pro.vlprojects.semantic.pattern.enterprise.plugin.error.InvalidConfigurationException
+import pro.vlprojects.semantic.pattern.enterprise.plugin.error.InvalidConfigurationPropertyException
+import pro.vlprojects.semantic.pattern.enterprise.plugin.error.UnknownConfigurationException
 import kotlin.reflect.KClass
 
 /**
@@ -20,7 +21,7 @@ public abstract class AbstractPolymorphicConfigurationBinder<T : Any>(
         checkHasDefaultType(resolver, defaultTypeName)
     }
 
-    @Throws(TypeNotFoundException::class, MultipleTypesException::class, MultipleResolvedException::class)
+    @Throws(InvalidConfigurationException::class, MultipleResolvedException::class)
     final override fun bind(name: String, properties: Map<String, String>, defaults: Map<String, String>): T {
         val typeName = findTypeName(name, properties)
             ?: findTypeName(name, defaults)
@@ -34,6 +35,7 @@ public abstract class AbstractPolymorphicConfigurationBinder<T : Any>(
     /**
      * Binds [sources], the fields of the block before those of the defaults, to an object of [type] at [name].
      */
+    @Throws(InvalidConfigurationPropertyException::class)
     protected abstract fun doBind(name: String, type: KClass<out T>, sources: List<Map<String, String>>): T
 
     private fun findTypeName(name: String, block: Map<String, String>) = block.keys
@@ -46,7 +48,7 @@ public abstract class AbstractPolymorphicConfigurationBinder<T : Any>(
         .singleOrNull()
 
     private fun resolveType(name: String, typeName: String) = resolver.resolveOrNull(typeName)
-        ?: throw TypeNotFoundException(name, typeName)
+        ?: throw UnknownConfigurationException(name, typeName)
 
     private fun selectFields(block: Map<String, String>, type: KClass<out T>) = block
         .filterKeys { key -> isFieldOf(key, type) }

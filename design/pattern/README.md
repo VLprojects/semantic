@@ -23,7 +23,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
 | `enterprise.plugin` | `PolymorphicConfigurationBinder`, a block of settings to an object of the class the block names |
 | `enterprise.plugin.base` | `AbstractPolymorphicConfigurationBinder`, a binder that takes the type from the key and leaves the fields to a subclass |
-| `enterprise.plugin.error` | `TypeNotFoundException`, `MultipleTypesException` of a binder |
+| `enterprise.plugin.error` | `InvalidConfigurationException` of a binder: `UnknownConfigurationException`, `MultipleConfigurationsException`, `InvalidConfigurationPropertyException` |
 
 `structural` gets packages when a pattern of it is needed.
 
@@ -216,9 +216,9 @@ source sets.
 The contract of `PolymorphicConfigurationBinder`:
 
 - The type is the first segment of a key. Keys of one block that name different types throw
-  `MultipleTypesException` with the path of the block and the types.
-- A type that the resolver does not find throws `TypeNotFoundException` with the path of the block
-  and the type, as Jackson throws `InvalidTypeIdException`. A field outside a type,
+  `MultipleConfigurationsException` with the path of the block and the types.
+- A type that the resolver does not find throws `UnknownConfigurationException` with the path of
+  the block and the type, as Jackson throws `InvalidTypeIdException`. A field outside a type,
   `orders.multiplier`, names the unknown type `multiplier`.
 - An empty block takes the type of `defaults`, and with `defaults` empty too the default type of
   the binder.
@@ -228,9 +228,18 @@ The contract of `PolymorphicConfigurationBinder`:
   matches `fixed-delay` and `fixedDelay` as one name, and the binder takes them as one type.
   A field set under two spellings of the type keeps the later key, as a map keeps the later
   entry.
+- Fields that do not fit the class, a required one missing, an extra one or a wrong value, throw
+  `InvalidConfigurationPropertyException` with the path and the error of the adapter as its cause.
 
-`AbstractPolymorphicConfigurationBinder<T>` keeps that contract in a final `bind`; a subclass binds only the
-fields in `doBind(name, type, sources)`. `name` is the path of the block with the type segment,
+Every error of a binder is an `InvalidConfigurationException`: the configuration of the block is
+invalid, and the caller catches one exception. As the binding errors of Spring Boot,
+`MutuallyExclusiveConfigurationPropertiesException` and `InvalidConfigurationPropertyValueException`,
+it is a `RuntimeException`. Fields are the business of the adapter: the one of Spring Boot is to bind
+with `NoUnboundElementsBindHandler` and wrap its `BindException`.
+
+`AbstractPolymorphicConfigurationBinder<T>` keeps that contract in a final `bind`; a subclass binds
+only the fields in `doBind(name, type, sources)` and throws `InvalidConfigurationPropertyException`
+when they do not fit. `name` is the path of the block with the type segment,
 `sources` are the fields of the block and of `defaults` without it, the block first. A resolver
 that finds several classes for a type throws `MultipleResolvedException` of its own;
 `TypeNameResolver` never does, as its names are unique. A default type the resolver does not find
@@ -249,11 +258,6 @@ val types = TypeNameResolver.of(BackoffDefinition::class, definitions)
 val definition = BackoffDefinitionBinder(types)
     .bind("semantic.resilience.backoff.instances[orders]", block, defaults)
 ```
-
-`TypeNotFoundException` is a `NoSuchElementException`, as `FactoryNotFoundException` is;
-`MultipleTypesException` is an `IllegalArgumentException`, as `MultipleFactoriesException` is.
-Fields are the business of the adapter: the one of Spring Boot is to bind with
-`NoUnboundElementsBindHandler`, so that a field the class does not have throws `BindException`.
 
 The binder asks the resolver by `resolveOrNull` and throws itself: only the binder knows the
 path of the block. Jackson splits it the same way: `TypeNameIdResolver` returns `null`,

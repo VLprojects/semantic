@@ -157,15 +157,23 @@ public abstract class pro/vlprojects/semantic/pattern/enterprise/plugin/base/Abs
 	protected abstract fun doBind (Ljava/lang/String;Lkotlin/reflect/KClass;Ljava/util/List;)Ljava/lang/Object;
 }
 
-public final class pro/vlprojects/semantic/pattern/enterprise/plugin/error/MultipleTypesException : java/lang/IllegalArgumentException {
-	public fun <init> (Ljava/lang/String;Ljava/util/Set;)V
+public abstract class pro/vlprojects/semantic/pattern/enterprise/plugin/error/InvalidConfigurationException : java/lang/RuntimeException {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getName ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/pattern/enterprise/plugin/error/InvalidConfigurationPropertyException : pro/vlprojects/semantic/pattern/enterprise/plugin/error/InvalidConfigurationException {
+	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+}
+
+public final class pro/vlprojects/semantic/pattern/enterprise/plugin/error/MultipleConfigurationsException : pro/vlprojects/semantic/pattern/enterprise/plugin/error/InvalidConfigurationException {
+	public fun <init> (Ljava/lang/String;Ljava/util/Set;)V
 	public final fun getTypeNames ()Ljava/util/Set;
 }
 
-public final class pro/vlprojects/semantic/pattern/enterprise/plugin/error/TypeNotFoundException : java/util/NoSuchElementException {
+public final class pro/vlprojects/semantic/pattern/enterprise/plugin/error/UnknownConfigurationException : pro/vlprojects/semantic/pattern/enterprise/plugin/error/InvalidConfigurationException {
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
-	public final fun getName ()Ljava/lang/String;
 	public final fun getTypeName ()Ljava/lang/String;
 }
 
