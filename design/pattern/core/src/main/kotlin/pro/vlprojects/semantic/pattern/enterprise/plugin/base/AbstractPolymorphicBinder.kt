@@ -7,6 +7,13 @@ import pro.vlprojects.semantic.pattern.enterprise.plugin.error.MultipleTypesExce
 import pro.vlprojects.semantic.pattern.enterprise.plugin.error.TypeNotFoundException
 import kotlin.reflect.KClass
 
+/**
+ * Keeps the contract of [PolymorphicBinder] in a final [bind]: finds the type of a block, checks it and
+ * selects the fields of that type. A subclass binds only the fields, in [doBind].
+ *
+ * [resolver] finds the class of a type by its name; [defaultTypeName] is the type of a block that has
+ * no type, neither in its keys nor in the defaults, and the resolver must find it when the binder is made.
+ */
 public abstract class AbstractPolymorphicBinder<T : Any>(
     private val resolver: Resolver<String, KClass<out T>>,
     private val defaultTypeName: String,
@@ -27,6 +34,13 @@ public abstract class AbstractPolymorphicBinder<T : Any>(
         return doBind("$name$KEY_SEPARATOR$typeName", type, sources)
     }
 
+    /**
+     * Binds the fields of [sources] to an object of [type].
+     *
+     * [name] is the path of the block with the type segment as it is written, `orders.exponential`.
+     * [sources] are the fields of the block and of the defaults with no type segment, `multiplier`,
+     * the block first: a field of the block wins over the same field of the defaults.
+     */
     protected abstract fun doBind(name: String, type: KClass<out T>, sources: List<Map<String, String>>): T
 
     private fun findTypeName(name: String, block: Map<String, String>) = block.keys
