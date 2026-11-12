@@ -68,17 +68,26 @@ class GenericTypeResolverTests {
 
     @Test
     fun `a parameterized type argument is resolved as its raw class`() {
-        assertEquals(List::class, commandTypes.resolve(BatchCommandHandler::class))
+        assertEquals(List::class, commandTypes.resolve(CreateOrderListHandler::class))
+    }
+
+    @Test
+    fun `an array of a parameterized type argument is resolved as an array of its raw class`() {
+        val listArrayType = List::class.java
+            .arrayType()
+            .kotlin
+
+        assertEquals(listArrayType, commandTypes.resolve(CreateOrderListArrayHandler::class))
     }
 
     @Test
     fun `a type argument given to the outer class of an inner supertype is resolved`() {
-        assertEquals(CreateOrder::class, commandTypes.resolve(OrderCommandHandlers.CreateOrderHandler::class))
+        assertEquals(CreateOrder::class, commandTypes.resolve(OrderCommandHandlers.CreateOrderInnerHandler::class))
     }
 
     @Test
     fun `a type argument given to the outer class of an outer class is resolved`() {
-        val handlerType = OrderCommandModule.CreateOrderHandlers.CreateOrderHandler::class
+        val handlerType = OrderCommandModule.CreateOrderHandlers.CreateOrderNestedInnerHandler::class
 
         assertEquals(CreateOrder::class, commandTypes.resolve(handlerType))
     }
@@ -112,6 +121,13 @@ class GenericTypeResolverTests {
         val handler = CommandHandler<CreateOrder> { _ -> }
 
         assertNull(commandTypes.resolveOrNull(handler::class))
+    }
+
+    @Test
+    fun `a type argument of a lambda is resolved through the subinterface it implements`() {
+        val handler = CreateOrderCommandHandler { _ -> }
+
+        assertEquals(CreateOrder::class, commandTypes.resolve(handler::class))
     }
 
     @Test

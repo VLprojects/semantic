@@ -180,9 +180,11 @@ a type variable, to an array of its argument. A variable of an outer class is fo
 the owner of an inner supertype, as `Outer<CreateOrder>.Inner`, the way Spring and Guava follow
 it. A subclass proxy, the CGLIB one that Spring Boot makes by default, is resolved through its
 superclass. A lambda, which Java and, by default, Kotlin compile by `invokedynamic`, and a JDK
-dynamic proxy implement the raw generic type, and a type variable left open has no class, so
-all of them resolve nothing; unlike Spring, the bound of an open variable is not taken. For an
-index out of the type parameters, a negative one too, `of` throws `IllegalArgumentException`.
+dynamic proxy of the generic type itself implement it raw, and a type variable left open has no
+class, so all of them resolve nothing, while a lambda of a subinterface, as `fun interface
+CreateOrderCommandHandler : CommandHandler<CreateOrder>`, resolves through it; unlike Spring,
+the bound of an open variable is not taken. For an index out of the type parameters, a negative
+one too, `of` throws `IllegalArgumentException`.
 
 ```kotlin
 val commandTypes = GenericTypeResolver.of(CommandHandler::class)

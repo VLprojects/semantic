@@ -4,6 +4,6 @@ class OrderCommandModule : CommandModule<CreateOrder>() {
 
     inner class CreateOrderHandlers : Handlers() {
 
-        inner class CreateOrderHandler : Handler()
+        inner class CreateOrderNestedInnerHandler : Handler()
     }
 }

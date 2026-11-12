@@ -10,34 +10,34 @@ internal fun Class<*>.resolveTypeParameterOrNull(typeParameter: TypeVariable<*>)
 
 private fun Type.resolveTypeParameterOrNull(
     typeParameter: TypeVariable<*>,
-    subtypeArguments: Map<out TypeVariable<*>, Class<*>>,
+    subtypeMappings: Map<out TypeVariable<*>, Class<*>>,
 ): Class<*>? = this
-    .bindTypeArguments(subtypeArguments)
-    .let { typeArguments ->
-        typeArguments[typeParameter]
-            ?: this.resolveTypeParameterInSupertypesOrNull(typeParameter, typeArguments)
+    .collectTypeMappings(subtypeMappings)
+    .let { mappings ->
+        mappings[typeParameter]
+            ?: this.resolveTypeParameterInSupertypesOrNull(typeParameter, mappings)
     }
 
 private fun Type.resolveTypeParameterInSupertypesOrNull(
     typeParameter: TypeVariable<*>,
-    typeArguments: Map<out TypeVariable<*>, Class<*>>,
+    mappings: Map<out TypeVariable<*>, Class<*>>,
 ) = this
     .toRawClassOrNull()
     ?.listGenericSupertypes()
     .orEmpty()
-    .firstNotNullOfOrNull { supertype -> supertype.resolveTypeParameterOrNull(typeParameter, typeArguments) }
+    .firstNotNullOfOrNull { supertype -> supertype.resolveTypeParameterOrNull(typeParameter, mappings) }
 
 private fun Class<*>.listGenericSupertypes() = this.genericSuperclass
     .let(::listOfNotNull)
     .plus(this.genericInterfaces)
 
-private fun Type.bindTypeArguments(subtypeArguments: Map<out TypeVariable<*>, Class<*>>) = this
+private fun Type.collectTypeMappings(subtypeMappings: Map<out TypeVariable<*>, Class<*>>) = this
     .collectOwnerTypes()
     .plus(this)
     .filterIsInstance<ParameterizedType>()
     .flatMap(ParameterizedType::zipTypeParametersWithArguments)
     .mapNotNull { (variable, argument) ->
-        subtypeArguments
+        subtypeMappings
             .resolveRawClassOrNull(argument)
             ?.let { rawClass -> variable to rawClass }
     }
