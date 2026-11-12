@@ -3,6 +3,7 @@ package pro.vlprojects.semantic.pattern.enterprise.plugin
 import pro.vlprojects.semantic.pattern.behavioral.resolver.Resolver
 import pro.vlprojects.semantic.pattern.enterprise.plugin.error.InvalidConfigurationException
 import pro.vlprojects.semantic.pattern.enterprise.plugin.error.InvalidConfigurationPropertyException
+import pro.vlprojects.semantic.pattern.enterprise.plugin.error.MultipleConfigurationsException
 import pro.vlprojects.semantic.pattern.enterprise.plugin.error.UnknownConfigurationException
 import kotlin.reflect.KClass
 
@@ -12,38 +13,57 @@ public class GenericConfigurationBinder<out T : Any>(
     private val defaultTypeName: String,
 ) : PolymorphicConfigurationBinder<T> {
 
-    private val defaultType = resolver.resolveOrNull(defaultTypeName)
-        ?: throw IllegalArgumentException("The default type '$defaultTypeName' is unknown to the resolver")
+    init {
+        resolver.resolveOrNull(defaultTypeName)
+            ?: throw IllegalArgumentException("The default type '$defaultTypeName' is unknown to the resolver")
+    }
 
     @Throws(InvalidConfigurationException::class)
     override fun bind(prefix: String, properties: Map<String, String>): T {
-        val (type, typeName) = findType(prefix, properties)
-            ?: (defaultType to defaultTypeName)
+        val typeName = findTypeName(prefix, properties)
+            ?: defaultTypeName
+        val type = resolveType(prefix, typeName)
+        val typePrefix = prefix.appendSegment(typeName)
 
         checkHasNoUnboundProperties(prefix, properties)
 
-        val typePrefix = prefix.appendSegment(typeName)
-
         return properties
             .extractFields()
-            .let { fields -> decode(typePrefix, fields, type) }
+            .let { fields -> decode(fields, type, typePrefix) }
     }
 
-    private fun findType(prefix: String, properties: Map<String, String>) = properties.keys
+    private fun findTypeName(prefix: String, properties: Map<String, String>) = properties.keys
         .map(String::extractTypeName)
         .filterNot(String::isEmpty)
-        .distinct()
-        .groupBy { typeName -> resolveType(prefix, typeName) }
-        .mapValues { (_, typeNames) -> typeNames.first() }
-        .also { typeNamesByType -> checkHasNoMultipleTypes(prefix, typeNamesByType) }
-        .entries
+        .distinctBy { typeName -> resolveType(prefix, typeName) }
+        .toSet()
+        .also { typeNames -> checkHasNoMultipleTypes(prefix, typeNames) }
         .singleOrNull()
-        ?.toPair()
 
     private fun resolveType(prefix: String, typeName: String) = resolver.resolveOrNull(typeName)
         ?: throw UnknownConfigurationException(prefix, typeName)
 
-    private fun decode(typePrefix: String, fields: Map<String, String>, type: KClass<out T>) = try {
+    private fun checkHasNoMultipleTypes(prefix: String, typeNames: Set<String>) {
+        if (typeNames.size > 1) {
+            throw MultipleConfigurationsException(prefix, typeNames)
+        }
+    }
+
+    private fun checkHasNoUnboundProperties(prefix: String, properties: Map<String, String>) {
+        val unboundKeys = properties
+            .filter(Map.Entry<String, String>::isUnbound)
+            .keys
+            .map { key -> prefix.appendKey(key) }
+            .map { key -> "'$key'" }
+
+        if (unboundKeys.isNotEmpty()) {
+            val cause = IllegalArgumentException("Unbound configuration properties: $unboundKeys")
+
+            throw InvalidConfigurationPropertyException(prefix, cause)
+        }
+    }
+
+    private fun decode(fields: Map<String, String>, type: KClass<out T>, typePrefix: String) = try {
         decoder.decode(fields, type)
     } catch (failure: Exception) {
         throw InvalidConfigurationPropertyException(typePrefix, failure)
