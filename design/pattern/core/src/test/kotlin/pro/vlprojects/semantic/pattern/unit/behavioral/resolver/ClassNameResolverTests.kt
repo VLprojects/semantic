@@ -112,7 +112,7 @@ class ClassNameResolverTests {
     }
 
     @Test
-    fun `a class that cannot be linked is rejected`() {
+    fun `a class that cannot be loaded is rejected`() {
         val unlinkableResolver = ClassNameResolver.of(Backoff::class, setOf(allowedPackage), UnlinkableClassLoader())
 
         val failure = assertThrows<IllegalArgumentException> {
@@ -135,16 +135,18 @@ class ClassNameResolverTests {
     fun `the class loader of the base type is taken when the thread has no context class loader`() {
         val testClassesLocation = Backoff::class.java.protectionDomain.codeSource.location
 
-        URLClassLoader(arrayOf(testClassesLocation), null).use { isolatedClassLoader ->
-            val isolatedBackoff = isolatedClassLoader
-                .loadClass(Backoff::class.java.name)
-                .kotlin
+        arrayOf(testClassesLocation)
+            .let { urls -> URLClassLoader(urls, null) }
+            .use { isolatedClassLoader ->
+                val isolatedBackoff = isolatedClassLoader
+                    .loadClass(Backoff::class.java.name)
+                    .kotlin
 
-            val isolatedFixedBackoff = createResolverInThread(threadClassLoader = null, isolatedBackoff)
-                .resolve(FixedBackoff::class.java.name)
+                val isolatedFixedBackoff = createResolverInThread(threadClassLoader = null, isolatedBackoff)
+                    .resolve(FixedBackoff::class.java.name)
 
-            assertSame(isolatedClassLoader, isolatedFixedBackoff.java.classLoader)
-        }
+                assertSame(isolatedClassLoader, isolatedFixedBackoff.java.classLoader)
+            }
     }
 
     @Test
