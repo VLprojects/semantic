@@ -208,28 +208,29 @@ resolver.
 
 A block comes as `Map<String, String>` with keys flattened as Spring Boot flattens a tree:
 `exponential.multiplier`, `exponential.jitter.factor`, `exponential.retry-on-statuses[0]`.
-`name` is the path of the block, `semantic.resilience.backoff.instances[orders]`: the errors
-carry it, so a wrong block is found by its path. `defaults` fills the fields a block does not set,
+`prefix` is the prefix of the block, `semantic.resilience.backoff.instances[orders]`: its keys
+are relative to it, as to the prefix of `@ConfigurationProperties`, and the errors carry it, so
+a wrong block is found by its prefix. `defaults` fills the fields a block does not set,
 the default backoff for one, as the default properties of Spring Boot fill what no other
 source sets.
 
 The contract of `PolymorphicConfigurationBinder`:
 
 - The type is the first segment of a key. Keys of one block that name different types throw
-  `MultipleConfigurationsException` with the path of the block and the types.
-- A type that the resolver does not find throws `UnknownConfigurationException` with the path of
-  the block and the type, as Jackson throws `InvalidTypeIdException`. A field outside a type,
+  `MultipleConfigurationsException` with the prefix of the block and the types.
+- A type that the resolver does not find throws `UnknownConfigurationException` with the prefix
+  of the block and the type, as Jackson throws `InvalidTypeIdException`. A field outside a type,
   `orders.multiplier`, names the unknown type `multiplier`.
 - An empty block takes the type of `defaults`, and with `defaults` empty too the default type of
   the binder.
 - Keys of `defaults` of another type than the block are left out. The caller binds `defaults`
-  first, as a block of its own under its own path, so its errors carry that path.
+  first, as a block of its own under its own prefix, so its errors carry that prefix.
 - Types are compared by the class the resolver finds, not by their spelling: `TypeNameResolver`
   matches `fixed-delay` and `fixedDelay` as one name, and the binder takes them as one type.
   A field set under two spellings of the type keeps the later key, as a map keeps the later
   entry.
 - Fields that do not fit the class, a required one missing, an extra one or a wrong value, throw
-  `InvalidConfigurationPropertyException` with the path and the error of the adapter as its cause.
+  `InvalidConfigurationPropertyException` with the prefix and the error of the adapter as its cause.
 
 Every error of a binder is an `InvalidConfigurationException`: the configuration of the block is
 invalid, and the caller catches one exception. The block is an argument of `bind`, so it is an
@@ -260,7 +261,7 @@ val definition = BackoffDefinitionBinder(types)
 ```
 
 The binder asks the resolver by `resolveOrNull` and throws itself: only the binder knows the
-path of the block. Jackson splits it the same way: `TypeNameIdResolver` returns `null`,
+prefix of the block. Jackson splits it the same way: `TypeNameIdResolver` returns `null`,
 `TypeDeserializerBase` throws.
 
 A definition checks its fields in `init`: the binder of Spring Boot then fails with the path of

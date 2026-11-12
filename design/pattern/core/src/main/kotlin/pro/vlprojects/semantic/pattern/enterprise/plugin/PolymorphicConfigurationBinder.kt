@@ -9,11 +9,11 @@ import pro.vlprojects.semantic.pattern.enterprise.plugin.error.InvalidConfigurat
 public interface PolymorphicConfigurationBinder<out T : Any> {
 
     /**
-     * Binds the block at the path [name]; [defaults] supply what the block omits, its type included.
+     * Binds the block under [prefix]; [defaults] supply what the block omits, its type included.
      */
     @Throws(InvalidConfigurationException::class)
     public fun bind(
-        name: String,
+        prefix: String,
         properties: Map<String, String>,
         defaults: Map<String, String> = emptyMap(),
     ): T

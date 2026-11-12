@@ -1,6 +1,6 @@
 package pro.vlprojects.semantic.pattern.enterprise.plugin.error
 
 public class InvalidConfigurationPropertyException(
-    name: String,
+    prefix: String,
     cause: Throwable,
-) : InvalidConfigurationException(name, "Invalid configuration property in '$name'", cause)
+) : InvalidConfigurationException(prefix, "Invalid configuration property under '$prefix'", cause)
