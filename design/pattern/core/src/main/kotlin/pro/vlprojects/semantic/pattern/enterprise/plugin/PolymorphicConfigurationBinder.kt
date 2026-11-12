@@ -4,13 +4,13 @@ import pro.vlprojects.semantic.pattern.enterprise.plugin.error.MultipleTypesExce
 import pro.vlprojects.semantic.pattern.enterprise.plugin.error.TypeNotFoundException
 
 /**
- * Binds flat string settings to a typed object whose class is not known in advance but chosen by the settings
- * themselves, by the key of the block: `exponential.multiplier=3`.
+ * Binds polymorphic configuration: flat string settings to an object of the subtype of [T]
+ * that the settings name by the first segment of their keys.
  */
 public interface PolymorphicConfigurationBinder<out T : Any> {
 
     /**
-     * Binds the block at the path [name]; [defaults] fill what the block does not set, its type included.
+     * Binds the block at the path [name]; [defaults] supply what the block omits, its type included.
      */
     @Throws(TypeNotFoundException::class, MultipleTypesException::class)
     public fun bind(
