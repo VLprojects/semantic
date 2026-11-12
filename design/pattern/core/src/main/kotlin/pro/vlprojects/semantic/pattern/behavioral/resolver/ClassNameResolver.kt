@@ -12,7 +12,7 @@ public class ClassNameResolver<T : Any> private constructor(
 
     override fun resolveAll(context: String): Collection<KClass<out T>> = context
         .also(::checkIsAllowed)
-        .loadClassOrNull(classLoader)
+        .let(classLoader::loadClassOrNull)
         ?.also(::checkIsSubtype)
         ?.asSubclass(baseType.java)
         ?.kotlin

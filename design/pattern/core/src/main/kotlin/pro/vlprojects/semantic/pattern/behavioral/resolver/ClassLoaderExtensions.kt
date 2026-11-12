@@ -3,12 +3,12 @@ package pro.vlprojects.semantic.pattern.behavioral.resolver
 import kotlin.reflect.KClass
 
 // Initialization is off so that no static initializer of an unchecked class runs.
-internal fun String.loadClassOrNull(classLoader: ClassLoader) = try {
-    Class.forName(this, false, classLoader)
+internal fun ClassLoader.loadClassOrNull(className: String) = try {
+    Class.forName(className, false, this)
 } catch (_: ClassNotFoundException) {
     null
 } catch (failure: LinkageError) {
-    throw IllegalArgumentException("The class '$this' cannot be loaded", failure)
+    throw IllegalArgumentException("The class '$className' cannot be loaded", failure)
 }
 
 internal fun KClass<*>.getDefaultClassLoader(resolverClassLoader: ClassLoader?) = resolverClassLoader
@@ -16,4 +16,4 @@ internal fun KClass<*>.getDefaultClassLoader(resolverClassLoader: ClassLoader?) 
     ?: this.java.classLoader
     ?: ClassLoader.getSystemClassLoader()
 
-private fun KClass<*>.isVisible(classLoader: ClassLoader) = this.java.name.loadClassOrNull(classLoader) == this.java
+private fun KClass<*>.isVisible(classLoader: ClassLoader) = classLoader.loadClassOrNull(this.java.name) == this.java

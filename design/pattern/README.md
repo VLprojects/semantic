@@ -189,8 +189,8 @@ hold and returns only its base type or a subtype of it:
   1. the one given to `of`;
   2. the one that loaded `ClassNameResolver`, where it sees the base type, as
      `ClassUtils.isVisible` of Spring checks a class: on a flat class path or in a Spring Boot
-     fat jar a base type of the JDK, as `Any`, then still finds the classes of the
-     application;
+     fat jar a base type of the JDK, as `Object` that is `Any` of Kotlin, then still finds the
+     classes of the application;
   3. the one of the base type;
   4. the system one.
 
