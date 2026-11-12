@@ -158,6 +158,16 @@ class ClassNameResolverTests {
     }
 
     @Test
+    fun `the class loader of the base type is taken when the resolver has none`() {
+        assertSame(Backoff::class.java.classLoader, Backoff::class.getDefaultClassLoader(resolverClassLoader = null))
+    }
+
+    @Test
+    fun `the system class loader is taken when neither the resolver nor the base type has one`() {
+        assertSame(ClassLoader.getSystemClassLoader(), Any::class.getDefaultClassLoader(resolverClassLoader = null))
+    }
+
+    @Test
     fun `a class that is not a subtype is rejected`() {
         val testsName = ClassNameResolverTests::class.java.name
 

@@ -187,14 +187,16 @@ hold and returns only its base type or a subtype of it:
 - a class is loaded without running its static initializers, as `ClassUtils.forName` of
   Spring loads it, by one class loader, the first of:
   1. the one given to `of`;
-  2. the one of the resolver, where it sees the base type, as `ClassUtils.isVisible` of
-     Spring checks a class: a base type of the JDK, as `Any` or `DataSource`, then still
-     finds the classes of the application;
+  2. the one that loaded `ClassNameResolver`, where it sees the base type, as
+     `ClassUtils.isVisible` of Spring checks a class: on a flat class path or in a Spring Boot
+     fat jar a base type of the JDK, as `Any` or `DataSource`, then still finds the classes of
+     the application;
   3. the one of the base type;
   4. the system one.
 
   A class this loader does not see resolves nothing, where `TypeFactory.findClass` of Jackson
-  tries the next loader;
+  tries the next loader. The context class loader of the thread is not asked yet: under
+  Spring Boot DevTools, pass `Thread.currentThread().contextClassLoader` to `of`;
 - a nested class is named by its binary name, `com.acme.Outer$Inner`, as `Class.forName`
   takes it;
 - a class that is missing resolves nothing, as Jackson leaves an unknown class to the caller;
