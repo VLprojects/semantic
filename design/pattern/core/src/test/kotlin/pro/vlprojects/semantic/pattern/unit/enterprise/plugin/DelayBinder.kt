@@ -9,9 +9,9 @@ class DelayBinder(
     resolver: Resolver<String, KClass<out Delay>> = delayTypeNames,
 ) : AbstractPolymorphicConfigurationBinder<Delay>(resolver, defaultTypeName) {
 
-    override fun doBind(prefix: String, type: KClass<out Delay>, sources: List<Map<String, String>>) = when (type) {
-        FixedDelay::class -> FixedDelay(prefix, sources)
-        ExponentialDelay::class -> ExponentialDelay(prefix, sources)
+    override fun doBind(prefix: String, type: KClass<out Delay>, properties: Map<String, String>) = when (type) {
+        FixedDelay::class -> FixedDelay(prefix, properties)
+        ExponentialDelay::class -> ExponentialDelay(prefix, properties)
         else -> error("No delay is known of $type")
     }
 }

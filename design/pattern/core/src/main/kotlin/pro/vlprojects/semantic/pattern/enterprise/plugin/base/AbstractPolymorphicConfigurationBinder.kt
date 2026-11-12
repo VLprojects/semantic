@@ -22,23 +22,20 @@ public abstract class AbstractPolymorphicConfigurationBinder<T : Any>(
     }
 
     @Throws(InvalidConfigurationException::class, MultipleResolvedException::class)
-    final override fun bind(prefix: String, properties: Map<String, String>, defaults: Map<String, String>): T {
-        val typeName = findTypeName(prefix, properties)
-            ?: findTypeName(prefix, defaults)
-            ?: defaultTypeName
+    final override fun bind(prefix: String, properties: Map<String, String>): T {
+        val typeName = findTypeName(prefix, properties) ?: defaultTypeName
         val type = resolveType(prefix, typeName)
-        val sources = listOf(properties, defaults).map { block -> selectFields(block, type) }
 
-        return doBind("$prefix$KEY_SEPARATOR$typeName", type, sources)
+        return doBind("$prefix$KEY_SEPARATOR$typeName", type, extractFields(properties))
     }
 
     /**
-     * Binds [sources], the fields of the block before those of the defaults, to an object of [type] under [prefix].
+     * Binds [properties], the fields of the block without the type segment, to an object of [type] under [prefix].
      */
     @Throws(InvalidConfigurationPropertyException::class)
-    protected abstract fun doBind(prefix: String, type: KClass<out T>, sources: List<Map<String, String>>): T
+    protected abstract fun doBind(prefix: String, type: KClass<out T>, properties: Map<String, String>): T
 
-    private fun findTypeName(prefix: String, block: Map<String, String>) = block.keys
+    private fun findTypeName(prefix: String, properties: Map<String, String>) = properties.keys
         .map(String::extractTypeName)
         .distinct()
         .groupBy { typeName -> resolveType(prefix, typeName) }
@@ -50,10 +47,7 @@ public abstract class AbstractPolymorphicConfigurationBinder<T : Any>(
     private fun resolveType(prefix: String, typeName: String) = resolver.resolveOrNull(typeName)
         ?: throw UnknownConfigurationException(prefix, typeName)
 
-    private fun selectFields(block: Map<String, String>, type: KClass<out T>) = block
-        .filterKeys { key -> isFieldOf(key, type) }
+    private fun extractFields(properties: Map<String, String>) = properties
         .mapKeys { (key) -> key.extractFieldName() }
         .filterKeys(String::isNotEmpty)
-
-    private fun isFieldOf(key: String, type: KClass<out T>) = key.extractTypeName().let(resolver::resolveOrNull) == type
 }

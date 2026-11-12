@@ -210,9 +210,7 @@ A block comes as `Map<String, String>` with keys flattened as Spring Boot flatte
 `exponential.multiplier`, `exponential.jitter.factor`, `exponential.retry-on-statuses[0]`.
 `prefix` is the prefix of the block, `semantic.resilience.backoff.instances[orders]`: its keys
 are relative to it, as to the prefix of `@ConfigurationProperties`, and the errors carry it, so
-a wrong block is found by its prefix. `defaults` fills the fields a block does not set,
-the default backoff for one, as the default properties of Spring Boot fill what no other
-source sets.
+a wrong block is found by its prefix.
 
 The contract of `PolymorphicConfigurationBinder`:
 
@@ -221,10 +219,7 @@ The contract of `PolymorphicConfigurationBinder`:
 - A type that the resolver does not find throws `UnknownConfigurationException` with the prefix
   of the block and the type, as Jackson throws `InvalidTypeIdException`. A field outside a type,
   `orders.multiplier`, names the unknown type `multiplier`.
-- An empty block takes the type of `defaults`, and with `defaults` empty too the default type of
-  the binder.
-- Keys of `defaults` of another type than the block are left out. The caller binds `defaults`
-  first, as a block of its own under its own prefix, so its errors carry that prefix.
+- An empty block takes the default type of the binder.
 - Types are compared by the class the resolver finds, not by their spelling: `TypeNameResolver`
   matches `fixed-delay` and `fixedDelay` as one name, and the binder takes them as one type.
   A field set under two spellings of the type keeps the later key, as a map keeps the later
@@ -235,13 +230,17 @@ The contract of `PolymorphicConfigurationBinder`:
 Every error of a binder is an `InvalidConfigurationException`: the configuration of the block is
 invalid, and the caller catches one exception. The block is an argument of `bind`, so it is an
 `IllegalArgumentException`, as `NumberFormatException` is for a wrong number and
-`MultipleFactoriesException` is here. Fields are the business of the adapter: the one of Spring Boot is to bind
-with `NoUnboundElementsBindHandler` and wrap its `BindException`.
+`MultipleFactoriesException` is here. Fields are the business of the adapter: the one of Spring
+Boot is to bind with `NoUnboundElementsBindHandler` and wrap its `BindException`.
+
+A binder has no defaults of its own: a block is bound alone. A default instance is the business of
+a registry, `Registry.resolveOrDefault`; settings shared by blocks, as `base-config` of
+Resilience4j, may come as a layer above the binder when a module needs them.
 
 `AbstractPolymorphicConfigurationBinder<T>` keeps that contract in a final `bind`; a subclass binds
-only the fields in `doBind(prefix, type, sources)` and throws `InvalidConfigurationPropertyException`
-when they do not fit. `prefix` is the prefix of the block with the type segment,
-`sources` are the fields of the block and of `defaults` without it, the block first. A resolver
+only the fields in `doBind(prefix, type, properties)` and throws `InvalidConfigurationPropertyException`
+when they do not fit. `prefix` is the prefix of the block with the type segment, `properties`
+are the fields of the block without it. A resolver
 that finds several classes for a type throws `MultipleResolvedException` of its own;
 `TypeNameResolver` never does, as its names are unique. A default type the resolver does not find
 fails when the binder is made, with `IllegalArgumentException`.
@@ -251,13 +250,13 @@ class BackoffDefinitionBinder(
     types: Resolver<String, KClass<out BackoffDefinition>>,
 ) : AbstractPolymorphicConfigurationBinder<BackoffDefinition>(types, defaultTypeName = "exponential") {
 
-    override fun doBind(prefix: String, type: KClass<out BackoffDefinition>, sources: List<Map<String, String>>) =
-        TODO("bind the fields of sources to type")
+    override fun doBind(prefix: String, type: KClass<out BackoffDefinition>, properties: Map<String, String>) =
+        TODO("bind the properties to type")
 }
 
 val types = TypeNameResolver.of(BackoffDefinition::class, definitions)
 val definition = BackoffDefinitionBinder(types)
-    .bind("semantic.resilience.backoff.instances[orders]", block, defaults)
+    .bind("semantic.resilience.backoff.instances[orders]", block)
 ```
 
 The binder asks the resolver by `resolveOrNull` and throws itself: only the binder knows the
@@ -274,8 +273,8 @@ no module needs it yet.
 ### Plan of Plugin
 
 1. The contract of `PolymorphicConfigurationBinder`, its errors.
-2. `AbstractPolymorphicConfigurationBinder`: the type from the key, one type in a block, `defaults`,
-   the default type; a subclass binds only the fields.
+2. `AbstractPolymorphicConfigurationBinder`: the type from the key, one type in a block, the default
+   type; a subclass binds only the fields.
 3. A Spring Boot adapter, `semantic-pattern-spring-boot`: a binder over the `Binder` of Spring Boot.
 4. Backoff and the polling of delivery moved onto it.
 

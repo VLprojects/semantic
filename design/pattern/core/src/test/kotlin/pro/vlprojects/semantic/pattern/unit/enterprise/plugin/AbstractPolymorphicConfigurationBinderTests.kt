@@ -21,7 +21,7 @@ class AbstractPolymorphicConfigurationBinderTests {
     fun `the fields come without the type segment`() {
         val delay = bind(mapOf("exponential.multiplier" to "2", "exponential.initial-delay" to "1s"))
 
-        assertEquals(mapOf("multiplier" to "2", "initial-delay" to "1s"), delay.sources.first())
+        assertEquals(mapOf("multiplier" to "2", "initial-delay" to "1s"), delay.properties)
     }
 
     @Test
@@ -36,39 +36,39 @@ class AbstractPolymorphicConfigurationBinderTests {
         val delay = bind(mapOf("fixed" to ""))
 
         assertEquals(FixedDelay::class, delay::class)
-        assertEquals(emptyMap<String, String>(), delay.sources.first())
+        assertEquals(emptyMap<String, String>(), delay.properties)
     }
 
     @Test
     fun `a nested field keeps its path`() {
         val delay = bind(mapOf("exponential.jitter.factor" to "0.1"))
 
-        assertEquals(mapOf("jitter.factor" to "0.1"), delay.sources.first())
+        assertEquals(mapOf("jitter.factor" to "0.1"), delay.properties)
     }
 
     @Test
     fun `an indexed field keeps its index`() {
         val delay = bind(mapOf("exponential.retry-on-statuses[0]" to "503"))
 
-        assertEquals(mapOf("retry-on-statuses[0]" to "503"), delay.sources.first())
+        assertEquals(mapOf("retry-on-statuses[0]" to "503"), delay.properties)
     }
 
     @Test
     fun `of two spellings of one field the later one is kept`() {
         val delay = bind(mapOf("fixed.delay" to "1s", "Fixed.delay" to "2s"))
 
-        assertEquals(mapOf("delay" to "2s"), delay.sources.first())
+        assertEquals(mapOf("delay" to "2s"), delay.properties)
     }
 
     @Test
     fun `two spellings of one type are one type`() {
         val delay = bind(mapOf("fixed.delay" to "1s", "Fixed.jitter" to "0.1"))
 
-        assertEquals(mapOf("delay" to "1s", "jitter" to "0.1"), delay.sources.first())
+        assertEquals(mapOf("delay" to "1s", "jitter" to "0.1"), delay.properties)
     }
 
     @Test
-    fun `several types in a block are rejected with the path and the types`() {
+    fun `several types in a block are rejected with the prefix and the types`() {
         val failure = assertThrows<MultipleConfigurationsException> {
             bind(mapOf("fixed.delay" to "1s", "exponential.multiplier" to "2"))
         }
@@ -78,7 +78,7 @@ class AbstractPolymorphicConfigurationBinderTests {
     }
 
     @Test
-    fun `an unknown type is rejected with the path`() {
+    fun `an unknown type is rejected with the prefix`() {
         val failure = assertThrows<UnknownConfigurationException> {
             bind(mapOf("exponental.multiplier" to "2"))
         }
@@ -98,38 +98,12 @@ class AbstractPolymorphicConfigurationBinderTests {
     }
 
     @Test
-    fun `an empty block takes the type of the defaults`() {
-        val delay = bind(emptyMap(), mapOf("fixed.delay" to "1s"))
-
-        assertEquals(FixedDelay::class, delay::class)
-        assertEquals("orders.fixed", delay.prefix)
-        assertEquals(listOf(emptyMap(), mapOf("delay" to "1s")), delay.sources)
-    }
-
-    @Test
-    fun `an empty block takes the type segment as the defaults spell it`() {
-        val delay = bind(emptyMap(), mapOf("Fixed.delay" to "1s"))
-
-        assertEquals("orders.Fixed", delay.prefix)
-    }
-
-    @Test
-    fun `an empty block rejects defaults of several types`() {
-        val failure = assertThrows<MultipleConfigurationsException> {
-            bind(emptyMap(), mapOf("fixed.delay" to "1s", "exponential.multiplier" to "2"))
-        }
-
-        assertEquals("orders", failure.prefix)
-        assertEquals(setOf("fixed", "exponential"), failure.typeNames)
-    }
-
-    @Test
-    fun `an empty block with no defaults takes the default type`() {
+    fun `an empty block takes the default type`() {
         val delay = bind(emptyMap(), binder = DelayBinder("fixed"))
 
         assertEquals(FixedDelay::class, delay::class)
         assertEquals("orders.fixed", delay.prefix)
-        assertEquals(listOf(emptyMap<String, String>(), emptyMap()), delay.sources)
+        assertEquals(emptyMap<String, String>(), delay.properties)
     }
 
     @Test
@@ -151,33 +125,8 @@ class AbstractPolymorphicConfigurationBinderTests {
         assertThrows<MultipleResolvedException> { DelayBinder("fixed", ambiguousDelayTypeNames) }
     }
 
-    @Test
-    fun `the defaults of another type are left out`() {
-        val delay = bind(
-            mapOf("fixed.delay" to "1s"),
-            mapOf("exponential.multiplier" to "2", "linear.step" to "1", "fixed.jitter" to "0.1"),
-        )
-
-        assertEquals(listOf(mapOf("delay" to "1s"), mapOf("jitter" to "0.1")), delay.sources)
-    }
-
-    @Test
-    fun `the defaults spelt otherwise are of the same type`() {
-        val delay = bind(mapOf("Fixed.delay" to "1s"), mapOf("fixed.jitter" to "0.1"))
-
-        assertEquals(mapOf("jitter" to "0.1"), delay.sources.last())
-    }
-
-    @Test
-    fun `the block comes before the defaults`() {
-        val delay = bind(mapOf("fixed.delay" to "1s"), mapOf("fixed.delay" to "5s"))
-
-        assertEquals(listOf(mapOf("delay" to "1s"), mapOf("delay" to "5s")), delay.sources)
-    }
-
     private fun bind(
         properties: Map<String, String>,
-        defaults: Map<String, String> = emptyMap(),
         binder: DelayBinder = DelayBinder(),
-    ) = binder.bind("orders", properties, defaults)
+    ) = binder.bind("orders", properties)
 }
