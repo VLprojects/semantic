@@ -21,7 +21,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
 | `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
-| `enterprise.plugin` | `TypeNameResolver`, a class by the name of its type; `PolymorphicBinder`, a block of settings to an object of the class the block names |
+| `enterprise.plugin` | `PolymorphicBinder`, a block of settings to an object of the class the block names |
 | `enterprise.plugin.error` | `TypeNotFoundException`, `MultipleTypesException` of a binder |
 
 `structural` gets packages when a pattern of it is needed.
@@ -194,14 +194,14 @@ semantic.resilience.backoff.instances:
 
 The block `orders` is an exponential backoff: `exponential` is its type, `multiplier` and
 `initial-delay` are the fields of its definition. The set of types is open: a module adds a type
-with a factory and its definition, and no list of the types has to change. The adapter names the
-type; the one of Spring Boot takes the name of the bean of the factory without its suffix,
-`exponentialBackoffFactory` to `exponential`, as Spring Boot names its health contributors.
+with a factory and its definition, and no list of the types has to change.
 
-| Role | What it does | What it does not | Samples |
-| --- | --- | --- | --- |
-| `TypeNameResolver<T>` | finds a class by the name of its type, `find`; names the known types, `typeNames` | reads no settings, throws nothing | Jackson `TypeIdResolver`: `typeFromId`, `getDescForKnownTypeIds`; the name as `@JsonTypeName` and `TypeNameIdResolver` |
-| `PolymorphicBinder<T>` | binds a block of settings to an object of the class the block names, `bind(name, properties, defaults)` | makes no instance, knows no factory and no definition | Spring Boot `Binder.bind(name, target)` |
+`PolymorphicBinder<T>` binds a block of settings to an object of the class the block names,
+`bind(name, properties, defaults)`, as Spring Boot `Binder.bind(name, target)` binds one class.
+It makes no instance and knows no factory. The class of a type comes from a resolver of the
+behavioral group, a `Resolver<String, KClass<out T>>`: `TypeNameResolver.of(BackoffDefinition::class, definitions)`
+names `ExponentialBackoffDefinition` `exponential`, `TypeNameResolver.of(types)` takes the names
+it is given. The adapter picks the resolver.
 
 A block comes as `Map<String, String>` with keys flattened as Spring Boot flattens a tree:
 `exponential.multiplier`, `exponential.jitter.factor`, `exponential.retry-on-statuses[0]`.
@@ -214,24 +214,23 @@ The contract of a binder:
 
 - The type is the first segment of a key. Keys of one block that name different types throw
   `MultipleTypesException` with the path of the block and the types.
-- A type that the resolver does not find throws `TypeNotFoundException` with the path of the block,
-  the type and the known types, as `InvalidTypeIdException` of Jackson lists the known type ids.
-  A field outside a type, `orders.multiplier`, names the unknown type `multiplier`.
+- A type that the resolver does not find throws `TypeNotFoundException` with the path of the block
+  and the type, as Jackson throws `InvalidTypeIdException`. A field outside a type, `orders.multiplier`, names the unknown type `multiplier`.
 - An empty block takes the type of `defaults`, and with `defaults` empty too the default type the
   binder is made with.
 - Keys of `defaults` of another type than the block are left out. The caller binds `defaults`
   first, as a block of its own under its own path, so its errors carry that path.
-- Types are compared by the class the resolver finds, not by their spelling: the relaxed names of
-  Spring Boot, `fixed-delay` and `fixedDelay`, stay in the resolver of its adapter.
+- Types are compared by the class the resolver finds, not by their spelling: `TypeNameResolver`
+  matches `fixed-delay` and `fixedDelay` as one name, and the binder takes them as one type.
 
 `TypeNotFoundException` is a `NoSuchElementException`, as `FactoryNotFoundException` is;
 `MultipleTypesException` is an `IllegalArgumentException`, as `MultipleFactoriesException` is.
 Fields are the business of the adapter: the one of Spring Boot binds with
 `NoUnboundElementsBindHandler`, so a field the class does not have throws `BindException`.
 
-A resolver returns `null` for an unknown type, as `Registry.find` does, and the binder throws:
-only the binder knows the path of the block. Jackson splits it the same way: `TypeNameIdResolver`
-returns `null`, `TypeDeserializerBase` throws.
+The binder asks the resolver by `resolveOrNull` and throws itself: only the binder knows the
+path of the block. Jackson splits it the same way: `TypeNameIdResolver` returns `null`,
+`TypeDeserializerBase` throws.
 
 A definition checks its fields in `init`: the binder of Spring Boot then fails with the path of
 the block. A factory that rejects a definition loses that path, since a registrar knows only
@@ -242,11 +241,10 @@ no module needs it yet.
 
 ### Plan of Plugin
 
-1. The contracts of `TypeNameResolver` and `PolymorphicBinder`, their errors.
+1. The contract of `PolymorphicBinder`, its errors.
 2. `AbstractPolymorphicBinder`: the type from the key, one type in a block, `defaults`,
    the default type; a subclass binds only the fields.
-3. A Spring Boot adapter, `semantic-pattern-spring-boot`: a resolver over the beans of factories,
-   a binder over the `Binder` of Spring Boot.
+3. A Spring Boot adapter, `semantic-pattern-spring-boot`: a binder over the `Binder` of Spring Boot.
 4. Backoff and the polling of delivery moved onto it.
 
 ## Plan

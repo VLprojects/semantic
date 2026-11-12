@@ -151,11 +151,6 @@ public abstract interface class pro/vlprojects/semantic/pattern/enterprise/plugi
 	public static synthetic fun bind$default (Lpro/vlprojects/semantic/pattern/enterprise/plugin/PolymorphicBinder;Ljava/lang/String;Ljava/util/Map;Ljava/util/Map;ILjava/lang/Object;)Ljava/lang/Object;
 }
 
-public abstract interface class pro/vlprojects/semantic/pattern/enterprise/plugin/TypeNameResolver {
-	public abstract fun find (Ljava/lang/String;)Lkotlin/reflect/KClass;
-	public abstract fun getTypeNames ()Ljava/util/Set;
-}
-
 public final class pro/vlprojects/semantic/pattern/enterprise/plugin/error/MultipleTypesException : java/lang/IllegalArgumentException {
 	public fun <init> (Ljava/lang/String;Ljava/util/Set;)V
 	public final fun getName ()Ljava/lang/String;
@@ -163,8 +158,7 @@ public final class pro/vlprojects/semantic/pattern/enterprise/plugin/error/Multi
 }
 
 public final class pro/vlprojects/semantic/pattern/enterprise/plugin/error/TypeNotFoundException : java/util/NoSuchElementException {
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/Set;)V
-	public final fun getKnownTypeNames ()Ljava/util/Set;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
 	public final fun getName ()Ljava/lang/String;
 	public final fun getTypeName ()Ljava/lang/String;
 }
