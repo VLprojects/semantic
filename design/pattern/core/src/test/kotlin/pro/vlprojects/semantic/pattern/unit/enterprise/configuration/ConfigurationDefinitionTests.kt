@@ -2,8 +2,8 @@ package pro.vlprojects.semantic.pattern.unit.enterprise.configuration
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotEquals
-import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import pro.vlprojects.semantic.pattern.enterprise.configuration.ConfigurationDefinition
 
 class ConfigurationDefinitionTests {
@@ -14,6 +14,23 @@ class ConfigurationDefinitionTests {
         val same = ConfigurationDefinition.of("orders", "fixed", mapOf("delay" to "1s"))
 
         assertEquals(same, definition)
+        assertEquals(same.hashCode(), definition.hashCode())
+    }
+
+    @Test
+    fun `definitions of other names differ`() {
+        val definition = ConfigurationDefinition.of("orders", "fixed")
+        val other = ConfigurationDefinition.of("payments", "fixed")
+
+        assertNotEquals(other, definition)
+    }
+
+    @Test
+    fun `definitions of other types differ`() {
+        val definition = ConfigurationDefinition.of("orders", "fixed")
+        val other = ConfigurationDefinition.of("orders", "exponential")
+
+        assertNotEquals(other, definition)
     }
 
     @Test
@@ -25,17 +42,34 @@ class ConfigurationDefinitionTests {
     }
 
     @Test
-    fun `a definition of an empty block names no type`() {
-        val definition = ConfigurationDefinition.of("audit")
+    fun `a definition keeps its arguments when the given map changes`() {
+        val arguments = mutableMapOf("delay" to "1s")
+        val definition = ConfigurationDefinition.of("orders", "fixed", arguments)
 
-        assertNull(definition.typeName)
-        assertEquals(emptyMap<String, String>(), definition.arguments)
+        arguments["delay"] = "2s"
+
+        assertEquals(mapOf("delay" to "1s"), definition.arguments)
+    }
+
+    @Test
+    fun `a definition of a blank name is rejected`() {
+        assertThrows<IllegalArgumentException> { ConfigurationDefinition.of(" ", "fixed") }
+    }
+
+    @Test
+    fun `a definition of a blank type is rejected`() {
+        assertThrows<IllegalArgumentException> { ConfigurationDefinition.of("orders", "") }
+    }
+
+    @Test
+    fun `a definition of an argument with a blank key is rejected`() {
+        assertThrows<IllegalArgumentException> { ConfigurationDefinition.of("orders", "fixed", mapOf("" to "1s")) }
     }
 
     @Test
     fun `a definition shows the keys of its arguments and hides their values`() {
         val definition = ConfigurationDefinition.of("orders", "basic", mapOf("password" to "secret"))
 
-        assertEquals("[name: orders, typeName: basic, arguments: [password]]", definition.toString())
+        assertEquals("[name: orders, type: basic, arguments: [password]]", definition.toString())
     }
 }

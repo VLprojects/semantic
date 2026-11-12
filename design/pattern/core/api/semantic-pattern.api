@@ -151,7 +151,7 @@ public final class pro/vlprojects/semantic/pattern/enterprise/configuration/Conf
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getArguments ()Ljava/util/Map;
 	public final fun getName ()Ljava/lang/String;
-	public final fun getTypeName ()Ljava/lang/String;
+	public final fun getType ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
@@ -186,6 +186,11 @@ public final class pro/vlprojects/semantic/pattern/enterprise/configuration/erro
 public final class pro/vlprojects/semantic/pattern/enterprise/configuration/error/MultipleConfigurationsException : pro/vlprojects/semantic/pattern/enterprise/configuration/error/InvalidConfigurationException {
 	public fun <init> (Ljava/lang/String;Ljava/util/Set;)V
 	public final fun getTypeNames ()Ljava/util/Set;
+}
+
+public final class pro/vlprojects/semantic/pattern/enterprise/configuration/error/UnboundConfigurationPropertiesException : java/lang/IllegalArgumentException {
+	public fun <init> (Ljava/util/Set;)V
+	public final fun getKeys ()Ljava/util/Set;
 }
 
 public final class pro/vlprojects/semantic/pattern/enterprise/configuration/error/UnknownConfigurationException : pro/vlprojects/semantic/pattern/enterprise/configuration/error/InvalidConfigurationException {
