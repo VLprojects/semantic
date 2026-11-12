@@ -32,6 +32,6 @@ public class Definition private constructor(
             name: String,
             type: String,
             arguments: Map<String, String> = emptyMap(),
-        ): Definition = arguments.toMap().let { copiedArguments -> Definition(name, type, copiedArguments) }
+        ): Definition = Definition(name, type, arguments.toMap())
     }
 }
