@@ -196,10 +196,9 @@ The block `orders` is an exponential backoff: `exponential` is its type, `multip
 `initial-delay` are the fields of its definition. The set of types is open: a module adds a type
 with a factory and its definition, and no list of the types has to change.
 
-`PolymorphicConfigurationBinder<T>` binds flat string settings to a typed object whose class is
-not known in advance but chosen by the settings themselves, by the key of the block:
-`bind(name, properties, defaults)`, as Spring Boot `Binder.bind(name, target)` binds one class
-the caller names.
+`PolymorphicConfigurationBinder<T>` binds polymorphic configuration: flat string settings to an
+object of the subtype of `T` that the settings name by the first segment of their keys. Spring Boot
+`Binder.bind(name, target)` binds to the class the caller names; here the settings name it.
 It makes no plugin and knows no factory. The class of a type comes from a resolver of the
 behavioral group, a `Resolver<String, KClass<out T>>`:
 `TypeNameResolver.of(BackoffDefinition::class, definitions)` names `ExponentialBackoffDefinition`
