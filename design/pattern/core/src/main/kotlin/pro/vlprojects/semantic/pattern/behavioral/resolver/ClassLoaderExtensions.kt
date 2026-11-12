@@ -2,7 +2,7 @@ package pro.vlprojects.semantic.pattern.behavioral.resolver
 
 import kotlin.reflect.KClass
 
-// Initialization is off so that no static initializer of an unchecked class runs.
+// Initialization is off so that no static initializer runs before the base type is checked.
 internal fun ClassLoader.loadClassOrNull(className: String) = try {
     Class.forName(className, false, this)
 } catch (_: ClassNotFoundException) {

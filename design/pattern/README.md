@@ -212,10 +212,10 @@ hold and returns only its base type or a subtype of it:
   `DefaultBaseTypeLimitingValidator` of Jackson denies such a base type, this resolver takes
   it, so the allowed packages are then the only guard; keep them narrow.
 
-An empty set of allowed packages, or an allowed package that is not dot-separated identifiers,
-as `SourceVersion.isIdentifier` of the JDK checks each, such as `com.acme.`, `1com` or `*`, fails
-`of` with an `IllegalArgumentException` instead of silently allowing none,
-where `*` of Spring Kafka trusts every class.
+`of` fails with an `IllegalArgumentException` on an empty set of allowed packages, which would
+allow nothing, and on an allowed package that is not dot-separated identifiers, as
+`SourceVersion.isIdentifier` of the JDK checks each: `com.acme.`, `1com` or `*`, where `*` of
+Spring Kafka trusts every class.
 
 ```kotlin
 val types = ClassNameResolver.of(Backoff::class, setOf("com.acme"))
