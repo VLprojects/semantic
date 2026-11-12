@@ -146,14 +146,17 @@ public final class pro/vlprojects/semantic/pattern/creational/registry/error/Inv
 	public final fun getName ()Ljava/lang/String;
 }
 
+public final class pro/vlprojects/semantic/pattern/enterprise/plugin/DefaultPolymorphicConfigurationBinder : pro/vlprojects/semantic/pattern/enterprise/plugin/PolymorphicConfigurationBinder {
+	public fun <init> (Lpro/vlprojects/semantic/pattern/behavioral/resolver/Resolver;Lpro/vlprojects/semantic/pattern/enterprise/plugin/PropertiesDecoder;Ljava/lang/String;)V
+	public fun bind (Ljava/lang/String;Ljava/util/Map;)Ljava/lang/Object;
+}
+
 public abstract interface class pro/vlprojects/semantic/pattern/enterprise/plugin/PolymorphicConfigurationBinder {
 	public abstract fun bind (Ljava/lang/String;Ljava/util/Map;)Ljava/lang/Object;
 }
 
-public abstract class pro/vlprojects/semantic/pattern/enterprise/plugin/base/AbstractPolymorphicConfigurationBinder : pro/vlprojects/semantic/pattern/enterprise/plugin/PolymorphicConfigurationBinder {
-	public fun <init> (Lpro/vlprojects/semantic/pattern/behavioral/resolver/Resolver;Ljava/lang/String;)V
-	public final fun bind (Ljava/lang/String;Ljava/util/Map;)Ljava/lang/Object;
-	protected abstract fun doBind (Ljava/lang/String;Lkotlin/reflect/KClass;Ljava/util/Map;)Ljava/lang/Object;
+public abstract interface class pro/vlprojects/semantic/pattern/enterprise/plugin/PropertiesDecoder {
+	public abstract fun decode (Ljava/util/Map;Lkotlin/reflect/KClass;)Ljava/lang/Object;
 }
 
 public abstract class pro/vlprojects/semantic/pattern/enterprise/plugin/error/InvalidConfigurationException : java/lang/IllegalArgumentException {

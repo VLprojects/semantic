@@ -6,7 +6,7 @@ Application Architecture by Fowler in a group of our own, enterprise. A package 
 a package per pattern inside it. Plain Kotlin, no framework; adapters come as modules of their own.
 
 In place so far: a registry with its store, a registrar and a factory in the creational group; a resolver
-in the behavioral one; the contracts of Plugin and its base binder in the enterprise one.
+in the behavioral one; the contract of Plugin and its default binder in the enterprise one.
 
 ## Packages
 
@@ -21,8 +21,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
 | `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
-| `enterprise.plugin` | `PolymorphicConfigurationBinder`, a block of settings to an object of the class the block names |
-| `enterprise.plugin.base` | `AbstractPolymorphicConfigurationBinder`, a binder that takes the type from the key and leaves the fields to a subclass |
+| `enterprise.plugin` | `PolymorphicConfigurationBinder`, a block of settings to an object of the class the block names; `DefaultPolymorphicConfigurationBinder`, a binder that takes the type from the key and leaves the fields to a `PropertiesDecoder`; `PropertiesDecoder`, flat properties to an object of a class |
 | `enterprise.plugin.error` | `InvalidConfigurationException` of a binder: `UnknownConfigurationException`, `MultipleConfigurationsException`, `InvalidConfigurationPropertyException` |
 
 `structural` gets packages when a pattern of it is needed.
@@ -214,58 +213,72 @@ a wrong block is found by its prefix.
 
 The contract of `PolymorphicConfigurationBinder`:
 
-- The type is the first segment of a key. Keys of one block that name different types throw
-  `MultipleConfigurationsException` with the prefix of the block and the types.
+- The type is the first segment of a key, up to `.` or `[`. Keys of one block that name different
+  types throw `MultipleConfigurationsException` with the prefix of the block and the types.
 - A type that the resolver does not find throws `UnknownConfigurationException` with the prefix
   of the block and the type, as Jackson throws `InvalidTypeIdException`. A field outside a type,
-  `orders.multiplier`, names the unknown type `multiplier`.
-- An empty block takes the default type of the binder.
+  `orders.multiplier`, names the unknown type `multiplier`. An unknown type is found before
+  several types, and both before unbound keys.
+- An empty block names no type: what it takes is up to the binder. An empty value on the key of the
+  block itself, `orders=`, as Spring Boot flattens `orders:` of YAML, is an empty block.
+- An empty value on the type key, `orders.fixed=`, names the type and gives no field: Spring Boot
+  4.1 flattens `fixed:` and `fixed: {}` of YAML so; 4.0 drops `fixed: {}`, and the block is empty.
+- A key that is neither a field nor one of those two, a value on them, `orders=5` or
+  `orders.fixed=5`, or a list in their place, `orders[0]=fixed` or `orders.fixed[0]=`, is left
+  unbound and throws `InvalidConfigurationPropertyException` with the prefix of the block, its cause
+  naming the keys, as Spring Boot throws `UnboundConfigurationPropertiesException`.
 - Types are compared by the class the resolver finds, not by their spelling: `TypeNameResolver`
   matches `fixed-delay` and `fixedDelay` as one name, and the binder takes them as one type.
   A field set under two spellings of the type keeps the later key, as a map keeps the later
-  entry.
+  entry; the prefix of an error takes the first spelling, in the order of the map.
 - Fields that do not fit the class, a required one missing, an extra one or a wrong value, throw
-  `InvalidConfigurationPropertyException` with the prefix and the error of the adapter as its cause.
+  `InvalidConfigurationPropertyException` with the prefix of the block and its type segment,
+  `orders.fixed`, and the error that rejected the fields as its cause.
 
-Every error of a binder is an `InvalidConfigurationException`: the configuration of the block is
+Every error of a block is an `InvalidConfigurationException`: the configuration of the block is
 invalid, and the caller catches one exception. The block is an argument of `bind`, so it is an
 `IllegalArgumentException`, as `NumberFormatException` is for a wrong number and
-`MultipleFactoriesException` is here. Fields are the business of the adapter: the one of Spring
-Boot is to bind with `NoUnboundElementsBindHandler` and wrap its `BindException`.
+`MultipleFactoriesException` is here. A resolver that finds several classes for a type is an error
+of the program, not of the block: it throws `MultipleResolvedException` of its own.
+`TypeNameResolver` never does, as its names are unique.
 
-A binder has no defaults of its own: a block is bound alone. A default instance is the business of
-a registry, `Registry.resolveOrDefault`; settings shared by blocks, as `base-config` of
-Resilience4j, may come as a layer above the binder when a module needs them.
+Besides the type of an empty block, a binder has no defaults: a block is bound alone. A default
+instance is the business of a registry, `Registry.resolveOrDefault`; settings shared by blocks, as
+`base-config` of Resilience4j, may come as a layer above the binder when a module needs them.
 
-`AbstractPolymorphicConfigurationBinder<T>` keeps that contract in a final `bind`; a subclass binds
-only the fields in `doBind(prefix, type, properties)` and throws `InvalidConfigurationPropertyException`
-when they do not fit. `prefix` is the prefix of the block with the type segment, `properties`
-are the fields of the block without it. A resolver
-that finds several classes for a type throws `MultipleResolvedException` of its own;
-`TypeNameResolver` never does, as its names are unique. A default type the resolver does not find
-fails when the binder is made, with `IllegalArgumentException`.
+`DefaultPolymorphicConfigurationBinder<T>` keeps that contract and leaves the fields to a
+`PropertiesDecoder`: it cuts the type segment off the keys and calls `decode(properties, type)`, as
+kotlinx.serialization names `Properties.decodeFromStringMap`. A decoder knows neither type names nor
+prefixes, as `JavaPropsMapper.readMapAs(map, type)` of Jackson does not. Any exception of a decoder
+becomes `InvalidConfigurationPropertyException`, a bug of the decoder too, as
+`Binder.handleBindError` of Spring Boot wraps a failure of binding; an `Error` passes through. Unlike
+`handleBindError`, which rethrows its own `BindException`, the binder wraps the error of a nested
+binder as well, so the error names the outer prefix and keeps the inner one as its cause. An
+empty block takes `defaultTypeName` and puts it into the prefix of an error, `orders.exponential`;
+the binder fails to be made with `IllegalArgumentException` when the resolver finds no class for it
+or several.
 
 ```kotlin
-class BackoffDefinitionBinder(
-    types: Resolver<String, KClass<out BackoffDefinition>>,
-) : AbstractPolymorphicConfigurationBinder<BackoffDefinition>(types, defaultTypeName = "exponential") {
+val binder = DefaultPolymorphicConfigurationBinder(
+    resolver = TypeNameResolver.of(BackoffDefinition::class, definitions),
+    decoder = decoder,
+    defaultTypeName = "exponential",
+)
 
-    override fun doBind(prefix: String, type: KClass<out BackoffDefinition>, properties: Map<String, String>) =
-        TODO("bind the properties to type")
-}
-
-val types = TypeNameResolver.of(BackoffDefinition::class, definitions)
-val definition = BackoffDefinitionBinder(types)
-    .bind("semantic.resilience.backoff.instances[orders]", block)
+val definition = binder.bind("semantic.resilience.backoff.instances[orders]", block)
 ```
+
+The core has no decoder: it is plain Kotlin. The Spring Boot adapter, step 3 of the plan, is to give
+one over `Binder`, with `NoUnboundElementsBindHandler` for an extra field and `bindOrCreate` for
+empty properties.
 
 The binder asks the resolver by `resolveOrNull` and throws itself: only the binder knows the
 prefix of the block. Jackson splits it the same way: `TypeNameIdResolver` returns `null`,
 `TypeDeserializerBase` throws.
 
-A definition checks its fields in `init`: the binder of Spring Boot then fails with the path of
-the block. A factory that rejects a definition loses that path, since a registrar knows only
-the name of the instance.
+A definition checks its fields in `init`: the decoder then fails, and the error carries the prefix
+of the block and its type. A factory that rejects a definition loses that prefix, since a registrar
+knows only the name of the instance.
 
 A type in a field of the block, `type: exponential` as `PROPERTY` of Jackson, is not supported:
 no module needs it yet.
@@ -273,9 +286,9 @@ no module needs it yet.
 ### Plan of Plugin
 
 1. The contract of `PolymorphicConfigurationBinder`, its errors.
-2. `AbstractPolymorphicConfigurationBinder`: the type from the key, one type in a block, the default
-   type; a subclass binds only the fields.
-3. A Spring Boot adapter, `semantic-pattern-spring-boot`: a binder over the `Binder` of Spring Boot.
+2. `DefaultPolymorphicConfigurationBinder`: the type from the key, one type in a block, the default
+   type; a `PropertiesDecoder` decodes the fields.
+3. A Spring Boot adapter, `semantic-pattern-spring-boot`: a decoder over the `Binder` of Spring Boot.
 4. Backoff and the polling of delivery moved onto it.
 
 ## Plan
