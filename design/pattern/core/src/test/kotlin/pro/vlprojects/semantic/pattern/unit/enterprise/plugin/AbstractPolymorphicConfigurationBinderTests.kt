@@ -8,7 +8,7 @@ import pro.vlprojects.semantic.pattern.behavioral.resolver.error.MultipleResolve
 import pro.vlprojects.semantic.pattern.enterprise.plugin.error.MultipleTypesException
 import pro.vlprojects.semantic.pattern.enterprise.plugin.error.TypeNotFoundException
 
-class AbstractPolymorphicBinderTests {
+class AbstractPolymorphicConfigurationBinderTests {
 
     @Test
     fun `the type is the first segment of a key`() {

@@ -2,22 +2,19 @@ package pro.vlprojects.semantic.pattern.enterprise.plugin.base
 
 import pro.vlprojects.semantic.pattern.behavioral.resolver.Resolver
 import pro.vlprojects.semantic.pattern.behavioral.resolver.error.MultipleResolvedException
-import pro.vlprojects.semantic.pattern.enterprise.plugin.PolymorphicBinder
+import pro.vlprojects.semantic.pattern.enterprise.plugin.PolymorphicConfigurationBinder
 import pro.vlprojects.semantic.pattern.enterprise.plugin.error.MultipleTypesException
 import pro.vlprojects.semantic.pattern.enterprise.plugin.error.TypeNotFoundException
 import kotlin.reflect.KClass
 
 /**
- * Keeps the contract of [PolymorphicBinder] in a final [bind]: finds the type of a block, checks it and
- * selects the fields of that type. A subclass binds only the fields, in [doBind].
- *
- * [resolver] finds the class of a type by its name; [defaultTypeName] is the type of a block that has
- * no type, neither in its keys nor in the defaults, and the resolver must find it when the binder is made.
+ * Finds the type of a block and selects its fields in a final [bind], leaving the binding of the fields
+ * to [doBind]; [resolver] must know [defaultTypeName].
  */
-public abstract class AbstractPolymorphicBinder<T : Any>(
+public abstract class AbstractPolymorphicConfigurationBinder<T : Any>(
     private val resolver: Resolver<String, KClass<out T>>,
     private val defaultTypeName: String,
-) : PolymorphicBinder<T> {
+) : PolymorphicConfigurationBinder<T> {
 
     init {
         checkHasDefaultType(resolver, defaultTypeName)
@@ -35,11 +32,7 @@ public abstract class AbstractPolymorphicBinder<T : Any>(
     }
 
     /**
-     * Binds the fields of [sources] to an object of [type].
-     *
-     * [name] is the path of the block with the type segment as it is written, `orders.exponential`.
-     * [sources] are the fields of the block and of the defaults with no type segment, `multiplier`,
-     * the block first: a field of the block wins over the same field of the defaults.
+     * Binds [sources], the fields of the block before those of the defaults, to an object of [type] at [name].
      */
     protected abstract fun doBind(name: String, type: KClass<out T>, sources: List<Map<String, String>>): T
 

@@ -146,12 +146,12 @@ public final class pro/vlprojects/semantic/pattern/creational/registry/error/Inv
 	public final fun getName ()Ljava/lang/String;
 }
 
-public abstract interface class pro/vlprojects/semantic/pattern/enterprise/plugin/PolymorphicBinder {
+public abstract interface class pro/vlprojects/semantic/pattern/enterprise/plugin/PolymorphicConfigurationBinder {
 	public abstract fun bind (Ljava/lang/String;Ljava/util/Map;Ljava/util/Map;)Ljava/lang/Object;
-	public static synthetic fun bind$default (Lpro/vlprojects/semantic/pattern/enterprise/plugin/PolymorphicBinder;Ljava/lang/String;Ljava/util/Map;Ljava/util/Map;ILjava/lang/Object;)Ljava/lang/Object;
+	public static synthetic fun bind$default (Lpro/vlprojects/semantic/pattern/enterprise/plugin/PolymorphicConfigurationBinder;Ljava/lang/String;Ljava/util/Map;Ljava/util/Map;ILjava/lang/Object;)Ljava/lang/Object;
 }
 
-public abstract class pro/vlprojects/semantic/pattern/enterprise/plugin/base/AbstractPolymorphicBinder : pro/vlprojects/semantic/pattern/enterprise/plugin/PolymorphicBinder {
+public abstract class pro/vlprojects/semantic/pattern/enterprise/plugin/base/AbstractPolymorphicConfigurationBinder : pro/vlprojects/semantic/pattern/enterprise/plugin/PolymorphicConfigurationBinder {
 	public fun <init> (Lpro/vlprojects/semantic/pattern/behavioral/resolver/Resolver;Ljava/lang/String;)V
 	public final fun bind (Ljava/lang/String;Ljava/util/Map;Ljava/util/Map;)Ljava/lang/Object;
 	protected abstract fun doBind (Ljava/lang/String;Lkotlin/reflect/KClass;Ljava/util/List;)Ljava/lang/Object;

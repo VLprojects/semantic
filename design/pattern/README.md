@@ -21,8 +21,8 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
 | `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
-| `enterprise.plugin` | `PolymorphicBinder`, a block of settings to an object of the class the block names |
-| `enterprise.plugin.base` | `AbstractPolymorphicBinder`, a binder that takes the type from the key and leaves the fields to a subclass |
+| `enterprise.plugin` | `PolymorphicConfigurationBinder`, a block of settings to an object of the class the block names |
+| `enterprise.plugin.base` | `AbstractPolymorphicConfigurationBinder`, a binder that takes the type from the key and leaves the fields to a subclass |
 | `enterprise.plugin.error` | `TypeNotFoundException`, `MultipleTypesException` of a binder |
 
 `structural` gets packages when a pattern of it is needed.
@@ -180,7 +180,7 @@ instance, is `Factory` and `AbstractRegistrar` above. The configuration half, a 
 an object of the class the block names, is `enterprise.plugin`; Dropwizard calls it polymorphic
 configuration. It knows no factory: the class may be any, a definition or not, as Spring Boot
 `Binder` binds any class. A registrar may join the halves: its `loadDefinitions` binds each block
-by a `PolymorphicBinder<D>` and makes an instance by the factory of the class of the definition.
+by a `PolymorphicConfigurationBinder<D>` and makes an instance by the factory of the class of the definition.
 
 Dropwizard names the type in a field, `type:`; here a block names its type by its key, as
 `WRAPPER_OBJECT` of Jackson does:
@@ -197,8 +197,10 @@ The block `orders` is an exponential backoff: `exponential` is its type, `multip
 `initial-delay` are the fields of its definition. The set of types is open: a module adds a type
 with a factory and its definition, and no list of the types has to change.
 
-`PolymorphicBinder<T>` binds a block of settings to an object of the class the block names,
-`bind(name, properties, defaults)`, as Spring Boot `Binder.bind(name, target)` binds one class.
+`PolymorphicConfigurationBinder<T>` binds flat string settings to a typed object whose class is
+not known in advance but chosen by the settings themselves, by the key of the block:
+`bind(name, properties, defaults)`, as Spring Boot `Binder.bind(name, target)` binds one class
+the caller names.
 It makes no plugin and knows no factory. The class of a type comes from a resolver of the
 behavioral group, a `Resolver<String, KClass<out T>>`:
 `TypeNameResolver.of(BackoffDefinition::class, definitions)` names `ExponentialBackoffDefinition`
@@ -212,7 +214,7 @@ carry it, so a wrong block is found by its path. `defaults` fills the fields a b
 the default backoff for one, as the default properties of Spring Boot fill what no other
 source sets.
 
-The contract of `PolymorphicBinder`:
+The contract of `PolymorphicConfigurationBinder`:
 
 - The type is the first segment of a key. Keys of one block that name different types throw
   `MultipleTypesException` with the path of the block and the types.
@@ -228,7 +230,7 @@ The contract of `PolymorphicBinder`:
   A field set under two spellings of the type keeps the later key, as a map keeps the later
   entry.
 
-`AbstractPolymorphicBinder<T>` keeps that contract in a final `bind`; a subclass binds only the
+`AbstractPolymorphicConfigurationBinder<T>` keeps that contract in a final `bind`; a subclass binds only the
 fields in `doBind(name, type, sources)`. `name` is the path of the block with the type segment,
 `sources` are the fields of the block and of `defaults` without it, the block first. A resolver
 that finds several classes for a type throws `MultipleResolvedException` of its own;
@@ -238,7 +240,7 @@ fails when the binder is made, with `IllegalArgumentException`.
 ```kotlin
 class BackoffDefinitionBinder(
     types: Resolver<String, KClass<out BackoffDefinition>>,
-) : AbstractPolymorphicBinder<BackoffDefinition>(types, defaultTypeName = "exponential") {
+) : AbstractPolymorphicConfigurationBinder<BackoffDefinition>(types, defaultTypeName = "exponential") {
 
     override fun doBind(name: String, type: KClass<out BackoffDefinition>, sources: List<Map<String, String>>) =
         TODO("bind the fields of sources to type")
@@ -267,8 +269,8 @@ no module needs it yet.
 
 ### Plan of Plugin
 
-1. The contract of `PolymorphicBinder`, its errors.
-2. `AbstractPolymorphicBinder`: the type from the key, one type in a block, `defaults`,
+1. The contract of `PolymorphicConfigurationBinder`, its errors.
+2. `AbstractPolymorphicConfigurationBinder`: the type from the key, one type in a block, `defaults`,
    the default type; a subclass binds only the fields.
 3. A Spring Boot adapter, `semantic-pattern-spring-boot`: a binder over the `Binder` of Spring Boot.
 4. Backoff and the polling of delivery moved onto it.
