@@ -195,7 +195,8 @@ hold and returns only a subtype of its base type:
 - a class that is missing resolves nothing, as Jackson leaves an unknown class to the caller;
 - a class that cannot be loaded, as a name that differs in case only on a file system that
   ignores case, is rejected by an `IllegalArgumentException` with the `LinkageError` as its
-  cause, as `ClassUtils.resolveClassName` of Spring rejects it;
+  cause, as `ClassUtils.resolveClassName` of Spring rejects a class definition it cannot
+  resolve;
 - a class that is not a subtype is rejected by `NotSubtypeException`, as Jackson rejects it.
 
 An empty set of allowed packages, or a name that is not of parts joined by single dots, each

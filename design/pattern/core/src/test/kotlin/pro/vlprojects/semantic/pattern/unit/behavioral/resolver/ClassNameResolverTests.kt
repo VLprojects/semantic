@@ -180,7 +180,18 @@ class ClassNameResolverTests {
         val failure = assertThrows<IllegalArgumentException> {
             ClassNameResolver.of(
                 Backoff::class,
-                listOf("com.acme", "com.acme.", "*", "", "com..acme", "1com", "com.ac-me"),
+                listOf(
+                    "com.my_app",
+                    "com.acme2",
+                    "_acme",
+                    "com.\$acme",
+                    "com.acme.",
+                    "*",
+                    "",
+                    "com..acme",
+                    "1com",
+                    "com.ac-me",
+                ),
             )
         }
 
