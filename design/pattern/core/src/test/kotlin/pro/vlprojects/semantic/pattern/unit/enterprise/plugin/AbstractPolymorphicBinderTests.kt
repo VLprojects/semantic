@@ -1,8 +1,10 @@
 package pro.vlprojects.semantic.pattern.unit.enterprise.plugin
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import pro.vlprojects.semantic.pattern.behavioral.resolver.error.MultipleResolvedException
 import pro.vlprojects.semantic.pattern.enterprise.plugin.error.MultipleTypesException
 import pro.vlprojects.semantic.pattern.enterprise.plugin.error.TypeNotFoundException
 
@@ -132,7 +134,21 @@ class AbstractPolymorphicBinderTests {
 
     @Test
     fun `an unknown default type stops the binder from being made`() {
-        assertThrows<IllegalArgumentException> { DelayBinder("linear") }
+        val failure = assertThrows<IllegalArgumentException> { DelayBinder("linear") }
+
+        assertTrue("'linear'" in failure.message.orEmpty())
+    }
+
+    @Test
+    fun `a type of several classes is rejected by the resolver`() {
+        val binder = DelayBinder(resolver = ambiguousDelayTypeNames)
+
+        assertThrows<MultipleResolvedException> { binder.bind("orders", mapOf("fixed.delay" to "1s")) }
+    }
+
+    @Test
+    fun `a default type of several classes stops the binder from being made`() {
+        assertThrows<MultipleResolvedException> { DelayBinder("fixed", ambiguousDelayTypeNames) }
     }
 
     @Test

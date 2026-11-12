@@ -212,18 +212,15 @@ carry it, so a wrong block is found by its path. `defaults` fills the fields a b
 the default backoff for one, as the default properties of Spring Boot fill what no other
 source sets.
 
-The contract of a binder:
+The contract of `PolymorphicBinder`:
 
 - The type is the first segment of a key. Keys of one block that name different types throw
   `MultipleTypesException` with the path of the block and the types.
 - A type that the resolver does not find throws `TypeNotFoundException` with the path of the block
   and the type, as Jackson throws `InvalidTypeIdException`. A field outside a type,
   `orders.multiplier`, names the unknown type `multiplier`.
-- A resolver that finds several classes for a type throws `MultipleResolvedException` of its own;
-  `TypeNameResolver` never does, as its names are unique.
-- An empty block takes the type of `defaults`, and with `defaults` empty too the default type the
-  binder is made with. A default type the resolver does not find fails when the binder is made,
-  with `IllegalArgumentException`.
+- An empty block takes the type of `defaults`, and with `defaults` empty too the default type of
+  the binder.
 - Keys of `defaults` of another type than the block are left out. The caller binds `defaults`
   first, as a block of its own under its own path, so its errors carry that path.
 - Types are compared by the class the resolver finds, not by their spelling: `TypeNameResolver`
@@ -231,10 +228,31 @@ The contract of a binder:
   A field set under two spellings of the type keeps the later key, as a map keeps the later
   entry.
 
+`AbstractPolymorphicBinder<T>` keeps that contract in a final `bind`; a subclass binds only the
+fields in `doBind(name, type, sources)`. `name` is the path of the block with the type segment,
+`sources` are the fields of the block and of `defaults` without it, the block first. A resolver
+that finds several classes for a type throws `MultipleResolvedException` of its own;
+`TypeNameResolver` never does, as its names are unique. A default type the resolver does not find
+fails when the binder is made, with `IllegalArgumentException`.
+
+```kotlin
+class BackoffDefinitionBinder(
+    types: Resolver<String, KClass<out BackoffDefinition>>,
+) : AbstractPolymorphicBinder<BackoffDefinition>(types, defaultTypeName = "exponential") {
+
+    override fun doBind(name: String, type: KClass<out BackoffDefinition>, sources: List<Map<String, String>>) =
+        TODO("bind the fields of sources to type")
+}
+
+val types = TypeNameResolver.of(BackoffDefinition::class, definitions)
+val definition = BackoffDefinitionBinder(types)
+    .bind("semantic.resilience.backoff.instances[orders]", block, defaults)
+```
+
 `TypeNotFoundException` is a `NoSuchElementException`, as `FactoryNotFoundException` is;
 `MultipleTypesException` is an `IllegalArgumentException`, as `MultipleFactoriesException` is.
-Fields are the business of the adapter: the one of Spring Boot binds with
-`NoUnboundElementsBindHandler`, so a field the class does not have throws `BindException`.
+Fields are the business of the adapter: the one of Spring Boot is to bind with
+`NoUnboundElementsBindHandler`, so that a field the class does not have throws `BindException`.
 
 The binder asks the resolver by `resolveOrNull` and throws itself: only the binder knows the
 path of the block. Jackson splits it the same way: `TypeNameIdResolver` returns `null`,
