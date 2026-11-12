@@ -22,7 +22,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
 | `enterprise.configuration` | `PolymorphicConfigurationBinder`, a block of settings to an object of the class the block names; `Definition`, a block as strings: its name, type and arguments; `DefinitionParser`, flat properties to definitions; `DefinitionMapper`, the arguments of a definition to an object of a class |
-| `enterprise.configuration.error` | `InvalidConfigurationException` of a binder: `UnknownConfigurationException`, `InvalidConfigurationPropertyException`, `DefinitionParsingException` of a parser: `MultipleConfigurationsException`, `UnboundConfigurationPropertiesException`; `DefinitionConversionException` of a mapper |
+| `enterprise.configuration.error` | Of a binder, `InvalidConfigurationException`: `UnknownConfigurationException`, `InvalidConfigurationPropertyException`. Of a parser, `DefinitionParsingException`, an `InvalidConfigurationException` too: `MultipleConfigurationsException`, `UnboundConfigurationPropertiesException`. Of a mapper, `DefinitionConversionException` |
 
 `structural` gets packages when a pattern of it is needed.
 
@@ -211,20 +211,21 @@ A block comes as `Map<String, String>` with keys flattened as Spring Boot flatte
 are relative to it, as to the prefix of `@ConfigurationProperties`, and the errors carry it, so
 a wrong block is found by its prefix.
 
-The contract of a binder:
+The contract of a binder of one block, as it is now; step 3 of the plan turns it into a binder of
+all the blocks under a prefix, made of a parser, a resolver and a mapper, and the layout of keys
+and the default type move to the parser:
 
 - The type is the first segment of a key. Keys of one block that name different types throw
   `MultipleConfigurationsException` with the prefix of the block and the types.
 - A type that the resolver does not find throws `UnknownConfigurationException` with the prefix
   of the block and the type, as Jackson throws `InvalidTypeIdException`. A field outside a type,
-  `orders.multiplier=3`, is a value on a type key and throws `UnboundConfigurationPropertiesException`,
-  as a parser does.
+  `multiplier=3`, is a value on a type key and throws `UnboundConfigurationPropertiesException`.
 - A resolver that finds several classes for a type throws `MultipleResolvedException` of its own;
   `TypeNameResolver` never does, as its names are unique.
 - An empty block takes the default type the binder is made with. A default type the resolver does
   not find fails when the binder is made, with `IllegalArgumentException`.
-- Types are compared as written, as a parser compares them: `fixed-delay` and `fixedDelay` in one
-  block throw `MultipleConfigurationsException`, though `TypeNameResolver` matches both to one class.
+- Types are compared as written: `fixed-delay` and `fixedDelay` in one block throw
+  `MultipleConfigurationsException`, though `TypeNameResolver` matches both to one class.
 - Fields that do not fit the class, a required one missing, an extra one or a wrong value, throw
   `InvalidConfigurationPropertyException` with the prefix and the `DefinitionConversionException` of
   the mapper as its cause.
@@ -282,15 +283,15 @@ class, as a resolver reads it. A definition always has a type, and none of its n
 argument keys is blank. It copies the arguments, so a change of the given map does not reach it.
 
 The contract of `DefinitionParser`, named as `BeanDefinitionParser` of Spring: `parse(properties)`
-takes all the flat properties of an application and gives a definition per block it finds. Where
-the blocks are and how their keys are laid out is up to the parser: it is made with what it needs,
-as `AsPropertyTypeDeserializer` of Jackson is made with the name of the type property and the
-default type. Its errors are `DefinitionParsingException`, as `BeanDefinitionParsingException` is
-of Spring, with the prefix of the block: keys of one block that name different types throw
-`MultipleConfigurationsException`, keys it cannot read throw `UnboundConfigurationPropertiesException`
-with the keys, as Spring Boot does.
+takes all the flat properties of an application and gives one definition per name of a block it
+finds, in no order. Where the blocks are and how their keys are laid out is up to the parser: it is
+made with what it needs, as `AsPropertyTypeDeserializer` of Jackson is made with the name of the
+type property and the default type. Its errors are `DefinitionParsingException`, as
+`BeanDefinitionParsingException` is of Spring, with the prefix of the block: keys of one block that
+name different types throw `MultipleConfigurationsException`, keys it cannot read throw
+`UnboundConfigurationPropertiesException` with the keys, as Spring Boot does.
 
-The first parser, of named blocks, is made with a prefix and a default type, and reads named
+The first parser, of named blocks, is to be made with a prefix and a default type, and to read named
 definitions of flat properties under the prefix, as `PropertiesBeanDefinitionReader` of Spring does:
 
 - The keys outside the prefix are left out. The prefix ends at `.` or `[`:
@@ -314,15 +315,16 @@ definitions of flat properties under the prefix, as `PropertiesBeanDefinitionRea
   `orders.fixed=5`, or a list in their place, `orders[0]=fixed` or `orders.fixed[0]=`, is left
   unbound and throws `UnboundConfigurationPropertiesException` with the prefix of the block.
 
-The contract of `DefinitionMapper`: `convert(definition, type)` makes an object of `type` of the
-arguments, as `ObjectMapper.convertValue(map, type)` of Jackson does. No arguments give the defaults
-of the class; a required argument missing, an extra one or a wrong value throws
-`DefinitionConversionException` with the definition and the class, as `ConversionService` of Spring
-throws `ConversionFailedException`, so the binder wraps no other error. The class is
-chosen before: a mapper reads no type, as a `JsonDeserializer` of Jackson does not; the name of the
-definition is there for its errors. The core has no mapper, as it is plain Kotlin: the Spring Boot
-adapter is to give one over `Binder`, wrapping its `BindException`. A mapper knows no prefix, so its
-error is not an `InvalidConfigurationException`: the binder wraps it in one.
+The contract of `DefinitionMapper`: `convert(definition, targetType)` makes an object of
+`targetType` of the arguments, as `ObjectMapper.convertValue(map, type)` of Jackson does. No
+arguments give the defaults of the class; a required argument missing, an extra one or a wrong value
+throws `DefinitionConversionException` with the definition and the target type, as
+`ConversionService` of Spring throws `ConversionFailedException` with its `targetType`, so the
+binder wraps no other error. The class is chosen before: a mapper reads no type, as a
+`JsonDeserializer` of Jackson does not; the name of the definition is there for its errors. The core
+has no mapper, as it is plain Kotlin: the Spring Boot adapter is to give one over `Binder`, wrapping
+its `BindException`. A mapper knows no prefix, so its error is not an
+`InvalidConfigurationException`: the binder wraps it in one.
 
 Two layouts are not supported, as no module needs them yet: a type in a field of the block,
 `type: exponential` as `PROPERTY` of Jackson, and a list of blocks with the name in a field,

@@ -5,6 +5,6 @@ import kotlin.reflect.KClass
 
 public class DefinitionConversionException(
     public val definition: Definition,
-    public val type: KClass<*>,
+    public val targetType: KClass<*>,
     cause: Throwable? = null,
-) : RuntimeException("Failed to convert the definition $definition to ${type.qualifiedName}", cause)
+) : RuntimeException("Failed to convert the definition $definition to ${targetType.java.name}", cause)

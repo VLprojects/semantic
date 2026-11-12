@@ -5,8 +5,10 @@ import java.util.Objects
 public class Definition private constructor(
     public val name: String,
     public val type: String,
-    public val arguments: Map<String, String>,
+    arguments: Map<String, String>,
 ) {
+
+    public val arguments: Map<String, String> = arguments.toMap()
 
     init {
         require(name.isNotBlank()) { "The name of a configuration definition is blank" }
@@ -32,6 +34,6 @@ public class Definition private constructor(
             name: String,
             type: String,
             arguments: Map<String, String> = emptyMap(),
-        ): Definition = Definition(name, type, arguments.toMap())
+        ): Definition = Definition(name, type, arguments)
     }
 }
