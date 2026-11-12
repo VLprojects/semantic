@@ -29,7 +29,7 @@ public class GenericConfigurationBinder<out T : Any>(
 
         return properties
             .extractFields()
-            .let { fields -> decode(fields, type, typePrefix) }
+            .let { fields -> decodeOrFail(fields, type, typePrefix) }
     }
 
     private fun findTypeName(prefix: String, properties: Map<String, String>) = properties.keys
@@ -63,7 +63,7 @@ public class GenericConfigurationBinder<out T : Any>(
         }
     }
 
-    private fun decode(fields: Map<String, String>, type: KClass<out T>, typePrefix: String) = try {
+    private fun decodeOrFail(fields: Map<String, String>, type: KClass<out T>, typePrefix: String) = try {
         decoder.decode(fields, type)
     } catch (failure: Exception) {
         throw InvalidConfigurationPropertyException(typePrefix, failure)
