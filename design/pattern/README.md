@@ -22,7 +22,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
 | `enterprise.plugin` | `PolymorphicConfigurationBinder`, a block of settings to an object of the class the block names |
-| `enterprise.plugin.error` | `TypeNotFoundException`, `MultipleTypesException` of a binder |
+| `enterprise.plugin.error` | `InvalidConfigurationException` of a binder: `UnknownConfigurationException`, `MultipleConfigurationsException`, `InvalidConfigurationPropertyException` |
 
 `structural` gets packages when a pattern of it is needed.
 
@@ -215,9 +215,9 @@ source sets.
 The contract of a binder:
 
 - The type is the first segment of a key. Keys of one block that name different types throw
-  `MultipleTypesException` with the path of the block and the types.
-- A type that the resolver does not find throws `TypeNotFoundException` with the path of the block
-  and the type, as Jackson throws `InvalidTypeIdException`. A field outside a type,
+  `MultipleConfigurationsException` with the path of the block and the types.
+- A type that the resolver does not find throws `UnknownConfigurationException` with the path of
+  the block and the type, as Jackson throws `InvalidTypeIdException`. A field outside a type,
   `orders.multiplier`, names the unknown type `multiplier`.
 - A resolver that finds several classes for a type throws `MultipleResolvedException` of its own;
   `TypeNameResolver` never does, as its names are unique.
@@ -231,10 +231,14 @@ The contract of a binder:
   A field set under two spellings of the type keeps the later key, as a map keeps the later
   entry.
 
-`TypeNotFoundException` is a `NoSuchElementException`, as `FactoryNotFoundException` is;
-`MultipleTypesException` is an `IllegalArgumentException`, as `MultipleFactoriesException` is.
-Fields are the business of the adapter: the one of Spring Boot binds with
-`NoUnboundElementsBindHandler`, so a field the class does not have throws `BindException`.
+- Fields that do not fit the class, a required one missing, an extra one or a wrong value, throw
+  `InvalidConfigurationPropertyException` with the path and the error of the adapter as its cause.
+
+Every error of a binder is an `InvalidConfigurationException`: the configuration of the block is
+invalid, and the caller catches one exception. As the binding errors of Spring Boot,
+`MutuallyExclusiveConfigurationPropertiesException` and `InvalidConfigurationPropertyValueException`,
+it is a `RuntimeException`. Fields are the business of the adapter: the one of Spring Boot is to bind
+with `NoUnboundElementsBindHandler` and wrap its `BindException`.
 
 The binder asks the resolver by `resolveOrNull` and throws itself: only the binder knows the
 path of the block. Jackson splits it the same way: `TypeNameIdResolver` returns `null`,
