@@ -235,9 +235,9 @@ The contract of a binder:
   `InvalidConfigurationPropertyException` with the path and the error of the adapter as its cause.
 
 Every error of a binder is an `InvalidConfigurationException`: the configuration of the block is
-invalid, and the caller catches one exception. As the binding errors of Spring Boot,
-`MutuallyExclusiveConfigurationPropertiesException` and `InvalidConfigurationPropertyValueException`,
-it is a `RuntimeException`. Fields are the business of the adapter: the one of Spring Boot is to bind
+invalid, and the caller catches one exception. The block is an argument of `bind`, so it is an
+`IllegalArgumentException`, as `NumberFormatException` is for a wrong number and
+`MultipleFactoriesException` is here. Fields are the business of the adapter: the one of Spring Boot is to bind
 with `NoUnboundElementsBindHandler` and wrap its `BindException`.
 
 The binder asks the resolver by `resolveOrNull` and throws itself: only the binder knows the
