@@ -23,7 +23,7 @@ class GenericTypeResolverTests {
 
     @Test
     fun `a type argument of a class proxied by a subclass is resolved`() {
-        assertEquals(CreateOrder::class, commandTypes.resolve(ProxiedCreateOrderHandler::class))
+        assertEquals(CreateOrder::class, commandTypes.resolve(CreateOrderHandlerProxy::class))
     }
 
     @Test
@@ -84,10 +84,17 @@ class GenericTypeResolverTests {
     }
 
     @Test
-    fun `a type argument given to the outer class wins over the variable an inner subclass passes back`() {
+    fun `a type argument given to the outer class is passed back by an inner subclass`() {
         val handlerType = CreateOrderOuterCommandHandler.CreateOrderInnerCommandHandler::class
 
         assertEquals(CreateOrder::class, commandTypes.resolve(handlerType))
+    }
+
+    @Test
+    fun `a type argument an inner subclass gives to its outer class is resolved at its own level`() {
+        val handlerType = CreateOrderBatchingHandler.CreateOrderBatchHandler::class
+
+        assertEquals(List::class, commandTypes.resolve(handlerType))
     }
 
     @Test

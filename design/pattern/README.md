@@ -171,18 +171,18 @@ val type = types.resolve("exponential")
 `GenericTypeResolver` finds the type a class gives to a generic type, as `resolveTypeArgument`
 of the Spring class of the same name does: `CreateOrder` of `CreateOrderHandler :
 CommandHandler<CreateOrder>`. A type variable of a generic supertype, a base class or an
-interface, is followed through the hierarchy, as Guava `TypeToken.resolveType` follows it. The
-type parameter is taken by its index, the first one by default, as `ResolvableType.getGeneric`
-takes it; `resolveTypeArgument` of Spring rejects a type of several parameters instead. A
-parameterized argument resolves to its raw class: `List` of
-`CommandHandler<List<CreateOrder>>`; an array of a type variable, to an array of its argument.
-A variable of an outer class is followed through the owner of an inner supertype, as
-`Outer<CreateOrder>.Inner`, the way Spring and Guava follow it. A subclass proxy, the CGLIB one
-that Spring Boot makes by default, is resolved through its superclass. A lambda, which Java
-and, by default, Kotlin compile by `invokedynamic`, and a JDK dynamic proxy implement the raw
-generic type, and a type variable left open has no class, so all of them resolve nothing;
-unlike Spring, the bound of an open variable is not taken. For an index out of the type
-parameters, a negative one too, `of` throws `IllegalArgumentException`.
+interface, is followed through the hierarchy level by level, as `ResolvableType.as` follows it,
+each level binding the variables of its supertypes by its own arguments. The type parameter is
+taken by its index, the first one by default, as `ResolvableType.getGeneric` takes it;
+`resolveTypeArgument` of Spring rejects a type of several parameters instead. A parameterized
+argument resolves to its raw class: `List` of `CommandHandler<List<CreateOrder>>`; an array of
+a type variable, to an array of its argument. A variable of an outer class is followed through
+the owner of an inner supertype, as `Outer<CreateOrder>.Inner`, the way Spring and Guava follow
+it. A subclass proxy, the CGLIB one that Spring Boot makes by default, is resolved through its
+superclass. A lambda, which Java and, by default, Kotlin compile by `invokedynamic`, and a JDK
+dynamic proxy implement the raw generic type, and a type variable left open has no class, so
+all of them resolve nothing; unlike Spring, the bound of an open variable is not taken. For an
+index out of the type parameters, a negative one too, `of` throws `IllegalArgumentException`.
 
 ```kotlin
 val commandTypes = GenericTypeResolver.of(CommandHandler::class)

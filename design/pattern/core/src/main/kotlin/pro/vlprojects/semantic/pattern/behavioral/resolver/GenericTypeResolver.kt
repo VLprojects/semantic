@@ -8,8 +8,7 @@ public class GenericTypeResolver<G : Any> private constructor(
 ) : Resolver<KClass<out G>, KClass<*>> {
 
     override fun resolveAll(context: KClass<out G>): Collection<KClass<*>> = context.javaObjectType
-        .collectTypeVariableMap()
-        .resolveRawClassOrNull(typeParameter)
+        .resolveTypeParameterOrNull(typeParameter)
         ?.kotlin
         .let(::listOfNotNull)
 
