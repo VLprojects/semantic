@@ -205,19 +205,20 @@ class ClassNameResolverTests {
                     "_acme",
                     "com.\$acme",
                     "com.\uD835\uDC65",
+                    "com.int",
+                    "com.acme.native",
                     "com.acme.",
                     "*",
                     "",
                     "com..acme",
                     "1com",
                     "com.ac-me",
-                    "com.int",
                 ),
             )
         }
 
         assertEquals(
-            "Allowed packages are not package names: ['com.acme.', '*', '', 'com..acme', '1com', 'com.ac-me', 'com.int']",
+            "Allowed packages are not package names: ['com.acme.', '*', '', 'com..acme', '1com', 'com.ac-me']",
             failure.message,
         )
     }

@@ -35,7 +35,7 @@ public class ClassNameResolver<T : Any> private constructor(
         public fun <T : Any> of(
             baseType: KClass<T>,
             allowedPackages: Collection<String>,
-            classLoader: ClassLoader = baseType.getDefaultClassLoader(),
+            classLoader: ClassLoader = baseType.getDefaultClassLoader(ClassNameResolver::class.java.classLoader),
         ): ClassNameResolver<T> = allowedPackages
             .toSet()
             .also(::checkHasAllowedPackage)

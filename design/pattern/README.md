@@ -195,7 +195,7 @@ hold and returns only its base type or a subtype of it:
   4. the system one.
 
   A class this loader does not see resolves nothing, where `TypeFactory.findClass` of Jackson
-  tries the next loader. The context class loader of the thread is not asked yet: where the
+  tries the next loader. The context class loader of the thread is not asked: where the
   library sits in a parent of the loader of the application, as under Spring Boot DevTools, a
   base type of the JDK or of a library resolves the copy of the class in that parent, not the
   one the application runs, so its instance fails a cast to a type of the application; pass
@@ -203,8 +203,6 @@ hold and returns only its base type or a subtype of it:
 - a nested class is named by its binary name, `com.acme.Outer$Inner`, as `Class.forName`
   takes it;
 - a class that is missing resolves nothing, as Jackson leaves an unknown class to the caller;
-  under a GraalVM native image so does a class not registered for reflection, as by
-  `RuntimeHints` of Spring;
 - a class that cannot be loaded, as a name that differs in case only on a file system that
   ignores case, is rejected by an `IllegalArgumentException` with the `LinkageError` as its
   cause, as `ClassUtils.resolveClassName` of Spring rejects a class definition it cannot
@@ -214,8 +212,8 @@ hold and returns only its base type or a subtype of it:
   `DefaultBaseTypeLimitingValidator` of Jackson denies such a base type, this resolver takes
   it, so the allowed packages are then the only guard; keep them narrow.
 
-An empty set of allowed packages, or an allowed package that is not a qualified name, as
-`SourceVersion.isName` of the JDK checks it, such as `com.acme.`, `1com`, `com.int` or `*`, fails
+An empty set of allowed packages, or an allowed package that is not dot-separated identifiers,
+as `SourceVersion.isIdentifier` of the JDK checks each, such as `com.acme.`, `1com` or `*`, fails
 `of` with an `IllegalArgumentException` instead of silently allowing none,
 where `*` of Spring Kafka trusts every class.
 
