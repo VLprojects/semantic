@@ -169,10 +169,10 @@ val type = types.resolve("exponential")
 ```
 
 `TypeHierarchyResolver` finds the candidates that declare the class of a context, one of its
-superclasses or interfaces. A candidate declares its type itself, as a Spring `GenericConverter` declares the
-types it converts and an `@ExceptionHandler` method of `ExceptionHandlerMethodResolver` the
-exceptions it handles, so a new candidate comes without a change of the resolver or of those
-who call it.
+superclasses or interfaces. A candidate declares its type itself, as a Spring `GenericConverter`
+declares the types it converts and an `@ExceptionHandler` method of
+`ExceptionHandlerMethodResolver` the exceptions it handles, so a new candidate comes without a
+change of the resolver or of those who call it.
 
 The types come in the order of `getClassHierarchy` of `GenericConversionService.Converters` in
 Spring: the superclasses from the class of the context up; then the interfaces level by level,
@@ -184,9 +184,9 @@ interfaces of an enum, and an array has only its own class, `Cloneable`, `Serial
 `Any`, neither the arrays of the supertypes of its elements nor `Array<out Any>`.
 
 A type is any class or interface, so a marker interface of a failure fits beside the class of
-an exception; it yields to every superclass that has a candidate but `Any`. When several types of
-one context have a candidate, `resolve` and `resolveOrNull` without a policy throw
-`MultipleResolvedException`, and `ResolvingPolicy.first()` selects the subclass before its
+an exception; it yields to every superclass that has a candidate but `Any`. When several
+candidates resolve, of several types or of one, `resolve` and `resolveOrNull` without a policy
+throw `MultipleResolvedException`, and `ResolvingPolicy.first()` selects the subclass before its
 superclass:
 
 ```kotlin

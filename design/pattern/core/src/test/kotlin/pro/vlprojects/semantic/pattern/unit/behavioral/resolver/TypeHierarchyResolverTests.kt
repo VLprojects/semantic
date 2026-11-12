@@ -165,8 +165,7 @@ class TypeHierarchyResolverTests {
     @Test
     fun `a candidate is resolved by the type it declares`() {
         val exceptionPolicy = RetryPolicy(Exception::class)
-        val policies = listOf(exceptionPolicy, ioPolicy)
-        val policyResolver = TypeHierarchyResolver.of<Throwable, RetryPolicy>(policies, RetryPolicy::failureType)
+        val policyResolver = listOf(exceptionPolicy, ioPolicy).let(::createPolicyResolver)
 
         val resolved = policyResolver.resolveAll(connectTimeout)
 
@@ -176,8 +175,7 @@ class TypeHierarchyResolverTests {
     @Test
     fun `the candidates of one type are resolved in their order`() {
         val fallbackIoPolicy = RetryPolicy(IOException::class)
-        val policies = listOf(ioPolicy, fallbackIoPolicy)
-        val policyResolver = TypeHierarchyResolver.of<Throwable, RetryPolicy>(policies, RetryPolicy::failureType)
+        val policyResolver = listOf(ioPolicy, fallbackIoPolicy).let(::createPolicyResolver)
 
         val resolved = policyResolver.resolveAll(ioFailure)
 
@@ -202,6 +200,9 @@ class TypeHierarchyResolverTests {
         assertEquals(IOException::class, resolved)
     }
 
-    private fun createResolver(types: Collection<KClass<*>>) = TypeHierarchyResolver
-        .of<Any, KClass<*>>(types) { type -> type }
+    private fun createResolver(candidateTypes: Collection<KClass<*>>) = TypeHierarchyResolver
+        .of<Any, KClass<*>>(candidateTypes) { type -> type }
+
+    private fun createPolicyResolver(policies: Collection<RetryPolicy>) = TypeHierarchyResolver
+        .of<Throwable, RetryPolicy>(policies, RetryPolicy::failureType)
 }
