@@ -75,11 +75,11 @@ class GenericTypeResolverTests {
 
     @Test
     fun `type arguments given to a nested interface of a generic type are resolved`() {
-        val commandTypes = GenericTypeResolver.of(OrderCommand.Handler::class)
-        val resultTypes = GenericTypeResolver.of(OrderCommand.Handler::class, index = 1)
+        val orderCommandTypes = GenericTypeResolver.of(OrderCommand.Handler::class)
+        val orderResultTypes = GenericTypeResolver.of(OrderCommand.Handler::class, index = 1)
 
-        assertEquals(PlaceOrder::class, commandTypes.resolve(PlaceOrderHandler::class))
-        assertEquals(Long::class, resultTypes.resolve(PlaceOrderHandler::class))
+        assertEquals(PlaceOrder::class, orderCommandTypes.resolve(PlaceOrderHandler::class))
+        assertEquals(Long::class, orderResultTypes.resolve(PlaceOrderHandler::class))
     }
 
     @Test

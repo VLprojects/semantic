@@ -179,16 +179,18 @@ taken by its index, the first one by default, as `ResolvableType.getGeneric` tak
 - A parameterized argument resolves to its raw class: `List` of
   `CommandHandler<List<CreateOrder>>`; an array of a type variable, to an array of its
   argument; an array of a parameterized type, to an array of its raw class.
-- A Kotlin primitive resolves through its wrapper: `Int` of `Comparable<Int>`, whose `java` is
+- A Kotlin primitive class is resolved through its wrapper: `Comparable` of `Int::class` is
+  `Int`.
+- A primitive argument resolves to its wrapper: `java` of `Int` of `Converter<String, Int>` is
   `java.lang.Integer`.
 - A variable of an outer class is followed through the owner of an inner supertype, as
   `Outer<CreateOrder>.Inner`, the way Spring and Guava follow it.
 - A subclass proxy, the CGLIB one that Spring Boot makes by default, is resolved through its
   superclass.
 - A lambda, which Java and, by default, Kotlin compile by `invokedynamic`, and a JDK dynamic
-  proxy of the generic type itself implement it raw and resolve nothing; a lambda of a
-  subinterface, as `fun interface CreateOrderHandlerFunction : CommandHandler<CreateOrder>`,
-  resolves through it.
+  proxy of the generic type itself implement it raw and resolve nothing; a lambda or a JDK
+  dynamic proxy of a subinterface, as `fun interface CreateOrderHandlerFunction :
+  CommandHandler<CreateOrder>`, resolves through it.
 - A type variable left open resolves nothing; unlike Spring, its bound is not taken.
 - For an index out of the type parameters, a negative one too, `of` throws
   `IllegalArgumentException`.
