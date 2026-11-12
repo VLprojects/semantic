@@ -1,0 +1,6 @@
+package pro.vlprojects.semantic.pattern.unit.behavioral.resolver
+
+class Greetings {
+
+    class Morning : Greeting
+}

@@ -18,8 +18,8 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.registry.error` | `InvalidNameException`, `InstanceAlreadyExistsException`, `InstanceNotFoundException`, `DefaultInstanceNotFoundException`; `InstanceRegistrationException` of a registrar |
 | `creational.factory` | `Factory`, an instance made of its definition; `Factory.Definition`, the marker of a definition |
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
-| `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
-| `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
+| `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name; `ClassNameResolver`, a subtype by the full name of its class |
+| `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException`; `ClassNotAllowedException`, `NotSubtypeException` of a class name resolver |
 
 `structural` gets packages when a pattern of it is needed.
 
@@ -135,6 +135,10 @@ contract, as Spring `ObjectProvider` and CDI `Instance` give one, an optional on
 | `resolveOrNull(context, policy)` | `null` | it | the one the policy selects |
 | `resolve(context, policy)` | `NotResolvedException` | it | the one the policy selects |
 
+An implementation may reject a context it does not take: every method, `resolveAll` included,
+throws an `IllegalArgumentException` then, as `ClassNameResolver` rejects a class outside its
+trusted packages.
+
 A policy is asked only when several values are found, as Spring picks a primary bean only
 among several candidates. `ResolvingPolicy.first()` and `last()` keep the order `resolveAll`
 returns; each is one instance for every type, as `naturalOrder()` of Kotlin is.
@@ -166,6 +170,39 @@ blank but for dashes and underscores, or an anonymous class stop the resolver fr
 ```kotlin
 val types = TypeNameResolver.of(Backoff::class, listOf(FixedBackoff::class, ExponentialBackoff::class))
 val type = types.resolve("exponential")
+```
+
+`ClassNameResolver` finds a subtype by the full name of its class, where no list of subtypes
+is known in advance, as `TypeNameResolver` needs it: `type: com.acme.backoff.JitteredBackoff`
+in settings, as `ClassNameIdResolver` of Jackson finds a class by its name in JSON. A class
+loaded by a name from outside is a known vulnerability, the one of polymorphic
+deserialization in Jackson, so the resolver loads only what its trusted packages hold and
+returns only a subtype of its base type:
+
+- a name outside the trusted packages is rejected by `ClassNotAllowedException` before the
+  class is loaded, as `PolymorphicTypeValidator` of Jackson checks the name of a subclass
+  first and `JsonDeserializer` of Spring Kafka trusts the packages it is given; a package
+  trusts its subpackages, as `basePackages` of Spring component scanning does;
+- a class is loaded without running its static initializers, as `ClassUtils.forName` of
+  Spring loads it; the class loader is the one given, or else the context one of the thread
+  that makes the resolver, as `ClassUtils.getDefaultClassLoader` of Spring takes it first;
+  then the one of the base type, where Spring takes the one of `ClassUtils`; then the system
+  one;
+- a nested class is named by its binary name, `com.acme.Outer$Inner`, as `Class.forName`
+  takes it;
+- a class that is missing resolves nothing, as Jackson leaves an unknown class to the caller;
+- a class that cannot be linked, as a name that differs in case only on a file system that
+  ignores case, is rejected by an `IllegalArgumentException` with the `LinkageError` as its
+  cause, as `ClassUtils.resolveClassName` of Spring rejects it;
+- a class that is not a subtype is rejected by `NotSubtypeException`, as Jackson rejects it.
+
+An empty set of trusted packages, or a name that is not of identifier characters joined by
+single dots, such as `com.acme.` or `*`, fails `of` with an `IllegalArgumentException` instead
+of silently trusting none, where `*` of Spring Kafka trusts every class.
+
+```kotlin
+val types = ClassNameResolver.of(Backoff::class, setOf("com.acme"))
+val type = types.resolve("com.acme.backoff.JitteredBackoff")
 ```
 
 ## Plan
