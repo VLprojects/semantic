@@ -58,6 +58,15 @@ class GenericTypeResolverTests {
     }
 
     @Test
+    fun `a type variable is followed by its declaration, not by its position`() {
+        val sourceTypes = GenericTypeResolver.of(Converter::class)
+        val targetTypes = GenericTypeResolver.of(Converter::class, index = 1)
+
+        assertEquals(String::class, sourceTypes.resolve(ReversedStringToIntConverter::class))
+        assertEquals(Int::class, targetTypes.resolve(ReversedStringToIntConverter::class))
+    }
+
+    @Test
     fun `a parameterized type argument is resolved as its raw class`() {
         assertEquals(List::class, commandTypes.resolve(BatchCommandHandler::class))
     }
@@ -109,6 +118,11 @@ class GenericTypeResolverTests {
     @Test
     fun `the bound of a type variable left open is not taken`() {
         assertNull(commandTypes.resolveOrNull(BoundedCommandHandler::class))
+    }
+
+    @Test
+    fun `a type variable of the outer class of an inner one resolves nothing`() {
+        assertNull(commandTypes.resolveOrNull(OuterCommandHandler.InnerCommandHandler::class))
     }
 
     @Test

@@ -8,7 +8,7 @@ import java.lang.reflect.TypeVariable
 internal fun Class<*>.collectTypeVariableMap() = this
     .collectAllGenericSupertypes()
     .filterIsInstance<ParameterizedType>()
-    .flatMap(ParameterizedType::zipTypeArguments)
+    .flatMap(ParameterizedType::zipTypeParametersWithArguments)
     .toMap()
 
 private fun Type.collectAllGenericSupertypes(): List<Type> = this
@@ -23,15 +23,24 @@ private fun Type.collectAllGenericSupertypes(): List<Type> = this
 
 private fun Class<*>.listGenericSupertypes() = listOfNotNull(this.genericSuperclass) + this.genericInterfaces
 
-private fun ParameterizedType.zipTypeArguments() = this
+private fun ParameterizedType.zipTypeParametersWithArguments() = this
     .toRawClassOrNull()
     ?.typeParameters
     .orEmpty()
     .zip(this.actualTypeArguments)
 
-internal fun Map<out TypeVariable<*>, Type>.resolveRawClassOrNull(type: Type): Class<*>? = when (type) {
-    is GenericArrayType -> this.resolveRawClassOrNull(type.genericComponentType)?.arrayType()
-    is TypeVariable<*> -> this[type]?.let { argument -> this.resolveRawClassOrNull(argument) }
+internal fun Map<out TypeVariable<*>, Type>.resolveRawClassOrNull(
+    type: Type,
+    visitedVariables: Set<Type> = emptySet(),
+): Class<*>? = when (type) {
+    in visitedVariables -> null
+
+    is GenericArrayType -> this.resolveRawClassOrNull(type.genericComponentType, visitedVariables)?.arrayType()
+
+    is TypeVariable<*> -> this[type]?.let { argument ->
+        this.resolveRawClassOrNull(argument, visitedVariables + type)
+    }
+
     else -> type.toRawClassOrNull()
 }
 
