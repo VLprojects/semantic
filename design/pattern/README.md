@@ -18,7 +18,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.registry.error` | `InvalidNameException`, `InstanceAlreadyExistsException`, `InstanceNotFoundException`, `DefaultInstanceNotFoundException`; `InstanceRegistrationException` of a registrar |
 | `creational.factory` | `Factory`, an instance made of its definition; `Factory.Definition`, the marker of a definition |
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
-| `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
+| `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name; `TypeArgumentResolver`, the type argument a class gives to a generic type |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
 
 `structural` gets packages when a pattern of it is needed.
@@ -166,6 +166,27 @@ blank but for dashes and underscores, or an anonymous class stop the resolver fr
 ```kotlin
 val types = TypeNameResolver.of(Backoff::class, listOf(FixedBackoff::class, ExponentialBackoff::class))
 val type = types.resolve("exponential")
+```
+
+`TypeArgumentResolver` finds the type argument a class gives to a generic type, as Spring
+`GenericTypeResolver.resolveTypeArgument` does: `CreateOrder` of `CreateOrderHandler :
+CommandHandler<CreateOrder>`. A type variable of a generic supertype, a base class or an
+interface, is followed through the hierarchy, as Guava `TypeToken.resolveType` follows it. The
+type parameter is taken by its index, the first one by default, as `ResolvableType.getGeneric`
+takes it; `resolveTypeArgument` of Spring rejects a type of several parameters instead. A
+parameterized argument resolves to its raw class: `List` of
+`CommandHandler<List<CreateOrder>>`; an array of a type variable, to an array of its argument.
+A subclass proxy, the CGLIB one that Spring Boot makes by default, is resolved through its
+superclass. A lambda, which Kotlin and Java compile by `invokedynamic`, and a JDK dynamic proxy
+implement the raw generic type, and a type variable left open has no class, so all of them
+resolve nothing; unlike Spring, the bound of an open variable is not taken, nor is a type
+variable of the outer class of an inner one followed. For an index out of the type parameters,
+a negative one too, `of` throws `IllegalArgumentException`.
+
+```kotlin
+val commandTypes = TypeArgumentResolver.of(CommandHandler::class)
+val commandType = commandTypes.resolve(handler::class)
+val targetType = TypeArgumentResolver.of(Converter::class, index = 1).resolve(converter::class)
 ```
 
 ## Plan

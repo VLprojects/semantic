@@ -21,6 +21,17 @@ public final class pro/vlprojects/semantic/pattern/behavioral/resolver/Resolving
 	public final fun last ()Lpro/vlprojects/semantic/pattern/behavioral/resolver/ResolvingPolicy;
 }
 
+public final class pro/vlprojects/semantic/pattern/behavioral/resolver/TypeArgumentResolver : pro/vlprojects/semantic/pattern/behavioral/resolver/Resolver {
+	public static final field Factory Lpro/vlprojects/semantic/pattern/behavioral/resolver/TypeArgumentResolver$Factory;
+	public synthetic fun resolveAll (Ljava/lang/Object;)Ljava/util/Collection;
+	public fun resolveAll (Lkotlin/reflect/KClass;)Ljava/util/Collection;
+}
+
+public final class pro/vlprojects/semantic/pattern/behavioral/resolver/TypeArgumentResolver$Factory {
+	public final fun of (Lkotlin/reflect/KClass;I)Lpro/vlprojects/semantic/pattern/behavioral/resolver/TypeArgumentResolver;
+	public static synthetic fun of$default (Lpro/vlprojects/semantic/pattern/behavioral/resolver/TypeArgumentResolver$Factory;Lkotlin/reflect/KClass;IILjava/lang/Object;)Lpro/vlprojects/semantic/pattern/behavioral/resolver/TypeArgumentResolver;
+}
+
 public final class pro/vlprojects/semantic/pattern/behavioral/resolver/TypeNameResolver : pro/vlprojects/semantic/pattern/behavioral/resolver/Resolver {
 	public static final field Factory Lpro/vlprojects/semantic/pattern/behavioral/resolver/TypeNameResolver$Factory;
 	public synthetic fun resolveAll (Ljava/lang/Object;)Ljava/util/Collection;
