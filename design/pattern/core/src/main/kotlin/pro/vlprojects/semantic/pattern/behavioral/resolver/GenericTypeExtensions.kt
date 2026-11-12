@@ -10,7 +10,7 @@ internal fun Class<*>.resolveTypeParameterOrNull(typeParameter: TypeVariable<*>)
 
 private fun Type.resolveTypeParameterOrNull(
     typeParameter: TypeVariable<*>,
-    subtypeMappings: Map<out TypeVariable<*>, Class<*>>,
+    subtypeMappings: Map<TypeVariable<*>, Class<*>>,
 ): Class<*>? = this
     .collectTypeMappings(subtypeMappings)
     .let { mappings ->
@@ -20,17 +20,17 @@ private fun Type.resolveTypeParameterOrNull(
         }
     }
 
-private fun Type.collectTypeMappings(subtypeMappings: Map<out TypeVariable<*>, Class<*>>) = this
+private fun Type.collectTypeMappings(subtypeMappings: Map<TypeVariable<*>, Class<*>>) = this
     .collectOwnerTypes()
     .plus(this)
     .filterIsInstance<ParameterizedType>()
     .flatMap(ParameterizedType::zipTypeParametersWithArguments)
-    .mapNotNull { (variable, argument) ->
+    .mapNotNull { (typeParameter, argument) ->
         argument
             .resolveRawClassOrNull(subtypeMappings)
-            ?.let { rawClass -> variable to rawClass }
+            ?.let { rawClass -> typeParameter to rawClass }
     }
-    .toMap()
+    .toMap<TypeVariable<*>, Class<*>>()
 
 private fun Type.collectOwnerTypes(): List<Type> = (this as? ParameterizedType)
     ?.ownerType
@@ -47,7 +47,7 @@ private fun ParameterizedType.zipTypeParametersWithArguments() = this
     .orEmpty()
     .zip(this.actualTypeArguments)
 
-private fun Type.resolveRawClassOrNull(subtypeMappings: Map<out TypeVariable<*>, Class<*>>): Class<*>? = when (this) {
+private fun Type.resolveRawClassOrNull(subtypeMappings: Map<TypeVariable<*>, Class<*>>): Class<*>? = when (this) {
     is GenericArrayType -> this.genericComponentType.resolveRawClassOrNull(subtypeMappings)?.arrayType()
     is TypeVariable<*> -> subtypeMappings[this]
     else -> this.toRawClassOrNull()
@@ -55,7 +55,7 @@ private fun Type.resolveRawClassOrNull(subtypeMappings: Map<out TypeVariable<*>,
 
 private fun Class<*>.resolveTypeParameterInSupertypesOrNull(
     typeParameter: TypeVariable<*>,
-    subtypeMappings: Map<out TypeVariable<*>, Class<*>>,
+    subtypeMappings: Map<TypeVariable<*>, Class<*>>,
 ) = this
     .listGenericSupertypes()
     .firstNotNullOfOrNull { supertype -> supertype.resolveTypeParameterOrNull(typeParameter, subtypeMappings) }
