@@ -1,6 +1,6 @@
 package pro.vlprojects.semantic.pattern.unit.behavioral.resolver
 
-class OrderCommandModule : CommandModule<CreateOrder>() {
+class CreateOrderCommandModule : CommandModule<CreateOrder>() {
 
     inner class CreateOrderHandlers : Handlers() {
 

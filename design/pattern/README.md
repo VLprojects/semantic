@@ -177,8 +177,10 @@ taken by its index, the first one by default, as `ResolvableType.getGeneric` tak
 `resolveTypeArgument` of Spring rejects a type of several parameters instead.
 
 - A parameterized argument resolves to its raw class: `List` of
-  `CommandHandler<List<CreateOrder>>`; an array of a type variable or of a parameterized type,
-  to an array of the raw class of its component.
+  `CommandHandler<List<CreateOrder>>`; an array of a type variable, to an array of its
+  argument; an array of a parameterized type, to an array of its raw class.
+- A Kotlin primitive resolves through its wrapper: `Int` of `Comparable<Int>`, whose `java` is
+  `java.lang.Integer`.
 - A variable of an outer class is followed through the owner of an inner supertype, as
   `Outer<CreateOrder>.Inner`, the way Spring and Guava follow it.
 - A subclass proxy, the CGLIB one that Spring Boot makes by default, is resolved through its

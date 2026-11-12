@@ -73,23 +73,21 @@ class GenericTypeResolverTests {
 
     @Test
     fun `an array of a parameterized type argument is resolved as an array of its raw class`() {
-        val listArrayType = List::class.java
-            .arrayType()
-            .kotlin
+        val listArrayType = List::class.java.arrayType().kotlin
 
         assertEquals(listArrayType, commandTypes.resolve(CreateOrderListArrayHandler::class))
     }
 
     @Test
     fun `a type argument given to the outer class of an inner supertype is resolved`() {
-        val handlerType = OrderCommandHandlerOwner.CreateOrderInnerHandler::class
+        val handlerType = CreateOrderCommandHandlerOwner.CreateOrderInnerHandler::class
 
         assertEquals(CreateOrder::class, commandTypes.resolve(handlerType))
     }
 
     @Test
     fun `a type argument given to the outer class of an outer class is resolved`() {
-        val handlerType = OrderCommandModule.CreateOrderHandlers.CreateOrderNestedInnerHandler::class
+        val handlerType = CreateOrderCommandModule.CreateOrderHandlers.CreateOrderNestedInnerHandler::class
 
         assertEquals(CreateOrder::class, commandTypes.resolve(handlerType))
     }

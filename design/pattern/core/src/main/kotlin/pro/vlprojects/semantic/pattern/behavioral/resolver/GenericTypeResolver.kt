@@ -14,9 +14,8 @@ public class GenericTypeResolver<G : Any> private constructor(
 
     public companion object Factory {
 
-        public fun <G : Any> of(genericType: KClass<G>, index: Int = 0): GenericTypeResolver<G> = genericType
+        public fun <G : Any> of(genericType: KClass<G>, index: Int = 0): GenericTypeResolver<G> = genericType.java
             .also { type -> checkHasTypeParameter(type, index) }
-            .java
             .typeParameters[index]
             .let(::GenericTypeResolver)
     }
