@@ -176,12 +176,13 @@ type parameter is taken by its index, the first one by default, as `ResolvableTy
 takes it; `resolveTypeArgument` of Spring rejects a type of several parameters instead. A
 parameterized argument resolves to its raw class: `List` of
 `CommandHandler<List<CreateOrder>>`; an array of a type variable, to an array of its argument.
-A subclass proxy, the CGLIB one that Spring Boot makes by default, is resolved through its
-superclass. A lambda, which Kotlin and Java compile by `invokedynamic`, and a JDK dynamic proxy
-implement the raw generic type, and a type variable left open has no class, so all of them
-resolve nothing; unlike Spring, the bound of an open variable is not taken, nor is the owner of
-a parameterized inner supertype followed, as `Outer<CreateOrder>.Inner`. For an index out of
-the type parameters, a negative one too, `of` throws `IllegalArgumentException`.
+A variable of an outer class is followed through the owner of an inner supertype, as
+`Outer<CreateOrder>.Inner`, the way Spring and Guava follow it. A subclass proxy, the CGLIB one
+that Spring Boot makes by default, is resolved through its superclass. A lambda, which Kotlin
+and Java compile by `invokedynamic`, and a JDK dynamic proxy implement the raw generic type,
+and a type variable left open has no class, so all of them resolve nothing; unlike Spring, the
+bound of an open variable is not taken. For an index out of the type parameters, a negative
+one too, `of` throws `IllegalArgumentException`.
 
 ```kotlin
 val commandTypes = GenericTypeResolver.of(CommandHandler::class)

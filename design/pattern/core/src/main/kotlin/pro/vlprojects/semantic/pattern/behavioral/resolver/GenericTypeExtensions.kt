@@ -7,6 +7,11 @@ import java.lang.reflect.TypeVariable
 
 internal fun Class<*>.collectTypeVariableMap() = this
     .collectAllGenericSupertypes()
+    .flatMap { supertype ->
+        supertype
+            .collectOwnerTypes()
+            .plus(supertype)
+    }
     .filterIsInstance<ParameterizedType>()
     .flatMap(ParameterizedType::zipTypeParametersWithArguments)
     .toMap()
@@ -21,7 +26,18 @@ private fun Type.collectAllGenericSupertypes(): List<Type> = this
             .plus(supertype)
     }
 
-private fun Class<*>.listGenericSupertypes() = listOfNotNull(this.genericSuperclass) + this.genericInterfaces
+private fun Class<*>.listGenericSupertypes() = this.genericSuperclass
+    .let(::listOfNotNull)
+    .plus(this.genericInterfaces)
+
+private fun Type.collectOwnerTypes(): List<Type> = (this as? ParameterizedType)
+    ?.ownerType
+    ?.let { owner ->
+        owner
+            .collectOwnerTypes()
+            .plus(owner)
+    }
+    .orEmpty()
 
 private fun ParameterizedType.zipTypeParametersWithArguments() = this
     .toRawClassOrNull()
@@ -48,7 +64,9 @@ private fun Map<out TypeVariable<*>, Type>.resolveVariableOrNull(
     in visitedVariables -> null
 
     else -> this[variable]?.let { argument ->
-        this.resolveRawClassOrNull(argument, visitedVariables.plus(variable))
+        visitedVariables
+            .plus(variable)
+            .let { visited -> this.resolveRawClassOrNull(argument, visited) }
     }
 }
 
