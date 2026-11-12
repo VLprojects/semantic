@@ -1,3 +1,3 @@
 package pro.vlprojects.semantic.pattern.unit.behavioral.resolver
 
-class CancelOrder
+class CancelOrder : Command

@@ -29,19 +29,27 @@ private fun ParameterizedType.zipTypeParametersWithArguments() = this
     .orEmpty()
     .zip(this.actualTypeArguments)
 
-internal fun Map<out TypeVariable<*>, Type>.resolveRawClassOrNull(
+internal fun Map<out TypeVariable<*>, Type>.resolveRawClassOrNull(type: Type) = this
+    .resolveRawClassOrNull(type, emptySet())
+
+private fun Map<out TypeVariable<*>, Type>.resolveRawClassOrNull(
     type: Type,
-    visitedVariables: Set<Type> = emptySet(),
+    visitedVariables: Set<TypeVariable<*>>,
 ): Class<*>? = when (type) {
+    is GenericArrayType -> this.resolveRawClassOrNull(type.genericComponentType, visitedVariables)?.arrayType()
+    is TypeVariable<*> -> this.resolveVariableOrNull(type, visitedVariables)
+    else -> type.toRawClassOrNull()
+}
+
+private fun Map<out TypeVariable<*>, Type>.resolveVariableOrNull(
+    variable: TypeVariable<*>,
+    visitedVariables: Set<TypeVariable<*>>,
+) = when (variable) {
     in visitedVariables -> null
 
-    is GenericArrayType -> this.resolveRawClassOrNull(type.genericComponentType, visitedVariables)?.arrayType()
-
-    is TypeVariable<*> -> this[type]?.let { argument ->
-        this.resolveRawClassOrNull(argument, visitedVariables + type)
+    else -> this[variable]?.let { argument ->
+        this.resolveRawClassOrNull(argument, visitedVariables.plus(variable))
     }
-
-    else -> type.toRawClassOrNull()
 }
 
 private fun Type.toRawClassOrNull(): Class<*>? = when (this) {

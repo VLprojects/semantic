@@ -121,7 +121,7 @@ class GenericTypeResolverTests {
     }
 
     @Test
-    fun `a type variable of the outer class of an inner one resolves nothing`() {
+    fun `a type variable an inner subclass passes back to its outer class resolves nothing`() {
         assertNull(commandTypes.resolveOrNull(OuterCommandHandler.InnerCommandHandler::class))
     }
 

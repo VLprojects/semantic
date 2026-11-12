@@ -179,9 +179,9 @@ parameterized argument resolves to its raw class: `List` of
 A subclass proxy, the CGLIB one that Spring Boot makes by default, is resolved through its
 superclass. A lambda, which Kotlin and Java compile by `invokedynamic`, and a JDK dynamic proxy
 implement the raw generic type, and a type variable left open has no class, so all of them
-resolve nothing; unlike Spring, the bound of an open variable is not taken, nor is a type
-variable of the outer class of an inner one followed. For an index out of the type parameters,
-a negative one too, `of` throws `IllegalArgumentException`.
+resolve nothing; unlike Spring, the bound of an open variable is not taken, nor is the owner of
+a parameterized inner supertype followed, as `Outer<CreateOrder>.Inner`. For an index out of
+the type parameters, a negative one too, `of` throws `IllegalArgumentException`.
 
 ```kotlin
 val commandTypes = GenericTypeResolver.of(CommandHandler::class)
