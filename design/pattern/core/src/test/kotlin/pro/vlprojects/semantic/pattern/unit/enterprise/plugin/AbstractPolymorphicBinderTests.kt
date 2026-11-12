@@ -56,14 +56,13 @@ class AbstractPolymorphicBinderTests {
     }
 
     @Test
-    fun `an unknown type is rejected with the known ones`() {
+    fun `an unknown type is rejected with the path`() {
         val failure = assertThrows<TypeNotFoundException> {
             bind(mapOf("exponental.multiplier" to "2"))
         }
 
         assertEquals("orders", failure.name)
         assertEquals("exponental", failure.typeName)
-        assertEquals(setOf("exponential", "fixed"), failure.knownTypeNames)
     }
 
     @Test

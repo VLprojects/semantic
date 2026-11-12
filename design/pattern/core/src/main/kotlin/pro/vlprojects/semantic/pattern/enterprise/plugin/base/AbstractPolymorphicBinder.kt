@@ -1,7 +1,7 @@
 package pro.vlprojects.semantic.pattern.enterprise.plugin.base
 
+import pro.vlprojects.semantic.pattern.behavioral.resolver.Resolver
 import pro.vlprojects.semantic.pattern.enterprise.plugin.PolymorphicBinder
-import pro.vlprojects.semantic.pattern.enterprise.plugin.TypeNameResolver
 import pro.vlprojects.semantic.pattern.enterprise.plugin.error.MultipleTypesException
 import pro.vlprojects.semantic.pattern.enterprise.plugin.error.TypeNotFoundException
 import kotlin.reflect.KClass
@@ -9,7 +9,7 @@ import kotlin.reflect.KClass
 private const val KEY_SEPARATOR = '.'
 
 public abstract class AbstractPolymorphicBinder<T : Any>(
-    private val resolver: TypeNameResolver<T>,
+    private val resolver: Resolver<String, KClass<out T>>,
     private val defaultTypeName: String,
 ) : PolymorphicBinder<T> {
 
@@ -40,8 +40,8 @@ public abstract class AbstractPolymorphicBinder<T : Any>(
         else -> typeNames.firstOrNull()
     }
 
-    private fun resolveType(name: String, typeName: String) = resolver.find(typeName)
-        ?: throw TypeNotFoundException(name, typeName, resolver.typeNames)
+    private fun resolveType(name: String, typeName: String) = resolver.resolveOrNull(typeName)
+        ?: throw TypeNotFoundException(name, typeName)
 
     private fun selectFields(block: Map<String, String>, type: KClass<out T>) = block
         .filterKeys { key -> isFieldOf(key, type) }
@@ -50,7 +50,7 @@ public abstract class AbstractPolymorphicBinder<T : Any>(
 
     private fun isFieldOf(key: String, type: KClass<out T>) = key
         .readTypeName()
-        .let(resolver::find) == type
+        .let(resolver::resolveOrNull) == type
 }
 
 private fun String.readTypeName() = this.substringBefore(KEY_SEPARATOR)
