@@ -25,10 +25,10 @@ class AbstractPolymorphicConfigurationBinderTests {
     }
 
     @Test
-    fun `the name is the path with the type segment as in the block`() {
+    fun `the prefix ends with the type segment as in the block`() {
         val delay = bind(mapOf("Fixed.delay" to "1s"))
 
-        assertEquals("orders.Fixed", delay.name)
+        assertEquals("orders.Fixed", delay.prefix)
     }
 
     @Test
@@ -73,7 +73,7 @@ class AbstractPolymorphicConfigurationBinderTests {
             bind(mapOf("fixed.delay" to "1s", "exponential.multiplier" to "2"))
         }
 
-        assertEquals("orders", failure.name)
+        assertEquals("orders", failure.prefix)
         assertEquals(setOf("fixed", "exponential"), failure.typeNames)
     }
 
@@ -83,7 +83,7 @@ class AbstractPolymorphicConfigurationBinderTests {
             bind(mapOf("exponental.multiplier" to "2"))
         }
 
-        assertEquals("orders", failure.name)
+        assertEquals("orders", failure.prefix)
         assertEquals("exponental", failure.typeName)
     }
 
@@ -93,7 +93,7 @@ class AbstractPolymorphicConfigurationBinderTests {
             bind(mapOf("fixed.delay" to "1s", "multiplier" to "2"))
         }
 
-        assertEquals("orders", failure.name)
+        assertEquals("orders", failure.prefix)
         assertEquals("multiplier", failure.typeName)
     }
 
@@ -102,15 +102,15 @@ class AbstractPolymorphicConfigurationBinderTests {
         val delay = bind(emptyMap(), mapOf("fixed.delay" to "1s"))
 
         assertEquals(FixedDelay::class, delay::class)
-        assertEquals("orders.fixed", delay.name)
+        assertEquals("orders.fixed", delay.prefix)
         assertEquals(listOf(emptyMap(), mapOf("delay" to "1s")), delay.sources)
     }
 
     @Test
-    fun `an empty block is named by the type as the defaults spell it`() {
+    fun `an empty block takes the type segment as the defaults spell it`() {
         val delay = bind(emptyMap(), mapOf("Fixed.delay" to "1s"))
 
-        assertEquals("orders.Fixed", delay.name)
+        assertEquals("orders.Fixed", delay.prefix)
     }
 
     @Test
@@ -119,7 +119,7 @@ class AbstractPolymorphicConfigurationBinderTests {
             bind(emptyMap(), mapOf("fixed.delay" to "1s", "exponential.multiplier" to "2"))
         }
 
-        assertEquals("orders", failure.name)
+        assertEquals("orders", failure.prefix)
         assertEquals(setOf("fixed", "exponential"), failure.typeNames)
     }
 
@@ -128,7 +128,7 @@ class AbstractPolymorphicConfigurationBinderTests {
         val delay = bind(emptyMap(), binder = DelayBinder("fixed"))
 
         assertEquals(FixedDelay::class, delay::class)
-        assertEquals("orders.fixed", delay.name)
+        assertEquals("orders.fixed", delay.prefix)
         assertEquals(listOf(emptyMap<String, String>(), emptyMap()), delay.sources)
     }
 

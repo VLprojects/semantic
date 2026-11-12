@@ -240,7 +240,7 @@ with `NoUnboundElementsBindHandler` and wrap its `BindException`.
 
 `AbstractPolymorphicConfigurationBinder<T>` keeps that contract in a final `bind`; a subclass binds
 only the fields in `doBind(name, type, sources)` and throws `InvalidConfigurationPropertyException`
-when they do not fit. `name` is the path of the block with the type segment,
+when they do not fit. `prefix` is the prefix of the block with the type segment,
 `sources` are the fields of the block and of `defaults` without it, the block first. A resolver
 that finds several classes for a type throws `MultipleResolvedException` of its own;
 `TypeNameResolver` never does, as its names are unique. A default type the resolver does not find
@@ -251,7 +251,7 @@ class BackoffDefinitionBinder(
     types: Resolver<String, KClass<out BackoffDefinition>>,
 ) : AbstractPolymorphicConfigurationBinder<BackoffDefinition>(types, defaultTypeName = "exponential") {
 
-    override fun doBind(name: String, type: KClass<out BackoffDefinition>, sources: List<Map<String, String>>) =
+    override fun doBind(prefix: String, type: KClass<out BackoffDefinition>, sources: List<Map<String, String>>) =
         TODO("bind the fields of sources to type")
 }
 

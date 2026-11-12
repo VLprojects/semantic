@@ -9,8 +9,8 @@ internal fun checkHasDefaultType(resolver: Resolver<String, *>, defaultTypeName:
     requireNotNull(defaultType) { "The default type '$defaultTypeName' is unknown to the resolver" }
 }
 
-internal fun checkHasSingleType(name: String, typeNames: Collection<String>) {
+internal fun checkHasSingleType(prefix: String, typeNames: Collection<String>) {
     if (typeNames.size > 1) {
-        throw MultipleConfigurationsException(name, typeNames.toSet())
+        throw MultipleConfigurationsException(prefix, typeNames.toSet())
     }
 }
