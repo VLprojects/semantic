@@ -1,3 +1,6 @@
 package pro.vlprojects.semantic.pattern.unit.enterprise.plugin
 
-class ExponentialDelay
+class ExponentialDelay(
+    name: String,
+    sources: List<Map<String, String>>,
+) : Delay(name, sources)
