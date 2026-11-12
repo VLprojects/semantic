@@ -186,10 +186,11 @@ hold and returns only a subtype of its base type:
   scanning does;
 - a class is loaded without running its static initializers, as `ClassUtils.forName` of
   Spring loads it, by one class loader: the one given, or else the context one of the thread
-  that makes the resolver, as `ClassUtils.getDefaultClassLoader` of Spring takes it first;
-  where the thread has none, the one of the base type, where Spring takes the one of
-  `ClassUtils`; where the base type has none, the system one. A class this loader does not
-  see resolves nothing, where `TypeFactory.findClass` of Jackson tries the next loader;
+  that makes the resolver, as `ClassUtils.getDefaultClassLoader` of Spring takes it first,
+  where it sees the base type, as `ClassUtils.isVisible` of Spring checks a class; else the
+  one of the base type, where Spring takes the one of `ClassUtils`; where the base type has
+  none, the system one. A class this loader does not see resolves nothing, where
+  `TypeFactory.findClass` of Jackson tries the next loader;
 - a nested class is named by its binary name, `com.acme.Outer$Inner`, as `Class.forName`
   takes it;
 - a class that is missing resolves nothing, as Jackson leaves an unknown class to the caller;

@@ -23,6 +23,10 @@ internal fun String.loadClassOrNull(classLoader: ClassLoader) = try {
     throw IllegalArgumentException("The class '$this' cannot be loaded", failure)
 }
 
-internal fun KClass<*>.getDefaultClassLoader() = Thread.currentThread().contextClassLoader
+internal fun KClass<*>.getDefaultClassLoader() = Thread.currentThread()
+    .contextClassLoader
+    ?.takeIf { classLoader -> this.isVisible(classLoader) }
     ?: this.java.classLoader
     ?: ClassLoader.getSystemClassLoader()
+
+private fun KClass<*>.isVisible(classLoader: ClassLoader) = this.java.name.loadClassOrNull(classLoader) == this.java

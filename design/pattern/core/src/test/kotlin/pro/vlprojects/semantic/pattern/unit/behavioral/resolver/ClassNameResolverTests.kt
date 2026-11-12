@@ -45,10 +45,15 @@ class ClassNameResolverTests {
     }
 
     @Test
-    fun `a class of any of the allowed packages is resolved`() {
-        val acmeResolver = ClassNameResolver.of(Backoff::class, listOf("com.acme", allowedPackage))
+    fun `a malformed name in an allowed package resolves nothing`() {
+        assertNull(resolver.resolveOrNull("$allowedPackage..FixedBackoff"))
+    }
 
-        assertEquals(FixedBackoff::class, acmeResolver.resolve(FixedBackoff::class.java.name))
+    @Test
+    fun `a class of any of the allowed packages is resolved`() {
+        val severalPackagesResolver = ClassNameResolver.of(Backoff::class, listOf("com.acme", allowedPackage))
+
+        assertEquals(FixedBackoff::class, severalPackagesResolver.resolve(FixedBackoff::class.java.name))
     }
 
     @Test
@@ -125,10 +130,24 @@ class ClassNameResolverTests {
 
     @Test
     fun `the context class loader of the thread goes before the one of the base type`() {
+        val testClassesLocation = Backoff::class.java.protectionDomain.codeSource.location
+
+        arrayOf(testClassesLocation)
+            .let { urls -> URLClassLoader(urls, null) }
+            .use { isolatedClassLoader ->
+                val isolatedFixedBackoff = createResolverInThread(isolatedClassLoader, Any::class)
+                    .resolve(FixedBackoff::class.java.name)
+
+                assertSame(isolatedClassLoader, isolatedFixedBackoff.java.classLoader)
+            }
+    }
+
+    @Test
+    fun `the context class loader of the thread is skipped when it does not see the base type`() {
         val platformResolver = ClassLoader.getPlatformClassLoader()
             .let { platformClassLoader -> createResolverInThread(platformClassLoader, Backoff::class) }
 
-        assertNull(platformResolver.resolveOrNull(FixedBackoff::class.java.name))
+        assertEquals(FixedBackoff::class, platformResolver.resolve(FixedBackoff::class.java.name))
     }
 
     @Test
