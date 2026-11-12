@@ -49,6 +49,13 @@ class GenericTypeResolverTests {
     }
 
     @Test
+    fun `a Kotlin primitive type argument is resolved as its wrapper class`() {
+        val targetTypes = GenericTypeResolver.of(Converter::class, index = 1)
+
+        assertEquals(Int::class.javaObjectType, targetTypes.resolve(StringToIntConverter::class).java)
+    }
+
+    @Test
     fun `a type argument is resolved by the index of its type parameter`() {
         val sourceTypes = GenericTypeResolver.of(Converter::class)
         val targetTypes = GenericTypeResolver.of(Converter::class, index = 1)
