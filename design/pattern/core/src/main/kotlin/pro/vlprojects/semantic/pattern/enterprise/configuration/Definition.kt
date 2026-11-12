@@ -2,7 +2,7 @@ package pro.vlprojects.semantic.pattern.enterprise.configuration
 
 import java.util.Objects
 
-public class ConfigurationDefinition private constructor(
+public class Definition private constructor(
     public val name: String,
     public val type: String,
     public val arguments: Map<String, String>,
@@ -18,7 +18,7 @@ public class ConfigurationDefinition private constructor(
 
     override fun equals(other: Any?): Boolean = when {
         this === other -> true
-        other !is ConfigurationDefinition -> false
+        other !is Definition -> false
         else -> name == other.name && type == other.type && arguments == other.arguments
     }
 
@@ -32,6 +32,6 @@ public class ConfigurationDefinition private constructor(
             name: String,
             type: String,
             arguments: Map<String, String> = emptyMap(),
-        ): ConfigurationDefinition = ConfigurationDefinition(name, type, arguments.toMap())
+        ): Definition = Definition(name, type, arguments.toMap())
     }
 }

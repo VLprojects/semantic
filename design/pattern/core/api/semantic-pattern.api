@@ -146,8 +146,8 @@ public final class pro/vlprojects/semantic/pattern/creational/registry/error/Inv
 	public final fun getName ()Ljava/lang/String;
 }
 
-public final class pro/vlprojects/semantic/pattern/enterprise/configuration/ConfigurationDefinition {
-	public static final field Factory Lpro/vlprojects/semantic/pattern/enterprise/configuration/ConfigurationDefinition$Factory;
+public final class pro/vlprojects/semantic/pattern/enterprise/configuration/Definition {
+	public static final field Factory Lpro/vlprojects/semantic/pattern/enterprise/configuration/Definition$Factory;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getArguments ()Ljava/util/Map;
 	public final fun getName ()Ljava/lang/String;
@@ -156,16 +156,16 @@ public final class pro/vlprojects/semantic/pattern/enterprise/configuration/Conf
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class pro/vlprojects/semantic/pattern/enterprise/configuration/ConfigurationDefinition$Factory {
-	public final fun of (Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;)Lpro/vlprojects/semantic/pattern/enterprise/configuration/ConfigurationDefinition;
-	public static synthetic fun of$default (Lpro/vlprojects/semantic/pattern/enterprise/configuration/ConfigurationDefinition$Factory;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Lpro/vlprojects/semantic/pattern/enterprise/configuration/ConfigurationDefinition;
+public final class pro/vlprojects/semantic/pattern/enterprise/configuration/Definition$Factory {
+	public final fun of (Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;)Lpro/vlprojects/semantic/pattern/enterprise/configuration/Definition;
+	public static synthetic fun of$default (Lpro/vlprojects/semantic/pattern/enterprise/configuration/Definition$Factory;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Lpro/vlprojects/semantic/pattern/enterprise/configuration/Definition;
 }
 
-public abstract interface class pro/vlprojects/semantic/pattern/enterprise/configuration/ConfigurationDefinitionDecoder {
-	public abstract fun decode (Lpro/vlprojects/semantic/pattern/enterprise/configuration/ConfigurationDefinition;Lkotlin/reflect/KClass;)Ljava/lang/Object;
+public abstract interface class pro/vlprojects/semantic/pattern/enterprise/configuration/DefinitionDecoder {
+	public abstract fun decode (Lpro/vlprojects/semantic/pattern/enterprise/configuration/Definition;Lkotlin/reflect/KClass;)Ljava/lang/Object;
 }
 
-public abstract interface class pro/vlprojects/semantic/pattern/enterprise/configuration/ConfigurationDefinitionParser {
+public abstract interface class pro/vlprojects/semantic/pattern/enterprise/configuration/DefinitionParser {
 	public abstract fun parse (Ljava/lang/String;Ljava/util/Map;)Ljava/util/List;
 }
 

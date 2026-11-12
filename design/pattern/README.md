@@ -21,7 +21,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
 | `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
-| `enterprise.configuration` | `PolymorphicConfigurationBinder`, a block of settings to an object of the class the block names; `ConfigurationDefinition`, a block as strings: its name, type and arguments; `ConfigurationDefinitionParser`, flat properties under a prefix to definitions; `ConfigurationDefinitionDecoder`, the arguments of a definition to an object of a class |
+| `enterprise.configuration` | `PolymorphicConfigurationBinder`, a block of settings to an object of the class the block names; `Definition`, a block as strings: its name, type and arguments; `DefinitionParser`, flat properties under a prefix to definitions; `DefinitionDecoder`, the arguments of a definition to an object of a class |
 | `enterprise.configuration.error` | `InvalidConfigurationException` of a binder and a parser: `UnknownConfigurationException`, `MultipleConfigurationsException`, `InvalidConfigurationPropertyException`; `UnboundConfigurationPropertiesException`, the keys left unbound |
 
 `structural` gets packages when a pattern of it is needed.
@@ -268,11 +268,11 @@ Binding splits in three, as Jackson splits a polymorphic read into `TypeDeserial
 
 | Part | What it does | In Jackson |
 | --- | --- | --- |
-| `ConfigurationDefinitionParser` | the keys under a prefix to a `ConfigurationDefinition` per name: the name, the type and the arguments | `TypeDeserializer` finds the type id |
+| `DefinitionParser` | the keys under a prefix to a `Definition` per name: the name, the type and the arguments | `TypeDeserializer` finds the type id |
 | `Resolver<String, KClass<out T>>` | a type to a class | `TypeIdResolver` |
-| `ConfigurationDefinitionDecoder` | the arguments of a definition to an object of a class | `JsonDeserializer` |
+| `DefinitionDecoder` | the arguments of a definition to an object of a class | `JsonDeserializer` |
 
-`ConfigurationDefinition` is a block as strings, before any class, as `FilterDefinition(name, args)`
+`Definition` is a block as strings, before any class, as `FilterDefinition(name, args)`
 of Spring Cloud Gateway is. It is not a `Factory.Definition`: a decoder makes one of it. Its
 `toString` names the keys of the arguments and hides their values, which may be secrets.
 
@@ -280,7 +280,7 @@ The type is a string, as the type id of Jackson is: a short name, `exponential`,
 class, as a resolver reads it. A definition always has a type, and none of its name, type and
 argument keys is blank. It copies the arguments, so a change of the given map does not reach it.
 
-The contract of `ConfigurationDefinitionParser`, named as `BeanDefinitionParser` of Spring and
+The contract of `DefinitionParser`, named as `BeanDefinitionParser` of Spring and
 reading named definitions of flat properties under a prefix, as `PropertiesBeanDefinitionReader`
 of Spring does:
 
@@ -307,7 +307,7 @@ of Spring does:
   unbound and throws `InvalidConfigurationPropertyException` with the prefix of the block and an
   `UnboundConfigurationPropertiesException` of the keys as its cause, as Spring Boot does.
 
-The contract of `ConfigurationDefinitionDecoder`: `decode(definition, type)` makes an object of
+The contract of `DefinitionDecoder`: `decode(definition, type)` makes an object of
 `type` of the arguments, as kotlinx.serialization `Properties.decodeFromStringMap` does. No arguments
 give the defaults of the class; a required argument missing, an extra one or a wrong value throws
 `IllegalArgumentException`, as kotlinx.serialization throws `SerializationException`, so the binder
@@ -323,8 +323,8 @@ Two layouts are not supported, as no module needs them yet: a type in a field of
 ### Plan of Plugin
 
 1. The contract of `PolymorphicConfigurationBinder`, its errors.
-2. `ConfigurationDefinition`; the contracts of `ConfigurationDefinitionParser` and
-   `ConfigurationDefinitionDecoder`.
+2. `Definition`; the contracts of `DefinitionParser` and
+   `DefinitionDecoder`.
 3. A binder of all the blocks under a prefix: `bind` gives the objects by the names of the blocks,
    the `Map<String, D>` that `loadDefinitions` of a registrar returns.
 4. A parser of the keys of named blocks, with its default type.
