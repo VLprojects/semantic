@@ -305,7 +305,7 @@ TREE = [
 		("ddd", "domain-driven design with Spring Data and Spring Boot adapters", [
 			[(1, ("blue", "design/ddd/core", "semantic-ddd", "building blocks of a model; no framework", [
 				("tactical", "building blocks", ["base", "specification", "specification.composite"]),
-				("strategic", "bounded contexts"),
+				("strategic", "strategic design"),
 				("dsl", "business rule DSL"), ("architecture", "domain errors", ["error"]),
 				("support", "collection helpers"),
 			]))],
@@ -849,11 +849,11 @@ def context_packages(pal):
 		y += h
 	held = [(top, h) for top, h, row in placed if row[4]]
 	a.rect(16, held[0][0], a.w - 32, held[-1][0] + held[-1][1] - held[0][0], "green-plate", r=6)
-	for top, h, (depth, package, kind, note, inside) in placed:
+	for top, h, (depth, package, declared, note, inside) in placed:
 		soft, strong = ("green-soft", ink("green")) if inside else ("soft", "ink")
-		a.t(28 + depth * INDENT, top + (22 if kind else 20), package, size=CODE, color=soft, mono=True)
-		if kind:
-			a.name(TYPE_X, top + 22, kind, color=strong, mono=True)
+		a.t(28 + depth * INDENT, top + (22 if declared else 20), package, size=CODE, color=soft, mono=True)
+		if declared:
+			a.name(TYPE_X, top + 22, declared, color=strong, mono=True)
 			a.t(TYPE_X, top + 40, note, color=soft)
 	a.h = y + 16
 	return a
@@ -922,10 +922,44 @@ def context_reference(pal):
 	a.w, a.h = ox + ow + 16, y - 16 + 16
 	return a
 
+
+# ---------------------------------------------------------------------- subdomain examples
+# Each context with the subdomains in its packages: a subdomain is a chip, its category a tag beside it, a
+# context with none has nothing to the right of its arrow
+
+
+def subdomains(pal):
+	a = Art(0, 0, pal)
+	rows = [
+		("object Ordering", [("Pricing", "core"), ("Catalog", "supporting")]),
+		("object Billing", [("Invoicing", "supporting"), ("TaxCalculation", "generic")]),
+		("object Notifications", [("Messaging", "generic")]),
+		("object Reports", []),
+	]
+	cw = max(cells(context) for context, _ in rows) * CELL + 24
+	ox = 16 + cw + 8 + 40
+	right, y = ox, 16
+	for context, served in rows:
+		a.rect(16, y, cw, CHIP, "card", r=6)
+		a.name(28, y + 18.5, context, mono=True)
+		a.arrow(16 + cw + 8, y + CHIP / 2, ox - 8)
+		x = ox
+		for subdomain, category in served:
+			x += chip(a, x, y, subdomain) + 8
+			x += tag(a, x, y + (CHIP - TAG_H) / 2, category) + 16
+		if not served:
+			a.t(ox, y + 18.5, "holds no subdomain yet", color="mute")
+			x = ox + 160
+		right = max(right, x)
+		y += CHIP + 16
+	a.w, a.h = right, y - 16 + 16
+	return a
+
 DIAGRAMS = {
 	"families": families, "dependencies": dependencies,
 	"format-cases": cases, "helper-words": words, "format-abbreviated": abbreviated, "helper-symbols": symbols,
 	"ddd-context-packages": context_packages, "ddd-context-uses": context_uses, "ddd-context-reference": context_reference,
+	"ddd-subdomains": subdomains,
 }
 
 if __name__ == "__main__":

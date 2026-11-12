@@ -29,6 +29,19 @@ public final class pro/vlprojects/semantic/ddd/strategic/BoundedContextKt {
 	public static final fun hasBoundedContext (Lkotlin/reflect/KClass;Lpro/vlprojects/semantic/ddd/strategic/BoundedContext;)Z
 }
 
+public abstract interface class pro/vlprojects/semantic/ddd/strategic/Subdomain {
+	public fun getName ()Ljava/lang/String;
+}
+
+public abstract interface class pro/vlprojects/semantic/ddd/strategic/Subdomain$Core : pro/vlprojects/semantic/ddd/strategic/Subdomain {
+}
+
+public abstract interface class pro/vlprojects/semantic/ddd/strategic/Subdomain$Generic : pro/vlprojects/semantic/ddd/strategic/Subdomain {
+}
+
+public abstract interface class pro/vlprojects/semantic/ddd/strategic/Subdomain$Supporting : pro/vlprojects/semantic/ddd/strategic/Subdomain {
+}
+
 public abstract interface class pro/vlprojects/semantic/ddd/tactical/AggregateRoot : pro/vlprojects/semantic/ddd/tactical/Entity {
 }
 

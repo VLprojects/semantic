@@ -6,9 +6,7 @@ import kotlin.reflect.KClass
 public interface BoundedContext {
 
     public val name: String
-        get() = this::class.simpleName
-            ?.toKebabCase()
-            ?: error("A bounded context without a class name has no name")
+        get() = this::class.toKebabCase()
 }
 
 public val BoundedContext.packageName: String
