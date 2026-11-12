@@ -14,8 +14,10 @@ private fun Type.resolveTypeParameterOrNull(
 ): Class<*>? = this
     .collectTypeMappings(subtypeMappings)
     .let { mappings ->
-        mappings[typeParameter]
-            ?: this.resolveTypeParameterInSupertypesOrNull(typeParameter, mappings)
+        when (this.toRawClassOrNull()) {
+            typeParameter.genericDeclaration -> mappings[typeParameter]
+            else -> this.resolveTypeParameterInSupertypesOrNull(typeParameter, mappings)
+        }
     }
 
 private fun Type.resolveTypeParameterInSupertypesOrNull(

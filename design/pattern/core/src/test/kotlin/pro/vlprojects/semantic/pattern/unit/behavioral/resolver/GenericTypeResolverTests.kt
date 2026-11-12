@@ -82,7 +82,9 @@ class GenericTypeResolverTests {
 
     @Test
     fun `a type argument given to the outer class of an inner supertype is resolved`() {
-        assertEquals(CreateOrder::class, commandTypes.resolve(OrderCommandHandlerOwner.CreateOrderInnerHandler::class))
+        val handlerType = OrderCommandHandlerOwner.CreateOrderInnerHandler::class
+
+        assertEquals(CreateOrder::class, commandTypes.resolve(handlerType))
     }
 
     @Test
@@ -104,6 +106,14 @@ class GenericTypeResolverTests {
         val handlerType = CreateOrderBatchingHandler.CreateOrderBatchHandler::class
 
         assertEquals(List::class, commandTypes.resolve(handlerType))
+    }
+
+    @Test
+    fun `a type argument an inner subclass gives to its outer class is resolved for the outer class`() {
+        val batchingTypes = GenericTypeResolver.of(BatchingCommandHandler::class)
+        val handlerType = CreateOrderBatchingHandler.CreateOrderBatchHandler::class
+
+        assertEquals(List::class, batchingTypes.resolve(handlerType))
     }
 
     @Test
