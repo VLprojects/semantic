@@ -21,7 +21,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
 | `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
-| `enterprise.configuration` | `PolymorphicConfigurationBinder`, a block of settings to an object of the class the block names; `Definition`, a block as strings: its name, type and arguments; `DefinitionParser`, flat properties to definitions; `DefinitionDecoder`, the arguments of a definition to an object of a class |
+| `enterprise.configuration` | `PolymorphicConfigurationBinder`, a block of settings to an object of the class the block names; `Definition`, a block as strings: its name, type and arguments; `DefinitionParser`, flat properties to definitions; `DefinitionMapper`, the arguments of a definition to an object of a class |
 | `enterprise.configuration.error` | `InvalidConfigurationException` of a binder and a parser: `UnknownConfigurationException`, `MultipleConfigurationsException`, `InvalidConfigurationPropertyException`; `UnboundConfigurationPropertiesException`, the keys left unbound |
 
 `structural` gets packages when a pattern of it is needed.
@@ -226,7 +226,7 @@ The contract of a binder:
 - Types are compared as written, as a parser compares them: `fixed-delay` and `fixedDelay` in one
   block throw `MultipleConfigurationsException`, though `TypeNameResolver` matches both to one class.
 - Fields that do not fit the class, a required one missing, an extra one or a wrong value, throw
-  `InvalidConfigurationPropertyException` with the prefix and the error of the decoder as its cause.
+  `InvalidConfigurationPropertyException` with the prefix and the error of the mapper as its cause.
 
 Every error of a binder is an `InvalidConfigurationException`: the configuration of the block is
 invalid, and the caller catches one exception. The block is an argument of `bind`, so it is an
@@ -249,7 +249,7 @@ the name of the instance.
 A type in a field of the block, `type: exponential` as `PROPERTY` of Jackson, is not supported:
 no module needs it yet.
 
-### Definition, parser, decoder
+### Definition, parser, mapper
 
 Spring Boot flattens the settings of a module to keys of four parts:
 
@@ -270,10 +270,10 @@ Binding splits in three, as Jackson splits a polymorphic read into `TypeDeserial
 | --- | --- | --- |
 | `DefinitionParser` | flat properties to a `Definition` per block: the name, the type and the arguments | `TypeDeserializer` finds the type id |
 | `Resolver<String, KClass<out T>>` | a type to a class | `TypeIdResolver` |
-| `DefinitionDecoder` | the arguments of a definition to an object of a class | `JsonDeserializer` |
+| `DefinitionMapper` | the arguments of a definition to an object of a class | `JsonDeserializer` |
 
 `Definition` is a block as strings, before any class, as `FilterDefinition(name, args)`
-of Spring Cloud Gateway is. It is not a `Factory.Definition`: a decoder makes one of it. Its
+of Spring Cloud Gateway is. It is not a `Factory.Definition`: a mapper makes one of it. Its
 `toString` names the keys of the arguments and hides their values, which may be secrets.
 
 The type is a string, as the type id of Jackson is: a short name, `exponential`, or a name of a
@@ -313,14 +313,13 @@ definitions of flat properties under the prefix, as `PropertiesBeanDefinitionRea
   unbound and throws `InvalidConfigurationPropertyException` with the prefix of the block and an
   `UnboundConfigurationPropertiesException` of the keys as its cause, as Spring Boot does.
 
-The contract of `DefinitionDecoder`: `decode(definition, type)` makes an object of
-`type` of the arguments, as kotlinx.serialization `Properties.decodeFromStringMap` does. No arguments
-give the defaults of the class; a required argument missing, an extra one or a wrong value throws
-`IllegalArgumentException`, as kotlinx.serialization throws `SerializationException`, so the binder
-wraps no other error. The class is chosen before: a decoder reads no type, as a `JsonDeserializer`
-of Jackson does not; the name of the definition is there for its errors. The core has no decoder,
-as it is plain Kotlin: the Spring Boot adapter is to give one over `Binder`, wrapping its
-`BindException`.
+The contract of `DefinitionMapper`: `convert(definition, type)` makes an object of `type` of the
+arguments, as `ObjectMapper.convertValue(map, type)` of Jackson does. No arguments give the defaults
+of the class; a required argument missing, an extra one or a wrong value throws
+`IllegalArgumentException`, as `convertValue` does, so the binder wraps no other error. The class is
+chosen before: a mapper reads no type, as a `JsonDeserializer` of Jackson does not; the name of the
+definition is there for its errors. The core has no mapper, as it is plain Kotlin: the Spring Boot
+adapter is to give one over `Binder`, wrapping its `BindException`.
 
 Two layouts are not supported, as no module needs them yet: a type in a field of the block,
 `type: exponential` as `PROPERTY` of Jackson, and a list of blocks with the name in a field,
@@ -329,13 +328,12 @@ Two layouts are not supported, as no module needs them yet: a type in a field of
 ### Plan of Plugin
 
 1. The contract of `PolymorphicConfigurationBinder`, its errors.
-2. `Definition`; the contracts of `DefinitionParser` and
-   `DefinitionDecoder`.
+2. `Definition`; the contracts of `DefinitionParser` and `DefinitionMapper`.
 3. A binder of all the blocks under a prefix: `bind` gives the objects by the names of the blocks,
    the `Map<String, D>` that `loadDefinitions` of a registrar returns.
 4. A parser of named blocks, made with a prefix and a default type.
-5. `GenericConfigurationBinder`: a parser, a resolver and a decoder.
-6. A Spring Boot adapter, `semantic-pattern-spring-boot`: a decoder over the `Binder` of Spring Boot.
+5. `GenericConfigurationBinder`: a parser, a resolver and a mapper.
+6. A Spring Boot adapter, `semantic-pattern-spring-boot`: a mapper over the `Binder` of Spring Boot.
 7. Backoff and the polling of delivery moved onto it.
 
 ## Plan

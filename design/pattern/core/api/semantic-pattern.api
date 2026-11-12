@@ -161,8 +161,8 @@ public final class pro/vlprojects/semantic/pattern/enterprise/configuration/Defi
 	public static synthetic fun of$default (Lpro/vlprojects/semantic/pattern/enterprise/configuration/Definition$Factory;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Lpro/vlprojects/semantic/pattern/enterprise/configuration/Definition;
 }
 
-public abstract interface class pro/vlprojects/semantic/pattern/enterprise/configuration/DefinitionDecoder {
-	public abstract fun decode (Lpro/vlprojects/semantic/pattern/enterprise/configuration/Definition;Lkotlin/reflect/KClass;)Ljava/lang/Object;
+public abstract interface class pro/vlprojects/semantic/pattern/enterprise/configuration/DefinitionMapper {
+	public abstract fun convert (Lpro/vlprojects/semantic/pattern/enterprise/configuration/Definition;Lkotlin/reflect/KClass;)Ljava/lang/Object;
 }
 
 public abstract interface class pro/vlprojects/semantic/pattern/enterprise/configuration/DefinitionParser {
