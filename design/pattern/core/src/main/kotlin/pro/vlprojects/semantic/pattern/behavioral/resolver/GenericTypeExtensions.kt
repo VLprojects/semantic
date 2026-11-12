@@ -14,24 +14,11 @@ private fun Type.resolveTypeParameterOrNull(
 ): Class<*>? = this
     .collectTypeMappings(subtypeMappings)
     .let { mappings ->
-        when (this.toRawClassOrNull()) {
+        when (val rawClass = this.toRawClassOrNull()) {
             typeParameter.genericDeclaration -> mappings[typeParameter]
-            else -> this.resolveTypeParameterInSupertypesOrNull(typeParameter, mappings)
+            else -> rawClass?.resolveTypeParameterInSupertypesOrNull(typeParameter, mappings)
         }
     }
-
-private fun Type.resolveTypeParameterInSupertypesOrNull(
-    typeParameter: TypeVariable<*>,
-    mappings: Map<out TypeVariable<*>, Class<*>>,
-) = this
-    .toRawClassOrNull()
-    ?.listGenericSupertypes()
-    .orEmpty()
-    .firstNotNullOfOrNull { supertype -> supertype.resolveTypeParameterOrNull(typeParameter, mappings) }
-
-private fun Class<*>.listGenericSupertypes() = this.genericSuperclass
-    .let(::listOfNotNull)
-    .plus(this.genericInterfaces)
 
 private fun Type.collectTypeMappings(subtypeMappings: Map<out TypeVariable<*>, Class<*>>) = this
     .collectOwnerTypes()
@@ -59,6 +46,17 @@ private fun ParameterizedType.zipTypeParametersWithArguments() = this
     ?.typeParameters
     .orEmpty()
     .zip(this.actualTypeArguments)
+
+private fun Class<*>.resolveTypeParameterInSupertypesOrNull(
+    typeParameter: TypeVariable<*>,
+    mappings: Map<out TypeVariable<*>, Class<*>>,
+) = this
+    .listGenericSupertypes()
+    .firstNotNullOfOrNull { supertype -> supertype.resolveTypeParameterOrNull(typeParameter, mappings) }
+
+private fun Class<*>.listGenericSupertypes() = this.genericSuperclass
+    .let(::listOfNotNull)
+    .plus(this.genericInterfaces)
 
 private fun Type.resolveRawClassOrNull(mappings: Map<out TypeVariable<*>, Class<*>>): Class<*>? = when (this) {
     is GenericArrayType -> this.genericComponentType.resolveRawClassOrNull(mappings)?.arrayType()

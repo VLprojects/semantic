@@ -86,7 +86,7 @@ class GenericTypeResolverTests {
     }
 
     @Test
-    fun `a type argument given to the outer class of an outer class is resolved`() {
+    fun `a type argument given to the outermost class of a nested inner supertype is resolved`() {
         val handlerType = CreateOrderCommandModule.CreateOrderHandlers.CreateOrderNestedInnerHandler::class
 
         assertEquals(CreateOrder::class, commandTypes.resolve(handlerType))
@@ -148,6 +148,18 @@ class GenericTypeResolverTests {
         ) as CommandHandler<*>
 
         assertNull(commandTypes.resolveOrNull(handler::class))
+    }
+
+    @Test
+    fun `a dynamic proxy of a subinterface is resolved through it`() {
+        val interfaces = arrayOf(CreateOrderHandlerFunction::class.java)
+        val handler = Proxy.newProxyInstance(
+            javaClass.classLoader,
+            interfaces,
+            NoOpInvocationHandler,
+        ) as CommandHandler<*>
+
+        assertEquals(CreateOrder::class, commandTypes.resolve(handler::class))
     }
 
     @Test
