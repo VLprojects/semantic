@@ -323,8 +323,9 @@ throws `DefinitionConversionException` with the definition and the target type, 
 binder wraps no other error. The class is chosen before: a mapper reads no type, as a
 `JsonDeserializer` of Jackson does not; the name of the definition is there for its errors. The core
 has no mapper, as it is plain Kotlin: the Spring Boot adapter is to give one over `Binder`, wrapping
-its `BindException`. A mapper knows no prefix, so its error is not an
-`InvalidConfigurationException`: the binder wraps it in one.
+its `BindException`. The definition is an argument of `convert`, so its error is an
+`IllegalArgumentException`, as the one of `convertValue` is. A mapper knows no prefix, so its error
+is not an `InvalidConfigurationException`: the binder wraps it in one.
 
 Two layouts are not supported, as no module needs them yet: a type in a field of the block,
 `type: exponential` as `PROPERTY` of Jackson, and a list of blocks with the name in a field,

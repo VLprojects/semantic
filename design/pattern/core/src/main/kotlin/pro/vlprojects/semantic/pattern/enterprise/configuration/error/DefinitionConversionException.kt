@@ -7,4 +7,4 @@ public class DefinitionConversionException(
     public val definition: Definition,
     public val targetType: KClass<*>,
     cause: Throwable? = null,
-) : RuntimeException("Failed to convert the definition $definition to ${targetType.java.name}", cause)
+) : IllegalArgumentException("Failed to convert the definition $definition to ${targetType.java.name}", cause)
