@@ -1,6 +1,6 @@
 package pro.vlprojects.semantic.pattern.enterprise.plugin.error
 
 public class UnknownConfigurationException(
-    name: String,
+    prefix: String,
     public val typeName: String,
-) : InvalidConfigurationException(name, "Unknown configuration '$typeName' in '$name'")
+) : InvalidConfigurationException(prefix, "Unknown configuration '$typeName' under '$prefix'")
