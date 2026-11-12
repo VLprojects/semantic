@@ -10,8 +10,6 @@ import pro.vlprojects.semantic.pattern.behavioral.resolver.ClassNameResolver
 import pro.vlprojects.semantic.pattern.behavioral.resolver.error.ClassNotAllowedException
 import pro.vlprojects.semantic.pattern.behavioral.resolver.error.NotSubtypeException
 import java.net.URLClassLoader
-import java.util.concurrent.Executors
-import kotlin.reflect.KClass
 
 class ClassNameResolverTests {
 
@@ -129,29 +127,7 @@ class ClassNameResolverTests {
     }
 
     @Test
-    fun `the context class loader of the thread goes before the one of the base type`() {
-        val testClassesLocation = Backoff::class.java.protectionDomain.codeSource.location
-
-        arrayOf(testClassesLocation)
-            .let { urls -> URLClassLoader(urls, null) }
-            .use { isolatedClassLoader ->
-                val isolatedFixedBackoff = createResolverInThread(isolatedClassLoader, Any::class)
-                    .resolve(FixedBackoff::class.java.name)
-
-                assertSame(isolatedClassLoader, isolatedFixedBackoff.java.classLoader)
-            }
-    }
-
-    @Test
-    fun `the context class loader of the thread is skipped when it does not see the base type`() {
-        val platformResolver = ClassLoader.getPlatformClassLoader()
-            .let { platformClassLoader -> createResolverInThread(platformClassLoader, Backoff::class) }
-
-        assertEquals(FixedBackoff::class, platformResolver.resolve(FixedBackoff::class.java.name))
-    }
-
-    @Test
-    fun `the class loader of the base type is taken when the thread has no context class loader`() {
+    fun `the class loader of the base type is taken`() {
         val testClassesLocation = Backoff::class.java.protectionDomain.codeSource.location
 
         arrayOf(testClassesLocation)
@@ -161,7 +137,7 @@ class ClassNameResolverTests {
                     .loadClass(Backoff::class.java.name)
                     .kotlin
 
-                val isolatedFixedBackoff = createResolverInThread(threadClassLoader = null, isolatedBackoff)
+                val isolatedFixedBackoff = ClassNameResolver.of(isolatedBackoff, setOf(allowedPackage))
                     .resolve(FixedBackoff::class.java.name)
 
                 assertSame(isolatedClassLoader, isolatedFixedBackoff.java.classLoader)
@@ -169,8 +145,8 @@ class ClassNameResolverTests {
     }
 
     @Test
-    fun `the system class loader is taken when neither the thread nor the base type has one`() {
-        val anyFixedBackoff = createResolverInThread(threadClassLoader = null, Any::class)
+    fun `the system class loader is taken when the base type has none`() {
+        val anyFixedBackoff = ClassNameResolver.of(Any::class, setOf(allowedPackage))
             .resolve(FixedBackoff::class.java.name)
 
         assertSame(ClassLoader.getSystemClassLoader(), anyFixedBackoff.java.classLoader)
@@ -219,14 +195,4 @@ class ClassNameResolverTests {
             failure.message,
         )
     }
-
-    private fun <T : Any> createResolverInThread(threadClassLoader: ClassLoader?, baseType: KClass<T>) = Executors
-        .newSingleThreadExecutor { task ->
-            Thread(task).apply { contextClassLoader = threadClassLoader }
-        }
-        .use { executor ->
-            executor
-                .submit<ClassNameResolver<T>> { ClassNameResolver.of(baseType, setOf(allowedPackage)) }
-                .get()
-        }
 }

@@ -177,7 +177,7 @@ val type = types.resolve("exponential")
 a class by its name in JSON. It suits subtypes not known in advance, where `TypeNameResolver`
 takes their list. A class loaded by a name from outside is a known vulnerability, the one of
 polymorphic deserialization in Jackson, so the resolver loads only what its allowed packages
-hold and returns only a subtype of its base type:
+hold and returns only its base type or a subtype of it:
 
 - a name outside the allowed packages is rejected by `ClassNotAllowedException` before the
   class is loaded, as `BasicPolymorphicTypeValidator` of Jackson checks the name of a
@@ -185,12 +185,10 @@ hold and returns only a subtype of its base type:
   trusted packages; a package allows its subpackages, as `basePackages` of Spring component
   scanning does;
 - a class is loaded without running its static initializers, as `ClassUtils.forName` of
-  Spring loads it, by one class loader: the one given, or else the context one of the thread
-  that makes the resolver, as `ClassUtils.getDefaultClassLoader` of Spring takes it first,
-  where it sees the base type, as `ClassUtils.isVisible` of Spring checks a class; else the
-  one of the base type, where Spring takes the one of `ClassUtils`; where the base type has
-  none, the system one. A class this loader does not see resolves nothing, where
-  `TypeFactory.findClass` of Jackson tries the next loader;
+  Spring loads it, by one class loader: the one given, or else the one of the base type, or
+  the system one where the base type has none, as `Any`, which the bootstrap class loader
+  loads. A class this loader does not see resolves nothing, where `TypeFactory.findClass` of
+  Jackson tries the next loader;
 - a nested class is named by its binary name, `com.acme.Outer$Inner`, as `Class.forName`
   takes it;
 - a class that is missing resolves nothing, as Jackson leaves an unknown class to the caller;
