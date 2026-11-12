@@ -239,7 +239,7 @@ invalid, and the caller catches one exception. The block is an argument of `bind
 with `NoUnboundElementsBindHandler` and wrap its `BindException`.
 
 `AbstractPolymorphicConfigurationBinder<T>` keeps that contract in a final `bind`; a subclass binds
-only the fields in `doBind(name, type, sources)` and throws `InvalidConfigurationPropertyException`
+only the fields in `doBind(prefix, type, sources)` and throws `InvalidConfigurationPropertyException`
 when they do not fit. `prefix` is the prefix of the block with the type segment,
 `sources` are the fields of the block and of `defaults` without it, the block first. A resolver
 that finds several classes for a type throws `MultipleResolvedException` of its own;
