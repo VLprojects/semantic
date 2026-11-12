@@ -146,8 +146,8 @@ public final class pro/vlprojects/semantic/pattern/creational/registry/error/Inv
 	public final fun getName ()Ljava/lang/String;
 }
 
-public final class pro/vlprojects/semantic/pattern/enterprise/plugin/ConfigurationDefinition {
-	public static final field Factory Lpro/vlprojects/semantic/pattern/enterprise/plugin/ConfigurationDefinition$Factory;
+public final class pro/vlprojects/semantic/pattern/enterprise/configuration/ConfigurationDefinition {
+	public static final field Factory Lpro/vlprojects/semantic/pattern/enterprise/configuration/ConfigurationDefinition$Factory;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getArguments ()Ljava/util/Map;
 	public final fun getName ()Ljava/lang/String;
@@ -156,39 +156,39 @@ public final class pro/vlprojects/semantic/pattern/enterprise/plugin/Configurati
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class pro/vlprojects/semantic/pattern/enterprise/plugin/ConfigurationDefinition$Factory {
-	public final fun of (Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;)Lpro/vlprojects/semantic/pattern/enterprise/plugin/ConfigurationDefinition;
-	public static synthetic fun of$default (Lpro/vlprojects/semantic/pattern/enterprise/plugin/ConfigurationDefinition$Factory;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Lpro/vlprojects/semantic/pattern/enterprise/plugin/ConfigurationDefinition;
+public final class pro/vlprojects/semantic/pattern/enterprise/configuration/ConfigurationDefinition$Factory {
+	public final fun of (Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;)Lpro/vlprojects/semantic/pattern/enterprise/configuration/ConfigurationDefinition;
+	public static synthetic fun of$default (Lpro/vlprojects/semantic/pattern/enterprise/configuration/ConfigurationDefinition$Factory;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Lpro/vlprojects/semantic/pattern/enterprise/configuration/ConfigurationDefinition;
 }
 
-public abstract interface class pro/vlprojects/semantic/pattern/enterprise/plugin/ConfigurationDefinitionDecoder {
-	public abstract fun decode (Lpro/vlprojects/semantic/pattern/enterprise/plugin/ConfigurationDefinition;Lkotlin/reflect/KClass;)Ljava/lang/Object;
+public abstract interface class pro/vlprojects/semantic/pattern/enterprise/configuration/ConfigurationDefinitionDecoder {
+	public abstract fun decode (Lpro/vlprojects/semantic/pattern/enterprise/configuration/ConfigurationDefinition;Lkotlin/reflect/KClass;)Ljava/lang/Object;
 }
 
-public abstract interface class pro/vlprojects/semantic/pattern/enterprise/plugin/ConfigurationDefinitionParser {
+public abstract interface class pro/vlprojects/semantic/pattern/enterprise/configuration/ConfigurationDefinitionParser {
 	public abstract fun parse (Ljava/lang/String;Ljava/util/Map;)Ljava/util/List;
 }
 
-public abstract interface class pro/vlprojects/semantic/pattern/enterprise/plugin/PolymorphicConfigurationBinder {
+public abstract interface class pro/vlprojects/semantic/pattern/enterprise/configuration/PolymorphicConfigurationBinder {
 	public abstract fun bind (Ljava/lang/String;Ljava/util/Map;)Ljava/lang/Object;
 }
 
-public abstract class pro/vlprojects/semantic/pattern/enterprise/plugin/error/InvalidConfigurationException : java/lang/IllegalArgumentException {
+public abstract class pro/vlprojects/semantic/pattern/enterprise/configuration/error/InvalidConfigurationException : java/lang/IllegalArgumentException {
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getPrefix ()Ljava/lang/String;
 }
 
-public final class pro/vlprojects/semantic/pattern/enterprise/plugin/error/InvalidConfigurationPropertyException : pro/vlprojects/semantic/pattern/enterprise/plugin/error/InvalidConfigurationException {
+public final class pro/vlprojects/semantic/pattern/enterprise/configuration/error/InvalidConfigurationPropertyException : pro/vlprojects/semantic/pattern/enterprise/configuration/error/InvalidConfigurationException {
 	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
 }
 
-public final class pro/vlprojects/semantic/pattern/enterprise/plugin/error/MultipleConfigurationsException : pro/vlprojects/semantic/pattern/enterprise/plugin/error/InvalidConfigurationException {
+public final class pro/vlprojects/semantic/pattern/enterprise/configuration/error/MultipleConfigurationsException : pro/vlprojects/semantic/pattern/enterprise/configuration/error/InvalidConfigurationException {
 	public fun <init> (Ljava/lang/String;Ljava/util/Set;)V
 	public final fun getTypeNames ()Ljava/util/Set;
 }
 
-public final class pro/vlprojects/semantic/pattern/enterprise/plugin/error/UnknownConfigurationException : pro/vlprojects/semantic/pattern/enterprise/plugin/error/InvalidConfigurationException {
+public final class pro/vlprojects/semantic/pattern/enterprise/configuration/error/UnknownConfigurationException : pro/vlprojects/semantic/pattern/enterprise/configuration/error/InvalidConfigurationException {
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
 	public final fun getTypeName ()Ljava/lang/String;
 }

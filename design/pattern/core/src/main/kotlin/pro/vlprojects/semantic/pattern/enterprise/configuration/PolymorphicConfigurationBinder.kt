@@ -1,6 +1,6 @@
-package pro.vlprojects.semantic.pattern.enterprise.plugin
+package pro.vlprojects.semantic.pattern.enterprise.configuration
 
-import pro.vlprojects.semantic.pattern.enterprise.plugin.error.InvalidConfigurationException
+import pro.vlprojects.semantic.pattern.enterprise.configuration.error.InvalidConfigurationException
 
 /**
  * Binds polymorphic configuration: flat string settings to an object of the subtype of [T]

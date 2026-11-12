@@ -1,4 +1,4 @@
-package pro.vlprojects.semantic.pattern.enterprise.plugin
+package pro.vlprojects.semantic.pattern.enterprise.configuration
 
 import kotlin.reflect.KClass
 

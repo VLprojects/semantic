@@ -21,8 +21,8 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
 | `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
-| `enterprise.plugin` | `PolymorphicConfigurationBinder`, a block of settings to an object of the class the block names; `ConfigurationDefinition`, a block as strings: its name, type name and arguments; `ConfigurationDefinitionParser`, flat properties under a prefix to definitions; `ConfigurationDefinitionDecoder`, the arguments of a definition to an object of a class |
-| `enterprise.plugin.error` | `InvalidConfigurationException` of a binder: `UnknownConfigurationException`, `MultipleConfigurationsException`, `InvalidConfigurationPropertyException` |
+| `enterprise.configuration` | `PolymorphicConfigurationBinder`, a block of settings to an object of the class the block names; `ConfigurationDefinition`, a block as strings: its name, type name and arguments; `ConfigurationDefinitionParser`, flat properties under a prefix to definitions; `ConfigurationDefinitionDecoder`, the arguments of a definition to an object of a class |
+| `enterprise.configuration.error` | `InvalidConfigurationException` of a binder: `UnknownConfigurationException`, `MultipleConfigurationsException`, `InvalidConfigurationPropertyException` |
 
 `structural` gets packages when a pattern of it is needed.
 
@@ -176,7 +176,7 @@ val type = types.resolve("exponential")
 Plugin, as Fowler describes it, links an interface to its implementation when the application
 is configured, not when it is compiled. Here it has two halves. The factory half, a definition to an
 instance, is `Factory` and `AbstractRegistrar` above. The configuration half, a block of settings to
-an object of the class the block names, is `enterprise.plugin`; Dropwizard calls it polymorphic
+an object of the class the block names, is `enterprise.configuration`; Dropwizard calls it polymorphic
 configuration. It knows no factory: the class may be any, a definition or not, as Spring Boot
 `Binder` binds any class. A registrar may join the halves: its `loadDefinitions` binds each block
 by a `PolymorphicConfigurationBinder<D>` and makes an instance by the factory of the class of the definition.

@@ -1,10 +1,10 @@
-package pro.vlprojects.semantic.pattern.unit.enterprise.plugin
+package pro.vlprojects.semantic.pattern.unit.enterprise.configuration
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import pro.vlprojects.semantic.pattern.enterprise.plugin.ConfigurationDefinition
+import pro.vlprojects.semantic.pattern.enterprise.configuration.ConfigurationDefinition
 
 class ConfigurationDefinitionTests {
 
