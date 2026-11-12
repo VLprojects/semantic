@@ -178,8 +178,8 @@ is configured, not when it is compiled. Here it has two halves. The factory half
 instance, is `Factory` and `AbstractRegistrar` above. The configuration half, a block of settings to
 an object of the class the block names, is `enterprise.plugin`; Dropwizard calls it polymorphic
 configuration. It knows no factory: the class may be any, a definition or not, as Spring Boot
-`Binder` binds any class. A registrar joins the halves: it binds a block to a definition of its
-own, `PolymorphicBinder<D>`, and makes an instance of it by the factory of its class.
+`Binder` binds any class. A registrar may join the halves: its `loadDefinitions` binds each block
+by a `PolymorphicBinder<D>` and makes an instance by the factory of the class of the definition.
 
 Dropwizard names the type in a field, `type:`; here a block names its type by its key, as
 `WRAPPER_OBJECT` of Jackson does:
@@ -198,10 +198,11 @@ with a factory and its definition, and no list of the types has to change.
 
 `PolymorphicBinder<T>` binds a block of settings to an object of the class the block names,
 `bind(name, properties, defaults)`, as Spring Boot `Binder.bind(name, target)` binds one class.
-It makes no instance and knows no factory. The class of a type comes from a resolver of the
-behavioral group, a `Resolver<String, KClass<out T>>`: `TypeNameResolver.of(BackoffDefinition::class, definitions)`
-names `ExponentialBackoffDefinition` `exponential`, `TypeNameResolver.of(types)` takes the names
-it is given. The adapter picks the resolver.
+It makes no plugin and knows no factory. The class of a type comes from a resolver of the
+behavioral group, a `Resolver<String, KClass<out T>>`:
+`TypeNameResolver.of(BackoffDefinition::class, definitions)` names `ExponentialBackoffDefinition`
+`exponential`, `TypeNameResolver.of(types)` takes the names it is given. The adapter picks the
+resolver.
 
 A block comes as `Map<String, String>` with keys flattened as Spring Boot flattens a tree:
 `exponential.multiplier`, `exponential.jitter.factor`, `exponential.retry-on-statuses[0]`.
@@ -215,13 +216,19 @@ The contract of a binder:
 - The type is the first segment of a key. Keys of one block that name different types throw
   `MultipleTypesException` with the path of the block and the types.
 - A type that the resolver does not find throws `TypeNotFoundException` with the path of the block
-  and the type, as Jackson throws `InvalidTypeIdException`. A field outside a type, `orders.multiplier`, names the unknown type `multiplier`.
+  and the type, as Jackson throws `InvalidTypeIdException`. A field outside a type,
+  `orders.multiplier`, names the unknown type `multiplier`.
+- A resolver that finds several classes for a type throws `MultipleResolvedException` of its own;
+  `TypeNameResolver` never does, as its names are unique.
 - An empty block takes the type of `defaults`, and with `defaults` empty too the default type the
-  binder is made with.
+  binder is made with. A default type the resolver does not find fails when the binder is made,
+  with `IllegalArgumentException`.
 - Keys of `defaults` of another type than the block are left out. The caller binds `defaults`
   first, as a block of its own under its own path, so its errors carry that path.
 - Types are compared by the class the resolver finds, not by their spelling: `TypeNameResolver`
   matches `fixed-delay` and `fixedDelay` as one name, and the binder takes them as one type.
+  A field set under two spellings of the type keeps the later key, as a map keeps the later
+  entry.
 
 `TypeNotFoundException` is a `NoSuchElementException`, as `FactoryNotFoundException` is;
 `MultipleTypesException` is an `IllegalArgumentException`, as `MultipleFactoriesException` is.
