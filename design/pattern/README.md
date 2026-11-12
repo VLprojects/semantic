@@ -189,31 +189,34 @@ hold and returns only its base type or a subtype of it:
   1. the one given to `of`;
   2. the one that loaded `ClassNameResolver`, where it sees the base type, as
      `ClassUtils.isVisible` of Spring checks a class: on a flat class path or in a Spring Boot
-     fat jar a base type of the JDK, as `Any` or `DataSource`, then still finds the classes of
-     the application;
+     fat jar a base type of the JDK, as `Any`, then still finds the classes of the
+     application;
   3. the one of the base type;
   4. the system one.
 
   A class this loader does not see resolves nothing, where `TypeFactory.findClass` of Jackson
   tries the next loader. The context class loader of the thread is not asked yet: where the
   library sits in a parent of the loader of the application, as under Spring Boot DevTools, a
-  base type of the JDK or of a library resolves a stale copy of the class; pass
+  base type of the JDK or of a library resolves the copy of the class in that parent, not the
+  one the application runs, so its instance fails a cast to a type of the application; pass
   `Thread.currentThread().contextClassLoader` to `of` there;
 - a nested class is named by its binary name, `com.acme.Outer$Inner`, as `Class.forName`
   takes it;
 - a class that is missing resolves nothing, as Jackson leaves an unknown class to the caller;
+  under a GraalVM native image so does a class not registered for reflection, as by
+  `RuntimeHints` of Spring;
 - a class that cannot be loaded, as a name that differs in case only on a file system that
   ignores case, is rejected by an `IllegalArgumentException` with the `LinkageError` as its
   cause, as `ClassUtils.resolveClassName` of Spring rejects a class definition it cannot
   resolve;
 - a class that is not a subtype is rejected by `NotSubtypeException`, as Jackson rejects it;
-  a base type as wide as `Any` rejects nothing, as `DefaultBaseTypeLimitingValidator` of
-  Jackson counts `Object` unsafe, so the allowed packages are then the only guard: keep them
-  narrow.
+  a base type as wide as `Any`, `Serializable` or `AutoCloseable` rejects next to nothing:
+  `DefaultBaseTypeLimitingValidator` of Jackson denies such a base type, this resolver takes
+  it, so the allowed packages are then the only guard; keep them narrow.
 
-An empty set of allowed packages, or an allowed package that is not dot-separated Java
-identifiers (`Character.isJavaIdentifierStart`, `isJavaIdentifierPart`), such as `com.acme.`,
-`1com` or `*`, fails `of` with an `IllegalArgumentException` instead of silently allowing none,
+An empty set of allowed packages, or an allowed package that is not a qualified name, as
+`SourceVersion.isName` of the JDK checks it, such as `com.acme.`, `1com`, `com.int` or `*`, fails
+`of` with an `IllegalArgumentException` instead of silently allowing none,
 where `*` of Spring Kafka trusts every class.
 
 ```kotlin

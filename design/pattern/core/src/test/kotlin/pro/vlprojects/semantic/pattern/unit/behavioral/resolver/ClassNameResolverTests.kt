@@ -211,12 +211,13 @@ class ClassNameResolverTests {
                     "com..acme",
                     "1com",
                     "com.ac-me",
+                    "com.int",
                 ),
             )
         }
 
         assertEquals(
-            "Allowed packages are not package names: ['com.acme.', '*', '', 'com..acme', '1com', 'com.ac-me']",
+            "Allowed packages are not package names: ['com.acme.', '*', '', 'com..acme', '1com', 'com.ac-me', 'com.int']",
             failure.message,
         )
     }
