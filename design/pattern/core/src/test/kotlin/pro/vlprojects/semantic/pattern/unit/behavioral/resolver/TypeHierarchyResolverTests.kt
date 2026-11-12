@@ -86,6 +86,13 @@ class TypeHierarchyResolverTests {
     }
 
     @Test
+    fun `an interface a class declares first precedes its subinterface`() {
+        val resolved = MarkedTimeoutException().let(interfaceResolver::resolveAll)
+
+        assertEquals(listOf(RetryableFailure::class, TransientFailure::class, Serializable::class), resolved)
+    }
+
+    @Test
     fun `the candidate of Any is resolved for a context of Any`() {
         val resolved = Any().let(resolver::resolveAll)
 
@@ -151,7 +158,7 @@ class TypeHierarchyResolverTests {
     }
 
     @Test
-    fun `several types of a context are not resolved without a policy`() {
+    fun `several types of a context are a failure without a policy`() {
         assertThrows<MultipleResolvedException> { resolver.resolve(connectTimeout) }
     }
 
