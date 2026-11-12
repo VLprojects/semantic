@@ -27,7 +27,7 @@ public final class pro/vlprojects/semantic/pattern/behavioral/resolver/TypeHiera
 }
 
 public final class pro/vlprojects/semantic/pattern/behavioral/resolver/TypeHierarchyResolver$Factory {
-	public final fun of (Ljava/util/Map;)Lpro/vlprojects/semantic/pattern/behavioral/resolver/TypeHierarchyResolver;
+	public final fun of (Ljava/util/Collection;Lkotlin/jvm/functions/Function1;)Lpro/vlprojects/semantic/pattern/behavioral/resolver/TypeHierarchyResolver;
 }
 
 public final class pro/vlprojects/semantic/pattern/behavioral/resolver/TypeNameResolver : pro/vlprojects/semantic/pattern/behavioral/resolver/Resolver {

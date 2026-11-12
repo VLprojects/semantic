@@ -16,135 +16,145 @@ import kotlin.reflect.KClass
 
 class TypeHierarchyResolverTests {
 
-    private val labels = mutableMapOf(
-        Any::class to "any",
-        Exception::class to "exception",
-        RetryableFailure::class to "retryable",
-        IOException::class to "io",
-        TransientFailure::class to "transient",
-        SocketTimeoutException::class to "socket timeout",
+    private val selectType = { type: KClass<*> -> type }
+
+    private val types = mutableListOf(
+        Any::class,
+        Exception::class,
+        RetryableFailure::class,
+        IOException::class,
+        TransientFailure::class,
+        SocketTimeoutException::class,
     )
 
-    private val resolver = TypeHierarchyResolver.of<Any, String>(labels)
+    private val resolver = TypeHierarchyResolver.of<Any, KClass<*>>(types, selectType)
 
-    private val ioLabels = mapOf(IOException::class to "io")
+    private val ioTypes = listOf(IOException::class)
 
-    private val ioResolver = TypeHierarchyResolver.of<Exception, String>(ioLabels)
+    private val ioResolver = TypeHierarchyResolver.of<Exception, KClass<*>>(ioTypes, selectType)
 
-    private val interfaceLabels = mapOf(
-        RetryableFailure::class to "retryable",
-        Serializable::class to "serializable",
-        TransientFailure::class to "transient",
-    )
+    private val interfaceTypes = listOf(RetryableFailure::class, Serializable::class, TransientFailure::class)
 
-    private val interfaceResolver = TypeHierarchyResolver.of<Throwable, String>(interfaceLabels)
+    private val interfaceResolver = TypeHierarchyResolver.of<Throwable, KClass<*>>(interfaceTypes, selectType)
 
-    private val first = ResolvingPolicy.first<String>()
+    private val first = ResolvingPolicy.first<KClass<*>>()
 
     private val connectTimeout = ConnectTimeoutException()
 
     private val ioFailure = IOException()
 
+    private val ioPolicy = RetryPolicy(IOException::class)
+
     @Test
-    fun `the value of the type of a context is resolved`() {
+    fun `the candidate of the type of a context is resolved`() {
         val resolved = ioResolver.resolve(ioFailure)
 
-        assertEquals("io", resolved)
+        assertEquals(IOException::class, resolved)
     }
 
     @Test
-    fun `the values are resolved from the nearest superclass to the farthest`() {
+    fun `the candidates are resolved from the nearest superclass to the farthest`() {
         val resolved = SocketTimeoutException().let(resolver::resolveAll)
 
-        assertEquals(listOf("socket timeout", "io", "exception", "any"), resolved)
+        assertEquals(listOf(SocketTimeoutException::class, IOException::class, Exception::class, Any::class), resolved)
     }
 
     @Test
     fun `the interfaces follow the superclasses and precede Any`() {
         val resolved = resolver.resolveAll(connectTimeout)
 
-        assertEquals(listOf("socket timeout", "io", "exception", "transient", "retryable", "any"), resolved)
+        assertEquals(
+            listOf(
+                SocketTimeoutException::class,
+                IOException::class,
+                Exception::class,
+                TransientFailure::class,
+                RetryableFailure::class,
+                Any::class,
+            ),
+            resolved,
+        )
     }
 
     @Test
     fun `the interfaces are resolved level by level`() {
         val resolved = interfaceResolver.resolveAll(connectTimeout)
 
-        assertEquals(listOf("transient", "serializable", "retryable"), resolved)
+        assertEquals(listOf(TransientFailure::class, Serializable::class, RetryableFailure::class), resolved)
     }
 
     @Test
     fun `an interface reached twice is resolved once`() {
         val resolved = ReadTimeoutException().let(interfaceResolver::resolveAll)
 
-        assertEquals(listOf("transient", "retryable", "serializable"), resolved)
+        assertEquals(listOf(TransientFailure::class, RetryableFailure::class, Serializable::class), resolved)
     }
 
     @Test
-    fun `the value of Any is resolved for a context of Any`() {
+    fun `the candidate of Any is resolved for a context of Any`() {
         val resolved = Any().let(resolver::resolveAll)
 
-        assertEquals(listOf("any"), resolved)
+        assertEquals(listOf(Any::class), resolved)
     }
 
     @Test
     fun `the class Enum of an enum precedes its interfaces as any superclass`() {
-        val enumLabels = mapOf(TemporalAccessor::class to "temporal accessor", Enum::class to "enum")
-        val enumResolver = TypeHierarchyResolver.of<Any, String>(enumLabels)
+        val enumTypes = listOf(TemporalAccessor::class, Enum::class)
+        val enumResolver = TypeHierarchyResolver.of<Any, KClass<*>>(enumTypes, selectType)
 
         val resolved = enumResolver.resolveAll(DayOfWeek.MONDAY)
 
-        assertEquals(listOf("enum", "temporal accessor"), resolved)
+        assertEquals(listOf(Enum::class, TemporalAccessor::class), resolved)
     }
 
     @Test
-    fun `the value of an enum is resolved for its constant with a body`() {
-        val signalLabels = mapOf(Signal::class to "signal")
-        val signalResolver = TypeHierarchyResolver.of<Any, String>(signalLabels)
+    fun `the candidate of an enum is resolved for its constant with a body`() {
+        val signalTypes = listOf(Signal::class)
+        val signalResolver = TypeHierarchyResolver.of<Any, KClass<*>>(signalTypes, selectType)
 
         val resolved = signalResolver.resolveAll(Signal.RED)
 
-        assertEquals(listOf("signal"), resolved)
+        assertEquals(listOf(Signal::class), resolved)
     }
 
     @Test
     fun `an array resolves its own class and the interfaces of every array`() {
-        val arrayLabels = mapOf(
-            Array<String>::class to "strings",
-            Array<CharSequence>::class to "char sequences",
-            Array<out Any>::class to "objects",
-            Cloneable::class to "cloneable",
-            Serializable::class to "serializable",
+        val arrayTypes = listOf(
+            Array<String>::class,
+            Array<CharSequence>::class,
+            Array<out Any>::class,
+            Cloneable::class,
+            Serializable::class,
         )
-        val arrayResolver = TypeHierarchyResolver.of<Any, String>(arrayLabels)
+        val arrayResolver = TypeHierarchyResolver.of<Any, KClass<*>>(arrayTypes, selectType)
 
         val resolved = arrayOf("x").let(arrayResolver::resolveAll)
 
-        assertEquals(listOf("strings", "cloneable", "serializable"), resolved)
+        assertEquals(listOf(Array<String>::class, Cloneable::class, Serializable::class), resolved)
     }
 
     @Test
-    fun `the value of a Kotlin primitive is resolved for its boxed context`() {
-        val numberLabels = mapOf(Int::class to "int", Number::class to "number")
-        val numberResolver = TypeHierarchyResolver.of<Any, String>(numberLabels)
+    fun `the candidate of a Kotlin primitive is resolved for its boxed context`() {
+        val numberTypes = listOf(Int::class, Number::class)
+        val numberResolver = TypeHierarchyResolver.of<Any, KClass<*>>(numberTypes, selectType)
 
         val resolved = numberResolver.resolveAll(5)
 
-        assertEquals(listOf("int", "number"), resolved)
+        assertEquals(listOf(Int::class, Number::class), resolved)
     }
 
     @Test
-    fun `the value of a Kotlin mapped interface is resolved for its Java context`() {
-        val textLabels = mapOf(CharSequence::class to "char sequence")
-        val textResolver = TypeHierarchyResolver.of<Any, String>(textLabels)
+    fun `the candidate of a Kotlin mapped interface is resolved for its Java context`() {
+        val textTypes = listOf(CharSequence::class)
+        val textResolver = TypeHierarchyResolver.of<Any, KClass<*>>(textTypes, selectType)
 
         val resolved = textResolver.resolveAll("x")
 
-        assertEquals(listOf("char sequence"), resolved)
+        assertEquals(listOf(CharSequence::class), resolved)
     }
 
     @Test
-    fun `the value of a subtype is not resolved for its supertype`() {
+    fun `the candidate of a subtype is not resolved for its supertype`() {
         val resolved = Exception().let(ioResolver::resolveOrNull)
 
         assertNull(resolved)
@@ -159,25 +169,47 @@ class TypeHierarchyResolverTests {
     fun `the nearest type is selected by the first policy`() {
         val resolved = resolver.resolve(connectTimeout, first)
 
-        assertEquals("socket timeout", resolved)
+        assertEquals(SocketTimeoutException::class, resolved)
     }
 
     @Test
-    fun `an empty map resolves nothing`() {
-        val emptyLabels = emptyMap<KClass<*>, String>()
-        val emptyResolver = TypeHierarchyResolver.of<Any, String>(emptyLabels)
+    fun `a candidate is resolved by the type it declares`() {
+        val exceptionPolicy = RetryPolicy(Exception::class)
+        val policies = listOf(exceptionPolicy, ioPolicy)
+        val policyResolver = TypeHierarchyResolver.of<Throwable, RetryPolicy>(policies, RetryPolicy::failureType)
+
+        val resolved = policyResolver.resolveAll(connectTimeout)
+
+        assertEquals(listOf(ioPolicy, exceptionPolicy), resolved)
+    }
+
+    @Test
+    fun `the candidates of one type are resolved in their order`() {
+        val fallbackIoPolicy = RetryPolicy(IOException::class)
+        val policies = listOf(ioPolicy, fallbackIoPolicy)
+        val policyResolver = TypeHierarchyResolver.of<Throwable, RetryPolicy>(policies, RetryPolicy::failureType)
+
+        val resolved = policyResolver.resolveAll(ioFailure)
+
+        assertEquals(listOf(ioPolicy, fallbackIoPolicy), resolved)
+    }
+
+    @Test
+    fun `no candidates resolve nothing`() {
+        val noTypes = emptyList<KClass<*>>()
+        val emptyResolver = TypeHierarchyResolver.of<Any, KClass<*>>(noTypes, selectType)
 
         val resolved = emptyResolver.resolveAll(ioFailure)
 
-        assertEquals(emptyList<String>(), resolved)
+        assertEquals(emptyList<KClass<*>>(), resolved)
     }
 
     @Test
-    fun `a change of the source map does not reach the resolver`() {
-        labels.clear()
+    fun `a change of the source candidates does not reach the resolver`() {
+        types.clear()
 
         val resolved = resolver.resolve(ioFailure, first)
 
-        assertEquals("io", resolved)
+        assertEquals(IOException::class, resolved)
     }
 }
