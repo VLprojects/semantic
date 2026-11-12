@@ -1,13 +1,14 @@
 package pro.vlprojects.semantic.pattern.enterprise.configuration
 
+import pro.vlprojects.semantic.pattern.enterprise.configuration.error.DefinitionConversionException
 import kotlin.reflect.KClass
 
 public interface DefinitionMapper {
 
     /**
      * Converts the arguments of [definition] to an object of [type]: no arguments give its defaults;
-     * a missing required, an extra or a wrong argument throws [IllegalArgumentException].
+     * a missing required, an extra or a wrong argument throws [DefinitionConversionException].
      */
-    @Throws(IllegalArgumentException::class)
+    @Throws(DefinitionConversionException::class)
     public fun <T : Any> convert(definition: Definition, type: KClass<T>): T
 }

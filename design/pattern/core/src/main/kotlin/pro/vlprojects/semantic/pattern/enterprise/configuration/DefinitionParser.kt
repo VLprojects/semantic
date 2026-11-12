@@ -1,6 +1,6 @@
 package pro.vlprojects.semantic.pattern.enterprise.configuration
 
-import pro.vlprojects.semantic.pattern.enterprise.configuration.error.InvalidConfigurationException
+import pro.vlprojects.semantic.pattern.enterprise.configuration.error.DefinitionParsingException
 
 public interface DefinitionParser {
 
@@ -8,6 +8,6 @@ public interface DefinitionParser {
      * Parses the flat [properties] of an application to a definition per block it finds;
      * where the blocks are and how their keys are laid out is up to the parser.
      */
-    @Throws(InvalidConfigurationException::class)
+    @Throws(DefinitionParsingException::class)
     public fun parse(properties: Map<String, String>): List<Definition>
 }
