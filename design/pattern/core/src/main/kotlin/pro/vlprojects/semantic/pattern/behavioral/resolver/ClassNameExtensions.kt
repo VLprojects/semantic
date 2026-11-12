@@ -23,5 +23,6 @@ internal fun String.loadClassOrNull(classLoader: ClassLoader) = try {
     throw IllegalArgumentException("The class '$this' cannot be loaded", failure)
 }
 
-internal fun KClass<*>.getDefaultClassLoader() = this.java.classLoader
-    ?: ClassLoader.getSystemClassLoader()
+internal val KClass<*>.defaultClassLoader
+    get() = this.java.classLoader
+        ?: ClassLoader.getSystemClassLoader()

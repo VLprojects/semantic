@@ -198,10 +198,11 @@ hold and returns only its base type or a subtype of it:
   resolve;
 - a class that is not a subtype is rejected by `NotSubtypeException`, as Jackson rejects it.
 
-An empty set of allowed packages, or a name that is not of parts joined by single dots, each
-of them a Java identifier by `Character.isJavaIdentifierStart` and `isJavaIdentifierPart`,
-such as `com.acme.`, `1com` or `*`, fails `of` with an `IllegalArgumentException` instead
-of silently allowing none, where `*` of Spring Kafka trusts every class.
+An empty set of allowed packages, or an allowed package that is not of parts joined by
+single dots, each of them a Java identifier by `Character.isJavaIdentifierStart` and
+`isJavaIdentifierPart`, such as `com.acme.`, `1com` or `*`, fails `of` with an
+`IllegalArgumentException` instead of silently allowing none, where `*` of Spring Kafka trusts
+every class.
 
 ```kotlin
 val types = ClassNameResolver.of(Backoff::class, setOf("com.acme"))
