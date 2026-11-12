@@ -21,7 +21,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
 | `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
-| `enterprise.plugin` | `PolymorphicConfigurationBinder`, a block of settings to an object of the class the block names; `GenericPolymorphicConfigurationBinder`, a binder that takes the type from the key and leaves the fields to a `PropertiesDecoder`; `PropertiesDecoder`, flat properties to an object of a class |
+| `enterprise.plugin` | `PolymorphicConfigurationBinder`, a block of settings to an object of the class the block names; `GenericConfigurationBinder`, a binder that takes the type from the key and leaves the fields to a `PropertiesDecoder`; `PropertiesDecoder`, flat properties to an object of a class |
 | `enterprise.plugin.error` | `InvalidConfigurationException` of a binder: `UnknownConfigurationException`, `MultipleConfigurationsException`, `InvalidConfigurationPropertyException` |
 
 `structural` gets packages when a pattern of it is needed.
@@ -246,8 +246,9 @@ Besides the type of an empty block, a binder has no defaults: a block is bound a
 instance is the business of a registry, `Registry.resolveOrDefault`; settings shared by blocks, as
 `base-config` of Resilience4j, may come as a layer above the binder when a module needs them.
 
-`GenericPolymorphicConfigurationBinder<T>` presets nothing and takes its parts, as `GenericConversionService`
-of Spring does. It keeps that contract and leaves the fields to a
+`GenericConfigurationBinder<T>` presets nothing and takes its parts, as `GenericConversionService`
+of Spring does, and drops the word of its interface, as that class drops `Configurable` of
+`ConfigurableConversionService`. It keeps that contract and leaves the fields to a
 `PropertiesDecoder`: it cuts the type segment off the keys and calls `decode(properties, type)`, as
 kotlinx.serialization names `Properties.decodeFromStringMap`. A decoder knows neither type names nor
 prefixes, as `JavaPropsMapper.readMapAs(map, type)` of Jackson does not. Any exception of a decoder
@@ -260,7 +261,7 @@ the binder fails to be made with `IllegalArgumentException` when the resolver fi
 or several.
 
 ```kotlin
-val binder = GenericPolymorphicConfigurationBinder(
+val binder = GenericConfigurationBinder(
     resolver = TypeNameResolver.of(BackoffDefinition::class, definitions),
     decoder = decoder,
     defaultTypeName = "exponential",
@@ -287,7 +288,7 @@ no module needs it yet.
 ### Plan of Plugin
 
 1. The contract of `PolymorphicConfigurationBinder`, its errors.
-2. `GenericPolymorphicConfigurationBinder`: the type from the key, one type in a block, the default
+2. `GenericConfigurationBinder`: the type from the key, one type in a block, the default
    type; a `PropertiesDecoder` decodes the fields.
 3. A Spring Boot adapter, `semantic-pattern-spring-boot`: a decoder over the `Binder` of Spring Boot.
 4. Backoff and the polling of delivery moved onto it.

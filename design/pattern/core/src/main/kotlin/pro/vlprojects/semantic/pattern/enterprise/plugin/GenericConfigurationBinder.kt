@@ -6,7 +6,7 @@ import pro.vlprojects.semantic.pattern.enterprise.plugin.error.InvalidConfigurat
 import pro.vlprojects.semantic.pattern.enterprise.plugin.error.UnknownConfigurationException
 import kotlin.reflect.KClass
 
-public class GenericPolymorphicConfigurationBinder<out T : Any>(
+public class GenericConfigurationBinder<out T : Any>(
     private val resolver: Resolver<String, KClass<out T>>,
     private val decoder: PropertiesDecoder,
     private val defaultTypeName: String,
