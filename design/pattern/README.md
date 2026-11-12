@@ -176,8 +176,8 @@ val type = types.resolve("exponential")
 `type: com.acme.backoff.JitteredBackoff` in settings, as `ClassNameIdResolver` of Jackson finds
 a class by its name in JSON. It suits subtypes not known in advance, where `TypeNameResolver`
 takes their list. A class loaded by a name from outside is a known vulnerability, the one of
-polymorphic deserialization in Jackson, so the resolver loads only what its allowed packages
-hold and returns only its base type or a subtype of it:
+polymorphic deserialization in Jackson, so the resolver loads a class by a name only in its
+allowed packages and returns only its base type or a subtype of it:
 
 - a name outside the allowed packages is rejected by `ClassNotAllowedException` before the
   class is loaded, as `BasicPolymorphicTypeValidator` of Jackson checks the name of a
@@ -206,7 +206,7 @@ hold and returns only its base type or a subtype of it:
 - a class that cannot be loaded, as a name that differs in case only on a file system that
   ignores case, is rejected by an `IllegalArgumentException` with the `LinkageError` as its
   cause, as `ClassUtils.resolveClassName` of Spring rejects a class definition it cannot
-  resolve;
+  resolve, though Spring throws an `IllegalStateException` for an `IllegalAccessError`;
 - a class that is not a subtype is rejected by `NotSubtypeException`, as Jackson rejects it;
   a base type as wide as `Any`, `Serializable` or `AutoCloseable` rejects next to nothing:
   `DefaultBaseTypeLimitingValidator` of Jackson denies such a base type, this resolver takes

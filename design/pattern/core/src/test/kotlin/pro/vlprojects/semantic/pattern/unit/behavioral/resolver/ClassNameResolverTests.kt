@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions.assertInstanceOf
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import pro.vlprojects.semantic.pattern.behavioral.resolver.ClassNameResolver
 import pro.vlprojects.semantic.pattern.behavioral.resolver.error.ClassNotAllowedException
@@ -195,26 +196,24 @@ class ClassNameResolverTests {
     }
 
     @Test
+    fun `allowed packages may hold keywords of Java, dollars and letters beyond ASCII`() {
+        val packages = listOf(
+            "com.my_app",
+            "com.acme2",
+            "_acme",
+            "com.\$acme",
+            "com.\uD835\uDC65",
+            "com.int",
+            "com.acme.native",
+        )
+
+        assertDoesNotThrow { ClassNameResolver.of(Backoff::class, packages) }
+    }
+
+    @Test
     fun `allowed packages that are not package names are rejected`() {
         val failure = assertThrows<IllegalArgumentException> {
-            ClassNameResolver.of(
-                Backoff::class,
-                listOf(
-                    "com.my_app",
-                    "com.acme2",
-                    "_acme",
-                    "com.\$acme",
-                    "com.\uD835\uDC65",
-                    "com.int",
-                    "com.acme.native",
-                    "com.acme.",
-                    "*",
-                    "",
-                    "com..acme",
-                    "1com",
-                    "com.ac-me",
-                ),
-            )
+            ClassNameResolver.of(Backoff::class, listOf("com.acme.", "*", "", "com..acme", "1com", "com.ac-me"))
         }
 
         assertEquals(
