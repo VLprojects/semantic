@@ -146,7 +146,7 @@ public final class pro/vlprojects/semantic/pattern/creational/registry/error/Inv
 	public final fun getName ()Ljava/lang/String;
 }
 
-public final class pro/vlprojects/semantic/pattern/enterprise/plugin/DefaultPolymorphicConfigurationBinder : pro/vlprojects/semantic/pattern/enterprise/plugin/PolymorphicConfigurationBinder {
+public final class pro/vlprojects/semantic/pattern/enterprise/plugin/GenericPolymorphicConfigurationBinder : pro/vlprojects/semantic/pattern/enterprise/plugin/PolymorphicConfigurationBinder {
 	public fun <init> (Lpro/vlprojects/semantic/pattern/behavioral/resolver/Resolver;Lpro/vlprojects/semantic/pattern/enterprise/plugin/PropertiesDecoder;Ljava/lang/String;)V
 	public fun bind (Ljava/lang/String;Ljava/util/Map;)Ljava/lang/Object;
 }

@@ -6,14 +6,14 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import pro.vlprojects.semantic.pattern.behavioral.resolver.Resolver
 import pro.vlprojects.semantic.pattern.behavioral.resolver.error.MultipleResolvedException
-import pro.vlprojects.semantic.pattern.enterprise.plugin.DefaultPolymorphicConfigurationBinder
+import pro.vlprojects.semantic.pattern.enterprise.plugin.GenericPolymorphicConfigurationBinder
 import pro.vlprojects.semantic.pattern.enterprise.plugin.PropertiesDecoder
 import pro.vlprojects.semantic.pattern.enterprise.plugin.error.InvalidConfigurationPropertyException
 import pro.vlprojects.semantic.pattern.enterprise.plugin.error.MultipleConfigurationsException
 import pro.vlprojects.semantic.pattern.enterprise.plugin.error.UnknownConfigurationException
 import kotlin.reflect.KClass
 
-class DefaultPolymorphicConfigurationBinderTests {
+class GenericPolymorphicConfigurationBinderTests {
 
     @Test
     fun `the type is the first segment of a key`() {
@@ -278,12 +278,12 @@ class DefaultPolymorphicConfigurationBinderTests {
 
     private fun bind(
         properties: Map<String, String>,
-        binder: DefaultPolymorphicConfigurationBinder<Delay> = createBinder(),
+        binder: GenericPolymorphicConfigurationBinder<Delay> = createBinder(),
     ) = binder.bind("orders", properties)
 
     private fun createBinder(
         defaultTypeName: String = "exponential",
         resolver: Resolver<String, KClass<out Delay>> = delayTypeResolver,
         decoder: PropertiesDecoder = MapConstructorDecoder,
-    ) = DefaultPolymorphicConfigurationBinder(resolver, decoder, defaultTypeName)
+    ) = GenericPolymorphicConfigurationBinder(resolver, decoder, defaultTypeName)
 }
