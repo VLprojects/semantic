@@ -380,7 +380,7 @@
     <rect x="284.0" y="3466.0" width="141.4" height="18" rx="4" fill="#41679C" fill-opacity="0.2"/>
     <text x="292.0" y="3478.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">design/pattern/core</text>
     <text x="284.0" y="3502.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">semantic-pattern</text>
-    <text x="284.0" y="3534.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">registry, registrar and factory; no framework</text>
+    <text x="284.0" y="3534.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#41679C" text-anchor="start">registry, factory and plugin; no framework</text>
     <rect x="284.0" y="3551.0" width="264.0" height="74" rx="4" fill="#41679C" fill-opacity="0.12"/>
     <text x="292.0" y="3568.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">creational</text>
     <text x="292.0" y="3582.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">patterns of creation</text>
@@ -388,11 +388,16 @@
     <text x="300.0" y="3608.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">registry</text>
     <rect x="366.8" y="3593.0" width="62.2" height="22" rx="4" fill="#41679C" fill-opacity="0.16"/>
     <text x="374.8" y="3608.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">factory</text>
+    <rect x="556.0" y="3551.0" width="128.0" height="74" rx="4" fill="#41679C" fill-opacity="0.12"/>
+    <text x="564.0" y="3568.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#1F2328" text-anchor="start">enterprise</text>
+    <text x="564.0" y="3582.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#41679C" text-anchor="start">patterns of Fowler</text>
+    <rect x="564.0" y="3593.0" width="55.6" height="22" rx="4" fill="#41679C" fill-opacity="0.16"/>
+    <text x="572.0" y="3608.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#1F2328" text-anchor="start">plugin</text>
     <rect x="40.0" y="3438" width="1160.0" height="215" rx="12" fill="none" stroke="#AFB8C1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="0.01 4"/>
     <text x="56.0" y="3478.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1F2328" text-anchor="start">pattern</text>
-    <text x="56.0" y="3496.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">classic patterns of objects,</text>
-    <text x="56.0" y="3509.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">grouped as the Gang of Four</text>
-    <text x="56.0" y="3522.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">groups them</text>
+    <text x="56.0" y="3496.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">classic patterns of objects</text>
+    <text x="56.0" y="3509.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">by the Gang of Four and by</text>
+    <text x="56.0" y="3522.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="9" font-weight="400" fill="#8C959F" text-anchor="start">Fowler</text>
     <rect x="16.0" y="3725.0" width="1208.0" height="439.0" rx="12" fill="#FFFFFF"/>
     <text x="40.0" y="3755.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="16" font-weight="600" fill="#1F2328" text-anchor="start">idiom</text>
     <rect x="100.0" y="3740.0" width="223.2" height="18" rx="4" fill="#59636E" fill-opacity="0.2"/>

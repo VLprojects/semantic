@@ -319,9 +319,10 @@ TREE = [
 				(1, ("green", "design/ddd/spring/data/jpa", "semantic-ddd-spring-data-jpa", "JPA mapping")),
 				(1, ("green", "design/ddd/spring/data/mongodb", "semantic-ddd-spring-data-mongodb", "MongoDB mapping"))],
 		]),
-		("pattern", "classic patterns of objects, grouped as the Gang of Four groups them", [
-			[(1, ("blue", "design/pattern/core", "semantic-pattern", "registry, registrar and factory; no framework", [
+		("pattern", "classic patterns of objects by the Gang of Four and by Fowler", [
+			[(1, ("blue", "design/pattern/core", "semantic-pattern", "registry, factory and plugin; no framework", [
 				("creational", "patterns of creation", ["registry", "factory"]),
+				("enterprise", "patterns of Fowler", ["plugin"]),
 			]))],
 		]),
 	])],
