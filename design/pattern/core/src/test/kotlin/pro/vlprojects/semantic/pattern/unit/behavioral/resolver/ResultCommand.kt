@@ -1,8 +1,8 @@
 package pro.vlprojects.semantic.pattern.unit.behavioral.resolver
 
-interface OrderCommand<out R> {
+interface ResultCommand<out R> {
 
-    interface Handler<C : OrderCommand<R>, R> {
+    interface Handler<C : ResultCommand<R>, R> {
 
         fun handle(command: C): R
     }
