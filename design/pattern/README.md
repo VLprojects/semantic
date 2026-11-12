@@ -196,8 +196,8 @@ returns only a subtype of its base type:
   cause, as `ClassUtils.resolveClassName` of Spring rejects it;
 - a class that is not a subtype is rejected by `NotSubtypeException`, as Jackson rejects it.
 
-An empty set of trusted packages, or a name that is not of identifier characters joined by
-single dots, such as `com.acme.` or `*`, fails `of` with an `IllegalArgumentException` instead
+An empty set of trusted packages, or a name that is not of Java identifiers joined by single
+dots, such as `com.acme.`, `1com` or `*`, fails `of` with an `IllegalArgumentException` instead
 of silently trusting none, where `*` of Spring Kafka trusts every class.
 
 ```kotlin

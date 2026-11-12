@@ -4,7 +4,7 @@ internal fun checkHasTrustedPackage(trustedPackages: Set<String>) {
     require(trustedPackages.isNotEmpty()) { "Trusted packages are empty" }
 }
 
-internal fun checkHasNoInvalidPackageName(trustedPackages: Set<String>) {
+internal fun checkHasOnlyPackageNames(trustedPackages: Set<String>) {
     val invalidNames = trustedPackages
         .filterNot(String::isPackageName)
         .map { name -> "'$name'" }

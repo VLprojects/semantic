@@ -39,7 +39,7 @@ public class ClassNameResolver<T : Any> private constructor(
         ): ClassNameResolver<T> = trustedPackages
             .toSet()
             .also(::checkHasTrustedPackage)
-            .also(::checkHasNoInvalidPackageName)
+            .also(::checkHasOnlyPackageNames)
             .let { packages -> ClassNameResolver(baseType, packages, classLoader) }
     }
 }

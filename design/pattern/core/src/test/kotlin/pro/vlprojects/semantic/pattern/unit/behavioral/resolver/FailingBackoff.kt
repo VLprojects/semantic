@@ -1,11 +1,11 @@
 package pro.vlprojects.semantic.pattern.unit.behavioral.resolver
 
-class FailingGreeting : Greeting {
+class FailingBackoff : Backoff {
 
     companion object {
 
         init {
-            error("A failing greeting is initialized")
+            error("A failing backoff is initialized")
         }
     }
 }

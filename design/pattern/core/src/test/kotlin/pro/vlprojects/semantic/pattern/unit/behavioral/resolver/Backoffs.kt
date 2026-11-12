@@ -1,6 +1,6 @@
 package pro.vlprojects.semantic.pattern.unit.behavioral.resolver
 
-class Greetings {
+class Backoffs {
 
-    class Morning : Greeting
+    class Jittered : Backoff
 }
