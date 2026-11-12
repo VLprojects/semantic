@@ -5,9 +5,9 @@ import pro.vlprojects.semantic.pattern.enterprise.configuration.error.InvalidCon
 public interface DefinitionParser {
 
     /**
-     * Parses the keys of [properties] under [prefix] to a definition per name that follows [prefix];
-     * the keys outside [prefix] are left out.
+     * Parses the flat [properties] of an application to a definition per block it finds;
+     * where the blocks are and how their keys are laid out is up to the parser.
      */
     @Throws(InvalidConfigurationException::class)
-    public fun parse(prefix: String, properties: Map<String, String>): List<Definition>
+    public fun parse(properties: Map<String, String>): List<Definition>
 }

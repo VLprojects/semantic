@@ -166,7 +166,7 @@ public abstract interface class pro/vlprojects/semantic/pattern/enterprise/confi
 }
 
 public abstract interface class pro/vlprojects/semantic/pattern/enterprise/configuration/DefinitionParser {
-	public abstract fun parse (Ljava/lang/String;Ljava/util/Map;)Ljava/util/List;
+	public abstract fun parse (Ljava/util/Map;)Ljava/util/List;
 }
 
 public abstract interface class pro/vlprojects/semantic/pattern/enterprise/configuration/PolymorphicConfigurationBinder {

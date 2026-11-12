@@ -21,7 +21,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
 | `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
-| `enterprise.configuration` | `PolymorphicConfigurationBinder`, a block of settings to an object of the class the block names; `Definition`, a block as strings: its name, type and arguments; `DefinitionParser`, flat properties under a prefix to definitions; `DefinitionDecoder`, the arguments of a definition to an object of a class |
+| `enterprise.configuration` | `PolymorphicConfigurationBinder`, a block of settings to an object of the class the block names; `Definition`, a block as strings: its name, type and arguments; `DefinitionParser`, flat properties to definitions; `DefinitionDecoder`, the arguments of a definition to an object of a class |
 | `enterprise.configuration.error` | `InvalidConfigurationException` of a binder and a parser: `UnknownConfigurationException`, `MultipleConfigurationsException`, `InvalidConfigurationPropertyException`; `UnboundConfigurationPropertiesException`, the keys left unbound |
 
 `structural` gets packages when a pattern of it is needed.
@@ -268,7 +268,7 @@ Binding splits in three, as Jackson splits a polymorphic read into `TypeDeserial
 
 | Part | What it does | In Jackson |
 | --- | --- | --- |
-| `DefinitionParser` | the keys under a prefix to a `Definition` per name: the name, the type and the arguments | `TypeDeserializer` finds the type id |
+| `DefinitionParser` | flat properties to a `Definition` per block: the name, the type and the arguments | `TypeDeserializer` finds the type id |
 | `Resolver<String, KClass<out T>>` | a type to a class | `TypeIdResolver` |
 | `DefinitionDecoder` | the arguments of a definition to an object of a class | `JsonDeserializer` |
 
@@ -280,19 +280,25 @@ The type is a string, as the type id of Jackson is: a short name, `exponential`,
 class, as a resolver reads it. A definition always has a type, and none of its name, type and
 argument keys is blank. It copies the arguments, so a change of the given map does not reach it.
 
-The contract of `DefinitionParser`, named as `BeanDefinitionParser` of Spring and
-reading named definitions of flat properties under a prefix, as `PropertiesBeanDefinitionReader`
-of Spring does:
+The contract of `DefinitionParser`, named as `BeanDefinitionParser` of Spring: `parse(properties)`
+takes all the flat properties of an application and gives a definition per block it finds. Where
+the blocks are and how their keys are laid out is up to the parser: it is made with what it needs,
+as `AsPropertyTypeDeserializer` of Jackson is made with the name of the type property and the
+default type. Keys of one block that name different types throw `MultipleConfigurationsException`,
+keys it cannot read throw `InvalidConfigurationPropertyException`; both carry the prefix of the
+block.
 
-- The keys outside the prefix are left out, so a parser takes all the properties of an application.
-  The prefix ends at `.` or `[`: `semantic.resilience.backoff.instancesBackup.orders` is outside
-  `semantic.resilience.backoff.instances`.
+The first parser, of named blocks, is made with a prefix and a default type, and reads named
+definitions of flat properties under the prefix, as `PropertiesBeanDefinitionReader` of Spring does:
+
+- The keys outside the prefix are left out. The prefix ends at `.` or `[`:
+  `semantic.resilience.backoff.instancesBackup.orders` is outside `semantic.resilience.backoff.instances`.
 - The name is the first segment after the prefix. A name in brackets, `instances[orders.v2]`, is
   `orders.v2`, as Spring Boot keeps a map key with a dot. The type is the next segment, up to `.`
   or `[`. The rest of the key after the `.` is an argument.
 - A block that names no type, `orders=` as Spring Boot flattens `orders:` of YAML, takes the default
-  type the parser is made with, as `TypeDeserializerBase` of Jackson takes `defaultImpl`. A parser
-  made with no default type leaves the key unbound.
+  type, as `TypeDeserializerBase` of Jackson takes `defaultImpl`. A parser made with no default type
+  leaves the key unbound.
 - An empty value on the type key, `orders.fixed=`, names the type and gives no argument: Spring Boot
   4.1 flattens `fixed:` and `fixed: {}` of YAML so; 4.0 drops `fixed: {}`, and the block takes the
   default type.
@@ -327,7 +333,7 @@ Two layouts are not supported, as no module needs them yet: a type in a field of
    `DefinitionDecoder`.
 3. A binder of all the blocks under a prefix: `bind` gives the objects by the names of the blocks,
    the `Map<String, D>` that `loadDefinitions` of a registrar returns.
-4. A parser of the keys of named blocks, with its default type.
+4. A parser of named blocks, made with a prefix and a default type.
 5. `GenericConfigurationBinder`: a parser, a resolver and a decoder.
 6. A Spring Boot adapter, `semantic-pattern-spring-boot`: a decoder over the `Binder` of Spring Boot.
 7. Backoff and the polling of delivery moved onto it.
