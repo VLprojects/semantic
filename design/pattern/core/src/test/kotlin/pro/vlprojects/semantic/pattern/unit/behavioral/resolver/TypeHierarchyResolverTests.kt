@@ -157,7 +157,9 @@ class TypeHierarchyResolverTests {
 
     @Test
     fun `the nearest type is selected by the first policy`() {
-        assertEquals("socket timeout", resolver.resolve(connectTimeout, first))
+        val resolved = resolver.resolve(connectTimeout, first)
+
+        assertEquals("socket timeout", resolved)
     }
 
     @Test
@@ -174,6 +176,8 @@ class TypeHierarchyResolverTests {
     fun `a change of the source map does not reach the resolver`() {
         labels.clear()
 
-        assertEquals("io", resolver.resolve(ioFailure, first))
+        val resolved = resolver.resolve(ioFailure, first)
+
+        assertEquals("io", resolved)
     }
 }
