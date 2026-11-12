@@ -18,7 +18,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.registry.error` | `InvalidNameException`, `InstanceAlreadyExistsException`, `InstanceNotFoundException`, `DefaultInstanceNotFoundException`; `InstanceRegistrationException` of a registrar |
 | `creational.factory` | `Factory`, an instance made of its definition; `Factory.Definition`, the marker of a definition |
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
-| `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
+| `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name; `TypeHierarchyResolver`, the values of the class of a context, its superclasses and interfaces |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
 
 `structural` gets packages when a pattern of it is needed.
@@ -166,6 +166,31 @@ blank but for dashes and underscores, or an anonymous class stop the resolver fr
 ```kotlin
 val types = TypeNameResolver.of(Backoff::class, listOf(FixedBackoff::class, ExponentialBackoff::class))
 val type = types.resolve("exponential")
+```
+
+`TypeHierarchyResolver` finds the values kept for the class of a context, its superclasses
+and interfaces, as Spring `ExceptionHandlerMethodResolver` picks the handler of an exception by
+its type and Spring Retry `SubclassClassifier` the value of a classified supertype.
+
+The types come in the order of `getClassHierarchy` of `GenericConversionService.Converters` in
+Spring: the superclasses from the class of the context up; then the interfaces level by level,
+first those the classes implement, the nearer class first, then the interfaces those extend;
+`Any` last, as it is a supertype of every interface too. Unlike Spring, an enum gets no order of
+its own and an array gets the supertypes of the JVM rather than those of its elements: `Enum` is
+a superclass as any other and precedes the interfaces of an enum, and an array has only its own
+class, `Cloneable`, `Serializable` and `Any`, neither the arrays of the supertypes of its elements
+nor `Array<out Any>`.
+
+A key is any class or interface, so a marker interface of a failure fits beside the class of an
+exception; it yields to every superclass that has a key but `Any`. Several types of one context
+usually have a key: then `resolve` and `resolveOrNull` without a policy throw
+`MultipleResolvedException`, and `ResolvingPolicy.first()` selects the subclass before its
+superclass:
+
+```kotlin
+val attemptsByType = mapOf(IOException::class to 3, Exception::class to 1)
+val maxAttemptsResolver = TypeHierarchyResolver.of<Throwable, Int>(attemptsByType)
+val maxAttempts = maxAttemptsResolver.resolve(failure, ResolvingPolicy.first())
 ```
 
 ## Plan
