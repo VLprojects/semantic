@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 544" width="1024" height="544" role="img">
+  <rect width="1024" height="544" rx="12" fill="#F6F8FA"/>
+  <g transform="translate(12,12)">
+    <rect x="16" y="16" width="968" height="488" rx="12" fill="#FFFFFF"/>
+    <text x="40.0" y="52.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1F2328" text-anchor="start">Builder: a tree of flat keys</text>
+    <text x="40.0" y="76.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#59636E" text-anchor="start">The director hands the keys to the builder one by one; the builder makes the containers on the way and returns the tree</text>
+    <text x="40.0" y="104.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8C959F" text-anchor="start">director: flat keys</text>
+    <text x="40.0" y="140.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#8C959F" text-anchor="start">1</text>
+    <text x="60.0" y="140.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#1F2328" text-anchor="start">orders.exponential.multiplier=3</text>
+    <text x="40.0" y="172.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#8C959F" text-anchor="start">2</text>
+    <text x="60.0" y="172.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#1F2328" text-anchor="start">orders.exponential.initial-delay=200ms</text>
+    <text x="40.0" y="204.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#8C959F" text-anchor="start">3</text>
+    <text x="60.0" y="204.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#1F2328" text-anchor="start">orders.exponential.retry-on-statuses[0]=503</text>
+    <text x="40.0" y="236.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#8C959F" text-anchor="start">4</text>
+    <text x="60.0" y="236.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#1F2328" text-anchor="start">orders.exponential.retry-on-statuses[1]=429</text>
+    <text x="40.0" y="268.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#8C959F" text-anchor="start">5</text>
+    <text x="60.0" y="268.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#1F2328" text-anchor="start">payments.fixed.delay=1s</text>
+    <text x="40.0" y="312.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">a step per key, then the tree</text>
+    <text x="480.0" y="104.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8C959F" text-anchor="start">builder: tree</text>
+    <text x="480.0" y="140.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">instances</text>
+    <text x="558.2" y="140.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">object</text>
+    <path d="M486,148 L486,163 Q486,167 490,167 L502,167" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="508.0" y="172.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">orders</text>
+    <text x="562.8" y="172.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">object</text>
+    <path d="M514,180 L514,195 Q514,199 518,199 L530,199" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="536.0" y="204.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">exponential</text>
+    <text x="629.8" y="204.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">object</text>
+    <path d="M542,212 L542,227 Q542,231 546,231 L558,231" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="564.0" y="236.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">multiplier</text>
+    <text x="650.0" y="236.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="400" fill="#8C959F" text-anchor="start">=</text>
+    <rect x="666.0" y="221.0" width="23.8" height="22.0" rx="4" fill="#E3EFFF"/>
+    <text x="674.0" y="237.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">3</text>
+    <path d="M542,212 L542,259 Q542,263 546,263 L558,263" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="564.0" y="268.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">initial-delay</text>
+    <text x="673.4" y="268.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="400" fill="#8C959F" text-anchor="start">=</text>
+    <rect x="689.4" y="253.0" width="55.0" height="22.0" rx="4" fill="#E3EFFF"/>
+    <text x="697.4" y="269.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">200ms</text>
+    <path d="M542,212 L542,291 Q542,295 546,295 L558,295" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="564.0" y="300.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">retry-on-statuses</text>
+    <text x="704.6" y="300.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">list</text>
+    <path d="M570,308 L570,323 Q570,327 574,327 L586,327" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="592.0" y="332.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">[0]</text>
+    <text x="623.4" y="332.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="400" fill="#8C959F" text-anchor="start">=</text>
+    <rect x="639.4" y="317.0" width="39.4" height="22.0" rx="4" fill="#E3EFFF"/>
+    <text x="647.4" y="333.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">503</text>
+    <path d="M570,308 L570,355 Q570,359 574,359 L586,359" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="592.0" y="364.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">[1]</text>
+    <text x="623.4" y="364.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="400" fill="#8C959F" text-anchor="start">=</text>
+    <rect x="639.4" y="349.0" width="39.4" height="22.0" rx="4" fill="#E3EFFF"/>
+    <text x="647.4" y="365.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">429</text>
+    <path d="M486,148 L486,387 Q486,391 490,391 L502,391" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="508.0" y="396.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">payments</text>
+    <text x="578.4" y="396.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">object</text>
+    <path d="M514,404 L514,419 Q514,423 518,423 L530,423" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="536.0" y="428.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">fixed</text>
+    <text x="583.0" y="428.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">object</text>
+    <path d="M542,436 L542,451 Q542,455 546,455 L558,455" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="564.0" y="460.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">delay</text>
+    <text x="611.0" y="460.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="400" fill="#8C959F" text-anchor="start">=</text>
+    <rect x="627.0" y="445.0" width="31.6" height="22.0" rx="4" fill="#E3EFFF"/>
+    <text x="635.0" y="461.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">1s</text>
+    <text x="960.0" y="104.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8C959F" text-anchor="end">made by key</text>
+    <text x="960.0" y="140.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="end">root</text>
+    <text x="960.0" y="172.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#1F2328" text-anchor="end">1</text>
+    <text x="960.0" y="204.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#1F2328" text-anchor="end">1</text>
+    <text x="960.0" y="236.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#1F2328" text-anchor="end">1</text>
+    <text x="960.0" y="268.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#1F2328" text-anchor="end">2</text>
+    <text x="960.0" y="300.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#1F2328" text-anchor="end">3</text>
+    <text x="960.0" y="332.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#1F2328" text-anchor="end">3</text>
+    <text x="960.0" y="364.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#1F2328" text-anchor="end">4</text>
+    <text x="960.0" y="396.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#1F2328" text-anchor="end">5</text>
+    <text x="960.0" y="428.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#1F2328" text-anchor="end">5</text>
+    <text x="960.0" y="460.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#1F2328" text-anchor="end">5</text>
+    <path d="M400,199 L450,199" stroke="#1A7CFF" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M449,195 L456,199 L449,203 Z" fill="#1A7CFF"/>
+  </g>
+</svg>

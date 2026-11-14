@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 544" width="1024" height="544" role="img">
+  <rect width="1024" height="544" rx="12" fill="#151B23"/>
+  <g transform="translate(12,12)">
+    <rect x="16" y="16" width="968" height="488" rx="12" fill="#1D242D"/>
+    <text x="40.0" y="52.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#E6EDF3" text-anchor="start">Flyweight: equal subtrees are one object</text>
+    <text x="40.0" y="76.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#9198A1" text-anchor="start">Three blocks with the same fixed.delay=1s: three copies in memory without sharing, one for all with it</text>
+    <text x="40.0" y="104.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#6E7681" text-anchor="start">without sharing: 10 elements</text>
+    <text x="40.0" y="140.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">instances</text>
+    <text x="118.2" y="140.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6E7681" text-anchor="start">object</text>
+    <path d="M46,148 L46,163 Q46,167 50,167 L62,167" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="68.0" y="172.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">orders</text>
+    <text x="122.8" y="172.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6E7681" text-anchor="start">object</text>
+    <path d="M74,180 L74,195 Q74,199 78,199 L90,199" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="96.0" y="204.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">fixed</text>
+    <text x="143.0" y="204.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6E7681" text-anchor="start">object</text>
+    <path d="M102,212 L102,227 Q102,231 106,231 L118,231" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="124.0" y="236.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">delay</text>
+    <text x="171.0" y="236.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="400" fill="#6E7681" text-anchor="start">=</text>
+    <rect x="187.0" y="221.0" width="31.6" height="22.0" rx="4" fill="#6E9BFF"/>
+    <text x="195.0" y="237.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#06173D" text-anchor="start">1s</text>
+    <path d="M46,148 L46,259 Q46,263 50,263 L62,263" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="68.0" y="268.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">payments</text>
+    <text x="138.4" y="268.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6E7681" text-anchor="start">object</text>
+    <path d="M74,276 L74,291 Q74,295 78,295 L90,295" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="96.0" y="300.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">fixed</text>
+    <text x="143.0" y="300.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6E7681" text-anchor="start">object</text>
+    <path d="M102,308 L102,323 Q102,327 106,327 L118,327" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="124.0" y="332.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">delay</text>
+    <text x="171.0" y="332.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="400" fill="#6E7681" text-anchor="start">=</text>
+    <rect x="187.0" y="317.0" width="31.6" height="22.0" rx="4" fill="#6E9BFF"/>
+    <text x="195.0" y="333.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#06173D" text-anchor="start">1s</text>
+    <path d="M46,148 L46,355 Q46,359 50,359 L62,359" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="68.0" y="364.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">refunds</text>
+    <text x="130.6" y="364.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6E7681" text-anchor="start">object</text>
+    <path d="M74,372 L74,387 Q74,391 78,391 L90,391" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="96.0" y="396.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">fixed</text>
+    <text x="143.0" y="396.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6E7681" text-anchor="start">object</text>
+    <path d="M102,404 L102,419 Q102,423 106,423 L118,423" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="124.0" y="428.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">delay</text>
+    <text x="171.0" y="428.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="400" fill="#6E7681" text-anchor="start">=</text>
+    <rect x="187.0" y="413.0" width="31.6" height="22.0" rx="4" fill="#6E9BFF"/>
+    <text x="195.0" y="429.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#06173D" text-anchor="start">1s</text>
+    <text x="520.0" y="104.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#6E7681" text-anchor="start">with sharing: 6 elements</text>
+    <text x="520.0" y="140.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">instances</text>
+    <text x="598.2" y="140.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6E7681" text-anchor="start">object</text>
+    <path d="M526,148 L526,163 Q526,167 530,167 L542,167" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="548.0" y="172.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">orders</text>
+    <text x="602.8" y="172.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6E7681" text-anchor="start">object</text>
+    <path d="M526,148 L526,195 Q526,199 530,199 L542,199" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="548.0" y="204.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">payments</text>
+    <text x="618.4" y="204.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6E7681" text-anchor="start">object</text>
+    <path d="M526,148 L526,227 Q526,231 530,231 L542,231" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="548.0" y="236.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">refunds</text>
+    <text x="610.6" y="236.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6E7681" text-anchor="start">object</text>
+    <rect x="764.0" y="148.0" width="200.0" height="88.0" rx="6" fill="#29313C"/>
+    <text x="780.0" y="176.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">fixed</text>
+    <text x="827.0" y="176.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6E7681" text-anchor="start">object</text>
+    <text x="808.0" y="208.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">delay</text>
+    <text x="855.0" y="208.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="400" fill="#6E7681" text-anchor="start">=</text>
+    <rect x="871.0" y="193.0" width="31.6" height="22.0" rx="4" fill="#6E9BFF"/>
+    <text x="879.0" y="209.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#06173D" text-anchor="start">1s</text>
+    <path d="M780,183 Q786,183 786,189 L786,199 Q786,203 790,203 L802,203" stroke="#515B66" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M650.8,167 L754,167" stroke="#4493F8" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M753,163 L760,167 L753,171 Z" fill="#4493F8"/>
+    <path d="M666.4,199 L754,199" stroke="#4493F8" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M753,195 L760,199 L753,203 Z" fill="#4493F8"/>
+    <path d="M658.6,231 L754,231" stroke="#4493F8" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M753,227 L760,231 L753,235 Z" fill="#4493F8"/>
+    <text x="764.0" y="264.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">a shared element knows neither</text>
+    <text x="764.0" y="282.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">its parent nor its path</text>
+    <text x="40.0" y="468.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">N blocks: 1 + 3N elements against 1 + N + 2. A factory hands out a shared element by its content, as String.intern() does; it is immutable.</text>
+  </g>
+</svg>
