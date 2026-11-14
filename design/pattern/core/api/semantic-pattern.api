@@ -1,3 +1,14 @@
+public final class pro/vlprojects/semantic/pattern/behavioral/resolver/ClassNameResolver : pro/vlprojects/semantic/pattern/behavioral/resolver/Resolver {
+	public static final field Factory Lpro/vlprojects/semantic/pattern/behavioral/resolver/ClassNameResolver$Factory;
+	public synthetic fun resolveAll (Ljava/lang/Object;)Ljava/util/Collection;
+	public fun resolveAll (Ljava/lang/String;)Ljava/util/Collection;
+}
+
+public final class pro/vlprojects/semantic/pattern/behavioral/resolver/ClassNameResolver$Factory {
+	public final fun of (Lkotlin/reflect/KClass;Ljava/util/Collection;Ljava/lang/ClassLoader;)Lpro/vlprojects/semantic/pattern/behavioral/resolver/ClassNameResolver;
+	public static synthetic fun of$default (Lpro/vlprojects/semantic/pattern/behavioral/resolver/ClassNameResolver$Factory;Lkotlin/reflect/KClass;Ljava/util/Collection;Ljava/lang/ClassLoader;ILjava/lang/Object;)Lpro/vlprojects/semantic/pattern/behavioral/resolver/ClassNameResolver;
+}
+
 public final class pro/vlprojects/semantic/pattern/behavioral/resolver/PredicateResolver : pro/vlprojects/semantic/pattern/behavioral/resolver/Resolver {
 	public fun <init> (Ljava/util/Collection;Lkotlin/jvm/functions/Function2;)V
 	public fun resolveAll (Ljava/lang/Object;)Ljava/util/Collection;
@@ -32,6 +43,12 @@ public final class pro/vlprojects/semantic/pattern/behavioral/resolver/TypeNameR
 	public final fun of (Lkotlin/reflect/KClass;Ljava/util/Collection;)Lpro/vlprojects/semantic/pattern/behavioral/resolver/TypeNameResolver;
 }
 
+public final class pro/vlprojects/semantic/pattern/behavioral/resolver/error/ClassNotAllowedException : java/lang/IllegalArgumentException {
+	public fun <init> (Ljava/lang/String;Ljava/util/Set;)V
+	public final fun getAllowedPackages ()Ljava/util/Set;
+	public final fun getClassName ()Ljava/lang/String;
+}
+
 public final class pro/vlprojects/semantic/pattern/behavioral/resolver/error/MultipleResolvedException : java/lang/IllegalArgumentException {
 	public fun <init> (Ljava/lang/Object;Ljava/util/Collection;)V
 	public final fun getCandidates ()Ljava/util/Collection;
@@ -41,6 +58,12 @@ public final class pro/vlprojects/semantic/pattern/behavioral/resolver/error/Mul
 public final class pro/vlprojects/semantic/pattern/behavioral/resolver/error/NotResolvedException : java/util/NoSuchElementException {
 	public fun <init> (Ljava/lang/Object;)V
 	public final fun getContext ()Ljava/lang/Object;
+}
+
+public final class pro/vlprojects/semantic/pattern/behavioral/resolver/error/NotSubtypeException : java/lang/IllegalArgumentException {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun getBaseTypeName ()Ljava/lang/String;
+	public final fun getClassName ()Ljava/lang/String;
 }
 
 public abstract interface class pro/vlprojects/semantic/pattern/behavioral/visitor/Visitable {

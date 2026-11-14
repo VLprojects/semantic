@@ -21,8 +21,8 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.factory` | `Factory`, an instance made of its definition; `Factory.Definition`, the marker of a definition |
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
 | `structural.composite` | `Composite`, the base type of a hierarchy whose containers and leaves a client treats alike; `MutableComposite`, a container whose children change after it is made |
-| `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
-| `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
+| `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name; `ClassNameResolver`, a subtype by the full name of its class |
+| `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException`; `ClassNotAllowedException`, `NotSubtypeException` of a class name resolver |
 | `behavioral.visitor` | `Visitor`, the base type of the visitors of a hierarchy, with `visit`, the method of any element, which each visit method of a hierarchy falls back to; `Visitable`, an element of a hierarchy with `accept` |
 | `enterprise.configuration` | `PolymorphicConfigurationBinder`, a block of settings to an object of the class the block names; `Definition`, a block as strings: its name, type and arguments; `DefinitionParser`, flat properties to definitions; `DefinitionMapper`, the arguments of a definition to an object of a class |
 | `enterprise.configuration.error` | Of a binder, `InvalidConfigurationException`: `UnknownConfigurationException`, `InvalidConfigurationPropertyException`. Of a parser, `DefinitionParsingException`, an `InvalidConfigurationException` too: `MultipleConfigurationsException`, `UnboundConfigurationPropertiesException`. Of a mapper, `DefinitionConversionException` |
@@ -243,6 +243,10 @@ contract, as Spring `ObjectProvider` and CDI `Instance` give one, an optional on
 | `resolveOrNull(context, policy)` | `null` | it | the one the policy selects |
 | `resolve(context, policy)` | `NotResolvedException` | it | the one the policy selects |
 
+An implementation may reject a context it does not take: every method, `resolveAll` included,
+throws an `IllegalArgumentException` then, as `ClassNameResolver` rejects a class outside its
+allowed packages.
+
 A policy is asked only when several values are found, as Spring picks a primary bean only
 among several candidates. `ResolvingPolicy.first()` and `last()` keep the order `resolveAll`
 returns; each is one instance for every type, as `naturalOrder()` of Kotlin is.
@@ -274,6 +278,56 @@ blank but for dashes and underscores, or an anonymous class stop the resolver fr
 ```kotlin
 val types = TypeNameResolver.of(Backoff::class, listOf(FixedBackoff::class, ExponentialBackoff::class))
 val type = types.resolve("exponential")
+```
+
+`ClassNameResolver` finds a subtype by the full name of its class, such as
+`type: com.acme.backoff.JitteredBackoff` in settings, as `ClassNameIdResolver` of Jackson finds
+a class by its name in JSON. It suits subtypes not known in advance, where `TypeNameResolver`
+takes their list. A class loaded by a name from outside is a known vulnerability, the one of
+polymorphic deserialization in Jackson, so the resolver loads a class by a name only in its
+allowed packages and returns only its base type or a subtype of it:
+
+- a name outside the allowed packages is rejected by `ClassNotAllowedException` before the
+  class is loaded, as `BasicPolymorphicTypeValidator` of Jackson checks the name of a
+  subclass first by `allowIfSubType` and `DefaultJacksonJavaTypeMapper` of Spring Kafka by its
+  trusted packages; a package allows its subpackages, as `basePackages` of Spring component
+  scanning does;
+- a class is loaded without running its static initializers, as `ClassUtils.forName` of
+  Spring loads it, by one class loader, the first of:
+  1. the one given to `of`;
+  2. the one that loaded `ClassNameResolver`, where it sees the base type, as
+     `ClassUtils.isVisible` of Spring checks a class: on a flat class path or in a Spring Boot
+     fat jar a base type of the JDK, as `Object` that is `Any` of Kotlin, then still finds the
+     classes of the application;
+  3. the one of the base type;
+  4. the system one.
+
+  A class this loader does not see resolves nothing, where `TypeFactory.findClass` of Jackson
+  tries the next loader. The context class loader of the thread is not asked: where the
+  library sits in a parent of the loader of the application, as under Spring Boot DevTools, a
+  base type of the JDK or of a library resolves the copy of the class in that parent, not the
+  one the application runs, so its instance fails a cast to a type of the application; pass
+  `Thread.currentThread().contextClassLoader` to `of` there;
+- a nested class is named by its binary name, `com.acme.Outer$Inner`, as `Class.forName`
+  takes it;
+- a class that is missing resolves nothing, as Jackson leaves an unknown class to the caller;
+- a class that cannot be loaded, as a name that differs in case only on a file system that
+  ignores case, is rejected by an `IllegalArgumentException` with the `LinkageError` as its
+  cause, as `ClassUtils.resolveClassName` of Spring rejects a class definition it cannot
+  resolve, though Spring throws an `IllegalStateException` for an `IllegalAccessError`;
+- a class that is not a subtype is rejected by `NotSubtypeException`, as Jackson rejects it;
+  a base type as wide as `Any`, `Serializable` or `AutoCloseable` rejects next to nothing:
+  `DefaultBaseTypeLimitingValidator` of Jackson denies such a base type, this resolver takes
+  it, so the allowed packages are then the only guard; keep them narrow.
+
+`of` fails with an `IllegalArgumentException` on no allowed packages, which would
+allow nothing, and on an allowed package that is not dot-separated identifiers, as
+`SourceVersion.isIdentifier` of the JDK checks each: `com.acme.`, `1com` or `*`, where `*` of
+Spring Kafka trusts every class.
+
+```kotlin
+val types = ClassNameResolver.of(Backoff::class, setOf("com.acme"))
+val type = types.resolve("com.acme.backoff.JitteredBackoff")
 ```
 
 ## Visitor
