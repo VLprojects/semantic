@@ -83,6 +83,6 @@
     <text x="860.0" y="460.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="end">9</text>
     <text x="860.0" y="332.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="end">10</text>
     <text x="860.0" y="364.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="end">11</text>
-    <text x="40.0" y="500.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">Pre-order, a container before its parts: flatten the tree to keys. Post-order, the parts before their container: count a size, check a subtree.</text>
+    <text x="40.0" y="500.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#9198A1" text-anchor="start">Pre-order, a parent before its children: flatten the tree to keys. Post-order, the children before their parent: count a size, check a subtree.</text>
   </g>
 </svg>
