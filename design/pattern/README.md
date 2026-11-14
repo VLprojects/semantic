@@ -21,7 +21,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.factory` | `Factory`, an instance made of its definition; `Factory.Definition`, the marker of a definition |
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
 | `structural.composite` | `Composite`, the base type of a hierarchy whose containers and leaves a client treats alike; `MutableComposite`, a container whose children change after it is made |
-| `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
+| `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name; `GenericTypeResolver`, the type a class gives to a generic type |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
 | `behavioral.visitor` | `Visitor`, the base type of the visitors of a hierarchy, with `visit`, the method of any element, which each visit method of a hierarchy falls back to; `Visitable`, an element of a hierarchy with `accept` |
 | `enterprise.configuration` | `PolymorphicConfigurationBinder`, a block of settings to an object of the class the block names; `Definition`, a block as strings: its name, type and arguments; `DefinitionParser`, flat properties to definitions; `DefinitionMapper`, the arguments of a definition to an object of a class |
@@ -274,6 +274,40 @@ blank but for dashes and underscores, or an anonymous class stop the resolver fr
 ```kotlin
 val types = TypeNameResolver.of(Backoff::class, listOf(FixedBackoff::class, ExponentialBackoff::class))
 val type = types.resolve("exponential")
+```
+
+`GenericTypeResolver` finds the type a class gives to a generic type, as `resolveTypeArgument`
+of the Spring class of the same name does: `CreateOrder` of `CreateOrderHandler :
+CommandHandler<CreateOrder>`. A type variable of a generic supertype, a base class or an
+interface, is followed through the hierarchy level by level, as `ResolvableType.as` follows it,
+each level binding the variables of its supertypes by its own arguments. The type parameter is
+taken by its index, the first one by default, as `ResolvableType.getGeneric` takes it;
+`resolveTypeArgument` of Spring rejects a type of several parameters, and
+`resolveTypeArguments` returns them all as an array.
+
+- A parameterized argument resolves to its raw class: `List` of
+  `CommandHandler<List<CreateOrder>>`; an array of a type variable, to an array of its
+  argument; an array of a parameterized type, to an array of its raw class.
+- A Kotlin primitive class is resolved through its wrapper: `Int::class` resolves to `Int` for
+  `Comparable`, as `java.lang.Integer` implements `Comparable<java.lang.Integer>`.
+- A primitive argument resolves to the class of its wrapper: for `Converter<String, Int>` the
+  target type equals `Int::class`, and its `java` is `java.lang.Integer`, not `int`.
+- A variable of an outer class is followed through the owner of an inner supertype, as
+  `Outer<CreateOrder>.Inner`, the way Spring and Guava follow it.
+- A subclass proxy, the CGLIB one that Spring Boot makes by default, is resolved through its
+  superclass.
+- A lambda, which Java and, by default, Kotlin compile by `invokedynamic`, and a JDK dynamic
+  proxy of the generic type itself implement it raw and resolve nothing; a lambda or a JDK
+  dynamic proxy of a subinterface, as `fun interface CreateOrderHandlerFunction :
+  CommandHandler<CreateOrder>`, resolves through it.
+- A type variable left open resolves nothing; unlike Spring, its bound is not taken.
+- For an index out of the type parameters, a negative one too, `of` throws
+  `IllegalArgumentException`.
+
+```kotlin
+val commandTypes = GenericTypeResolver.of(CommandHandler::class)
+val commandType = commandTypes.resolve(handler::class)
+val targetType = GenericTypeResolver.of(Converter::class, index = 1).resolve(converter::class)
 ```
 
 ## Visitor

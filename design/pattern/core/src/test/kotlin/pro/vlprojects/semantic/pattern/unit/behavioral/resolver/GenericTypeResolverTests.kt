@@ -1,0 +1,248 @@
+package pro.vlprojects.semantic.pattern.unit.behavioral.resolver
+
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
+import pro.vlprojects.semantic.pattern.behavioral.resolver.GenericTypeResolver
+import java.lang.reflect.Proxy
+
+class GenericTypeResolverTests {
+
+    private val commandTypes = GenericTypeResolver.of(CommandHandler::class)
+
+    @Test
+    fun `a type argument given to a generic type is resolved`() {
+        assertEquals(CreateOrder::class, commandTypes.resolve(CreateOrderHandler::class))
+    }
+
+    @Test
+    fun `a type argument given to an abstract base is resolved through its type variable`() {
+        assertEquals(CancelOrder::class, commandTypes.resolve(CancelOrderHandler::class))
+    }
+
+    @Test
+    fun `a type argument of a class proxied by a subclass is resolved`() {
+        assertEquals(CreateOrder::class, commandTypes.resolve(CreateOrderHandlerProxy::class))
+    }
+
+    @Test
+    fun `a type argument given to a generic interface is resolved through its type variable`() {
+        assertEquals(ConfirmOrder::class, commandTypes.resolve(ConfirmOrderHandler::class))
+    }
+
+    @Test
+    fun `an array of a type variable is resolved as an array of its argument`() {
+        assertEquals(Array<CreateOrder>::class, commandTypes.resolve(CreateOrderArrayHandler::class))
+    }
+
+    @Test
+    fun `a type argument given along two paths is resolved`() {
+        assertEquals(CreateOrder::class, commandTypes.resolve(DualCreateOrderHandler::class))
+    }
+
+    @Test
+    fun `a type argument given by the wrapper of a Kotlin primitive is resolved`() {
+        val comparableTypes = GenericTypeResolver.of(Comparable::class)
+
+        assertEquals(Int::class, comparableTypes.resolve(Int::class))
+    }
+
+    @Test
+    fun `a Kotlin primitive type argument is resolved as its wrapper class`() {
+        val targetTypes = GenericTypeResolver.of(Converter::class, index = 1)
+
+        assertEquals(Int::class.javaObjectType, targetTypes.resolve(StringToIntConverter::class).java)
+    }
+
+    @Test
+    fun `a type argument is resolved by the index of its type parameter`() {
+        val sourceTypes = GenericTypeResolver.of(Converter::class)
+        val targetTypes = GenericTypeResolver.of(Converter::class, index = 1)
+
+        assertEquals(String::class, sourceTypes.resolve(StringToIntConverter::class))
+        assertEquals(Int::class, targetTypes.resolve(StringToIntConverter::class))
+    }
+
+    @Test
+    fun `a type variable is followed by its declaration, not by its position`() {
+        val sourceTypes = GenericTypeResolver.of(Converter::class)
+        val targetTypes = GenericTypeResolver.of(Converter::class, index = 1)
+
+        assertEquals(String::class, sourceTypes.resolve(ReversedStringToIntConverter::class))
+        assertEquals(Int::class, targetTypes.resolve(ReversedStringToIntConverter::class))
+    }
+
+    @Test
+    fun `type arguments given to a nested interface of a generic type are resolved`() {
+        val orderCommandTypes = GenericTypeResolver.of(ResultCommand.Handler::class)
+        val orderResultTypes = GenericTypeResolver.of(ResultCommand.Handler::class, index = 1)
+
+        assertEquals(PlaceOrder::class, orderCommandTypes.resolve(PlaceOrderHandler::class))
+        assertEquals(Long::class, orderResultTypes.resolve(PlaceOrderHandler::class))
+    }
+
+    @Test
+    fun `a parameterized type argument is resolved as its raw class`() {
+        assertEquals(List::class, commandTypes.resolve(CreateOrderListHandler::class))
+    }
+
+    @Test
+    fun `an array of a parameterized type argument is resolved as an array of its raw class`() {
+        val listArrayType = List::class.java.arrayType().kotlin
+
+        assertEquals(listArrayType, commandTypes.resolve(CreateOrderListArrayHandler::class))
+    }
+
+    @Test
+    fun `a type argument given to the outer class of an inner supertype is resolved`() {
+        val handlerType = CreateOrderCommandHandlerOwner.CreateOrderInnerHandler::class
+
+        assertEquals(CreateOrder::class, commandTypes.resolve(handlerType))
+    }
+
+    @Test
+    fun `a type variable given to the owner of an inner supertype is resolved through the subtype`() {
+        val handlerType = CreateOrderCommandHandlerOwner.CreateOrderForwardingHandler::class
+
+        assertEquals(CreateOrder::class, commandTypes.resolve(handlerType))
+    }
+
+    @Test
+    fun `a type argument given to the outermost class of a nested inner supertype is resolved`() {
+        val handlerType = CreateOrderCommandModule.CreateOrderHandlers.CreateOrderNestedInnerHandler::class
+
+        assertEquals(CreateOrder::class, commandTypes.resolve(handlerType))
+    }
+
+    @Test
+    fun `a type argument given to the outer class is passed back by an inner subclass`() {
+        val handlerType = CreateOrderOuterCommandHandler.CreateOrderInnerCommandHandler::class
+
+        assertEquals(CreateOrder::class, commandTypes.resolve(handlerType))
+    }
+
+    @Test
+    fun `a type argument an inner subclass gives to its outer class is resolved at its own level`() {
+        val handlerType = CreateOrderBatchingHandler.CreateOrderBatchHandler::class
+
+        assertEquals(List::class, commandTypes.resolve(handlerType))
+    }
+
+    @Test
+    fun `a type argument an inner subclass gives to its outer class is resolved for the outer class`() {
+        val batchingTypes = GenericTypeResolver.of(BatchingCommandHandler::class)
+        val handlerType = CreateOrderBatchingHandler.CreateOrderBatchHandler::class
+
+        assertEquals(List::class, batchingTypes.resolve(handlerType))
+    }
+
+    @Test
+    fun `a type argument given by an anonymous class is resolved`() {
+        val handler = object : CommandHandler<CreateOrder> {
+
+            override fun handle(command: CreateOrder) = Unit
+        }
+
+        assertEquals(CreateOrder::class, commandTypes.resolve(handler::class))
+    }
+
+    @Test
+    fun `a lambda of the generic type implements it raw and resolves nothing`() {
+        val handler = CommandHandler<CreateOrder> { _ -> }
+
+        assertNull(commandTypes.resolveOrNull(handler::class))
+    }
+
+    @Test
+    fun `a type argument of a lambda is resolved through the subinterface it implements`() {
+        val handler = CreateOrderHandlerFunction { _ -> }
+
+        assertEquals(CreateOrder::class, commandTypes.resolve(handler::class))
+    }
+
+    @Test
+    fun `a dynamic proxy implements the raw generic type and resolves nothing`() {
+        val interfaces = arrayOf(CommandHandler::class.java)
+        val handler = Proxy.newProxyInstance(
+            javaClass.classLoader,
+            interfaces,
+            NoOpInvocationHandler,
+        ) as CommandHandler<*>
+
+        assertNull(commandTypes.resolveOrNull(handler::class))
+    }
+
+    @Test
+    fun `a dynamic proxy of a subinterface is resolved through it`() {
+        val interfaces = arrayOf(CreateOrderHandlerFunction::class.java)
+        val handler = Proxy.newProxyInstance(
+            javaClass.classLoader,
+            interfaces,
+            NoOpInvocationHandler,
+        ) as CommandHandler<*>
+
+        assertEquals(CreateOrder::class, commandTypes.resolve(handler::class))
+    }
+
+    @Test
+    fun `the generic type itself resolves nothing`() {
+        assertNull(commandTypes.resolveOrNull(CommandHandler::class))
+    }
+
+    @Test
+    fun `a type variable left open resolves nothing`() {
+        assertNull(commandTypes.resolveOrNull(GenericCommandHandler::class))
+    }
+
+    @Test
+    fun `an array of a type variable left open resolves nothing`() {
+        assertNull(commandTypes.resolveOrNull(GenericArrayCommandHandler::class))
+    }
+
+    @Test
+    fun `the bound of a type variable left open is not taken`() {
+        assertNull(commandTypes.resolveOrNull(BoundedCommandHandler::class))
+    }
+
+    @Test
+    fun `a type variable an inner subclass passes back to its outer class resolves nothing`() {
+        assertNull(commandTypes.resolveOrNull(OuterCommandHandler.InnerCommandHandler::class))
+    }
+
+    @Test
+    fun `a negative index is rejected`() {
+        val failure = assertThrows<IllegalArgumentException> {
+            GenericTypeResolver.of(Converter::class, index = -1)
+        }
+
+        assertEquals(
+            "${Converter::class.java.name} has no type parameter at index -1, its type parameters: [S, T]",
+            failure.message,
+        )
+    }
+
+    @Test
+    fun `an index beyond the type parameters is rejected`() {
+        val failure = assertThrows<IllegalArgumentException> {
+            GenericTypeResolver.of(Converter::class, index = 2)
+        }
+
+        assertEquals(
+            "${Converter::class.java.name} has no type parameter at index 2, its type parameters: [S, T]",
+            failure.message,
+        )
+    }
+
+    @Test
+    fun `a type without type parameters is rejected`() {
+        val failure = assertThrows<IllegalArgumentException> {
+            GenericTypeResolver.of(CreateOrder::class)
+        }
+
+        assertEquals(
+            "${CreateOrder::class.java.name} has no type parameter at index 0, its type parameters: []",
+            failure.message,
+        )
+    }
+}
