@@ -229,3 +229,7 @@ public abstract interface class pro/vlprojects/semantic/pattern/structural/compo
 	public abstract fun toImmutable ()Lpro/vlprojects/semantic/pattern/structural/composite/Composite;
 }
 
+public abstract interface class pro/vlprojects/semantic/pattern/structural/flyweight/FlyweightFactory {
+	public abstract fun getFlyweight (Ljava/lang/Object;)Ljava/lang/Object;
+}
+
