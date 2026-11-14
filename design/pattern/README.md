@@ -206,17 +206,6 @@ as a leaf, and a walk, a search or a fold has nowhere to go from either. Where a
 means something of its own, an empty block of settings for one, the hierarchy tells it by an
 operation of its classes, not by a flag of the library.
 
-A hierarchy that does not implement `Composite`, a `JsonNode` of Jackson or an entity of JPA, is
-read from outside: a walk, a search or a fold of the library will take the children as a function
-`(T) -> Collection<T>`, as `generateSequence` of Kotlin takes the next element and `sortedBy` takes
-a selector. `Comparable` and `Comparator` split ordering the same way, from inside and from outside:
-
-```kotlin
-computer.descendants(Equipment::children)
-
-json.descendants(JsonNode::values)
-```
-
 Builder makes such a hierarchy, Iterator walks it, Visitor adds an operation to it without a
 change of its classes, Flyweight shares its equal parts. A Decorator of the hierarchy overrides
 `children` with those of the element it wraps, or a decorated container reads as a leaf.
