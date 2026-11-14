@@ -18,7 +18,7 @@ get aggregates with it.
 
 ## Structure
 
-Six roots, in alphabetical order. A heading is a directory; a directory that is
+Seven roots, in alphabetical order. A heading is a directory; a directory that is
 divided further has a table of its own under it.
 
 | Root | What it holds | Contents |
@@ -27,6 +27,7 @@ divided further has a table of its own under it.
 | [`correctness`](#correctness) | the rules a state keeps and the failures that report a broken one | constraint, error, rule, validation |
 | [`design`](#design) | approaches to designing a model and its abstractions | algebra, dbc, ddd, pattern |
 | [`idiom`](#idiom) | extensions of the Kotlin standard library | format, helper |
+| [`infrastructure`](#infrastructure) | mechanisms that connect an application to the outside world | messaging |
 | [`math`](#math) | computations over numbers | math |
 | [`type`](#type) | rich value objects, a module per category | version |
 
@@ -150,6 +151,14 @@ Depends on nothing: `ddd` and the architecture styles build on it.
 | --- | --- | --- | --- |
 | [`format`](idiom/format/README.md) | a value written for a reader: letter cases, plurals, abbreviation, masking of a sensitive value | `abbreviation`, `mask` | in development, v1 |
 | [`helper`](idiom/helper/README.md) | extensions of the standard types, grouped by the type they extend: Unicode-aware text, number signs and safe narrowing, `Duration` of a number | `text`, `number`, `time` | in development, v1 |
+
+### Infrastructure
+
+`infrastructure/` — mechanisms that connect an application to the outside world, with no guarantees and no business meaning. Guarantees live in `architecture/pattern`.
+
+| Directory | What it is | Contents | Status |
+| --- | --- | --- | --- |
+| [`messaging`](infrastructure/messaging/README.md) | an envelope around a message and the stamps that travel with it | | design |
 
 ### Math
 

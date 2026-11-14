@@ -82,3 +82,5 @@ module("semantic-resilience-backoff", "architecture/pattern/resilience/backoff/c
 module("semantic-resilience-backoff-spring", "architecture/pattern/resilience/backoff/spring/core")
 module("semantic-traffic", "architecture/pattern/traffic/core")
 module("semantic-rollout", "architecture/pattern/rollout/core")
+
+module("semantic-messaging", "infrastructure/messaging/core")
