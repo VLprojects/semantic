@@ -21,7 +21,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.factory` | `Factory`, an instance made of its definition; `Factory.Definition`, the marker of a definition |
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
 | `structural.composite` | `Composite`, the base type of a hierarchy whose containers and leaves a client treats alike; `MutableComposite`, a container whose children change after it is made |
-| `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
+| `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name; `TypeHierarchyResolver`, the candidates that declare the class of a context, one of its superclasses or interfaces |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
 | `behavioral.visitor` | `Visitor`, the base type of the visitors of a hierarchy, with `visit`, the method of any element, which each visit method of a hierarchy falls back to; `Visitable`, an element of a hierarchy with `accept` |
 | `enterprise.configuration` | `PolymorphicConfigurationBinder`, a block of settings to an object of the class the block names; `Definition`, a block as strings: its name, type and arguments; `DefinitionParser`, flat properties to definitions; `DefinitionMapper`, the arguments of a definition to an object of a class |
@@ -274,6 +274,34 @@ blank but for dashes and underscores, or an anonymous class stop the resolver fr
 ```kotlin
 val types = TypeNameResolver.of(Backoff::class, listOf(FixedBackoff::class, ExponentialBackoff::class))
 val type = types.resolve("exponential")
+```
+
+`TypeHierarchyResolver` finds the candidates that declare the class of a context, one of its
+superclasses or interfaces. A candidate declares its type itself, one type a candidate, as a
+Spring `GenericConverter` declares the types it converts and an `@ExceptionHandler` method of
+`ExceptionHandlerMethodResolver` the exceptions it handles, though those declare several; so a
+new candidate comes without a change of the resolver or of those who call it.
+
+The types come in the order of `getClassHierarchy` of `GenericConversionService.Converters` in
+Spring: the superclasses from the class of the context up; then the interfaces level by level,
+first those the classes implement, the nearer class first, then the interfaces those extend;
+`Any` last, as it is a supertype of every interface too; the candidates of one type in their
+order. Unlike Spring, an enum gets no order of its own and an array gets only the superclass
+and interfaces its `Class` reports, though the JVM assigns it to more: `Enum` is a superclass as
+any other and precedes the interfaces of an enum, and an array has only its own class,
+`Cloneable`, `Serializable` and `Any`, neither the arrays of the supertypes of its elements nor
+`Array<out Any>`.
+
+A type is any class or interface, so a marker interface of a failure fits beside the class of
+an exception; it yields to every superclass that has a candidate but `Any`. When several
+candidates resolve, of several types or of one, `resolve` and `resolveOrNull` without a policy
+throw `MultipleResolvedException`, and `ResolvingPolicy.first()` selects the subclass before its
+superclass. An interface keeps its level rather than its depth: one a class declares before its
+subinterface precedes that subinterface.
+
+```kotlin
+val policies = TypeHierarchyResolver.of<Throwable, RetryPolicy>(retryPolicies, RetryPolicy::failureType)
+val policy = policies.resolve(failure, ResolvingPolicy.first())
 ```
 
 ## Visitor
