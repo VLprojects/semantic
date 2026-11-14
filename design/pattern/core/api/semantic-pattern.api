@@ -1,3 +1,16 @@
+public abstract interface class pro/vlprojects/semantic/pattern/behavioral/chain/Chain {
+	public static final field Factory Lpro/vlprojects/semantic/pattern/behavioral/chain/Chain$Factory;
+	public abstract fun proceed (Ljava/lang/Object;)Ljava/lang/Object;
+}
+
+public final class pro/vlprojects/semantic/pattern/behavioral/chain/Chain$Factory {
+	public final fun of (Ljava/util/List;Lpro/vlprojects/semantic/pattern/behavioral/chain/Chain;)Lpro/vlprojects/semantic/pattern/behavioral/chain/Chain;
+}
+
+public abstract interface class pro/vlprojects/semantic/pattern/behavioral/chain/Handler {
+	public abstract fun handle (Ljava/lang/Object;Lpro/vlprojects/semantic/pattern/behavioral/chain/Chain;)Ljava/lang/Object;
+}
+
 public final class pro/vlprojects/semantic/pattern/behavioral/resolver/PredicateResolver : pro/vlprojects/semantic/pattern/behavioral/resolver/Resolver {
 	public fun <init> (Ljava/util/Collection;Lkotlin/jvm/functions/Function2;)V
 	public fun resolveAll (Ljava/lang/Object;)Ljava/util/Collection;
