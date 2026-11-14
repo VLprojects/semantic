@@ -1,16 +1,16 @@
 package pro.vlprojects.semantic.pattern.structural.composite
 
 /**
- * A container whose parts change; a leaf does not implement it.
+ * A container whose children change; a leaf does not implement it.
  * [toImmutable] is written by the hierarchy and copies shallowly.
  */
 public interface MutableComposite<C : Composite<C>> : Composite<C> {
 
-    override val parts: MutableCollection<C>
+    override val children: MutableCollection<C>
 
-    public fun add(part: C): MutableComposite<C> = apply { parts.add(part) }
+    public fun add(child: C): MutableComposite<C> = apply { children.add(child) }
 
-    public fun remove(part: C): MutableComposite<C> = apply { parts.remove(part) }
+    public fun remove(child: C): MutableComposite<C> = apply { children.remove(child) }
 
     public fun toImmutable(): C
 }
