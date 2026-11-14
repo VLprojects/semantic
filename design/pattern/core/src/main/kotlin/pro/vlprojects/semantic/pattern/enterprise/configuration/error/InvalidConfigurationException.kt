@@ -1,4 +1,4 @@
-package pro.vlprojects.semantic.pattern.enterprise.plugin.error
+package pro.vlprojects.semantic.pattern.enterprise.configuration.error
 
 public abstract class InvalidConfigurationException(
     public val prefix: String,
