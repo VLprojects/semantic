@@ -316,3 +316,49 @@ public final class pro/vlprojects/semantic/delivery/outbox/logging/OutboxLogging
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class pro/vlprojects/semantic/delivery/outbox/polling/ActiveIdlePollingStrategy : pro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy {
+	public static final field Factory Lpro/vlprojects/semantic/delivery/outbox/polling/ActiveIdlePollingStrategy$Factory;
+	public fun calculateDurationBeforePolling (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingContext;)Ljava/time/Duration;
+}
+
+public final class pro/vlprojects/semantic/delivery/outbox/polling/ActiveIdlePollingStrategy$Factory {
+	public final fun of (Ljava/time/Duration;Ljava/time/Duration;)Lpro/vlprojects/semantic/delivery/outbox/polling/ActiveIdlePollingStrategy;
+	public static synthetic fun of$default (Lpro/vlprojects/semantic/delivery/outbox/polling/ActiveIdlePollingStrategy$Factory;Ljava/time/Duration;Ljava/time/Duration;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/polling/ActiveIdlePollingStrategy;
+}
+
+public final class pro/vlprojects/semantic/delivery/outbox/polling/AdaptivePollingStrategy : pro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy {
+	public static final field Factory Lpro/vlprojects/semantic/delivery/outbox/polling/AdaptivePollingStrategy$Factory;
+	public fun calculateDurationBeforePolling (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingContext;)Ljava/time/Duration;
+}
+
+public final class pro/vlprojects/semantic/delivery/outbox/polling/AdaptivePollingStrategy$Factory {
+	public final fun of (Ljava/time/Duration;Ljava/time/Duration;D)Lpro/vlprojects/semantic/delivery/outbox/polling/AdaptivePollingStrategy;
+	public static synthetic fun of$default (Lpro/vlprojects/semantic/delivery/outbox/polling/AdaptivePollingStrategy$Factory;Ljava/time/Duration;Ljava/time/Duration;DILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/polling/AdaptivePollingStrategy;
+}
+
+public final class pro/vlprojects/semantic/delivery/outbox/polling/FixedPollingStrategy : pro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy {
+	public static final field Factory Lpro/vlprojects/semantic/delivery/outbox/polling/FixedPollingStrategy$Factory;
+	public fun calculateDurationBeforePolling (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingContext;)Ljava/time/Duration;
+}
+
+public final class pro/vlprojects/semantic/delivery/outbox/polling/FixedPollingStrategy$Factory {
+	public final fun of (Ljava/time/Duration;)Lpro/vlprojects/semantic/delivery/outbox/polling/FixedPollingStrategy;
+	public static synthetic fun of$default (Lpro/vlprojects/semantic/delivery/outbox/polling/FixedPollingStrategy$Factory;Ljava/time/Duration;ILjava/lang/Object;)Lpro/vlprojects/semantic/delivery/outbox/polling/FixedPollingStrategy;
+}
+
+public final class pro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingContext {
+	public static final field Factory Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingContext$Factory;
+	public final fun getBatchSize ()I
+	public final fun getDispatched ()I
+	public final fun getPreviousDurationBeforePolling ()Ljava/time/Duration;
+	public final fun isBatchFull ()Z
+}
+
+public final class pro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingContext$Factory {
+	public final fun of (IILjava/time/Duration;)Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingContext;
+}
+
+public abstract interface class pro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingStrategy {
+	public abstract fun calculateDurationBeforePolling (Lpro/vlprojects/semantic/delivery/outbox/polling/OutboxPollingContext;)Ljava/time/Duration;
+}
+

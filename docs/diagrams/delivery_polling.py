@@ -45,7 +45,8 @@ def down(a, x, y_high, y_low, label, mono=True):
 
 def leftward(a, y, label, dash, mono=True):
 	b.across(a, RX, BX + BW, y, dash)
-	a.t(BX + BW + LANE / 2, y - 12, label, anchor="middle", size=12, mono=mono)
+	for i, line in enumerate(reversed(label.split("\n"))):
+		a.t(BX + BW + LANE / 2, y - 12 - i * 15, line, anchor="middle", size=11, mono=mono)
 
 
 def level(a, y, name, artifact):
@@ -65,7 +66,7 @@ def abstractions(pal):
 	card(a, RX, y[2], BW, "blue", "internal · PR 2", "OutboxPoller", "loop: batch, pause, batch again")
 	card(a, BX, y[3], full, "blue", "exists", "OutboxDispatcher", "delivers a batch: takes records, sends them, saves the outcome")
 	mid = b.BLOCK / 2
-	leftward(a, y[2] + mid, "calculate()", b.DECLARES)
+	leftward(a, y[2] + mid, "calculateDuration\nBeforePolling()", b.DECLARES)
 	down(a, BX + 48, y[0] + b.BLOCK, y[1], "start() · stop()")
 	down(a, RX + 48, y[1] + b.BLOCK, y[2], "runs N", mono=False)
 	down(a, RX + 48, y[2] + b.BLOCK, y[3], "dispatch()")
@@ -74,12 +75,12 @@ def abstractions(pal):
 
 def loop(pal):
 	a = start(pal, "One poller: batch, pause, batch again", "A thread is busy only during a batch; the pause waits in the queue of ScheduledExecutorService")
-	gap = 48
+	gap = 32
 	w = (R - L - 2 * gap) / 3
 	y, h = 112, 96
 	steps = [
 		("dispatch()", "takes up to batch-size records,", "delivers them, returns their count"),
-		("calculate(context)", "from the count and the last pause", "decides how long to wait"),
+		("calculateDurationBeforePolling()", "from the count and the last pause", "decides how long to wait"),
 		("schedule(delay)", "puts the poller in the queue", "of the executor, frees the thread"),
 	]
 	for i, (call, n1, n2) in enumerate(steps):
@@ -325,7 +326,7 @@ def extensions(pal):
 	a = start(pal, "What can be replaced without touching the rest", "Each point is an interface; a new implementation changes no code around it")
 	gx = 200
 	groups = [
-		("pause", "OutboxPollingStrategy", "calculate(context): Duration", [
+		("pause", "OutboxPollingStrategy", "calculateDurationBeforePolling(context): Duration", [
 			("blue", "FixedPollingStrategy", "constant pause", True),
 			("blue", "ActiveIdlePollingStrategy", "default", True),
 			("blue", "AdaptivePollingStrategy", "grows when idle", True),
@@ -421,7 +422,8 @@ def msg(a, xs, i, j, y, label, mono=True, near=None):
 	a.path(f"M{x1},{y} L{x2 - d * 6},{y}", color="line", width=1.5)
 	a.add(f'<path d="M{x2},{y} L{x2 - d * 7},{y - 4} L{x2 - d * 7},{y + 4} Z" fill="{a.p["line"]}"/>')
 	if label and near is None:
-		a.t((x1 + x2) / 2, y - 8, label, size=CAPTION, color="soft", anchor="middle", mono=mono)
+		for k, line in enumerate(reversed(label.split("\n"))):
+			a.t((x1 + x2) / 2, y - 8 - k * 14, line, size=CAPTION, color="soft", anchor="middle", mono=mono)
 	elif label:
 		a.t(xs[near] - 14, y - 8, label, size=CAPTION, color="soft", anchor="end", mono=mono)
 
@@ -465,7 +467,7 @@ def flow(pal):
 
 	y += 188
 	section(y, "pause", "by the strategy")
-	msg(a, xs, 3, 4, y, "calculate(context)")
+	msg(a, xs, 3, 4, y, "calculateDuration\nBeforePolling()")
 	msg(a, xs, 4, 3, y + 36, "delay = 1 s", mono=False)
 	msg(a, xs, 3, 2, y + 72, "schedule(this, delay)")
 	a.t(xs[3] + 10, y + 112, "waits, the thread is free", size=12)
