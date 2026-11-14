@@ -217,6 +217,14 @@ public final class pro/vlprojects/semantic/pattern/enterprise/configuration/erro
 	public final fun getTypeName ()Ljava/lang/String;
 }
 
+public abstract class pro/vlprojects/semantic/pattern/structural/adapter/Adapter {
+	public fun <init> (Ljava/lang/Object;)V
+	public final fun equals (Ljava/lang/Object;)Z
+	protected fun getAdaptee ()Ljava/lang/Object;
+	public final fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
 public abstract interface class pro/vlprojects/semantic/pattern/structural/composite/Composite {
 	public fun getChildren ()Ljava/util/Collection;
 	public fun hasChildren ()Z
