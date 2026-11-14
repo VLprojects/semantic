@@ -1,3 +1,17 @@
+public abstract interface class pro/vlprojects/semantic/pattern/behavioral/iterator/CompositeWalk : kotlin/sequences/Sequence {
+	public abstract fun maxDepth (I)Lpro/vlprojects/semantic/pattern/behavioral/iterator/CompositeWalk;
+	public abstract fun onEnter (Lkotlin/jvm/functions/Function1;)Lpro/vlprojects/semantic/pattern/behavioral/iterator/CompositeWalk;
+	public abstract fun onLeave (Lkotlin/jvm/functions/Function1;)Lpro/vlprojects/semantic/pattern/behavioral/iterator/CompositeWalk;
+}
+
+public final class pro/vlprojects/semantic/pattern/behavioral/iterator/WalkDirection : java/lang/Enum {
+	public static final field BOTTOM_UP Lpro/vlprojects/semantic/pattern/behavioral/iterator/WalkDirection;
+	public static final field TOP_DOWN Lpro/vlprojects/semantic/pattern/behavioral/iterator/WalkDirection;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lpro/vlprojects/semantic/pattern/behavioral/iterator/WalkDirection;
+	public static fun values ()[Lpro/vlprojects/semantic/pattern/behavioral/iterator/WalkDirection;
+}
+
 public final class pro/vlprojects/semantic/pattern/behavioral/resolver/PredicateResolver : pro/vlprojects/semantic/pattern/behavioral/resolver/Resolver {
 	public fun <init> (Ljava/util/Collection;Lkotlin/jvm/functions/Function2;)V
 	public fun resolveAll (Ljava/lang/Object;)Ljava/util/Collection;

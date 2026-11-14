@@ -6,8 +6,8 @@ Application Architecture by Fowler in a group of our own, enterprise. A package 
 a package per pattern inside it. Plain Kotlin, no framework; adapters come as modules of their own.
 
 In place so far: a registry with its store, a registrar and a factory in the creational group;
-the contracts of Composite in the structural one; a resolver and the base types of Visitor in the
-behavioral one; the contracts of Plugin in the enterprise one.
+the contracts of Composite in the structural one; a resolver, the contract of a walk of Iterator and the
+base types of Visitor in the behavioral one; the contracts of Plugin in the enterprise one.
 
 ## Packages
 
@@ -21,6 +21,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.factory` | `Factory`, an instance made of its definition; `Factory.Definition`, the marker of a definition |
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
 | `structural.composite` | `Composite`, the base type of a hierarchy whose containers and leaves a client treats alike; `MutableComposite`, a container whose children change after it is made |
+| `behavioral.iterator` | `CompositeWalk`, a lazy walk over a `Composite` with `onEnter`, `onLeave` and `maxDepth`; `WalkDirection`, top down or bottom up |
 | `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
 | `behavioral.visitor` | `Visitor`, the base type of the visitors of a hierarchy, with `visit`, the method of any element, which each visit method of a hierarchy falls back to; `Visitable`, an element of a hierarchy with `accept` |
@@ -228,6 +229,57 @@ change of its classes, Flyweight shares its equal parts. A Decorator of the hier
 
 ![Flyweight shares equal subtrees](../../docs/assets/composite-flyweight-light.svg#gh-light-mode-only)
 ![Flyweight shares equal subtrees](../../docs/assets/composite-flyweight-dark.svg#gh-dark-mode-only)
+
+## Iterator
+
+Iterator, as the Gang of Four describe it, gives the elements of an aggregate one by one and hides
+how the aggregate holds them. Kotlin has its roles already, so the library adds no interface of an
+iterator of its own and builds on them:
+
+| Role | In Kotlin |
+| --- | --- |
+| Iterator | `Iterator`, with `hasNext` and `next` |
+| Aggregate, its `CreateIterator` | `Iterable` and `Sequence`, with `iterator()` |
+| Null Iterator | `emptyList<T>().iterator()`; the default `children` of a `Composite` iterate nothing |
+| Internal iterator | `forEach` |
+
+What Kotlin lacks is a walk over a hierarchy: `File.walk` walks only a tree of files. `CompositeWalk` is
+the contract of a walk over a `Composite`, with the names of `FileTreeWalk`:
+
+- It is a `Sequence`: a call of `iterator()` walks anew, and `first` stops the walk where it found
+  its element.
+- `onEnter` is called for an element before it and its children are given; `false` skips it with
+  its children. `onLeave` is called for an entered element after it and its children are given.
+  A walk stopped early calls no `onLeave` of the elements it is still in.
+- `maxDepth(1)` gives the start and its children; an element at that depth is given as a leaf.
+  The depth is unlimited by default and must be positive.
+- Each setting returns a new walk and keeps the former one as it was, as `FileTreeWalk` does.
+- A walk enters an element only if `hasChildren()`: an empty container is a leaf, as in Composite,
+  so unlike an empty directory it is given without `onEnter` and `onLeave`.
+
+```kotlin
+fun countDisks(walk: CompositeWalk<Equipment>) = walk
+    .maxDepth(2)
+    .count { equipment -> equipment is FloppyDisk }
+```
+
+`WalkDirection` tells the order: `TOP_DOWN` gives a container before its children, `BOTTOM_UP` after
+them, as `FileWalkDirection` does. Breadth first is planned apart, as `FileWalkDirection` gives none.
+
+Composite is the aggregate; Visitor applies an operation to each element a walk gives.
+
+### Plan of Iterator
+
+1. `CompositeWalk`, the contract of a walk; `WalkDirection`.
+2. `AbstractCompositeIterator`, the base class of the iterators of a walk: the start, the states of
+   the containers it entered, the depth, the calls of `onEnter` and `onLeave`.
+3. The iterators top down and bottom up, the walk over them, `walk`, `walkTopDown`, `walkBottomUp`
+   and `descendants`: O(n) for n elements and O(h) of memory for a hierarchy h levels deep.
+4. The path of an element in a walk, as `pathAsPointer()` of a Jackson `TokenStreamContext`.
+5. A walk that a visitor steers by `CONTINUE`, `SKIP_SUBTREE`, `SKIP_SIBLINGS` and `TERMINATE`, as
+   `FileVisitor` of the JDK.
+6. A walk breadth first, as `PathWalkOption.BREADTH_FIRST` of Kotlin and `breadthFirst` of a Guava
+   `Traverser`.
 
 ## Resolver
 
