@@ -232,3 +232,15 @@ public final class pro/vlprojects/semantic/pattern/enterprise/configuration/erro
 	public final fun getTypeName ()Ljava/lang/String;
 }
 
+public abstract interface class pro/vlprojects/semantic/pattern/structural/composite/Composite {
+	public fun getChildren ()Ljava/util/Collection;
+	public fun hasChildren ()Z
+}
+
+public abstract interface class pro/vlprojects/semantic/pattern/structural/composite/MutableComposite : pro/vlprojects/semantic/pattern/structural/composite/Composite {
+	public fun add (Lpro/vlprojects/semantic/pattern/structural/composite/Composite;)Lpro/vlprojects/semantic/pattern/structural/composite/MutableComposite;
+	public abstract fun getChildren ()Ljava/util/Collection;
+	public fun remove (Lpro/vlprojects/semantic/pattern/structural/composite/Composite;)Lpro/vlprojects/semantic/pattern/structural/composite/MutableComposite;
+	public abstract fun toImmutable ()Lpro/vlprojects/semantic/pattern/structural/composite/Composite;
+}
+
