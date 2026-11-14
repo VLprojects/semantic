@@ -210,13 +210,13 @@ public final class pro/vlprojects/semantic/pattern/enterprise/configuration/erro
 }
 
 public abstract interface class pro/vlprojects/semantic/pattern/structural/composite/Composite {
-	public fun getParts ()Ljava/util/Collection;
-	public fun hasParts ()Z
+	public fun getChildren ()Ljava/util/Collection;
+	public fun hasChildren ()Z
 }
 
 public abstract interface class pro/vlprojects/semantic/pattern/structural/composite/MutableComposite : pro/vlprojects/semantic/pattern/structural/composite/Composite {
 	public fun add (Lpro/vlprojects/semantic/pattern/structural/composite/Composite;)Lpro/vlprojects/semantic/pattern/structural/composite/MutableComposite;
-	public abstract fun getParts ()Ljava/util/Collection;
+	public abstract fun getChildren ()Ljava/util/Collection;
 	public fun remove (Lpro/vlprojects/semantic/pattern/structural/composite/Composite;)Lpro/vlprojects/semantic/pattern/structural/composite/MutableComposite;
 	public abstract fun toImmutable ()Lpro/vlprojects/semantic/pattern/structural/composite/Composite;
 }

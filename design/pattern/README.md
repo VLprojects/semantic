@@ -20,7 +20,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.registry.error` | `InvalidNameException`, `InstanceAlreadyExistsException`, `InstanceNotFoundException`, `DefaultInstanceNotFoundException`; `InstanceRegistrationException` of a registrar |
 | `creational.factory` | `Factory`, an instance made of its definition; `Factory.Definition`, the marker of a definition |
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
-| `structural.composite` | `Composite`, the base type of a hierarchy whose containers and leaves a client treats alike; `MutableComposite`, a container whose parts change after it is made |
+| `structural.composite` | `Composite`, the base type of a hierarchy whose containers and leaves a client treats alike; `MutableComposite`, a container whose children change after it is made |
 | `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
 | `enterprise.configuration` | `PolymorphicConfigurationBinder`, a block of settings to an object of the class the block names; `Definition`, a block as strings: its name, type and arguments; `DefinitionParser`, flat properties to definitions; `DefinitionMapper`, the arguments of a definition to an object of a class |
@@ -128,16 +128,15 @@ the later one replaces it on purpose: a bean from code overrides a setting by `r
 
 Composite, as the Gang of Four describe it, lets a client treat a container and a leaf
 alike: one call on the root reaches every level. Its Component, Leaf and Composite are classes
-of one hierarchy, and the library takes only what every hierarchy repeats, the access to parts:
+of one hierarchy, and the library takes only what every hierarchy repeats, the access to children:
 
 | Role | Who plays it | What it holds |
 | --- | --- | --- |
-| Component | the base type of a hierarchy, it implements `Composite` | the operation of the hierarchy and, through `Composite`, the parts |
-| Leaf | a class that keeps the default `parts` | the operation alone |
-| Composite, a container | a class that overrides `parts` | its parts and the operation over them |
+| Component | the base type of a hierarchy, it implements `Composite` | the operation of the hierarchy and, through `Composite`, the children |
+| Leaf | a class that keeps the default `children` | the operation alone |
+| Composite, a container | a class that overrides `children` | its children and the operation over them |
 
-`Composite` names the pattern, not the role: a leaf implements it too. `parts` takes the word of the
-book, which composes objects into part-whole hierarchies.
+`Composite` names the pattern, not the role: a leaf implements it too.
 
 The example of the book, equipment of a computer:
 
@@ -152,12 +151,12 @@ class FloppyDisk : Equipment() {
     override val power = 5
 }
 
-class Chassis(parts: List<Equipment>) : Equipment() {
+class Chassis(children: List<Equipment>) : Equipment() {
 
-    override val parts = parts.toList()
+    override val children = children.toList()
 
     override val power
-        get() = 20 + this.parts.sumOf(Equipment::power)
+        get() = 20 + this.children.sumOf(Equipment::power)
 }
 
 val computer = Chassis(listOf(Chassis(listOf(FloppyDisk())), FloppyDisk()))
@@ -165,51 +164,51 @@ val computer = Chassis(listOf(Chassis(listOf(FloppyDisk())), FloppyDisk()))
 
 `computer.power` is 50: the client asks the root and knows nothing of the levels below it.
 
-The parts are declared on the base type, empty by default, as the book advises in maximizing the
+The children are declared on the base type, empty by default, as the book advises in maximizing the
 interface of a component: `CreateIterator` of its `Equipment` returns a `NullIterator`, and
-`values()` of a Jackson `JsonNode`, a `Collection`, is empty on a value. A client reads `parts`
+`values()` of a Jackson `JsonNode`, a `Collection`, is empty on a value. A client reads `children`
 of any element, with no check of its class.
 
 Unlike the book, `add` and `remove` are apart from `Composite`, as `MutableList` is apart from `List`
-in Kotlin. A container whose parts change implements `MutableComposite`: it overrides `parts`
+in Kotlin. A container whose children change implements `MutableComposite`: it overrides `children`
 with a `MutableCollection` and gets `add` and `remove` over it; each returns the container for a
 chain of calls, as `append` of `StringBuilder` does. `toImmutable()` returns an element of the
-hierarchy with the parts of that moment, as `toImmutable()` of a `MutableCollection` in Eclipse
+hierarchy with the children of that moment, as `toImmutable()` of a `MutableCollection` in Eclipse
 Collections does; the container implements it, since only the hierarchy knows its immutable class:
 
 ```kotlin
-class MutableChassis(parts: List<Equipment>) :
+class MutableChassis(children: List<Equipment>) :
     Equipment(),
     MutableComposite<Equipment> {
 
-    override val parts = parts.toMutableList()
+    override val children = children.toMutableList()
 
     override val power
-        get() = 20 + this.parts.sumOf(Equipment::power)
+        get() = 20 + this.children.sumOf(Equipment::power)
 
-    override fun toImmutable() = Chassis(this.parts)
+    override fun toImmutable() = Chassis(this.children)
 }
 ```
 
-The copy is shallow, as in Eclipse Collections: a mutable part stays mutable in it. A leaf does not
+The copy is shallow, as in Eclipse Collections: a mutable child stays mutable in it. A leaf does not
 implement `MutableComposite`, so `add` of a leaf does not compile, where the book makes it fail at
 run time. A hierarchy built once, settings for one, takes `Composite` alone, and its container takes
-its parts when it is made.
+its children when it is made.
 
-`Composite<C : Composite<C>>` is bound by its own type, as `Enum<E : Enum<E>>` is: the parts of
-a container are of the hierarchy, and the parts of a part are read with no cast. The parts
-are a `Collection`, with no index and no key: a container of settings finds a part by its name, a
-list by its index, and each keeps that lookup of its own beside `parts`.
+`Composite<C : Composite<C>>` is bound by its own type, as `Enum<E : Enum<E>>` is: the children of
+a container are of the hierarchy, and the children of a child are read with no cast. The children
+are a `Collection`, with no index and no key: a container of settings finds a child by its name, a
+list by its index, and each keeps that lookup of its own beside `children`.
 
-`hasParts()` tells whether an element has parts, as `hasChildren` of a JFace
+`hasChildren()` tells whether an element has children, as `hasChildren` of a JFace
 `ITreeContentProvider` and `hasChildNodes()` of a DOM `Node` do: an empty container has none,
 as a leaf, and a walk, a search or a fold has nowhere to go from either. Where an empty container
 means something of its own, an empty block of settings for one, the hierarchy tells it by an
 operation of its classes, not by a flag of the library.
 
 Builder makes such a hierarchy, Iterator walks it, Visitor adds an operation to it without a
-change of its classes, Flyweight shares its equal elements. A Decorator of the hierarchy overrides
-`parts` with those of the element it wraps, or a decorated container reads as a leaf.
+change of its classes, Flyweight shares its equal parts. A Decorator of the hierarchy overrides
+`children` with those of the element it wraps, or a decorated container reads as a leaf.
 
 ## Resolver
 

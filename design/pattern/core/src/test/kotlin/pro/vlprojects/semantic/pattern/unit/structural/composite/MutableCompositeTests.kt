@@ -12,26 +12,26 @@ class MutableCompositeTests {
     private val chassis = MutableChassis(listOf(disk))
 
     @Test
-    fun `an added part is among the parts`() {
+    fun `an added child is among the children`() {
         val drives = Chassis(emptyList())
 
         chassis.add(drives)
 
-        assertEquals(listOf(disk, drives), chassis.parts.toList())
+        assertEquals(listOf(disk, drives), chassis.children.toList())
     }
 
     @Test
-    fun `a removed part is no longer among the parts`() {
+    fun `a removed child is no longer among the children`() {
         chassis.remove(disk)
 
-        assertFalse(chassis.hasParts())
+        assertFalse(chassis.hasChildren())
     }
 
     @Test
-    fun `a part that is not there is not removed`() {
+    fun `a child that is not there is not removed`() {
         chassis.remove(FloppyDisk())
 
-        assertEquals(listOf(disk), chassis.parts.toList())
+        assertEquals(listOf(disk), chassis.children.toList())
     }
 
     @Test
@@ -39,23 +39,23 @@ class MutableCompositeTests {
         val spare = FloppyDisk()
 
         assertSame(chassis, chassis.add(spare).remove(disk))
-        assertEquals(listOf(spare), chassis.parts.toList())
+        assertEquals(listOf(spare), chassis.children.toList())
     }
 
     @Test
-    fun `an added part reaches the operation of the root`() {
+    fun `an added child reaches the operation of the root`() {
         chassis.add(FloppyDisk())
 
         assertEquals(30, chassis.power)
     }
 
     @Test
-    fun `an immutable copy keeps the parts of its moment`() {
+    fun `an immutable copy keeps the children of its moment`() {
         val copy = chassis.toImmutable()
 
         chassis.add(FloppyDisk())
 
-        assertEquals(listOf(disk), copy.parts.toList())
+        assertEquals(listOf(disk), copy.children.toList())
         assertEquals(25, copy.power)
     }
 }
