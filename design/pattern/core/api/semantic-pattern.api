@@ -209,11 +209,6 @@ public final class pro/vlprojects/semantic/pattern/enterprise/configuration/erro
 	public final fun getTypeName ()Ljava/lang/String;
 }
 
-public abstract interface class pro/vlprojects/semantic/pattern/structural/composite/ChildrenProvider {
-	public abstract fun getChildren (Ljava/lang/Object;)Ljava/util/Collection;
-	public fun hasChildren (Ljava/lang/Object;)Z
-}
-
 public abstract interface class pro/vlprojects/semantic/pattern/structural/composite/Composite {
 	public fun getChildren ()Ljava/util/Collection;
 	public fun hasChildren ()Z
