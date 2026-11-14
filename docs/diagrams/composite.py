@@ -80,12 +80,12 @@ def tree(a, x0, rows=TREE, path=(), dim=False):
 
 
 def composite(pal):
-	a = start(pal, "Composite: a tree of settings", "Under semantic.resilience.backoff an object holds its children by name, a list by index, a leaf holds a string")
+	a = start(pal, "Composite: a tree of settings", "Under semantic.resilience.backoff an object holds its parts by name, a list by index, a leaf holds a string")
 	heading(a, L, "tree")
 	bottom = tree(a, L)
 	cx = 440
 	heading(a, cx, "role in Composite")
-	roles = {"object": ("Composite", "children by name"), "list": ("Composite", "children by index"), "leaf": ("Leaf", "a value, no children")}
+	roles = {"object": ("Composite", "parts by name"), "list": ("Composite", "parts by index"), "leaf": ("Leaf", "a value, no parts")}
 	for i, (_, _, node, _) in enumerate(TREE):
 		role, note = roles[node]
 		a.t(cx, baseline(i), role, size=13, color="ink", weight="600", mono=True)
@@ -161,7 +161,7 @@ def iterator(pal):
 		heading(a, cx, title, anchor="end")
 		for n, i in enumerate(order):
 			a.t(cx, baseline(i), str(n + 1), size=13, color="ink", weight="600", anchor="end", mono=True)
-	a.t(L, bottom + 28, "Pre-order, a parent before its children: flatten the tree to keys. Post-order, the children before their parent: count a size, check a subtree.", size=12, color="soft")
+	a.t(L, bottom + 28, "Pre-order, a container before its parts: flatten the tree to keys. Post-order, the parts before their container: count a size, check a subtree.", size=12, color="soft")
 	return finish(a, bottom + 40)
 
 
@@ -189,7 +189,7 @@ def visitor(pal):
 
 
 def chain(pal):
-	a = start(pal, "Chain of Responsibility: a request goes from a child to its parent", "A leaf cannot read its value; each parent adds its segment to the failure and passes it up")
+	a = start(pal, "Chain of Responsibility: a request goes from a part to its container", "A leaf cannot read its value; each container adds its segment to the failure and passes it up")
 	heading(a, L, "tree")
 	route = [7, 5, 2, 1, 0]
 	bottom = tree(a, L, rows=BROKEN, path=route, dim=True)
@@ -262,7 +262,7 @@ def flyweight(pal):
 		a.harrow(x, y, sx - 20, "blue")
 	note_y = sy + 2 * ROW + 24 + 28
 	a.t(sx - 16, note_y, "a shared element knows neither", size=12, color="soft")
-	a.t(sx - 16, note_y + 18, "its parent nor its path", size=12, color="soft")
+	a.t(sx - 16, note_y + 18, "its container nor its path", size=12, color="soft")
 	a.t(L, bottom + 28, "N blocks: 1 + 3N elements against 1 + N + 2. A factory hands out a shared element by its content, as String.intern() does; it is immutable.", size=12, color="soft")
 	return finish(a, bottom + 40)
 

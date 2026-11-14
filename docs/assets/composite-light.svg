@@ -3,7 +3,7 @@
   <g transform="translate(12,12)">
     <rect x="16" y="16" width="968" height="520" rx="12" fill="#FFFFFF"/>
     <text x="40.0" y="52.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" fill="#1F2328" text-anchor="start">Composite: a tree of settings</text>
-    <text x="40.0" y="76.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#59636E" text-anchor="start">Under semantic.resilience.backoff an object holds its children by name, a list by index, a leaf holds a string</text>
+    <text x="40.0" y="76.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#59636E" text-anchor="start">Under semantic.resilience.backoff an object holds its parts by name, a list by index, a leaf holds a string</text>
     <text x="40.0" y="104.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8C959F" text-anchor="start">tree</text>
     <text x="40.0" y="140.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">instances</text>
     <text x="118.2" y="140.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8C959F" text-anchor="start">object</text>
@@ -49,27 +49,27 @@
     <text x="195.0" y="461.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">1s</text>
     <text x="440.0" y="104.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#8C959F" text-anchor="start">role in Composite</text>
     <text x="440.0" y="140.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">Composite</text>
-    <text x="540.0" y="140.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">children by name</text>
+    <text x="540.0" y="140.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">parts by name</text>
     <text x="440.0" y="172.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">Composite</text>
-    <text x="540.0" y="172.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">children by name</text>
+    <text x="540.0" y="172.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">parts by name</text>
     <text x="440.0" y="204.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">Composite</text>
-    <text x="540.0" y="204.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">children by name</text>
+    <text x="540.0" y="204.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">parts by name</text>
     <text x="440.0" y="236.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">Leaf</text>
-    <text x="540.0" y="236.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">a value, no children</text>
+    <text x="540.0" y="236.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">a value, no parts</text>
     <text x="440.0" y="268.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">Leaf</text>
-    <text x="540.0" y="268.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">a value, no children</text>
+    <text x="540.0" y="268.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">a value, no parts</text>
     <text x="440.0" y="300.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">Composite</text>
-    <text x="540.0" y="300.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">children by index</text>
+    <text x="540.0" y="300.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">parts by index</text>
     <text x="440.0" y="332.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">Leaf</text>
-    <text x="540.0" y="332.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">a value, no children</text>
+    <text x="540.0" y="332.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">a value, no parts</text>
     <text x="440.0" y="364.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">Leaf</text>
-    <text x="540.0" y="364.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">a value, no children</text>
+    <text x="540.0" y="364.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">a value, no parts</text>
     <text x="440.0" y="396.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">Composite</text>
-    <text x="540.0" y="396.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">children by name</text>
+    <text x="540.0" y="396.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">parts by name</text>
     <text x="440.0" y="428.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">Composite</text>
-    <text x="540.0" y="428.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">children by name</text>
+    <text x="540.0" y="428.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">parts by name</text>
     <text x="440.0" y="460.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">Leaf</text>
-    <text x="540.0" y="460.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">a value, no children</text>
+    <text x="540.0" y="460.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">a value, no parts</text>
     <text x="40.0" y="500.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">A client calls one operation on the root, instances, and does not tell an object, a list and a leaf apart: all three are Component.</text>
   </g>
 </svg>
