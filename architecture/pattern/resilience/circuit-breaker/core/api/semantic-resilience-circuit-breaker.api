@@ -1,0 +1,54 @@
+public final class pro/vlprojects/semantic/resilience/circuitbreaker/window/CallOutcome : java/lang/Enum {
+	public static final field FAILURE Lpro/vlprojects/semantic/resilience/circuitbreaker/window/CallOutcome;
+	public static final field SLOW_FAILURE Lpro/vlprojects/semantic/resilience/circuitbreaker/window/CallOutcome;
+	public static final field SLOW_SUCCESS Lpro/vlprojects/semantic/resilience/circuitbreaker/window/CallOutcome;
+	public static final field SUCCESS Lpro/vlprojects/semantic/resilience/circuitbreaker/window/CallOutcome;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lpro/vlprojects/semantic/resilience/circuitbreaker/window/CallOutcome;
+	public static fun values ()[Lpro/vlprojects/semantic/resilience/circuitbreaker/window/CallOutcome;
+}
+
+public final class pro/vlprojects/semantic/resilience/circuitbreaker/window/CallStatistics {
+	public fun <init> (JJJ)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFailed ()J
+	public final fun getFailureRate ()D
+	public final fun getSlow ()J
+	public final fun getSlowRate ()D
+	public final fun getTotal ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class pro/vlprojects/semantic/resilience/circuitbreaker/window/CallWindow {
+	public abstract fun clear ()V
+	public abstract fun record (Lpro/vlprojects/semantic/resilience/circuitbreaker/window/CallOutcome;)Lpro/vlprojects/semantic/resilience/circuitbreaker/window/CallStatistics;
+	public abstract fun summarize ()Lpro/vlprojects/semantic/resilience/circuitbreaker/window/CallStatistics;
+}
+
+public final class pro/vlprojects/semantic/resilience/circuitbreaker/window/CountWindow : pro/vlprojects/semantic/resilience/circuitbreaker/window/CallWindow {
+	public static final field Factory Lpro/vlprojects/semantic/resilience/circuitbreaker/window/CountWindow$Factory;
+	public fun <init> (I)V
+	public fun clear ()V
+	public fun record (Lpro/vlprojects/semantic/resilience/circuitbreaker/window/CallOutcome;)Lpro/vlprojects/semantic/resilience/circuitbreaker/window/CallStatistics;
+	public fun summarize ()Lpro/vlprojects/semantic/resilience/circuitbreaker/window/CallStatistics;
+}
+
+public final class pro/vlprojects/semantic/resilience/circuitbreaker/window/CountWindow$Factory {
+	public final fun of (I)Lpro/vlprojects/semantic/resilience/circuitbreaker/window/CountWindow;
+	public static synthetic fun of$default (Lpro/vlprojects/semantic/resilience/circuitbreaker/window/CountWindow$Factory;IILjava/lang/Object;)Lpro/vlprojects/semantic/resilience/circuitbreaker/window/CountWindow;
+}
+
+public final class pro/vlprojects/semantic/resilience/circuitbreaker/window/TimeWindow : pro/vlprojects/semantic/resilience/circuitbreaker/window/CallWindow {
+	public static final field Factory Lpro/vlprojects/semantic/resilience/circuitbreaker/window/TimeWindow$Factory;
+	public fun <init> (Ljava/time/Duration;Ljava/time/Duration;Ljava/time/Clock;)V
+	public fun clear ()V
+	public fun record (Lpro/vlprojects/semantic/resilience/circuitbreaker/window/CallOutcome;)Lpro/vlprojects/semantic/resilience/circuitbreaker/window/CallStatistics;
+	public fun summarize ()Lpro/vlprojects/semantic/resilience/circuitbreaker/window/CallStatistics;
+}
+
+public final class pro/vlprojects/semantic/resilience/circuitbreaker/window/TimeWindow$Factory {
+	public final fun of (Ljava/time/Duration;Ljava/time/Duration;Ljava/time/Clock;)Lpro/vlprojects/semantic/resilience/circuitbreaker/window/TimeWindow;
+	public static synthetic fun of$default (Lpro/vlprojects/semantic/resilience/circuitbreaker/window/TimeWindow$Factory;Ljava/time/Duration;Ljava/time/Duration;Ljava/time/Clock;ILjava/lang/Object;)Lpro/vlprojects/semantic/resilience/circuitbreaker/window/TimeWindow;
+}
+
