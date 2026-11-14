@@ -17,29 +17,29 @@ class CompositeTests {
     private val computer = Chassis(listOf(drives, spare))
 
     @Test
-    fun `a leaf has no children`() {
-        assertEquals(emptyList<Equipment>(), disk.children.toList())
-        assertFalse(disk.hasChildren())
+    fun `a leaf has no parts`() {
+        assertEquals(emptyList<Equipment>(), disk.parts.toList())
+        assertFalse(disk.hasParts())
     }
 
     @Test
-    fun `a container holds its children`() {
-        assertEquals(listOf(drives, spare), computer.children.toList())
-        assertTrue(computer.hasChildren())
+    fun `a container holds its parts`() {
+        assertEquals(listOf(drives, spare), computer.parts.toList())
+        assertTrue(computer.hasParts())
     }
 
     @Test
-    fun `an empty container has no children, as a leaf`() {
-        assertFalse(Chassis(emptyList()).hasChildren())
+    fun `an empty container has no parts, as a leaf`() {
+        assertFalse(Chassis(emptyList()).hasParts())
     }
 
     @Test
-    fun `the children of a child are of the hierarchy`() {
+    fun `the parts of a part are of the hierarchy`() {
         assertSame(
             disk,
-            computer.children
+            computer.parts
                 .first()
-                .children
+                .parts
                 .first(),
         )
     }
