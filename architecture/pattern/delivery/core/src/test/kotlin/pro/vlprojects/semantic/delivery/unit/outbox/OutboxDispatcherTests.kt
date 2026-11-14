@@ -51,6 +51,8 @@ class OutboxDispatcherTests {
                 limit
         }
 
+        override fun findAllProcessing(startedBefore: Instant, limit: Int) = emptyList<Outbox>()
+
         override fun deleteAll(status: DeliveryStatus, terminatedBefore: Instant, limit: Int) = 0
     }
 
