@@ -23,6 +23,11 @@ class VisitorTests {
     }
 
     @Test
+    fun `a visitor of the base type falls back to visit`() {
+        assertEquals("equipment", FloppyDisk().accept(LabelVisitor()))
+    }
+
+    @Test
     fun `a visitor adds an operation over every level`() {
         assertEquals(80, computer.accept(PricingVisitor()))
     }

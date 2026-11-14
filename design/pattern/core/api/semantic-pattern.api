@@ -43,6 +43,10 @@ public final class pro/vlprojects/semantic/pattern/behavioral/resolver/error/Not
 	public final fun getContext ()Ljava/lang/Object;
 }
 
+public abstract interface class pro/vlprojects/semantic/pattern/behavioral/visitor/Visitable {
+	public abstract fun accept (Lpro/vlprojects/semantic/pattern/behavioral/visitor/Visitor;)Ljava/lang/Object;
+}
+
 public abstract interface class pro/vlprojects/semantic/pattern/behavioral/visitor/Visitor {
 	public abstract fun visit (Ljava/lang/Object;)Ljava/lang/Object;
 }

@@ -6,7 +6,7 @@ Application Architecture by Fowler in a group of our own, enterprise. A package 
 a package per pattern inside it. Plain Kotlin, no framework; adapters come as modules of their own.
 
 In place so far: a registry with its store, a registrar and a factory in the creational group;
-the contracts of Composite in the structural one; a resolver and the base type of Visitor in the
+the contracts of Composite in the structural one; a resolver and the base types of Visitor in the
 behavioral one; the contracts of Plugin in the enterprise one.
 
 ## Packages
@@ -23,7 +23,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `structural.composite` | `Composite`, the base type of a hierarchy whose containers and leaves a client treats alike; `MutableComposite`, a container whose children change after it is made |
 | `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
-| `behavioral.visitor` | `Visitor`, the base type of the visitors of a hierarchy, with `visit`, the method of any element, which each visit method of a hierarchy falls back to |
+| `behavioral.visitor` | `Visitor`, the base type of the visitors of a hierarchy, with `visit`, the method of any element, which each visit method of a hierarchy falls back to; `Visitable`, an element of a hierarchy with `accept` |
 | `enterprise.configuration` | `PolymorphicConfigurationBinder`, a block of settings to an object of the class the block names; `Definition`, a block as strings: its name, type and arguments; `DefinitionParser`, flat properties to definitions; `DefinitionMapper`, the arguments of a definition to an object of a class |
 | `enterprise.configuration.error` | Of a binder, `InvalidConfigurationException`: `UnknownConfigurationException`, `InvalidConfigurationPropertyException`. Of a parser, `DefinitionParsingException`, an `InvalidConfigurationException` too: `MultipleConfigurationsException`, `UnboundConfigurationPropertiesException`. Of a mapper, `DefinitionConversionException` |
 
@@ -282,31 +282,34 @@ Visitor, as the Gang of Four describe it, adds an operation to a hierarchy witho
 classes: the operation is a class of its own, a visitor, with a visit method per class of element,
 and an element calls the method of its class from `accept`. The library takes the fallback that the
 visitors of `javax.lang.model`, IntelliJ PSI and Kotlin IR declare: the method each visit method
-calls unless a visitor overrides it:
+calls unless a visitor overrides it, and the `accept` of an element:
 
 | Role | Who plays it | What it holds |
 | --- | --- | --- |
 | Visitor | an interface of the hierarchy that extends `Visitor` | a visit method per class of element, each falls back to `visit` |
 | ConcreteVisitor | a class that implements it | one operation over every class of element |
-| Element | the base type of the hierarchy | `accept`, abstract |
-| ConcreteElement | a class of the hierarchy | `accept`, which calls the visit method of its class or `visit` |
+| Element | the base type of the hierarchy, it implements `Visitable` | `accept`, abstract |
+| ConcreteElement | a class of the hierarchy | `accept`, which checks the class of the visitor and calls the visit method of its class or `visit` |
 | ObjectStructure | a `Composite` or a collection | the elements a visitor goes over |
 
 The example of the book, equipment of a computer and the pricing of it:
 
 ```kotlin
-abstract class Equipment : Composite<Equipment> {
+abstract class Equipment :
+    Composite<Equipment>,
+    Visitable<Equipment> {
 
     abstract val price: Int
-
-    abstract fun <R> accept(visitor: EquipmentVisitor<R>): R
 }
 
 class FloppyDisk : Equipment() {
 
     override val price = 5
 
-    override fun <R> accept(visitor: EquipmentVisitor<R>) = visitor.visitFloppyDisk(this)
+    override fun <R> accept(visitor: Visitor<Equipment, R>) = when (visitor) {
+        is EquipmentVisitor<R> -> visitor.visitFloppyDisk(this)
+        else -> visitor.visit(this)
+    }
 }
 
 class Chassis(children: List<Equipment>) : Equipment() {
@@ -315,7 +318,10 @@ class Chassis(children: List<Equipment>) : Equipment() {
 
     override val price = 20
 
-    override fun <R> accept(visitor: EquipmentVisitor<R>) = visitor.visitChassis(this)
+    override fun <R> accept(visitor: Visitor<Equipment, R>) = when (visitor) {
+        is EquipmentVisitor<R> -> visitor.visitChassis(this)
+        else -> visitor.visit(this)
+    }
 }
 
 interface EquipmentVisitor<out R> : Visitor<Equipment, R> {
@@ -352,11 +358,14 @@ change more often than classes, and a class of another module gets no visit meth
 a hierarchy is sealed, a `when` over its classes does the same, and the compiler checks it covers
 each of them.
 
-`accept` is of the hierarchy, not of the library, as `accept` of `Element` in `javax.lang.model`
-and of `Expression` in Querydsl are, and it is abstract there, so a new class does not fall back
-to `visit` by mistake. A type-safe `accept` of the library for the visitors of every hierarchy
-needs higher-kinded types, which Kotlin does not have; ANTLR does without them by checking the class
-of the visitor in each `accept`.
+`Visitable` names an element as `Visitable` of Spring Data Relational, jpmml and Infinispan do.
+Its `accept` is abstract, as `accept` of `Element` in `javax.lang.model` and of `Expression` in
+Querydsl are, so a new class does not fall back to `visit` by mistake. It takes a visitor of the
+base type: an `accept` that takes the visitor of each hierarchy and returns its result needs
+higher-kinded types, which Kotlin does not have. So an element checks the class of the visitor, as
+each `accept` that ANTLR generates does, and a visitor of the base type alone gets `visit`. The
+check is one `is` per call, and the compiler needs no cast for it: the result type of
+`EquipmentVisitor<R>` is the one of the visitor it checks.
 
 A visitor keeps its context in its own properties or takes it in its constructor, as the visitors
 of ANTLR do, whose methods take the node alone; the visit methods of `ElementVisitor<R, P>` and of
@@ -367,12 +376,10 @@ of its expressions; a visitor takes it out of them and does the interpretation.
 
 ### Plan of Visitor
 
-1. `Visitor`, the base type of the visitors of a hierarchy.
+1. `Visitor`, the base type of the visitors of a hierarchy; `Visitable`, an element with `accept`.
 2. A fold of a `Composite` by a result per element, `visitChildren`, `defaultResult`,
-   `aggregateResult` and `shouldVisitNextChild`, as `AbstractParseTreeVisitor` of ANTLR folds.
-   `visitChildren` takes the call of `accept` of a child as a lambda,
-   `{ child -> child.accept(this) }`, so it calls the visit method of each class with no change of
-   `Visitor`.
+   `aggregateResult` and `shouldVisitNextChild`, as `AbstractParseTreeVisitor` of ANTLR folds:
+   `visitChildren` calls `accept` of each child, which `Visitable` gives it.
 
 ## Plugin
 
