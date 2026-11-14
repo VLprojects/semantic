@@ -206,6 +206,23 @@ as a leaf, and a walk, a search or a fold has nowhere to go from either. Where a
 means something of its own, an empty block of settings for one, the hierarchy tells it by an
 operation of its classes, not by a flag of the library.
 
+A hierarchy that does not implement `Composite`, a `JsonNode` of Jackson or an entity of JPA,
+gives its children from outside through a `ChildrenProvider`, as a `Comparator` orders a class that
+is not `Comparable`. It follows `getChildren` and `hasChildren` of a JFace `ITreeContentProvider`
+and `SuccessorsFunction` of Guava, which `Traverser.forTree` walks. A hierarchy that implements
+`Composite` gives a provider by a reference to its children:
+
+```kotlin
+val jsonChildren = ChildrenProvider(JsonNode::values)
+
+val equipmentChildren = ChildrenProvider(Equipment::children)
+```
+
+A walk, a search or a fold written over a provider serves both kinds of hierarchy. A provider
+overrides `hasChildren` where telling that children exist is cheaper than reading them, as JFace
+advises; a provider made of a reference to `children` reads them and does not see an override
+of `hasChildren()` in the hierarchy.
+
 Builder makes such a hierarchy, Iterator walks it, Visitor adds an operation to it without a
 change of its classes, Flyweight shares its equal parts. A Decorator of the hierarchy overrides
 `children` with those of the element it wraps, or a decorated container reads as a leaf.
