@@ -6,8 +6,8 @@ Application Architecture by Fowler in a group of our own, enterprise. A package 
 a package per pattern inside it. Plain Kotlin, no framework; adapters come as modules of their own.
 
 In place so far: a registry with its store, a registrar and a factory in the creational group;
-the contracts of Composite in the structural one; a resolver and the base types of Visitor in the
-behavioral one; the contracts of Plugin in the enterprise one.
+the base type of Adapter and the contracts of Composite in the structural one; a resolver and
+the base types of Visitor in the behavioral one; the contracts of Plugin in the enterprise one.
 
 ## Packages
 
@@ -20,6 +20,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.registry.error` | `InvalidNameException`, `InstanceAlreadyExistsException`, `InstanceNotFoundException`, `DefaultInstanceNotFoundException`; `InstanceRegistrationException` of a registrar |
 | `creational.factory` | `Factory`, an instance made of its definition; `Factory.Definition`, the marker of a definition |
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
+| `structural.adapter` | `Adapter`, the base type of an object adapter: equal to an adapter of its class over an equal adaptee; the adaptee is hidden from its clients |
 | `structural.composite` | `Composite`, the base type of a hierarchy whose containers and leaves a client treats alike; `MutableComposite`, a container whose children change after it is made |
 | `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
@@ -124,6 +125,85 @@ startup, as `MBeanRegistrationException` of JMX wraps a failure of registration.
 
 Registrars run in their order. A name that two of them take stops the startup, unless
 the later one replaces it on purpose: a bean from code overrides a setting by `replace`.
+
+## Adapter
+
+Adapter, as the Gang of Four describe it, converts the interface of a class into the one a client
+expects: a class that exists, a foreign one for the most part, works with code written for another
+interface. Of its two forms the library takes the object adapter, which holds its adaptee. A class
+adapter extends the adaptee, and Kotlin has no private inheritance: every method of the adaptee
+would be a method of the adapter for its clients.
+
+| Role | Who plays it | What it holds |
+| --- | --- | --- |
+| Target | an interface the client expects | the operations the client calls |
+| Client | code over the target | nothing of the adaptee |
+| Adaptee | a class that exists and whose code stays as it is | the operations to adapt |
+| Adapter | a class that extends `Adapter` and implements the target | the adaptee and the operations of the target over it |
+
+The example of the book, a text view of a toolkit read as a shape of a drawing editor, with an area
+in place of a bounding box:
+
+```kotlin
+interface Shape {
+
+    val area: Int
+}
+
+class TextShape(view: TextView) :
+    Adapter<TextView>(view),
+    Shape {
+
+    override val area
+        get() = this.adaptee.width * this.adaptee.height
+}
+```
+
+`Adapter` fixes what each adapter would otherwise write by hand, or forget:
+
+- The adaptee is `protected`, as `delegate()` of a Guava `ForwardingObject` is: a client reads the
+  target and cannot reach the adaptee through it.
+- Two adapters of one class over equal adaptees are equal and share a hash code, as two instances
+  of a data class with one property are. A `Set`, a `Map` and `contains` hold them as one, though
+  an adapter that implements `Composite` makes new adapters of the children on each read of
+  `children`. `equals` and `hashCode` are final, so no subclass rewrites them.
+- An adapter is not equal to its adaptee: an equality between two classes would hold one way only.
+- `toString` is that of the adaptee, as in `ForwardingObject`.
+
+`Adapter` is an abstract class, since an interface of Kotlin cannot implement `equals` and
+`hashCode`. Where the target is an abstract class itself, the adapter cannot extend both and is
+written by hand. The hash code follows the adaptee: a mutable adaptee changed while its adapter is
+in a `HashSet` is lost there, as any element is.
+
+An adapter holds nothing but its adaptee. One with state of its own, a scale or a charset, does
+not extend `Adapter`: its equality would ignore that state.
+
+The adaptee is an open property, as `identifier` of `AbstractEntity` is: a class proxy of Spring,
+of a bean with `@Transactional` for one, cannot override the final `equals` and `hashCode`, and
+they run on the proxy, whose own field is empty. Through the property they read the adaptee of the
+target.
+
+A function that wraps an adaptee is named `as…`, as `asList` of `Arrays` and `asSequence` of Kotlin
+are: it returns a view of the same object, where `to…` returns a copy.
+
+```kotlin
+class JsonComposite(node: JsonNode) :
+    Adapter<JsonNode>(node),
+    Composite<JsonComposite> {
+
+    override val children
+        get() = this.adaptee
+            .values()
+            .map(::JsonComposite)
+}
+
+fun JsonNode.asComposite() = JsonComposite(this)
+```
+
+Adapter changes the interface of an object. Decorator keeps the interface and adds to what the
+object does; Proxy keeps it and controls the access to the object. Bridge has the structure of an
+object adapter, but parts an abstraction from its implementation up front, where Adapter joins
+classes that exist.
 
 ## Composite
 
