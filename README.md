@@ -25,7 +25,7 @@ divided further has a table of its own under it.
 | --- | --- | --- |
 | [`architecture`](#architecture) | styles of a service and the patterns it applies | boundary, pattern, style |
 | [`correctness`](#correctness) | the rules a state keeps and the failures that report a broken one | constraint, error, rule, validation |
-| [`design`](#design) | approaches to designing a model and its abstractions | algebra, dbc, ddd, pattern |
+| [`design`](#design) | approaches to designing a model and its abstractions | algebra, dbc, ddd, edd, pattern |
 | [`idiom`](#idiom) | extensions of the Kotlin standard library | format, helper |
 | [`math`](#math) | computations over numbers | math |
 | [`type`](#type) | rich value objects, a module per category | version |
@@ -94,13 +94,14 @@ Depends on nothing: `ddd` and the architecture styles build on it.
 
 ### Design
 
-`design/` — ways of designing a model: domain-driven design for the business, design by contract for the guarantees of a call, algebra for the laws of operations, classic patterns for the objects of a program.
+`design/` — ways of designing a model: domain-driven design for the business, event-driven design for what happens in it, design by contract for the guarantees of a call, algebra for the laws of operations, classic patterns for the objects of a program.
 
 | Directory | What it is | Contents | Status |
 | --- | --- | --- | --- |
 | [`algebra`](design/algebra/core) | orders and algebraic structures with their laws, the vocabulary of Algebra-Driven Design | `relation`, `structure` | planned |
 | [`dbc`](design/dbc/core) | design by contract: conditions of a call and invariants of a type, checked at run time | `condition`, `invariant` | planned |
 | [`ddd`](#ddd) | domain-driven design with Jackson, Spring Data and Spring Boot adapters | core, jackson, spring-boot, spring/data | |
+| [`edd`](design/edd/README.md) | event-driven design: events of any type, a registry of publications, sending them outside, after Spring Modulith | | planned |
 | [`pattern`](design/pattern/README.md) | classic patterns of objects grouped as the Gang of Four groups them, and enterprise patterns of Fowler; a registry, its registrar, a factory, a resolver and Plugin first | `creational.registry`, `creational.factory`, `behavioral.resolver`, `enterprise.configuration` | design |
 
 #### DDD
