@@ -250,6 +250,39 @@ repository of the service: the interface does not know them.
 carts.findForUpdateByIdOrThrow(cartId).add(item)
 ```
 
+## MongoDB
+
+`semantic-ddd-spring-data-mongodb` gives `AbstractMongoEntity` and
+`AbstractMongoAggregateRoot`, under `pro.vlprojects.semantic.ddd.spring.data.mongodb`.
+As in JPA, the root extends the entity of the module and repeats the events of
+the Spring Data root. Spring Data publishes them on `save()`, and MongoDB needs
+a `save()` for every change anyway: it has no dirty checking.
+
+```kotlin
+class CartId(value: Long) : AbstractId<Long>(value)
+
+class Cart(identifier: CartId) : AbstractMongoAggregateRoot<Cart, CartId>() {
+
+    init {
+        this.identifier = identifier
+    }
+}
+```
+
+`identifier` is the `@Id`, stored in `_id`; `version` is the `@Version`, so
+saving a stale copy throws `OptimisticLockingFailureException`. Spring Data
+MongoDB stores a new entity at version 1, where JPA stores it at 0. The key is
+any `Identifier` and lies in `_id` as a document of its fields, `{ value: 1 }`
+for an `AbstractId`, until the conversions of a key come. The bases
+override both without fields of their own and put the mapping on the getters:
+Spring Data maps the field of the core, and a second field of the same name
+would clash with it.
+
+MongoDB has no callbacks on the entity, so `PersistedMarkingCallback` marks an
+entity persisted once it is loaded or saved. A service declares it as a bean.
+Without it `isNew()` stays true, and the next `save()` inserts the entity again
+and fails on the key.
+
 ## Modules
 
 ![Modules, and what each takes from the one it builds on](../../docs/assets/dependencies-light.svg#gh-light-mode-only)
