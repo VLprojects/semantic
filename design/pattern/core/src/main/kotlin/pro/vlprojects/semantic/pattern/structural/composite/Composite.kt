@@ -1,9 +1,6 @@
 package pro.vlprojects.semantic.pattern.structural.composite
 
-/**
- * The base type of a hierarchy whose containers and leaves a client treats alike: a container
- * overrides [children], a leaf keeps none; the operation of the hierarchy stays in its own classes.
- */
+/** The base type of a hierarchy: a container overrides [children], a leaf keeps none. */
 public interface Composite<C : Composite<C>> {
 
     public val children: Collection<C>
