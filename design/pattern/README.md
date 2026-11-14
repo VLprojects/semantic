@@ -138,6 +138,9 @@ of one hierarchy, and the library takes only what every hierarchy repeats, the a
 
 `Composite` names the pattern, not the role: a leaf implements it too.
 
+![A tree of settings and the role of each element in Composite](../../docs/assets/composite-light.svg#gh-light-mode-only)
+![A tree of settings and the role of each element in Composite](../../docs/assets/composite-dark.svg#gh-dark-mode-only)
+
 The example of the book, equipment of a computer:
 
 ```kotlin
@@ -209,6 +212,21 @@ operation of its classes, not by a flag of the library.
 Builder makes such a hierarchy, Iterator walks it, Visitor adds an operation to it without a
 change of its classes, Flyweight shares its equal parts. A Decorator of the hierarchy overrides
 `children` with those of the element it wraps, or a decorated container reads as a leaf.
+
+![Builder makes the tree of settings from flat keys](../../docs/assets/composite-builder-light.svg#gh-light-mode-only)
+![Builder makes the tree of settings from flat keys](../../docs/assets/composite-builder-dark.svg#gh-dark-mode-only)
+
+![Iterator walks the tree in three orders](../../docs/assets/composite-iterator-light.svg#gh-light-mode-only)
+![Iterator walks the tree in three orders](../../docs/assets/composite-iterator-dark.svg#gh-dark-mode-only)
+
+![Visitor turns the tree into flat keys](../../docs/assets/composite-visitor-light.svg#gh-light-mode-only)
+![Visitor turns the tree into flat keys](../../docs/assets/composite-visitor-dark.svg#gh-dark-mode-only)
+
+![Chain of Responsibility passes a failure from a leaf up to the root](../../docs/assets/composite-chain-light.svg#gh-light-mode-only)
+![Chain of Responsibility passes a failure from a leaf up to the root](../../docs/assets/composite-chain-dark.svg#gh-dark-mode-only)
+
+![Flyweight shares equal subtrees](../../docs/assets/composite-flyweight-light.svg#gh-light-mode-only)
+![Flyweight shares equal subtrees](../../docs/assets/composite-flyweight-dark.svg#gh-dark-mode-only)
 
 ## Resolver
 
