@@ -1,14 +1,14 @@
-public abstract interface class pro/vlprojects/semantic/pattern/behavioral/chain/Chain {
-	public static final field Factory Lpro/vlprojects/semantic/pattern/behavioral/chain/Chain$Factory;
-	public abstract fun proceed (Ljava/lang/Object;)Ljava/lang/Object;
+public abstract interface class pro/vlprojects/semantic/pattern/behavioral/chain/ChainOfResponsibility {
+	public static final field Factory Lpro/vlprojects/semantic/pattern/behavioral/chain/ChainOfResponsibility$Factory;
+	public abstract fun handleRequest (Ljava/lang/Object;)Ljava/lang/Object;
 }
 
-public final class pro/vlprojects/semantic/pattern/behavioral/chain/Chain$Factory {
-	public final fun of (Ljava/util/List;Lpro/vlprojects/semantic/pattern/behavioral/chain/Chain;)Lpro/vlprojects/semantic/pattern/behavioral/chain/Chain;
+public final class pro/vlprojects/semantic/pattern/behavioral/chain/ChainOfResponsibility$Factory {
+	public final fun of (Ljava/util/List;Lpro/vlprojects/semantic/pattern/behavioral/chain/ChainOfResponsibility;)Lpro/vlprojects/semantic/pattern/behavioral/chain/ChainOfResponsibility;
 }
 
 public abstract interface class pro/vlprojects/semantic/pattern/behavioral/chain/Handler {
-	public abstract fun handle (Ljava/lang/Object;Lpro/vlprojects/semantic/pattern/behavioral/chain/Chain;)Ljava/lang/Object;
+	public abstract fun handleRequest (Ljava/lang/Object;Lpro/vlprojects/semantic/pattern/behavioral/chain/ChainOfResponsibility;)Ljava/lang/Object;
 }
 
 public final class pro/vlprojects/semantic/pattern/behavioral/resolver/PredicateResolver : pro/vlprojects/semantic/pattern/behavioral/resolver/Resolver {

@@ -1,7 +1,7 @@
 package pro.vlprojects.semantic.pattern.behavioral.chain
 
-/** A link of a chain: it handles a request or passes it on by [Chain.proceed] of the rest. */
-public fun interface Handler<T, R> {
+/** A link of a chain: it handles a request or passes it on to its successor by [handleRequest]. */
+public fun interface Handler<Request, Response> {
 
-    public fun handle(request: T, chain: Chain<T, R>): R
+    public fun handleRequest(request: Request, successor: ChainOfResponsibility<Request, Response>): Response
 }

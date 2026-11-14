@@ -21,7 +21,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.factory` | `Factory`, an instance made of its definition; `Factory.Definition`, the marker of a definition |
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
 | `structural.composite` | `Composite`, the base type of a hierarchy whose containers and leaves a client treats alike; `MutableComposite`, a container whose children change after it is made |
-| `behavioral.chain` | `Handler`, a link of a chain that handles a request or passes it on; `Chain`, a chain or the rest of it, with `proceed`; `Chain.of`, a chain of handlers and its end |
+| `behavioral.chain` | `Handler`, a link of a chain that handles a request or passes it on to its successor; `ChainOfResponsibility`, a chain of handlers or the rest of it, with `handleRequest`, and `ChainOfResponsibility.of`, a chain of handlers and its end |
 | `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
 | `behavioral.visitor` | `Visitor`, the base type of the visitors of a hierarchy, with `visit`, the method of any element, which each visit method of a hierarchy falls back to; `Visitable`, an element of a hierarchy with `accept` |
@@ -386,17 +386,20 @@ of its expressions; a visitor takes it out of them and does the interpretation.
 
 Chain of Responsibility, as the Gang of Four describe it, passes a request along a chain of handlers
 until one of them handles it: the sender does not know which one will, and each handler knows only
-the rest of the chain. The book keeps the next handler, the successor, in a field of each handler;
-here a handler takes the rest of the chain as a parameter, as `WebFilter` of Spring WebFlux and
-`Interceptor` of OkHttp do, so one handler takes part in several chains:
+its successor. The library keeps the names of the book: `Handler`, `handleRequest` and the
+successor. The book keeps the successor in a field of each handler; here a handler takes it as a
+parameter of `handleRequest`, as `WebFilter` of Spring WebFlux takes its `WebFilterChain` and
+`Interceptor` of OkHttp its `Interceptor.Chain`, so one handler takes part in several chains:
 
 | Role | Who plays it | What it holds |
 | --- | --- | --- |
-| Handler | `Handler` | `handle`, which takes a request and the rest of the chain |
-| ConcreteHandler | a class that implements `Handler` | the requests it is responsible for; it passes on the others by `proceed` of the rest |
-| Client | the code that calls `proceed` of a `Chain` | the chain that `Chain.of` makes |
+| Handler | `Handler` | `handleRequest`, which takes a request and the successor |
+| ConcreteHandler | a class that implements `Handler` | the requests it is responsible for; it passes on the others by `handleRequest` of its successor |
+| Client | the code that calls `handleRequest` of a `ChainOfResponsibility` | the chain that `ChainOfResponsibility.of` makes |
 
-The approval of an expense, by the first approver whose limit it fits:
+The successor is a `ChainOfResponsibility`, the rest of the chain after a handler, so a handler
+passes a request on as the book does, by `successor.handleRequest(request)`. The approval of an
+expense, by the first approver whose limit it fits:
 
 ```kotlin
 class LimitApproval(
@@ -404,39 +407,39 @@ class LimitApproval(
     private val limit: Int,
 ) : Handler<Expense, String> {
 
-    override fun handle(request: Expense, chain: Chain<Expense, String>) = when {
+    override fun handleRequest(request: Expense, successor: ChainOfResponsibility<Expense, String>) = when {
         request.amount <= limit -> approver
-        else -> chain.proceed(request)
+        else -> successor.handleRequest(request)
     }
 }
 
 val approvals = listOf(LimitApproval("manager", 1_000), LimitApproval("director", 10_000))
-val approval = Chain.of(approvals) { _ -> "board" }
-val approver = approval.proceed(Expense(5_000))
+val approval = ChainOfResponsibility.of(approvals) { _ -> "board" }
+val approver = approval.handleRequest(Expense(5_000))
 ```
 
 `approver` is `director`. In the book a request that no handler handles falls off the end of the
-chain. `Chain.of` takes the end of the chain beside the handlers, so a request always comes to a
-result: a default, as the board above, a target the handlers work around, as the `WebHandler` after
-the filters of `DefaultWebFilterChain`, or an exception. Spring names it alike in
+chain. `ChainOfResponsibility.of` takes the end of the chain beside the handlers, so a request
+always comes to a result: a default, as the board above, a target the handlers work around, as the
+`WebHandler` after the filters of `DefaultWebFilterChain`, or an exception. Spring names it alike in
 `EndOfChainRequestExecution` of its HTTP client.
 
-A handler may work before and after the rest of the chain, as a servlet filter does, and pass a
-request on more than once, as a retry does:
+A handler may work before and after its successor, as a servlet filter does, and pass a request on
+more than once, as a retry does:
 
 ```kotlin
-val audit = Handler<Expense, String> { request, chain ->
+val audit = Handler<Expense, String> { request, successor ->
     log.info("received {}", request)
-    chain
-        .proceed(request)
+    successor
+        .handleRequest(request)
         .also { approver -> log.info("approved by {}", approver) }
 }
 ```
 
-`Chain.of` makes the links once, from the last handler to the first, as `DefaultWebFilterChain`
-does: a link holds its handler and the next link and changes nothing. So a call allocates nothing
-and goes as deep as the handler that handles the request, and one chain serves calls in parallel
-and calls again. `proceed` is the method of `Interceptor.Chain` in OkHttp.
+`ChainOfResponsibility.of` makes the links once, from the last handler to the first, as
+`DefaultWebFilterChain` does: a link holds its handler and the successor and changes nothing. So a
+call allocates nothing and goes as deep as the handler that handles the request, and one chain
+serves calls in parallel and calls again.
 
 A handler tells whether it handles a request only by trying it. Where a candidate tells it before
 the call, as an argument resolver of Spring does by `supportsParameter`, `PredicateResolver` with

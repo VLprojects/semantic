@@ -1,6 +1,6 @@
 package pro.vlprojects.semantic.pattern.unit.behavioral.chain
 
-import pro.vlprojects.semantic.pattern.behavioral.chain.Chain
+import pro.vlprojects.semantic.pattern.behavioral.chain.ChainOfResponsibility
 import pro.vlprojects.semantic.pattern.behavioral.chain.Handler
 
 class LimitApproval(
@@ -8,8 +8,8 @@ class LimitApproval(
     private val limit: Int,
 ) : Handler<Expense, String> {
 
-    override fun handle(request: Expense, chain: Chain<Expense, String>) = when {
+    override fun handleRequest(request: Expense, successor: ChainOfResponsibility<Expense, String>) = when {
         request.amount <= limit -> approver
-        else -> chain.proceed(request)
+        else -> successor.handleRequest(request)
     }
 }
