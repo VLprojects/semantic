@@ -8,5 +8,5 @@ import kotlin.reflect.KClass
  */
 public interface Decorator<out T : Any> {
 
-    public val targetClass: KClass<out T>
+    public val delegateClass: KClass<out T>
 }

@@ -20,7 +20,7 @@ class DecoratedAnnotationBeanPostProcessorTests {
             val border = assertInstanceOf(BorderDecorator::class.java, area)
 
             assertEquals("#1text↕#1", area.draw())
-            assertEquals(ScrollDecorator::class, border.targetClass)
+            assertEquals(ScrollDecorator::class, border.delegateClass)
         }
     }
 

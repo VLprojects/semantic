@@ -230,7 +230,7 @@ public abstract interface class pro/vlprojects/semantic/pattern/structural/compo
 }
 
 public abstract interface class pro/vlprojects/semantic/pattern/structural/decorator/Decorator {
-	public abstract fun getTargetClass ()Lkotlin/reflect/KClass;
+	public abstract fun getDelegateClass ()Lkotlin/reflect/KClass;
 }
 
 public abstract interface class pro/vlprojects/semantic/pattern/structural/decorator/DecoratorFactory {
