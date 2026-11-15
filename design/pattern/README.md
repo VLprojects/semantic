@@ -365,6 +365,8 @@ The bean of `TextArea` is a `BorderDecorator` around a `ScrollDecorator` around 
   promises no order, though javac, the Kotlin compiler and HotSpot keep the one of the source, and a test checks it.
 - A repeated annotation decorates once per repetition. The compiler packs the repetitions into one container in
   the place of the first one, so they apply together there: write them in a row.
+- Only beans are decorated, whatever registers them: `@Component`, `@Bean` or `@Import`. An object made by its
+  constructor is not seen; the module scans no packages, as the application picks its beans itself.
 - An annotation is looked up on the class of the bean behind an AOP proxy.
 - A factory is made once per its class by `createBean` with its dependencies from the context, as
   `SpringConstraintValidatorFactory` makes a validator, and destroyed with the context.
