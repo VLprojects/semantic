@@ -314,8 +314,9 @@ its component.
 
 ### Spring
 
-`semantic-pattern-spring` decorates a bean by its annotations. `AnnotationDecoratorFactory<A, T>` makes a decorator
-configured by an annotation of the bean. `Decorated` on an annotation names its factory, as
+`semantic-pattern-spring` decorates a bean by its annotations or by the factories of its type.
+`AnnotationDecoratorFactory<A, T>` makes a decorator configured by an annotation of the bean. `Decorated` on an
+annotation names its factory, as
 `@Constraint(validatedBy = ...)` of Bean Validation names the `ConstraintValidator<A, T>` of a constraint and
 `@Conditional` names the condition of `@ConditionalOnClass` in Spring Boot. `DecoratedAnnotationBeanPostProcessor`
 wraps a bean by the factories its annotations name, as `DataSourceDecoratorBeanPostProcessor` wraps a `DataSource`
@@ -373,17 +374,58 @@ The bean of `TextArea` is a `BorderDecorator` around a `ScrollDecorator` around 
 - Spring looks for `@EventListener` and `@RequestMapping` on the class of the bean, which is now the decorator,
   and finds none; `@Scheduled` and listeners of messaging are bound before the decorators and call the bare bean.
 
+`DecoratorFactoryBeanPostProcessor` wraps each bean of a type by the `DecoratorFactory` beans of the type, as
+`WebServerFactoryCustomizerBeanPostProcessor` of Spring Boot applies each `WebServerFactoryCustomizer` bean to the
+web server factories of its type:
+
+```kotlin
+@Configuration
+@Import(DecoratedAnnotationBeanPostProcessor::class, DecoratorFactoryBeanPostProcessor::class)
+class DecorationConfiguration {
+
+    @Bean
+    @Order(1)
+    fun borderDecoratorFactory() = DecoratorFactory<VisualComponent> { target -> BorderDecorator(target, 1) }
+
+    @Bean
+    @Order(2)
+    fun scrollDecoratorFactory() = DecoratorFactory<VisualComponent>(::ScrollDecorator)
+}
+
+@Component
+class Caption : VisualComponent by TextView("caption")
+```
+
+The bean of `Caption`, as each bean of `VisualComponent`, is a `BorderDecorator` around a `ScrollDecorator` around
+the caption itself:
+
+- Factories apply in `@Order`: the first makes the outermost decorator, as advice of Spring AOP with the lowest
+  `@Order` and `HttpHandlerDecoratorFactory` do. `CompositeTaskDecorator` of Spring and Scrutor make the first
+  the innermost instead. The order of a factory comes from where `FactoryAwareOrderSourceProvider` of Spring takes
+  it for a list of beans: the order of its bean definition, `@Order` on its `@Bean` method, `@Order` or `Ordered` on
+  its class. A factory without one goes last.
+- It replaces `@Primary` and `@Qualifier`, where each decorator injects the next by the name of its bean:
+  a decorator knows neither its neighbours nor its place, a new one goes in between without a change of them,
+  and the context has no undecorated component to inject by mistake.
+- The type a factory decorates comes from its bean definition, the class of the factory or the return type of its
+  `@Bean` method, so a factory of another type is never made. A factory that hides its type, such as a lambda
+  registered as a raw `DecoratorFactory`, stops the startup with an `IllegalStateException` that names it.
+- Only singleton factories count, as only singleton customizers do for `WebServerFactoryCustomizerBeanPostProcessor`:
+  a prototype or scoped `DecoratorFactory` is not seen.
+- A factory is taken from the context when the first bean of its type is decorated: a factory that injects a bean
+  of the type it decorates is a circular reference.
+- The factories of a type wrap the decorators of annotations only when `DecoratorFactoryBeanPostProcessor` is
+  registered after `DecoratedAnnotationBeanPostProcessor`, as in the `@Import` above: Spring applies such
+  post-processors in the order of their registration, and the annotations of a bean are not seen through a
+  decorator.
+- As with annotations, the bean is injected by its interface and Spring finds no `@EventListener` on it. Nor does
+  Spring start it as a `Lifecycle` or call it as an `ApplicationListener`, unless its decorators are ones too.
+
 ### Plan of Decorator
 
 1. `Decorator` and `DecoratorFactory`.
 2. `AnnotationDecoratorFactory`, `Decorated` and `DecoratedAnnotationBeanPostProcessor`.
-3. A `BeanPostProcessor` that wraps each bean of a type by the `DecoratorFactory` beans of the type:
-   - They apply in `@Order`: the first makes the outermost decorator, as advice of Spring AOP with the lowest
-     `@Order` and `HttpHandlerDecoratorFactory` do. `CompositeTaskDecorator` of Spring and Scrutor make the first
-     the innermost instead.
-   - It replaces `@Primary` and `@Qualifier`, where each decorator injects the next by the name of its bean:
-     a decorator knows neither its neighbours nor its place, a new one goes in between without a change of them,
-     and the context has no undecorated component to inject by mistake.
+3. `DecoratorFactoryBeanPostProcessor`.
 4. An auto-configuration of Spring Boot that registers both post-processors.
 5. Interceptors bound to annotations of methods over `AnnotationMatchingPointcut`, as `@Retryable` of Spring is,
    with a check at startup that a proxy reaches each annotated method: Spring only logs a final one.

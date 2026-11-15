@@ -12,3 +12,8 @@ public final class pro/vlprojects/semantic/pattern/structural/decorator/Decorate
 	public fun postProcessAfterInitialization (Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/Object;
 }
 
+public final class pro/vlprojects/semantic/pattern/structural/decorator/DecoratorFactoryBeanPostProcessor : org/springframework/beans/factory/config/BeanPostProcessor {
+	public fun <init> (Lorg/springframework/beans/factory/config/ConfigurableListableBeanFactory;)V
+	public fun postProcessAfterInitialization (Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/Object;
+}
+
