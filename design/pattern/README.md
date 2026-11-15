@@ -246,12 +246,12 @@ the work as it was, a check of rights or a cache, controls the access to the obj
 | Decorator | a class that implements `Decorator` and the interface of its component | `delegate`, the wrapped component, and the forwarding of each operation to it |
 | ConcreteDecorator | the same class | the operations it overrides, each with its responsibility |
 
-`Decorator<C>` names the role, so a decorator is told from a Proxy by its type, as `SpringProxy` marks a proxy
+`Decorator<T>` names the role, so a decorator is told from a Proxy by its type, as `SpringProxy` marks a proxy
 of Spring AOP. It holds the reference the book calls `_component` as `delegate`, the name CDI gives it with
 `@Delegate` and the decorators of Spring give it with `getDelegate()`, `ServerHttpRequestDecorator` of Spring Web
 among them. The forwarding of the abstract Decorator of the book is `by` of Kotlin, which writes it for any
 interface. The interface of the component a decorator implements itself: a type parameter is no supertype, so
-`Decorator<C>` cannot make a class a `C`. `delegate` is public, as a member of an interface is in Kotlin and as
+`Decorator<T>` cannot make a class a `T`. `delegate` is public, as a member of an interface is in Kotlin and as
 `unwrap` of `java.sql.Wrapper` is, for an adapter or a diagnostic to walk a chain down to the component it
 started with. A client depends on the interface of the component, not on `Decorator`: a call through
 `delegate` goes round the decorator.
@@ -310,7 +310,7 @@ its component.
 
 ### Annotations
 
-`AnnotationDecoratorFactory<A, C>` makes a decorator configured by an annotation of the component. `Decorate` on
+`AnnotationDecoratorFactory<A, T>` makes a decorator configured by an annotation of the component. `Decorate` on
 an annotation names its factories, as `@Constraint(validatedBy = ...)` of Bean Validation names the
 `ConstraintValidator<A, T>` of a constraint and `@Conditional` names the condition of `@ConditionalOnClass` in
 Spring Boot:
