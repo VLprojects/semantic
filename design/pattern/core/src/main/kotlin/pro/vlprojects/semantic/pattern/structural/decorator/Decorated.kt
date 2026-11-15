@@ -8,4 +8,4 @@ import kotlin.reflect.KClass
  */
 @MustBeDocumented
 @Target(AnnotationTarget.ANNOTATION_CLASS)
-public annotation class Decorate(vararg val value: KClass<out AnnotationDecoratorFactory<*, *>>)
+public annotation class Decorated(vararg val value: KClass<out AnnotationDecoratorFactory<*, *>>)

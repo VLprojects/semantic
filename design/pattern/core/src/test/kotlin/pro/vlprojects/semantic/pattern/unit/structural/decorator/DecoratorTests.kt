@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertInstanceOf
 import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.Test
-import pro.vlprojects.semantic.pattern.structural.decorator.Decorate
+import pro.vlprojects.semantic.pattern.structural.decorator.Decorated
 import pro.vlprojects.semantic.pattern.structural.decorator.Decorator
 import pro.vlprojects.semantic.pattern.structural.decorator.DecoratorFactory
 
@@ -51,9 +51,9 @@ class DecoratorTests {
 
     @Test
     fun `an annotation names the factories of its decorators`() {
-        val decorate = Bordered::class.java.getAnnotation(Decorate::class.java)
+        val decorated = Bordered::class.java.getAnnotation(Decorated::class.java)
 
-        assertEquals(listOf(BorderDecoratorFactory::class), decorate.value.toList())
+        assertEquals(listOf(BorderDecoratorFactory::class), decorated.value.toList())
     }
 
     @Test

@@ -21,7 +21,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.factory` | `Factory`, an instance made of its definition; `Factory.Definition`, the marker of a definition |
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
 | `structural.composite` | `Composite`, the base type of a hierarchy whose containers and leaves a client treats alike; `MutableComposite`, a container whose children change after it is made |
-| `structural.decorator` | `Decorator`, a wrapper that holds its component and adds a responsibility to it; `DecoratorFactory`, a component wrapped in a decorator of its type; `AnnotationDecoratorFactory`, a decorator configured by an annotation of the component; `Decorate`, the mark of such an annotation |
+| `structural.decorator` | `Decorator`, a wrapper that holds its component and adds a responsibility to it; `DecoratorFactory`, a component wrapped in a decorator of its type; `AnnotationDecoratorFactory`, a decorator configured by an annotation of the component; `Decorated`, the mark of such an annotation |
 | `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
 | `behavioral.visitor` | `Visitor`, the base type of the visitors of a hierarchy, with `visit`, the method of any element, which each visit method of a hierarchy falls back to; `Visitable`, an element of a hierarchy with `accept` |
@@ -310,14 +310,14 @@ its component.
 
 ### Annotations
 
-`AnnotationDecoratorFactory<A, T>` makes a decorator configured by an annotation of the component. `Decorate` on
+`AnnotationDecoratorFactory<A, T>` makes a decorator configured by an annotation of the component. `Decorated` on
 an annotation names its factories, as `@Constraint(validatedBy = ...)` of Bean Validation names the
 `ConstraintValidator<A, T>` of a constraint and `@Conditional` names the condition of `@ConditionalOnClass` in
 Spring Boot:
 
 ```kotlin
 @Target(AnnotationTarget.CLASS)
-@Decorate(BorderDecoratorFactory::class)
+@Decorated(BorderDecoratorFactory::class)
 annotation class Bordered(val width: Int)
 
 class BorderDecoratorFactory : AnnotationDecoratorFactory<Bordered, VisualComponent> {
@@ -336,7 +336,7 @@ Bean Validation knows no container; an adapter makes the factories and wraps the
 
 ### Plan of Decorator
 
-1. `Decorator`, `DecoratorFactory`, `AnnotationDecoratorFactory` and `Decorate`.
+1. `Decorator`, `DecoratorFactory`, `AnnotationDecoratorFactory` and `Decorated`.
 2. A Spring adapter: a `BeanPostProcessor` wraps a bean by the factories of its type and of its annotations,
    as `DataSourceDecoratorBeanPostProcessor` wraps a `DataSource` by its decorators.
    - The first factory in `@Order` makes the outermost decorator, the one a call reaches first, as advice of

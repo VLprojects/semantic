@@ -1,7 +1,7 @@
 package pro.vlprojects.semantic.pattern.structural.decorator
 
 /**
- * Wraps a component that carries an annotation marked with [Decorate]
+ * Wraps a component that carries an annotation marked with [Decorated]
  * in a decorator configured by the attributes of the annotation.
  */
 public interface AnnotationDecoratorFactory<A : Annotation, T : Any> {

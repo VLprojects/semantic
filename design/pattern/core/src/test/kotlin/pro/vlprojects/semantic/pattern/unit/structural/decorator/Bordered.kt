@@ -1,7 +1,7 @@
 package pro.vlprojects.semantic.pattern.unit.structural.decorator
 
-import pro.vlprojects.semantic.pattern.structural.decorator.Decorate
+import pro.vlprojects.semantic.pattern.structural.decorator.Decorated
 
 @Target(AnnotationTarget.CLASS)
-@Decorate(BorderDecoratorFactory::class)
+@Decorated(BorderDecoratorFactory::class)
 annotation class Bordered(val width: Int)
