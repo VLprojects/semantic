@@ -50,10 +50,10 @@ class DecoratorTests {
     }
 
     @Test
-    fun `an annotation names the factories of its decorators`() {
+    fun `an annotation names the factory of its decorator`() {
         val decorated = Bordered::class.java.getAnnotation(Decorated::class.java)
 
-        assertEquals(listOf(BorderDecoratorFactory::class), decorated.value.toList())
+        assertEquals(BorderDecoratorFactory::class, decorated.value)
     }
 
     @Test

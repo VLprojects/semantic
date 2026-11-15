@@ -234,7 +234,7 @@ public abstract interface class pro/vlprojects/semantic/pattern/structural/decor
 }
 
 public abstract interface annotation class pro/vlprojects/semantic/pattern/structural/decorator/Decorated : java/lang/annotation/Annotation {
-	public abstract fun value ()[Ljava/lang/Class;
+	public abstract fun value ()Ljava/lang/Class;
 }
 
 public abstract interface class pro/vlprojects/semantic/pattern/structural/decorator/Decorator {

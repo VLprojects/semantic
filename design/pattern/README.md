@@ -311,7 +311,7 @@ its component.
 ### Annotations
 
 `AnnotationDecoratorFactory<A, T>` makes a decorator configured by an annotation of the component. `Decorated` on
-an annotation names its factories, as `@Constraint(validatedBy = ...)` of Bean Validation names the
+an annotation names its factory, as `@Constraint(validatedBy = ...)` of Bean Validation names the
 `ConstraintValidator<A, T>` of a constraint and `@Conditional` names the condition of `@ConditionalOnClass` in
 Spring Boot:
 
@@ -330,9 +330,9 @@ class BorderDecoratorFactory : AnnotationDecoratorFactory<Bordered, VisualCompon
 class Caption(text: String) : VisualComponent by TextView(text)
 ```
 
-An annotation decorates the component it is put on, not each component of a type. It may name a factory per
-type of component, as a constraint names a validator per type of value. The contracts are plain Kotlin, as
-Bean Validation knows no container; an adapter makes the factories and wraps the components.
+An annotation decorates the component it is put on, not each component of a type. It names one factory, so
+an annotation is one decorator: several decorators take several annotations. The contracts are plain Kotlin,
+as Bean Validation knows no container; an adapter makes the factories and wraps the components.
 
 ### Plan of Decorator
 
@@ -348,9 +348,8 @@ Bean Validation knows no container; an adapter makes the factories and wraps the
      a decorator knows neither its neighbours nor its place, a new one goes in between without a change of them,
      and the context has no undecorated component to inject by mistake.
    - A factory named by an annotation is a bean of its class, as `SpringConstraintValidatorFactory` makes a
-     validator. Of the factories an annotation names, the one of the type of the bean makes its decorator; none
-     or several stop the startup with errors of the contract, as `UnexpectedTypeException` of Bean Validation
-     does. An annotation is looked up on the class of the bean behind an AOP proxy.
+     validator. A factory of another type than the bean stops the startup with an error of the contract, as
+     `UnexpectedTypeException` of Bean Validation does. An annotation is looked up on the class of the bean behind an AOP proxy.
    - A bean is replaced by a decorator of its interface: it is injected by the interface, not by its class.
 3. Interceptors bound to annotations of methods over `AnnotationMatchingPointcut`, as `@Retryable` of Spring is,
    with a check at startup that a proxy reaches each annotated method: Spring only logs a final one.
