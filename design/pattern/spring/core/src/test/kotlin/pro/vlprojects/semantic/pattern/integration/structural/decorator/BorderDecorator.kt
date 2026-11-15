@@ -8,7 +8,7 @@ class BorderDecorator(
 ) : VisualComponent by delegate,
     Decorator<VisualComponent> {
 
-    override val delegateClass = this.delegate::class
+    override val targetClass = this.delegate::class
 
     override fun draw() = this.border + this.delegate.draw() + this.border
 }

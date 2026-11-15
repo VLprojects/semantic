@@ -22,7 +22,7 @@ class DecoratorTests {
 
     @Test
     fun `a decorator tells the class of the delegate it wraps`() {
-        assertEquals(TextView::class, ScrollDecorator(this.view).delegateClass)
+        assertEquals(TextView::class, ScrollDecorator(this.view).targetClass)
     }
 
     @Test
@@ -41,6 +41,6 @@ class DecoratorTests {
             .let(::ScrollDecorator)
             .let { scroll -> BorderDecorator(scroll, 1) }
 
-        assertEquals(ScrollDecorator::class, window.delegateClass)
+        assertEquals(ScrollDecorator::class, window.targetClass)
     }
 }

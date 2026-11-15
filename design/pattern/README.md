@@ -244,7 +244,7 @@ the work as it was, a check of rights or a cache, controls the access to the obj
 | --- | --- | --- |
 | Component | an interface of the application | the operations |
 | ConcreteComponent | a class that implements it | the work itself |
-| Decorator | a class that implements `Decorator` and the interface of its component | `delegate`, the wrapped component, kept private; `delegateClass`, its class; the forwarding of each operation to it |
+| Decorator | a class that implements `Decorator` and the interface of its component | `delegate`, the wrapped component, kept private; `targetClass`, its class; the forwarding of each operation to it |
 | ConcreteDecorator | the same class | the operations it overrides, each with its responsibility |
 
 `Decorator<T>` names the role, so a decorator is told from a Proxy by its type, as `SpringProxy` marks a proxy
@@ -254,7 +254,7 @@ among them. The forwarding of the abstract Decorator of the book is `by` of Kotl
 interface, from a private property as well. The interface of the component a decorator implements itself: a type
 parameter is no supertype, so `Decorator<T>` cannot make a class a `T`. The delegate stays private, as
 `_component` of the book does and `delegate()` of Guava `ForwardingObject` is protected: a call through it would
-go round the decorator. Only `delegateClass` goes out, as `getTargetClass` of Spring `TargetClassAware` tells the
+go round the decorator. Only `targetClass` goes out, as `getTargetClass` of Spring `TargetClassAware` tells the
 class of the target of a proxy. In a chain it is the class of the next decorator, as `getTargetClass` of a proxy
 around another proxy is.
 
@@ -272,7 +272,7 @@ class ScrollDecorator(private val delegate: VisualComponent) :
     VisualComponent by delegate,
     Decorator<VisualComponent> {
 
-    override val delegateClass = this.delegate::class
+    override val targetClass = this.delegate::class
 
     override fun draw() = this.delegate.draw() + "↕"
 }
