@@ -9,11 +9,11 @@ import kotlin.reflect.KClass
  * A virtual proxy knows the class of its delegate before it loads it:
  *
  * ```kotlin
- * class ImageProxy(initialize: () -> Graphic, override val extent: Int) :
+ * class ImageProxy(initializeDelegate: () -> Graphic, override val extent: Int) :
  *     Graphic,
  *     Proxy<Graphic> {
  *
- *     private val image = lazy(initialize)
+ *     private val image = lazy(initializeDelegate)
  *
  *     override val delegateClass = Image::class
  *

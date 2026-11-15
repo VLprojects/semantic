@@ -438,11 +438,14 @@ interface Graphic {
     fun draw(): String
 }
 
-class ImageProxy(override val delegateClass: KClass<out Graphic>, initialize: () -> Graphic, override val extent: Int) :
-    Graphic,
+class ImageProxy(
+    override val delegateClass: KClass<out Graphic>,
+    initializeDelegate: () -> Graphic,
+    override val extent: Int,
+) : Graphic,
     Proxy<Graphic> {
 
-    private val image = lazy(initialize)
+    private val image = lazy(initializeDelegate)
 
     override fun isDelegateLoaded() = this.image.isInitialized()
 
@@ -479,7 +482,7 @@ instead of loading the image for it.
 
 ### Factories of proxies
 
-A factory puts a delegate that comes from outside behind a proxy of its type. It takes `initialize`, a function
+A factory puts a delegate that comes from outside behind a proxy of its type. It takes `initializeDelegate`, a function
 that makes the delegate, not the delegate itself: a virtual proxy of a ready object is late to save anything. A
 virtual proxy keeps the function until the first call, a protection proxy calls it at once:
 
