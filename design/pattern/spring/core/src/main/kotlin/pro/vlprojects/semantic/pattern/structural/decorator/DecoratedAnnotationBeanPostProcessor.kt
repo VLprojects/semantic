@@ -19,6 +19,7 @@ public class DecoratedAnnotationBeanPostProcessor(
 
     override fun postProcessAfterInitialization(bean: Any, beanName: String): Any {
         val targetClass = AopProxyUtils.ultimateTargetClass(bean)
+
         val annotations = MergedAnnotations
             .from(targetClass, SearchStrategy.DIRECT)
             .filter(MergedAnnotation<Annotation>::isDirectlyPresent)
@@ -37,10 +38,12 @@ public class DecoratedAnnotationBeanPostProcessor(
 
     private fun decorate(target: Any, annotation: Annotation, beanName: String): Any {
         val annotationClass = annotation.annotationClass.java
+
         val factoryClass = annotationClass
             .getAnnotation(Decorated::class.java)
             .value
             .java
+
         val (annotationType, targetType) = ResolvableType
             .forClass(factoryClass)
             .`as`(AnnotationDecoratorFactory::class.java)
@@ -50,17 +53,18 @@ public class DecoratedAnnotationBeanPostProcessor(
             "@${annotationClass.name} of bean '$beanName' names ${factoryClass.name}, " +
                 "which decorates by @${annotationType.name}"
         }
+
         if (!targetType.isInstance(target)) {
             throw BeanNotOfRequiredTypeException(beanName, targetType, target.javaClass)
         }
 
         return this
-            .findFactory(factoryClass)
+            .getOrCreateFactory(factoryClass)
             .decorate(target, annotation)
     }
 
     // createBean may post-process an annotated bean, so it runs outside computeIfAbsent, which forbids recursion
-    private fun findFactory(factoryClass: Class<*>) = this.factories[factoryClass]
+    private fun getOrCreateFactory(factoryClass: Class<*>) = this.factories[factoryClass]
         ?: factoryClass
             .let(::createFactory)
             .let { factory -> this.factories.putIfAbsent(factoryClass, factory) ?: factory }
