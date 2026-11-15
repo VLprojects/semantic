@@ -25,7 +25,7 @@ public class DecoratorFactoryBeanPostProcessor(
         return factories.foldRight(bean) { factory, target -> factory.decorate(target) }
     }
 
-    // the type of a factory comes from its definition, so a factory of another type is never made
+    // the type of a factory comes from its definition, so a factory of another type is not made here
     private fun resolveTargetTypes() = this.beanFactory
         .getBeanNamesForType(DecoratorFactory::class.java, false, false)
         .associateWith(::resolveTargetType)

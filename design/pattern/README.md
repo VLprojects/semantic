@@ -408,8 +408,9 @@ the caption itself:
   a decorator knows neither its neighbours nor its place, a new one goes in between without a change of them,
   and the context has no undecorated component to inject by mistake.
 - The type a factory decorates comes from its bean definition, the class of the factory or the return type of its
-  `@Bean` method, so a factory of another type is never made. A factory that hides its type, such as a lambda
-  registered as a raw `DecoratorFactory`, stops the startup with an `IllegalStateException` that names it.
+  `@Bean` method, so the post-processor makes no factory of another type: a `@Lazy` one stays unmade. A factory
+  that hides its type, such as a lambda registered as a raw `DecoratorFactory`, stops the startup with an
+  `IllegalStateException` that names it.
 - Only singleton factories count, as only singleton customizers do for `WebServerFactoryCustomizerBeanPostProcessor`:
   a prototype or scoped `DecoratorFactory` is not seen.
 - A factory is taken from the context when the first bean of its type is decorated: a factory that injects a bean

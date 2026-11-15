@@ -69,7 +69,7 @@ class DecoratorFactoryBeanPostProcessorTests {
     }
 
     @Test
-    fun `a factory of another type is never made`() {
+    fun `a lazy factory of another type stays unmade`() {
         this.start(Caption::class.java, RunnableDecoratorFactory::class.java).use { context ->
             assertEquals("#caption↕#", context.getBean(VisualComponent::class.java).draw())
         }
