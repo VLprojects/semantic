@@ -15,8 +15,7 @@ import java.util.concurrent.ConcurrentHashMap
 
 public class DecoratedAnnotationBeanPostProcessor(
     private val beanFactory: AutowireCapableBeanFactory,
-) : BeanPostProcessor,
-    DisposableBean {
+) : BeanPostProcessor, DisposableBean {
 
     private val factories = ConcurrentHashMap<Class<*>, AnnotationDecoratorFactory<Annotation, Any>>()
 
