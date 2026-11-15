@@ -1,0 +1,6 @@
+public final class pro/vlprojects/semantic/pattern/structural/decorator/spring/DecoratedAnnotationBeanPostProcessor : org/springframework/beans/factory/DisposableBean, org/springframework/beans/factory/config/BeanPostProcessor {
+	public fun <init> (Lorg/springframework/beans/factory/config/AutowireCapableBeanFactory;)V
+	public fun destroy ()V
+	public fun postProcessAfterInitialization (Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/Object;
+}
+
