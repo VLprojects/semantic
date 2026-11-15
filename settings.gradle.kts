@@ -50,6 +50,7 @@ module("semantic-ddd-spring-boot-starter-mongodb", "design/ddd/spring-boot/start
 module("semantic-dbc", "design/dbc/core")
 module("semantic-algebra", "design/algebra/core")
 module("semantic-pattern", "design/pattern/core")
+module("semantic-pattern-spring", "design/pattern/spring/core")
 
 module("semantic-layered", "architecture/style/layered/core")
 module("semantic-onion", "architecture/style/onion/core")

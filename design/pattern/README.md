@@ -3,7 +3,8 @@
 Classic patterns of objects for Kotlin and Java, grouped as the Gang of Four groups
 them: creational, structural, behavioral, plus the patterns of Patterns of Enterprise
 Application Architecture by Fowler in a group of our own, enterprise. A package per group,
-a package per pattern inside it. Plain Kotlin, no framework; adapters come as modules of their own.
+a package per pattern inside it. Plain Kotlin, no framework; adapters come as modules of their own:
+`semantic-pattern-spring` for Spring.
 
 In place so far: a registry with its store, a registrar and a factory in the creational group;
 the contracts of Composite and Decorator in the structural one; a resolver and the base types of Visitor in the
@@ -21,7 +22,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.factory` | `Factory`, an instance made of its definition; `Factory.Definition`, the marker of a definition |
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
 | `structural.composite` | `Composite`, the base type of a hierarchy whose containers and leaves a client treats alike; `MutableComposite`, a container whose children change after it is made |
-| `structural.decorator` | `Decorator`, a wrapper that holds its component and adds a responsibility to it; `DecoratorFactory`, a component wrapped in a decorator of its type; `AnnotationDecoratorFactory`, a decorator configured by an annotation of the component; `Decorated`, the mark of such an annotation |
+| `structural.decorator` | `Decorator`, a wrapper that holds its component and adds a responsibility to it; `DecoratorFactory`, a component wrapped in a decorator of its type |
 | `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name; `TypeHierarchyResolver`, the candidates that declare the class of a context, one of its superclasses or interfaces |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
 | `behavioral.visitor` | `Visitor`, the base type of the visitors of a hierarchy, with `visit`, the method of any element, which each visit method of a hierarchy falls back to; `Visitable`, an element of a hierarchy with `accept` |
@@ -308,14 +309,20 @@ whose beans Spring WebFlux applies in their order, and `decorate` as `decorate` 
 `ServerHttpRequestDecorator` apart from the factory. The compiler checks that a factory returns the type of
 its component.
 
-### Annotations
+### Spring
 
-`AnnotationDecoratorFactory<A, T>` makes a decorator configured by an annotation of the component. `Decorated` on
-an annotation names its factory, as `@Constraint(validatedBy = ...)` of Bean Validation names the
-`ConstraintValidator<A, T>` of a constraint and `@Conditional` names the condition of `@ConditionalOnClass` in
-Spring Boot:
+`semantic-pattern-spring` decorates a bean by its annotations. `AnnotationDecoratorFactory<A, T>` makes a decorator
+configured by an annotation of the bean. `Decorated` on an annotation names its factory, as
+`@Constraint(validatedBy = ...)` of Bean Validation names the `ConstraintValidator<A, T>` of a constraint and
+`@Conditional` names the condition of `@ConditionalOnClass` in Spring Boot. `DecoratedAnnotationBeanPostProcessor`
+wraps a bean by the factories its annotations name, as `DataSourceDecoratorBeanPostProcessor` wraps a `DataSource`
+by its decorators. It is named as `ScheduledAnnotationBeanPostProcessor` of Spring, which acts on `@Scheduled`:
 
 ```kotlin
+@Configuration
+@Import(DecoratedAnnotationBeanPostProcessor::class)
+class DecoratorConfiguration
+
 @Target(AnnotationTarget.CLASS)
 @Decorated(BorderDecoratorFactory::class)
 annotation class Bordered(val width: Int)
@@ -326,37 +333,56 @@ class BorderDecoratorFactory : AnnotationDecoratorFactory<Bordered, VisualCompon
         BorderDecorator(target, annotation.width)
 }
 
-@Bordered(2)
-class Caption(text: String) : VisualComponent by TextView(text)
+@Target(AnnotationTarget.CLASS)
+@Decorated(ScrollDecoratorFactory::class)
+annotation class Scrolled
+
+@Bordered(1)
+@Scrolled
+class TextArea : VisualComponent by TextView("text")
 ```
 
-An annotation decorates the component it is put on, not each component of a type. It names one factory, so
-an annotation is one decorator: several decorators take several annotations. The contracts are plain Kotlin,
-as Bean Validation knows no container; an adapter makes the factories and wraps the components.
+The bean of `TextArea` is a `BorderDecorator` around a `ScrollDecorator` around the text area itself:
+
+- The annotations of a class apply in the order they are written: the top one makes the outermost decorator,
+  the one a call reaches first, as the top one of stacked decorators of Python and TypeScript does. JUnit
+  registers several `@ExtendWith` in the order of the source in the same way. Only the annotations put on the
+  class itself count: inherited and composed ones would mix the order. The Javadoc of `getDeclaredAnnotations`
+  promises no order, though javac, the Kotlin compiler and HotSpot keep the one of the source, and a test checks it.
+- An annotation decorates the bean it is put on, not each bean of a type. It names one factory, so an annotation
+  is one decorator: several decorators take several annotations.
+- A repeated annotation decorates once per repetition. The compiler packs the repetitions into one container in
+  the place of the first one, so they apply together there: write them in a row.
+- `Decorated` carries `@Component`, as `@Repository` of Spring does, which marks a bean for
+  `PersistenceExceptionTranslationPostProcessor` as well: the scan of components finds a class with a decorating
+  annotation without `@Component`. The scan does not look into the container of a repeated annotation, so a class
+  with nothing but repetitions takes `@Component` itself. A class with only a composed annotation is found too,
+  yet stays bare. A `String` attribute `value` of a decorating annotation would name the bean by a convention that
+  Spring deprecates: name it otherwise.
+- Only beans are decorated, whatever registers them: the scan, `@Bean` or `@Import`. An object made by its
+  constructor is not seen; the module scans no packages, as the application picks its beans itself.
+- An annotation is looked up on the class of the bean behind an AOP proxy.
+- A factory is made once per its class by `createBean` with its dependencies from the context, as
+  `SpringConstraintValidatorFactory` makes a validator, and destroyed with the context.
+- A factory of another type than the bean stops the startup with `BeanNotOfRequiredTypeException` of Spring; a
+  factory of another annotation, with an `IllegalStateException`.
+- A bean is replaced by a decorator of its interface: it is injected by the interface, not by its class.
+- Spring looks for `@EventListener` and `@RequestMapping` on the class of the bean, which is now the decorator,
+  and finds none; `@Scheduled` and listeners of messaging are bound before the decorators and call the bare bean.
 
 ### Plan of Decorator
 
-1. `Decorator`, `DecoratorFactory`, `AnnotationDecoratorFactory` and `Decorated`.
-2. A Spring adapter: a `BeanPostProcessor` wraps a bean by the factories of its type and of its annotations,
-   as `DataSourceDecoratorBeanPostProcessor` wraps a `DataSource` by its decorators.
-   - The annotations of a class apply in the order they are written: the top one makes the outermost
-     decorator, the one a call reaches first, as the top one of stacked decorators of Python and TypeScript
-     does. JUnit registers several `@ExtendWith` in the order of the source in the same way. Only the
-     annotations put on the class itself count: inherited and composed ones would mix the order. The
-     Javadoc of `getAnnotations` promises no order, though javac, the Kotlin compiler and HotSpot keep the
-     one of the source, so a test of the adapter checks it.
-   - The factories of a type, which no class names, apply in `@Order`: the first makes the outermost
-     decorator, as advice of Spring AOP with the lowest `@Order` and `HttpHandlerDecoratorFactory` do.
-     `CompositeTaskDecorator` of Spring and Scrutor make the first the innermost instead.
+1. `Decorator` and `DecoratorFactory`.
+2. `AnnotationDecoratorFactory`, `Decorated` and `DecoratedAnnotationBeanPostProcessor`.
+3. A `BeanPostProcessor` that wraps each bean of a type by the `DecoratorFactory` beans of the type:
+   - They apply in `@Order`: the first makes the outermost decorator, as advice of Spring AOP with the lowest
+     `@Order` and `HttpHandlerDecoratorFactory` do. `CompositeTaskDecorator` of Spring and Scrutor make the first
+     the innermost instead.
    - It replaces `@Primary` and `@Qualifier`, where each decorator injects the next by the name of its bean:
      a decorator knows neither its neighbours nor its place, a new one goes in between without a change of them,
      and the context has no undecorated component to inject by mistake.
-   - A factory named by an annotation is a bean of its class, as `SpringConstraintValidatorFactory` makes a
-     validator. A factory of another type than the bean stops the startup with an error of the contract, as
-     `UnexpectedTypeException` of Bean Validation does. An annotation is looked up on the class of the bean
-     behind an AOP proxy.
-   - A bean is replaced by a decorator of its interface: it is injected by the interface, not by its class.
-3. Interceptors bound to annotations of methods over `AnnotationMatchingPointcut`, as `@Retryable` of Spring is,
+4. An auto-configuration of Spring Boot that registers both post-processors.
+5. Interceptors bound to annotations of methods over `AnnotationMatchingPointcut`, as `@Retryable` of Spring is,
    with a check at startup that a proxy reaches each annotated method: Spring only logs a final one.
 
 ## Resolver

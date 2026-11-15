@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertInstanceOf
 import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.Test
-import pro.vlprojects.semantic.pattern.structural.decorator.Decorated
 import pro.vlprojects.semantic.pattern.structural.decorator.Decorator
 import pro.vlprojects.semantic.pattern.structural.decorator.DecoratorFactory
 
@@ -47,20 +46,5 @@ class DecoratorTests {
         val scroll = assertInstanceOf(Decorator::class.java, window.delegate)
 
         assertSame(this.view, scroll.delegate)
-    }
-
-    @Test
-    fun `an annotation names the factory of its decorator`() {
-        val decorated = Bordered::class.java.getAnnotation(Decorated::class.java)
-
-        assertEquals(BorderDecoratorFactory::class, decorated.value)
-    }
-
-    @Test
-    fun `a factory configures a decorator by the annotation of the component`() {
-        val caption = Caption("text")
-        val annotation = Caption::class.java.getAnnotation(Bordered::class.java)
-
-        assertEquals("||text||", BorderDecoratorFactory().decorate(caption, annotation).draw())
     }
 }
