@@ -1,0 +1,14 @@
+public abstract interface class pro/vlprojects/semantic/pattern/structural/decorator/AnnotationDecoratorFactory {
+	public abstract fun decorate (Ljava/lang/Object;Ljava/lang/annotation/Annotation;)Ljava/lang/Object;
+}
+
+public abstract interface annotation class pro/vlprojects/semantic/pattern/structural/decorator/Decorated : java/lang/annotation/Annotation {
+	public abstract fun value ()Ljava/lang/Class;
+}
+
+public final class pro/vlprojects/semantic/pattern/structural/decorator/DecoratedAnnotationBeanPostProcessor : org/springframework/beans/factory/DisposableBean, org/springframework/beans/factory/config/BeanPostProcessor {
+	public fun <init> (Lorg/springframework/beans/factory/config/AutowireCapableBeanFactory;)V
+	public fun destroy ()V
+	public fun postProcessAfterInitialization (Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/Object;
+}
+
