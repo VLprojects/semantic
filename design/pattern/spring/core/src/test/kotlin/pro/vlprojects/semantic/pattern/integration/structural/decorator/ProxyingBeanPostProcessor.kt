@@ -1,4 +1,4 @@
-package pro.vlprojects.semantic.pattern.integration.structural.decorator.spring
+package pro.vlprojects.semantic.pattern.integration.structural.decorator
 
 import org.springframework.aop.framework.ProxyFactory
 import org.springframework.beans.factory.config.BeanPostProcessor

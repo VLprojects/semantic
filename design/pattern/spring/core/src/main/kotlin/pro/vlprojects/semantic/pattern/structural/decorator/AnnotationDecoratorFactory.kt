@@ -1,4 +1,4 @@
-package pro.vlprojects.semantic.pattern.structural.decorator.spring
+package pro.vlprojects.semantic.pattern.structural.decorator
 
 /**
  * Wraps a [target] that carries an [annotation] marked with [Decorated]

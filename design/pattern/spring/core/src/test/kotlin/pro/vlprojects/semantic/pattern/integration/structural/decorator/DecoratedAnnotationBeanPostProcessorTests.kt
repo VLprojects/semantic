@@ -1,4 +1,4 @@
-package pro.vlprojects.semantic.pattern.integration.structural.decorator.spring
+package pro.vlprojects.semantic.pattern.integration.structural.decorator
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertInstanceOf
@@ -10,8 +10,8 @@ import org.springframework.aop.support.AopUtils
 import org.springframework.beans.factory.BeanCreationException
 import org.springframework.beans.factory.BeanNotOfRequiredTypeException
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
-import pro.vlprojects.semantic.pattern.integration.structural.decorator.spring.scannable.Note
-import pro.vlprojects.semantic.pattern.structural.decorator.spring.DecoratedAnnotationBeanPostProcessor
+import pro.vlprojects.semantic.pattern.integration.structural.decorator.scannable.Note
+import pro.vlprojects.semantic.pattern.structural.decorator.DecoratedAnnotationBeanPostProcessor
 
 class DecoratedAnnotationBeanPostProcessorTests {
 

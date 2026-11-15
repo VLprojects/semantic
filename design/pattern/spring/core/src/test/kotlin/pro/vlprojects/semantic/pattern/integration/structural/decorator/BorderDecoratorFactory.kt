@@ -1,6 +1,6 @@
-package pro.vlprojects.semantic.pattern.integration.structural.decorator.spring
+package pro.vlprojects.semantic.pattern.integration.structural.decorator
 
-import pro.vlprojects.semantic.pattern.structural.decorator.spring.AnnotationDecoratorFactory
+import pro.vlprojects.semantic.pattern.structural.decorator.AnnotationDecoratorFactory
 
 class BorderDecoratorFactory(private val style: BorderStyle) : AnnotationDecoratorFactory<Bordered, VisualComponent> {
 

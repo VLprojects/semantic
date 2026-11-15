@@ -1,4 +1,4 @@
-package pro.vlprojects.semantic.pattern.structural.decorator.spring
+package pro.vlprojects.semantic.pattern.structural.decorator
 
 import org.springframework.stereotype.Component
 import kotlin.reflect.KClass
