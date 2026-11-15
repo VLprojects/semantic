@@ -10,6 +10,7 @@ import org.springframework.aop.support.AopUtils
 import org.springframework.beans.factory.BeanCreationException
 import org.springframework.beans.factory.BeanNotOfRequiredTypeException
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
+import pro.vlprojects.semantic.pattern.integration.structural.decorator.spring.scannable.Note
 import pro.vlprojects.semantic.pattern.structural.decorator.spring.DecoratedAnnotationBeanPostProcessor
 
 class DecoratedAnnotationBeanPostProcessorTests {
@@ -30,6 +31,17 @@ class DecoratedAnnotationBeanPostProcessorTests {
         this.start(Frame::class.java).use { context ->
             assertEquals("#1#2frame#2#1", context.getBean(VisualComponent::class.java).draw())
         }
+    }
+
+    @Test
+    fun `a class with a decorating annotation is a component of the scan`() {
+        AnnotationConfigApplicationContext()
+            .apply {
+                register(DecoratedAnnotationBeanPostProcessor::class.java, BorderStyle::class.java)
+                scan(Note::class.java.packageName)
+                refresh()
+            }
+            .use { context -> assertEquals("#1note#1", context.getBean(VisualComponent::class.java).draw()) }
     }
 
     @Test

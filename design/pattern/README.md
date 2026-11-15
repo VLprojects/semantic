@@ -22,7 +22,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.factory` | `Factory`, an instance made of its definition; `Factory.Definition`, the marker of a definition |
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
 | `structural.composite` | `Composite`, the base type of a hierarchy whose containers and leaves a client treats alike; `MutableComposite`, a container whose children change after it is made |
-| `structural.decorator` | `Decorator`, a wrapper that holds its component and adds a responsibility to it; `DecoratorFactory`, a component wrapped in a decorator of its type; `AnnotationDecoratorFactory`, a decorator configured by an annotation of the component; `Decorated`, the mark of such an annotation |
+| `structural.decorator` | `Decorator`, a wrapper that holds its component and adds a responsibility to it; `DecoratorFactory`, a component wrapped in a decorator of its type |
 | `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
 | `behavioral.visitor` | `Visitor`, the base type of the visitors of a hierarchy, with `visit`, the method of any element, which each visit method of a hierarchy falls back to; `Visitable`, an element of a hierarchy with `accept` |
@@ -309,14 +309,20 @@ whose beans Spring WebFlux applies in their order, and `decorate` as `decorate` 
 `ServerHttpRequestDecorator` apart from the factory. The compiler checks that a factory returns the type of
 its component.
 
-### Annotations
+### Spring
 
-`AnnotationDecoratorFactory<A, T>` makes a decorator configured by an annotation of the component. `Decorated` on
-an annotation names its factory, as `@Constraint(validatedBy = ...)` of Bean Validation names the
-`ConstraintValidator<A, T>` of a constraint and `@Conditional` names the condition of `@ConditionalOnClass` in
-Spring Boot:
+`semantic-pattern-spring` decorates a bean by its annotations. `AnnotationDecoratorFactory<A, T>` makes a decorator
+configured by an annotation of the bean. `Decorated` on an annotation names its factory, as
+`@Constraint(validatedBy = ...)` of Bean Validation names the `ConstraintValidator<A, T>` of a constraint and
+`@Conditional` names the condition of `@ConditionalOnClass` in Spring Boot. `DecoratedAnnotationBeanPostProcessor`
+wraps a bean by the factories its annotations name, as `DataSourceDecoratorBeanPostProcessor` wraps a `DataSource`
+by its decorators. It is named as `ScheduledAnnotationBeanPostProcessor` of Spring, which acts on `@Scheduled`:
 
 ```kotlin
+@Configuration
+@Import(DecoratedAnnotationBeanPostProcessor::class)
+class DecoratorConfiguration
+
 @Target(AnnotationTarget.CLASS)
 @Decorated(BorderDecoratorFactory::class)
 annotation class Bordered(val width: Int)
@@ -327,32 +333,12 @@ class BorderDecoratorFactory : AnnotationDecoratorFactory<Bordered, VisualCompon
         BorderDecorator(target, annotation.width)
 }
 
-@Bordered(2)
-class Caption(text: String) : VisualComponent by TextView(text)
-```
-
-An annotation decorates the component it is put on, not each component of a type. It names one factory, so
-an annotation is one decorator: several decorators take several annotations. The contracts are plain Kotlin,
-as Bean Validation knows no container; an adapter makes the factories and wraps the components.
-
-### Spring
-
-`DecoratedAnnotationBeanPostProcessor` of `semantic-pattern-spring` wraps a bean by the factories its
-annotations name, as `DataSourceDecoratorBeanPostProcessor` wraps a `DataSource` by its decorators. It is named
-as `ScheduledAnnotationBeanPostProcessor` of Spring, which acts on `@Scheduled`:
-
-```kotlin
-@Configuration
-@Import(DecoratedAnnotationBeanPostProcessor::class)
-class DecoratorConfiguration
-
 @Target(AnnotationTarget.CLASS)
 @Decorated(ScrollDecoratorFactory::class)
 annotation class Scrolled
 
 @Bordered(1)
 @Scrolled
-@Component
 class TextArea : VisualComponent by TextView("text")
 ```
 
@@ -363,9 +349,17 @@ The bean of `TextArea` is a `BorderDecorator` around a `ScrollDecorator` around 
   registers several `@ExtendWith` in the order of the source in the same way. Only the annotations put on the
   class itself count: inherited and composed ones would mix the order. The Javadoc of `getDeclaredAnnotations`
   promises no order, though javac, the Kotlin compiler and HotSpot keep the one of the source, and a test checks it.
+- An annotation decorates the bean it is put on, not each bean of a type. It names one factory, so an annotation
+  is one decorator: several decorators take several annotations.
 - A repeated annotation decorates once per repetition. The compiler packs the repetitions into one container in
   the place of the first one, so they apply together there: write them in a row.
-- Only beans are decorated, whatever registers them: `@Component`, `@Bean` or `@Import`. An object made by its
+- `Decorated` carries `@Component`, as `@Repository` of Spring does, which marks a bean for
+  `PersistenceExceptionTranslationPostProcessor` as well: the scan of components finds a class with a decorating
+  annotation without `@Component`. The scan does not look into the container of a repeated annotation, so a class
+  with nothing but repetitions takes `@Component` itself. A class with only a composed annotation is found too,
+  yet stays bare. A `String` attribute `value` of a decorating annotation would name the bean by a convention that
+  Spring deprecates: name it otherwise.
+- Only beans are decorated, whatever registers them: the scan, `@Bean` or `@Import`. An object made by its
   constructor is not seen; the module scans no packages, as the application picks its beans itself.
 - An annotation is looked up on the class of the bean behind an AOP proxy.
 - A factory is made once per its class by `createBean` with its dependencies from the context, as
@@ -378,8 +372,8 @@ The bean of `TextArea` is a `BorderDecorator` around a `ScrollDecorator` around 
 
 ### Plan of Decorator
 
-1. `Decorator`, `DecoratorFactory`, `AnnotationDecoratorFactory` and `Decorated`.
-2. `DecoratedAnnotationBeanPostProcessor`.
+1. `Decorator` and `DecoratorFactory`.
+2. `AnnotationDecoratorFactory`, `Decorated` and `DecoratedAnnotationBeanPostProcessor`.
 3. A `BeanPostProcessor` that wraps each bean of a type by the `DecoratorFactory` beans of the type:
    - They apply in `@Order`: the first makes the outermost decorator, as advice of Spring AOP with the lowest
      `@Order` and `HttpHandlerDecoratorFactory` do. `CompositeTaskDecorator` of Spring and Scrutor make the first

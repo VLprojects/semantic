@@ -9,8 +9,6 @@ import org.springframework.core.ResolvableType
 import org.springframework.core.annotation.MergedAnnotation
 import org.springframework.core.annotation.MergedAnnotations
 import org.springframework.core.annotation.MergedAnnotations.SearchStrategy
-import pro.vlprojects.semantic.pattern.structural.decorator.AnnotationDecoratorFactory
-import pro.vlprojects.semantic.pattern.structural.decorator.Decorated
 import java.util.concurrent.ConcurrentHashMap
 
 public class DecoratedAnnotationBeanPostProcessor(

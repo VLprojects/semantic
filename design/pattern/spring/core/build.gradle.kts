@@ -4,8 +4,6 @@ plugins {
 
 dependencies {
     api(project(":semantic-pattern"))
-    api(libs.spring.beans)
+    api(libs.spring.context)
     implementation(libs.spring.aop)
-
-    testImplementation(libs.spring.context)
 }
