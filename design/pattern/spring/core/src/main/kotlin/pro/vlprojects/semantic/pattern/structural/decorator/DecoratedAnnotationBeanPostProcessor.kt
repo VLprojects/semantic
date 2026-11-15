@@ -64,10 +64,16 @@ public class DecoratedAnnotationBeanPostProcessor(
     }
 
     // createBean may post-process an annotated bean, so it runs outside computeIfAbsent, which forbids recursion
-    private fun getOrCreateFactory(factoryClass: Class<*>) = this.factories[factoryClass]
-        ?: factoryClass
-            .let(::createFactory)
-            .let { factory -> this.factories.putIfAbsent(factoryClass, factory) ?: factory }
+    private fun getOrCreateFactory(factoryClass: Class<*>): AnnotationDecoratorFactory<Annotation, Any> {
+        val existing = this.factories[factoryClass]
+        if (existing != null) {
+            return existing
+        }
+
+        val created = this.createFactory(factoryClass)
+
+        return this.factories.putIfAbsent(factoryClass, created) ?: created
+    }
 
     @Suppress("UNCHECKED_CAST") // the generics of the factory are checked against the annotation and the target
     private fun createFactory(factoryClass: Class<*>) = this.beanFactory
