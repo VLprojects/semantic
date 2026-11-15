@@ -23,7 +23,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
 | `structural.composite` | `Composite`, the base type of a hierarchy whose containers and leaves a client treats alike; `MutableComposite`, a container whose children change after it is made |
 | `structural.decorator` | `Decorator`, a wrapper that holds its component and adds a responsibility to it; `DecoratorFactory`, a component wrapped in a decorator of its type |
-| `structural.proxy` | `Proxy`, a surrogate that stands for its real subject and controls the access to it; `ProxyFactory`, a target behind a proxy of its type |
+| `structural.proxy` | `Proxy`, a surrogate that stands for its real subject and controls the access to it; `ProxyFactory`, a delegate behind a proxy of its type |
 | `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
 | `behavioral.visitor` | `Visitor`, the base type of the visitors of a hierarchy, with `visit`, the method of any element, which each visit method of a hierarchy falls back to; `Visitable`, an element of a hierarchy with `accept` |
@@ -402,30 +402,30 @@ as decorators are.
 | --- | --- | --- |
 | Subject | an interface of the application | the operations a client calls |
 | RealSubject | a class that implements it | the whole work of the operations |
-| Proxy | a class that implements `Proxy` and the subject | the target, private, and the control of each call to it |
+| Proxy | a class that implements `Proxy` and the subject | the delegate, private, and the control of each call to it |
 
 `Proxy<T>` names the role, as `SpringProxy` marks a proxy of Spring AOP and `HibernateProxy` a proxy of
 Hibernate. A proxy keeps the object the book calls the real subject private, as the book keeps `_image`: a
-call that reached it past the proxy would go round the control. It shows `targetClass`, the class of the
-target, as `getTargetClass` of Spring `TargetClassAware` and `getPersistentClass` of a Hibernate
+call that reached it past the proxy would go round the control. It shows `delegateClass`, the class of the
+delegate, as `getTargetClass` of Spring `TargetClassAware` and `getPersistentClass` of a Hibernate
 `LazyInitializer` do: an adapter finds the annotations of the class behind a proxy, as `AopUtils.getTargetClass`
 does, and a log names it. The interface of the subject a proxy implements itself: a type parameter is no
 supertype, so `Proxy<T>` cannot make a class a `T`. A client depends on the interface of the subject, not on
 `Proxy`.
 
-`isTargetInitialized()` tells whether the target is there, without making it, as `Hibernate.isInitialized`,
-`isInitialized` of a Kotlin `Lazy` and `isLoaded` of a JPA `PersistenceUnitUtil` do: a log or a serializer
-skips a proxy whose target is not there instead of reading a file or a database for it, as
+`isDelegateLoaded()` tells whether the delegate is there, without making it, as `isLoaded` of a JPA
+`PersistenceUnitUtil`, `Hibernate.isInitialized` and `isInitialized` of a Kotlin `Lazy` do: a log or a serializer
+skips a proxy whose delegate is not there instead of reading a file or a database for it, as
 `HibernateProxySerializer` of the Jackson Hibernate module writes `null` for a proxy that is not initialized
-unless `FORCE_LAZY_LOADING` is on. A virtual proxy answers by its `Lazy`; a protection proxy holds its target
+unless `FORCE_LAZY_LOADING` is on. A virtual proxy answers by its `Lazy`; a protection proxy holds its delegate
 from the start and answers `true`. The method has no default: a virtual proxy that forgot it would tell a lie.
 
-A virtual proxy is given the class of its target, since it tells the class before it makes the target, as
+A virtual proxy is given the class of its delegate, since it tells the class before it makes the delegate, as
 Hibernate takes the class of an entity from its mapping and `LazyInitTargetSource` of Spring from the
-definition of a bean. The target made later may be of a subclass.
+definition of a bean. The delegate made later may be of a subclass.
 
-A remote proxy has no `Proxy` type here: its target lives in another address space, and there is no
-object here to initialize. Spring `HttpServiceProxyFactory`, Retrofit and Feign make such proxies of an
+A remote proxy has no `Proxy` type here: its delegate lives in another address space, and there is no
+object here to load. Spring `HttpServiceProxyFactory`, Retrofit and Feign make such proxies of an
 interface.
 
 The example of the book, an image of a document loaded on its first draw:
@@ -438,13 +438,13 @@ interface Graphic {
     fun draw(): String
 }
 
-class ImageProxy(override val targetClass: KClass<out Graphic>, initialize: () -> Graphic, override val extent: Int) :
+class ImageProxy(override val delegateClass: KClass<out Graphic>, initialize: () -> Graphic, override val extent: Int) :
     Graphic,
     Proxy<Graphic> {
 
     private val image = lazy(initialize)
 
-    override fun isTargetInitialized() = this.image.isInitialized()
+    override fun isDelegateLoaded() = this.image.isInitialized()
 
     override fun draw() = this.image.value.draw()
 }
@@ -452,7 +452,7 @@ class ImageProxy(override val targetClass: KClass<out Graphic>, initialize: () -
 
 The proxy answers `extent` from the document and reads the file only to draw the image, as `ImageProxy`
 of the book does. The proxy of the book makes its image by the name of a file; this one takes the way to
-load it, so a factory or a container decides where the image comes from. A protection proxy takes its target
+load it, so a factory or a container decides where the image comes from. A protection proxy takes its delegate
 ready, checks the rights on each call and forwards by `by` what it does not check. `by` takes a private
 property or a plain parameter of the constructor as well:
 
@@ -461,9 +461,9 @@ class GuardedImage(private val image: Graphic, private val isAllowed: () -> Bool
     Graphic by image,
     Proxy<Graphic> {
 
-    override val targetClass = this.image::class
+    override val delegateClass = this.image::class
 
-    override fun isTargetInitialized() = true
+    override fun isDelegateLoaded() = true
 
     override fun draw() = when {
         this.isAllowed() -> this.image.draw()
@@ -472,15 +472,15 @@ class GuardedImage(private val image: Graphic, private val isAllowed: () -> Bool
 }
 ```
 
-`by` has the hole described for Decorator: a member that `Graphic` gains later goes to the target with no
+`by` has the hole described for Decorator: a member that `Graphic` gains later goes to the delegate with no
 check of rights. `by` keeps the object it was given when the proxy was made, so a virtual proxy cannot use it
-without making the target at once: it writes each member and keeps the body a member has in the interface
+without making the delegate at once: it writes each member and keeps the body a member has in the interface
 instead of loading the image for it.
 
 ### Factories of proxies
 
-A factory puts a target that comes from outside behind a proxy of its type. It takes `initialize`, a function
-that makes the target, not the target itself: a virtual proxy of a ready object is late to save anything. A
+A factory puts a delegate that comes from outside behind a proxy of its type. It takes `initialize`, a function
+that makes the delegate, not the delegate itself: a virtual proxy of a ready object is late to save anything. A
 virtual proxy keeps the function until the first call, a protection proxy calls it at once:
 
 ```kotlin
@@ -493,7 +493,7 @@ val image = virtual.proxy { Image("photo.png") }
 `proxy` is named as `proxy` of `AuthorizationProxyFactory` of Spring Security, which puts a ready object behind
 a check of rights. `@Lazy` of Spring takes the way, as this factory does: the proxy it injects resolves the
 bean by its `TargetSource` on the first call, as `LazyInitTargetSource` does. The compiler checks that a factory
-returns the type of its target.
+returns the type of its delegate.
 
 ### Plan of Proxy
 
@@ -506,7 +506,7 @@ returns the type of its target.
    - A virtual proxy is made before the bean is: `postProcessBeforeInstantiation` of an
      `InstantiationAwareBeanPostProcessor` returns it, as `LazyInitTargetSourceCreator` of Spring AOP makes a
      lazy proxy of a bean, and gives the factory a way to get the bean from the context, as `@Lazy` does. The
-     class of the target comes from the definition of the bean.
+     class of the delegate comes from the definition of the bean.
    - A factory named by an annotation is a bean of its class, as for Decorator. A factory of another type
      than the bean stops the startup with an error of the contract.
    - A bean is replaced by a proxy of its interface: it is injected by the interface, not by its class.

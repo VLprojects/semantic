@@ -6,9 +6,9 @@ class GuardedImage(private val image: Graphic, private val isAllowed: () -> Bool
     Graphic by image,
     Proxy<Graphic> {
 
-    override val targetClass = this.image::class
+    override val delegateClass = this.image::class
 
-    override fun isTargetInitialized() = true
+    override fun isDelegateLoaded() = true
 
     override fun draw() = when {
         this.isAllowed() -> this.image.draw()
