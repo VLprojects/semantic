@@ -1,10 +1,10 @@
 package pro.vlprojects.semantic.pattern.structural.decorator
 
 /**
- * Wraps a [delegate] that carries an [annotation] marked with [Decorated]
+ * Wraps a [target] that carries an [annotation] marked with [Decorated]
  * in a decorator configured by the attributes of the annotation.
  */
 public interface AnnotationDecoratorFactory<A : Annotation, T : Any> {
 
-    public fun decorate(delegate: T, annotation: A): T
+    public fun decorate(target: T, annotation: A): T
 }

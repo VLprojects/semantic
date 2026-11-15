@@ -4,6 +4,6 @@ import pro.vlprojects.semantic.pattern.structural.decorator.AnnotationDecoratorF
 
 class BorderDecoratorFactory : AnnotationDecoratorFactory<Bordered, VisualComponent> {
 
-    override fun decorate(delegate: VisualComponent, annotation: Bordered) =
-        BorderDecorator(delegate, annotation.width)
+    override fun decorate(target: VisualComponent, annotation: Bordered) =
+        BorderDecorator(target, annotation.width)
 }
