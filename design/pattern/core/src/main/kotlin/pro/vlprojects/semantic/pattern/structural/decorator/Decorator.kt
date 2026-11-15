@@ -11,7 +11,7 @@ import kotlin.reflect.KClass
  *     VisualComponent by delegate,
  *     Decorator<VisualComponent> {
  *
- *     override val targetClass = this.delegate::class
+ *     override val delegateClass = this.delegate::class
  *
  *     override fun draw() = this.delegate.draw() + "↕"
  * }
