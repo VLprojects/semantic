@@ -7,39 +7,39 @@ import com.google.devtools.ksp.symbol.KSTypeReference
 import com.tschuchort.compiletesting.SourceFile
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.junit.jupiter.api.Test
-import pro.vlprojects.semantic.ksp.helper.getAllInvolvedClasses
 import pro.vlprojects.semantic.ksp.helper.getQualifiedName
+import pro.vlprojects.semantic.ksp.helper.getReferencedClasses
 
 @OptIn(ExperimentalCompilerApi::class)
 class KSTypeReferenceHelperTests {
 
     @Test
-    fun `the classes of the arguments are involved, each once`() = this.assertInvolvedClasses(
+    fun `the classes of the arguments are referenced, each once`() = this.assertReferencedClasses(
         "abstract class Index { abstract val value: Map<String, List<String>> }",
         "Index -> [kotlin.String, kotlin.collections.List, kotlin.collections.Map]",
     )
 
     @Test
-    fun `a type alias involves the classes it stands for`() = this.assertInvolvedClasses(
+    fun `a type alias refers to the classes it stands for`() = this.assertReferencedClasses(
         "typealias Names = List<String>\nabstract class Roster { abstract val names: Names }",
         "Roster -> [kotlin.String, kotlin.collections.List]",
     )
 
     @Test
-    fun `a bound that leads back to its own parameter is walked once`() = this.assertInvolvedClasses(
+    fun `a bound that leads back to its own parameter is walked once`() = this.assertReferencedClasses(
         "abstract class Sorter<T : Comparable<T>> { abstract val latest: T }",
         "Sorter -> [kotlin.Comparable]",
     )
 
-    private fun assertInvolvedClasses(source: String, report: String) = SourceFile
-        .kotlin("Involved.kt", source)
-        .let { file -> compileReporting(::reportInvolvedClasses, file) }
+    private fun assertReferencedClasses(source: String, report: String) = SourceFile
+        .kotlin("Referenced.kt", source)
+        .let { file -> compileReporting(::reportReferencedClasses, file) }
         .assertReports(report)
 
-    private fun reportInvolvedClasses(declaration: KSClassDeclaration) = declaration
+    private fun reportReferencedClasses(declaration: KSClassDeclaration) = declaration
         .getDeclaredProperties()
         .map(KSPropertyDeclaration::type)
-        .flatMap(KSTypeReference::getAllInvolvedClasses)
+        .flatMap(KSTypeReference::getReferencedClasses)
         .map(KSClassDeclaration::getQualifiedName)
         .sorted()
         .joinToString()

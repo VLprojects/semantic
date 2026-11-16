@@ -7,7 +7,7 @@ import com.tschuchort.compiletesting.SourceFile
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.junit.jupiter.api.Test
 import pro.vlprojects.semantic.ksp.helper.getAnnotationClass
-import pro.vlprojects.semantic.ksp.helper.getClassArray
+import pro.vlprojects.semantic.ksp.helper.getClassLiterals
 import pro.vlprojects.semantic.ksp.helper.getQualifiedName
 
 @OptIn(ExperimentalCompilerApi::class)
@@ -20,7 +20,7 @@ class KSAnnotationHelperTests {
         .assertReports("Invoice -> [pro.vlprojects.semantic.ksp.helper.integration.Audited]")
 
     @Test
-    fun `the classes of an array attribute are read from Kotlin and from Java`() {
+    fun `the class literals of an argument are read from Kotlin and from Java`() {
         val kotlinFile = SourceFile.kotlin(
             "Subjects.kt",
             """
@@ -48,7 +48,7 @@ class KSAnnotationHelperTests {
 
     private fun reportSubjects(declaration: KSClassDeclaration) = declaration.annotations
         .firstOrNull()
-        ?.getClassArray("classes")
+        ?.getClassLiterals("classes")
         .orEmpty()
         .map(KSType::declaration)
         .joinToString(transform = KSDeclaration::getQualifiedName)

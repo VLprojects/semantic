@@ -10,8 +10,8 @@ The helpers are in `pro.vlprojects.semantic.ksp.helper`, a file per type they ex
 | --- | --- | --- |
 | `KSAnnotated` | `getAnnotation(KClass)`, `hasAnnotation(KClass)` | the annotation of a class, also under a type alias |
 | `KSAnnotation` | `getAnnotationClass()` | the class of the annotation, a type alias expanded |
-| `KSAnnotation` | `getClassArray(attributeName)` | the classes of an array attribute, a single class of Java too |
-| `KSTypeReference` | `getAllInvolvedClasses()` | the classes of a type: arguments, type aliases, bounds of type parameters |
+| `KSAnnotation` | `getClassLiterals(argumentName)` | the class literals of an argument, `Ledger::class` or `Ledger.class`, a single one of Java too |
+| `KSTypeReference` | `getReferencedClasses()` | the classes a type refers to: its own, of arguments, type aliases, bounds of type parameters |
 | `KSClassDeclaration` | `getNestedClasses()` | the classes nested directly in the class |
 | `KSDeclaration` | `getShortName()`, `getQualifiedName()` | the name without the package, `FileModule.SharedClient`, and the full one |
 | `KSDeclaration` | `isSynthetic()` | a member the compiler generates: of a data class, of a delegate |
@@ -21,8 +21,8 @@ a type alias; `getAnnotation` compares the qualified name of the class the alias
 
 ```kotlin
 declaration.hasAnnotation(Facade::class)
-declaration.getAnnotation(Facade::class)?.getClassArray("subsystems")
-property.type.getAllInvolvedClasses() // Map<String, List<FileEntity>>: String, FileEntity, List, Map
+declaration.getAnnotation(Facade::class)?.getClassLiterals("subsystems")
+property.type.getReferencedClasses() // Map<String, List<FileEntity>>: String, FileEntity, List, Map
 ```
 
 A bound that leads back to its own parameter, as `T : Comparable<T>`, is walked once.

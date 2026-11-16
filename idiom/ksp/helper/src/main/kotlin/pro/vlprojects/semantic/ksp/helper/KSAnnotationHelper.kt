@@ -13,8 +13,8 @@ public fun KSAnnotation.getAnnotationClass(): KSClassDeclaration? =
         else -> declaration as? KSClassDeclaration
     }
 
-public fun KSAnnotation.getClassArray(attributeName: String): List<KSType> = this.arguments
-    .filter { argument -> argument.name?.asString() == attributeName }
+public fun KSAnnotation.getClassLiterals(argumentName: String): List<KSType> = this.arguments
+    .filter { argument -> argument.name?.asString() == argumentName }
     .flatMap(KSValueArgument::toValueList)
     .filterIsInstance<KSType>()
 

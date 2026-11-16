@@ -5,7 +5,7 @@ public final class pro/vlprojects/semantic/ksp/helper/KSAnnotatedHelperKt {
 
 public final class pro/vlprojects/semantic/ksp/helper/KSAnnotationHelperKt {
 	public static final fun getAnnotationClass (Lcom/google/devtools/ksp/symbol/KSAnnotation;)Lcom/google/devtools/ksp/symbol/KSClassDeclaration;
-	public static final fun getClassArray (Lcom/google/devtools/ksp/symbol/KSAnnotation;Ljava/lang/String;)Ljava/util/List;
+	public static final fun getClassLiterals (Lcom/google/devtools/ksp/symbol/KSAnnotation;Ljava/lang/String;)Ljava/util/List;
 }
 
 public final class pro/vlprojects/semantic/ksp/helper/KSClassDeclarationHelperKt {
@@ -19,6 +19,6 @@ public final class pro/vlprojects/semantic/ksp/helper/KSDeclarationHelperKt {
 }
 
 public final class pro/vlprojects/semantic/ksp/helper/KSTypeReferenceHelperKt {
-	public static final fun getAllInvolvedClasses (Lcom/google/devtools/ksp/symbol/KSTypeReference;)Lkotlin/sequences/Sequence;
+	public static final fun getReferencedClasses (Lcom/google/devtools/ksp/symbol/KSTypeReference;)Lkotlin/sequences/Sequence;
 }
 
