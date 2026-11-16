@@ -12,5 +12,5 @@ public fun KSAnnotated.hasAnnotation(annotationClass: KClass<out Annotation>): B
     this.getAnnotation(annotationClass) != null
 
 private fun KSAnnotation.isInstanceOf(annotationClass: KClass<out Annotation>) = this
-    .getAnnotationClass()
+    .resolveClassDeclaration()
     ?.getQualifiedName() == annotationClass.qualifiedName

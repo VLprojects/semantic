@@ -9,10 +9,10 @@ The helpers are in `pro.vlprojects.semantic.ksp.helper`, a file per type they ex
 | Extends | Helper | What it gives |
 | --- | --- | --- |
 | `KSAnnotated` | `getAnnotation(KClass)`, `hasAnnotation(KClass)` | the annotation of a class, also under a type alias |
-| `KSAnnotation` | `getAnnotationClass()` | the class of the annotation, a type alias expanded |
-| `KSAnnotation` | `getClassLiterals(argumentName)` | the class literals of an argument, `Ledger::class` or `Ledger.class`, a single one of Java too |
+| `KSAnnotation` | `resolveClassDeclaration()` | the declaration of the class of the annotation, a type alias expanded |
+| `KSAnnotation` | `getTypeValues(argumentName)` | the types an argument holds, `Ledger::class` or `Ledger.class`, a single one of Java too |
 | `KSTypeReference` | `getReferencedClasses()` | the classes a type refers to: its own, of arguments, type aliases, bounds of type parameters |
-| `KSClassDeclaration` | `getNestedClasses()` | the classes nested directly in the class |
+| `KSClassDeclaration` | `getDeclaredClasses()` | the classes declared directly in the class |
 | `KSDeclaration` | `getShortName()`, `getQualifiedName()` | the name without the package, `FileModule.SharedClient`, and the full one |
 | `KSDeclaration` | `isSynthetic()` | a member the compiler generates: of a data class, of a delegate |
 
@@ -21,7 +21,7 @@ a type alias; `getAnnotation` compares the qualified name of the class the alias
 
 ```kotlin
 declaration.hasAnnotation(Facade::class)
-declaration.getAnnotation(Facade::class)?.getClassLiterals("subsystems")
+declaration.getAnnotation(Facade::class)?.getTypeValues("subsystems")
 property.type.getReferencedClasses() // Map<String, List<FileEntity>>: String, FileEntity, List, Map
 ```
 

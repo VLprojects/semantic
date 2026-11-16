@@ -6,21 +6,21 @@ import com.google.devtools.ksp.symbol.KSType
 import com.tschuchort.compiletesting.SourceFile
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.junit.jupiter.api.Test
-import pro.vlprojects.semantic.ksp.helper.getAnnotationClass
-import pro.vlprojects.semantic.ksp.helper.getClassLiterals
 import pro.vlprojects.semantic.ksp.helper.getQualifiedName
+import pro.vlprojects.semantic.ksp.helper.getTypeValues
+import pro.vlprojects.semantic.ksp.helper.resolveClassDeclaration
 
 @OptIn(ExperimentalCompilerApi::class)
 class KSAnnotationHelperTests {
 
     @Test
-    fun `the class of an annotation under a type alias is the class it stands for`() = SourceFile
+    fun `the class of an annotation under a type alias is the class the alias stands for`() = SourceFile
         .kotlin("Invoice.kt", "$AUDITED_IMPORT\ntypealias Checked = Audited\n@Checked\nclass Invoice")
         .let { file -> compileReporting(::reportAnnotationClass, file) }
         .assertReports("Invoice -> [pro.vlprojects.semantic.ksp.helper.integration.Audited]")
 
     @Test
-    fun `the class literals of an argument are read from Kotlin and from Java`() {
+    fun `the types of an argument are read from Kotlin and from Java`() {
         val kotlinFile = SourceFile.kotlin(
             "Subjects.kt",
             """
@@ -42,13 +42,13 @@ class KSAnnotationHelperTests {
 
     private fun reportAnnotationClass(declaration: KSClassDeclaration) = declaration.annotations
         .firstOrNull()
-        ?.getAnnotationClass()
+        ?.resolveClassDeclaration()
         ?.getQualifiedName()
         .orEmpty()
 
     private fun reportSubjects(declaration: KSClassDeclaration) = declaration.annotations
         .firstOrNull()
-        ?.getClassLiterals("classes")
+        ?.getTypeValues("classes")
         .orEmpty()
         .map(KSType::declaration)
         .joinToString(transform = KSDeclaration::getQualifiedName)

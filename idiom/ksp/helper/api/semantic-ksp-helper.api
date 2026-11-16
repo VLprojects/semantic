@@ -4,12 +4,12 @@ public final class pro/vlprojects/semantic/ksp/helper/KSAnnotatedHelperKt {
 }
 
 public final class pro/vlprojects/semantic/ksp/helper/KSAnnotationHelperKt {
-	public static final fun getAnnotationClass (Lcom/google/devtools/ksp/symbol/KSAnnotation;)Lcom/google/devtools/ksp/symbol/KSClassDeclaration;
-	public static final fun getClassLiterals (Lcom/google/devtools/ksp/symbol/KSAnnotation;Ljava/lang/String;)Ljava/util/List;
+	public static final fun getTypeValues (Lcom/google/devtools/ksp/symbol/KSAnnotation;Ljava/lang/String;)Ljava/util/List;
+	public static final fun resolveClassDeclaration (Lcom/google/devtools/ksp/symbol/KSAnnotation;)Lcom/google/devtools/ksp/symbol/KSClassDeclaration;
 }
 
 public final class pro/vlprojects/semantic/ksp/helper/KSClassDeclarationHelperKt {
-	public static final fun getNestedClasses (Lcom/google/devtools/ksp/symbol/KSClassDeclaration;)Lkotlin/sequences/Sequence;
+	public static final fun getDeclaredClasses (Lcom/google/devtools/ksp/symbol/KSClassDeclaration;)Lkotlin/sequences/Sequence;
 }
 
 public final class pro/vlprojects/semantic/ksp/helper/KSDeclarationHelperKt {
