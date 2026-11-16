@@ -20,6 +20,4 @@ public fun KSAnnotation.getClassLiterals(argumentName: String): List<KSType> = t
     .flatMap { value -> value as? List<*> ?: listOf(value) }
     .filterIsInstance<KSType>()
 
-private fun KSAnnotation.resolveAnnotationDeclaration() = this.annotationType
-    .resolve()
-    .declaration
+private fun KSAnnotation.resolveAnnotationDeclaration() = this.annotationType.resolve().declaration

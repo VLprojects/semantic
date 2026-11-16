@@ -29,8 +29,8 @@ private fun KSType.getReferencedClasses(visitedParameters: Set<KSTypeParameter>)
     }
 }
 
-private fun KSTypeAlias.getReferencedClasses(visitedParameters: Set<KSTypeParameter>) = this.type
-    .getReferencedClasses(visitedParameters)
+private fun KSTypeAlias.getReferencedClasses(visitedParameters: Set<KSTypeParameter>) =
+    this.type.getReferencedClasses(visitedParameters)
 
 // A visited parameter is skipped: a bound as T : Comparable<T> leads back to its own parameter.
 private fun KSTypeParameter.getReferencedClasses(visitedParameters: Set<KSTypeParameter>) = when (this) {
