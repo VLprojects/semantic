@@ -1,3 +1,26 @@
+public abstract interface annotation class pro/vlprojects/semantic/pattern/Pattern : java/lang/annotation/Annotation {
+	public abstract fun purpose ()Lpro/vlprojects/semantic/pattern/Pattern$Purpose;
+	public abstract fun scope ()Lpro/vlprojects/semantic/pattern/Pattern$Scope;
+}
+
+public final class pro/vlprojects/semantic/pattern/Pattern$Purpose : java/lang/Enum {
+	public static final field BEHAVIORAL Lpro/vlprojects/semantic/pattern/Pattern$Purpose;
+	public static final field CREATIONAL Lpro/vlprojects/semantic/pattern/Pattern$Purpose;
+	public static final field ENTERPRISE Lpro/vlprojects/semantic/pattern/Pattern$Purpose;
+	public static final field STRUCTURAL Lpro/vlprojects/semantic/pattern/Pattern$Purpose;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lpro/vlprojects/semantic/pattern/Pattern$Purpose;
+	public static fun values ()[Lpro/vlprojects/semantic/pattern/Pattern$Purpose;
+}
+
+public final class pro/vlprojects/semantic/pattern/Pattern$Scope : java/lang/Enum {
+	public static final field CLASS Lpro/vlprojects/semantic/pattern/Pattern$Scope;
+	public static final field OBJECT Lpro/vlprojects/semantic/pattern/Pattern$Scope;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lpro/vlprojects/semantic/pattern/Pattern$Scope;
+	public static fun values ()[Lpro/vlprojects/semantic/pattern/Pattern$Scope;
+}
+
 public final class pro/vlprojects/semantic/pattern/behavioral/resolver/PredicateResolver : pro/vlprojects/semantic/pattern/behavioral/resolver/Resolver {
 	public fun <init> (Ljava/util/Collection;Lkotlin/jvm/functions/Function2;)V
 	public fun resolveAll (Ljava/lang/Object;)Ljava/util/Collection;
@@ -41,6 +64,23 @@ public final class pro/vlprojects/semantic/pattern/behavioral/resolver/error/Mul
 public final class pro/vlprojects/semantic/pattern/behavioral/resolver/error/NotResolvedException : java/util/NoSuchElementException {
 	public fun <init> (Ljava/lang/Object;)V
 	public final fun getContext ()Ljava/lang/Object;
+}
+
+public abstract interface annotation class pro/vlprojects/semantic/pattern/behavioral/templatemethod/TemplateMethod : java/lang/annotation/Annotation {
+}
+
+public abstract interface annotation class pro/vlprojects/semantic/pattern/behavioral/templatemethod/TemplateMethod$AbstractClass : java/lang/annotation/Annotation {
+}
+
+public abstract interface annotation class pro/vlprojects/semantic/pattern/behavioral/templatemethod/TemplateMethod$ConcreteClass : java/lang/annotation/Annotation {
+}
+
+public abstract interface annotation class pro/vlprojects/semantic/pattern/behavioral/templatemethod/TemplateMethod$HookOperation : java/lang/annotation/Annotation {
+	public abstract fun templateMethods ()[Ljava/lang/String;
+}
+
+public abstract interface annotation class pro/vlprojects/semantic/pattern/behavioral/templatemethod/TemplateMethod$PrimitiveOperation : java/lang/annotation/Annotation {
+	public abstract fun templateMethods ()[Ljava/lang/String;
 }
 
 public abstract interface class pro/vlprojects/semantic/pattern/behavioral/visitor/Visitable {
