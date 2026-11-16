@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 571.0 176" width="571.0" height="176" role="img">
+  <rect width="571.0" height="176" rx="12" fill="#F6F8FA"/>
+  <g transform="translate(12,12)">
+    <text x="16.0" y="46.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">by name</text>
+    <rect x="80.0" y="16.0" width="219.0" height="52.0" rx="6" fill="#E3E8ED"/>
+    <text x="92.0" y="46.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">upstream = "biling"</text>
+    <path d="M307.0,42 L333.0,42" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M332.0,38 L339.0,42 L332.0,46 Z" fill="#AFB8C1"/>
+    <rect x="347.0" y="16.0" width="184.0" height="52.0" rx="6" fill="#E3E8ED"/>
+    <text x="359.0" y="38.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="14" font-weight="600" fill="#EE2D62" text-anchor="start">compiles</text>
+    <text x="359.0" y="56.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">the typo waits for a test</text>
+    <text x="16.0" y="114.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">by type</text>
+    <rect x="80.0" y="84.0" width="219.0" height="52.0" rx="6" fill="#E3E8ED"/>
+    <text x="92.0" y="114.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="13" font-weight="600" fill="#1F2328" text-anchor="start">upstream = Invoice::class</text>
+    <path d="M307.0,110 L333.0,110" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M332.0,106 L339.0,110 L332.0,114 Z" fill="#AFB8C1"/>
+    <rect x="347.0" y="84.0" width="184.0" height="52.0" rx="6" fill="#DDF7E7"/>
+    <text x="359.0" y="106.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="14" font-weight="600" fill="#1F2328" text-anchor="start">does not compile</text>
+    <text x="359.0" y="124.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#3A7550" text-anchor="start">Invoice is not a context</text>
+  </g>
+</svg>

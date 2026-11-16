@@ -1,9 +1,10 @@
 # semantic-ddd
 
-Tactical building blocks of domain-driven design for Kotlin and Java: typed
+Building blocks of domain-driven design for Kotlin and Java: typed
 identifiers, entities, aggregate roots, domain events, business rules,
-specifications and domain errors. The core is plain Kotlin; Jackson, Spring Data with its stores,
-JPA and MongoDB, and Spring Boot live in modules of their own.
+specifications and domain errors, and the bounded contexts that hold them. The
+core is plain Kotlin; Jackson, Spring Data with its stores, JPA and MongoDB,
+and Spring Boot live in modules of their own.
 
 The contracts of the core are in place, and so are the base classes of the
 Spring Data and JPA modules and the whole Jackson module; the MongoDB and Spring
@@ -18,11 +19,9 @@ Packages of `semantic-ddd`, under `pro.vlprojects.semantic.ddd`:
 | `tactical` | The building blocks, side by side: `DomainObject` they all extend, with `typeName`, the class name in kebab case, on an object and on its class; `Identifier`, `BoxedIdentifier`, a key that boxes one serializable value such as a `UUID` or a `Long`, `Identifiable`, `Entity` with its version, `AggregateRoot`, `Revision` of an aggregate, `Versioned`, `ValueObject`, `Event` with its `EventMeta`, built by `EventMeta.of<ItemAdded>()` with a new `EventId`, the current time and the class name in kebab case by default, `BusinessRule`, `Specification` |
 | `tactical.specification.composite` | The parts a specification is composed of: `AllOf`, `AnyOf` and `Not` hold other specifications, `Always` and `Never` hold for every candidate and for none, `allOf` and `anyOf` combine any number of specifications |
 | `tactical.base` | Base classes to extend, free of any framework: `AbstractEntity` and `AbstractId` equal by identifier and value, the version of an entity set by `assignVersion`, `AbstractAggregateRoot` that registers events, `BaseRevision` built of any aggregate, `AbstractEvent` equal by id, and `EventId` on a `UUID`, the default id of an event |
+| `strategic` | The boundaries of the model: `BoundedContext`, declared by an object in the root package of the context and named after it in kebab case |
 | `dsl` | The ways to write the blocks down: `rule` builds a `BusinessRule`, `check` runs a list of them, `checkRule` checks a one-off condition |
 | `architecture.error` | What a layer of the application raises, not a pattern of the model: `DomainException` and the refusals a service extends, `NotFoundException`, `ConflictException`, `BusinessRuleException` |
-
-The strategic patterns, bounded contexts and the like, will get a `strategic`
-package of their own.
 
 The contracts are interfaces; `tactical.base` gives classes to extend. What
 needs a framework, handing the events out on save, telling a new aggregate from
@@ -79,6 +78,42 @@ the ones that are set, `allOf(IsOpen, sku?.let(::ContainsSku))`. With nothing
 to combine `allOf` is `Always` and `anyOf` is `Never`. A null that should not
 be there weakens the rule silently: a filter that must hold is passed as it is,
 never through `?.let`.
+
+## Bounded contexts
+
+A bounded context is an object put in the root package of the context:
+
+```kotlin
+package pro.acme.billing
+
+object Billing : BoundedContext
+```
+
+The package of the object and every package under it belong to the context,
+at any depth, so its classes need no mark of their own. A package that only
+starts with the same name, `billingreport`, stands beside it.
+
+![The billing context holds its package and the packages under it, not the ones beside it](../../docs/assets/ddd-context-packages-light.svg#gh-light-mode-only)
+![The billing context holds its package and the packages under it, not the ones beside it](../../docs/assets/ddd-context-packages-dark.svg#gh-dark-mode-only)
+
+The object answers what the rest of the code asks of a context: its name, the
+class name in kebab case as with the `typeName` of an event unless the object
+overrides `name`; whether a class belongs to it,
+`Invoice::class hasBoundedContext Billing`; and a reference to it by type.
+The other strategic patterns, subdomains and the relations of a context map,
+will build on these.
+
+![What the object of a context gives now and what will build on it](../../docs/assets/ddd-context-uses-light.svg#gh-light-mode-only)
+![What the object of a context gives now and what will build on it](../../docs/assets/ddd-context-uses-dark.svg#gh-dark-mode-only)
+
+A context is an interface to implement, not an annotation. Kotlin cannot
+annotate a package, so an annotation would sit on an object all the same; the
+object is a value that code can pass and ask; and a parameter of the type
+`KClass<out BoundedContext>` takes a context only, so a wrong reference does not
+compile, where a name in a string compiles with a typo in it.
+
+![A reference by name compiles with a typo, a reference by type to a class that is not a context does not](../../docs/assets/ddd-context-reference-light.svg#gh-light-mode-only)
+![A reference by name compiles with a typo, a reference by type to a class that is not a context does not](../../docs/assets/ddd-context-reference-dark.svg#gh-dark-mode-only)
 
 ## Jackson
 
