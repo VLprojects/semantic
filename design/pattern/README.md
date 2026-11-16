@@ -8,7 +8,8 @@ a package per pattern inside it. Plain Kotlin, no framework; adapters come as mo
 
 In place so far: a registry with its store, a registrar and a factory in the creational group;
 the contracts of Composite, Decorator and Proxy and the annotations of Facade in the structural one;
-a resolver and the base types of Visitor in the behavioral one; the contracts of Plugin in the enterprise one.
+a resolver, the base types of Visitor and the annotations of Template Method in the behavioral one; the contracts
+of Plugin in the enterprise one; `@Pattern`, the purpose and the scope of a pattern, in the root package.
 
 ## Packages
 
@@ -16,6 +17,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 
 | Package | What is there |
 | --- | --- |
+| the root | `Pattern`, marks the annotation of a pattern with its purpose and scope |
 | `creational.registry` | `Registry`, named instances of one type that the whole application shares and manages at run time; `Registrar`, populates a registry at startup from one source; `RegistryStore`, keeps the instances of a registry; `InMemoryRegistryStore`, a store in memory |
 | `creational.registry.base` | `AbstractRegistry`, a registry over a store; `AbstractRegistrar`, a registrar of definitions through the factory of each class of a definition |
 | `creational.registry.error` | `InvalidNameException`, `InstanceAlreadyExistsException`, `InstanceNotFoundException`, `DefaultInstanceNotFoundException`; `InstanceRegistrationException` of a registrar |
@@ -28,8 +30,26 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
 | `behavioral.visitor` | `Visitor`, the base type of the visitors of a hierarchy, with `visit`, the method of any element, which each visit method of a hierarchy falls back to; `Visitable`, an element of a hierarchy with `accept` |
+| `behavioral.templatemethod` | `TemplateMethod`, the skeleton of an algorithm; `TemplateMethod.AbstractClass` and `TemplateMethod.ConcreteClass`, the classes of it; `TemplateMethod.PrimitiveOperation` and `TemplateMethod.HookOperation`, its steps |
 | `enterprise.configuration` | `PolymorphicConfigurationBinder`, a block of settings to an object of the class the block names; `Definition`, a block as strings: its name, type and arguments; `DefinitionParser`, flat properties to definitions; `DefinitionMapper`, the arguments of a definition to an object of a class |
 | `enterprise.configuration.error` | Of a binder, `InvalidConfigurationException`: `UnknownConfigurationException`, `InvalidConfigurationPropertyException`. Of a parser, `DefinitionParsingException`, an `InvalidConfigurationException` too: `MultipleConfigurationsException`, `UnboundConfigurationPropertiesException`. Of a mapper, `DefinitionConversionException` |
+
+## Pattern
+
+`@Pattern` marks the annotation of a pattern with the two axes the Gang of Four classify patterns by in their
+table of the design pattern space:
+
+- `purpose`, what a pattern does: `CREATIONAL` makes objects, `STRUCTURAL` composes classes and objects,
+  `BEHAVIORAL` shares the work and the responsibility among them. `ENTERPRISE` stands for the patterns of Fowler,
+  as `Type.ENTERPRISE` of JPatterns does.
+- `scope`, what a pattern relates: `CLASS`, a class and its subclasses, fixed by inheritance when the code is
+  compiled, as Template Method and Factory Method are; `OBJECT`, objects that may change at run time, as most
+  patterns are, so it is the default.
+
+`@TemplateMethod` carries `@Pattern(Pattern.Purpose.BEHAVIORAL, Pattern.Scope.CLASS)`; a tool finds every annotation
+of a pattern by it, as JPatterns finds them by `@DesignPattern`. The name drops the suffix of JPatterns, as the
+annotations of patterns here do: `@TemplateMethod`, not `@TemplateMethodPattern`. `Purpose` and `Scope` are nested in
+`Pattern`, as `Factory.Definition` is in `Factory`: a top-level `Scope` would clash with `@Scope` of Spring.
 
 ## Registry, registrar, factory, store
 
@@ -819,6 +839,118 @@ of its expressions; a visitor takes it out of them and does the interpretation.
 2. A fold of a `Composite` by a result per element, `visitChildren`, `defaultResult`,
    `aggregateResult` and `shouldVisitNextChild`, as `AbstractParseTreeVisitor` of ANTLR folds:
    `visitChildren` calls `accept` of each child, which `Visitable` gives it.
+
+## Template Method
+
+Template Method, as the Gang of Four describe it, defines the skeleton of an algorithm in a function of an abstract
+class and defers some of its steps to subclasses: a subclass redefines the steps and leaves the order of them as it
+is. The steps of two kinds the book tells apart: a primitive operation is abstract, and each subclass implements it;
+a hook operation has a default, often doing nothing, and a subclass overrides it only where it needs to.
+
+| Role | Who plays it | What it holds |
+| --- | --- | --- |
+| AbstractClass | an abstract class annotated with `@TemplateMethod.AbstractClass` | the template methods and their steps |
+| ConcreteClass | a class annotated with `@TemplateMethod.ConcreteClass` that extends it | the primitive operations and the hooks it needs |
+| Template method | a final function annotated with `@TemplateMethod` | the order of the steps |
+| Primitive operation | a `protected abstract` function annotated with `@TemplateMethod.PrimitiveOperation` | a step without a default |
+| Hook operation | a `protected open` function annotated with `@TemplateMethod.HookOperation` | a step with a default |
+
+The example of the book is an application that opens documents: `openDocument` checks that a document can be
+opened, makes it and reads it, and the subclass decides which document it makes. `doCreateDocument` serves two
+template methods, `canOpenDocument` serves one:
+
+```kotlin
+@TemplateMethod.AbstractClass
+abstract class Application {
+
+    private val documents = mutableListOf<Document>()
+
+    @TemplateMethod
+    fun newDocument() = this
+        .doCreateDocument()
+        .also(this.documents::add)
+        .also(Document::open)
+
+    @TemplateMethod
+    fun openDocument(name: String) {
+        if (!this.canOpenDocument(name)) return
+
+        this
+            .doCreateDocument()
+            .also(this.documents::add)
+            .read(name)
+    }
+
+    @TemplateMethod.PrimitiveOperation("newDocument", "openDocument")
+    protected abstract fun doCreateDocument(): Document
+
+    @TemplateMethod.HookOperation("openDocument")
+    protected open fun canOpenDocument(name: String) = true
+}
+
+@TemplateMethod.ConcreteClass
+class MyApplication : Application() {
+
+    override fun doCreateDocument() = MyDocument()
+
+    override fun canOpenDocument(name: String) = name.endsWith(".my")
+}
+```
+
+The book calls the inverted control the Hollywood principle, "don't call us, we'll call you": the parent class
+calls the operations of a subclass, not the other way round. `MyApplication` calls nothing of `Application`, and a
+client calls only the template methods. `doCreateDocument` is a factory method too: the book has a template method
+call factory methods often. The prefix Do- is the convention of the book for an operation a template method calls.
+
+`templateMethods` names the template methods a step serves, those of its class or of its ancestors, as
+`fallbackMethod` of `@CircuitBreaker` in Resilience4j and `recover` of `@Retryable` in Spring Retry name a function
+of the same class by a string. A class with one template method may leave the name out:
+`@TemplateMethod.PrimitiveOperation`. An override repeats no annotation: it plays the role of the function it
+overrides, as `canOpenDocument` of `MyApplication` stays a hook.
+
+The rules of the annotations:
+
+- A template method is final: a plain function, which Kotlin makes final, or a `final override`, since an
+  `override` stays open. A class that the all-open plugin opens, a `@Component` with kotlin-spring, writes `final` on
+  a plain function too.
+- A primitive operation is `protected abstract`; a hook operation is `protected open` and not abstract.
+- An override does not widen a `protected` step to `public`: a client would call the step past its template method.
+- Each name in `templateMethods` leads to a template method of the class or of its ancestors. A class with several
+  template methods names them in each step.
+- An `AbstractClass` is abstract. A `ConcreteClass` extends an `AbstractClass` and is not abstract.
+- A step takes no annotation that a proxy serves, as `@Transactional`, `@Async` or `@Cacheable`: a template method
+  calls its steps on `this`, past the proxy, and the annotation does nothing.
+
+KSP sees declarations, not the bodies of functions, so two errors stay out of its reach:
+
+- A step called from `init` of the abstract class runs before the subclass sets its properties, and a property that
+  is not null reads `null`.
+- An override of a hook that must call `super` breaks the class when it does not. The book gives a hook a default
+  that does nothing, so an override never needs `super`, and the template method does the rest around it.
+
+A final class that takes its steps as an object of an interface, as `JdbcTemplate` of Spring takes a
+`StatementCallback` or a `RowMapper`, varies the steps by delegation, not by inheritance: it is Strategy, of the
+scope `OBJECT`, though its name says template. In Kotlin a function type or an inline function, as `use` or
+`withLock`, takes the place of such an interface.
+
+The samples:
+
+- JPatterns: `@TemplateMethodPattern` with `AbstractClass`, `ConcreteClass`, `TemplateMethod` and
+  `PrimitiveOperation`, each `@Documented`. Here the template method is the outer annotation, as `@Facade` is the
+  facade, and a hook has an annotation of its own.
+- `AbstractPlatformTransactionManager` of Spring: the template methods `commit`, `rollback` and `getTransaction`
+  are `final`, the primitive operations `doBegin`, `doCommit` and `doRollback` are `protected abstract`, with the
+  prefix Do- of the book.
+- `OncePerRequestFilter` of Spring: the primitive operation `doFilterInternal`, the hooks `shouldNotFilter`,
+  `shouldNotFilterAsyncDispatch` and `shouldNotFilterErrorDispatch`. Its `doFilter` is not final in Spring 7, so a
+  subclass may break it.
+- `AbstractRegistrar` of this module: the template method `populate` is a `final override`, the primitive operation
+  `loadDefinitions` is `protected abstract`.
+
+### Plan of Template Method
+
+1. `TemplateMethod` with `AbstractClass`, `ConcreteClass`, `PrimitiveOperation` and `HookOperation`; `Pattern`.
+2. The rules of the annotations in `semantic-pattern-ksp`.
 
 ## Plugin
 
