@@ -7,8 +7,8 @@ a package per pattern inside it. Plain Kotlin, no framework; adapters come as mo
 `semantic-pattern-spring` for Spring.
 
 In place so far: a registry with its store, a registrar and a factory in the creational group;
-the contracts of Composite, Decorator and Proxy in the structural one; a resolver and the base types of Visitor in the
-behavioral one; the contracts of Plugin in the enterprise one.
+the contracts of Composite, Decorator, Facade and Proxy in the structural one;
+a resolver and the base types of Visitor in the behavioral one; the contracts of Plugin in the enterprise one.
 
 ## Packages
 
@@ -23,6 +23,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
 | `structural.composite` | `Composite`, the base type of a hierarchy whose containers and leaves a client treats alike; `MutableComposite`, a container whose children change after it is made |
 | `structural.decorator` | `Decorator`, a wrapper that holds its component and adds a responsibility to it; `DecoratorFactory`, a component wrapped in a decorator of its type |
+| `structural.facade` | `Facade`, an entry to a subsystem whose classes carry an opt-in marker |
 | `structural.proxy` | `Proxy`, a surrogate that stands for its real subject and controls the access to it; `ProxyFactory`, a delegate behind a proxy of its type |
 | `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
@@ -388,6 +389,125 @@ The bean of `TextArea` is a `BorderDecorator` around a `ScrollDecorator` around 
 4. An auto-configuration of Spring Boot that registers both post-processors.
 5. Interceptors bound to annotations of methods over `AnnotationMatchingPointcut`, as `@Retryable` of Spring is,
    with a check at startup that a proxy reaches each annotated method: Spring only logs a final one.
+
+## Facade
+
+Facade, as the Gang of Four describe it, gives one simple interface to a subsystem of many classes: a client
+calls the facade, and the facade knows which class of the subsystem does each part of the work. The classes of
+the subsystem do the work and know nothing of the facade. The book lets a client that needs them reach them
+past the facade; then each change of the subsystem reaches that client too.
+
+| Role | Who plays it | What it holds |
+| --- | --- | --- |
+| Facade | a class annotated with `@Facade` | the calls of the subsystem in the order a request needs them |
+| Subsystem classes | classes annotated with the marker of the subsystem | the work itself |
+
+The example of the book is a compiler whose `compile` runs a scanner, a parser and a code generator. A
+service of files is closer to an application: deletion of a file runs four classes, and a client that
+called them itself would forget the quota or the history.
+
+```kotlin
+@RequiresOptIn(level = RequiresOptIn.Level.ERROR)
+@Retention(AnnotationRetention.RUNTIME)
+@Target(AnnotationTarget.CLASS)
+annotation class FileSubsystem
+
+@FileSubsystem
+class FileEntity(...)
+
+@FileSubsystem
+interface FileRepository : JpaRepository<FileEntity, FileId>
+
+@FileSubsystem
+class FileStorageClient(...)
+
+@FileSubsystem
+class DiskService(...)
+
+@FileSubsystem
+class HistoryService(...)
+
+@Facade(FileSubsystem::class)
+@OptIn(FileSubsystem::class)
+class FileFacade(
+    private val files: FileRepository,
+    private val storage: FileStorageClient,
+    private val disk: DiskService,
+    private val history: HistoryService,
+) {
+
+    fun delete(fileId: FileId) {
+        val file = this.files.getById(fileId)
+        this.storage.delete(file.storageKey)
+        this.disk.release(file.ownerId, file.size)
+        this.history.recordDeletion(file)
+        this.files.delete(file)
+    }
+
+    fun find(fileId: FileId) = this.files
+        .getById(fileId)
+        .let { file -> FileView(file.id, file.name, file.size) }
+}
+
+class FileController(private val files: FileFacade)
+
+class AdminFileController(private val storage: FileStorageClient)
+```
+
+`FileController` compiles. `AdminFileController` does not: `FileStorageClient` needs the opt-in to
+`FileSubsystem`, which only the facade declares. A method of the facade that returned `FileEntity`, or a
+`List<FileEntity>`, would compile, yet a call of it outside the subsystem would not: the type of the call needs
+the opt-in too. The facade answers with a type of its own, `FileView`. A test or a `@Bean` method that makes the
+facade needs the opt-in as well: the constructor of the facade takes classes of the subsystem.
+
+Kotlin has no visibility of a package, as Java has, and `internal` covers a whole Gradle module: in one
+service every class of a subsystem is open to every client. A marker of `@RequiresOptIn` closes it at
+compile time, as `@InternalCoroutinesApi` closes the internals of kotlinx.coroutines and `@InternalAPI` those of
+Ktor. Each `@OptIn` of it is a line a review sees and a search finds. The marker belongs to the project, one per
+subsystem: a single marker of the library would open every subsystem by one `@OptIn`. It needs the level
+`ERROR`, as a warning lets the call through, and the retention `RUNTIME`, not `BINARY` as kotlinx.coroutines
+and Ktor declare theirs, so the check of Spring in the plan sees it.
+
+`@Facade` names the role and the marker of its subsystem, as `@OptIn` names a marker by its `KClass`. `@OptIn`
+is kept only in the source, so the check of Spring reads the marker from `@Facade`. It is an annotation, not
+an interface, as the layers of `semantic-explicit` are: a facade has no operation that every facade shares,
+and the annotation asks nothing of the class. A facade of the application layer takes both annotations:
+`@ApplicationLayer` tells where the class lives, `@Facade` which classes stand behind it.
+
+The marker stops neither of the two ways a facade goes wrong from the inside, and neither does any type:
+
+- A facade that serves every client grows into a God Object. Split it by its clients, several facades of one
+  subsystem, or let each client depend on a narrow interface of it, as `ApplicationContext` of Spring implements
+  `ApplicationEventPublisher`, `ResourceLoader` and `MessageSource` and a client injects only the one it needs.
+- A rule of the business written in the facade belongs to the class that holds its data: the facade only calls.
+
+Mediator stands between classes too, yet its colleagues know it and talk through it; the classes behind a
+facade do not know it. An Abstract Factory can make the classes of a subsystem for its facade, and one facade
+of a subsystem is often enough, so the book makes it a Singleton; a container of beans gives the same.
+
+The samples:
+
+- SLF4J: `Logger` and `LoggerFactory` stand for Logback, which `LoggerFactory` finds by an
+  `SLF4JServiceProvider`. The facade is an artifact of its own: `slf4j-api` does not depend on Logback, and an
+  application that takes Logback as `runtimeOnly` cannot compile against it; Spring Boot puts it on the
+  compile classpath. A Gradle module with `internal` subsystem classes closes a subsystem in the same way, and
+  more strongly than a marker.
+- `JdbcTemplate` of Spring hides `Connection`, `PreparedStatement` and `ResultSet` and turns `SQLException` into
+  `DataAccessException` by an `SQLExceptionTranslator`. A client depends on `JdbcOperations`, its interface. The
+  way past the facade is a method of the facade, `execute(ConnectionCallback)`, as here it is an `@OptIn`.
+- Spring Modulith takes the base package of a module as its API and the packages under it as internal;
+  `@NamedInterface` opens one of them. `ApplicationModules.verify()` fails a test on an access to the internals of
+  a module.
+
+### Plan of Facade
+
+1. `Facade`.
+2. A check of `semantic-pattern-spring` that stops the startup when a bean of a subsystem is injected
+   into a bean other than a facade of its subsystem or another class of the subsystem, as
+   `ApplicationModules.verify()` of Spring Modulith checks the modules in a test. It reads the dependencies Spring
+   records between beans, as `getDependentBeans` of `ConfigurableBeanFactory` tells them, and catches Java clients,
+   which no opt-in stops. It stops the startup as well when `subsystem` of a facade is not a `@RequiresOptIn`
+   marker of the level `ERROR`.
 
 ## Proxy
 
