@@ -31,7 +31,9 @@ public final class pro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision$
 
 public final class pro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision$Factory {
 	public final fun passed (Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision$Capacity;Ljava/time/Duration;)Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision;
+	public final fun passed (Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision$Capacity;Ljava/time/Duration;Ljava/time/Duration;)Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision;
 	public final fun passed (Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision$Capacity;Ljava/time/Instant;Ljava/time/Instant;)Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision;
+	public final fun passed (Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision$Capacity;Ljava/time/Instant;Ljava/time/Instant;Ljava/time/Instant;)Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision;
 	public final fun rejected (Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision$Capacity;Ljava/time/Duration;Ljava/time/Duration;)Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision;
 	public final fun rejected (Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision$Capacity;Ljava/time/Instant;Ljava/time/Instant;Ljava/time/Instant;)Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision;
 }
@@ -44,8 +46,57 @@ public final class pro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision$
 	public static fun values ()[Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision$Outcome;
 }
 
+public final class pro/vlprojects/semantic/traffic/limit/rate/RateLimitResult {
+	public static final field Factory Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitResult$Factory;
+	public final fun component1 ()Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitState;
+	public final fun component2 ()Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDecision ()Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision;
+	public final fun getState ()Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitState;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/traffic/limit/rate/RateLimitResult$Factory {
+	public final fun of (Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitState;Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision;)Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitResult;
+}
+
+public abstract interface class pro/vlprojects/semantic/traffic/limit/rate/RateLimitState {
+}
+
+public abstract interface class pro/vlprojects/semantic/traffic/limit/rate/RateLimitStrategy {
+	public abstract fun allow (Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitState;ILjava/time/Instant;Ljava/time/Duration;)Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitResult;
+	public static synthetic fun allow$default (Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitStrategy;Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitState;ILjava/time/Instant;Ljava/time/Duration;ILjava/lang/Object;)Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitResult;
+}
+
 public abstract interface class pro/vlprojects/semantic/traffic/limit/rate/RateLimiter {
 	public abstract fun allow (Ljava/lang/String;I)Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision;
 	public static synthetic fun allow$default (Lpro/vlprojects/semantic/traffic/limit/rate/RateLimiter;Ljava/lang/String;IILjava/lang/Object;)Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitDecision;
+}
+
+public final class pro/vlprojects/semantic/traffic/limit/rate/TokenBucket : pro/vlprojects/semantic/traffic/limit/rate/RateLimitStrategy {
+	public static final field Factory Lpro/vlprojects/semantic/traffic/limit/rate/TokenBucket$Factory;
+	public fun allow (Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitState;ILjava/time/Instant;Ljava/time/Duration;)Lpro/vlprojects/semantic/traffic/limit/rate/RateLimitResult;
+	public final fun getCapacity ()I
+	public final fun getPeriod ()Ljava/time/Duration;
+}
+
+public final class pro/vlprojects/semantic/traffic/limit/rate/TokenBucket$Factory {
+	public final fun of (ILjava/time/Duration;)Lpro/vlprojects/semantic/traffic/limit/rate/TokenBucket;
+}
+
+public final class pro/vlprojects/semantic/traffic/limit/rate/TokenBucketState : pro/vlprojects/semantic/traffic/limit/rate/RateLimitState {
+	public static final field Factory Lpro/vlprojects/semantic/traffic/limit/rate/TokenBucketState$Factory;
+	public final fun component1 ()I
+	public final fun component2 ()Ljava/time/Instant;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getRefilledAt ()Ljava/time/Instant;
+	public final fun getTokens ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/traffic/limit/rate/TokenBucketState$Factory {
+	public final fun of (ILjava/time/Instant;)Lpro/vlprojects/semantic/traffic/limit/rate/TokenBucketState;
 }
 

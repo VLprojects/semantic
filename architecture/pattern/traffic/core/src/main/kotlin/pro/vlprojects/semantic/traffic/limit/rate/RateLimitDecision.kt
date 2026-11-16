@@ -34,7 +34,10 @@ public data class RateLimitDecision private constructor(
     public companion object Factory {
 
         public fun passed(tokens: Capacity, resetAfter: Duration): RateLimitDecision =
-            RateLimitDecision(Outcome.PASSED, tokens, retryAfter = Duration.ZERO, resetAfter)
+            passed(tokens, retryAfter = Duration.ZERO, resetAfter)
+
+        public fun passed(tokens: Capacity, retryAfter: Duration, resetAfter: Duration): RateLimitDecision =
+            RateLimitDecision(Outcome.PASSED, tokens, retryAfter, resetAfter)
 
         public fun passed(
             tokens: Capacity,
@@ -44,6 +47,18 @@ public data class RateLimitDecision private constructor(
             val resetAfter = Duration.between(now, resetAt)
 
             return passed(tokens, resetAfter)
+        }
+
+        public fun passed(
+            tokens: Capacity,
+            now: Instant,
+            retryAt: Instant,
+            resetAt: Instant,
+        ): RateLimitDecision {
+            val retryAfter = Duration.between(now, retryAt)
+            val resetAfter = Duration.between(now, resetAt)
+
+            return passed(tokens, retryAfter, resetAfter)
         }
 
         public fun rejected(tokens: Capacity, retryAfter: Duration, resetAfter: Duration): RateLimitDecision =

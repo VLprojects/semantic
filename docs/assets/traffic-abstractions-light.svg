@@ -70,7 +70,7 @@
     <path d="M716,349 L716,368 L448,368 L448,384" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
     <circle cx="716" cy="349" r="2" fill="#8B5CF6"/>
     <path d="M448,389 L445.5,384.0 L450.5,384.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
-    <text x="460.0" y="384.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">allow(state, tokens, now)</text>
+    <text x="460.0" y="384.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">allow(state, tokens, now, maxWait)</text>
     <circle cx="888" cy="349" r="2" fill="#8B5CF6"/>
     <path d="M888,389 L885.5,384.0 L890.5,384.0 Z" fill="#8B5CF6" stroke="#8B5CF6" stroke-width="0.5" stroke-linejoin="round"/>
     <path d="M888,349 L888,384" stroke="#8B5CF6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>

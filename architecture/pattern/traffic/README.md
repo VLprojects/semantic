@@ -38,15 +38,15 @@ requests, after Netflix concurrency-limits, gets a design of its own later.
 
 | Abstraction | What it does | What it does not do | After |
 | --- | --- | --- | --- |
-| `RateLimiter` | `allow(key, tokens = 1)` answers at once; the extension `acquire(key, tokens, maxWait)` waits or throws `RateLimitExceededException` | knows neither the strategy nor the storage | Go `x/time/rate` `Allow`, go-redis `redis_rate` `Allow(key)`, Symfony `consume(tokens)` |
+| `RateLimiter` | `allow(key, tokens = 1)` answers at once; the extension `acquire(key, tokens, maxWait)` takes the tokens ahead, then waits for `retryAfter` or throws `RateLimitExceededException` | knows neither the strategy nor the storage | Go `x/time/rate` `Allow`, go-redis `redis_rate` `Allow(key)`, Symfony `consume(tokens)` |
 | `DefaultRateLimiter` | reads the counter, asks the strategy, saves the new state by version; on a conflict it repeats, up to `max-attempts` times; applies `on-failure` when storage fails | holds no formula | Bucket4j `AbstractCompareAndSwapBasedProxyManager` |
-| `RateLimitStrategy` | a sealed pure function: state, tokens and time in, `RateLimitResult` out; one per algorithm | reads no clock, touches no storage | `limits.strategies` of Flask-Limiter, Bucket4j `Bandwidth` |
-| `RateLimitResult` | the new state and the response of one call | | Bucket4j `VerboseResult` |
+| `RateLimitStrategy` | a sealed pure function: state, tokens, time and `maxWait` in, `RateLimitResult` out; one per algorithm. A call that may wait takes the tokens ahead of the refill, below zero | reads no clock, touches no storage, does not wait | Resilience4j `AtomicRateLimiter.calculateNextState`, Bucket4j `ReserveAndCalculateTimeToSleepCommand` |
+| `RateLimitResult` | the new state and the decision of one call; on a rejection the state stays as it was | | Bucket4j `VerboseResult` |
 | `RateLimitState` | the state of one strategy, one subtype each; the core turns it into bytes and back | | Bucket4j `RemoteBucketState` |
 | `RateLimitCounter` | what storage keeps: key, state, version, `expiresAt` | | Spring Data `@Version` |
 | `RateLimitRepository` | `findByKey`, and `save` that throws `RateLimitOptimisticLockException` when the version has changed | decides nothing | Spring Data `CrudRepository`, `OutboxRepository` |
 | `InMemoryRateLimitRepository` | the default, on `ConcurrentHashMap.compute`; drops counters after `expiresAt` | is not shared by instances | Bucket4j `LockFreeBucket` |
-| `RateLimitDecision` | `outcome`: `PASSED` or `REJECTED`; `tokens` as `Capacity` of `total`, `used` and `remaining`; `retryAfter` until the next call passes, `resetAfter` until the capacity is full; `LeakyBucket` adds `delay` | | Spring Boot `Outcome`, go-redis `redis_rate` `Result`, Symfony `RateLimit`, JDK `FileStore` and `MemoryUsage` |
+| `RateLimitDecision` | `outcome`: `PASSED` or `REJECTED`; `tokens` as `Capacity` of `total`, `used` and `remaining`; `retryAfter` until a rejected call would pass or how long a passed call that took its tokens ahead waits, otherwise zero; `resetAfter` until the capacity is full | | Spring Boot `Outcome`, go-redis `redis_rate` `Result`, Symfony `RateLimit`, JDK `FileStore` and `MemoryUsage` |
 | `RateLimiterRegistry` | `findByName(name)`: one limiter for the filter, the interceptor and `@RateLimit`; `InMemoryRateLimiterRegistry` by default | builds no limiter from settings, autoconfigure does | Resilience4j `RateLimiterRegistry`, Spring `CacheManager` |
 | `@RateLimit` | on a method or a class: `limiter`, `key` in SpEL, `tokens`, `maxWait` as text such as `"500ms"` | counts nothing | Spring `@ConcurrencyLimit`, SmallRye `@RateLimit` |
 | `RateLimitBeanPostProcessor` | wraps a bean with `@RateLimit` in a proxy; an unknown limiter name stops the application at startup | needs no AspectJ | Spring `ConcurrencyLimitBeanPostProcessor`, `ScheduledAnnotationBeanPostProcessor` |
@@ -76,15 +76,17 @@ only accepted requests, so the log of a key never grows past the limit, even und
 
 | Algorithm | State | Strength | Cost | Fits |
 | --- | --- | --- | --- | --- |
-| `TokenBucket`, the default | tokens, time of the last refill | a burst up to `permit-limit`, then a steady pace | two numbers | APIs for clients |
-| `LeakyBucket` | the theoretical arrival time (GCRA) | an even pace out; returns a `delay` instead of a rejection | one number | calls to a partner |
+| `TokenBucket`, the default | tokens, time of the last refill | a burst up to `capacity`, then a steady pace | two numbers | APIs for clients |
+| `LeakyBucket` | the theoretical arrival time (GCRA) | an even pace out, no burst | one number | calls to a partner |
 | `FixedWindow` | start of the window, count | the cheapest | twice the limit gets through at the edge of two windows | coarse quotas, a day or a month |
 | `SlidingWindowLog` | the time of each accepted request | exact | up to `permit-limit` timestamps a key | small limits that must be exact |
 | `SlidingWindowCounter` | two windows | nearly exact: the current window plus the previous one times the overlap | three numbers | large limits |
 
-`LeakyBucket` is GCRA, not a queue in memory, so it works on a shared counter too: each call gets the
-`delay` it has to wait, and the caller waits. Every algorithm takes `permit-limit` permits per
-`window`, as ASP.NET names them.
+No algorithm keeps a queue in memory, so waiting works on a shared counter too: a call that may wait
+takes its tokens at once and gets `retryAfter` to wait, and the caller waits, as Resilience4j
+`reservePermission` and Bucket4j `tryConsume(tokens, maxWait)` do. Calls that come later wait behind
+it; a call that would wait longer than `maxWait` takes nothing. `TokenBucket` refills `capacity` tokens evenly over
+`period`, as Bucket4j `Bandwidth.simple` names them; a call for more tokens than `capacity` is an error.
 
 ## Incoming requests
 
