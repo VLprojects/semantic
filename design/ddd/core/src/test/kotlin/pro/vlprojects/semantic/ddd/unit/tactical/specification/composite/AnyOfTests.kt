@@ -34,4 +34,20 @@ class AnyOfTests {
     fun `any of is written by its parts`() {
         assertEquals("(Positive or Even)", positiveOrEven.toString())
     }
+
+    @Test
+    fun `any of lists nested parts flat`() {
+        val nested = AnyOf(listOf(AnyOf(listOf(Positive, Even)), Positive))
+
+        assertEquals(listOf(Positive, Even, Positive), nested.specifications)
+    }
+
+    @Test
+    fun `any of is equal whatever the nesting of its parts`() {
+        val left = AnyOf(listOf(AnyOf(listOf(Positive, Even)), Even))
+        val right = AnyOf(listOf(Positive, AnyOf(listOf(Even, Even))))
+
+        assertEquals(left, right)
+        assertEquals(left.hashCode(), right.hashCode())
+    }
 }

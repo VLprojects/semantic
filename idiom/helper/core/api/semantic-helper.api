@@ -1,3 +1,8 @@
+public final class pro/vlprojects/semantic/helper/collection/CollectionHelperKt {
+	public static final fun hasSameElementsAs (Ljava/util/Collection;Ljava/util/Collection;)Z
+	public static final fun sumHashCodes (Ljava/lang/Iterable;)I
+}
+
 public final class pro/vlprojects/semantic/helper/number/BigDecimalHelperKt {
 	public static final fun isNegative (Ljava/math/BigDecimal;)Z
 	public static final fun isNonNegative (Ljava/math/BigDecimal;)Z
