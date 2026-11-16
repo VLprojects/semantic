@@ -8,7 +8,17 @@ import com.google.devtools.ksp.symbol.KSTypeArgument
 import com.google.devtools.ksp.symbol.KSTypeParameter
 import com.google.devtools.ksp.symbol.KSTypeReference
 
-/** Classes of the type, its arguments, aliases and bounds, once each: `Map<K, List<V>>` gives `[K, V, List, Map]`. */
+/**
+ * The classes this type refers to, each once: its own, of its arguments, behind type aliases, in bounds.
+ *
+ * ```
+ * val files: Map<String, List<FileEntity>>
+ * fun <T : Comparable<T>> latest(): T
+ *
+ * files.type.getReferencedClasses()        // [String, FileEntity, List, Map]
+ * latest.returnType.getReferencedClasses() // [Comparable]
+ * ```
+ */
 public fun KSTypeReference.getReferencedClasses(): Sequence<KSClassDeclaration> =
     this.getReferencedClasses(emptySet()).distinct()
 

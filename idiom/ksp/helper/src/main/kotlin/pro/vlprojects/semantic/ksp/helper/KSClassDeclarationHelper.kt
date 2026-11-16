@@ -2,6 +2,14 @@ package pro.vlprojects.semantic.ksp.helper
 
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 
-/** Direct nested classes, companion included: `class A { class B { class C } }` gives `[B]`. */
+/**
+ * The classes declared directly in this class, the companion included.
+ *
+ * ```
+ * class FileModule { class Client { class Session }; companion object }
+ *
+ * fileModule.getDeclaredClasses() // [Client, Companion]
+ * ```
+ */
 public fun KSClassDeclaration.getDeclaredClasses(): Sequence<KSClassDeclaration> =
     this.declarations.filterIsInstance<KSClassDeclaration>()

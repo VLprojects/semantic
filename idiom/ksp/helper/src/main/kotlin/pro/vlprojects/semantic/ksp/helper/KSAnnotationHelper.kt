@@ -8,11 +8,29 @@ import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.KSTypeAlias
 import com.google.devtools.ksp.symbol.KSValueArgument
 
-/** The annotation class, alias expanded: `Audited` for `@Checked`; `null` if unresolved. */
+/**
+ * The declaration of the annotation class, a type alias expanded, or `null` if it does not resolve.
+ *
+ * ```
+ * typealias Checked = Audited
+ * @Checked class Invoice
+ *
+ * checked.resolveClassDeclaration() // Audited
+ * ```
+ */
 public fun KSAnnotation.resolveClassDeclaration(): KSClassDeclaration? =
     this.annotationType.resolve().declaration.toClassDeclaration()
 
-/** Types of the class literals in [argumentName]: `[Ledger, Invoice]`, a single one of Java too: `[Ledger]`. */
+/**
+ * The types of the class literals in the argument [argumentName], a single literal of Java included.
+ *
+ * ```
+ * @Subjects(classes = [Ledger::class, Invoice::class]) class Report
+ * @Subjects(classes = Ledger.class) class JavaReport // Java
+ *
+ * subjects.getTypeValues("classes") // [Ledger, Invoice] and [Ledger]
+ * ```
+ */
 public fun KSAnnotation.getTypeValues(argumentName: String): List<KSType> = this.arguments
     .filter { argument -> argument.name?.asString() == argumentName }
     .map(KSValueArgument::value)
