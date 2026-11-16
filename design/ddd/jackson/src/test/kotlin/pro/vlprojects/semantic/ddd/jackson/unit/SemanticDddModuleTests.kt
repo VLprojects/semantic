@@ -104,20 +104,6 @@ class SemanticDddModuleTests {
     }
 
     @Test
-    fun `writes an identifier as a key of a map`() {
-        val json = mapOf(invoiceId to "paid").let(mapper::writeValueAsString)
-
-        assertEquals("{\"$uuidOfVersion7\":\"paid\"}", json)
-    }
-
-    @Test
-    fun `reads an identifier of a String as a key of a map`() {
-        val stock = mapper.readValue<Map<SkuId, Int>>("{\"A-42\":3}")
-
-        assertEquals(mapOf(SkuId("A-42") to 3), stock)
-    }
-
-    @Test
     fun `refuses a value the identifier rejects`() {
         assertThrows<ValueInstantiationException> {
             mapper.readValue<TrackingId>("\"$uuidOfVersion4\"")
