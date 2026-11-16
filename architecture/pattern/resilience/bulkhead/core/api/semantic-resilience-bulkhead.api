@@ -1,0 +1,29 @@
+public final class pro/vlprojects/semantic/resilience/bulkhead/Bulkhead : pro/vlprojects/semantic/resilience/policy/Policy {
+	public static final field Factory Lpro/vlprojects/semantic/resilience/bulkhead/Bulkhead$Factory;
+	public fun execute (Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
+	public final fun getActiveCalls ()I
+	public final fun getLimit ()I
+	public final fun getName ()Ljava/lang/String;
+	public final fun getWaitLimit ()Ljava/time/Duration;
+	public final fun getWaitingCalls ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class pro/vlprojects/semantic/resilience/bulkhead/Bulkhead$Factory {
+	public final fun of (ILjava/time/Duration;Ljava/lang/String;Ljava/util/List;)Lpro/vlprojects/semantic/resilience/bulkhead/Bulkhead;
+	public static synthetic fun of$default (Lpro/vlprojects/semantic/resilience/bulkhead/Bulkhead$Factory;ILjava/time/Duration;Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)Lpro/vlprojects/semantic/resilience/bulkhead/Bulkhead;
+}
+
+public final class pro/vlprojects/semantic/resilience/bulkhead/BulkheadFullException : java/util/concurrent/RejectedExecutionException {
+	public fun <init> (Ljava/lang/String;ILjava/time/Duration;)V
+	public final fun getBulkheadName ()Ljava/lang/String;
+	public final fun getLimit ()I
+	public final fun getWaitLimit ()Ljava/time/Duration;
+}
+
+public abstract interface class pro/vlprojects/semantic/resilience/bulkhead/BulkheadListener {
+	public fun onFinished (Lpro/vlprojects/semantic/resilience/bulkhead/Bulkhead;)V
+	public fun onPermitted (Lpro/vlprojects/semantic/resilience/bulkhead/Bulkhead;Ljava/time/Duration;)V
+	public fun onRejected (Lpro/vlprojects/semantic/resilience/bulkhead/Bulkhead;Ljava/time/Duration;)V
+}
+
