@@ -7,32 +7,32 @@ import com.google.devtools.ksp.symbol.KSTypeArgument
 import com.google.devtools.ksp.symbol.KSTypeParameter
 import com.google.devtools.ksp.symbol.KSTypeReference
 
-public fun KSTypeReference.findAllInvolvedClasses(): Sequence<KSClassDeclaration> = this
-    .findClasses(emptySet())
+public fun KSTypeReference.getAllInvolvedClasses(): Sequence<KSClassDeclaration> = this
+    .getInvolvedClasses(emptySet())
     .distinct()
 
-private fun KSTypeReference.findClasses(visited: Set<KSTypeParameter>) = this
+private fun KSTypeReference.getInvolvedClasses(visited: Set<KSTypeParameter>) = this
     .resolve()
-    .findClasses(visited)
+    .getInvolvedClasses(visited)
 
-private fun KSType.findClasses(visited: Set<KSTypeParameter>): Sequence<KSClassDeclaration> {
+private fun KSType.getInvolvedClasses(visited: Set<KSTypeParameter>): Sequence<KSClassDeclaration> {
     val argumentClasses = this.arguments
         .asSequence()
         .mapNotNull(KSTypeArgument::type)
-        .flatMap { argument -> argument.findClasses(visited) }
+        .flatMap { argument -> argument.getInvolvedClasses(visited) }
 
     return when (val declaration = this.declaration) {
         is KSClassDeclaration -> argumentClasses + declaration
-        is KSTypeAlias -> argumentClasses + declaration.findActualClasses(visited)
-        is KSTypeParameter -> argumentClasses + declaration.findBoundClasses(visited)
+        is KSTypeAlias -> argumentClasses + declaration.getExpandedClasses(visited)
+        is KSTypeParameter -> argumentClasses + declaration.getBoundClasses(visited)
         else -> argumentClasses
     }
 }
 
-private fun KSTypeAlias.findActualClasses(visited: Set<KSTypeParameter>) = this.type.findClasses(visited)
+private fun KSTypeAlias.getExpandedClasses(visited: Set<KSTypeParameter>) = this.type.getInvolvedClasses(visited)
 
 // A visited parameter is skipped: a bound as T : Comparable<T> leads back to its own parameter.
-private fun KSTypeParameter.findBoundClasses(visited: Set<KSTypeParameter>) = when (this) {
+private fun KSTypeParameter.getBoundClasses(visited: Set<KSTypeParameter>) = when (this) {
     in visited -> emptySequence()
-    else -> this.bounds.flatMap { bound -> bound.findClasses(visited + this) }
+    else -> this.bounds.flatMap { bound -> bound.getInvolvedClasses(visited + this) }
 }

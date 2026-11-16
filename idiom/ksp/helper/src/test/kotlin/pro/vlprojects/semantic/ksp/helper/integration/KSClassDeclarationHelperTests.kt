@@ -4,14 +4,14 @@ import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.tschuchort.compiletesting.SourceFile
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.junit.jupiter.api.Test
-import pro.vlprojects.semantic.ksp.helper.findAllNestedClasses
-import pro.vlprojects.semantic.ksp.helper.readShortName
+import pro.vlprojects.semantic.ksp.helper.getNestedClasses
+import pro.vlprojects.semantic.ksp.helper.getShortName
 
 @OptIn(ExperimentalCompilerApi::class)
 class KSClassDeclarationHelperTests {
 
     @Test
-    fun `nested classes are found at every depth, without the class itself`() = SourceFile
+    fun `nested classes are the direct ones, without the class itself`() = SourceFile
         .kotlin(
             "FileModule.kt",
             """
@@ -26,11 +26,11 @@ class KSClassDeclarationHelperTests {
         )
         .let { file -> compileReporting(::reportNestedClasses, file) }
         .assertReports(
-            "FileModule -> [FileModule.Client, FileModule.Client.Session, FileModule.Companion]",
+            "FileModule -> [FileModule.Client, FileModule.Companion]",
             "Plain -> []",
         )
 
     private fun reportNestedClasses(declaration: KSClassDeclaration) = declaration
-        .findAllNestedClasses()
-        .joinToString(transform = KSClassDeclaration::readShortName)
+        .getNestedClasses()
+        .joinToString(transform = KSClassDeclaration::getShortName)
 }

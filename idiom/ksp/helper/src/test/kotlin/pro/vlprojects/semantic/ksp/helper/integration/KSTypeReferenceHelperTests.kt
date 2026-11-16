@@ -7,8 +7,8 @@ import com.google.devtools.ksp.symbol.KSTypeReference
 import com.tschuchort.compiletesting.SourceFile
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.junit.jupiter.api.Test
-import pro.vlprojects.semantic.ksp.helper.findAllInvolvedClasses
-import pro.vlprojects.semantic.ksp.helper.readQualifiedName
+import pro.vlprojects.semantic.ksp.helper.getAllInvolvedClasses
+import pro.vlprojects.semantic.ksp.helper.getQualifiedName
 
 @OptIn(ExperimentalCompilerApi::class)
 class KSTypeReferenceHelperTests {
@@ -39,8 +39,8 @@ class KSTypeReferenceHelperTests {
     private fun reportInvolvedClasses(declaration: KSClassDeclaration) = declaration
         .getDeclaredProperties()
         .map(KSPropertyDeclaration::type)
-        .flatMap(KSTypeReference::findAllInvolvedClasses)
-        .map(KSClassDeclaration::readQualifiedName)
+        .flatMap(KSTypeReference::getAllInvolvedClasses)
+        .map(KSClassDeclaration::getQualifiedName)
         .sorted()
         .joinToString()
 }

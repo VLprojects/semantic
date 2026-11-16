@@ -1,12 +1,14 @@
 package pro.vlprojects.semantic.ksp.helper.integration
 
 import com.google.devtools.ksp.symbol.KSClassDeclaration
+import com.google.devtools.ksp.symbol.KSDeclaration
+import com.google.devtools.ksp.symbol.KSType
 import com.tschuchort.compiletesting.SourceFile
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.junit.jupiter.api.Test
-import pro.vlprojects.semantic.ksp.helper.findAnnotationClass
-import pro.vlprojects.semantic.ksp.helper.readArgumentValues
-import pro.vlprojects.semantic.ksp.helper.readQualifiedName
+import pro.vlprojects.semantic.ksp.helper.getAnnotationClass
+import pro.vlprojects.semantic.ksp.helper.getClassArray
+import pro.vlprojects.semantic.ksp.helper.getQualifiedName
 
 @OptIn(ExperimentalCompilerApi::class)
 class KSAnnotationHelperTests {
@@ -18,29 +20,38 @@ class KSAnnotationHelperTests {
         .assertReports("Invoice -> [pro.vlprojects.semantic.ksp.helper.integration.Audited]")
 
     @Test
-    fun `the values of an array attribute are read from Kotlin and from Java`() {
+    fun `the classes of an array attribute are read from Kotlin and from Java`() {
         val kotlinFile = SourceFile.kotlin(
-            "Tags.kt",
-            "annotation class Tags(val names: Array<String>)\n@Tags([\"files\", \"billing\"]) class Tagged",
+            "Subjects.kt",
+            """
+                import kotlin.reflect.KClass
+
+                annotation class Subjects(val classes: Array<KClass<*>>)
+                class Ledger
+                class Invoice
+                @Subjects([Ledger::class, Invoice::class])
+                class Tagged
+            """,
         )
 
-        val javaFile = SourceFile.java("JavaTagged.java", "@Tags(names = \"files\")\nclass JavaTagged {}")
+        val javaFile = SourceFile.java("JavaTagged.java", "@Subjects(classes = Ledger.class)\nclass JavaTagged {}")
 
-        compileReporting(::reportNames, kotlinFile, javaFile)
-            .assertReports("Tagged -> [files, billing]", "JavaTagged -> [files]")
+        compileReporting(::reportSubjects, kotlinFile, javaFile)
+            .assertReports("Tagged -> [Ledger, Invoice]", "JavaTagged -> [Ledger]")
     }
 
     private fun reportAnnotationClass(declaration: KSClassDeclaration) = declaration.annotations
         .firstOrNull()
-        ?.findAnnotationClass()
-        ?.readQualifiedName()
+        ?.getAnnotationClass()
+        ?.getQualifiedName()
         .orEmpty()
 
-    private fun reportNames(declaration: KSClassDeclaration) = declaration.annotations
+    private fun reportSubjects(declaration: KSClassDeclaration) = declaration.annotations
         .firstOrNull()
-        ?.readArgumentValues("names")
+        ?.getClassArray("classes")
         .orEmpty()
-        .joinToString()
+        .map(KSType::declaration)
+        .joinToString(transform = KSDeclaration::getQualifiedName)
 
     private companion object {
 

@@ -6,9 +6,9 @@ import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.tschuchort.compiletesting.SourceFile
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.junit.jupiter.api.Test
+import pro.vlprojects.semantic.ksp.helper.getQualifiedName
+import pro.vlprojects.semantic.ksp.helper.getShortName
 import pro.vlprojects.semantic.ksp.helper.isSynthetic
-import pro.vlprojects.semantic.ksp.helper.readQualifiedName
-import pro.vlprojects.semantic.ksp.helper.readShortName
 
 @OptIn(ExperimentalCompilerApi::class)
 class KSDeclarationHelperTests {
@@ -27,8 +27,8 @@ class KSDeclarationHelperTests {
 
     private fun reportNames(declaration: KSClassDeclaration) = declaration.declarations
         .filterIsInstance<KSClassDeclaration>()
-        .map(KSClassDeclaration::readShortName)
-        .plus(declaration.readQualifiedName())
+        .map(KSClassDeclaration::getShortName)
+        .plus(declaration.getQualifiedName())
         .joinToString()
 
     private fun reportSynthetic(declaration: KSClassDeclaration) = declaration
