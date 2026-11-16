@@ -13,9 +13,9 @@ class KSAnnotationHelperTests {
 
     @Test
     fun `the class of an annotation under a type alias is the class it stands for`() = SourceFile
-        .kotlin("Aliased.kt", "typealias Obsolete = Deprecated\n@Obsolete(\"old\") class Aliased")
+        .kotlin("Invoice.kt", "$AUDITED_IMPORT\ntypealias Checked = Audited\n@Checked\nclass Invoice")
         .let { file -> compileReporting(::reportAnnotationClass, file) }
-        .assertReports("Aliased -> [kotlin.Deprecated]")
+        .assertReports("Invoice -> [pro.vlprojects.semantic.ksp.helper.integration.Audited]")
 
     @Test
     fun `the values of an array attribute are read from Kotlin and from Java`() {
@@ -41,4 +41,9 @@ class KSAnnotationHelperTests {
         ?.readArgumentValues("names")
         .orEmpty()
         .joinToString()
+
+    private companion object {
+
+        const val AUDITED_IMPORT = "import pro.vlprojects.semantic.ksp.helper.integration.Audited"
+    }
 }
