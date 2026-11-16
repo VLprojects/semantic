@@ -2,6 +2,7 @@ package pro.vlprojects.semantic.pattern.structural.facade
 
 import com.google.devtools.ksp.symbol.KSAnnotation
 import com.google.devtools.ksp.symbol.KSClassDeclaration
+import pro.vlprojects.semantic.ksp.helper.getShortName
 
 internal class SubsystemMarker(
     val annotation: KSAnnotation,
@@ -9,7 +10,7 @@ internal class SubsystemMarker(
     private val aggregateIndex: Int,
 ) {
 
-    fun readQualifiedName() = this.annotation.readQualifiedName()
+    fun getQualifiedName() = this.annotation.getQualifiedName()
 
     fun isDirectlyPresent() = this.aggregateIndex == 0
 
@@ -19,7 +20,7 @@ internal class SubsystemMarker(
     }
 
     fun describe() = when {
-        this.isDirectlyPresent() -> "@${this.annotation.readName()}"
-        else -> "@${this.annotation.readName()} through ${this.source.readName()}"
+        this.isDirectlyPresent() -> "@${this.annotation.getShortName()}"
+        else -> "@${this.annotation.getShortName()} through ${this.source.getShortName()}"
     }
 }

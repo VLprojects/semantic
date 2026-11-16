@@ -6,6 +6,9 @@ import com.google.devtools.ksp.symbol.KSDeclaration
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.google.devtools.ksp.symbol.KSTypeReference
+import pro.vlprojects.semantic.ksp.helper.getQualifiedName
+import pro.vlprojects.semantic.ksp.helper.getReferencedClasses
+import pro.vlprojects.semantic.ksp.helper.getShortName
 
 internal class ClientChecker(private val logger: KSPLogger, private val subsystemTypeChecker: SubsystemTypeChecker) {
 
@@ -22,7 +25,7 @@ internal class ClientChecker(private val logger: KSPLogger, private val subsyste
     fun check(declaration: KSPropertyDeclaration) = this.checkTopLevel(declaration, declaration.findSignatureTypes())
 
     private fun checkTopLevel(declaration: KSDeclaration, types: Sequence<KSTypeReference>) {
-        val name = declaration.readName()
+        val name = declaration.getShortName()
 
         types.forEach { type -> this.subsystemTypeChecker.check(name, type, emptySet()) }
     }
@@ -32,11 +35,11 @@ internal class ClientChecker(private val logger: KSPLogger, private val subsyste
         .let { markers -> this.checkMarkers(declaration, markers) }
 
     private fun checkClass(declaration: KSClassDeclaration) {
-        val clientName = declaration.readName()
+        val clientName = declaration.getShortName()
         val markers = declaration.findCarriedMarkers()
 
         val markerNames = markers
-            .map(SubsystemMarker::readQualifiedName)
+            .map(SubsystemMarker::getQualifiedName)
             .toSet()
 
         this.checkMarkers(declaration, markers)
@@ -52,7 +55,7 @@ internal class ClientChecker(private val logger: KSPLogger, private val subsyste
 
     private fun checkMarkers(declaration: KSClassDeclaration, markers: List<SubsystemMarker>) {
         if (markers.size > 1) {
-            val name = declaration.readName()
+            val name = declaration.getShortName()
             val names = markers.joinToString(transform = SubsystemMarker::describe)
 
             val symbol = markers
@@ -65,18 +68,18 @@ internal class ClientChecker(private val logger: KSPLogger, private val subsyste
     }
 
     private fun checkOwnFacade(clientName: String, type: KSTypeReference, markers: List<SubsystemMarker>) = type
-        .findDependencies()
+        .getReferencedClasses()
         .forEach { dependency ->
-            val dependencyName = dependency.readName()
+            val dependencyName = dependency.getShortName()
 
             val subsystemNames = dependency
                 .findFacadeAnnotation()
                 ?.readSubsystems()
                 .orEmpty()
-                .map(KSDeclaration::readQualifiedName)
+                .map(KSDeclaration::getQualifiedName)
 
             markers
-                .filter { marker -> marker.readQualifiedName() in subsystemNames }
+                .filter { marker -> marker.getQualifiedName() in subsystemNames }
                 .map(SubsystemMarker::describe)
                 .forEach { markerName ->
                     this.logger.error("$clientName of $markerName takes its facade $dependencyName", type)

@@ -6,6 +6,9 @@ import com.google.devtools.ksp.symbol.KSAnnotation
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSDeclaration
 import com.google.devtools.ksp.symbol.KSTypeReference
+import pro.vlprojects.semantic.ksp.helper.getQualifiedName
+import pro.vlprojects.semantic.ksp.helper.getReferencedClasses
+import pro.vlprojects.semantic.ksp.helper.getShortName
 
 internal class FacadeChecker(private val logger: KSPLogger, private val subsystemTypeChecker: SubsystemTypeChecker) {
 
@@ -17,7 +20,7 @@ internal class FacadeChecker(private val logger: KSPLogger, private val subsyste
     }
 
     private fun checkTarget(declaration: KSClassDeclaration, annotation: KSAnnotation) {
-        val facadeName = declaration.readName()
+        val facadeName = declaration.getShortName()
 
         when (declaration.classKind) {
             ClassKind.INTERFACE -> this.reportMisplaced(annotation, "the interface $facadeName")
@@ -27,7 +30,7 @@ internal class FacadeChecker(private val logger: KSPLogger, private val subsyste
     }
 
     private fun checkSubsystems(declaration: KSClassDeclaration, annotation: KSAnnotation) {
-        val facadeName = declaration.readName()
+        val facadeName = declaration.getShortName()
 
         if (!annotation.hasSubsystemArguments()) {
             this.logger.error("Facade $facadeName names no subsystem", annotation)
@@ -36,7 +39,7 @@ internal class FacadeChecker(private val logger: KSPLogger, private val subsyste
         annotation
             .readSubsystems()
             .filterNot(KSDeclaration::isMarker)
-            .map(KSDeclaration::readName)
+            .map(KSDeclaration::getShortName)
             .forEach { subsystemName ->
                 this.logger.error(
                     "Facade $facadeName names @$subsystemName, which is not marked with @Facade.Subsystem",
@@ -46,7 +49,7 @@ internal class FacadeChecker(private val logger: KSPLogger, private val subsyste
     }
 
     private fun checkMarkers(declaration: KSClassDeclaration) {
-        val facadeName = declaration.readName()
+        val facadeName = declaration.getShortName()
 
         declaration
             .findCarriedMarkers()
@@ -61,11 +64,11 @@ internal class FacadeChecker(private val logger: KSPLogger, private val subsyste
     }
 
     private fun checkTypes(declaration: KSClassDeclaration, annotation: KSAnnotation) {
-        val facadeName = declaration.readName()
+        val facadeName = declaration.getShortName()
 
         val subsystemNames = annotation
             .readSubsystems()
-            .map(KSDeclaration::readQualifiedName)
+            .map(KSDeclaration::getQualifiedName)
             .toSet()
 
         declaration
@@ -78,13 +81,13 @@ internal class FacadeChecker(private val logger: KSPLogger, private val subsyste
     }
 
     private fun checkVisibleType(facadeName: String, type: KSTypeReference, subsystemNames: Set<String>) = type
-        .findDependencies()
+        .getReferencedClasses()
         .forEach { dependency ->
-            val dependencyName = dependency.readName()
+            val dependencyName = dependency.getShortName()
 
             dependency
                 .findCarriedMarkers()
-                .filter { marker -> marker.readQualifiedName() in subsystemNames }
+                .filter { marker -> marker.getQualifiedName() in subsystemNames }
                 .map(SubsystemMarker::describe)
                 .forEach { markerName ->
                     this.logger.error("Facade $facadeName exposes $dependencyName of $markerName", type)
