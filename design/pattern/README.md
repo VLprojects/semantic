@@ -3,11 +3,12 @@
 Classic patterns of objects for Kotlin and Java, grouped as the Gang of Four groups
 them: creational, structural, behavioral, plus the patterns of Patterns of Enterprise
 Application Architecture by Fowler in a group of our own, enterprise. A package per group,
-a package per pattern inside it. Plain Kotlin, no framework; adapters come as modules of their own.
+a package per pattern inside it. Plain Kotlin, no framework; adapters come as modules of their own:
+`semantic-pattern-spring` for Spring.
 
 In place so far: a registry with its store, a registrar and a factory in the creational group;
-the base type of Adapter and the contracts of Composite and Decorator in the structural one;
-a resolver and the base types of Visitor in the behavioral one; the contracts of Plugin in the
+the base type of Adapter and the contracts of Composite, Decorator and Proxy in the structural
+one; a resolver and the base types of Visitor in the behavioral one; the contracts of Plugin in the
 enterprise one.
 
 ## Packages
@@ -23,7 +24,8 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
 | `structural.adapter` | `Adapter`, the base type of an object adapter: equal to an adapter of its class over an equal adaptee; the adaptee is hidden from its clients |
 | `structural.composite` | `Composite`, the base type of a hierarchy whose containers and leaves a client treats alike; `MutableComposite`, a container whose children change after it is made |
-| `structural.decorator` | `Decorator`, a wrapper that holds its component and adds a responsibility to it; `DecoratorFactory`, a component wrapped in a decorator of its type; `AnnotationDecoratorFactory`, a decorator configured by an annotation of the component; `Decorated`, the mark of such an annotation |
+| `structural.decorator` | `Decorator`, a wrapper that holds its component and adds a responsibility to it; `DecoratorFactory`, a component wrapped in a decorator of its type |
+| `structural.proxy` | `Proxy`, a surrogate that stands for its real subject and controls the access to it; `ProxyFactory`, a delegate behind a proxy of its type |
 | `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
 | `behavioral.visitor` | `Visitor`, the base type of the visitors of a hierarchy, with `visit`, the method of any element, which each visit method of a hierarchy falls back to; `Visitable`, an element of a hierarchy with `accept` |
@@ -324,18 +326,19 @@ the work as it was, a check of rights or a cache, controls the access to the obj
 | --- | --- | --- |
 | Component | an interface of the application | the operations |
 | ConcreteComponent | a class that implements it | the work itself |
-| Decorator | a class that implements `Decorator` and the interface of its component | `delegate`, the wrapped component, and the forwarding of each operation to it |
+| Decorator | a class that implements `Decorator` and the interface of its component | `delegate`, the wrapped component, kept private; `delegateClass`, its class; the forwarding of each operation to it |
 | ConcreteDecorator | the same class | the operations it overrides, each with its responsibility |
 
 `Decorator<T>` names the role, so a decorator is told from a Proxy by its type, as `SpringProxy` marks a proxy
 of Spring AOP. It holds the reference the book calls `_component` as `delegate`, the name CDI gives it with
 `@Delegate` and the decorators of Spring give it with `getDelegate()`, `ServerHttpRequestDecorator` of Spring Web
 among them. The forwarding of the abstract Decorator of the book is `by` of Kotlin, which writes it for any
-interface. The interface of the component a decorator implements itself: a type parameter is no supertype, so
-`Decorator<T>` cannot make a class a `T`. `delegate` is public, as a member of an interface is in Kotlin and as
-`unwrap` of `java.sql.Wrapper` is, for an adapter or a diagnostic to walk a chain down to the component it
-started with. A client depends on the interface of the component, not on `Decorator`: a call through
-`delegate` goes round the decorator.
+interface, from a private property as well. The interface of the component a decorator implements itself: a type
+parameter is no supertype, so `Decorator<T>` cannot make a class a `T`. The delegate stays private, as
+`_component` of the book does and `delegate()` of Guava `ForwardingObject` is protected: a call through it would
+go round the decorator. Only `delegateClass`, the class of the delegate, goes out, as `getTargetClass` of Spring
+`TargetClassAware` tells the class of the target of a proxy. In a chain it is the class of the next decorator, as
+`getTargetClass` of a proxy around another proxy is.
 
 The example of the book, a text view with a scroll bar and a border:
 
@@ -347,9 +350,11 @@ interface VisualComponent {
     fun draw(): String
 }
 
-class ScrollDecorator(override val delegate: VisualComponent) :
+class ScrollDecorator(private val delegate: VisualComponent) :
     VisualComponent by delegate,
     Decorator<VisualComponent> {
+
+    override val delegateClass = this.delegate::class
 
     override fun draw() = this.delegate.draw() + "↕"
 }
@@ -389,14 +394,20 @@ whose beans Spring WebFlux applies in their order, and `decorate` as `decorate` 
 `ServerHttpRequestDecorator` apart from the factory. The compiler checks that a factory returns the type of
 its component.
 
-### Annotations
+### Spring
 
-`AnnotationDecoratorFactory<A, T>` makes a decorator configured by an annotation of the component. `Decorated` on
-an annotation names its factory, as `@Constraint(validatedBy = ...)` of Bean Validation names the
-`ConstraintValidator<A, T>` of a constraint and `@Conditional` names the condition of `@ConditionalOnClass` in
-Spring Boot:
+`semantic-pattern-spring` decorates a bean by its annotations. `AnnotationDecoratorFactory<A, T>` makes a decorator
+configured by an annotation of the bean. `Decorated` on an annotation names its factory, as
+`@Constraint(validatedBy = ...)` of Bean Validation names the `ConstraintValidator<A, T>` of a constraint and
+`@Conditional` names the condition of `@ConditionalOnClass` in Spring Boot. `DecoratedAnnotationBeanPostProcessor`
+wraps a bean by the factories its annotations name, as `DataSourceDecoratorBeanPostProcessor` wraps a `DataSource`
+by its decorators. It is named as `ScheduledAnnotationBeanPostProcessor` of Spring, which acts on `@Scheduled`:
 
 ```kotlin
+@Configuration
+@Import(DecoratedAnnotationBeanPostProcessor::class)
+class DecoratorConfiguration
+
 @Target(AnnotationTarget.CLASS)
 @Decorated(BorderDecoratorFactory::class)
 annotation class Bordered(val width: Int)
@@ -407,38 +418,183 @@ class BorderDecoratorFactory : AnnotationDecoratorFactory<Bordered, VisualCompon
         BorderDecorator(target, annotation.width)
 }
 
-@Bordered(2)
-class Caption(text: String) : VisualComponent by TextView(text)
+@Target(AnnotationTarget.CLASS)
+@Decorated(ScrollDecoratorFactory::class)
+annotation class Scrolled
+
+@Bordered(1)
+@Scrolled
+class TextArea : VisualComponent by TextView("text")
 ```
 
-An annotation decorates the component it is put on, not each component of a type. It names one factory, so
-an annotation is one decorator: several decorators take several annotations. The contracts are plain Kotlin,
-as Bean Validation knows no container; an adapter makes the factories and wraps the components.
+The bean of `TextArea` is a `BorderDecorator` around a `ScrollDecorator` around the text area itself:
+
+- The annotations of a class apply in the order they are written: the top one makes the outermost decorator,
+  the one a call reaches first, as the top one of stacked decorators of Python and TypeScript does. JUnit
+  registers several `@ExtendWith` in the order of the source in the same way. Only the annotations put on the
+  class itself count: inherited and composed ones would mix the order. The Javadoc of `getDeclaredAnnotations`
+  promises no order, though javac, the Kotlin compiler and HotSpot keep the one of the source, and a test checks it.
+- An annotation decorates the bean it is put on, not each bean of a type. It names one factory, so an annotation
+  is one decorator: several decorators take several annotations.
+- A repeated annotation decorates once per repetition. The compiler packs the repetitions into one container in
+  the place of the first one, so they apply together there: write them in a row.
+- `Decorated` carries `@Component`, as `@Repository` of Spring does, which marks a bean for
+  `PersistenceExceptionTranslationPostProcessor` as well: the scan of components finds a class with a decorating
+  annotation without `@Component`. The scan does not look into the container of a repeated annotation, so a class
+  with nothing but repetitions takes `@Component` itself. A class with only a composed annotation is found too,
+  yet stays bare. A `String` attribute `value` of a decorating annotation would name the bean by a convention that
+  Spring deprecates: name it otherwise.
+- Only beans are decorated, whatever registers them: the scan, `@Bean` or `@Import`. An object made by its
+  constructor is not seen; the module scans no packages, as the application picks its beans itself.
+- An annotation is looked up on the class of the bean behind an AOP proxy.
+- A factory is made once per its class by `createBean` with its dependencies from the context, as
+  `SpringConstraintValidatorFactory` makes a validator, and destroyed with the context.
+- A factory of another type than the bean stops the startup with `BeanNotOfRequiredTypeException` of Spring; a
+  factory of another annotation, with an `IllegalStateException`.
+- A bean is replaced by a decorator of its interface: it is injected by the interface, not by its class.
+- Spring looks for `@EventListener` and `@RequestMapping` on the class of the bean, which is now the decorator,
+  and finds none; `@Scheduled` and listeners of messaging are bound before the decorators and call the bare bean.
 
 ### Plan of Decorator
 
-1. `Decorator`, `DecoratorFactory`, `AnnotationDecoratorFactory` and `Decorated`.
-2. A Spring adapter: a `BeanPostProcessor` wraps a bean by the factories of its type and of its annotations,
-   as `DataSourceDecoratorBeanPostProcessor` wraps a `DataSource` by its decorators.
-   - The annotations of a class apply in the order they are written: the top one makes the outermost
-     decorator, the one a call reaches first, as the top one of stacked decorators of Python and TypeScript
-     does. JUnit registers several `@ExtendWith` in the order of the source in the same way. Only the
-     annotations put on the class itself count: inherited and composed ones would mix the order. The
-     Javadoc of `getAnnotations` promises no order, though javac, the Kotlin compiler and HotSpot keep the
-     one of the source, so a test of the adapter checks it.
-   - The factories of a type, which no class names, apply in `@Order`: the first makes the outermost
-     decorator, as advice of Spring AOP with the lowest `@Order` and `HttpHandlerDecoratorFactory` do.
-     `CompositeTaskDecorator` of Spring and Scrutor make the first the innermost instead.
+1. `Decorator` and `DecoratorFactory`.
+2. `AnnotationDecoratorFactory`, `Decorated` and `DecoratedAnnotationBeanPostProcessor`.
+3. A `BeanPostProcessor` that wraps each bean of a type by the `DecoratorFactory` beans of the type:
+   - They apply in `@Order`: the first makes the outermost decorator, as advice of Spring AOP with the lowest
+     `@Order` and `HttpHandlerDecoratorFactory` do. `CompositeTaskDecorator` of Spring and Scrutor make the first
+     the innermost instead.
    - It replaces `@Primary` and `@Qualifier`, where each decorator injects the next by the name of its bean:
      a decorator knows neither its neighbours nor its place, a new one goes in between without a change of them,
      and the context has no undecorated component to inject by mistake.
-   - A factory named by an annotation is a bean of its class, as `SpringConstraintValidatorFactory` makes a
-     validator. A factory of another type than the bean stops the startup with an error of the contract, as
-     `UnexpectedTypeException` of Bean Validation does. An annotation is looked up on the class of the bean
-     behind an AOP proxy.
-   - A bean is replaced by a decorator of its interface: it is injected by the interface, not by its class.
-3. Interceptors bound to annotations of methods over `AnnotationMatchingPointcut`, as `@Retryable` of Spring is,
+4. An auto-configuration of Spring Boot that registers both post-processors.
+5. Interceptors bound to annotations of methods over `AnnotationMatchingPointcut`, as `@Retryable` of Spring is,
    with a check at startup that a proxy reaches each annotated method: Spring only logs a final one.
+
+## Proxy
+
+Proxy, as the Gang of Four describe it, is a surrogate that controls the access to another object: it has
+the interface of that object, its real subject, and passes a request to it on its own terms: later, by
+rights, over the network or with a bookkeeping of its own, a count of references or a lock. The whole work
+stays in the real subject. Take a proxy away and the work is the same, only the way to reach it changes;
+take a decorator away and part of the work is gone. A proxy stands for one real subject and is not nested
+as decorators are.
+
+| Role | Who plays it | What it holds |
+| --- | --- | --- |
+| Subject | an interface of the application | the operations a client calls |
+| RealSubject | a class that implements it | the whole work of the operations |
+| Proxy | a class that implements `Proxy` and the subject | the delegate, private, and the control of each call to it |
+
+`Proxy<T>` names the role, as `SpringProxy` marks a proxy of Spring AOP and `HibernateProxy` a proxy of
+Hibernate. A proxy keeps the object the book calls the real subject private, as the book keeps `_image`: a
+call that reached it past the proxy would go round the control. It shows `delegateClass`, the class of the
+delegate, as `getTargetClass` of Spring `TargetClassAware` and `getPersistentClass` of a Hibernate
+`LazyInitializer` do: an adapter finds the annotations of the class behind a proxy, as `AopUtils.getTargetClass`
+does, and a log names it. The interface of the subject a proxy implements itself: a type parameter is no
+supertype, so `Proxy<T>` cannot make a class a `T`. A client depends on the interface of the subject, not on
+`Proxy`.
+
+`isDelegateLoaded()` tells whether the delegate is there, without making it, as `isLoaded` of a JPA
+`PersistenceUnitUtil`, `Hibernate.isInitialized` and `isInitialized` of a Kotlin `Lazy` do: a log or a serializer
+skips a proxy whose delegate is not there instead of reading a file or a database for it, as
+`HibernateProxySerializer` of the Jackson Hibernate module writes `null` for a proxy that is not initialized
+unless `FORCE_LAZY_LOADING` is on. A virtual proxy answers by its `Lazy`; a protection proxy holds its delegate
+from the start and answers `true`. The method has no default: a virtual proxy that forgot it would tell a lie.
+
+A virtual proxy is given the class of its delegate, since it tells the class before it makes the delegate, as
+Hibernate takes the class of an entity from its mapping and `LazyInitTargetSource` of Spring from the
+definition of a bean. The delegate made later may be of a subclass.
+
+A remote proxy has no `Proxy` type here: its delegate lives in another address space, and there is no
+object here to load. Spring `HttpServiceProxyFactory`, Retrofit and Feign make such proxies of an
+interface.
+
+The example of the book, an image of a document loaded on its first draw:
+
+```kotlin
+interface Graphic {
+
+    val extent: Int
+
+    fun draw(): String
+}
+
+class ImageProxy(
+    override val delegateClass: KClass<out Graphic>,
+    initializeDelegate: () -> Graphic,
+    override val extent: Int,
+) : Graphic,
+    Proxy<Graphic> {
+
+    private val image = lazy(initializeDelegate)
+
+    override fun isDelegateLoaded() = this.image.isInitialized()
+
+    override fun draw() = this.image.value.draw()
+}
+```
+
+The proxy answers `extent` from the document and reads the file only to draw the image, as `ImageProxy`
+of the book does. The proxy of the book makes its image by the name of a file; this one takes the way to
+load it, so a factory or a container decides where the image comes from. A protection proxy takes its delegate
+ready, checks the rights on each call and forwards by `by` what it does not check. `by` takes a private
+property or a plain parameter of the constructor as well:
+
+```kotlin
+class GuardedImage(private val image: Graphic, private val isAllowed: () -> Boolean) :
+    Graphic by image,
+    Proxy<Graphic> {
+
+    override val delegateClass = this.image::class
+
+    override fun isDelegateLoaded() = true
+
+    override fun draw() = when {
+        this.isAllowed() -> this.image.draw()
+        else -> throw SecurityException("No rights to draw")
+    }
+}
+```
+
+`by` has the hole described for Decorator: a member that `Graphic` gains later goes to the delegate with no
+check of rights. `by` keeps the object it was given when the proxy was made, so a virtual proxy cannot use it
+without making the delegate at once: it writes each member and keeps the body a member has in the interface
+instead of loading the image for it.
+
+### Factories of proxies
+
+A factory puts a delegate that comes from outside behind a proxy of its type. It takes `initializeDelegate`, a function
+that makes the delegate, not the delegate itself: a virtual proxy of a ready object is late to save anything. A
+virtual proxy keeps the function until the first call, a protection proxy calls it at once:
+
+```kotlin
+val virtual = ProxyFactory<Graphic> { image -> ImageProxy(Image::class, image, 50) }
+val guarded = ProxyFactory<Graphic> { image -> image().let { graphic -> GuardedImage(graphic) { true } } }
+
+val image = virtual.proxy { Image("photo.png") }
+```
+
+`proxy` is named as `proxy` of `AuthorizationProxyFactory` of Spring Security, which puts a ready object behind
+a check of rights. `@Lazy` of Spring takes the way, as this factory does: the proxy it injects resolves the
+bean by its `TargetSource` on the first call, as `LazyInitTargetSource` does. The compiler checks that a factory
+returns the type of its delegate.
+
+### Plan of Proxy
+
+1. `Proxy` and `ProxyFactory`.
+2. `AnnotationProxyFactory`, `Proxied` and a post-processor in `semantic-pattern-spring`, as for Decorator: an
+   annotation of a bean puts it behind a proxy configured by the attributes of the annotation, as `@PreAuthorize`
+   on a class of Spring Security does.
+   - A bean stands behind one proxy: two proxy annotations on a class stop the startup with an error of the
+     contract, since a proxy is not nested.
+   - A virtual proxy is made before the bean is: `postProcessBeforeInstantiation` of an
+     `InstantiationAwareBeanPostProcessor` returns it, as `LazyInitTargetSourceCreator` of Spring AOP makes a
+     lazy proxy of a bean, and gives the factory a way to get the bean from the context, as `@Lazy` does. The
+     class of the delegate comes from the definition of the bean.
+   - A factory named by an annotation is a bean of its class, as for Decorator. A factory of another type
+     than the bean stops the startup with an error of the contract.
+   - A bean is replaced by a proxy of its interface: it is injected by the interface, not by its class.
+3. A post-processor that puts each bean of a type behind the `ProxyFactory` bean of the type.
 
 ## Resolver
 

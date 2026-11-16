@@ -1,11 +1,7 @@
 package pro.vlprojects.semantic.pattern.unit.structural.decorator
 
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertInstanceOf
-import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.Test
-import pro.vlprojects.semantic.pattern.structural.decorator.Decorated
-import pro.vlprojects.semantic.pattern.structural.decorator.Decorator
 import pro.vlprojects.semantic.pattern.structural.decorator.DecoratorFactory
 
 class DecoratorTests {
@@ -25,8 +21,8 @@ class DecoratorTests {
     }
 
     @Test
-    fun `a decorator holds the delegate it wraps`() {
-        assertSame(this.view, ScrollDecorator(this.view).delegate)
+    fun `a decorator tells the class of the delegate it wraps`() {
+        assertEquals(TextView::class, ScrollDecorator(this.view).delegateClass)
     }
 
     @Test
@@ -40,27 +36,11 @@ class DecoratorTests {
     }
 
     @Test
-    fun `a chain unwraps down to the component it started with`() {
+    fun `a decorator in a chain tells the class of the next one`() {
         val window = this.view
             .let(::ScrollDecorator)
             .let { scroll -> BorderDecorator(scroll, 1) }
-        val scroll = assertInstanceOf(Decorator::class.java, window.delegate)
 
-        assertSame(this.view, scroll.delegate)
-    }
-
-    @Test
-    fun `an annotation names the factory of its decorator`() {
-        val decorated = Bordered::class.java.getAnnotation(Decorated::class.java)
-
-        assertEquals(BorderDecoratorFactory::class, decorated.value)
-    }
-
-    @Test
-    fun `a factory configures a decorator by the annotation of the component`() {
-        val caption = Caption("text")
-        val annotation = Caption::class.java.getAnnotation(Bordered::class.java)
-
-        assertEquals("||text||", BorderDecoratorFactory().decorate(caption, annotation).draw())
+        assertEquals(ScrollDecorator::class, window.delegateClass)
     }
 }
