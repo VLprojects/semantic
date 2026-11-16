@@ -8,6 +8,7 @@ import kotlin.reflect.KClass
  *
  * ```kotlin
  * @Facade.Subsystem
+ * @Target(AnnotationTarget.CLASS)
  * annotation class FileSubsystem
  *
  * @FileSubsystem

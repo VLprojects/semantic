@@ -7,7 +7,7 @@ a package per pattern inside it. Plain Kotlin, no framework; adapters come as mo
 `semantic-pattern-spring` for Spring.
 
 In place so far: a registry with its store, a registrar and a factory in the creational group;
-the contracts of Composite, Decorator, Facade and Proxy in the structural one;
+the contracts of Composite, Decorator and Proxy and the annotations of Facade in the structural one;
 a resolver and the base types of Visitor in the behavioral one; the contracts of Plugin in the enterprise one.
 
 ## Packages
@@ -408,6 +408,7 @@ called them itself would forget the quota or the history.
 
 ```kotlin
 @Facade.Subsystem
+@Target(AnnotationTarget.CLASS)
 annotation class FileSubsystem
 
 @FileSubsystem
@@ -420,64 +421,68 @@ interface FileRepository : JpaRepository<FileEntity, FileId>
 class FileStorageClient(...)
 
 @FileSubsystem
-class DiskService(...)
+class QuotaService(...)
 
 @FileSubsystem
 class HistoryService(...)
 
 @Facade(FileSubsystem::class)
 class FileFacade(
-    private val files: FileRepository,
+    private val repository: FileRepository,
     private val storage: FileStorageClient,
-    private val disk: DiskService,
+    private val quota: QuotaService,
     private val history: HistoryService,
 ) {
 
     fun delete(fileId: FileId) {
-        val file = this.files
-            .findById(fileId)
-            .orElseThrow()
+        val file = this.findFile(fileId)
 
         this.storage.delete(file.storageKey)
-        this.disk.release(file.ownerId, file.size)
+        this.quota.release(file.ownerId, file.size)
         this.history.recordDeletion(file)
-        this.files.delete(file)
+        this.repository.delete(file)
     }
 
-    fun find(fileId: FileId) = this.files
-        .findById(fileId)
-        .orElseThrow()
+    fun find(fileId: FileId) = this
+        .findFile(fileId)
         .let { file -> FileView(file.id, file.name, file.size) }
+
+    private fun findFile(fileId: FileId) = this.repository.findByIdOrNull(fileId)
+        ?: throw UnknownFileException(fileId)
 }
 
-class FileController(private val files: FileFacade)
+class FileController(private val facade: FileFacade)
 
 class AdminFileController(private val storage: FileStorageClient)
 ```
 
-The rules of the two annotations:
+A class carries the marker it is annotated with and the markers of its supertypes, their arguments counted:
+`interface AdminFileRepository : JpaRepository<FileEntity, FileId>` belongs to the subsystem of files without a
+marker of its own. The rules of the two annotations:
 
-- A class takes a class of a subsystem, by a parameter of its constructor or a property, only if it carries the
-  marker of that subsystem or is a facade that names it. `FileController` keeps the rules, `AdminFileController`
-  breaks the first: it reaches the storage past the facade, and a deletion of its own forgets the quota.
+- A class names a type of a subsystem, in a parameter of its constructor or of a function, a property or a result,
+  only if it carries the marker of that subsystem or is a facade that names it; a top-level function or property
+  names none. `FileController` keeps the rules, `AdminFileController` breaks the first: it reaches the storage past
+  the facade, and a deletion of its own forgets the quota.
+- A class of a subsystem takes no facade that names its own subsystem: the subsystem knows nothing of its facade.
 - A public function or property of a facade, its constructor aside, neither takes nor returns a type of its
   subsystems: the facade answers with a type of its own, `FileView`, and a client stays apart from the schema of
   the database.
-- A type counts with its arguments in both rules: a `List<FileEntity>` or a `CrudRepository<FileEntity, FileId>`
+- A type counts with its arguments in all the rules: a `List<FileEntity>` or a `CrudRepository<FileEntity, FileId>`
   is a type of the subsystem.
-- A facade names one subsystem at least, and each annotation it names carries `@Facade.Subsystem`.
+- `@Facade` goes on a class, not an interface, and names one subsystem at least; each annotation it names carries
+  `@Facade.Subsystem`.
 - A class carries the marker of one subsystem at most, and a facade carries none: a facade stands outside its
   subsystems.
 
 A facade may name several subsystems, as a deletion of a file may touch both files and billing:
 `@Facade(FileSubsystem::class, BillingSubsystem::class)`. A class of a subsystem reaches another subsystem only
-through its facade. `@Facade` goes on the class that calls the subsystems; a narrow interface it implements takes
-no annotation, as the second rule reaches its members through the class. The attribute is `subsystems`, as
-`@OptIn` names its markers `markerClass`: a Kotlin client writes no name, a Java one writes
-`@Facade(subsystems = FileSubsystem.class)`.
+through its facade. A narrow interface of a facade takes no annotation: the rule of public members reaches them
+through the class. The attribute is `subsystems`, as `@OptIn` names its markers `markerClass`: a Kotlin client
+writes no name, a Java one writes `@Facade(subsystems = FileSubsystem.class)`.
 
 The way past the facade is a marker: a class that carries one joins its subsystem, and the rules take it at its
-word. A review sees the marker, as a search by it finds it.
+word. A review sees the marker, and a search by it finds each class that joined a subsystem.
 
 The annotations check nothing themselves: the processor of the plan checks the rules when a module is compiled, the
 check of Spring the first one when the application starts. Kotlin has no visibility of a package, as Java has, and
@@ -501,7 +506,8 @@ The rules stop neither of the two ways a facade goes wrong from the inside, and 
 
 - A facade that serves every client grows into a God Object. Split it by its clients, several facades of one
   subsystem, or let each client depend on a narrow interface of it, as `ApplicationContext` of Spring extends
-  `ApplicationEventPublisher`, `ResourceLoader` and `MessageSource` and a client injects only the one it needs.
+  `ApplicationEventPublisher`, `ResourcePatternResolver` and `MessageSource` and a client injects only the one it
+  needs.
 - A rule of the business written in the facade belongs to the class that holds its data: the facade only calls.
 
 Mediator stands between classes too, yet its colleagues know it and talk through it; the classes behind a
@@ -532,7 +538,9 @@ The samples:
    records between beans, as `getDependentBeans` of `ConfigurableBeanFactory` tells them, and catches beans that
    no processor saw. `@Facade` and the markers are looked up on the user class of a bean and its interfaces
    by `MergedAnnotations` with `SearchStrategy.TYPE_HIERARCHY`: a repository of Spring Data is a JDK proxy of
-   its interface, a transactional facade a subclass of CGLIB.
+   its interface, a transactional facade a subclass of CGLIB. Only the beans of the application are checked as
+   clients, those under `AutoConfigurationPackages` and not of `BeanDefinition.ROLE_INFRASTRUCTURE`: a registry of
+   Actuator takes every `HealthIndicator`, a class of a subsystem among them.
 
 ## Proxy
 
