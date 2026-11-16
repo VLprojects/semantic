@@ -1,0 +1,4 @@
+public abstract interface class pro/vlprojects/semantic/math/relation/Incrementable {
+	public abstract fun next ()Ljava/lang/Object;
+}
+
