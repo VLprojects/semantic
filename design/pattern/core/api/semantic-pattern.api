@@ -250,6 +250,13 @@ public abstract interface class pro/vlprojects/semantic/pattern/structural/decor
 	public abstract fun decorate (Ljava/lang/Object;)Ljava/lang/Object;
 }
 
+public abstract interface annotation class pro/vlprojects/semantic/pattern/structural/facade/Facade : java/lang/annotation/Annotation {
+	public abstract fun subsystems ()[Ljava/lang/Class;
+}
+
+public abstract interface annotation class pro/vlprojects/semantic/pattern/structural/facade/Facade$Subsystem : java/lang/annotation/Annotation {
+}
+
 public abstract interface class pro/vlprojects/semantic/pattern/structural/proxy/Proxy {
 	public abstract fun getDelegateClass ()Lkotlin/reflect/KClass;
 	public abstract fun isDelegateLoaded ()Z
