@@ -13,10 +13,11 @@ internal class FacadeOutsideSubsystemsChecker(private val logger: KSPLogger) {
             .findAll(declaration)
             .forEach { membership ->
                 val subsystemName = membership.describe()
+                val symbol = membership.findSymbol(declaration)
 
                 this.logger.error(
                     "Facade $facadeName carries $subsystemName: a facade stands outside its subsystems",
-                    membership.annotation,
+                    symbol,
                 )
             }
     }

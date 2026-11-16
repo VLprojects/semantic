@@ -20,7 +20,11 @@ internal class SingleSubsystemMembershipChecker(private val logger: KSPLogger) {
         if (memberships.size > 1) {
             val name = declaration.getShortName()
             val subsystemNames = memberships.joinToString(transform = SubsystemMembership::describe)
-            val symbol = memberships.last().annotation
+
+            val symbol = memberships
+                .lastOrNull(SubsystemMembership::isDirectlyPresent)
+                ?.annotation
+                ?: declaration
 
             this.logger.error("$name carries the markers of several subsystems: $subsystemNames", symbol)
         }
