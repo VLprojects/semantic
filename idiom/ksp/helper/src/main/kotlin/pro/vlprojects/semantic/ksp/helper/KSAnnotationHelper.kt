@@ -13,17 +13,13 @@ public fun KSAnnotation.getAnnotationClass(): KSClassDeclaration? =
         else -> declaration as? KSClassDeclaration
     }
 
+// Java passes a single value of an array argument without braces as the value itself.
 public fun KSAnnotation.getClassLiterals(argumentName: String): List<KSType> = this.arguments
     .filter { argument -> argument.name?.asString() == argumentName }
-    .flatMap(KSValueArgument::toValueList)
+    .map(KSValueArgument::value)
+    .flatMap { value -> value as? List<*> ?: listOf(value) }
     .filterIsInstance<KSType>()
 
 private fun KSAnnotation.resolveAnnotationDeclaration() = this.annotationType
     .resolve()
     .declaration
-
-// Java passes a single value of an array attribute without braces as the value itself.
-private fun KSValueArgument.toValueList() = when (val value = this.value) {
-    is List<*> -> value
-    else -> listOf(value)
-}
