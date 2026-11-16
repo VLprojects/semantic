@@ -230,7 +230,7 @@ public abstract interface class pro/vlprojects/semantic/pattern/structural/compo
 }
 
 public abstract interface class pro/vlprojects/semantic/pattern/structural/decorator/Decorator {
-	public abstract fun getDelegate ()Ljava/lang/Object;
+	public abstract fun getDelegateClass ()Lkotlin/reflect/KClass;
 }
 
 public abstract interface class pro/vlprojects/semantic/pattern/structural/decorator/DecoratorFactory {
@@ -239,5 +239,14 @@ public abstract interface class pro/vlprojects/semantic/pattern/structural/decor
 
 public abstract interface class pro/vlprojects/semantic/pattern/structural/flyweight/FlyweightFactory {
 	public abstract fun getFlyweight (Ljava/lang/Object;)Ljava/lang/Object;
+}
+
+public abstract interface class pro/vlprojects/semantic/pattern/structural/proxy/Proxy {
+	public abstract fun getDelegateClass ()Lkotlin/reflect/KClass;
+	public abstract fun isDelegateLoaded ()Z
+}
+
+public abstract interface class pro/vlprojects/semantic/pattern/structural/proxy/ProxyFactory {
+	public abstract fun proxy (Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
 }
 
