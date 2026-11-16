@@ -4,7 +4,7 @@ Classic patterns of objects for Kotlin and Java, grouped as the Gang of Four gro
 them: creational, structural, behavioral, plus the patterns of Patterns of Enterprise
 Application Architecture by Fowler in a group of our own, enterprise. A package per group,
 a package per pattern inside it. Plain Kotlin, no framework; adapters come as modules of their own:
-`semantic-pattern-spring` for Spring.
+`semantic-pattern-spring` for Spring, `semantic-pattern-ksp` for the checks of KSP at compilation.
 
 In place so far: a registry with its store, a registrar and a factory in the creational group;
 the contracts of Composite, Decorator and Proxy and the annotations of Facade in the structural one;
@@ -470,8 +470,8 @@ marker of its own. The rules of the two annotations:
   the database.
 - A type counts with its arguments in all the rules: a `List<FileEntity>` or a `CrudRepository<FileEntity, FileId>`
   is a type of the subsystem.
-- `@Facade` goes on a class, not an interface, and names one subsystem at least; each annotation it names carries
-  `@Facade.Subsystem`.
+- `@Facade` goes on a class, not an interface or an annotation, and names one subsystem at least; each annotation it
+  names carries `@Facade.Subsystem`.
 - A class carries the marker of one subsystem at most, and a facade carries none: a facade stands outside its
   subsystems.
 
@@ -484,15 +484,15 @@ writes no name, a Java one writes `@Facade(subsystems = FileSubsystem.class)`.
 The way past the facade is a marker: a class that carries one joins its subsystem, and the rules take it at its
 word. A review sees the marker, and a search by it finds each class that joined a subsystem.
 
-The annotations check nothing themselves: the processor of the plan checks the rules when a module is compiled, the
-check of Spring the first one when the application starts. Kotlin has no visibility of a package, as Java has, and
-`internal` covers a whole Gradle module: in one service every class of a subsystem is open to every client. The
-compiler closes a class to those that do not declare `@OptIn` of its marker, if the marker is annotated with
-`@RequiresOptIn` of the level `ERROR`, as `@InternalCoroutinesApi` closes the internals of kotlinx.coroutines.
-Kotlin takes no other annotation for `@OptIn`, though: a facade would name its subsystem twice, in `@Facade` and in
-`@OptIn`. The marker here is a plain annotation, and the checks of the plan read it from the classes; the compiler
-still checks the bodies of functions for a project that adds `@RequiresOptIn` to its marker and `@OptIn` to its
-facade.
+The annotations check nothing themselves: `semantic-pattern-ksp` checks the rules of the annotations when a module
+is compiled, and the plan adds the other rules to it and the check of Spring when the application starts. Kotlin has
+no visibility of a package, as Java has, and `internal` covers a whole Gradle module: in one service every class of
+a subsystem is open to every client. The compiler closes a class to those that do not declare `@OptIn` of its
+marker, if the marker is annotated with `@RequiresOptIn` of the level `ERROR`, as `@InternalCoroutinesApi` closes
+the internals of kotlinx.coroutines. Kotlin takes no other annotation for `@OptIn`, though: a facade would name its
+subsystem twice, in `@Facade` and in `@OptIn`. The marker here is a plain annotation, and the checks read it from
+the classes; the compiler still checks the bodies of functions for a project that adds `@RequiresOptIn` to its
+marker and `@OptIn` to its facade.
 
 `@Facade` and the marker are annotations, not interfaces, as the layers of `semantic-explicit` are: a facade has no
 operation that every facade shares, and the annotations ask nothing of a class. `@Facade.Subsystem` marks an
@@ -527,13 +527,43 @@ The samples:
   `@NamedInterface` opens one of them. `ApplicationModules.verify()` fails a test on an access to the internals of
   a module.
 
+### KSP
+
+`semantic-pattern-ksp` is a processor of KSP that fails the build of a module on a broken rule, at the line that
+breaks it, as Dagger fails a build on a broken graph of dependencies. Each module with facades or subsystems applies
+it:
+
+```kotlin
+plugins {
+    id("com.google.devtools.ksp") version "2.3.12"
+}
+
+dependencies {
+    implementation("pro.vlprojects.semantic:semantic-pattern:<version>")
+    ksp("pro.vlprojects.semantic:semantic-pattern-ksp:<version>")
+}
+```
+
+A facade that names no subsystem stops the build with:
+
+```text
+e: [ksp] /…/FileFacade.kt:3: Facade FileFacade names no subsystem
+```
+
+- It checks the annotation of each facade and the markers each class of the module is annotated with, nested ones
+  too, in Kotlin and in Java, under a type alias as well. The markers of supertypes and the rules of members and of
+  clients come next, by the plan.
+- `FacadeSymbolProcessorProvider` is listed in `META-INF/services`, where KSP finds its processors by `ServiceLoader`.
+
 ### Plan of Facade
 
 1. `Facade` and `Facade.Subsystem`.
-2. `semantic-pattern-ksp`, a processor of KSP that fails the build of a module on a broken rule, at the line
-   that breaks it, as Dagger fails a build on a broken graph of dependencies. KSP sees the declarations, not the
-   bodies of functions: a class of a subsystem made in a body goes unseen. Each module with clients applies it.
-3. A check of `semantic-pattern-spring` that stops the startup on an injection that breaks the first rule, as
+2. `semantic-pattern-ksp`, a processor of KSP that checks the rules of the annotations at compilation.
+3. The rule of public members of a facade in `semantic-pattern-ksp`.
+4. The rules of clients in `semantic-pattern-ksp`: the constructors, properties and signatures of functions of each
+   class and each top-level declaration, and the markers of supertypes. KSP sees no bodies of functions: a class of
+   a subsystem made in a body goes unseen.
+5. A check of `semantic-pattern-spring` that stops the startup on an injection that breaks the first rule, as
    `ApplicationModules.verify()` of Spring Modulith checks the modules in a test. It reads the dependencies Spring
    records between beans, as `getDependentBeans` of `ConfigurableBeanFactory` tells them, and catches beans that
    no processor saw. `@Facade` and the markers are looked up on the user class of a bean and its interfaces
