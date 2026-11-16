@@ -47,7 +47,7 @@ What happens to 10 000 records with `batch-size: 100` and `max-concurrency: 4`:
 | --- | --- | --- | --- | --- |
 | `OutboxDispatcher` | class, exists | delivers one batch: takes records, sends them, saves the outcome; returns how many it took | knows nothing of time and threads | — |
 | `OutboxPollingStrategy` | fun interface | decides from the outcome of a batch when to poll again | runs no threads and keeps no state | Spring Messaging `ReconnectStrategy`, Namastack `OutboxPollingTrigger` |
-| `OutboxPollingContext` | class | the facts of a batch: `dispatched`, `batchSize`, `previousDelay`, `isBatchFull()` | — | Spring `TriggerContext` |
+| `OutboxPollingContext` | class | the facts of a batch: `dispatched`, `batchSize`, `previousDurationBeforePolling`, `isBatchFull()` | — | Spring `TriggerContext` |
 | `OutboxPoller` | internal class | runs one loop: batch, strategy, pause, batch again; a failed batch does not stop the loop | does not decide how many pollers there are | Spring Integration `AbstractPollingEndpoint` |
 | `OutboxPollingContainer` | class | runs delivery in the background by polling: `start()`, `stop()`, `isRunning()`, `wakeup()`; keeps from `concurrency` to `max-concurrency` pollers on a `ScheduledExecutorService` | delivers nothing itself and counts no pauses | Spring JMS `DefaultMessageListenerContainer`, Spring AMQP `SimpleMessageListenerContainer` |
 | `OutboxPollingContainerLifecycle` | class in `semantic-delivery-spring` | a `SmartLifecycle` that starts and stops the container with the context | holds no polling logic | Spring Boot `WebServerGracefulShutdownLifecycle` |
@@ -88,11 +88,11 @@ in the queue of the executor, not in `Thread.sleep`.
 ```kotlin
 public fun interface OutboxPollingStrategy {
 
-    public fun calculate(context: OutboxPollingContext): Duration
+    public fun calculateDurationBeforePolling(context: OutboxPollingContext): Duration
 }
 ```
 
-- The signature follows `Backoff.calculate(attempt)`: facts in, a pause out.
+- The name says what is calculated: the duration before the next polling. As with `Backoff`, facts in, a pause out.
 - A strategy keeps no state; the poller passes it the last pause. One instance is safe to share between parallel
   pollers. The `OutboxPollingTrigger` of Namastack keeps state and works only with one polling thread.
 - The context is a class, not a list of parameters, so a new field does not break an implementation, as with Spring
@@ -102,7 +102,7 @@ public fun interface OutboxPollingStrategy {
 | --- | --- | --- | --- |
 | `FixedPollingStrategy(interval)` | always `interval` | a steady load on the database | Namastack `FixedPollingTrigger`, Spring `PeriodicTrigger` |
 | `ActiveIdlePollingStrategy(activeInterval, idleInterval)` | `activeInterval` after a full batch (0 by default), `idleInterval` otherwise | **the default**: a burst goes without pauses, an idle database is polled once per `idleInterval` | Spring Integration `SimpleActiveIdleReceiveMessageAdvice` |
-| `AdaptivePollingStrategy(minInterval, maxInterval)` | a full batch halves the pause, a batch of a quarter or less doubles it, within min..max | rare records and fewer queries | Namastack `AdaptivePollingTrigger` |
+| `AdaptivePollingStrategy(minInterval, maxInterval, multiplier)` | a full batch divides the pause by `multiplier` (2 by default), a batch of a quarter or less multiplies it, within min..max | rare records and fewer queries | Namastack `AdaptivePollingTrigger` |
 
 An own algorithm is `OutboxPollingStrategy { context -> ... }`.
 
@@ -178,7 +178,7 @@ Without Spring:
 
 ```kotlin
 val executor = Executors.newScheduledThreadPool(properties.polling.maxConcurrency)
-val container = OutboxPollingContainer(dispatcher, executor, properties.polling)
+val container = OutboxPollingContainer(dispatcher, executor, ActiveIdlePollingStrategy.of(), properties.polling)
 
 container.start()
 container.stop()
@@ -207,23 +207,24 @@ semantic.delivery.outbox:
   batch-size: 100
   polling:
     enabled: true
-    strategy: active-idle       # fixed | active-idle | adaptive
-    fixed:
-      interval: 1s
-    active-idle:
-      active-interval: 0s
-      idle-interval: 1s
-    adaptive:
-      min-interval: 100ms
-      max-interval: 10s
+    strategy:
+      active-idle:              # or fixed, adaptive, an own type
+        active-interval: 0s
+        idle-interval: 1s
     concurrency: 1
     max-concurrency: 1
     shutdown-timeout: 30s
 ```
 
-`polling.strategy` with `polling.<strategy>.*` follows Namastack (`outbox.polling.trigger`,
-`outbox.polling.adaptive.min-interval`) with the key named `strategy`. `concurrency` and `max-concurrency` follow Spring
-Boot (`spring.rabbitmq.listener.simple.concurrency`, `max-concurrency`).
+The key of the block under `polling.strategy` names an `OutboxPollingStrategyFactory` bean by its class without the
+suffix, in kebab case: `ActiveIdlePollingStrategyFactory` is `active-idle`, as Spring Cloud Gateway names its filter
+factories. The fields under the key bind to the type argument of the factory, its `Config`, resolved the way Spring
+resolves the event of an `ApplicationListener`. `fixed` takes `interval` (`1s`), `active-idle` takes `active-interval`
+(`0s`) and `idle-interval` (`1s`), `adaptive` takes `min-interval` (`100ms`), `max-interval` (`10s`) and `multiplier`
+(`2`). The factories come in PR 5 to `semantic-delivery-spring-boot`; an own strategy is a factory class with its own
+`Config`, declared as a bean. Without Spring the application passes the strategy to the constructor of the container.
+`concurrency` and `max-concurrency` follow Spring Boot (`spring.rabbitmq.listener.simple.concurrency`,
+`max-concurrency`).
 
 ## 9. Graceful shutdown
 
@@ -277,11 +278,11 @@ changes its API, so this is an open question.
 
 | PR | What | Size |
 | --- | --- | --- |
-| 1 | `OutboxPollingStrategy`, `OutboxPollingContext`, three implementations, `polling.strategy` and its intervals, unit tests | ~250 lines, no threads |
+| 1 | `OutboxPollingStrategy`, `OutboxPollingContext`, three implementations, unit tests | ~250 lines, no threads |
 | 2 | `OutboxPollingContainer` with a fixed number of pollers, `OutboxPoller`, `start`, `stop`, `shutdown-timeout`, logging of a failed poll | ~350 lines |
 | 3 | scaling from `concurrency` to `max-concurrency` | ~200 lines |
 | 4 | wake-up: `wakeup()`, merged signals, `cooldown` | ~150 lines |
-| 5 | auto-configuration and `OutboxPollingContainerLifecycle` in the Spring modules, `afterCommit` for the wake-up | separate |
+| 5 | auto-configuration with the strategy factories and their `Config` bound to `polling.strategy`, `OutboxPollingContainerLifecycle` in the Spring modules, `afterCommit` for the wake-up | separate |
 
 ## 13. Open questions
 

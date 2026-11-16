@@ -56,7 +56,8 @@
     <text x="40.0" y="482.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#59636E" text-anchor="start">by the strategy</text>
     <path d="M596.0,460 L724.0,460" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="M730.0,460 L723.0,456 L723.0,464 Z" fill="#AFB8C1"/>
-    <text x="663.0" y="452.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#59636E" text-anchor="middle">calculate(context)</text>
+    <text x="663.0" y="452.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#59636E" text-anchor="middle">BeforePolling()</text>
+    <text x="663.0" y="438.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" font-weight="400" fill="#59636E" text-anchor="middle">calculateDuration</text>
     <path d="M730.0,496 L602.0,496" stroke="#AFB8C1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="M596.0,496 L603.0,492 L603.0,500 Z" fill="#AFB8C1"/>
     <text x="663.0" y="488.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#59636E" text-anchor="middle">delay = 1 s</text>
