@@ -1,0 +1,24 @@
+public final class pro/vlprojects/semantic/ksp/helper/KSAnnotatedHelperKt {
+	public static final fun getFirstAnnotationOrNull (Lcom/google/devtools/ksp/symbol/KSAnnotated;Lkotlin/reflect/KClass;)Lcom/google/devtools/ksp/symbol/KSAnnotation;
+	public static final fun hasAnnotation (Lcom/google/devtools/ksp/symbol/KSAnnotated;Lkotlin/reflect/KClass;)Z
+}
+
+public final class pro/vlprojects/semantic/ksp/helper/KSAnnotationHelperKt {
+	public static final fun getTypeValues (Lcom/google/devtools/ksp/symbol/KSAnnotation;Ljava/lang/String;)Ljava/util/List;
+	public static final fun resolveClassDeclaration (Lcom/google/devtools/ksp/symbol/KSAnnotation;)Lcom/google/devtools/ksp/symbol/KSClassDeclaration;
+}
+
+public final class pro/vlprojects/semantic/ksp/helper/KSClassDeclarationHelperKt {
+	public static final fun getDeclaredClasses (Lcom/google/devtools/ksp/symbol/KSClassDeclaration;)Lkotlin/sequences/Sequence;
+}
+
+public final class pro/vlprojects/semantic/ksp/helper/KSDeclarationHelperKt {
+	public static final fun getQualifiedName (Lcom/google/devtools/ksp/symbol/KSDeclaration;)Ljava/lang/String;
+	public static final fun getShortName (Lcom/google/devtools/ksp/symbol/KSDeclaration;)Ljava/lang/String;
+	public static final fun isSynthetic (Lcom/google/devtools/ksp/symbol/KSDeclaration;)Z
+}
+
+public final class pro/vlprojects/semantic/ksp/helper/KSTypeReferenceHelperKt {
+	public static final fun getReferencedClasses (Lcom/google/devtools/ksp/symbol/KSTypeReference;)Lkotlin/sequences/Sequence;
+}
+
