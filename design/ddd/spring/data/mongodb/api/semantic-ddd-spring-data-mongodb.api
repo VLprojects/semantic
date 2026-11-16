@@ -1,0 +1,24 @@
+public abstract class pro/vlprojects/semantic/ddd/spring/data/mongodb/AbstractMongoAggregateRoot : pro/vlprojects/semantic/ddd/spring/data/mongodb/AbstractMongoEntity, pro/vlprojects/semantic/ddd/tactical/AggregateRoot {
+	public fun <init> ()V
+	protected final fun clearEvents ()V
+	protected final fun getEvents ()Ljava/util/List;
+	protected final fun register (Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;Lpro/vlprojects/semantic/ddd/tactical/Event;)Lpro/vlprojects/semantic/ddd/tactical/AggregateRoot;
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract class pro/vlprojects/semantic/ddd/spring/data/mongodb/AbstractMongoEntity : pro/vlprojects/semantic/ddd/spring/data/AbstractSpringDataEntity {
+	public fun <init> ()V
+	public fun getIdentifier ()Lpro/vlprojects/semantic/ddd/tactical/Identifier;
+	public fun getVersion ()J
+	protected fun setIdentifier (Lpro/vlprojects/semantic/ddd/tactical/Identifier;)V
+	protected fun setVersion (J)V
+}
+
+public final class pro/vlprojects/semantic/ddd/spring/data/mongodb/PersistedMarkingCallback : org/springframework/data/mongodb/core/mapping/event/AfterConvertCallback, org/springframework/data/mongodb/core/mapping/event/AfterSaveCallback {
+	public fun <init> ()V
+	public synthetic fun onAfterConvert (Ljava/lang/Object;Lorg/bson/Document;Ljava/lang/String;)Ljava/lang/Object;
+	public fun onAfterConvert (Lpro/vlprojects/semantic/ddd/spring/data/mongodb/AbstractMongoEntity;Lorg/bson/Document;Ljava/lang/String;)Lpro/vlprojects/semantic/ddd/spring/data/mongodb/AbstractMongoEntity;
+	public synthetic fun onAfterSave (Ljava/lang/Object;Lorg/bson/Document;Ljava/lang/String;)Ljava/lang/Object;
+	public fun onAfterSave (Lpro/vlprojects/semantic/ddd/spring/data/mongodb/AbstractMongoEntity;Lorg/bson/Document;Ljava/lang/String;)Lpro/vlprojects/semantic/ddd/spring/data/mongodb/AbstractMongoEntity;
+}
+
