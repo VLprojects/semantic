@@ -29,6 +29,7 @@ fun module(name: String, directory: String) {
 
 module("semantic-helper", "idiom/helper/core")
 module("semantic-format", "idiom/format/core")
+module("semantic-ksp-helper", "idiom/ksp/helper")
 
 module("semantic-type-version", "type/version")
 
