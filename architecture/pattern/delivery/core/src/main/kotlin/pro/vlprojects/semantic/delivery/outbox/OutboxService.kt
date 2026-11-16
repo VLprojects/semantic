@@ -1,9 +1,13 @@
 package pro.vlprojects.semantic.delivery.outbox
 
+import org.slf4j.LoggerFactory
 import pro.vlprojects.semantic.delivery.outbox.context.ContextCollector
 import pro.vlprojects.semantic.delivery.outbox.error.OutboxConflictException
+import pro.vlprojects.semantic.delivery.outbox.error.OutboxDeliveryTimeoutException
+import pro.vlprojects.semantic.delivery.outbox.error.OutboxOptimisticLockException
 import pro.vlprojects.semantic.delivery.outbox.id.OutboxIdGenerator
 import java.time.Clock
+import java.time.Duration
 
 public class OutboxService(
     private val repository: OutboxRepository,
@@ -14,6 +18,8 @@ public class OutboxService(
     private val config: OutboxProperties,
     private val clock: Clock,
 ) {
+
+    private val logger = LoggerFactory.getLogger(OutboxService::class.java)
 
     @Throws(OutboxConflictException::class)
     public fun create(payload: Any, destination: DeliveryDestination): Outbox {
@@ -34,6 +40,15 @@ public class OutboxService(
         val startedAt = clock.instant()
 
         return repository.findAndModifyScheduled(startedAt, limit)
+    }
+
+    public fun recoverStale(limit: Int): List<Outbox> {
+        val staleness = config.staleness.processing
+        val startedBefore = clock.instant().minus(staleness)
+
+        return repository
+            .findAllProcessing(startedBefore, limit)
+            .mapNotNull { outbox -> recover(outbox, staleness) }
     }
 
     public fun complete(outbox: Outbox): Outbox = outbox
@@ -67,5 +82,34 @@ public class OutboxService(
             .fail(now, error)
             .cancel(now)
             .let(repository::save)
+    }
+
+    private fun recover(outbox: Outbox, staleness: Duration): Outbox? {
+        val cause = OutboxDeliveryTimeoutException(
+            "Delivery started at ${outbox.delivery.startedAt} has not finished within $staleness",
+        )
+
+        return try {
+            fail(outbox, cause).also { recovered -> logRecovery(recovered, staleness) }
+        } catch (_: OutboxOptimisticLockException) {
+            logger
+                .atDebug()
+                .log { "Outbox ${outbox.id} was changed by another process before recovery" }
+            null
+        }
+    }
+
+    private fun logRecovery(outbox: Outbox, staleness: Duration) {
+        val delivery = outbox.delivery
+
+        delivery.status
+            .let(::resolveLevel)
+            .let(logger::atLevel)
+            .log { "Outbox ${outbox.id} was processing longer than $staleness and is ${delivery.status}" }
+    }
+
+    private fun resolveLevel(status: DeliveryStatus) = when (status) {
+        DeliveryStatus.CANCELED -> config.logging.cancellation.level
+        else -> config.logging.failure.level
     }
 }
