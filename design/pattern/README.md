@@ -23,7 +23,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `creational.factory.error` | `InvalidDefinitionException`; `MultipleFactoriesException`, `FactoryNotFoundException` of a registrar |
 | `structural.composite` | `Composite`, the base type of a hierarchy whose containers and leaves a client treats alike; `MutableComposite`, a container whose children change after it is made |
 | `structural.decorator` | `Decorator`, a wrapper that holds its component and adds a responsibility to it; `DecoratorFactory`, a component wrapped in a decorator of its type |
-| `structural.facade` | `Facade`, an entry to a subsystem whose classes carry an opt-in marker |
+| `structural.facade` | `Facade`, an entry to the subsystems it names; `Facade.Subsystem`, marks the annotation that the classes of one subsystem carry |
 | `structural.proxy` | `Proxy`, a surrogate that stands for its real subject and controls the access to it; `ProxyFactory`, a delegate behind a proxy of its type |
 | `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
@@ -399,17 +399,15 @@ past the facade; then each change of the subsystem reaches that client too.
 
 | Role | Who plays it | What it holds |
 | --- | --- | --- |
-| Facade | a class annotated with `@Facade` | the calls of the subsystem in the order a request needs them |
-| Subsystem classes | classes annotated with the marker of the subsystem | the work itself |
+| Facade | a class annotated with `@Facade`, which names its subsystems | the calls of the subsystems in the order a request needs them |
+| Subsystem classes | classes annotated with the marker of one subsystem, an annotation marked with `@Facade.Subsystem` | the work itself |
 
 The example of the book is a compiler whose `compile` runs a scanner, a parser and a code generator. A
 service of files is closer to an application: deletion of a file runs four classes, and a client that
 called them itself would forget the quota or the history.
 
 ```kotlin
-@RequiresOptIn(level = RequiresOptIn.Level.ERROR)
-@Retention(AnnotationRetention.RUNTIME)
-@Target(AnnotationTarget.CLASS)
+@Facade.Subsystem
 annotation class FileSubsystem
 
 @FileSubsystem
@@ -428,7 +426,6 @@ class DiskService(...)
 class HistoryService(...)
 
 @Facade(FileSubsystem::class)
-@OptIn(FileSubsystem::class)
 class FileFacade(
     private val files: FileRepository,
     private val storage: FileStorageClient,
@@ -437,7 +434,10 @@ class FileFacade(
 ) {
 
     fun delete(fileId: FileId) {
-        val file = this.files.getById(fileId)
+        val file = this.files
+            .findById(fileId)
+            .orElseThrow()
+
         this.storage.delete(file.storageKey)
         this.disk.release(file.ownerId, file.size)
         this.history.recordDeletion(file)
@@ -445,7 +445,8 @@ class FileFacade(
     }
 
     fun find(fileId: FileId) = this.files
-        .getById(fileId)
+        .findById(fileId)
+        .orElseThrow()
         .let { file -> FileView(file.id, file.name, file.size) }
 }
 
@@ -454,30 +455,52 @@ class FileController(private val files: FileFacade)
 class AdminFileController(private val storage: FileStorageClient)
 ```
 
-`FileController` compiles. `AdminFileController` does not: `FileStorageClient` needs the opt-in to
-`FileSubsystem`, which only the facade declares. A method of the facade that returned `FileEntity`, or a
-`List<FileEntity>`, would compile, yet a call of it outside the subsystem would not: the type of the call needs
-the opt-in too. The facade answers with a type of its own, `FileView`. A test or a `@Bean` method that makes the
-facade needs the opt-in as well: the constructor of the facade takes classes of the subsystem.
+The rules of the two annotations:
 
-Kotlin has no visibility of a package, as Java has, and `internal` covers a whole Gradle module: in one
-service every class of a subsystem is open to every client. A marker of `@RequiresOptIn` closes it at
-compile time, as `@InternalCoroutinesApi` closes the internals of kotlinx.coroutines and `@InternalAPI` those of
-Ktor. Each `@OptIn` of it is a line a review sees and a search finds. The marker belongs to the project, one per
-subsystem: a single marker of the library would open every subsystem by one `@OptIn`. It needs the level
-`ERROR`, as a warning lets the call through, and the retention `RUNTIME`, not `BINARY` as kotlinx.coroutines
-and Ktor declare theirs, so the check of Spring in the plan sees it.
+- A class takes a class of a subsystem, by a parameter of its constructor or a property, only if it carries the
+  marker of that subsystem or is a facade that names it. `FileController` keeps the rules, `AdminFileController`
+  breaks the first: it reaches the storage past the facade, and a deletion of its own forgets the quota.
+- A public function or property of a facade, its constructor aside, neither takes nor returns a type of its
+  subsystems: the facade answers with a type of its own, `FileView`, and a client stays apart from the schema of
+  the database.
+- A type counts with its arguments in both rules: a `List<FileEntity>` or a `CrudRepository<FileEntity, FileId>`
+  is a type of the subsystem.
+- A facade names one subsystem at least, and each annotation it names carries `@Facade.Subsystem`.
+- A class carries the marker of one subsystem at most, and a facade carries none: a facade stands outside its
+  subsystems.
 
-`@Facade` names the role and the marker of its subsystem, as `@OptIn` names a marker by its `KClass`. `@OptIn`
-is kept only in the source, so the check of Spring reads the marker from `@Facade`. It is an annotation, not
-an interface, as the layers of `semantic-explicit` are: a facade has no operation that every facade shares,
-and the annotation asks nothing of the class. A facade of the application layer takes both annotations:
-`@ApplicationLayer` tells where the class lives, `@Facade` which classes stand behind it.
+A facade may name several subsystems, as a deletion of a file may touch both files and billing:
+`@Facade(FileSubsystem::class, BillingSubsystem::class)`. A class of a subsystem reaches another subsystem only
+through its facade. `@Facade` goes on the class that calls the subsystems; a narrow interface it implements takes
+no annotation, as the second rule reaches its members through the class. The attribute is `subsystems`, as
+`@OptIn` names its markers `markerClass`: a Kotlin client writes no name, a Java one writes
+`@Facade(subsystems = FileSubsystem.class)`.
 
-The marker stops neither of the two ways a facade goes wrong from the inside, and neither does any type:
+The way past the facade is a marker: a class that carries one joins its subsystem, and the rules take it at its
+word. A review sees the marker, as a search by it finds it.
+
+The annotations check nothing themselves: the processor of the plan checks the rules when a module is compiled, the
+check of Spring the first one when the application starts. Kotlin has no visibility of a package, as Java has, and
+`internal` covers a whole Gradle module: in one service every class of a subsystem is open to every client. The
+compiler closes a class to those that do not declare `@OptIn` of its marker, if the marker is annotated with
+`@RequiresOptIn` of the level `ERROR`, as `@InternalCoroutinesApi` closes the internals of kotlinx.coroutines.
+Kotlin takes no other annotation for `@OptIn`, though: a facade would name its subsystem twice, in `@Facade` and in
+`@OptIn`. The marker here is a plain annotation, and the checks of the plan read it from the classes; the compiler
+still checks the bodies of functions for a project that adds `@RequiresOptIn` to its marker and `@OptIn` to its
+facade.
+
+`@Facade` and the marker are annotations, not interfaces, as the layers of `semantic-explicit` are: a facade has no
+operation that every facade shares, and the annotations ask nothing of a class. `@Facade.Subsystem` marks an
+annotation, as `@Qualifier` of Jakarta Inject marks a qualifier and `@Constraint` of Bean Validation a constraint:
+Kotlin does not extend annotations, and a project names a marker per subsystem. It is nested in `Facade`, as
+`Factory.Definition`, the marker of a definition, is in `Factory`: a subsystem is a role of the same pattern. A
+facade of the application layer takes both `@ApplicationLayer`, which tells where the class lives, and `@Facade`,
+which tells which classes stand behind it.
+
+The rules stop neither of the two ways a facade goes wrong from the inside, and neither does any type:
 
 - A facade that serves every client grows into a God Object. Split it by its clients, several facades of one
-  subsystem, or let each client depend on a narrow interface of it, as `ApplicationContext` of Spring implements
+  subsystem, or let each client depend on a narrow interface of it, as `ApplicationContext` of Spring extends
   `ApplicationEventPublisher`, `ResourceLoader` and `MessageSource` and a client injects only the one it needs.
 - A rule of the business written in the facade belongs to the class that holds its data: the facade only calls.
 
@@ -490,24 +513,26 @@ The samples:
 - SLF4J: `Logger` and `LoggerFactory` stand for Logback, which `LoggerFactory` finds by an
   `SLF4JServiceProvider`. The facade is an artifact of its own: `slf4j-api` does not depend on Logback, and an
   application that takes Logback as `runtimeOnly` cannot compile against it; Spring Boot puts it on the
-  compile classpath. A Gradle module with `internal` subsystem classes closes a subsystem in the same way, and
-  more strongly than a marker.
+  compile classpath. A Gradle module with `internal` subsystem classes closes a subsystem in the same way.
 - `JdbcTemplate` of Spring hides `Connection`, `PreparedStatement` and `ResultSet` and turns `SQLException` into
   `DataAccessException` by an `SQLExceptionTranslator`. A client depends on `JdbcOperations`, its interface. The
-  way past the facade is a method of the facade, `execute(ConnectionCallback)`, as here it is an `@OptIn`.
+  way past the facade is a method of the facade, `execute(ConnectionCallback)`, as here it is a marker.
 - Spring Modulith takes the base package of a module as its API and the packages under it as internal;
   `@NamedInterface` opens one of them. `ApplicationModules.verify()` fails a test on an access to the internals of
   a module.
 
 ### Plan of Facade
 
-1. `Facade`.
-2. A check of `semantic-pattern-spring` that stops the startup when a bean of a subsystem is injected
-   into a bean other than a facade of its subsystem or another class of the subsystem, as
+1. `Facade` and `Facade.Subsystem`.
+2. `semantic-pattern-ksp`, a processor of KSP that fails the build of a module on a broken rule, at the line
+   that breaks it, as Dagger fails a build on a broken graph of dependencies. KSP sees the declarations, not the
+   bodies of functions: a class of a subsystem made in a body goes unseen. Each module with clients applies it.
+3. A check of `semantic-pattern-spring` that stops the startup on an injection that breaks the first rule, as
    `ApplicationModules.verify()` of Spring Modulith checks the modules in a test. It reads the dependencies Spring
-   records between beans, as `getDependentBeans` of `ConfigurableBeanFactory` tells them, and catches Java clients,
-   which no opt-in stops. It stops the startup as well when `subsystem` of a facade is not a `@RequiresOptIn`
-   marker of the level `ERROR`.
+   records between beans, as `getDependentBeans` of `ConfigurableBeanFactory` tells them, and catches beans that
+   no processor saw. `@Facade` and the markers are looked up on the user class of a bean and its interfaces
+   by `MergedAnnotations` with `SearchStrategy.TYPE_HIERARCHY`: a repository of Spring Data is a JDK proxy of
+   its interface, a transactional facade a subclass of CGLIB.
 
 ## Proxy
 
