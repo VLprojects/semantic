@@ -7,13 +7,13 @@ import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSDeclaration
 import com.google.devtools.ksp.symbol.KSTypeReference
 
-internal class FacadeChecker(private val logger: KSPLogger) {
+internal class FacadeChecker(private val logger: KSPLogger, private val subsystemTypeChecker: SubsystemTypeChecker) {
 
     fun check(declaration: KSClassDeclaration, annotation: KSAnnotation) {
         this.checkTarget(declaration, annotation)
         this.checkSubsystems(declaration, annotation)
         this.checkMarkers(declaration)
-        this.checkVisibleMembers(declaration, annotation)
+        this.checkTypes(declaration, annotation)
     }
 
     private fun checkTarget(declaration: KSClassDeclaration, annotation: KSAnnotation) {
@@ -60,7 +60,7 @@ internal class FacadeChecker(private val logger: KSPLogger) {
             }
     }
 
-    private fun checkVisibleMembers(declaration: KSClassDeclaration, annotation: KSAnnotation) {
+    private fun checkTypes(declaration: KSClassDeclaration, annotation: KSAnnotation) {
         val facadeName = declaration.readName()
 
         val subsystemNames = annotation
@@ -69,13 +69,16 @@ internal class FacadeChecker(private val logger: KSPLogger) {
             .toSet()
 
         declaration
+            .findSignatureTypes()
+            .forEach { type -> this.subsystemTypeChecker.check("Facade $facadeName", type, subsystemNames) }
+
+        declaration
             .findVisibleTypes()
             .forEach { type -> this.checkVisibleType(facadeName, type, subsystemNames) }
     }
 
     private fun checkVisibleType(facadeName: String, type: KSTypeReference, subsystemNames: Set<String>) = type
-        .findClasses()
-        .distinct()
+        .findDependencies()
         .forEach { dependency ->
             val dependencyName = dependency.readName()
 

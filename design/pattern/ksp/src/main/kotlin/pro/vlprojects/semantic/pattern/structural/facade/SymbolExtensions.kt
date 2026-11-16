@@ -27,6 +27,39 @@ internal fun KSClassDeclaration.flattenClasses(): Sequence<KSClassDeclaration> =
     .flatMap(KSClassDeclaration::flattenClasses)
     .let { nested -> sequenceOf(this) + nested }
 
+internal fun KSClassDeclaration.findSignatureTypes() = this.findTakenTypes() + this.findResultTypes()
+
+internal fun KSClassDeclaration.findTakenTypes(): Sequence<KSTypeReference> {
+    val functionTypes = this
+        .getDeclaredFunctions()
+        .filterNot(KSFunctionDeclaration::isSynthetic)
+        .flatMap(KSFunctionDeclaration::findTakenTypes)
+
+    val propertyTypes = this
+        .getDeclaredProperties()
+        .flatMap(KSPropertyDeclaration::findSignatureTypes)
+
+    val companionTypes = this
+        .findCompanions()
+        .flatMap(KSClassDeclaration::findTakenTypes)
+
+    return functionTypes + propertyTypes + companionTypes
+}
+
+private fun KSClassDeclaration.findResultTypes(): Sequence<KSTypeReference> {
+    val functionTypes = this
+        .getDeclaredFunctions()
+        .filterNot(KSFunctionDeclaration::isSynthetic)
+        .filterNot(KSFunctionDeclaration::isConstructor)
+        .mapNotNull(KSFunctionDeclaration::returnType)
+
+    val companionTypes = this
+        .findCompanions()
+        .flatMap(KSClassDeclaration::findResultTypes)
+
+    return functionTypes + companionTypes
+}
+
 internal fun KSClassDeclaration.findVisibleTypes(): Sequence<KSTypeReference> {
     val functionTypes = this
         .getDeclaredFunctions()
@@ -39,23 +72,43 @@ internal fun KSClassDeclaration.findVisibleTypes(): Sequence<KSTypeReference> {
         .filter(KSPropertyDeclaration::isVisibleToClients)
         .flatMap(KSPropertyDeclaration::findSignatureTypes)
 
-    val companionTypes = this.declarations
-        .filterIsInstance<KSClassDeclaration>()
-        .filter(KSClassDeclaration::isCompanionObject)
+    val companionTypes = this
+        .findCompanions()
         .filter(KSClassDeclaration::isVisibleToClients)
         .flatMap(KSClassDeclaration::findVisibleTypes)
 
     return functionTypes + propertyTypes + companionTypes
 }
 
-private fun KSFunctionDeclaration.findSignatureTypes() = this.parameters
-    .map(KSValueParameter::type)
+// A companion that is a facade is checked as a facade, not as a part of its class.
+private fun KSClassDeclaration.findCompanions() = this.declarations
+    .filterIsInstance<KSClassDeclaration>()
+    .filter(KSClassDeclaration::isCompanionObject)
+    .filter { companion -> companion.findFacadeAnnotation() == null }
+
+internal fun KSFunctionDeclaration.findSignatureTypes() = this
+    .findTakenTypes()
     .plus(this.returnType)
+    .filterNotNull()
+
+// A parameter that declares a property is checked once, as the property.
+private fun KSFunctionDeclaration.findTakenTypes() = this.parameters
+    .filterNot(KSValueParameter::isProperty)
+    .map(KSValueParameter::type)
     .plus(this.extensionReceiver)
     .filterNotNull()
     .asSequence()
 
-private fun KSPropertyDeclaration.findSignatureTypes() = sequenceOf(this.type, this.extensionReceiver)
+// Generated members repeat declarations checked elsewhere: properties of a data class, members of a delegate.
+private fun KSDeclaration.isSynthetic() = this.origin == Origin.SYNTHETIC
+
+private fun KSValueParameter.isProperty() = when {
+    this.isVal -> true
+    this.isVar -> true
+    else -> false
+}
+
+internal fun KSPropertyDeclaration.findSignatureTypes() = sequenceOf(this.type, this.extensionReceiver)
     .filterNotNull()
 
 // Java opens a protected member to its whole package, wider than a package-private one.
@@ -66,7 +119,11 @@ private fun KSDeclaration.isVisibleToClients() = when {
     else -> true
 }
 
-internal fun KSTypeReference.findClasses() = this.findClasses(emptySet())
+internal fun KSTypeReference.findDependencies() = this
+    .findClasses()
+    .distinct()
+
+private fun KSTypeReference.findClasses() = this.findClasses(emptySet())
 
 private fun KSTypeReference.findClasses(visited: Set<KSTypeParameter>) = this
     .resolve()

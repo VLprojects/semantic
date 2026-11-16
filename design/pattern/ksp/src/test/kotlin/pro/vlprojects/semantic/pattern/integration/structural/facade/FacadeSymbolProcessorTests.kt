@@ -84,6 +84,218 @@ class FacadeSymbolProcessorTests {
             }
     }
 
+    @Test
+    fun `a client that takes a class of a subsystem fails the build`() = this.assertCompilationFails(
+        "class AdminFileController(private val storage: FileStorageClient)",
+        2,
+        "AdminFileController names FileStorageClient of @FileSubsystem past a facade",
+    )
+
+    @Test
+    fun `a client names no class that carries a marker of a supertype`() = this.assertCompilationFails(
+        "interface FileList : List<FileEntity>\nclass FileListing(private val files: FileList)",
+        3,
+        "FileListing names FileList of @FileSubsystem through FileEntity past a facade",
+    )
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = [
+            "class FileCleaner(storage: FileStorageClient)",
+            "class FileCleaner { fun clean(storage: FileStorageClient) = Unit }",
+            "class FileCleaner { fun FileStorageClient.clean() = Unit }",
+            "class FileCleaner { val storage: FileStorageClient get() = TODO() }",
+        ],
+    )
+    fun `a client names no type of a subsystem in its signatures`(source: String) = this.assertCompilationFails(
+        source,
+        2,
+        "FileCleaner names FileStorageClient of @FileSubsystem past a facade",
+    )
+
+    @Test
+    fun `a result of a function counts`() = this.assertCompilationFails(
+        "class FileFinder {\nfun find(): FileEntity = TODO()\n}",
+        3,
+        "FileFinder names FileEntity of @FileSubsystem past a facade",
+    )
+
+    @Test
+    fun `a top-level function names no type of a subsystem`() = this.assertCompilationFails(
+        "fun findFile(): FileEntity = TODO()",
+        2,
+        "findFile names FileEntity of @FileSubsystem past a facade",
+    )
+
+    @Test
+    fun `a top-level property names no type of a subsystem`() = this.assertCompilationFails(
+        "val defaultFile: FileEntity get() = TODO()",
+        2,
+        "defaultFile names FileEntity of @FileSubsystem past a facade",
+    )
+
+    @Test
+    fun `a class of a subsystem takes no class of another one`() = this.assertCompilationFails(
+        "@BillingSubsystem\nclass InvoiceStorage(private val storage: FileStorageClient)",
+        3,
+        "InvoiceStorage names FileStorageClient of @FileSubsystem past a facade",
+    )
+
+    @Test
+    fun `a facade names no other subsystem past the facade of it`() = this.assertCompilationFails(
+        """
+            @BillingSubsystem
+            class InvoiceEntity
+            @Facade(FileSubsystem::class)
+            class FileInvoiceFacade(private val invoice: InvoiceEntity)
+        """.trimIndent(),
+        5,
+        "Facade FileInvoiceFacade names InvoiceEntity of @BillingSubsystem past a facade",
+    )
+
+    @Test
+    fun `a client of Java follows the same rules`() {
+        val javaFile = SourceFile.java(
+            "JavaFileAdmin.java",
+            """
+                class JavaFileAdmin {
+                    private FileStorageClient storage;
+                }
+            """,
+        )
+
+        this
+            .compileSources(javaFile)
+            .let { result ->
+                this.assertCompilationFails(
+                    result,
+                    "JavaFileAdmin.java:2: JavaFileAdmin names FileStorageClient of @FileSubsystem past a facade",
+                )
+            }
+    }
+
+    @Test
+    fun `a companion is a part of its class`() {
+        val result = this.compile(
+            """
+                @Facade(FileSubsystem::class)
+                class FileArchiveFacade {
+                    companion object {
+                        private val defaultFile = FileEntity()
+                    }
+                }
+
+                @FileSubsystem
+                class FileVersion private constructor() {
+                    companion object Factory {
+                        fun of() = FileVersion()
+                    }
+                }
+            """,
+        )
+
+        assertEquals(ExitCode.OK, result.exitCode, result.messages)
+    }
+
+    @Test
+    fun `a companion that is a facade is no part of its class`() {
+        val result = this.compile(
+            """
+                class FileModule {
+                    @Facade(FileSubsystem::class)
+                    companion object {
+                        private val defaultFile = FileEntity()
+                    }
+                }
+            """,
+        )
+
+        assertEquals(ExitCode.OK, result.exitCode, result.messages)
+    }
+
+    @Test
+    fun `a nested class is a client of its own`() = this.assertCompilationFails(
+        "class FileModule {\nclass FileCleaner(private val file: FileEntity)\n}",
+        3,
+        "FileModule.FileCleaner names FileEntity of @FileSubsystem past a facade",
+    )
+
+    @Test
+    fun `a class of a subsystem takes no facade of its own subsystem`() = this.assertCompilationFails(
+        "@FileSubsystem\nclass QuotaService(private val facade: FileFacade)",
+        3,
+        "QuotaService of @FileSubsystem takes its facade FileFacade",
+    )
+
+    @Test
+    fun `a companion of a client names no type of a subsystem`() = this.assertCompilationFails(
+        "class FileFinder {\ncompanion object {\nfun find(): FileEntity = TODO()\n}\n}",
+        4,
+        "FileFinder names FileEntity of @FileSubsystem past a facade",
+    )
+
+    @Test
+    fun `a companion of a class of a subsystem takes no facade of it`() = this.assertCompilationFails(
+        """
+            @FileSubsystem
+            class QuotaService {
+                companion object Factory {
+                    fun of(facade: FileFacade) = QuotaService()
+                }
+            }
+        """.trimIndent(),
+        5,
+        "QuotaService of @FileSubsystem takes its facade FileFacade",
+    )
+
+    @Test
+    fun `a class with a marker of a supertype names the types of its subsystem`() {
+        val result = this.compile("interface FileList : List<FileEntity> {\nfun findLatest(): FileEntity\n}")
+
+        assertEquals(ExitCode.OK, result.exitCode, result.messages)
+    }
+
+    @Test
+    fun `a member that a data class generates is checked once, as its property`() {
+        val result = this.compile("data class FileRow(val file: FileEntity)")
+
+        val error = "$VIOLATION_FILE:2: FileRow names FileEntity of @FileSubsystem past a facade"
+
+        val errorCount = result.messages
+            .lines()
+            .count { line -> error in line }
+
+        assertEquals(1, errorCount, result.messages)
+    }
+
+    @Test
+    fun `clients and classes of another subsystem take a facade`() {
+        val result = this.compile(
+            """
+                class FileController(private val facade: FileFacade)
+
+                @BillingSubsystem
+                class InvoiceArchive(private val files: FileFacade)
+            """,
+        )
+
+        assertEquals(ExitCode.OK, result.exitCode, result.messages)
+    }
+
+    @Test
+    fun `a configuration of a subsystem returns its facade`() {
+        val result = this.compile(
+            """
+                @FileSubsystem
+                class FileConfiguration {
+                    fun fileFacade(storage: FileStorageClient, file: FileEntity) = FileFacade(storage, file)
+                }
+            """,
+        )
+
+        assertEquals(ExitCode.OK, result.exitCode, result.messages)
+    }
+
     @ParameterizedTest
     @ValueSource(
         strings = [
