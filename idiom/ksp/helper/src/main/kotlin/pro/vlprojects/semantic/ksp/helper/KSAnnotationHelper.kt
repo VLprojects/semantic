@@ -8,20 +8,11 @@ import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.KSTypeAlias
 import com.google.devtools.ksp.symbol.KSValueArgument
 
-/**
- * The declaration of the class of this annotation, a type alias expanded, or `null` if it does not resolve.
- *
- * With `typealias Checked = Audited`, `@Checked` gives the declaration of `Audited`.
- */
+/** The annotation class, alias expanded: `Audited` for `@Checked`; `null` if unresolved. */
 public fun KSAnnotation.resolveClassDeclaration(): KSClassDeclaration? =
     this.annotationType.resolve().declaration.toClassDeclaration()
 
-/**
- * The types in the value of the argument [argumentName], one per class literal.
- *
- * `@Subjects(classes = [Ledger::class, Invoice::class])` gives `[Ledger, Invoice]` for `"classes"`.
- * Java passes a single value of an array without braces: `@Subjects(classes = Ledger.class)` gives `[Ledger]`.
- */
+/** Types of the class literals in [argumentName]: `[Ledger, Invoice]`, a single one of Java too: `[Ledger]`. */
 public fun KSAnnotation.getTypeValues(argumentName: String): List<KSType> = this.arguments
     .filter { argument -> argument.name?.asString() == argumentName }
     .map(KSValueArgument::value)
