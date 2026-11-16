@@ -49,13 +49,13 @@ internal class FacadeChecker(private val logger: KSPLogger) {
         val facadeName = declaration.readName()
 
         declaration
-            .findMarkers()
+            .findCarriedMarkers()
             .forEach { marker ->
-                val markerName = marker.readName()
+                val markerName = marker.describe()
 
                 this.logger.error(
-                    "Facade $facadeName carries @$markerName: a facade stands outside its subsystems",
-                    marker,
+                    "Facade $facadeName carries $markerName: a facade stands outside its subsystems",
+                    marker.findSymbol(declaration),
                 )
             }
     }
@@ -80,11 +80,11 @@ internal class FacadeChecker(private val logger: KSPLogger) {
             val dependencyName = dependency.readName()
 
             dependency
-                .findMarkers()
+                .findCarriedMarkers()
                 .filter { marker -> marker.readQualifiedName() in subsystemNames }
-                .map(KSAnnotation::readName)
+                .map(SubsystemMarker::describe)
                 .forEach { markerName ->
-                    this.logger.error("Facade $facadeName exposes $dependencyName of @$markerName", type)
+                    this.logger.error("Facade $facadeName exposes $dependencyName of $markerName", type)
                 }
         }
 

@@ -94,7 +94,42 @@ private fun KSTypeParameter.findBoundClasses(visited: Set<KSTypeParameter>) = wh
     else -> this.bounds.flatMap { bound -> bound.findClasses(visited + this) }
 }
 
-internal fun KSAnnotated.findMarkers() = this.annotations
+internal fun KSClassDeclaration.findCarriedMarkers() = this
+    .findMarkerSources()
+    .flatMapIndexed { aggregateIndex, source ->
+        source
+            .findMarkers()
+            .map { annotation -> SubsystemMarker(annotation, source, aggregateIndex) }
+    }
+    .distinctBy(SubsystemMarker::readQualifiedName)
+
+// A visited class is skipped: an argument of a supertype may lead back to a class already walked.
+private fun KSClassDeclaration.findMarkerSources(): List<KSClassDeclaration> {
+    val classesByName = this
+        .readQualifiedName()
+        .let { name -> mutableMapOf(name to this) }
+
+    val queue = ArrayDeque<KSClassDeclaration>().also { deque -> deque.addLast(this) }
+
+    while (queue.isNotEmpty()) {
+        queue
+            .removeFirst()
+            .superTypes
+            .flatMap(KSTypeReference::findClasses)
+            .filterNot { supertype -> supertype.readQualifiedName() in classesByName }
+            .forEach { supertype ->
+                supertype
+                    .readQualifiedName()
+                    .let { name -> classesByName[name] = supertype }
+
+                queue.addLast(supertype)
+            }
+    }
+
+    return classesByName.values.toList()
+}
+
+private fun KSAnnotated.findMarkers() = this.annotations
     .filter { annotation -> annotation.resolveDeclaration().isMarker() }
     .distinctBy(KSAnnotation::readQualifiedName)
     .toList()

@@ -62,6 +62,8 @@ class FacadeSymbolProcessorTests {
                     @BillingSubsystem
                     static class SharedClient {}
                 }
+                @BillingSubsystem
+                abstract class JavaFileBilling implements Comparable<FileEntity> {}
             """,
         )
 
@@ -76,6 +78,8 @@ class FacadeSymbolProcessorTests {
                     "JavaFacades.java:7: @Facade goes on a class, not on the interface JavaFileOperations",
                     "JavaFacades.java:10: Facade JavaMarkedFacade carries @FileSubsystem: a facade stands outside",
                     "JavaFacades.java:14: JavaFileModule.SharedClient carries the markers of several subsystems",
+                    "JavaFacades.java:17: JavaFileBilling carries the markers of several subsystems: " +
+                        "@BillingSubsystem, @FileSubsystem through FileEntity",
                 )
             }
     }
@@ -302,6 +306,59 @@ class FacadeSymbolProcessorTests {
     )
 
     @Test
+    fun `a class carries the markers of the arguments of its supertypes`() = this.assertCompilationFails(
+        "@BillingSubsystem\nclass InvoiceEntity\ninterface FileBilling : Comparable<Pair<FileEntity, InvoiceEntity>>",
+        4,
+        "FileBilling carries the markers of several subsystems: " +
+            "@FileSubsystem through FileEntity, @BillingSubsystem through InvoiceEntity",
+    )
+
+    @Test
+    fun `a class carries the marker of its supertype`() = this.assertCompilationFails(
+        "@FileSubsystem\ninterface FileRepository\n@BillingSubsystem\nclass InvoiceFileRepository : FileRepository",
+        4,
+        "InvoiceFileRepository carries the markers of several subsystems: " +
+            "@BillingSubsystem, @FileSubsystem through FileRepository",
+    )
+
+    @Test
+    fun `a type alias in an argument of a supertype counts as the type it stands for`() = this.assertCompilationFails(
+        "@BillingSubsystem\ninterface InvoiceLink : Comparable<PersistedFile>",
+        2,
+        "InvoiceLink carries the markers of several subsystems: @BillingSubsystem, @FileSubsystem through FileEntity",
+    )
+
+    @Test
+    fun `a marker of its own and of a supertype is one marker`() {
+        val result = this.compile("@FileSubsystem\ninterface FileRepository : Comparable<FileEntity>")
+
+        assertEquals(ExitCode.OK, result.exitCode, result.messages)
+    }
+
+    @Test
+    fun `a cycle through the arguments of supertypes is walked once`() = this.assertCompilationFails(
+        """
+            interface AggregateRoot<E>
+            interface DomainEvent<A>
+            @FileSubsystem
+            class FileRecord : AggregateRoot<FileRecordEvent>
+            interface FileRecordEvent : DomainEvent<FileRecord>
+            @BillingSubsystem
+            class InvoiceRecordEvent : FileRecordEvent
+        """.trimIndent(),
+        7,
+        "InvoiceRecordEvent carries the markers of several subsystems: " +
+            "@BillingSubsystem, @FileSubsystem through FileRecord",
+    )
+
+    @Test
+    fun `a facade takes no marker from its supertypes`() = this.assertCompilationFails(
+        "@Facade(FileSubsystem::class)\nabstract class SortFacade : Comparable<FileEntity>",
+        3,
+        "Facade SortFacade carries @FileSubsystem through FileEntity: a facade stands outside its subsystems",
+    )
+
+    @Test
     fun `a repeated marker names one subsystem`() {
         val result = this.compile(
             """
@@ -324,6 +381,32 @@ class FacadeSymbolProcessorTests {
         3,
         "Facade MarkedFacade carries @FileSubsystem: a facade stands outside its subsystems",
     )
+
+    @Test
+    fun `a supertype of another module passes its markers on`() {
+        val subsystemsModule = this.compile("interface FileLink : Comparable<FileEntity>")
+
+        val facade = SourceFile.kotlin(
+            "LinkFacade.kt",
+            """
+                $FACADE_IMPORT
+
+                @Facade(FileSubsystem::class)
+                class LinkFacade {
+                    fun find(): FileLink = TODO()
+                }
+            """,
+        )
+
+        this
+            .compileModule(listOf(facade), listOf(subsystemsModule.outputDirectory))
+            .let { result ->
+                this.assertCompilationFails(
+                    result,
+                    "LinkFacade.kt:5: Facade LinkFacade exposes FileLink of @FileSubsystem through FileEntity",
+                )
+            }
+    }
 
     private fun assertCompilationFails(source: String, line: Int, message: String) = this
         .compile(source)
