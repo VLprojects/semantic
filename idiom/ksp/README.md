@@ -8,7 +8,7 @@ The helpers are in `pro.vlprojects.semantic.ksp.helper`, a file per type they ex
 
 | Extends | Helper | What it gives |
 | --- | --- | --- |
-| `KSAnnotated` | `getAnnotation(KClass)`, `hasAnnotation(KClass)` | the annotation of a class, also under a type alias |
+| `KSAnnotated` | `getFirstAnnotationOrNull(KClass)`, `hasAnnotation(KClass)` | the annotation of a class, also under a type alias |
 | `KSAnnotation` | `resolveClassDeclaration()` | the declaration of the class of the annotation, a type alias expanded |
 | `KSAnnotation` | `getTypeValues(argumentName)` | the types an argument holds, `Ledger::class` or `Ledger.class`, a single one of Java too |
 | `KSTypeReference` | `getReferencedClasses()` | the classes a type refers to: its own, of arguments, type aliases, bounds of type parameters |
@@ -17,11 +17,11 @@ The helpers are in `pro.vlprojects.semantic.ksp.helper`, a file per type they ex
 | `KSDeclaration` | `isSynthetic()` | a member the compiler generates: of a data class, of a delegate |
 
 `getAnnotationsByType` and `isAnnotationPresent` of KSP compare the short name of an annotation and miss one under
-a type alias; `getAnnotation` compares the qualified name of the class the alias stands for.
+a type alias; `getFirstAnnotationOrNull` compares the qualified name of the class the alias stands for.
 
 ```kotlin
 declaration.hasAnnotation(Facade::class)
-declaration.getAnnotation(Facade::class)?.getTypeValues("subsystems")
+declaration.getFirstAnnotationOrNull(Facade::class)?.getTypeValues("subsystems")
 property.type.getReferencedClasses() // Map<String, List<FileEntity>>: String, FileEntity, List, Map
 ```
 

@@ -8,6 +8,12 @@ import com.google.devtools.ksp.symbol.KSTypeArgument
 import com.google.devtools.ksp.symbol.KSTypeParameter
 import com.google.devtools.ksp.symbol.KSTypeReference
 
+/**
+ * The classes this type refers to, each once: its own, of its arguments, behind type aliases, in bounds of parameters.
+ *
+ * `Map<String, List<FileEntity>>` gives `[String, FileEntity, List, Map]`; `T` with `T : Comparable<T>` gives
+ * `[Comparable]`.
+ */
 public fun KSTypeReference.getReferencedClasses(): Sequence<KSClassDeclaration> =
     this.getReferencedClasses(emptySet()).distinct()
 

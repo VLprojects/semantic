@@ -1,5 +1,5 @@
 public final class pro/vlprojects/semantic/ksp/helper/KSAnnotatedHelperKt {
-	public static final fun getAnnotation (Lcom/google/devtools/ksp/symbol/KSAnnotated;Lkotlin/reflect/KClass;)Lcom/google/devtools/ksp/symbol/KSAnnotation;
+	public static final fun getFirstAnnotationOrNull (Lcom/google/devtools/ksp/symbol/KSAnnotated;Lkotlin/reflect/KClass;)Lcom/google/devtools/ksp/symbol/KSAnnotation;
 	public static final fun hasAnnotation (Lcom/google/devtools/ksp/symbol/KSAnnotated;Lkotlin/reflect/KClass;)Z
 }
 
