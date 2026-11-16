@@ -2,8 +2,10 @@ package pro.vlprojects.semantic.pattern.structural.facade
 
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSAnnotation
+import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSType
 import pro.vlprojects.semantic.ksp.helper.getFirstAnnotationOrNull
+import pro.vlprojects.semantic.ksp.helper.getQualifiedName
 import pro.vlprojects.semantic.ksp.helper.getTypeValues
 import pro.vlprojects.semantic.ksp.helper.resolveClassDeclaration
 
@@ -18,6 +20,11 @@ internal class FacadeAnnotation private constructor(val symbol: KSAnnotation) {
         .getSubsystemTypes()
         .filterNot(KSType::isError)
         .mapNotNull(KSType::resolveClassDeclaration)
+
+    fun getSubsystemNames() = this
+        .getSubsystems()
+        .map(KSClassDeclaration::getQualifiedName)
+        .toSet()
 
     private fun getSubsystemTypes() = this.symbol.getTypeValues(Facade::subsystems.name)
 

@@ -20,6 +20,8 @@ internal class FacadeSymbolProcessor(logger: KSPLogger) : SymbolProcessor {
 
     private val facadeOutsideSubsystemsChecker = FacadeOutsideSubsystemsChecker(logger)
 
+    private val subsystemTypesHiddenByFacadeChecker = SubsystemTypesHiddenByFacadeChecker(logger)
+
     override fun process(resolver: Resolver): List<KSAnnotated> {
         resolver
             .getNewFiles()
@@ -44,6 +46,7 @@ internal class FacadeSymbolProcessor(logger: KSPLogger) : SymbolProcessor {
         this.facadeSubsystemsNotEmptyChecker.check(declaration, annotation)
         this.subsystemAnnotationPresenceChecker.check(declaration, annotation)
         this.facadeOutsideSubsystemsChecker.check(declaration)
+        this.subsystemTypesHiddenByFacadeChecker.check(declaration, annotation)
     }
 
     private fun flattenClasses(declaration: KSClassDeclaration): Sequence<KSClassDeclaration> = declaration
