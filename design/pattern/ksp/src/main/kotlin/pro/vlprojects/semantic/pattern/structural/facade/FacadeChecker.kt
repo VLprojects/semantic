@@ -5,6 +5,7 @@ import com.google.devtools.ksp.symbol.ClassKind
 import com.google.devtools.ksp.symbol.KSAnnotation
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSDeclaration
+import com.google.devtools.ksp.symbol.KSTypeReference
 
 internal class FacadeChecker(private val logger: KSPLogger) {
 
@@ -12,6 +13,7 @@ internal class FacadeChecker(private val logger: KSPLogger) {
         this.checkTarget(declaration, annotation)
         this.checkSubsystems(declaration, annotation)
         this.checkMarkers(declaration)
+        this.checkVisibleMembers(declaration, annotation)
     }
 
     private fun checkTarget(declaration: KSClassDeclaration, annotation: KSAnnotation) {
@@ -57,6 +59,34 @@ internal class FacadeChecker(private val logger: KSPLogger) {
                 )
             }
     }
+
+    private fun checkVisibleMembers(declaration: KSClassDeclaration, annotation: KSAnnotation) {
+        val facadeName = declaration.readName()
+
+        val subsystemNames = annotation
+            .readSubsystems()
+            .map(KSDeclaration::readQualifiedName)
+            .toSet()
+
+        declaration
+            .findVisibleTypes()
+            .forEach { type -> this.checkVisibleType(facadeName, type, subsystemNames) }
+    }
+
+    private fun checkVisibleType(facadeName: String, type: KSTypeReference, subsystemNames: Set<String>) = type
+        .findClasses()
+        .distinct()
+        .forEach { dependency ->
+            val dependencyName = dependency.readName()
+
+            dependency
+                .findMarkers()
+                .filter { marker -> marker.readQualifiedName() in subsystemNames }
+                .map(KSAnnotation::readName)
+                .forEach { markerName ->
+                    this.logger.error("Facade $facadeName exposes $dependencyName of @$markerName", type)
+                }
+        }
 
     private fun reportMisplaced(annotation: KSAnnotation, target: String) = this.logger.error(
         "@Facade goes on a class, not on $target",

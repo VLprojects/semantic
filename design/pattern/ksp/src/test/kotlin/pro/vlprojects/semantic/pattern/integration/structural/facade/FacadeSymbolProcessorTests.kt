@@ -10,7 +10,10 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 import pro.vlprojects.semantic.pattern.structural.facade.FacadeSymbolProcessorProvider
+import java.io.File
 
 @OptIn(ExperimentalCompilerApi::class)
 class FacadeSymbolProcessorTests {
@@ -73,6 +76,169 @@ class FacadeSymbolProcessorTests {
                     "JavaFacades.java:7: @Facade goes on a class, not on the interface JavaFileOperations",
                     "JavaFacades.java:10: Facade JavaMarkedFacade carries @FileSubsystem: a facade stands outside",
                     "JavaFacades.java:14: JavaFileModule.SharedClient carries the markers of several subsystems",
+                )
+            }
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = [
+            "val entity: FileEntity get() = TODO()",
+            "fun find(): FileEntity = TODO()",
+            "fun save(file: FileEntity) = Unit",
+            "fun FileEntity.rename() = Unit",
+            "val FileEntity.label: String get() = TODO()",
+            "fun findAll(): List<FileEntity> = TODO()",
+            "fun observe(listener: (FileEntity) -> Unit) = Unit",
+            "fun <T : FileEntity> findTyped(): T = TODO()",
+            "fun <T : List<FileEntity>> findAll(): T = TODO()",
+            "fun <T : FileEntity, R : T> findTyped(): R = TODO()",
+            "fun <T : PersistedFile> findTyped(): T = TODO()",
+            "fun find() = FileEntity()",
+            "companion object { fun find(): FileEntity = TODO() }",
+            "internal fun find(): FileEntity = TODO()",
+        ],
+    )
+    fun `a member that a client sees exposes no type of a subsystem`(member: String) = this.assertCompilationFails(
+        "@Facade(FileSubsystem::class)\nclass FileReportFacade {\n$member\n}",
+        4,
+        "Facade FileReportFacade exposes FileEntity of @FileSubsystem",
+    )
+
+    @Test
+    fun `a property of the constructor counts`() = this.assertCompilationFails(
+        "@Facade(FileSubsystem::class)\nclass FileReportFacade(val file: FileEntity)",
+        3,
+        "Facade FileReportFacade exposes FileEntity of @FileSubsystem",
+    )
+
+    @Test
+    fun `a type alias counts as the type it stands for`() = this.assertCompilationFails(
+        "@Facade(FileSubsystem::class)\nclass FileAliasFacade {\nfun find(): PersistedFile = TODO()\n}",
+        4,
+        "Facade FileAliasFacade exposes FileEntity of @FileSubsystem",
+    )
+
+    @Test
+    fun `a nested facade is checked`() = this.assertCompilationFails(
+        """
+            class Files {
+                @Facade(FileSubsystem::class)
+                class NestedFacade {
+                    fun find(): FileEntity = TODO()
+                }
+            }
+        """.trimIndent(),
+        5,
+        "Facade Files.NestedFacade exposes FileEntity of @FileSubsystem",
+    )
+
+    @Test
+    fun `a protected member is not seen by a client`() {
+        val result = this.compile(
+            """
+                @Facade(FileSubsystem::class)
+                abstract class FileBaseFacade {
+                    protected fun find(): FileEntity = TODO()
+                }
+            """,
+        )
+
+        assertEquals(ExitCode.OK, result.exitCode, result.messages)
+    }
+
+    @Test
+    fun `a member of a private companion is not seen by a client`() {
+        val result = this.compile(
+            """
+                @Facade(FileSubsystem::class)
+                class FileReportFacade {
+                    private companion object {
+                        fun find(): FileEntity = TODO()
+                    }
+                }
+            """,
+        )
+
+        assertEquals(ExitCode.OK, result.exitCode, result.messages)
+    }
+
+    @Test
+    fun `a bound that leads back to its own parameter is walked once`() {
+        val result = this.compile(
+            "@Facade(FileSubsystem::class)\nclass SortFacade {\nfun <T : Comparable<T>> findLatest(): T = TODO()\n}",
+        )
+
+        assertEquals(ExitCode.OK, result.exitCode, result.messages)
+    }
+
+    @Test
+    fun `a private method of Java is not seen by a client`() {
+        val javaFile = SourceFile.java(
+            "JavaPrivateFacade.java",
+            """
+                import pro.vlprojects.semantic.pattern.structural.facade.Facade;
+
+                @Facade(subsystems = FileSubsystem.class)
+                class JavaPrivateFacade {
+                    private FileEntity load() { return null; }
+                }
+            """,
+        )
+
+        val result = this.compileSources(javaFile)
+
+        assertEquals(ExitCode.OK, result.exitCode, result.messages)
+    }
+
+    @Test
+    fun `a method of Java that a client sees exposes no type of a subsystem`() {
+        val javaFile = SourceFile.java(
+            "JavaFileFacade.java",
+            """
+                import pro.vlprojects.semantic.pattern.structural.facade.Facade;
+
+                @Facade(subsystems = FileSubsystem.class)
+                class JavaFileFacade {
+                    FileEntity find() { return null; }
+                    protected FileEntity remove() { return null; }
+                }
+            """,
+        )
+
+        this
+            .compileSources(javaFile)
+            .let { result ->
+                this.assertCompilationFails(
+                    result,
+                    "JavaFileFacade.java:5: Facade JavaFileFacade exposes FileEntity of @FileSubsystem",
+                    "JavaFileFacade.java:6: Facade JavaFileFacade exposes FileEntity of @FileSubsystem",
+                )
+            }
+    }
+
+    @Test
+    fun `a marker of another module is read from its class file`() {
+        val subsystemsModule = this.compileSources()
+
+        val facade = SourceFile.kotlin(
+            "RemoteFileFacade.kt",
+            """
+                $FACADE_IMPORT
+
+                @Facade(FileSubsystem::class)
+                class RemoteFileFacade {
+                    fun find(): FileEntity = TODO()
+                }
+            """,
+        )
+
+        this
+            .compileModule(listOf(facade), listOf(subsystemsModule.outputDirectory))
+            .let { result ->
+                this.assertCompilationFails(
+                    result,
+                    "RemoteFileFacade.kt:5: Facade RemoteFileFacade exposes FileEntity of @FileSubsystem",
                 )
             }
     }
@@ -176,10 +342,13 @@ class FacadeSymbolProcessorTests {
         .kotlin(VIOLATION_FILE, "$FACADE_IMPORT\n$source")
         .let(::compileSources)
 
-    private fun compileSources(vararg files: SourceFile) = KotlinCompilation()
+    private fun compileSources(vararg files: SourceFile) = this.compileModule(files.toList() + SUBSYSTEMS_FILE)
+
+    private fun compileModule(files: List<SourceFile>, classpath: List<File> = emptyList()) = KotlinCompilation()
         .apply {
-            sources = files.toList() + SUBSYSTEMS_FILE
+            sources = files
             inheritClassPath = true
+            classpaths = classpath
             configureKsp { symbolProcessorProviders += FacadeSymbolProcessorProvider() }
         }
         .compile()
@@ -205,6 +374,8 @@ class FacadeSymbolProcessorTests {
                 annotation class BillingSubsystem
 
                 typealias FileMarker = FileSubsystem
+
+                typealias PersistedFile = FileEntity
 
                 @FileSubsystem
                 class FileEntity

@@ -465,9 +465,9 @@ marker of its own. The rules of the two annotations:
   names none. `FileController` keeps the rules, `AdminFileController` breaks the first: it reaches the storage past
   the facade, and a deletion of its own forgets the quota.
 - A class of a subsystem takes no facade that names its own subsystem: the subsystem knows nothing of its facade.
-- A public function or property of a facade, its constructor aside, neither takes nor returns a type of its
-  subsystems: the facade answers with a type of its own, `FileView`, and a client stays apart from the schema of
-  the database.
+- A function or property of a facade that a client sees, public or internal, anything but private in Java, its
+  companion's too, its constructor aside, neither takes nor returns a type of its subsystems: the facade answers
+  with a type of its own, `FileView`, and a client stays apart from the schema of the database.
 - A type counts with its arguments in all the rules: a `List<FileEntity>` or a `CrudRepository<FileEntity, FileId>`
   is a type of the subsystem.
 - `@Facade` goes on a class, not an interface or an annotation, and names one subsystem at least; each annotation it
@@ -477,22 +477,22 @@ marker of its own. The rules of the two annotations:
 
 A facade may name several subsystems, as a deletion of a file may touch both files and billing:
 `@Facade(FileSubsystem::class, BillingSubsystem::class)`. A class of a subsystem reaches another subsystem only
-through its facade. A narrow interface of a facade takes no annotation: the rule of public members reaches them
-through the class. The attribute is `subsystems`, as `@OptIn` names its markers `markerClass`: a Kotlin client
+through its facade. A narrow interface of a facade takes no annotation: the rule of members a client sees reaches
+them through the class. The attribute is `subsystems`, as `@OptIn` names its markers `markerClass`: a Kotlin client
 writes no name, a Java one writes `@Facade(subsystems = FileSubsystem.class)`.
 
 The way past the facade is a marker: a class that carries one joins its subsystem, and the rules take it at its
 word. A review sees the marker, and a search by it finds each class that joined a subsystem.
 
-The annotations check nothing themselves: `semantic-pattern-ksp` checks the rules of the annotations when a module
-is compiled, and the plan adds the other rules to it and the check of Spring when the application starts. Kotlin has
-no visibility of a package, as Java has, and `internal` covers a whole Gradle module: in one service every class of
-a subsystem is open to every client. The compiler closes a class to those that do not declare `@OptIn` of its
-marker, if the marker is annotated with `@RequiresOptIn` of the level `ERROR`, as `@InternalCoroutinesApi` closes
-the internals of kotlinx.coroutines. Kotlin takes no other annotation for `@OptIn`, though: a facade would name its
-subsystem twice, in `@Facade` and in `@OptIn`. The marker here is a plain annotation, and the checks read it from
-the classes; the compiler still checks the bodies of functions for a project that adds `@RequiresOptIn` to its
-marker and `@OptIn` to its facade.
+The annotations check nothing themselves: `semantic-pattern-ksp` checks the rules of a facade and of the markers
+when a module is compiled, and the plan adds the rules of clients to it and the check of Spring when the application
+starts. Kotlin has no visibility of a package, as Java has, and `internal` covers a whole Gradle module: in one
+service every class of a subsystem is open to every client. The compiler closes a class to those that do not declare
+`@OptIn` of its marker, if the marker is annotated with `@RequiresOptIn` of the level `ERROR`, as
+`@InternalCoroutinesApi` closes the internals of kotlinx.coroutines. Kotlin takes no other annotation for `@OptIn`,
+though: a facade would name its subsystem twice, in `@Facade` and in `@OptIn`. The marker here is a plain
+annotation, and the checks read it from the classes; the compiler still checks the bodies of functions for a project
+that adds `@RequiresOptIn` to its marker and `@OptIn` to its facade.
 
 `@Facade` and the marker are annotations, not interfaces, as the layers of `semantic-explicit` are: a facade has no
 operation that every facade shares, and the annotations ask nothing of a class. `@Facade.Subsystem` marks an
@@ -544,22 +544,27 @@ dependencies {
 }
 ```
 
-A facade that names no subsystem stops the build with:
+A `find` of the facade above that returned `FileEntity` instead of `FileView` stops the build at its line, in a file
+that starts with the facade:
 
 ```text
-e: [ksp] /…/FileFacade.kt:3: Facade FileFacade names no subsystem
+e: [ksp] /…/FileFacade.kt:18: Facade FileFacade exposes FileEntity of @FileSubsystem
 ```
 
-- It checks the annotation of each facade and the markers each class of the module is annotated with, nested ones
-  too, in Kotlin and in Java, under a type alias as well. The markers of supertypes and the rules of members and of
-  clients come next, by the plan.
+- It checks the annotation of each facade and the members a client sees of it, and the markers each class of the
+  module is annotated with, nested ones too, in Kotlin and in Java, under a type alias as well. The markers of
+  supertypes and the rules of clients come next, by the plan.
+- A marker of a class of another module is read from its class file, as Kotlin keeps an annotation there by
+  default.
+- A type alias counts as the type it stands for, a function type as its parameters and result, a parameter of a
+  type as its bounds.
 - `FacadeSymbolProcessorProvider` is listed in `META-INF/services`, where KSP finds its processors by `ServiceLoader`.
 
 ### Plan of Facade
 
 1. `Facade` and `Facade.Subsystem`.
 2. `semantic-pattern-ksp`, a processor of KSP that checks the rules of the annotations at compilation.
-3. The rule of public members of a facade in `semantic-pattern-ksp`.
+3. The rule of members a client sees of a facade in `semantic-pattern-ksp`.
 4. The rules of clients in `semantic-pattern-ksp`: the constructors, properties and signatures of functions of each
    class and each top-level declaration, and the markers of supertypes. KSP sees no bodies of functions: a class of
    a subsystem made in a body goes unseen.
