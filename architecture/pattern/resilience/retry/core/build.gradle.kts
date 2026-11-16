@@ -1,0 +1,8 @@
+plugins {
+    id("semantic.kotlin-library")
+}
+
+dependencies {
+    api(project(":semantic-resilience"))
+    api(project(":semantic-resilience-backoff"))
+}
