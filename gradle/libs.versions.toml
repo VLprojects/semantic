@@ -16,6 +16,8 @@ db-util = "1.0.7"
 testcontainers = "2.0.5"
 junit = "6.0.3"
 slf4j = "2.0.18"
+ksp = "2.3.12"
+kctfork = "0.14.0"
 
 [libraries]
 # Gradle plugins, for the convention plugins in gradle/build-logic
@@ -38,10 +40,12 @@ spring-boot-starter-data-mongodb = { module = "org.springframework.boot:spring-b
 jackson-databind = { module = "tools.jackson.core:jackson-databind", version.ref = "jackson" }
 jackson-module-kotlin = { module = "tools.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+ksp-symbol-processing-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
 
 junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+kctfork-ksp = { module = "dev.zacsweers.kctfork:ksp", version.ref = "kctfork" }
 postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
 db-util = { module = "com.vladmihalcea:db-util", version.ref = "db-util" }
 testcontainers-bom = { module = "org.testcontainers:testcontainers-bom", version.ref = "testcontainers" }
