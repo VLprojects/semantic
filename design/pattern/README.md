@@ -482,7 +482,8 @@ them through the class. The attribute is `subsystems`, as `@OptIn` names its mar
 writes no name, a Java one writes `@Facade(subsystems = FileSubsystem.class)`.
 
 The way past the facade is a marker: a class that carries one joins its subsystem, and the rules take it at its
-word. A review sees the marker, and a search by it finds each class that joined a subsystem.
+word. A review sees the marker, and a search by it finds each class annotated with it; a class that takes a marker
+from a supertype is named in the errors with the class the marker comes from: `@FileSubsystem through FileEntity`.
 
 The annotations check nothing themselves: `semantic-pattern-ksp` checks the rules of a facade and of the markers
 when a module is compiled, and the plan adds the rules of clients to it and the check of Spring when the application
@@ -551,11 +552,11 @@ that starts with the facade:
 e: [ksp] /…/FileFacade.kt:18: Facade FileFacade exposes FileEntity of @FileSubsystem
 ```
 
-- It checks the annotation of each facade and the members a client sees of it, and the markers each class of the
-  module is annotated with, nested ones too, in Kotlin and in Java, under a type alias as well. The markers of
-  supertypes and the rules of clients come next, by the plan.
+- It checks the annotation of each facade and the members a client sees of it, and the markers of each class of the
+  module, nested ones too, and of its supertypes, in Kotlin and in Java, under a type alias as well. The rules of
+  clients come next, by the plan.
 - A marker of a class of another module is read from its class file, as Kotlin keeps an annotation there by
-  default.
+  default, and so are the supertypes that pass their markers on.
 - A type alias counts as the type it stands for, a function type as its parameters and result, a parameter of a
   type as its bounds.
 - `FacadeSymbolProcessorProvider` is listed in `META-INF/services`, where KSP finds its processors by `ServiceLoader`.
@@ -565,10 +566,11 @@ e: [ksp] /…/FileFacade.kt:18: Facade FileFacade exposes FileEntity of @FileSub
 1. `Facade` and `Facade.Subsystem`.
 2. `semantic-pattern-ksp`, a processor of KSP that checks the rules of the annotations at compilation.
 3. The rule of members a client sees of a facade in `semantic-pattern-ksp`.
-4. The rules of clients in `semantic-pattern-ksp`: the constructors, properties and signatures of functions of each
-   class and each top-level declaration, and the markers of supertypes. KSP sees no bodies of functions: a class of
-   a subsystem made in a body goes unseen.
-5. A check of `semantic-pattern-spring` that stops the startup on an injection that breaks the first rule, as
+4. The markers of supertypes in `semantic-pattern-ksp`.
+5. The rules of clients in `semantic-pattern-ksp`: the constructors, properties and signatures of functions of each
+   class and each top-level declaration. KSP sees no bodies of functions: a class of a subsystem made in a body goes
+   unseen.
+6. A check of `semantic-pattern-spring` that stops the startup on an injection that breaks the first rule, as
    `ApplicationModules.verify()` of Spring Modulith checks the modules in a test. It reads the dependencies Spring
    records between beans, as `getDependentBeans` of `ConfigurableBeanFactory` tells them, and catches beans that
    no processor saw. `@Facade` and the markers are looked up on the user class of a bean and its interfaces
