@@ -3,10 +3,8 @@ package pro.vlprojects.semantic.pattern.integration.structural.decorator
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertInstanceOf
 import org.junit.jupiter.api.Assertions.assertSame
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.springframework.aop.support.AopUtils
 import org.springframework.beans.factory.BeanCreationException
 import org.springframework.beans.factory.BeanNotOfRequiredTypeException
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
@@ -22,7 +20,7 @@ class DecoratedAnnotationBeanPostProcessorTests {
             val border = assertInstanceOf(BorderDecorator::class.java, area)
 
             assertEquals("#1text↕#1", area.draw())
-            assertInstanceOf(ScrollDecorator::class.java, border.delegate)
+            assertEquals(ScrollDecorator::class, border.delegateClass)
         }
     }
 
@@ -61,10 +59,7 @@ class DecoratedAnnotationBeanPostProcessorTests {
     @Test
     fun `an annotation is found behind an AOP proxy`() {
         this.start(TextArea::class.java, ProxyingBeanPostProcessor::class.java).use { context ->
-            val border = assertInstanceOf(BorderDecorator::class.java, context.getBean(VisualComponent::class.java))
-            val scroll = assertInstanceOf(ScrollDecorator::class.java, border.delegate)
-
-            assertTrue(AopUtils.isAopProxy(scroll.delegate))
+            assertEquals("#1text°↕#1", context.getBean(VisualComponent::class.java).draw())
         }
     }
 
