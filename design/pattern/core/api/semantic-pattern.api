@@ -244,6 +244,10 @@ public abstract interface annotation class pro/vlprojects/semantic/pattern/struc
 public abstract interface annotation class pro/vlprojects/semantic/pattern/structural/facade/Facade$Subsystem : java/lang/annotation/Annotation {
 }
 
+public abstract interface class pro/vlprojects/semantic/pattern/structural/flyweight/FlyweightFactory {
+	public abstract fun getFlyweight (Ljava/lang/Object;)Ljava/lang/Object;
+}
+
 public abstract interface class pro/vlprojects/semantic/pattern/structural/proxy/Proxy {
 	public abstract fun getDelegateClass ()Lkotlin/reflect/KClass;
 	public abstract fun isDelegateLoaded ()Z

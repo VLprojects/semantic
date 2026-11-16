@@ -7,8 +7,9 @@ a package per pattern inside it. Plain Kotlin, no framework; adapters come as mo
 `semantic-pattern-spring` for Spring.
 
 In place so far: a registry with its store, a registrar and a factory in the creational group;
-the contracts of Composite, Decorator and Proxy and the annotations of Facade in the structural one;
-a resolver and the base types of Visitor in the behavioral one; the contracts of Plugin in the enterprise one.
+the contracts of Composite, Decorator, Flyweight and Proxy and the annotations of Facade in the structural
+one; a resolver and the base types of Visitor in the behavioral one; the contracts of Plugin in the
+enterprise one.
 
 ## Packages
 
@@ -24,6 +25,7 @@ Packages of `semantic-pattern`, under `pro.vlprojects.semantic.pattern`:
 | `structural.composite` | `Composite`, the base type of a hierarchy whose containers and leaves a client treats alike; `MutableComposite`, a container whose children change after it is made |
 | `structural.decorator` | `Decorator`, a wrapper that holds its component and adds a responsibility to it; `DecoratorFactory`, a component wrapped in a decorator of its type |
 | `structural.facade` | `Facade`, an entry to the subsystems it names; `Facade.Subsystem`, marks the annotation that the classes of one subsystem carry |
+| `structural.flyweight` | `FlyweightFactory`, the shared flyweights of a domain: one instance per key while a client refers to it |
 | `structural.proxy` | `Proxy`, a surrogate that stands for its real subject and controls the access to it; `ProxyFactory`, a delegate behind a proxy of its type |
 | `behavioral.resolver` | `Resolver`, the values found for a context; `ResolvingPolicy`, one value selected of several, `first` and `last`; `PredicateResolver`, the candidates that hold for a context; `TypeNameResolver`, a subtype by its name |
 | `behavioral.resolver.error` | `NotResolvedException`, `MultipleResolvedException` |
@@ -541,6 +543,79 @@ The samples:
    its interface, a transactional facade a subclass of CGLIB. Only the beans of the application are checked as
    clients, those under `AutoConfigurationPackages` and not of `BeanDefinition.ROLE_INFRASTRUCTURE`: a registry of
    Actuator takes every `HealthIndicator`, a class of a subsystem among them.
+
+## Flyweight
+
+Flyweight, as the Gang of Four describe it, lets a program hold a great many fine-grained objects at
+the cost of a few: it shares one object among many clients. Its state splits in two: the intrinsic
+one, equal for many clients, lives in the shared object, the flyweight; the extrinsic one, of each
+client, is passed to the methods of the flyweight. A flyweight is immutable, since a change of it
+reaches every client. The library takes the role whose code every flyweight repeats, the factory:
+
+| Role | Who plays it | What it holds |
+| --- | --- | --- |
+| Flyweight | the base type of the domain | the operations that take the extrinsic state |
+| ConcreteFlyweight | an immutable class of it that a Kotlin client outside its module gets from the factory alone | the intrinsic state |
+| UnsharedConcreteFlyweight | a class of it that the factory does not share | state of its own |
+| FlyweightFactory | a class that implements `FlyweightFactory` | the flyweights it shares, by key |
+| Client | the code that keeps the extrinsic state | references to the flyweights |
+
+The example of the book, the glyphs of a document: a character keeps its code alone, and a document
+shares one `Character` per code, however long it is; the font of each character, by its index in the
+document, is kept by `GlyphContext` and passed to `draw`:
+
+```kotlin
+abstract class Glyph {
+
+    abstract fun draw(window: Window, context: GlyphContext)
+}
+
+class Character internal constructor(private val code: Char) : Glyph() {
+
+    override fun draw(window: Window, context: GlyphContext) = window.drawCharacter(this.code, context.font)
+}
+
+class GlyphFactory : FlyweightFactory<Char, Character> {
+
+    private val characters = ConcurrentHashMap<Char, Character>()
+
+    override fun getFlyweight(key: Char) = this.characters.getOrPut(key) { Character(key) }
+}
+
+val factory = GlyphFactory()
+val first = factory.getFlyweight('a')
+val second = factory.getFlyweight('a')
+```
+
+`first === second`: the factory makes a flyweight on the first request of a key and returns the same
+one on each next request, as `GetFlyweight(key)` of the book does. The constructor of `Character` is
+internal, so a Kotlin client outside its module gets a character from the factory alone; Java sees an
+internal constructor as public. A key compares by `equals` and `hashCode` that do not change, as a
+key of a `HashMap` does. `getOrPut` of a `ConcurrentMap` takes `putIfAbsent`: two threads may both
+make a character of one code, and both get the one put first.
+
+A factory is safe for concurrent requests. It returns the same flyweight for equal keys while a client
+refers to it; once none does, it may let the flyweight go and make a new one on the next request.
+
+A row of the book is a glyph too, an UnsharedConcreteFlyweight: each row is of its own, and `CreateRow`
+of its `GlyphFactory` makes a new one on each call. A `FlyweightFactory` returns shared flyweights
+alone, so a row here is made by its constructor.
+
+The operations of a flyweight are of its domain, `draw` of a glyph for one, so the library gives
+`Flyweight` no base type, as it gives none to the operation of a `Composite`. A flyweight with no
+intrinsic state needs no factory: an `object` is the only instance of its class, as the
+specifications `Always` and `Never` of `semantic-ddd` are. A shared element of a `Composite` has many
+parents, so it keeps no reference to a parent: the path to it is known to the one who walks the
+hierarchy.
+
+### Plan of Flyweight
+
+1. `FlyweightFactory`, the shared flyweights by key.
+2. A factory over a function that makes a flyweight of a key, whose flyweights stay for the life of the
+   factory: a `ConcurrentHashMap` and `putIfAbsent`.
+3. A factory of the same function whose flyweight may go once no client refers to it: weak references
+   to the flyweights, a cleared one replaced on the next request and removed by `remove(key, reference)`
+   through a `ReferenceQueue`, as `LogManager` keeps the loggers of a `LoggerContext` by name.
 
 ## Proxy
 
