@@ -100,8 +100,7 @@ class DecoratorFactoryBeanPostProcessorTests {
         }
 
         assertEquals(
-            "Decorator factory 'rawDecoratorFactory' does not tell the type it decorates: " +
-                "declare it by a class or a @Bean method of type DecoratorFactory<T>",
+            "Decorator factory 'rawDecoratorFactory' must declare its type as DecoratorFactory<T>",
             failure.mostSpecificCause.message,
         )
     }

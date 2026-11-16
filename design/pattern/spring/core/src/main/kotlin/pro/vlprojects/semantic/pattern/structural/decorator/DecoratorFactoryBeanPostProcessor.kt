@@ -34,11 +34,8 @@ public class DecoratorFactoryBeanPostProcessor(
         .getMergedBeanDefinition(factoryName)
         .resolvableType
         .`as`(DecoratorFactory::class.java)
-        .resolveGeneric(0)
-        ?: error(
-            "Decorator factory '$factoryName' does not tell the type it decorates: " +
-                "declare it by a class or a @Bean method of type DecoratorFactory<T>",
-        )
+        .resolveGeneric()
+        ?: error("Decorator factory '$factoryName' must declare its type as DecoratorFactory<T>")
 
     // the sources of an order are those of FactoryAwareOrderSourceProvider of Spring, which is private
     private fun findOrderSource(factoryName: Any): Array<Any> {
