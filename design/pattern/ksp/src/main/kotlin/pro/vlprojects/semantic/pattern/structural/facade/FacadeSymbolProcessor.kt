@@ -5,12 +5,19 @@ import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
+import com.google.devtools.ksp.symbol.KSDeclaration
 import com.google.devtools.ksp.symbol.KSFile
+import com.google.devtools.ksp.symbol.KSFunctionDeclaration
+import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import pro.vlprojects.semantic.ksp.helper.getDeclaredClasses
 
 internal class FacadeSymbolProcessor(logger: KSPLogger) : SymbolProcessor {
 
     private val singleSubsystemMembershipChecker = SingleSubsystemMembershipChecker(logger)
+
+    private val subsystemAccessThroughFacadeChecker = SubsystemAccessThroughFacadeChecker(logger)
+
+    private val subsystemIndependentOfFacadeChecker = SubsystemIndependentOfFacadeChecker(logger)
 
     private val facadeOnClassChecker = FacadeOnClassChecker(logger)
 
@@ -26,15 +33,24 @@ internal class FacadeSymbolProcessor(logger: KSPLogger) : SymbolProcessor {
         resolver
             .getNewFiles()
             .flatMap(KSFile::declarations)
-            .filterIsInstance<KSClassDeclaration>()
-            .flatMap(::flattenClasses)
-            .forEach(::checkClass)
+            .forEach(::checkDeclaration)
 
         return emptyList()
     }
 
+    private fun checkDeclaration(declaration: KSDeclaration) {
+        when (declaration) {
+            is KSClassDeclaration -> this.flattenClasses(declaration).forEach(::checkClass)
+            is KSFunctionDeclaration -> this.subsystemAccessThroughFacadeChecker.check(declaration)
+            is KSPropertyDeclaration -> this.subsystemAccessThroughFacadeChecker.check(declaration)
+            else -> Unit
+        }
+    }
+
     private fun checkClass(declaration: KSClassDeclaration) {
         this.singleSubsystemMembershipChecker.check(declaration)
+        this.subsystemAccessThroughFacadeChecker.check(declaration)
+        this.subsystemIndependentOfFacadeChecker.check(declaration)
 
         FacadeAnnotation
             .find(declaration)
